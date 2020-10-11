@@ -1,0 +1,949 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cache_image/cache_image.dart';
+import 'package:flutter/material.dart';
+import 'package:kammun_app/models/searchResponseModel.dart';
+import 'package:kammun_app/utils/Loader.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/cart/cart_view.dart';
+import 'package:kammun_app/views/cart/services/cart_services.dart';
+import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
+import 'package:kammun_app/views/deliver_to/delivery_method.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/orders/services/order_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../Services.dart';
+
+class CartViewFinal extends StatefulWidget {
+  static List<Map<String, dynamic>> orderArray;
+
+  static String message = "";
+
+  @override
+  State<StatefulWidget> createState() {
+    return _CartViewFinalState();
+  }
+}
+
+class _CartViewFinalState extends State<CartViewFinal> {
+  List<SearchProductsList> orderArray;
+  int subtotal = 0;
+  int delivaryCost = 10;
+  List<int> cards = [];
+  bool loadingScreen = false;
+  bool errorCode = false;
+
+  int total = 0;
+  TextEditingController _userNotes = TextEditingController();
+  TextEditingController _copouns = TextEditingController();
+
+  makeCards() {
+    cards = [];
+    for (int i = 0; i < orderArray.length; i++) {
+      cards.add(i);
+    }
+  }
+
+  _cancelPayment({BuildContext context}) async {
+    Navigator.of(context).pop();
+    // setState(() {
+    //   loadingScreen = true;
+    // });
+
+    // KammunRestart.restartApp(context);
+    // Navigator.pushNamedAndRemoveUntil(
+    //   context,
+    //   '/myApp',
+    //   (Route<dynamic> route) => false,
+    // );
+  }
+
+  _reloadPrices() async {
+    setState(() {
+      loadingScreen = true;
+    });
+
+    Navigator.of(context).pop();
+    CartServices.cartProducts.clear();
+    await CartServices.getUserCart();
+    setState(() {
+      loadingScreen = false;
+    });
+    Navigator.of(context).pop();
+    Navigator.of(context).pushNamed('/cartFinal');
+  }
+
+  Widget _cancelButton({BuildContext ctx}) {
+    final GestureDetector loginButtonWithGesture = new GestureDetector(
+      onTap: () => _cancelPayment(context: ctx),
+      child: new Container(
+        height: 50.0,
+        decoration: new BoxDecoration(
+            color: Colors.grey[700],
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new Text(
+            "إلغاء العملية",
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+        child: loginButtonWithGesture);
+  }
+
+  Widget _updateButton() {
+    final GestureDetector loginButtonWithGesture = new GestureDetector(
+      onTap: () => _reloadPrices(),
+      child: new Container(
+        height: 50.0,
+        decoration: new BoxDecoration(
+            color: UtilsImporter().colorUtils.kmColors,
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: AutoSizeText(
+            "تحديث الأسعار",
+            maxLines: 1,
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+        child: loginButtonWithGesture);
+  }
+
+  void showUpdateDialog() {
+    setState(() {
+      loadingScreen = false;
+    });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(1.0),
+              topRight: Radius.circular(1.0),
+              bottomLeft: Radius.circular(2.0),
+              bottomRight: Radius.circular(2.0),
+            ),
+          ),
+          contentPadding:
+              EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
+          titlePadding: EdgeInsets.all(0),
+          title: Container(
+            width: double.infinity,
+            height: 50,
+            color: Color.fromARGB(255, 247, 247, 247),
+            child: Align(
+              child: Padding(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: Text(
+                        "خطأ في الأسعار",
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: UtilsImporter().colorUtils.primarycolor,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                      ),
+                    ),
+                    IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () => Navigator.of(context).pop())
+                  ],
+                ),
+                padding: EdgeInsets.only(left: 10),
+              ),
+            ),
+          ),
+          content: Container(
+            height: 330,
+            child: Column(
+              children: <Widget>[
+                AutoSizeText(
+                    "نأسف لحدوث ذلك و لكن خلال الوقت الذي كنت تقوم به بالتسوق قام مدير النظام بتخفيض أو زيادة سعر واحد أو اكثر من المنتجات التي قمت بإضافتها لسلة مشترياتك بإمكانك تحميل الأسعار الجديدة و مراجعتها قبل إتمام الطلب أو إلغاء عملية الشراء ",
+                    maxLines: 9,
+                    style: TextStyle(
+                        color: Colors.grey[900],
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
+                // RichText(
+                //   text: TextSpan(
+                //     children: <TextSpan>[
+                //       TextSpan(
+                //         text:
+                //             "نأسف لحدوث ذلك و لكن خلال الوقت الذي كنت تقوم به بالتسوق قام مدير النظام بزيادة أو تخفيض سعر واحد أو اكثر من المنتجات التي قمت بإضافتها لسلة مشترياتك بإمكانك تحميل الأسعار الجديدة و مراجعتها قبل إتمام الطلب أو إلغاء عملية الشراء ",
+                // style: TextStyle(
+                //     color: Colors.grey[900],
+                //     fontSize: 20,
+                //     fontWeight: FontWeight.normal,
+                //     fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                ),
+                new Divider(
+                  color: Colors.grey[600],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2.8,
+                      child: _updateButton(),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2.8,
+                      child: _cancelButton(ctx: context),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    orderArray = CartServices.cartProducts;
+    makeCards();
+
+    for (int i = 0; i < orderArray.length; i++) {
+      subtotal =
+          subtotal + ((orderArray[i].price) * orderArray[i].productCount);
+    }
+    total = subtotal +
+        Services.delivery_Price +
+        int.parse(LoadingScreenServices
+            .deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].price
+            .split(".")[0]);
+
+    OrderServices.updateOrderNote != null
+        ? WidgetsBinding.instance
+            .addPostFrameCallback((_) => _userNotesInitial())
+        : {};
+
+    super.initState();
+  }
+
+  void onrRemove(item) {
+    setState(() {
+      cards.removeAt(item);
+      CartServices.cartProducts.removeAt(item);
+      CartViewState.cards.removeAt(item);
+    });
+  }
+
+  _userNotesInitial() {
+    _userNotes.text = OrderServices.updateOrderNote;
+  }
+
+  _cartChanged() async {
+    String products_Id = "";
+    String products_quantity = "";
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    for (int i = 0; i < CartServices.cartProducts.length; i++) {
+      products_Id += CartServices.cartProducts[i].id.toString() + ";";
+      products_quantity +=
+          CartServices.cartProducts[i].productCount.toString() + ";";
+    }
+    // products_Id += widget.products.id.toString();
+    // products_quantity += widget.products.quantity.toString();
+    prefs.setString("userCart", products_Id + "@" + products_quantity);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.white,
+        // backgroundColor: Theme.of(context).primaryColorLight,
+        body: Padding(
+          padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
+          child: SafeArea(
+            child: loadingScreen
+                ? Center(
+                    child: Loader(),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      errorCode
+                          ? AlertMessages(
+                              text:
+                                  " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
+                              messageType: "internetError",
+                              headerText: " حدث خطأ اثناء محاولة إرسال طلبك",
+                            )
+                          : Container(
+                              padding: EdgeInsets.zero,
+                            ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: IconButton(
+                                  icon: Icon(Icons.arrow_back_ios,
+                                      color: Theme.of(context).primaryColorDark,
+                                      size: 45),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  }),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                UtilsImporter().stringUtils.shoppingcart,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontSize: 30),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: orderArray == null ? 0 : cards.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return new GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => _onTileClicked(index),
+                              child: Container(
+                                //  color: Theme.of(context).primaryColorLight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 0, right: 0, top: 0),
+                                  child: cardBody(index, context),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            UtilsImporter().stringUtils.subtotal,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontSize: 17.0,
+                            ),
+                          ),
+                          Text(
+                            "${UtilsImporter().stringUtils.oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 17.0),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(UtilsImporter().stringUtils.delivery,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 16.0,
+                              )),
+                          Text(
+                            "${UtilsImporter().stringUtils.oCcy.format(LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice + int.parse(LoadingScreenServices.deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 16),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(UtilsImporter().stringUtils.total,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 19.0,
+                              )),
+                          Text(
+                            "${UtilsImporter().stringUtils.oCcy.format(total)} ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 19),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      SafeArea(
+                        child: loadingScreen
+                            ? Loader()
+                            : Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      _addNotesButton(context: context),
+                                      _addCopouns(),
+                                    ],
+                                  ),
+                                  _showConfirmOrderButton(),
+                                ],
+                              ),
+                        top: false,
+                      ),
+                    ],
+                  ),
+          ),
+        ));
+  }
+
+  _openAddNotesAlert({BuildContext context}) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
+                Positioned(
+                  right: -40.0,
+                  top: -40.0,
+                  child: InkResponse(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      child: Icon(Icons.close),
+                      backgroundColor: Colors.red,
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "ملاحظات على الطلب",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontSize: 18),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 8, right: 8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  5.0) //         <--- border radius here
+                              ),
+                          border: Border.all(
+                            width: 2,
+                            color: UtilsImporter().colorUtils.kmColors,
+                          )),
+                      child: new TextField(
+                        controller: _userNotes,
+                        textAlign: TextAlign.right,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 5,
+                        style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        ),
+                      ),
+                    ),
+                    _saveNotes(context: context),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  _openAddCouponsAlert({BuildContext context}) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
+                Positioned(
+                  right: -40.0,
+                  top: -40.0,
+                  child: InkResponse(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      child: Icon(Icons.close),
+                      backgroundColor: Colors.red,
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "يرجى كتابة كود الحسم",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontSize: 18),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 8, right: 8),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  5.0) //         <--- border radius here
+                              ),
+                          border: Border.all(
+                            width: 2,
+                            color: UtilsImporter().colorUtils.kmColors,
+                          )),
+                      child: new TextField(
+                        controller: _copouns,
+                        //  keyboardType: TextInputType.multiline,
+                        //  maxLength: 500,
+                        // maxLines: 5,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        ),
+                      ),
+                    ),
+                    _submitCopoun(context: context),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  Widget cardBody(int index, BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              new Container(
+                width: 75.0,
+                height: 75.0,
+                decoration: new BoxDecoration(
+                    borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Hero(
+                        tag: index + 100,
+                        child: FadeInImage(
+                            image: orderArray[index].images.length != 0
+                                ? NetworkImage(
+                                    LoadingScreenServices.imagePrefixUrl +
+                                        orderArray[index]
+                                            .images[0]
+                                            .imageFileName
+                                            .toString())
+                                : AssetImage("assets/kmIcon.png"),
+                            width: MediaQuery.of(context).size.width,
+                            height: 120,
+                            fadeInCurve: Curves.fastOutSlowIn,
+                            placeholder: AssetImage("assets/kmIcon.png"),
+                            fit: BoxFit.contain))),
+              ),
+              //SizedBox(width: 10),
+              SizedBox(width: 10),
+              Expanded(
+                child: Container(
+                  child: Wrap(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              orderArray[index].name,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily:
+                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontSize: 18),
+                            ),
+                            SizedBox(height: 6),
+                            Text(
+                              orderArray[index].quantity.toString() +
+                                  " " +
+                                  orderArray[index].unit.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: UtilsImporter().colorUtils.greycolor,
+                                  fontFamily:
+                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontSize: 17),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                                "${UtilsImporter().stringUtils.oCcy.format(orderArray[index].price)} ${LoadingScreenServices.companyInformation.currency}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color:
+                                        UtilsImporter().colorUtils.primarycolor,
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontSize: 18)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: UtilsImporter()
+                            .colorUtils
+                            .greycolor
+                            .withOpacity(0.2)),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          orderArray[index].productCount += 1;
+                          subtotal += (orderArray[index].price);
+                        });
+                        _cartChanged();
+                      },
+                      child: Image.asset(
+                        "assets/add.png",
+                        width: 60,
+                        height: 60,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  Text(orderArray[index].productCount.toString(),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).primaryColorDark,
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontSize: 18)),
+                  SizedBox(height: 5),
+                  Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: UtilsImporter()
+                            .colorUtils
+                            .greycolor
+                            .withOpacity(0.2)),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (orderArray[index].productCount > 1) {
+                            subtotal -= (orderArray[index].price);
+                            orderArray[index].productCount =
+                                orderArray[index].productCount - 1;
+                          } else if (orderArray[index].productCount == 1) {
+                            subtotal -= (orderArray[index].price);
+                            onrRemove(index);
+                            CartServices.cartProducts.removeAt(index);
+                          }
+                        });
+                        _cartChanged();
+                      },
+                      child: Image.asset(
+                        "assets/remove.png",
+                        width: 60,
+                        height: 60,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 4),
+          Divider(
+            thickness: 3,
+          )
+        ],
+      ),
+    );
+  }
+
+  // Function to be called on click
+  void _onTileClicked(int index) {
+    debugPrint("You tapped on item $index");
+    // Navigator.push(
+    //     context,
+    //     new MaterialPageRoute(
+    //         builder: (context) =>
+    //             new ProductDetailView(heroIndex: index + 100)));
+  }
+
+  void _showConfirmOrderBtnTapped() async {
+    setState(() {
+      loadingScreen = true;
+      errorCode = false;
+    });
+    String message;
+    if (OrderServices.orderUnderUpdateIndex != -1) {
+      message = await OrderServices.updateOrder(userNotes: _userNotes.text);
+    } else {
+      message = await OrderServices.submitNewOrder(userNotes: _userNotes.text);
+    }
+
+    print("------- THE MESSAGE IS ---------");
+    print(message);
+    setState(() {
+      if (message == "uppdatePrices") {
+        showUpdateDialog();
+      } else if (message == "false") {
+        loadingScreen = false;
+        errorCode = true;
+      } else {
+        CartViewFinal.message = message;
+      }
+    });
+    print("The Message is : ");
+    print(message);
+    if (message != "uppdatePrices" && message != "false") {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      await prefs.remove("userCart");
+      CartServices.cartProducts.clear();
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/thankyou', ModalRoute.withName('/home'),
+          arguments: {"message": message});
+    }
+  }
+
+  Widget _showConfirmOrderButton() {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: _showConfirmOrderBtnTapped,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: new Container(
+          padding: const EdgeInsets.all(10.0),
+          height: 50.0,
+          decoration: new BoxDecoration(
+              color: Colors.green,
+              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          child: new Center(
+            child: new Text(
+              UtilsImporter().stringUtils.confirm_order.toUpperCase(),
+              style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
+        child: showConfirmButtonWithGesture);
+  }
+
+  Widget _addNotesButton({BuildContext context}) {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () => _openAddNotesAlert(context: context),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: new Container(
+          padding: const EdgeInsets.all(10.0),
+          width: MediaQuery.of(context).size.width / 2.5,
+          height: 40.0,
+          decoration: new BoxDecoration(
+              color: UtilsImporter().colorUtils.kmColors,
+              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          child: new Center(
+            child: new AutoSizeText(
+              "إضافة ملاحظة",
+              maxLines: 1,
+              style: new TextStyle(
+                  color: Colors.white,
+                  // fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
+        child: showConfirmButtonWithGesture);
+  }
+
+  Widget _saveNotes({BuildContext context}) {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: new Container(
+          padding: const EdgeInsets.all(10.0),
+          width: MediaQuery.of(context).size.width / 2.5,
+          height: 40.0,
+          decoration: new BoxDecoration(
+              color: UtilsImporter().colorUtils.primarycolor,
+              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          child: new Center(
+            child: new AutoSizeText(
+              "حفظ الملاحظة",
+              maxLines: 1,
+              style: new TextStyle(
+                  color: Colors.white,
+                  // fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
+        child: showConfirmButtonWithGesture);
+  }
+
+  Widget _submitCopoun({BuildContext context}) {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () => Navigator.of(context).pop(),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: new Container(
+          padding: const EdgeInsets.all(10.0),
+          width: MediaQuery.of(context).size.width / 2.5,
+          height: 40.0,
+          decoration: new BoxDecoration(
+              color: UtilsImporter().colorUtils.primarycolor,
+              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          child: new Center(
+            child: new AutoSizeText(
+              "تطبيق الحسم",
+              maxLines: 1,
+              style: new TextStyle(
+                  color: Colors.white,
+                  // fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
+        child: showConfirmButtonWithGesture);
+  }
+
+  Widget _addCopouns() {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () => _openAddCouponsAlert(context: context),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: new Container(
+          padding: const EdgeInsets.all(10.0),
+          width: MediaQuery.of(context).size.width / 2.5,
+          height: 40.0,
+          decoration: new BoxDecoration(
+              color: Colors.teal,
+              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          child: new Center(
+            child: new AutoSizeText(
+              "إضافة كود حسم",
+              maxLines: 1,
+              style: new TextStyle(
+                  color: Colors.white,
+                  // fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
+        child: showConfirmButtonWithGesture);
+  }
+}

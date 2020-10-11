@@ -1,0 +1,179 @@
+import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/cart/CartViewFinal.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:group_button/group_button.dart';
+import 'package:toast/toast.dart';
+
+import 'deliver_to_view.dart';
+
+class DeliveryMethodView extends StatefulWidget {
+  static int selectedDeliveryIndex = 0;
+
+  @override
+  _DeliveryMethodViewState createState() => _DeliveryMethodViewState();
+}
+
+class _DeliveryMethodViewState extends State<DeliveryMethodView> {
+  int selectedIndex = 0;
+
+  @override
+  void initState() {
+    selectedIndex = 0;
+    super.initState();
+  }
+
+  void _showGoToReviewPage() {
+    if (selectedIndex != null) {
+      Navigator.push(context,
+          new MaterialPageRoute(builder: (context) => CartViewFinal()));
+    } else {
+      Toast.show("يرجى اختيار طريقة التوصيل ", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+    }
+  }
+
+  Widget _showProceedToPayButton() {
+    final GestureDetector showProceedToPayButtonWithGesture =
+        new GestureDetector(
+      onTap: _showGoToReviewPage,
+      child: new Container(
+        margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
+        height: 50.0,
+        decoration: new BoxDecoration(
+            color: selectedIndex != null
+                ? UtilsImporter().colorUtils.primarycolor
+                : Colors.grey[400],
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new Text(
+            UtilsImporter().stringUtils.proceed_to_pay.toUpperCase(),
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
+        child: showProceedToPayButtonWithGesture);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColorLight,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    IconButton(
+                        icon: Icon(Icons.arrow_back_ios,
+                            color: Theme.of(context).primaryColorDark,
+                            size: 45),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }),
+                    InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          UtilsImporter().stringUtils.deliverMethod,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontSize: 30),
+                        )),
+                  ],
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(
+                                      5.0) //         <--- border radius here
+                                  ),
+                              border: Border.all(
+                                width: 2,
+                                color: UtilsImporter().colorUtils.kmColors,
+                              )),
+                          child: GroupButton(
+                            unselectedTextStyle: TextStyle(
+                                //color: UtilsImporter().colorUtils.primarycolor,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk),
+                            selectedTextStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w500,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk),
+                            direction: Axis.vertical,
+                            isRadio: true,
+                            spacing: 10,
+                            onSelected: (index, isSelected) {
+                              print(index);
+                              setState(() {
+                                selectedIndex = index;
+                                DeliveryMethodView.selectedDeliveryIndex =
+                                    index;
+                              });
+                            },
+
+                            // buttons: ['توصيل فوري', 'توصيل عادي'],
+                            buttons: LoadingScreenServices.deliveryMethodsList
+                                .map((f) => f.name)
+                                .toList(),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("اجرةالتوصيل النهائية",
+                            style: TextStyle(
+                                color: UtilsImporter().colorUtils.primarycolor,
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w500,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                            "${int.parse(LoadingScreenServices.deliveryMethodsList[selectedIndex].price.split(".")[0]) + LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice} ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                                color: UtilsImporter().colorUtils.primarycolor,
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w500,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk)),
+                      ),
+                    ],
+                  ),
+                ),
+                _showProceedToPayButton(),
+              ]),
+        ),
+      ),
+    );
+  }
+}

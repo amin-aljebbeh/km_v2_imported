@@ -1,0 +1,15 @@
+const int SUCCESS_CODE = 200;
+
+const int SERVICE_UNAVAILABLE_ERROR = 503;
+
+const int UNAUTHORIZED_ERROR = 401;
+
+const int NOT_FOUND_ERROR = 404;
+
+const int FORBIDDEN_ERROR = 403;
+
+const int CONFLICT_ERROR = 409;
+
+const int INTERNAL_SERVER_ERROR = 500;
+
+const int BAD_REQUEST_ERROR = 400;
