@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -14,15 +16,32 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  void onrRemove(item) {
-    Services.removeUserAddress(
-        LoadingScreenServices.userAddress[item].id.toString());
-    setState(() {
-      LoadingScreenServices.userAddress.removeAt(item);
+  bool isLoading = false;
+  bool isError = false;
 
-      if (DeliverToView.selectedIndex != null &&
-          DeliverToView.selectedIndex > 0) DeliverToView.selectedIndex--;
+  void onrRemove(item) async {
+    setState(() {
+      isLoading = true;
+      isError = false;
     });
+    bool success = await Services.removeUserAddress(
+        LoadingScreenServices.userAddress[item].id.toString());
+
+    if (success) {
+      setState(() {
+        isLoading = false;
+        isError = false;
+        LoadingScreenServices.userAddress.removeAt(item);
+
+        if (DeliverToView.selectedIndex != null &&
+            DeliverToView.selectedIndex > 0) DeliverToView.selectedIndex--;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+        isError = true;
+      });
+    }
   }
 
   Widget _showDeleteButton({int index}) {
@@ -193,94 +212,126 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    LoadingScreenServices.userAddress.length != 0
-                        ? ListView.builder(
-                            primary: false,
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: LoadingScreenServices.userAddress == null
-                                ? 0
-                                : LoadingScreenServices.userAddress.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return new GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                child: Container(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 0, right: 0, top: 0),
-                                    child: cardBody(index, context),
+              isLoading
+                  ? Center(child: Loader())
+                  : Expanded(
+                      child: ListView(
+                        children: <Widget>[
+                          isError
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 0,
+                                      bottom: 0,
+                                      top: 10),
+                                  child: AlertMessages(
+                                    text:
+                                        " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
+                                    messageType: "internetError",
+                                    headerText:
+                                        " حدث خطأ اثناء محاولة حذف العنوان ",
+                                  ),
+                                )
+                              : Container(),
+                          LoadingScreenServices.userAddress.length != 0
+                              ? ListView.builder(
+                                  primary: false,
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount:
+                                      LoadingScreenServices.userAddress == null
+                                          ? 0
+                                          : LoadingScreenServices
+                                              .userAddress.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return new GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      child: Container(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 0, right: 0, top: 0),
+                                          child: cardBody(index, context),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 30.0,
+                                      right: 0,
+                                      bottom: 30,
+                                      top: 10),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: UtilsImporter()
+                                                .colorUtils
+                                                .primarycolor,
+                                            spreadRadius: 3),
+                                      ],
+                                    ),
+                                    child: ListTile(
+                                      leading: Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: Icon(
+                                          FontAwesomeIcons.addressCard,
+                                          color: UtilsImporter()
+                                              .colorUtils
+                                              .kmColors,
+                                          size: 30,
+                                        ),
+                                      ),
+                                      title: Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 5.0),
+                                        child: Text(
+                                          "لايوجد عنوان مسجل ",
+                                          style: TextStyle(
+                                              fontFamily: UtilsImporter()
+                                                  .stringUtils
+                                                  .HKGrotesk,
+                                              fontSize: 25,
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                      onTap: () {},
+                                    ),
                                   ),
                                 ),
-                              );
-                            },
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.only(
-                                left: 30.0, right: 0, bottom: 30, top: 10),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: UtilsImporter()
-                                          .colorUtils
-                                          .primarycolor,
-                                      spreadRadius: 3),
-                                ],
-                              ),
-                              child: ListTile(
-                                leading: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Icon(
-                                    FontAwesomeIcons.addressCard,
-                                    color: UtilsImporter().colorUtils.kmColors,
-                                    size: 30,
-                                  ),
-                                ),
-                                title: Padding(
-                                  padding: const EdgeInsets.only(top: 5.0),
-                                  child: Text(
-                                    "لايوجد عنوان مسجل ",
+                          Align(
+                              alignment: Alignment.center,
+                              child: FlatButton(
+                                padding: EdgeInsets.only(left: 30.0, top: 10.0),
+                                child: Text(
+                                    UtilsImporter().stringUtils.add_new_address,
                                     style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: UtilsImporter()
+                                            .colorUtils
+                                            .greycolor,
                                         fontFamily: UtilsImporter()
                                             .stringUtils
                                             .HKGrotesk,
-                                        fontSize: 25,
-                                        color: Colors.black),
-                                  ),
-                                ),
-                                onTap: () {},
-                              ),
-                            ),
-                          ),
-                    Align(
-                        alignment: Alignment.center,
-                        child: FlatButton(
-                          padding: EdgeInsets.only(left: 30.0, top: 10.0),
-                          child: Text(
-                              UtilsImporter().stringUtils.add_new_address,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: UtilsImporter().colorUtils.greycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                  fontSize: 17)),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) => new AddAddressView(
-                                          isFromDeliveryScreen: false,
-                                        )));
-                          },
-                        )),
-                  ],
-                ),
-              )
+                                        fontSize: 17)),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) =>
+                                              new AddAddressView(
+                                                isFromDeliveryScreen: false,
+                                              )));
+                                },
+                              )),
+                        ],
+                      ),
+                    )
             ],
           ),
         ),
