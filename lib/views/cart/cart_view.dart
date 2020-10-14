@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/searchResponseModel.dart';
+import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
@@ -20,7 +20,7 @@ class CartView extends StatefulWidget {
 }
 
 class CartViewState extends State<CartView> {
-  List<SearchProductsList> orderArray;
+  List<ProductsData> orderArray;
   int subtotal = 0;
   int delivaryCost = 10;
   static List<int> cards = [];
@@ -113,8 +113,9 @@ class CartViewState extends State<CartView> {
     makeCards();
 
     for (int i = 0; i < orderArray.length; i++) {
-      subtotal =
-          subtotal + ((orderArray[i].price) * orderArray[i].productCount);
+      subtotal = subtotal +
+          ((int.parse(orderArray[i].warehouses[0].pivot.price.split(".")[0])) *
+              orderArray[i].productCount);
     }
     print(widget.isFromUpdateOrder);
     widget.isFromUpdateOrder
@@ -297,7 +298,7 @@ class CartViewState extends State<CartView> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(orderArray[index].price)} ${LoadingScreenServices.companyInformation.currency}",
+                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].warehouses[0].pivot.price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color:
@@ -336,7 +337,11 @@ class CartViewState extends State<CartView> {
                       onTap: () {
                         setState(() {
                           orderArray[index].productCount += 1;
-                          subtotal += (orderArray[index].price);
+                          subtotal += (int.parse(orderArray[index]
+                              .warehouses[0]
+                              .pivot
+                              .price
+                              .split(".")[0]));
                         });
                         _cartChanged();
                       },
@@ -368,11 +373,19 @@ class CartViewState extends State<CartView> {
                       onTap: () {
                         setState(() {
                           if (orderArray[index].productCount > 1) {
-                            subtotal -= (orderArray[index].price);
+                            subtotal -= (int.parse(orderArray[index]
+                                .warehouses[0]
+                                .pivot
+                                .price
+                                .split(".")[0]));
                             orderArray[index].productCount =
                                 orderArray[index].productCount - 1;
                           } else if (orderArray[index].productCount == 1) {
-                            subtotal -= (orderArray[index].price);
+                            subtotal -= (int.parse(orderArray[index]
+                                .warehouses[0]
+                                .pivot
+                                .price
+                                .split(".")[0]));
                             onrRemove(index);
                             CartServices.cartProducts.removeAt(index);
                           }
@@ -411,7 +424,8 @@ class CartViewState extends State<CartView> {
 
   void _showConfirmOrderBtnTapped() {
     if (CartServices.cartProducts.length > 0) {
-      print("the orderUnderUpdateIndex value is : ${OrderServices.orderUnderUpdateIndex }");
+      print(
+          "the orderUnderUpdateIndex value is : ${OrderServices.orderUnderUpdateIndex}");
       if (OrderServices.orderUnderUpdateIndex == -1) {
         Navigator.push(context,
             new MaterialPageRoute(builder: (context) => new DeliverToView()));

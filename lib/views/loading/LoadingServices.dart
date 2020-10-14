@@ -104,6 +104,8 @@ class LoadingScreenServices {
   Future<bool> featchStartInformation() async {
     try {
       print("------------- get Start Screen Information returns ---------");
+
+    //  await CartServices.getUserCart();
       bool userLoggedIn = await checkIfUserloddedIn();
       if (userLoggedIn) {
         try {

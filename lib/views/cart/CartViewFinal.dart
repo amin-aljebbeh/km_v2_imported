@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cache_image/cache_image.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/searchResponseModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -27,7 +28,7 @@ class CartViewFinal extends StatefulWidget {
 }
 
 class _CartViewFinalState extends State<CartViewFinal> {
-  List<SearchProductsList> orderArray;
+  List<ProductsData> orderArray;
   int subtotal = 0;
   int delivaryCost = 10;
   List<int> cards = [];
@@ -235,8 +236,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
     makeCards();
 
     for (int i = 0; i < orderArray.length; i++) {
-      subtotal =
-          subtotal + ((orderArray[i].price) * orderArray[i].productCount);
+      subtotal = subtotal +
+          ((int.parse(orderArray[i].warehouses[0].pivot.price.split(".")[0])) *
+              orderArray[i].productCount);
     }
     total = subtotal +
         Services.delivery_Price +
@@ -645,7 +647,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(orderArray[index].price)} ${LoadingScreenServices.companyInformation.currency}",
+                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].warehouses[0].pivot.price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color:
@@ -678,7 +680,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       onTap: () {
                         setState(() {
                           orderArray[index].productCount += 1;
-                          subtotal += (orderArray[index].price);
+                          subtotal += (int.parse(orderArray[index]
+                              .warehouses[0]
+                              .pivot
+                              .price
+                              .split(".")[0]));
                         });
                         _cartChanged();
                       },
@@ -710,11 +716,19 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       onTap: () {
                         setState(() {
                           if (orderArray[index].productCount > 1) {
-                            subtotal -= (orderArray[index].price);
+                            subtotal -= (int.parse(orderArray[index]
+                                .warehouses[0]
+                                .pivot
+                                .price
+                                .split(".")[0]));
                             orderArray[index].productCount =
                                 orderArray[index].productCount - 1;
                           } else if (orderArray[index].productCount == 1) {
-                            subtotal -= (orderArray[index].price);
+                            subtotal -= (int.parse(orderArray[index]
+                                .warehouses[0]
+                                .pivot
+                                .price
+                                .split(".")[0]));
                             onrRemove(index);
                             CartServices.cartProducts.removeAt(index);
                           }

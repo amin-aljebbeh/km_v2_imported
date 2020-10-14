@@ -104,6 +104,7 @@ class ProductsData {
       this.categoryId,
       this.warehouses,
       this.images,
+      this.productCount,
       this.quantity});
 
   int id;
@@ -113,23 +114,33 @@ class ProductsData {
   String isInFacebook;
   String categoryId;
   String quantity;
+  int productCount;
 
   List<Warehouse> warehouses;
   List<ProductImage> images;
 
-  factory ProductsData.fromJson(Map<String, dynamic> json) => ProductsData(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        unit: json["unit"],
-        isInFacebook: json["is_in_facebook"],
-        categoryId: json["category_id"],
-        quantity: json["quantity"],
-        warehouses: List<Warehouse>.from(
-            json["warehouses"].map((x) => Warehouse.fromJson(x))),
-        images: List<ProductImage>.from(
-            json["images"].map((x) => ProductImage.fromJson(x))),
-      );
+  factory ProductsData.fromJson(Map<String, dynamic> json) {
+    List<ProductImage> images = new List<ProductImage>();
+
+    return ProductsData(
+      id: json["id"],
+      name: json["name"],
+      description: json["description"],
+      unit: json["unit"],
+      isInFacebook: json["is_in_facebook"],
+      categoryId: json["category_id"],
+      quantity: json["quantity"],
+      warehouses: List<Warehouse>.from(
+          json["warehouses"].map((x) => Warehouse.fromJson(x))),
+      images: json["images"] == null
+          ? images
+          : List<ProductImage>.from(
+              json["images"].map((x) => ProductImage.fromJson(x))),
+      productCount: json["productCount"],
+      // images: List<ProductImage>.from(
+      //     json["images"].map((x) => ProductImage.fromJson(x))),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -141,6 +152,7 @@ class ProductsData {
         "quantity": quantity,
         "warehouses": List<dynamic>.from(warehouses.map((x) => x.toJson())),
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
+        "productCount": productCount,
       };
 }
 

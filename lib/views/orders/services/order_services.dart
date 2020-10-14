@@ -29,10 +29,14 @@ class OrderServices {
           CartServices.cartProducts[i].productCount.toString() +
           ";";
       purchasePrices = purchasePrices +
-          (CartServices.cartProducts[i].price *
+          (int.parse(CartServices.cartProducts[i].warehouses[0].pivot.price
+                  .split(".")[0]) *
               CartServices.cartProducts[i].productCount);
-      productPrices =
-          productPrices + CartServices.cartProducts[i].price.toString() + ";";
+      productPrices = productPrices +
+          int.parse(CartServices.cartProducts[i].warehouses[0].pivot.price
+                  .split(".")[0])
+              .toString() +
+          ";";
     }
 
     Map orderData = {
@@ -85,10 +89,14 @@ class OrderServices {
           CartServices.cartProducts[i].productCount.toString() +
           ";";
       purchasePrices = purchasePrices +
-          (CartServices.cartProducts[i].price *
+          (int.parse(CartServices.cartProducts[i].warehouses[0].pivot.price
+                  .split(".")[0]) *
               CartServices.cartProducts[i].productCount);
-      productPrices =
-          productPrices + CartServices.cartProducts[i].price.toString() + ";";
+      productPrices = productPrices +
+          int.parse(CartServices.cartProducts[i].warehouses[0].pivot.price
+                  .split(".")[0])
+              .toString() +
+          ";";
     }
 
     Map orderData = {

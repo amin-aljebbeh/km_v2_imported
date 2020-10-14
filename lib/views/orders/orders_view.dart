@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/searchResponseModel.dart';
+import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -332,7 +332,7 @@ class OrdersViewState extends State<OrdersView> {
     for (int i = 0;
         i < LoadingScreenServices.myOrdersList[orderIndex].products.length;
         i++) {
-      SearchProductsList product = new SearchProductsList();
+      ProductsData product = new ProductsData();
 
       product.id =
           LoadingScreenServices.myOrdersList[orderIndex].products[i].id;
@@ -341,14 +341,14 @@ class OrdersViewState extends State<OrdersView> {
       // product.isActive = Services.myOrdersList[index].products[i].
       product.name =
           LoadingScreenServices.myOrdersList[orderIndex].products[i].name;
-      product.price = int.parse(LoadingScreenServices
-          .myOrdersList[orderIndex].products[i].pivot.purchasePrice);
+      product.warehouses[0].pivot.price = LoadingScreenServices
+          .myOrdersList[orderIndex].products[i].pivot.purchasePrice;
       product.productCount = int.parse(LoadingScreenServices
           .myOrdersList[orderIndex].products[i].pivot.quantity);
       product.unit =
           LoadingScreenServices.myOrdersList[orderIndex].products[i].unit;
-      product.quantity = int.parse(
-          LoadingScreenServices.myOrdersList[orderIndex].products[i].quantity);
+      product.quantity =
+          LoadingScreenServices.myOrdersList[orderIndex].products[i].quantity;
 
       CartServices.addProductToCart(product);
 

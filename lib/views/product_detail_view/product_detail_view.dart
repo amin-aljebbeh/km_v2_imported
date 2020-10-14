@@ -3,15 +3,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/models/searchResponseModel.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 import '../../Services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 
@@ -382,27 +379,34 @@ class ProductDetailViewState extends State<ProductDetailView>
         if (LoadingScreen.user_token.length > 5) {
           Navigator.of(context).pop(true);
 
-          SearchProductsList productToAdd = new SearchProductsList();
+          // ProductsData productToAdd = new ProductsData();
+          // List<Warehouse> warehouses = new List<Warehouse>();
+          // Pivot pivot = new Pivot();
+          // pivot.price = widget.products.warehouses[0].pivot.price;
+          // warehouses[0].pivot = pivot;
+          // productToAdd.warehouses = warehouses;
 
-          productToAdd.id = widget.products.id;
-          productToAdd.name = widget.products.name;
-          productToAdd.quantity = int.parse(widget.products.quantity);
-          productToAdd.price = int.parse(widget
-              .products.warehouses[0].pivot.price
-              .toString()
-              .split(".")[0]);
-          productToAdd.unit = widget.products.unit;
-          productToAdd.productCount = no_of_orders;
-          productToAdd.images = widget.products.images;
+          // productToAdd.id = widget.products.id;
+          // productToAdd.name = widget.products.name;
+          // productToAdd.quantity = widget.products.quantity;
+          // // productToAdd.warehouses[0].pivot.price =
+          // //     widget.products.warehouses[0].pivot.price;
+          // productToAdd.unit = widget.products.unit;
+          // productToAdd.productCount = no_of_orders;
+          // productToAdd.images = widget.products.images;
 
-          CartServices.addProductToCart(productToAdd);
+          print("========= product price ========");
+
+          print(widget.products.warehouses[0].pivot.price);
+
+          CartServices.addProductToCart(widget.products);
 
           // Toast.show("تم إضافة ${productToAdd.name} لسلة المشتريات", context,
           //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
 
           Flushbar(
             //  backgroundColor: UtilsImporter().colorUtils.kmColors,
-            message: "تم إضافة ${productToAdd.name} لسلة المشتريات",
+            message: "تم إضافة ${widget.products.name} لسلة المشتريات",
 
             icon: Icon(
               Icons.assignment_turned_in,
