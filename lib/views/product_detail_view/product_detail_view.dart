@@ -398,6 +398,7 @@ class ProductDetailViewState extends State<ProductDetailView>
           print("========= product price ========");
 
           print(widget.products.warehouses[0].pivot.price);
+          widget.products.productCount = no_of_orders;
 
           CartServices.addProductToCart(widget.products);
 

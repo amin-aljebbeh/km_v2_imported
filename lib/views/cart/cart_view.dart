@@ -392,11 +392,17 @@ class CartViewState extends State<CartView> {
                         });
                         _cartChanged();
                       },
-                      child: Image.asset(
-                        "assets/remove.png",
-                        width: 60,
-                        height: 60,
-                      ),
+                      child: orderArray[index].productCount > 1
+                          ? Image.asset(
+                              "assets/remove.png",
+                              width: 60,
+                              height: 60,
+                            )
+                          : Icon(
+                              Icons.delete_forever,
+                              size: 30,
+                              color: Colors.red,
+                            ),
                     ),
                   ),
                 ],

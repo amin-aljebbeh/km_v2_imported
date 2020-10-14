@@ -9,6 +9,9 @@ import 'package:kammun_app/models/start_model.dart';
 CategoryProduct categoryProductFromJson(String str) =>
     CategoryProduct.fromJson(json.decode(str));
 
+List<ProductsData> syncCartFromJson(String str) => List<ProductsData>.from(
+    json.decode(str).map((x) => ProductsData.fromJson(x)));
+
 String categoryProductToJson(CategoryProduct data) =>
     json.encode(data.toJson());
 
