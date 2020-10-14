@@ -11,6 +11,7 @@ import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
+import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 
@@ -781,9 +782,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
       await prefs.remove("userCart");
       CartServices.cartProducts.clear();
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/thankyou', ModalRoute.withName('/home'),
-          arguments: {"message": message});
+
+      Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (context) => ThankYouView(orderMessage: message)));
+
+      // Navigator.pushNamedAndRemoveUntil(
+      //     context, '/thankyou', ModalRoute.withName('/home'),
+      //     arguments: {"message": message, 'orderMessage': message});
     }
   }
 

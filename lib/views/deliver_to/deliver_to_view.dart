@@ -36,7 +36,9 @@ class DeliverToViewState extends State<DeliverToView> {
         LoadingScreenServices.userAddress.removeAt(item);
 
         if (DeliverToView.selectedIndex != null &&
-            DeliverToView.selectedIndex > 0) DeliverToView.selectedIndex--;
+            DeliverToView.selectedIndex > 0) {
+          DeliverToView.selectedIndex--;
+        }
       });
       isLoading = false;
       isError = false;

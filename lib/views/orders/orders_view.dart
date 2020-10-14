@@ -56,7 +56,8 @@ class OrdersViewState extends State<OrdersView> {
       if (orderList.length == 0) {
         setState(() {
           LoadingScreenServices.myOrdersList = orderDataList;
-          theEndOfOrders = true;
+          if (LoadingScreenServices.myOrdersList.length != 0)
+            theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;

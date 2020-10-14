@@ -124,6 +124,9 @@ class ProductDetailViewState extends State<ProductDetailView>
                       ? AutoSizeText(
                           widget.products.name,
                           maxLines: 1,
+                          style: TextStyle(
+                              fontFamily:
+                                  UtilsImporter().stringUtils.HKGrotesk),
                         )
                       : Container(),
                 ),

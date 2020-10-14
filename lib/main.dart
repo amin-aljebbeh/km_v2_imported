@@ -33,94 +33,15 @@ void main() {
 class RestartWidget {}
 
 class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  // Future getFirebaseToken;
-  // String firebaseToken;
-
   @override
   void initState() {
     super.initState();
-    // _firebaseMessaging.configure(
-    //   onMessage: (Map<String, dynamic> message) async {
-    //     print("onMessage: $message");
-    //     final notification = message['notification'];
-
-    //     print(notification['title']);
-    //     print(notification['body']);
-
-    //     setState(() {
-
-    //     });
-
-    //      Navigator.push(
-    //         context, new MaterialPageRoute(builder: (context) => HomeView(2)));
-
-    //     // Navigator.pushNamed(context, '/home');
-
-    //     _showDialog(notification['body']);
-    //   },
-    //   onLaunch: (Map<String, dynamic> message) async {
-    //     print("onLaunch: $message");
-    //     final notification = message['data'];
-    //     print(notification['title']);
-    //     print(notification['body']);
-    //     Navigator.pushNamed(context, '/home');
-
-    //     // _showDialog(notification['body']);
-    //   },
-    //   onResume: (Map<String, dynamic> message) async {
-    //     final notification = message['data'];
-    //     print("onResume: $message");
-    //     Navigator.pushNamed(context, '/home');
-
-    //     // _showDialog(notification['body']);
-    //   },
-    // );
-    // _firebaseMessaging.requestNotificationPermissions(
-    //     const IosNotificationSettings(sound: true, badge: true, alert: true));
-
-    // getFirebaseToken = getoken();
   }
-
-  // void _showDialog(value) {
-  //   AlertDialog alertDialog = new AlertDialog(
-  //     content: new Container(
-  //       height: 400.0,
-  //       child: new Column(
-  //         children: <Widget>[
-  //           new Text(
-  //             "MyCompany:",
-  //           ),
-  //           new Text(
-  //             "$value",
-  //           ),
-  //           new Padding(padding: EdgeInsets.all(20.0)),
-  //           new RaisedButton(
-  //             child: new Text("OK"),
-  //             onPressed: () => Navigator.pop(context),
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  //   showDialog(context: context, child: alertDialog);
-  // }
-
-  // Future getoken() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   if (prefs.get("firebase_token") == null) {
-  //     firebaseToken = await _firebaseMessaging.getToken();
-  //     prefs.setString("firebase_token", firebaseToken);
-  //     print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
-  //     print(firebaseToken);
-  //   }
-  // }
 
   loadingProgress(BuildContext context) {
     return Scaffold(

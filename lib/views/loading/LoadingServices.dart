@@ -97,30 +97,30 @@ class LoadingScreenServices {
       }
     } catch (e) {
       print(e.toString());
+      return false;
     }
   }
 
   Future<bool> featchStartInformation() async {
     try {
-      bool everyThingGood = await getStartScreenInformation();
-      return everyThingGood;
+      print("------------- get Start Screen Information returns ---------");
+      bool userLoggedIn = await checkIfUserloddedIn();
+      if (userLoggedIn) {
+        try {
+          bool everyThingGood = await getStartScreenInformation();
 
-      // if (true) {
-      //   try {
-      //     bool everyThingGood = await getStartScreenInformation();
-      //     print("------ every thing good");
-      //     print(everyThingGood);
-      //     if (everyThingGood) {
-      //       return true;
-      //     } else {
-      //       return false;
-      //     }
-      //   } catch (e) {
-      //     print(e.toString());
-      //     return false;
-      //   }
-      // }
-      // return false;
+          if (everyThingGood) {
+            return true;
+          } else {
+            return false;
+          }
+        } catch (e) {
+          print(e.toString());
+          return false;
+        }
+      } else {
+        return false;
+      }
     } catch (e) {
       print("Error While checking user if loggedIn");
       print(e.toString());
@@ -141,13 +141,15 @@ class LoadingScreenServices {
     if (response.statusCode == SUCCESS_CODE) {
       startRequest = startModelFromJson(jsonEncode(response.data));
 
-      print(response.data);
+      // print(response.data);
 
       // Get Company Information.
       companyInformation = startRequest.company.original.data[0];
+      print("======= Get Company Information DONE =======");
 
       // Get Image Url Prefix.
       imagePrefixUrl = startRequest.company.original.data[0].imageBaseUrl;
+      print("======= Get Image Url Prefix DONE =======");
 
       // --------------------------------------------------------------------- //
 
@@ -175,6 +177,8 @@ class LoadingScreenServices {
             startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
       }
 
+      print("======= Mobile Configuration DONE =======");
+
       // print("------ the app version -------");
       // print(int.parse(buildNumber));
 
@@ -185,6 +189,7 @@ class LoadingScreenServices {
       } else if (int.parse(buildNumber) < currenVersion) {
         updateOptional = true;
       }
+      print("======= DONE Mobile Compaiesion =======");
 
       // --------------------------------------------------------------------- //
 
@@ -203,10 +208,11 @@ class LoadingScreenServices {
         else
           return 0;
       });
+      print("======= Get Category DONE =======");
 
-      print("========== The Categories ===========");
+      // print("========== The Categories ===========");
 
-      print(categoryList);
+      // print(categoryList);
 
       // --------------------------------------------------------------------- //
 
@@ -234,8 +240,7 @@ class LoadingScreenServices {
           );
         }
       }
-      print("The Banner List ");
-      print(bannerList);
+      print("======= Get Banner DONE =======");
 
       // --------------------------------------------------------------------- //
       // Get User
@@ -246,12 +251,15 @@ class LoadingScreenServices {
 
       userNumber = startRequest.user.original.data.phone;
 
-      print("User Number ");
-      print(userNumber);
-      userAddress.addAll(startRequest.user.original.data.addresses);
+      print("======= Get User Number DONE =======");
 
-      print("User Address ");
-      print(userAddress);
+      // print("User Number ");
+      // print(userNumber);
+      userAddress.addAll(startRequest.user.original.data.addresses);
+      print("======= Get User Address DONE =======");
+
+      // print("User Address ");
+      // print(userAddress);
 
       // userFavoriteProducts
       //     .addAll(startRequest.user.original.data.userFavoriteProducts);
@@ -273,25 +281,41 @@ class LoadingScreenServices {
         else
           return 0;
       });
+      print("======= Get User Order DONE =======");
 
-      if (myOrdersList.indexWhere((order) => order.underUpdate == "1") !=
-          null) {
-        OrderServices.orderUnderUpdateIndex =
-            myOrdersList.indexWhere((order) => order.underUpdate == "1");
-        OrderServices.delivery_supported_City_id =
-            myOrdersList[OrderServices.orderUnderUpdateIndex]
-                .supportedCityId
-                .toString();
-        OrderServices.updateOrderNote =
-            myOrdersList[OrderServices.orderUnderUpdateIndex].userNotes;
+      for (int i = 0; i < myOrdersList.length; i++) {
+        if (myOrdersList[i].underUpdate == "1") {
+          OrderServices.orderUnderUpdateIndex = i;
 
-        DeliverToView.selectedIndex = myOrdersList.indexWhere((order) =>
-            order.addressId ==
-            myOrdersList[OrderServices.orderUnderUpdateIndex].addressId);
+          OrderServices.delivery_supported_City_id =
+              myOrdersList[i].supportedCityId.toString();
 
-        //int.parse(LoadingScreenServices.deliveryMethodsList[selectedIndex].price.split(".")[0])
-        //LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice
+          OrderServices.updateOrderNote = myOrdersList[i].userNotes;
+
+          DeliverToView.selectedIndex = myOrdersList.indexWhere(
+              (order) => order.addressId == myOrdersList[i].addressId);
+        }
       }
+
+      // if (myOrdersList.indexWhere((order) => order.underUpdate == "1") !=
+      //     null) {
+      //   OrderServices.orderUnderUpdateIndex =
+      //       myOrdersList.indexWhere((order) => order.underUpdate == "1");
+      //   OrderServices.delivery_supported_City_id =
+      //       myOrdersList[OrderServices.orderUnderUpdateIndex]
+      //           .supportedCityId
+      //           .toString();
+      //   OrderServices.updateOrderNote =
+      //       myOrdersList[OrderServices.orderUnderUpdateIndex].userNotes;
+
+      //   DeliverToView.selectedIndex = myOrdersList.indexWhere((order) =>
+      //       order.addressId ==
+      //       myOrdersList[OrderServices.orderUnderUpdateIndex].addressId);
+
+      //   //int.parse(LoadingScreenServices.deliveryMethodsList[selectedIndex].price.split(".")[0])
+      //   //LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice
+      // }
+      print("======= Check if Order Under Update DONE =======");
 
       // -------------------------------------------------------------------- //
       // Get Delivery Methods
@@ -306,8 +330,7 @@ class LoadingScreenServices {
       //   else
       //     return 0;
       // });
-      print(" deliveryMethodsList ");
-      print(deliveryMethodsList);
+      print("======= Get Delivery method DONE =======");
 
       // --------------------------------------------------------------------- //
       // Get Supported Cities
@@ -316,12 +339,14 @@ class LoadingScreenServices {
       supportedCitiesListIntro.clear();
 
       final supportedCitiesResponse = startRequest.supportedCity.original;
+      print("======= Get Supported City DONE =======");
+
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
         for (int j = 0; j < userAddress.length; j++) {
-          print("************************");
-          print(userAddress[j].supportedCityId.toString() +
-              " : " +
-              supportedCitiesResponse.data[i].id.toString());
+          // print("************************");
+          // print(userAddress[j].supportedCityId.toString() +
+          //     " : " +
+          //     supportedCitiesResponse.data[i].id.toString());
           if (int.parse(userAddress[j].supportedCityId) ==
               supportedCitiesResponse.data[i].id) {
             userAddress[j].supportedCityName =
@@ -335,8 +360,8 @@ class LoadingScreenServices {
             userAddress[j].supportedCityName = "يرجى حذف و إضافة العنوان";
         }
 
-        print("################ SUPPORTED CITIES ####################");
-        print(supportedCitiesResponse.data[i].id);
+        // print("################ SUPPORTED CITIES ####################");
+        // print(supportedCitiesResponse.data[i].id);
 
         supportedCitiesList.add(new DropdownMenuItem(
           child: Text(
@@ -350,15 +375,12 @@ class LoadingScreenServices {
               supportedCitiesResponse.data[i].id.toString(),
         ));
         print("The dropdownList value:" + supportedCitiesResponse.data[i].name);
-
-        await CartServices.getUserCart();
-        return true;
       }
+      return true;
     } else {
       print("------------ ERROR GET COMPANY INFORMATION --------------");
       print(response.statusCode.toString());
       return false;
     }
-    return false;
   }
 }

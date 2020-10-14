@@ -1,10 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/cartModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/add_address/add_address_view.dart';
-import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/home/home_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -14,7 +11,7 @@ import 'package:kammun_app/views/update_screen/updateRequiredScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoadingScreen extends StatefulWidget {
-  static String user_token = "Bearer user";
+  static String user_token = "Bearer ";
   static String updateUrl = "";
   static String androidShareUrl = "";
   static String iOSShareUrl = "";
