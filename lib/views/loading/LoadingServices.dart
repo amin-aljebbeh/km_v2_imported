@@ -105,7 +105,7 @@ class LoadingScreenServices {
     try {
       print("------------- get Start Screen Information returns ---------");
 
-      //await CartServices.getUserCart();
+       CartServices.getUserCart();
       bool userLoggedIn = await checkIfUserloddedIn();
       if (userLoggedIn) {
         try {

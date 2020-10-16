@@ -50,7 +50,9 @@ class CartServices {
       var response = await ApiProvider.sendRequest(
           url: SYNC_CART,
           method: httpMethods.post,
-          body: jsonEncode({"product_ids": userCart.split("@")[0]}));
+          body: jsonEncode({"product_ids": "4571"}));
+
+      // body: jsonEncode({"product_ids": userCart.split("@")[0]}));
 
       print(response);
       if (response.statusCode == SUCCESS_CODE &&
@@ -61,9 +63,10 @@ class CartServices {
         //     userCart.split("@")[0].split(";")[i].toString());
         // print("$BaseUrl/api/product/${userCart.split("@")[0].split(";")[i]}");
         print(response.data);
-        final product = syncCartFromJson(jsonEncode(response.data));
+        final product = syncCartFromJson(jsonEncode(response.data["data"]));
 //ProductsData
         for (int i = 0; i < product.length; i++) {
+          product[i].productCount = 1;
           CartServices.addProductToCart(product[i]);
         }
 
