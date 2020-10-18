@@ -36,8 +36,8 @@ class CartServices {
       List<String> productsIds = userCart.split("@")[0].split(";");
       List<String> productsCounts = userCart.split("@")[1].split(";");
 
-      // print("productsIds Length = ${productsIds.length}");
-      // print("productsCounts Length = ${productsCounts.length}");
+      print("productsIds Length = ${productsIds.length}");
+      print("productsCounts Length = ${productsCounts.length}");
 
       for (int i = 0; i < productsIds.length - 1; i++) {
         productsIdCount[productsIds[i]] = productsCounts[i];
@@ -47,12 +47,22 @@ class CartServices {
       //     url: GET_PRODUCT + userCart.split("@")[0].split(";")[i],
       //     method: httpMethods.get,
       //   );
+      print("----------- the product in synd --------");
+      print(userCart.split("@")[0].replaceRange(
+          userCart.split("@")[0].length - 1,
+          userCart.split("@")[0].length,
+          ""));
       var response = await ApiProvider.sendRequest(
           url: SYNC_CART,
           method: httpMethods.post,
-          body: jsonEncode({"product_ids": "4571"}));
+          // body: jsonEncode({"product_ids": "4571"}));
 
-      // body: jsonEncode({"product_ids": userCart.split("@")[0]}));
+          body: jsonEncode({
+            "product_ids": userCart.split("@")[0].replaceRange(
+                userCart.split("@")[0].length - 1,
+                userCart.split("@")[0].length,
+                "")
+          }));
 
       print(response);
       if (response.statusCode == SUCCESS_CODE &&
@@ -62,12 +72,14 @@ class CartServices {
         // print("The Products ID : " +
         //     userCart.split("@")[0].split(";")[i].toString());
         // print("$BaseUrl/api/product/${userCart.split("@")[0].split(";")[i]}");
-        print(response.data);
+        // print(response.data);
         final product = syncCartFromJson(jsonEncode(response.data["data"]));
 //ProductsData
         for (int i = 0; i < product.length; i++) {
-          product[i].productCount = 1;
-          CartServices.addProductToCart(product[i]);
+          if (product[i].warehouses.length > 0) {
+            product[i].productCount = int.parse(productsCounts[i]);
+            CartServices.addProductToCart(product[i]);
+          }
         }
 
         // if (int.parse(product.data.data[0].warehouses[0].pivot.isActive) == 1) {

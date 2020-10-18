@@ -1,24 +1,19 @@
 import 'dart:convert';
-
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/models/searchResponseModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import '../../Services.dart';
-import 'package:http/http.dart' as http;
 
 class ProductsView extends StatefulWidget {
-  int heroIndex;
-  String categoryId;
-  String queryString;
+  final int heroIndex;
+  final String categoryId;
+  final String queryString;
 
   ProductsView({this.heroIndex, @required this.categoryId, this.queryString});
 
@@ -37,6 +32,7 @@ class ProductsViewState extends State<ProductsView> {
   List<ProductsData> productsList = List<ProductsData>();
   bool searchLoading = false;
   bool theEndOfProducs = false;
+  String errorMessage = "لم يتم العثور على المنتج";
 
   Future<bool> _loadData(String query, String type) async {
     print(
@@ -50,40 +46,59 @@ class ProductsViewState extends State<ProductsView> {
     }
 
     if (!theEndOfProducs) {
-      var response = await ApiProvider.sendRequest(
-        url: url,
-        method: httpMethods.get,
-      );
-      if (response.statusCode == SUCCESS_CODE) {
-        final products = categoryProductFromJson(jsonEncode(response.data));
-        print("----- LENGTH : ${products.data.data.length}");
-        //productsList.addAll(products.data.data);
-        for (int i = 0; i < products.data.data.length; i++) {
-          print("---------- warehouse -----------");
-          print(products.data.data[i].warehouses.length);
-          if (products.data.data[i].warehouses.length != 0) {
-            productsList.add(products.data.data[i]);
-          }
-        }
-
-        print("Done Loading");
-        if (this.mounted) {
-          setState(() {
-            if (page - 1 == products.data.lastPage) {
-              theEndOfProducs = true;
+      try {
+        var response = await ApiProvider.sendRequest(
+          url: url,
+          method: httpMethods.get,
+        );
+        print("------ response status code -----");
+        print(response.statusCode);
+        if (response.statusCode == SUCCESS_CODE) {
+          final products = categoryProductFromJson(jsonEncode(response.data));
+          print("----- LENGTH : ${products.data.data.length}");
+          //productsList.addAll(products.data.data);
+          for (int i = 0; i < products.data.data.length; i++) {
+            print("---------- warehouse -----------");
+            print(products.data.data[i].warehouses.length);
+            if (products.data.data[i].warehouses.length != 0) {
+              productsList.add(products.data.data[i]);
             }
-            searchLoading = false;
+          }
 
-            if (firstLoading == true) firstLoading = false;
+          print("Done Loading");
+          if (this.mounted) {
+            setState(() {
+              if (page - 1 == products.data.lastPage) {
+                theEndOfProducs = true;
+              }
+              searchLoading = false;
+
+              if (firstLoading == true) firstLoading = false;
+              isLoading = false;
+            });
+          }
+          if (response.statusCode == 200)
+            return true;
+          else
+            return false;
+        } else {
+          print("------ the error code is 503 --------");
+          setState(() {
+            errorMessage =
+                "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
             isLoading = false;
+            searchLoading = false;
+            firstLoading = false;
           });
         }
-        if (response.statusCode == 200)
-          return true;
-        else
-          return false;
+      } catch (e) {
+        print("------- error catched ---------");
+        print(e.toString());
       }
+    } else {
+      return false;
     }
+    return false;
   }
 
   @override
@@ -227,11 +242,14 @@ class ProductsViewState extends State<ProductsView> {
                   ? Center(
                       child: Loader(),
                     )
-                  : Center(
-                      child: Text("لم يتم العثور على المنتج",
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk)),
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Text(errorMessage,
+                            style: TextStyle(
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk)),
+                      ),
                     )
               : Padding(
                   padding:
