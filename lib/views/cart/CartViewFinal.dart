@@ -1,8 +1,9 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cache_image/cache_image.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/models/searchResponseModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
@@ -15,6 +16,9 @@ import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import 'order_problem_sheet.dart';
 
 class CartViewFinal extends StatefulWidget {
   static List<Map<String, dynamic>> orderArray;
@@ -46,26 +50,13 @@ class _CartViewFinalState extends State<CartViewFinal> {
     }
   }
 
-  _cancelPayment({BuildContext context}) async {
-    Navigator.of(context).pop();
-    // setState(() {
-    //   loadingScreen = true;
-    // });
-
-    // KammunRestart.restartApp(context);
-    // Navigator.pushNamedAndRemoveUntil(
-    //   context,
-    //   '/myApp',
-    //   (Route<dynamic> route) => false,
-    // );
-  }
-
   _reloadPrices() async {
+    Navigator.of(context).pop();
+
     setState(() {
       loadingScreen = true;
     });
 
-    Navigator.of(context).pop();
     CartServices.cartProducts.clear();
     await CartServices.getUserCart();
     setState(() {
@@ -75,160 +66,160 @@ class _CartViewFinalState extends State<CartViewFinal> {
     Navigator.of(context).pushNamed('/cartFinal');
   }
 
-  Widget _cancelButton({BuildContext ctx}) {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
-      onTap: () => _cancelPayment(context: ctx),
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: Colors.grey[700],
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            "إلغاء العملية",
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
+  // Widget _cancelButton({BuildContext ctx}) {
+  //   final GestureDetector loginButtonWithGesture = new GestureDetector(
+  //     onTap: () => _cancelPayment(context: ctx),
+  //     child: new Container(
+  //       height: 50.0,
+  //       decoration: new BoxDecoration(
+  //           color: Colors.grey[700],
+  //           borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+  //       child: new Center(
+  //         child: new Text(
+  //           "إلغاء العملية",
+  //           style: new TextStyle(
+  //               color: Colors.white,
+  //               fontSize: 20.0,
+  //               fontWeight: FontWeight.w500,
+  //               fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+  //         ),
+  //       ),
+  //     ),
+  //   );
 
-    return Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-        child: loginButtonWithGesture);
-  }
+  //   return Padding(
+  //       padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+  //       child: loginButtonWithGesture);
+  // }
 
-  Widget _updateButton() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
-      onTap: () => _reloadPrices(),
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.kmColors,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: AutoSizeText(
-            "تحديث الأسعار",
-            maxLines: 1,
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
+  // Widget _updateButton() {
+  //   final GestureDetector loginButtonWithGesture = new GestureDetector(
+  //     onTap: () => _reloadPrices(),
+  //     child: new Container(
+  //       height: 50.0,
+  //       decoration: new BoxDecoration(
+  //           color: UtilsImporter().colorUtils.kmColors,
+  //           borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+  //       child: new Center(
+  //         child: AutoSizeText(
+  //           "تحديث الأسعار",
+  //           maxLines: 1,
+  //           style: new TextStyle(
+  //               color: Colors.white,
+  //               fontSize: 20.0,
+  //               fontWeight: FontWeight.bold,
+  //               fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+  //         ),
+  //       ),
+  //     ),
+  //   );
 
-    return Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-        child: loginButtonWithGesture);
-  }
+  //   return Padding(
+  //       padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+  //       child: loginButtonWithGesture);
+  // }
 
-  void showUpdateDialog() {
-    setState(() {
-      loadingScreen = false;
-    });
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(1.0),
-              topRight: Radius.circular(1.0),
-              bottomLeft: Radius.circular(2.0),
-              bottomRight: Radius.circular(2.0),
-            ),
-          ),
-          contentPadding:
-              EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
-          titlePadding: EdgeInsets.all(0),
-          title: Container(
-            width: double.infinity,
-            height: 50,
-            color: Color.fromARGB(255, 247, 247, 247),
-            child: Align(
-              child: Padding(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Text(
-                        "خطأ في الأسعار",
-                        style: TextStyle(
-                            fontSize: 17,
-                            color: UtilsImporter().colorUtils.primarycolor,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                      ),
-                    ),
-                    IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () => Navigator.of(context).pop())
-                  ],
-                ),
-                padding: EdgeInsets.only(left: 10),
-              ),
-            ),
-          ),
-          content: Container(
-            height: 330,
-            child: Column(
-              children: <Widget>[
-                AutoSizeText(
-                    "نأسف لحدوث ذلك و لكن خلال الوقت الذي كنت تقوم به بالتسوق قام مدير النظام بتخفيض أو زيادة سعر واحد أو اكثر من المنتجات التي قمت بإضافتها لسلة مشترياتك بإمكانك تحميل الأسعار الجديدة و مراجعتها قبل إتمام الطلب أو إلغاء عملية الشراء ",
-                    maxLines: 9,
-                    style: TextStyle(
-                        color: Colors.grey[900],
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
-                // RichText(
-                //   text: TextSpan(
-                //     children: <TextSpan>[
-                //       TextSpan(
-                //         text:
-                //             "نأسف لحدوث ذلك و لكن خلال الوقت الذي كنت تقوم به بالتسوق قام مدير النظام بزيادة أو تخفيض سعر واحد أو اكثر من المنتجات التي قمت بإضافتها لسلة مشترياتك بإمكانك تحميل الأسعار الجديدة و مراجعتها قبل إتمام الطلب أو إلغاء عملية الشراء ",
-                // style: TextStyle(
-                //     color: Colors.grey[900],
-                //     fontSize: 20,
-                //     fontWeight: FontWeight.normal,
-                //     fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                ),
-                new Divider(
-                  color: Colors.grey[600],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2.8,
-                      child: _updateButton(),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2.8,
-                      child: _cancelButton(ctx: context),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // void showUpdateDialog() {
+  //   setState(() {
+  //     loadingScreen = false;
+  //   });
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(1.0),
+  //             topRight: Radius.circular(1.0),
+  //             bottomLeft: Radius.circular(2.0),
+  //             bottomRight: Radius.circular(2.0),
+  //           ),
+  //         ),
+  //         contentPadding:
+  //             EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
+  //         titlePadding: EdgeInsets.all(0),
+  //         title: Container(
+  //           width: double.infinity,
+  //           height: 50,
+  //           color: Color.fromARGB(255, 247, 247, 247),
+  //           child: Align(
+  //             child: Padding(
+  //               child: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: <Widget>[
+  //                   Padding(
+  //                     padding: const EdgeInsets.only(right: 10.0),
+  //                     child: Text(
+  //                       "خطأ في الأسعار",
+  //                       style: TextStyle(
+  //                           fontSize: 17,
+  //                           color: UtilsImporter().colorUtils.primarycolor,
+  //                           fontWeight: FontWeight.bold,
+  //                           fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+  //                     ),
+  //                   ),
+  //                   IconButton(
+  //                       icon: Icon(Icons.close),
+  //                       onPressed: () => Navigator.of(context).pop())
+  //                 ],
+  //               ),
+  //               padding: EdgeInsets.only(left: 10),
+  //             ),
+  //           ),
+  //         ),
+  //         content: Container(
+  //           height: 330,
+  //           child: Column(
+  //             children: <Widget>[
+  //               AutoSizeText(
+  //                   "نأسف لحدوث ذلك و لكن خلال الوقت الذي كنت تقوم به بالتسوق قام مدير النظام بتخفيض أو زيادة سعر واحد أو اكثر من المنتجات التي قمت بإضافتها لسلة مشترياتك بإمكانك تحميل الأسعار الجديدة و مراجعتها قبل إتمام الطلب أو إلغاء عملية الشراء ",
+  //                   maxLines: 9,
+  //                   style: TextStyle(
+  //                       color: Colors.grey[900],
+  //                       fontSize: 20,
+  //                       fontWeight: FontWeight.normal,
+  //                       fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
+  //               // RichText(
+  //               //   text: TextSpan(
+  //               //     children: <TextSpan>[
+  //               //       TextSpan(
+  //               //         text:
+  //               //             "نأسف لحدوث ذلك و لكن خلال الوقت الذي كنت تقوم به بالتسوق قام مدير النظام بزيادة أو تخفيض سعر واحد أو اكثر من المنتجات التي قمت بإضافتها لسلة مشترياتك بإمكانك تحميل الأسعار الجديدة و مراجعتها قبل إتمام الطلب أو إلغاء عملية الشراء ",
+  //               // style: TextStyle(
+  //               //     color: Colors.grey[900],
+  //               //     fontSize: 20,
+  //               //     fontWeight: FontWeight.normal,
+  //               //     fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+  //               //       ),
+  //               //     ],
+  //               //   ),
+  //               // ),
+  //               Padding(
+  //                 padding: EdgeInsets.only(top: 10),
+  //               ),
+  //               new Divider(
+  //                 color: Colors.grey[600],
+  //               ),
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: <Widget>[
+  //                   Container(
+  //                     width: MediaQuery.of(context).size.width / 2.8,
+  //                     child: _updateButton(),
+  //                   ),
+  //                   Container(
+  //                     width: MediaQuery.of(context).size.width / 2.8,
+  //                     child: _cancelButton(ctx: context),
+  //                   ),
+  //                 ],
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   void initState() {
@@ -765,33 +756,56 @@ class _CartViewFinalState extends State<CartViewFinal> {
     //             new ProductDetailView(heroIndex: index + 100)));
   }
 
+  _showBottomSheet() {
+    List<int> notactiveId = [];
+    List<int> priceId = [];
+
+    for (int i = 0; i < orderArray.length; i++) {
+      notactiveId.add(orderArray[i].id);
+    }
+    for (int i = 0; i < orderArray.length; i++) {
+      priceId.add(orderArray[i].id);
+    }
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (context, scrollController) => OrderProblemBottomSheet(
+        notActiveProducts: notactiveId,
+        pricesChangesProducts: priceId,
+        applyChanges: () {
+          _reloadPrices();
+        },
+      ),
+    );
+  }
+
   void _showConfirmOrderBtnTapped() async {
     setState(() {
       loadingScreen = true;
       errorCode = false;
     });
-    String message;
+    OrderResponse orderResponse;
     if (OrderServices.orderUnderUpdateIndex != -1) {
-      message = await OrderServices.updateOrder(userNotes: _userNotes.text);
+      orderResponse =
+          await OrderServices.updateOrder(userNotes: _userNotes.text);
     } else {
-      message = await OrderServices.submitNewOrder(userNotes: _userNotes.text);
+      orderResponse =
+          await OrderServices.submitNewOrder(userNotes: _userNotes.text);
     }
 
-    print("------- THE MESSAGE IS ---------");
-    print(message);
     setState(() {
-      if (message == "uppdatePrices") {
-        showUpdateDialog();
-      } else if (message == "false") {
+      if (orderResponse.changedPriceProducts.length > 0 ||
+          orderResponse.inactiveProducts.length > 0) {
+        _showBottomSheet();
+      } else if (orderResponse == null) {
         loadingScreen = false;
         errorCode = true;
       } else {
-        CartViewFinal.message = message;
+        CartViewFinal.message = orderResponse.reason;
       }
     });
     print("The Message is : ");
-    print(message);
-    if (message != "uppdatePrices" && message != "false") {
+    print(orderResponse.reason);
+    if (orderResponse.success == true) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       await prefs.remove("userCart");
@@ -800,7 +814,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
       Navigator.push(
           context,
           new MaterialPageRoute(
-              builder: (context) => ThankYouView(orderMessage: message)));
+              builder: (context) =>
+                  ThankYouView(orderMessage: orderResponse.reason)));
 
       // Navigator.pushNamedAndRemoveUntil(
       //     context, '/thankyou', ModalRoute.withName('/home'),

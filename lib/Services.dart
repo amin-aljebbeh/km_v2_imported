@@ -174,7 +174,6 @@ class Services {
 
         return LoadingScreenServices.myOrdersList;
       } else {
-        print("------------ ERROR GET USER ORDER --------------");
         return LoadingScreenServices.myOrdersList;
       }
     } catch (e) {

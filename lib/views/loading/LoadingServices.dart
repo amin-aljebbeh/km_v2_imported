@@ -101,11 +101,15 @@ class LoadingScreenServices {
     }
   }
 
+  int finishedRequests = 0;
+  int contractsLength = 0;
+  StreamController<int> streamController;
+
   Future<bool> featchStartInformation() async {
     try {
       print("------------- get Start Screen Information returns ---------");
 
-       CartServices.getUserCart();
+      await CartServices.getUserCart();
       bool userLoggedIn = await checkIfUserloddedIn();
       if (userLoggedIn) {
         try {

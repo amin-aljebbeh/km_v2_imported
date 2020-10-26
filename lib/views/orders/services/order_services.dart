@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
@@ -16,7 +17,7 @@ class OrderServices {
   static int orderUnderUpdateIndex = -1;
   static String updateOrderNote = "";
 
-  static Future<String> submitNewOrder({String userNotes}) async {
+  static Future<OrderResponse> submitNewOrder({String userNotes}) async {
     String productIds = "";
     String quantities = "";
     String productPrices = "";
@@ -58,24 +59,21 @@ class OrderServices {
       var response = await ApiProvider.sendRequest(
           url: ORDER, method: httpMethods.post, body: jsonEncode(orderData));
 
+      var barsedJson = orderResponseFromJson(jsonEncode(response.data));
+
       if (response.statusCode == 200) {
         if (response.data["success"]) {
           CartServices.cartProducts.clear();
-
-          return response.data["reason"];
+          return barsedJson;
         }
-      } else if ((response.data)["reason"].toString().contains("up-to-date")) {
-        return "uppdatePrices";
-      } else {
-        return "false";
       }
     } catch (e) {
       print(e);
-      return "false";
+      return null;
     }
   }
 
-  static Future<String> updateOrder({String userNotes}) async {
+  static Future<OrderResponse> updateOrder({String userNotes}) async {
     String productIds = "";
     String quantities = "";
     String productPrices = "";
@@ -118,24 +116,23 @@ class OrderServices {
           method: httpMethods.put,
           body: jsonEncode(orderData));
 
+      var barsedJson = orderResponseFromJson(jsonEncode(response.data));
+
       if (response.statusCode == 200) {
         if (response.data["success"]) {
           CartServices.cartProducts.clear();
           orderUnderUpdateIndex = -1;
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString("orderUnderUpdateId", "-1");
-          return response.data["data"]["message"];
+
+          return barsedJson;
+
+          //return response.data["data"]["message"];
         }
-      } else if ((response.data)["data"]["message"]
-          .toString()
-          .contains("up-to-date")) {
-        return "uppdatePrices";
-      } else {
-        return "false";
       }
     } catch (e) {
       print(e);
-      return "false";
+      return null;
     }
   }
 
