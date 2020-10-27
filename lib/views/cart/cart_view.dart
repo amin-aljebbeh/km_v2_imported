@@ -117,6 +117,7 @@ class CartViewState extends State<CartView> {
           ((int.parse(orderArray[i].warehouses[0].pivot.price.split(".")[0])) *
               orderArray[i].productCount);
     }
+
     print(widget.isFromUpdateOrder);
     widget.isFromUpdateOrder
         ? WidgetsBinding.instance.addPostFrameCallback(

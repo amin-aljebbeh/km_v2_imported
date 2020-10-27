@@ -282,6 +282,7 @@ class WarehousePivot {
     this.numberOfVisits,
     this.createdAt,
     this.updatedAt,
+    this.price,
   });
 
   String categoryId;
@@ -292,10 +293,12 @@ class WarehousePivot {
   String numberOfVisits;
   DateTime createdAt;
   DateTime updatedAt;
+  String price;
 
   factory WarehousePivot.fromJson(Map<String, dynamic> json) => WarehousePivot(
         categoryId: json["category_id"],
         warehouseId: json["warehouse_id"],
+        price: json["price"],
         isActive: json["is_active"],
         isFeatured: json["is_featured"],
         priority: json["priority"],
@@ -312,6 +315,7 @@ class WarehousePivot {
         "category_id": categoryId,
         "warehouse_id": warehouseId,
         "is_active": isActive,
+        "price": price,
         "is_featured": isFeatured,
         "priority": priority,
         "number_of_visits": numberOfVisits,

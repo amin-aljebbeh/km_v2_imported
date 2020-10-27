@@ -21,8 +21,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'order_problem_sheet.dart';
 
 class CartViewFinal extends StatefulWidget {
-  static List<Map<String, dynamic>> orderArray;
-
   static String message = "";
 
   @override
@@ -48,6 +46,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     for (int i = 0; i < orderArray.length; i++) {
       cards.add(i);
     }
+    print("Orders Length ${orderArray.length}");
   }
 
   _reloadPrices() async {
@@ -65,161 +64,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
     Navigator.of(context).pop();
     Navigator.of(context).pushNamed('/cartFinal');
   }
-
-  // Widget _cancelButton({BuildContext ctx}) {
-  //   final GestureDetector loginButtonWithGesture = new GestureDetector(
-  //     onTap: () => _cancelPayment(context: ctx),
-  //     child: new Container(
-  //       height: 50.0,
-  //       decoration: new BoxDecoration(
-  //           color: Colors.grey[700],
-  //           borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-  //       child: new Center(
-  //         child: new Text(
-  //           "إلغاء العملية",
-  //           style: new TextStyle(
-  //               color: Colors.white,
-  //               fontSize: 20.0,
-  //               fontWeight: FontWeight.w500,
-  //               fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-
-  //   return Padding(
-  //       padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-  //       child: loginButtonWithGesture);
-  // }
-
-  // Widget _updateButton() {
-  //   final GestureDetector loginButtonWithGesture = new GestureDetector(
-  //     onTap: () => _reloadPrices(),
-  //     child: new Container(
-  //       height: 50.0,
-  //       decoration: new BoxDecoration(
-  //           color: UtilsImporter().colorUtils.kmColors,
-  //           borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-  //       child: new Center(
-  //         child: AutoSizeText(
-  //           "تحديث الأسعار",
-  //           maxLines: 1,
-  //           style: new TextStyle(
-  //               color: Colors.white,
-  //               fontSize: 20.0,
-  //               fontWeight: FontWeight.bold,
-  //               fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-
-  //   return Padding(
-  //       padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-  //       child: loginButtonWithGesture);
-  // }
-
-  // void showUpdateDialog() {
-  //   setState(() {
-  //     loadingScreen = false;
-  //   });
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.only(
-  //             topLeft: Radius.circular(1.0),
-  //             topRight: Radius.circular(1.0),
-  //             bottomLeft: Radius.circular(2.0),
-  //             bottomRight: Radius.circular(2.0),
-  //           ),
-  //         ),
-  //         contentPadding:
-  //             EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
-  //         titlePadding: EdgeInsets.all(0),
-  //         title: Container(
-  //           width: double.infinity,
-  //           height: 50,
-  //           color: Color.fromARGB(255, 247, 247, 247),
-  //           child: Align(
-  //             child: Padding(
-  //               child: Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: <Widget>[
-  //                   Padding(
-  //                     padding: const EdgeInsets.only(right: 10.0),
-  //                     child: Text(
-  //                       "خطأ في الأسعار",
-  //                       style: TextStyle(
-  //                           fontSize: 17,
-  //                           color: UtilsImporter().colorUtils.primarycolor,
-  //                           fontWeight: FontWeight.bold,
-  //                           fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-  //                     ),
-  //                   ),
-  //                   IconButton(
-  //                       icon: Icon(Icons.close),
-  //                       onPressed: () => Navigator.of(context).pop())
-  //                 ],
-  //               ),
-  //               padding: EdgeInsets.only(left: 10),
-  //             ),
-  //           ),
-  //         ),
-  //         content: Container(
-  //           height: 330,
-  //           child: Column(
-  //             children: <Widget>[
-  //               AutoSizeText(
-  //                   "نأسف لحدوث ذلك و لكن خلال الوقت الذي كنت تقوم به بالتسوق قام مدير النظام بتخفيض أو زيادة سعر واحد أو اكثر من المنتجات التي قمت بإضافتها لسلة مشترياتك بإمكانك تحميل الأسعار الجديدة و مراجعتها قبل إتمام الطلب أو إلغاء عملية الشراء ",
-  //                   maxLines: 9,
-  //                   style: TextStyle(
-  //                       color: Colors.grey[900],
-  //                       fontSize: 20,
-  //                       fontWeight: FontWeight.normal,
-  //                       fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
-  //               // RichText(
-  //               //   text: TextSpan(
-  //               //     children: <TextSpan>[
-  //               //       TextSpan(
-  //               //         text:
-  //               //             "نأسف لحدوث ذلك و لكن خلال الوقت الذي كنت تقوم به بالتسوق قام مدير النظام بزيادة أو تخفيض سعر واحد أو اكثر من المنتجات التي قمت بإضافتها لسلة مشترياتك بإمكانك تحميل الأسعار الجديدة و مراجعتها قبل إتمام الطلب أو إلغاء عملية الشراء ",
-  //               // style: TextStyle(
-  //               //     color: Colors.grey[900],
-  //               //     fontSize: 20,
-  //               //     fontWeight: FontWeight.normal,
-  //               //     fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-  //               //       ),
-  //               //     ],
-  //               //   ),
-  //               // ),
-  //               Padding(
-  //                 padding: EdgeInsets.only(top: 10),
-  //               ),
-  //               new Divider(
-  //                 color: Colors.grey[600],
-  //               ),
-  //               Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: <Widget>[
-  //                   Container(
-  //                     width: MediaQuery.of(context).size.width / 2.8,
-  //                     child: _updateButton(),
-  //                   ),
-  //                   Container(
-  //                     width: MediaQuery.of(context).size.width / 2.8,
-  //                     child: _cancelButton(ctx: context),
-  //                   ),
-  //                 ],
-  //               )
-  //             ],
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
   @override
   void initState() {
@@ -334,6 +178,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           shrinkWrap: true,
                           itemCount: orderArray == null ? 0 : cards.length,
                           itemBuilder: (BuildContext context, int index) {
+                            print("Build Card Length : $index");
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () => _onTileClicked(index),
@@ -785,40 +630,61 @@ class _CartViewFinalState extends State<CartViewFinal> {
       loadingScreen = true;
       errorCode = false;
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     OrderResponse orderResponse;
     if (OrderServices.orderUnderUpdateIndex != -1) {
+      print("updating Order");
       orderResponse =
           await OrderServices.updateOrder(userNotes: _userNotes.text);
+
+      setState(() {
+        if (orderResponse != null) {
+          if (orderResponse.changedPriceProducts.length > 0 ||
+              orderResponse.inactiveProducts.length > 0) {
+            _showBottomSheet(
+                notActive: orderResponse.inactiveProducts,
+                priceProblem: orderResponse.changedPriceProducts);
+
+            loadingScreen = false;
+            errorCode = false;
+          } else if (orderResponse.success) {
+            CartViewFinal.message = orderResponse.reason;
+            // CartServices.cartProducts.clear();
+            prefs.setString("orderUnderUpdateId", "-1");
+            OrderServices.orderUnderUpdateIndex = -1;
+          }
+        } else {
+          loadingScreen = false;
+          errorCode = true;
+        }
+      });
     } else {
       orderResponse =
           await OrderServices.submitNewOrder(userNotes: _userNotes.text);
-    }
-    print("orderResponse");
-    print(orderResponse.toString());
 
-    setState(() {
-      if (orderResponse != null) {
-        if (orderResponse.changedPriceProducts.length > 0 ||
-            orderResponse.inactiveProducts.length > 0) {
-          _showBottomSheet(
-              notActive: orderResponse.inactiveProducts,
-              priceProblem: orderResponse.changedPriceProducts);
+      setState(() {
+        if (orderResponse != null) {
+          if (orderResponse.changedPriceProducts.length > 0 ||
+              orderResponse.inactiveProducts.length > 0) {
+            _showBottomSheet(
+                notActive: orderResponse.inactiveProducts,
+                priceProblem: orderResponse.changedPriceProducts);
 
+            loadingScreen = false;
+            errorCode = false;
+          } else if (orderResponse.success) {
+            CartViewFinal.message = orderResponse.reason;
+            // CartServices.cartProducts.clear();
+          }
+        } else {
           loadingScreen = false;
-          errorCode = false;
-        } else if (orderResponse.success) {
-          CartViewFinal.message = orderResponse.reason;
-          CartServices.cartProducts.clear();
+          errorCode = true;
         }
-      } else {
-        loadingScreen = false;
-        errorCode = true;
-      }
-    });
+      });
+    }
 
     if (orderResponse.success == true) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-
       await prefs.remove("userCart");
       CartServices.cartProducts.clear();
 

@@ -42,8 +42,19 @@ class StoreViewState extends State<StoreView> {
   @override
   void initState() {
     super.initState();
+    bool isThereOrderUnderUbdate = false;
+    for (int i = 0; i < LoadingScreenServices.myOrdersList.length; i++) {
+      if (LoadingScreenServices.myOrdersList[i].underUpdate == "1") {
+        isThereOrderUnderUbdate = true;
+      }
+    }
     if (Services.updateOption)
       WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog());
+
+    if (isThereOrderUnderUbdate) {
+      WidgetsBinding.instance.addPostFrameCallback(
+          (_) => _showUpdateOrderInstruction(context: context));
+    }
   }
 
   Widget _updateButton() {
@@ -199,6 +210,59 @@ class StoreViewState extends State<StoreView> {
     );
   }
 
+  _showUpdateOrderInstruction({BuildContext context}) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
+                Positioned(
+                  right: -40.0,
+                  top: -40.0,
+                  child: InkResponse(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      child: Icon(Icons.close),
+                      backgroundColor: Colors.red,
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "لديك طلب قيد التعديل",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontSize: 18),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 8, right: 8),
+                      child: Text(
+                        "يرجى التأكد من تثبيت الطلب بعد الإنتهاء من تعديله، يمكنك مشاهدة محتويات الطلب ضمن سلة المشتريات أو مراجعة الطلب ضمن صفحة الطلبات",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   _openUrl(String selected) async {
     String url = "";
     if (selected == "whatsapp") {
@@ -208,14 +272,11 @@ class StoreViewState extends State<StoreView> {
       url = LoadingScreenServices.companyInformation.messengerUrl;
     } else if (selected == "facebook") {
       url = "fb://page/" +
-          LoadingScreenServices.companyInformation.facebookUrl
-              .toString();
+          LoadingScreenServices.companyInformation.facebookUrl.toString();
     } else if (selected == "instagram") {
-      url = LoadingScreenServices.companyInformation.instagramUrl
-          .toString();
+      url = LoadingScreenServices.companyInformation.instagramUrl.toString();
     } else if (selected == "website") {
-      url = LoadingScreenServices.companyInformation.websiteUrl
-          .toString();
+      url = LoadingScreenServices.companyInformation.websiteUrl.toString();
     } else if (selected == "email") {
       String platform = "Android";
       if (Platform.isIOS) {
@@ -224,8 +285,7 @@ class StoreViewState extends State<StoreView> {
       url =
           "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
     } else if (selected == "number") {
-      url =
-          "tel:${LoadingScreenServices.companyInformation.supportNumber}";
+      url = "tel:${LoadingScreenServices.companyInformation.supportNumber}";
     }
 
     if (await canLaunch(url)) {

@@ -23,8 +23,8 @@ class ApiProvider {
 
     var options = BaseOptions(
         baseUrl: mapService ? "" : BaseUrl,
-        connectTimeout: 20000,
-        receiveTimeout: 20000,
+        connectTimeout: 30000,
+        receiveTimeout: 30000,
         contentType: isUrlEncodedFormat
             ? Headers.formUrlEncodedContentType
             : Headers.jsonContentType);

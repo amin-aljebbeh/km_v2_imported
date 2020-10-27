@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
-import 'package:kammun_app/views/deliver_to/delivery_method.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api/api_URLs.dart';
@@ -10,7 +8,6 @@ import 'core/api/api_provider.dart';
 import 'core/errors/error_types.dart';
 import 'models/addAddressResponse.dart';
 import 'models/start_model.dart';
-import 'views/cart/services/cart_services.dart';
 
 class Services {
   static bool updateOption = false;

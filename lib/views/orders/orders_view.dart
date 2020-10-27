@@ -333,6 +333,10 @@ class OrdersViewState extends State<OrdersView> {
         i < LoadingScreenServices.myOrdersList[orderIndex].products.length;
         i++) {
       ProductsData product = new ProductsData();
+      Warehouse warehouses = new Warehouse();
+      List<Warehouse> listWarehouses = [];
+
+      WarehousePivot warehousePivot = new WarehousePivot();
 
       product.id =
           LoadingScreenServices.myOrdersList[orderIndex].products[i].id;
@@ -341,8 +345,13 @@ class OrdersViewState extends State<OrdersView> {
       // product.isActive = Services.myOrdersList[index].products[i].
       product.name =
           LoadingScreenServices.myOrdersList[orderIndex].products[i].name;
-      product.warehouses[0].pivot.price = LoadingScreenServices
+      warehousePivot.price = LoadingScreenServices
           .myOrdersList[orderIndex].products[i].pivot.purchasePrice;
+      warehouses.pivot = warehousePivot;
+      listWarehouses.add(warehouses);
+      product.warehouses = listWarehouses;
+      // product. warehouses[0].pivot.price = LoadingScreenServices
+      //     .myOrdersList[orderIndex].products[i].pivot.purchasePrice;
       product.productCount = int.parse(LoadingScreenServices
           .myOrdersList[orderIndex].products[i].pivot.quantity);
       product.unit =

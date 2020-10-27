@@ -113,18 +113,7 @@ class OrderServices {
 
       var barsedJson = orderResponseFromJson(jsonEncode(response.data));
 
-      if (response.statusCode == 200) {
-        if (response.data["success"]) {
-          CartServices.cartProducts.clear();
-          orderUnderUpdateIndex = -1;
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString("orderUnderUpdateId", "-1");
-
-          return barsedJson;
-
-          //return response.data["data"]["message"];
-        }
-      }
+      return barsedJson;
     } catch (e) {
       print(e);
       return null;
@@ -158,6 +147,7 @@ class OrderServices {
       url: LOCK_ORDER + orderId,
       method: httpMethods.put,
     );
+    print(response.data);
     if (response.statusCode == SUCCESS_CODE) {
       orderUnderUpdateIndex = LoadingScreenServices.myOrdersList
           .indexWhere((order) => order.id == int.parse(orderId));
