@@ -756,15 +756,17 @@ class _CartViewFinalState extends State<CartViewFinal> {
     //             new ProductDetailView(heroIndex: index + 100)));
   }
 
-  _showBottomSheet() {
+  _showBottomSheet({List<String> notActive, List<String> priceProblem}) {
     List<int> notactiveId = [];
     List<int> priceId = [];
 
     for (int i = 0; i < orderArray.length; i++) {
-      notactiveId.add(orderArray[i].id);
-    }
-    for (int i = 0; i < orderArray.length; i++) {
-      priceId.add(orderArray[i].id);
+      if (notActive.contains(orderArray[i].id.toString())) {
+        notactiveId.add(orderArray[i].id);
+      }
+      if (priceProblem.contains(orderArray[i].id.toString())) {
+        priceId.add(orderArray[i].id);
+      }
     }
     showMaterialModalBottomSheet(
       context: context,
@@ -791,20 +793,29 @@ class _CartViewFinalState extends State<CartViewFinal> {
       orderResponse =
           await OrderServices.submitNewOrder(userNotes: _userNotes.text);
     }
+    print("orderResponse");
+    print(orderResponse.toString());
 
     setState(() {
-      if (orderResponse.changedPriceProducts.length > 0 ||
-          orderResponse.inactiveProducts.length > 0) {
-        _showBottomSheet();
-      } else if (orderResponse == null) {
+      if (orderResponse != null) {
+        if (orderResponse.changedPriceProducts.length > 0 ||
+            orderResponse.inactiveProducts.length > 0) {
+          _showBottomSheet(
+              notActive: orderResponse.inactiveProducts,
+              priceProblem: orderResponse.changedPriceProducts);
+
+          loadingScreen = false;
+          errorCode = false;
+        } else if (orderResponse.success) {
+          CartViewFinal.message = orderResponse.reason;
+          CartServices.cartProducts.clear();
+        }
+      } else {
         loadingScreen = false;
         errorCode = true;
-      } else {
-        CartViewFinal.message = orderResponse.reason;
       }
     });
-    print("The Message is : ");
-    print(orderResponse.reason);
+
     if (orderResponse.success == true) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 

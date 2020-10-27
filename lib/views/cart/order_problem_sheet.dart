@@ -30,6 +30,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
   List<ProductsData> notActive;
   List<ProductsData> priceChanged;
 
+  String dialogText;
+
   makeCards() {
     priceCards = [];
     notActivecards = [];
@@ -41,6 +43,18 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
       if (widget.pricesChangesProducts.contains(orderArray[i].id)) {
         priceCards.add(i);
       }
+    }
+    if (priceCards.length > 0 && notActivecards.length == 0) {
+      dialogText =
+          "نأسف لحدوث ذلك ولكن أثناء قيامك التسوق تغير سعر  ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك مشاهدة تلك المنتجات و القيام بتحديث الطلب ليتم تحديث الأسعار او اختيار بدائل ";
+    }
+    if (notActivecards.length > 0 && priceCards.length == 0) {
+      dialogText =
+          "نأسف لحدوث ذلك و لكن أثناء قيامك بالتسوق نفذ ${notActivecards.length} من المنتجات التي قمت بإضافتها يمكنك تحديث الطلب لحذف هذه المنتجات او اختيار بدائل عنها من داخل التطبيق";
+    }
+    if (notActivecards.length > 0 && priceCards.length > 0) {
+      dialogText =
+          "نأسف لحدوث ذلك ولكن أثناء قيامك بعملية التسوق نفذ ${notActivecards.length} من المنتجات و تغير سعر ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك إختيار تحديث الطلب لمشاهدة الأسعار الجديدة و حذف المنتجات الغير متوفرة أو الضغط على إختيار بدائل لإضافتها من داخل التطبيق";
     }
   }
 
@@ -71,95 +85,134 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
         child: loginButtonWithGesture);
   }
 
-  void showUpdateDialog() {
-    setState(() {
-      loadingScreen = false;
-    });
+  void showUpdateDialog({title, body}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        // return object of type Dialog
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(1.0),
-              topRight: Radius.circular(1.0),
-              bottomLeft: Radius.circular(2.0),
-              bottomRight: Radius.circular(2.0),
+          title: new Text(
+            "حدث خطأ بالطلب",
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
             ),
           ),
-          contentPadding:
-              EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
-          titlePadding: EdgeInsets.all(0),
-          title: Container(
-            width: double.infinity,
-            height: 50,
-            color: Color.fromARGB(255, 247, 247, 247),
-            child: Align(
-              child: Padding(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: Text(
-                        "خطأ في الأسعار",
-                        style: TextStyle(
-                            fontSize: 17,
-                            color: UtilsImporter().colorUtils.primarycolor,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                      ),
-                    ),
-                    IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () => Navigator.of(context).pop())
-                  ],
-                ),
-                padding: EdgeInsets.only(left: 10),
+          content: new Text(
+            "$dialogText",
+            // maxLines: 20,
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          scrollable: true,
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text(
+                "إغلاق",
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
               ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
-          ),
-          content: Container(
-            height: 330,
-            child: Column(
-              children: <Widget>[
-                AutoSizeText(
-                    "نأسف لحدوث ذلك و لكن خلال الوقت الذي كنت تقوم به بالتسوق قام مدير النظام بتخفيض أو زيادة سعر واحد أو اكثر من المنتجات التي قمت بإضافتها لسلة مشترياتك بإمكانك تحميل الأسعار الجديدة و مراجعتها قبل إتمام الطلب أو إلغاء عملية الشراء ",
-                    maxLines: 9,
-                    style: TextStyle(
-                        color: Colors.grey[900],
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
-
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                ),
-                new Divider(
-                  color: Colors.grey[600],
-                ),
-
-                _okButton(),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: <Widget>[
-                //     Container(
-                //       width: MediaQuery.of(context).size.width / 2.8,
-                //       child: _updateButton(),
-                //     ),
-                //     Container(
-                //       width: MediaQuery.of(context).size.width / 2.8,
-                //       child: _cancelButton(ctx: context),
-                //     ),
-                //   ],
-                // )
-              ],
-            ),
-          ),
+          ],
         );
       },
     );
   }
+
+  // void showUpdateDialog() {
+  //   setState(() {
+  //     loadingScreen = false;
+  //   });
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.only(
+  //             topLeft: Radius.circular(1.0),
+  //             topRight: Radius.circular(1.0),
+  //             bottomLeft: Radius.circular(2.0),
+  //             bottomRight: Radius.circular(2.0),
+  //           ),
+  //         ),
+  //         contentPadding:
+  //             EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
+  //         titlePadding: EdgeInsets.all(0),
+  //         title: Container(
+  //           width: double.infinity,
+  //           height: 50,
+  //           color: Color.fromARGB(255, 247, 247, 247),
+  //           child: Align(
+  //             child: Padding(
+  //               child: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                 children: <Widget>[
+  //                   Padding(
+  //                     padding: const EdgeInsets.only(right: 10.0),
+  //                     child: Text(
+  //                       "حدث خطأ بالطلب",
+  //                       style: TextStyle(
+  //                           fontSize: 17,
+  //                           color: UtilsImporter().colorUtils.primarycolor,
+  //                           fontWeight: FontWeight.bold,
+  //                           fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+  //                     ),
+  //                   ),
+  //                   IconButton(
+  //                       icon: Icon(Icons.close),
+  //                       onPressed: () => Navigator.of(context).pop())
+  //                 ],
+  //               ),
+  //               padding: EdgeInsets.only(left: 10),
+  //             ),
+  //           ),
+  //         ),
+  //         content: Container(
+  //           //height: 330,
+  //           padding: EdgeInsets.all(10),
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: <Widget>[
+  //               AutoSizeText("$dialogText",
+  //                   maxLines: 9,
+  //                   style: TextStyle(
+  //                       color: Colors.grey[900],
+  //                       fontSize: 20,
+  //                       fontWeight: FontWeight.normal,
+  //                       fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
+
+  //               Padding(
+  //                 padding: EdgeInsets.only(top: 10),
+  //               ),
+  //               new Divider(
+  //                 color: Colors.grey[600],
+  //               ),
+
+  //               _okButton(),
+  //               // Row(
+  //               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               //   children: <Widget>[
+  //               //     Container(
+  //               //       width: MediaQuery.of(context).size.width / 2.8,
+  //               //       child: _updateButton(),
+  //               //     ),
+  //               //     Container(
+  //               //       width: MediaQuery.of(context).size.width / 2.8,
+  //               //       child: _cancelButton(ctx: context),
+  //               //     ),
+  //               //   ],
+  //               // )
+  //             ],
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   void initState() {
@@ -168,14 +221,10 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
 
     OrderServices.updateOrderNote != null
         ? WidgetsBinding.instance
-            .addPostFrameCallback((_) => _userNotesInitial())
+            .addPostFrameCallback((_) => showUpdateDialog())
         : {};
 
     super.initState();
-  }
-
-  _userNotesInitial() {
-    // Show PopUp Description
   }
 
   @override

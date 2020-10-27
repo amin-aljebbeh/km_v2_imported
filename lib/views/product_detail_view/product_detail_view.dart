@@ -406,16 +406,30 @@ class ProductDetailViewState extends State<ProductDetailView>
           //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
 
           Flushbar(
-            //  backgroundColor: UtilsImporter().colorUtils.kmColors,
-            message: "تم إضافة ${widget.products.name} لسلة المشتريات",
+            backgroundColor: Colors.green,
+            // titleText: Text("تمت الإضافة بنجاح"),
+            messageText: Text(
+              "تم إضافة ${widget.products.name} لسلة المشتريات",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            ),
 
+            boxShadows: [
+              BoxShadow(
+                color: UtilsImporter().colorUtils.primarycolor,
+                offset: Offset(0.0, 2.0),
+                blurRadius: 3.0,
+              )
+            ],
             icon: Icon(
               Icons.assignment_turned_in,
               size: 28.0,
-              color: Colors.greenAccent,
+              color: Colors.white,
             ),
             duration: Duration(seconds: 3),
-            leftBarIndicatorColor: Colors.blue[300],
+            leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
           )..show(context);
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -516,36 +530,33 @@ class ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  void _addFavoraite(context) {
-    // Product productToInsert = new Product();
-
-    // productToInsert.id = widget.products.id;
-    // productToInsert.name = widget.products.name;
-    // productToInsert.images = widget.products.images;
-    // productToInsert.price = widget.products.price;
-    // productToInsert.unit = widget.products.unit;
-    // productToInsert.quantity = widget.products.quantity;
-    // productToInsert.description = widget.products.description;
-
-    //REACTIVATE
-    // LoadingScreenServices.userFavoriteProducts.insert(0, widget.products);
-
-    Services.addToFavorites(widget.products.id.toString());
-
-    // Toast.show(" تم إضافة ${widget.products.name}  إلى المفضلة", context,
-    //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+  void _addFavoraite(BuildContext ctx) {
+    // Services.addToFavorites(widget.products.id.toString());
+    print("im in add to favoraitses");
+    //Navigator.of(context).pop();
 
     Flushbar(
-      //  backgroundColor: UtilsImporter().colorUtils.kmColors,
-      message: " تم إضافة ${widget.products.name}  إلى المفضلة",
-
+      messageText: Text(
+        " تم إضافة ${widget.products.name}  إلى المفضلة",
+        style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+      ),
+      boxShadows: [
+        BoxShadow(
+          color: Colors.red,
+          offset: Offset(0.0, 2.0),
+          blurRadius: 3.0,
+        )
+      ],
       icon: Icon(
         Icons.favorite,
         size: 28.0,
-        color: Colors.redAccent,
+        color: Colors.white,
       ),
       duration: Duration(seconds: 3),
-      leftBarIndicatorColor: Colors.blue[300],
+      leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
     )..show(context);
   }
 

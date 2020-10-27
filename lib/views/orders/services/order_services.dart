@@ -61,12 +61,7 @@ class OrderServices {
 
       var barsedJson = orderResponseFromJson(jsonEncode(response.data));
 
-      if (response.statusCode == 200) {
-        if (response.data["success"]) {
-          CartServices.cartProducts.clear();
-          return barsedJson;
-        }
-      }
+      return barsedJson;
     } catch (e) {
       print(e);
       return null;
