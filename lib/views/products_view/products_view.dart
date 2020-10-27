@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
+import 'package:kammun_app/utils/funny_images.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/facebook_loader.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import '../../Services.dart';
@@ -34,71 +37,84 @@ class ProductsViewState extends State<ProductsView> {
   bool theEndOfProducs = false;
   String errorMessage = "لم يتم العثور على المنتج";
 
+  final _random = new Random();
+
+  bool badWordmatched = false;
+
   Future<bool> _loadData(String query, String type) async {
     print(
         "******************** => " + page.toString() + "the CatId : " + query);
+    setState(() {
+      badWordmatched = false;
+    });
     String url = "";
-
-    if (type == "search") {
-      url = "/api/product/search/$query?page=" + page.toString();
-    } else {
-      url = "/api/category/$query?page=$page";
+    if (badWord.contains(query)) {
+      setState(() {
+        badWordmatched = true;
+      });
     }
+    if (!badWordmatched) {
+      if (type == "search") {
+        url = "/api/product/search/$query?page=" + page.toString();
+      } else {
+        url = "/api/category/$query?page=$page";
+      }
 
-    if (!theEndOfProducs) {
-      try {
-        var response = await ApiProvider.sendRequest(
-          url: url,
-          method: httpMethods.get,
-        );
-        print("------ response status code -----");
-        print(response.statusCode);
-        if (response.statusCode == SUCCESS_CODE) {
-          final products = categoryProductFromJson(jsonEncode(response.data));
-          print("----- LENGTH : ${products.data.data.length}");
-          //productsList.addAll(products.data.data);
-          for (int i = 0; i < products.data.data.length; i++) {
-            print("---------- warehouse -----------");
-            print(products.data.data[i].warehouses.length);
-            if (products.data.data[i].warehouses.length != 0) {
-              productsList.add(products.data.data[i]);
-            }
-          }
-
-          print("Done Loading");
-          if (this.mounted) {
-            setState(() {
-              if (page - 1 == products.data.lastPage) {
-                theEndOfProducs = true;
+      if (!theEndOfProducs) {
+        try {
+          var response = await ApiProvider.sendRequest(
+            url: url,
+            method: httpMethods.get,
+          );
+          print("------ response status code -----");
+          print(response.statusCode);
+          if (response.statusCode == SUCCESS_CODE) {
+            final products = categoryProductFromJson(jsonEncode(response.data));
+            print("----- LENGTH : ${products.data.data.length}");
+            //productsList.addAll(products.data.data);
+            for (int i = 0; i < products.data.data.length; i++) {
+              print("---------- warehouse -----------");
+              print(products.data.data[i].warehouses.length);
+              if (products.data.data[i].warehouses.length != 0) {
+                productsList.add(products.data.data[i]);
               }
-              searchLoading = false;
+            }
 
-              if (firstLoading == true) firstLoading = false;
+            print("Done Loading");
+            if (this.mounted) {
+              setState(() {
+                if (page - 1 == products.data.lastPage) {
+                  theEndOfProducs = true;
+                }
+                searchLoading = false;
+
+                if (firstLoading == true) firstLoading = false;
+                isLoading = false;
+              });
+            }
+            if (response.statusCode == 200)
+              return true;
+            else
+              return false;
+          } else {
+            print("------ the error code is 503 --------");
+            setState(() {
+              errorMessage =
+                  "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
               isLoading = false;
+              searchLoading = false;
+              firstLoading = false;
             });
           }
-          if (response.statusCode == 200)
-            return true;
-          else
-            return false;
-        } else {
-          print("------ the error code is 503 --------");
-          setState(() {
-            errorMessage =
-                "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
-            isLoading = false;
-            searchLoading = false;
-            firstLoading = false;
-          });
+        } catch (e) {
+          print("------- error catched ---------");
+          print(e.toString());
         }
-      } catch (e) {
-        print("------- error catched ---------");
-        print(e.toString());
+      } else {
+        return false;
       }
-    } else {
       return false;
-    }
-    return false;
+    } else {}
   }
 
   @override
@@ -237,99 +253,107 @@ class ProductsViewState extends State<ProductsView> {
         ),
         backgroundColor: Theme.of(context).primaryColorLight,
         body: SafeArea(
-          child: productsList.length == 0
-              ? searchLoading || firstLoading
-                  ? Center(
-                      child: Loader(),
-                    )
+          child: badWordmatched
+              ? Container(
+                  child: Center(
+                  child: funnyImages[_random.nextInt(funnyImages.length)],
+                ))
+              : productsList.length == 0
+                  ? searchLoading || firstLoading
+                      ? FacebookLoader()
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(errorMessage,
+                                style: TextStyle(
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk)),
+                          ),
+                        )
                   : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text(errorMessage,
-                            style: TextStyle(
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk)),
-                      ),
-                    )
-              : Padding(
-                  padding:
-                      EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 0),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: NotificationListener<ScrollNotification>(
-                            onNotification: (ScrollNotification scrollInfo) {
-                              if (!isLoading &&
-                                  scrollInfo.metrics.pixels ==
-                                      scrollInfo.metrics.maxScrollExtent) {
-                                setState(() {
-                                  page++;
-                                  isLoading = true;
-                                });
-                                _searchController.text != ""
-                                    ? _loadData(
-                                        _searchController.text, "search")
-                                    : _loadData(widget.categoryId, "category");
-                                // start loading data
+                      padding: EdgeInsets.only(
+                          left: 15, top: 10, right: 15, bottom: 0),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: NotificationListener<ScrollNotification>(
+                                onNotification:
+                                    (ScrollNotification scrollInfo) {
+                                  if (!isLoading &&
+                                      scrollInfo.metrics.pixels ==
+                                          scrollInfo.metrics.maxScrollExtent) {
+                                    setState(() {
+                                      page++;
+                                      isLoading = true;
+                                    });
+                                    _searchController.text != ""
+                                        ? _loadData(
+                                            _searchController.text, "search")
+                                        : _loadData(
+                                            widget.categoryId, "category");
+                                    // start loading data
 
-                              }
-                            },
-                            child: ListView.builder(
-                              primary: false,
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: productsList == null
-                                  ? 0
-                                  : productsList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                var eachProduct = productsList[index];
-                                print(
-                                    "--------- image length -------- $index ");
-                                print(eachProduct.images.length);
-                                return new GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () => _onTileClicked(index),
-                                  child: ProductsViewCard(
-                                    active: int.parse(eachProduct
-                                        .warehouses[0].pivot.isActive),
-                                    img: eachProduct.images.length > 0
-                                        ? LoadingScreenServices.imagePrefixUrl +
-                                            eachProduct.images[0].imageFileName
-                                        : "",
-                                    product_name: eachProduct.name,
-                                    quantity:
-                                        eachProduct.unit.toString() != "null"
+                                  }
+                                },
+                                child: ListView.builder(
+                                  primary: false,
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: productsList == null
+                                      ? 0
+                                      : productsList.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    var eachProduct = productsList[index];
+                                    print(
+                                        "--------- image length -------- $index ");
+                                    print(eachProduct.images.length);
+                                    return new GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () => _onTileClicked(index),
+                                      child: ProductsViewCard(
+                                        active: int.parse(eachProduct
+                                            .warehouses[0].pivot.isActive),
+                                        img: eachProduct.images.length > 0
+                                            ? LoadingScreenServices
+                                                    .imagePrefixUrl +
+                                                eachProduct
+                                                    .images[0].imageFileName
+                                            : "",
+                                        product_name: eachProduct.name,
+                                        quantity: eachProduct.unit.toString() !=
+                                                "null"
                                             ? eachProduct.quantity.toString() +
                                                 " " +
                                                 eachProduct.unit.toString()
                                             : eachProduct.quantity.toString(),
-                                    price: int.parse(eachProduct
-                                        .warehouses[0].pivot.price
-                                        .split(".")[0]),
-                                    index: index,
-                                  ),
-                                );
-                              },
+                                        price: int.parse(eachProduct
+                                            .warehouses[0].pivot.price
+                                            .split(".")[0]),
+                                        index: index,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          height: isLoading ? 50.0 : 0,
-                          color: Colors.transparent,
-                          child: Center(
-                            child: theEndOfProducs
-                                ? Text("تم جلب جميع المنتجات",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk))
-                                : Loader(),
-                          ),
-                        ),
-                      ])),
+                            Container(
+                              height: isLoading ? 50.0 : 0,
+                              color: Colors.transparent,
+                              child: Center(
+                                child: theEndOfProducs
+                                    ? Text("تم جلب جميع المنتجات",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: UtilsImporter()
+                                                .stringUtils
+                                                .HKGrotesk))
+                                    : Loader(),
+                              ),
+                            ),
+                          ])),
         ));
   }
 

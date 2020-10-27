@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'views/cart/CartViewFinal.dart';
 import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
+import 'views/product_detail_view/product_detail_view.dart';
 import 'views/profile/profileScreen.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
@@ -93,6 +94,7 @@ class _MyAppState extends State<MyApp> {
               '/home': (_) => HomeView(routeIndex: 0),
               '/myApp': (_) => MyApp(),
               'loading': (_) => LoadingScreen(),
+
               // '/home': (_) => LoginView(),
               '/favoraites': (_) => HomeView(routeIndex: 3),
               '/cartFinal': (_) => CartViewFinal(),

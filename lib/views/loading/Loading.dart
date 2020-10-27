@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/cartModel.dart';
+import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/home/home_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
+import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/server_update/server_update.dart';
 import 'package:kammun_app/views/update_screen/updateRequiredScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,26 +48,28 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
         print(notification['title']);
         print(notification['body']);
+        print("--------- the data route_name is -------");
+        print(message['data']['route_name']);
 
-        // Navigator.push(
-        //     context,
-        //     new MaterialPageRoute(
-        //         builder: (context) => HomeView(routeIndex: 2)));
-
-        // Navigator.pushNamed(context, '/home');
+        if (message['data']['route_name'] != null)
+          Navigator.pushNamed(context, message['data']['route_name']);
 
         _showDialog(notification['title'], notification['body']);
+
+        // if (message['data']['route_name'] == "/productDetails") {
+
+        // }
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
         final notification = message['data'];
         print(notification['title']);
         print(notification['body']);
-        // Navigator.push(
-        //     context, new MaterialPageRoute(builder: (context) => HomeView(2)));
-        // _showDialog(notification['body']);
+        if (message['data']['route_name'] != null)
+          Navigator.pushNamed(context, message['data']['route_name']);
 
-        // _showDialog(notification['title'], notification['body']);
+        _showDialog(notification['title'], notification['body']);
+
         notificationValue = notification;
       },
       onResume: (Map<String, dynamic> message) async {
@@ -71,6 +77,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
         print("onResume: $message");
         // Navigator.push(
         //     context, new MaterialPageRoute(builder: (context) => HomeView(2)));
+
+        if (message['data']['route_name'] != null)
+          Navigator.pushNamed(context, message['data']['route_name']);
 
         _showDialog(notification['title'], notification['body']);
       },

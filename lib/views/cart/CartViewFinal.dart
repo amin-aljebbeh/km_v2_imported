@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/orders_response.dart';
@@ -99,6 +97,13 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
   _userNotesInitial() {
     _userNotes.text = OrderServices.updateOrderNote;
+
+    if (CartServices.userNote != null) {
+      _userNotes.text = CartServices.userNote;
+    }
+    if (CartServices.userCopoun != null) {
+      _copouns.text = CartServices.userCopoun;
+    }
   }
 
   _cartChanged() async {
@@ -630,6 +635,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
       loadingScreen = true;
       errorCode = false;
     });
+    CartServices.userNote = _userNotes.text;
+    CartServices.userCopoun = _copouns.text;
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     OrderResponse orderResponse;
@@ -687,6 +694,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
     if (orderResponse.success == true) {
       await prefs.remove("userCart");
       CartServices.cartProducts.clear();
+
+      CartServices.userNote = "";
+      CartServices.userCopoun = "";
 
       Navigator.push(
           context,

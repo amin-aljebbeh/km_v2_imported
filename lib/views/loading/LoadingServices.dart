@@ -60,13 +60,28 @@ class LoadingScreenServices {
     if (response.statusCode == SUCCESS_CODE) {
       final supportedCitiesResponse =
           supportedCityOriginalFromJson(jsonEncode(response.data));
-      supportedCitiesList.clear();
+      supportedCitiesListIntro.clear();
       print(supportedCitiesResponse.data.length);
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
-        supportedCitiesList.add(new DropdownMenuItem(
-          child: Text(
-            "${supportedCitiesResponse.data[i].name} - التوصيل : ${supportedCitiesResponse.data[i].deliveryPrice}",
-            style: TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+        supportedCitiesListIntro.add(new DropdownMenuItem(
+          child: ListTile(
+            //isThreeLine: true,
+            leading: Icon(
+              Icons.pin_drop,
+              color: UtilsImporter().colorUtils.kmColors,
+            ),
+            title: Text(
+              '${supportedCitiesResponse.data[i].name} ',
+              style: TextStyle(
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              ),
+            ),
+            trailing: Text(
+              "${supportedCitiesResponse.data[i].deliveryPrice.split(".")[0]}",
+              style: TextStyle(
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              ),
+            ),
           ),
           value: supportedCitiesResponse.data[i].name +
               " price" +
@@ -74,7 +89,6 @@ class LoadingScreenServices {
               "id" +
               supportedCitiesResponse.data[i].id.toString(),
         ));
-        print("The dropdownList value:" + supportedCitiesResponse.data[i].name);
       }
       return true;
     } else {

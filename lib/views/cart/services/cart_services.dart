@@ -4,12 +4,14 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartServices {
   static List<ProductsData> cartProducts = List<ProductsData>();
+
+  static String userNote;
+  static String userCopoun;
 
   static Future getUserCart() async {
     print("------------ GET USER CART FROM SHARED PREFRENCES --------------");

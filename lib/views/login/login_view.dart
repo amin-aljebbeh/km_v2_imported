@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool errorCode = false;
   bool loadingScreen = false;
   String selectedValue;
+  String errorMessage;
 
   @override
   void initState() {
@@ -40,9 +41,15 @@ class _LoginScreenState extends State<LoginScreen> {
     //print("^^^^^^^^^^ : " + myController.text.toString());
     SystemChannels.textInput.invokeMethod('TextInput.hide');
 
-    if (myController.text.length != 10 || selectedValue == null) {
+    if (myController.text.length != 10) {
       setState(() {
         errorCode = true;
+        errorMessage = "يرجى إدخال رقم يتألف من عشرة خانات";
+      });
+    } else if (selectedValue == null) {
+      setState(() {
+        errorCode = true;
+        errorMessage = "يرجى إختيار أقرب مدينة إليك";
       });
     } else {
       try {
@@ -101,41 +108,85 @@ class _LoginScreenState extends State<LoginScreen> {
     Widget _ShowCountryInput() {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-        child: new TextField(
-          keyboardType: TextInputType.numberWithOptions(),
-          cursorColor: UtilsImporter().colorUtils.kmColors,
+
+        child: TextField(
+          maxLengthEnforced: true,
+          maxLength: 10,
+
+          // keyboardType: TextInputType.multiline,
           maxLines: 1,
-          textInputAction: TextInputAction.next,
           controller: myController,
-          style: new TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-              fontWeight: FontWeight.w500,
-              fontSize: 16.0,
-              color: Theme.of(context).primaryColorDark),
+          keyboardType: TextInputType.numberWithOptions(),
+          // onTap: _requestFocus,
+          // focusNode: _focusNode,
+          //cursorColor: Theme.of(ctx).cursorColor,
+
           decoration: InputDecoration(
-              enabledBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.primarycolor),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.primarycolor),
-              ),
-              hintText: LoadingScreenServices.companyInformation.phone,
-              hintStyle: TextStyle(
-                  color: Colors.black26,
-                  fontSize: 15,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-              labelText: "رقم الموبايل",
-              labelStyle: TextStyle(
-                fontSize: 25,
-                color: UtilsImporter().colorUtils.greycolor,
+            labelText: "رقم الموبايل",
+            labelStyle: TextStyle(
                 fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                fontSize: 30),
+            hintStyle: TextStyle(color: Colors.black45),
+            border: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: UtilsImporter().colorUtils.primarycolor,
               ),
-              border: new UnderlineInputBorder(
-                  borderSide: new BorderSide(
-                      color: UtilsImporter().colorUtils.primarycolor))),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: UtilsImporter().colorUtils.kmColors,
+              ),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            // labelStyle: TextStyle(
+            //     color: _focusNode.hasFocus ? Colors.orange : Colors.black),
+            // labelText: _focusNode.hasFocus ? 'Your Address' : "",
+          ),
         ),
+        // child: new TextField(
+        //   keyboardType: TextInputType.numberWithOptions(),
+        //   cursorColor: UtilsImporter().colorUtils.kmColors,
+        //   maxLines: 1,
+        //   textInputAction: TextInputAction.next,
+        //   controller: myController,
+        //   style: new TextStyle(
+        //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+        //       fontWeight: FontWeight.w500,
+        //       fontSize: 16.0,
+        //       color: Theme.of(context).primaryColorDark),
+        //   decoration: InputDecoration(
+        //     enabledBorder: UnderlineInputBorder(
+        //       borderSide:
+        //           BorderSide(color: UtilsImporter().colorUtils.primarycolor),
+        //     ),
+        //     border: OutlineInputBorder(
+        //       borderSide: BorderSide(
+        //         color: UtilsImporter().colorUtils.primarycolor,
+        //       ),
+        //       borderRadius: BorderRadius.circular(5.0),
+        //     ),
+        //     focusedBorder: UnderlineInputBorder(
+        //       borderSide:
+        //           BorderSide(color: UtilsImporter().colorUtils.primarycolor),
+        //     ),
+        //     hintText: LoadingScreenServices.companyInformation.phone,
+        //     hintStyle: TextStyle(
+        //         color: Colors.black26,
+        //         fontSize: 15,
+        //         fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+        //     labelText: "رقم الموبايل",
+        //     labelStyle: TextStyle(
+        //       fontSize: 25,
+        //       color: UtilsImporter().colorUtils.greycolor,
+        //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+        //     ),
+        //     // border: new UnderlineInputBorder(
+        //     //     borderSide: new BorderSide(
+        //     //         color: UtilsImporter().colorUtils.primarycolor)
+        //     //         )
+        //   ),
+        // ),
       );
     }
 
@@ -181,9 +232,9 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               errorCode
                   ? AlertMessages(
-                      text: "يرجى إدخال رقم يتألف من عشر خانات",
+                      text: "$errorMessage",
                       messageType: "internetError",
-                      headerText: "الرقم الذي أدخلته غير صالح",
+                      headerText: "مشكلة بالبيانات المدخلة",
                     )
                   : Container(
                       padding: EdgeInsets.zero,
@@ -204,11 +255,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.white),
               Container(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 20.0, right: 15, left: 15),
+                    padding: const EdgeInsets.only(
+                        top: 20.0, right: 15, left: 15, bottom: 10),
                     child: Center(
                       child: Text(
-                          "تحتاج لإدخال رقم هاتفك المحمول لتسطيع إتمام طلبك ( هذا الإجراء فقط لمرة واحدة )",
+                          "تحتاج لإدخال رقم هاتفك المحمول و اختيار أقرب مدينة إليك حتى تتمكن من استعمال تطبيق كمّون (هذا الإجراء فقط لمرة واحدة ) .",
                           style: TextStyle(
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                             fontSize: 20,
@@ -220,35 +271,43 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.white),
               Container(
                 padding: EdgeInsets.only(left: 5, right: 5),
+                margin: EdgeInsets.only(left: 20, right: 20),
                 decoration: BoxDecoration(
                   border: Border.all(
                       width: 5, color: UtilsImporter().colorUtils.kmColors),
                 ),
-                child: SearchableDropdown(
-                  isCaseSensitiveSearch: false,
-                  underline: Container(),
-                  isExpanded: true,
-                  items: LoadingScreenServices.supportedCitiesList,
-                  value: selectedValue,
-                  hint: new Text(
-                    'يرجى اختيار اقرب مدينة',
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SearchableDropdown(
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                    ),
-                  ),
-                  searchHint: new Text(
-                    'إختيار المنطقة',
-                    style: new TextStyle(
-                        fontSize: 20,
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    closeButton: "إغلاق",
+                    isCaseSensitiveSearch: false,
+                    underline: Container(),
+                    isExpanded: true,
+                    items: LoadingScreenServices.supportedCitiesListIntro,
+                    value: selectedValue,
+                    hint: new Text(
+                      'يرجى اختيار اقرب مدينة',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                      ),
+                    ),
+                    searchHint: new Text(
+                      'يرجى كتابة اسم المنطقة',
+                      style: new TextStyle(
+                          fontSize: 20,
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value;
+                        print(value);
+                      });
+                    },
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      selectedValue = value;
-                      print(value);
-                    });
-                  },
                 ),
               ),
               Padding(
