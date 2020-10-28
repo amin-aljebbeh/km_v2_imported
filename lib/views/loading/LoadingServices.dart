@@ -52,6 +52,8 @@ class LoadingScreenServices {
 
   // -------------------------------------------------------//
 
+  StreamController<int> streamController = StreamController();
+
   Future<bool> getSupportedCity() async {
     var response = await ApiProvider.sendRequest(
       url: GET_SUPPORTED_CITIES,
@@ -117,18 +119,28 @@ class LoadingScreenServices {
 
   int finishedRequests = 0;
   int contractsLength = 0;
-  StreamController<int> streamController;
 
   Future<bool> featchStartInformation() async {
     try {
       print("------------- get Start Screen Information returns ---------");
 
-      await CartServices.getUserCart();
       bool userLoggedIn = await checkIfUserloddedIn();
       if (userLoggedIn) {
         try {
-          bool everyThingGood = await getStartScreenInformation();
+          streamController.stream.listen((data) async {
+            print("DataReceived: " + data.toString());
 
+            finishedRequests++;
+            print("Finished Requests: " + finishedRequests.toString());
+            if (2 == finishedRequests) {
+              print(DateTime.now());
+              streamController.close();
+            }
+          });
+          CartServices.getUserCart(streamController: streamController);
+
+          bool everyThingGood = await getStartScreenInformation(
+              streamController: streamController);
           if (everyThingGood) {
             return true;
           } else {
@@ -148,7 +160,8 @@ class LoadingScreenServices {
     }
   }
 
-  static Future<bool> getStartScreenInformation() async {
+  static Future<bool> getStartScreenInformation(
+      {StreamController<int> streamController}) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String buildNumber = packageInfo.buildNumber;
     int lastSupported;
@@ -396,9 +409,12 @@ class LoadingScreenServices {
         ));
         print("The dropdownList value:" + supportedCitiesResponse.data[i].name);
       }
+      if (streamController != null) streamController.add(200);
+
       return true;
     } else {
       print("------------ ERROR GET COMPANY INFORMATION --------------");
+
       print(response.statusCode.toString());
       return false;
     }
