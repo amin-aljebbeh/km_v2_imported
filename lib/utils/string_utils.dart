@@ -150,6 +150,7 @@ class StringUtils {
 
   // App Name
   String Grocery = 'كمّـون';
+  String rating_order = "تقييم الطلب";
 
   String get_started = 'البداية';
 

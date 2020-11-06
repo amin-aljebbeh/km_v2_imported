@@ -378,6 +378,58 @@ class OrdersViewState extends State<OrdersView> {
     );
   }
 
+  Widget _showRatingButton(int index) {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () async {
+        setState(() {
+          orderLoaded = false;
+          errorMessage = false;
+        });
+        bool x =
+            true; // await OrderServices.lockOrder(orderDataList[index].id.toString());
+        if (x) {
+          setState(() {
+            orderLoaded = true;
+            errorMessage = false;
+          });
+          // _moveOrderProductsToCart(orderIndex: index);
+          // Toast.show("بإمكانك تعديل طلبك الآن", context,
+          //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+          // orderDataList[index].underUpdate = "1";
+        } else {
+          setState(() {
+            orderLoaded = true;
+            errorMessage = true;
+            errorMessageVlue = "لا يمكنك تعديل طلبك";
+          });
+
+          // Toast.show("حدثت مشكلة أثناء إلغاء الطلب يرجى تحديث لصفحة", context,
+          //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+        }
+      },
+      child: new Container(
+        height: 40.0,
+        decoration: new BoxDecoration(
+            color: UtilsImporter().colorUtils.kmColors,
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new Text(
+            UtilsImporter().stringUtils.rating_order.toUpperCase(),
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
+        child: showConfirmButtonWithGesture);
+  }
+
   Widget _showEditButton(int index) {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
       onTap: () async {

@@ -38,10 +38,10 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.kammun.app"
+        applicationId "com.kammunapp.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 6
+        versionCode 8
         versionName flutterVersionName
     }
 

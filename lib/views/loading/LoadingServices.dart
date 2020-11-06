@@ -306,14 +306,14 @@ class LoadingScreenServices {
       // });
 
       myOrdersList.addAll(startRequest.orders.original.data.data);
-      myOrdersList.sort((a, b) {
-        if (a.id < b.id)
-          return 1;
-        else if (a.id > b.id)
-          return -1;
-        else
-          return 0;
-      });
+      // myOrdersList.sort((a, b) {
+      //   if (a.id < b.id)
+      //     return 1;
+      //   else if (a.id > b.id)
+      //     return -1;
+      //   else
+      //     return 0;
+      // });
       print("======= Get User Order DONE =======");
 
       for (int i = 0; i < myOrdersList.length; i++) {

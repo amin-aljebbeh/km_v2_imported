@@ -5,6 +5,7 @@ import 'package:kammun_app/utils/Loader.dart';
 
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
@@ -34,6 +35,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    if (LoadingScreenServices.supportedCitiesListIntro.length == 0) {
+      Navigator.push(context,
+          new MaterialPageRoute(builder: (context) => new InternetError()));
+    }
     super.initState();
   }
 
