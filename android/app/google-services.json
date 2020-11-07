@@ -9,7 +9,7 @@
         "client_info": {
             "mobilesdk_app_id": "1:501860290616:android:ef6ae7e1b942db069c56cd",
             "android_client_info": {
-                "package_name": "com.kammun.app"
+                "package_name": "com.kammunapp.app"
             }
         },
         "oauth_client": [{

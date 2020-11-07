@@ -618,6 +618,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
         priceId.add(orderArray[i].id);
       }
     }
+    print("------ price array ---------");
+    print(priceId);
+    print("-------- inactive array --------");
+    print(notactiveId);
     showMaterialModalBottomSheet(
       context: context,
       builder: (context, scrollController) => OrderProblemBottomSheet(

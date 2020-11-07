@@ -27,8 +27,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
 
   bool loadingScreen = false;
   bool errorCode = false;
-  List<ProductsData> notActive;
-  List<ProductsData> priceChanged;
+  // List<ProductsData> notActive;
+  // List<ProductsData> priceChanged;
 
   String dialogText;
 
@@ -44,6 +44,12 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
         priceCards.add(i);
       }
     }
+    print("not active");
+    print(widget.notActiveProducts);
+    print(notActivecards);
+    print("price");
+    print(widget.pricesChangesProducts);
+    print(priceCards);
     if (priceCards.length > 0 && notActivecards.length == 0) {
       dialogText =
           "نأسف لحدوث ذلك ولكن أثناء قيامك التسوق تغير سعر  ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك مشاهدة تلك المنتجات و القيام بتحديث الطلب ليتم تحديث الأسعار او اختيار بدائل ";
@@ -123,97 +129,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
     );
   }
 
-  // void showUpdateDialog() {
-  //   setState(() {
-  //     loadingScreen = false;
-  //   });
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         shape: RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.only(
-  //             topLeft: Radius.circular(1.0),
-  //             topRight: Radius.circular(1.0),
-  //             bottomLeft: Radius.circular(2.0),
-  //             bottomRight: Radius.circular(2.0),
-  //           ),
-  //         ),
-  //         contentPadding:
-  //             EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
-  //         titlePadding: EdgeInsets.all(0),
-  //         title: Container(
-  //           width: double.infinity,
-  //           height: 50,
-  //           color: Color.fromARGB(255, 247, 247, 247),
-  //           child: Align(
-  //             child: Padding(
-  //               child: Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                 children: <Widget>[
-  //                   Padding(
-  //                     padding: const EdgeInsets.only(right: 10.0),
-  //                     child: Text(
-  //                       "حدث خطأ بالطلب",
-  //                       style: TextStyle(
-  //                           fontSize: 17,
-  //                           color: UtilsImporter().colorUtils.primarycolor,
-  //                           fontWeight: FontWeight.bold,
-  //                           fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-  //                     ),
-  //                   ),
-  //                   IconButton(
-  //                       icon: Icon(Icons.close),
-  //                       onPressed: () => Navigator.of(context).pop())
-  //                 ],
-  //               ),
-  //               padding: EdgeInsets.only(left: 10),
-  //             ),
-  //           ),
-  //         ),
-  //         content: Container(
-  //           //height: 330,
-  //           padding: EdgeInsets.all(10),
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: <Widget>[
-  //               AutoSizeText("$dialogText",
-  //                   maxLines: 9,
-  //                   style: TextStyle(
-  //                       color: Colors.grey[900],
-  //                       fontSize: 20,
-  //                       fontWeight: FontWeight.normal,
-  //                       fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
-
-  //               Padding(
-  //                 padding: EdgeInsets.only(top: 10),
-  //               ),
-  //               new Divider(
-  //                 color: Colors.grey[600],
-  //               ),
-
-  //               _okButton(),
-  //               // Row(
-  //               //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               //   children: <Widget>[
-  //               //     Container(
-  //               //       width: MediaQuery.of(context).size.width / 2.8,
-  //               //       child: _updateButton(),
-  //               //     ),
-  //               //     Container(
-  //               //       width: MediaQuery.of(context).size.width / 2.8,
-  //               //       child: _cancelButton(ctx: context),
-  //               //     ),
-  //               //   ],
-  //               // )
-  //             ],
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
   @override
   void initState() {
     orderArray = CartServices.cartProducts;
@@ -281,7 +196,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                                   child: Padding(
                                     padding: EdgeInsets.only(
                                         left: 0, right: 0, top: 0),
-                                    child: cardBodyNotActive(index, context),
+                                    child: cardBodyNotActive(
+                                        notActivecards[index], context),
                                   ),
                                 ),
                               );
@@ -339,7 +255,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                                   child: Padding(
                                     padding: EdgeInsets.only(
                                         left: 0, right: 0, top: 0),
-                                    child: cardBodyPriceProblem(index, context),
+                                    child: cardBodyPriceProblem(priceCards[index], context),
                                   ),
                                 ),
                               );
