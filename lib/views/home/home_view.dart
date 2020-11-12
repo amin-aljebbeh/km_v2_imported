@@ -1,14 +1,18 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/favoraites/favoraites.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/store/store_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeView extends StatefulWidget {
   final int routeIndex;
   final bool isFromUpdateOrder;
-  final dynamic notificationValue;
+  dynamic notificationValue;
 
   HomeView(
       {this.routeIndex,
@@ -26,13 +30,125 @@ class HomeViewState extends State<HomeView> {
   bool _isFromUpdateOrder;
   HomeViewState(this._selectedIndex, this._isFromUpdateOrder);
 
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String firebaseToken;
+
   @override
   void initState() {
     widget.notificationValue != null
         ? WidgetsBinding.instance
             .addPostFrameCallback((_) => _showNotificationDialog(ctx: context))
         : {};
+
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _initializeNotificaiton(ctx: context));
     super.initState();
+  }
+
+  _initializeNotificaiton({BuildContext ctx}) {
+    print("====== Starting initializing Firebase ======");
+    //checkUpdate = _checkAppVersion();
+
+// Here you can write your code
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        final notification = message['notification'];
+
+        print(notification['title']);
+        print(notification['body']);
+        print("--------- the data route_name is -------");
+        print(message['data']['route_name']);
+
+        if (message['data']['route_name'] != null)
+          Navigator.pushNamed(context, message['data']['route_name']);
+
+        _showDialog(notification['title'], notification['body']);
+
+        // if (message['data']['route_name'] == "/productDetails") {
+
+        // }
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        final notification = message['data'];
+        print(notification['title']);
+        print(notification['body']);
+        if (message['data']['route_name'] != null)
+          Navigator.pushNamed(context, message['data']['route_name']);
+
+        _showDialog(notification['title'], notification['body']);
+
+        widget.notificationValue = notification;
+      },
+      onResume: (Map<String, dynamic> message) async {
+        final notification = message['data'];
+        print("onResume: $message");
+        // Navigator.push(
+        //     context, new MaterialPageRoute(builder: (context) => HomeView(2)));
+
+        if (message['data']['route_name'] != null)
+          Navigator.pushNamed(context, message['data']['route_name']);
+
+        _showDialog(notification['title'], notification['body']);
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+    getoken();
+    print("====== End initializing Firebase ======");
+  }
+
+  Future getoken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.get("firebase_token") == null) {
+      firebaseToken = await _firebaseMessaging.getToken();
+      prefs.setString("firebase_token", firebaseToken);
+      print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
+      print(firebaseToken);
+    } else {
+      print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
+
+      print(prefs.get("firebase_token"));
+    }
+  }
+
+  void _showDialog(title, body) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(
+            "$title",
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          content: new Text(
+            "$body",
+            // maxLines: 20,
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          scrollable: true,
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text(
+                "إغلاق",
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   _showNotificationDialog({BuildContext ctx}) {

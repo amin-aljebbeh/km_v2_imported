@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,7 @@ import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../Services.dart';
@@ -33,13 +35,94 @@ class _LoginScreenState extends State<LoginScreen> {
   String selectedValue;
   String errorMessage;
 
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  String firebaseToken;
+
   @override
   void initState() {
     if (LoadingScreenServices.supportedCitiesListIntro.length == 0) {
       Navigator.push(context,
           new MaterialPageRoute(builder: (context) => new InternetError()));
     }
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _initializeNotificaiton(ctx: context));
+
     super.initState();
+  }
+
+  _initializeNotificaiton({BuildContext ctx}) {
+    print("====== Starting initializing Firebase ======");
+    //checkUpdate = _checkAppVersion();
+
+    Future.delayed(const Duration(seconds: 0), () {
+// Here you can write your code
+
+      _firebaseMessaging.requestNotificationPermissions(
+          const IosNotificationSettings(sound: true, badge: true, alert: true));
+      getoken();
+      print("====== End initializing Firebase ======");
+    });
+  }
+
+  Future getoken() async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // if (prefs.get("firebase_token") == null) {
+    //   firebaseToken = await _firebaseMessaging.getToken();
+    //   prefs.setString("firebase_token", firebaseToken);
+    //   print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
+    //   print(firebaseToken);
+    // } else {
+    //   print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
+
+    //   print(prefs.get("firebase_token"));
+    // }
+
+    Future.delayed(const Duration(seconds: 100), () {
+// Here you can write your code
+
+      _firebaseMessaging.requestNotificationPermissions(
+          const IosNotificationSettings(sound: true, badge: true, alert: true));
+      getoken();
+      print("====== End initializing Firebase ======");
+    });
+  }
+
+  void _showDialog(title, body) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(
+            "$title",
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          content: new Text(
+            "$body",
+            // maxLines: 20,
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          scrollable: true,
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text(
+                "إغلاق",
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future featchOtp() async {
@@ -113,7 +196,6 @@ class _LoginScreenState extends State<LoginScreen> {
     Widget _ShowCountryInput() {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-
         child: TextField(
           maxLengthEnforced: true,
           maxLength: 10,
@@ -122,9 +204,6 @@ class _LoginScreenState extends State<LoginScreen> {
           maxLines: 1,
           controller: myController,
           keyboardType: TextInputType.numberWithOptions(),
-          // onTap: _requestFocus,
-          // focusNode: _focusNode,
-          //cursorColor: Theme.of(ctx).cursorColor,
 
           decoration: InputDecoration(
             labelText: "رقم الموبايل",
@@ -144,54 +223,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               borderRadius: BorderRadius.circular(5.0),
             ),
-            // labelStyle: TextStyle(
-            //     color: _focusNode.hasFocus ? Colors.orange : Colors.black),
-            // labelText: _focusNode.hasFocus ? 'Your Address' : "",
           ),
         ),
-        // child: new TextField(
-        //   keyboardType: TextInputType.numberWithOptions(),
-        //   cursorColor: UtilsImporter().colorUtils.kmColors,
-        //   maxLines: 1,
-        //   textInputAction: TextInputAction.next,
-        //   controller: myController,
-        //   style: new TextStyle(
-        //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-        //       fontWeight: FontWeight.w500,
-        //       fontSize: 16.0,
-        //       color: Theme.of(context).primaryColorDark),
-        //   decoration: InputDecoration(
-        //     enabledBorder: UnderlineInputBorder(
-        //       borderSide:
-        //           BorderSide(color: UtilsImporter().colorUtils.primarycolor),
-        //     ),
-        //     border: OutlineInputBorder(
-        //       borderSide: BorderSide(
-        //         color: UtilsImporter().colorUtils.primarycolor,
-        //       ),
-        //       borderRadius: BorderRadius.circular(5.0),
-        //     ),
-        //     focusedBorder: UnderlineInputBorder(
-        //       borderSide:
-        //           BorderSide(color: UtilsImporter().colorUtils.primarycolor),
-        //     ),
-        //     hintText: LoadingScreenServices.companyInformation.phone,
-        //     hintStyle: TextStyle(
-        //         color: Colors.black26,
-        //         fontSize: 15,
-        //         fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-        //     labelText: "رقم الموبايل",
-        //     labelStyle: TextStyle(
-        //       fontSize: 25,
-        //       color: UtilsImporter().colorUtils.greycolor,
-        //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-        //     ),
-        //     // border: new UnderlineInputBorder(
-        //     //     borderSide: new BorderSide(
-        //     //         color: UtilsImporter().colorUtils.primarycolor)
-        //     //         )
-        //   ),
-        // ),
       );
     }
 
