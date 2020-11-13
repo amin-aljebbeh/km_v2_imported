@@ -11,6 +11,7 @@ import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
+import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
@@ -90,8 +91,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
   void onrRemove(item) {
     setState(() {
       cards.removeAt(item);
-      CartServices.cartProducts.removeAt(item);
       CartViewState.cards.removeAt(item);
+
+      if (cards.length == 0) {
+        KammunRestart.restartApp(context);
+      }
     });
   }
 
@@ -526,6 +530,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               .pivot
                               .price
                               .split(".")[0]));
+
+                          total += (int.parse(orderArray[index]
+                              .warehouses[0]
+                              .pivot
+                              .price
+                              .split(".")[0]));
                         });
                         _cartChanged();
                       },
@@ -564,8 +574,20 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 .split(".")[0]));
                             orderArray[index].productCount =
                                 orderArray[index].productCount - 1;
+
+                            total -= (int.parse(orderArray[index]
+                                .warehouses[0]
+                                .pivot
+                                .price
+                                .split(".")[0]));
                           } else if (orderArray[index].productCount == 1) {
                             subtotal -= (int.parse(orderArray[index]
+                                .warehouses[0]
+                                .pivot
+                                .price
+                                .split(".")[0]));
+
+                            total -= (int.parse(orderArray[index]
                                 .warehouses[0]
                                 .pivot
                                 .price

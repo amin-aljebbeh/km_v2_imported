@@ -1,3 +1,4 @@
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -23,8 +24,11 @@ class OrdersView extends StatefulWidget {
 
 class OrdersViewState extends State<OrdersView> {
   Future getOrders;
+  int rateValue;
+
   @override
   void initState() {
+    rateValue = 0;
     // print("the Order list from Loading : ");
     // print(LoadingScreenServices.myOrdersList);
     // if (LoadingScreenServices.myOrdersList.length > 5) {
@@ -35,6 +39,15 @@ class OrdersViewState extends State<OrdersView> {
 
     //orderDataList = LoadingScreenServices.myOrdersList;
     super.initState();
+  }
+
+  FocusNode _focusNode = new FocusNode();
+  TextEditingController _textFieldController = new TextEditingController();
+
+  void _requestFocus() {
+    setState(() {
+      FocusScope.of(context).requestFocus(_focusNode);
+    });
   }
 
   bool orderLoaded = true;
@@ -220,6 +233,11 @@ class OrdersViewState extends State<OrdersView> {
                                               6
                                           ? _showEditButton(index)
                                           : Container(),
+                                      int.parse(orderDataList[index]
+                                                  .orderStatusId) ==
+                                              4
+                                          ? _showRatingButton(context,index)
+                                          : Container(),
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(top: 8.0),
@@ -378,35 +396,178 @@ class OrdersViewState extends State<OrdersView> {
     );
   }
 
-  Widget _showRatingButton(int index) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () async {
-        setState(() {
-          orderLoaded = false;
-          errorMessage = false;
+  void _settingModalBottomSheet(context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext bc) {
+          return StatefulBuilder(
+              builder: (BuildContext context, setState) => ListView(
+                    shrinkWrap: true,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.fromLTRB(
+                            0, screenHeight * 0.02, 0, screenHeight * 0.02),
+                        decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide()),
+                        ),
+                        child: Text('تقييم الخدمة',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                color: UtilsImporter().colorUtils.primarycolor,
+                                fontSize: 25)), //font color is diffrent
+                      ),
+                      Container(
+                        margin:
+                            EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
+                        child: Text(
+                          "كيف كانت تجربة طلبك في كمّون؟ ( تقييمك وملاحظاتك تساعدنا في تطوير خدمة كمّون )",
+                          style: TextStyle(
+                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              color: Colors.black),
+                        ), //font color is diffrent
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.fromLTRB(
+                            0, screenHeight * 0.07, 17, screenHeight * 0.07),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              iconSize: 40,
+                              icon: Icon(Icons.sentiment_very_satisfied,
+                                  color: rateValue == 5
+                                      ? Colors.green
+                                      : Colors.grey),
+                              onPressed: () {
+                                setState(() {
+                                  rateValue = 5;
+                                  //  feedbackBloc.add(UpdateRateValue(rateValue: 5));
+                                });
+                              },
+                            ),
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              iconSize: 40,
+                              icon: Icon(Icons.sentiment_satisfied,
+                                  color: rateValue == 4
+                                      ? Colors.lightGreen
+                                      : Colors.grey),
+                              onPressed: () {
+                                setState(() {
+                                  rateValue = 4;
+                                  //  feedbackBloc.add(UpdateRateValue(rateValue: 4));
+                                });
+                              },
+                            ),
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              iconSize: 40,
+                              icon: Icon(Icons.sentiment_neutral,
+                                  color: rateValue == 3
+                                      ? Colors.amber
+                                      : Colors.grey),
+                              onPressed: () {
+                                setState(() {
+                                  rateValue = 3;
+                                  //  feedbackBloc.add(UpdateRateValue(rateValue: 3));
+                                });
+                              },
+                            ),
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              iconSize: 40,
+                              icon: Icon(Icons.sentiment_dissatisfied,
+                                  color: rateValue == 2
+                                      ? Colors.redAccent
+                                      : Colors.grey),
+                              onPressed: () {
+                                setState(() {
+                                  rateValue = 2;
+                                  //  feedbackBloc.add(UpdateRateValue(rateValue: 2));
+                                });
+                              },
+                            ),
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              iconSize: 40,
+                              onPressed: () {
+                                setState(() {
+                                  rateValue = 1;
+                                  // feedbackBloc.add(UpdateRateValue(rateValue: 1));
+                                });
+                              },
+                              icon: Icon(Icons.mood_bad),
+                              color: rateValue == 1 ? Colors.red : Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin:
+                            EdgeInsets.fromLTRB(17, 0, 17, screenHeight * 0.03),
+                        child: AutoSizeTextField(
+                          textAlign: TextAlign.start,
+                          textAlignVertical: TextAlignVertical.top,
+                          controller: _textFieldController,
+                          maxLines: 4,
+                          onTap: _requestFocus,
+                          focusNode: _focusNode,
+                          cursorColor: Theme.of(context).cursorColor,
+                          decoration: InputDecoration(
+                            hintStyle: TextStyle(color: Colors.black45),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  //  color: AppColors.grayBorder,
+                                  ),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.orange,
+                              ),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            labelStyle: TextStyle(
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                color: _focusNode.hasFocus
+                                    ? Colors.orange
+                                    : Colors.grey),
+                            alignLabelWithHint: true,
+                            labelText: 'شاركنا بأفكارك (إختياري)',
+                          ),
+                        ),
+                      ),
+                      _submitRating(),
+                      // Container(
+                      //   margin: EdgeInsets.fromLTRB(17, 0, 17, screenHeight * 0.17),
+                      //   child: CCAppButton(
+                      //     text: "Submit feedback",
+                      //     onPressed: rateValue > 0
+                      //         ? () {
+                      //             feedbackBloc.add(SubmitRate(
+                      //                 feedbackSection: widget.feedbackSection,
+                      //                 clientId: _loadingProvider.clientId,
+                      //                 comment: _textFieldController.text));
+                      //           }
+                      //         : null,
+                      //   ),
+                      // )
+                    ],
+                  ));
         });
-        bool x =
-            true; // await OrderServices.lockOrder(orderDataList[index].id.toString());
-        if (x) {
-          setState(() {
-            orderLoaded = true;
-            errorMessage = false;
-          });
-          // _moveOrderProductsToCart(orderIndex: index);
-          // Toast.show("بإمكانك تعديل طلبك الآن", context,
-          //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-          // orderDataList[index].underUpdate = "1";
-        } else {
-          setState(() {
-            orderLoaded = true;
-            errorMessage = true;
-            errorMessageVlue = "لا يمكنك تعديل طلبك";
-          });
+  }
 
-          // Toast.show("حدثت مشكلة أثناء إلغاء الطلب يرجى تحديث لصفحة", context,
-          //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-        }
-      },
+  Widget _showRatingButton(BuildContext ctx,int orderIndex) {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () => _settingModalBottomSheet(ctx),
       child: new Container(
         height: 40.0,
         decoration: new BoxDecoration(
@@ -427,6 +588,32 @@ class OrdersViewState extends State<OrdersView> {
 
     return new Padding(
         padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
+        child: showConfirmButtonWithGesture);
+  }
+
+  Widget _submitRating() {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () async {},
+      child: new Container(
+        height: 40.0,
+        decoration: new BoxDecoration(
+            color: Colors.green,
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new Text(
+            UtilsImporter().stringUtils.submit_feedback.toUpperCase(),
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 20),
         child: showConfirmButtonWithGesture);
   }
 

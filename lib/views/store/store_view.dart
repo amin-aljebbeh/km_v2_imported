@@ -308,9 +308,9 @@ class StoreViewState extends State<StoreView> {
         "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
     String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
 
-    String androidUrl = androidGrating + LoadingScreen.iOSShareUrl;
+    String androidUrl = androidGrating + LoadingScreenServices.iOSShareUrl;
     String iosGrating = "\n لتحميل التطبيق على الآيفون \n";
-    String iPhoneUrl = iosGrating + LoadingScreen.androidShareUrl;
+    String iPhoneUrl = iosGrating + LoadingScreenServices.androidShareUrl;
 
     Share.share(infoMessage + androidUrl + iPhoneUrl);
   }

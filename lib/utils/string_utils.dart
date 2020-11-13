@@ -158,6 +158,8 @@ class StringUtils {
   String edit_address = 'تعديل';
 
   String edit_order = 'تعديل الطلب';
+    String submit_feedback = 'تقييم الطلب';
+
 
   //Labels
   String sign_in = 'تسجيل الدخول';

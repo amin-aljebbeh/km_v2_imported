@@ -25,13 +25,13 @@ class _OTPVerificationState extends State<OTPVerification> {
 
   Future checkOtpValidation(String verificationCode) async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-
+    print(LoginServices.replaceFarsiNumber( verificationCode.toString()));
     try {
       setState(() {
         loadingScreen = true;
       });
       bool response = await Services.verifyCode(
-          LoginServices.replaceFarsiNumber(verificationCode));
+          LoginServices.replaceFarsiNumber(LoginServices.replaceFarsiNumber(verificationCode.toString())));
       print(response.toString());
       if (response) {
         KammunRestart.restartApp(context);

@@ -34,6 +34,7 @@ class LoadingScreenServices {
   static bool updateRequired = false;
   static bool updateOptional = false;
   static bool checkIfLoggedIn = false;
+
   // -------------------------------------------------------//
 
   // Supported City variables
@@ -229,7 +230,13 @@ class LoadingScreenServices {
       // Get Category
       categoryList.clear();
       final category = startRequest.category.original.data;
-      categoryList.addAll(category);
+      for (int i = 0; i < category.length; i++) {
+        if (category[i].warehouses.length > 0 &&
+            category[i].warehouses[0].pivot.isActive == "1") {
+          categoryList.add(category[i]);
+        }
+      }
+      //  categoryList.addAll(category);
 
       categoryList.sort((a, b) {
         if ((int.parse(a.warehouses[0].pivot.priority)) >

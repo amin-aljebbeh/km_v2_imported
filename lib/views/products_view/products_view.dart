@@ -497,6 +497,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 )),
                 widget.active == 0
                     ? Badge(
+                      borderRadius: BorderRadius.zero,
                         shape: BadgeShape.square,
                         badgeColor: UtilsImporter().colorUtils.primarycolor,
                         badgeContent: Padding(

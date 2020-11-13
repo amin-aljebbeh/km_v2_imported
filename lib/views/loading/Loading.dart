@@ -17,8 +17,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoadingScreen extends StatefulWidget {
   static String user_token = "Bearer ";
   static String updateUrl = "";
-  static String androidShareUrl = "";
-  static String iOSShareUrl = "";
 
   @override
   _LoadingScreenState createState() => _LoadingScreenState();

@@ -24,7 +24,7 @@ class _SubCategoryState extends State<SubCategory> {
 
   @override
   Widget build(BuildContext context) {
-    void _onTileClicked(int categoryId) {
+    void _onTileClicked(int index) {
       // String category_name = categoriesListArray[index]['category_name'];
 
       // Navigator.push(
@@ -34,15 +34,48 @@ class _SubCategoryState extends State<SubCategory> {
       //   ),
       // );
 
+      List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
+
+    for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
+      print(LoadingScreenServices.categoryList[i].parentCategoryId.toString() +
+          "   ------   " +
+          index.toString());
+      if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() ==
+          index.toString()) {
+        subCategoryList.add(LoadingScreenServices.categoryList[i]);
+      }
+    }
+
+    if (subCategoryList.length > 0) {
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+          builder: (context) => new SubCategory(
+            subCategory: subCategoryList,
+          ),
+        ),
+      );
+    } else {
       Navigator.push(
         context,
         new MaterialPageRoute(
           builder: (context) => new ProductsView(
-            heroIndex: categoryId,
-            categoryId: categoryId.toString(),
+            heroIndex: (index),
+            categoryId: index.toString(),
           ),
         ),
       );
+    }
+
+      // Navigator.push(
+      //   context,
+      //   new MaterialPageRoute(
+      //     builder: (context) => new ProductsView(
+      //       heroIndex: categoryId,
+      //       categoryId: categoryId.toString(),
+      //     ),
+      //   ),
+      // );
     }
 
     Widget _showSearchTxtFld() {

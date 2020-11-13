@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
         print("input number : " + myController.text);
         print("Signature: ###################" + signature.toString());
         if (signature.toString().length != 11) {
-          signature = "";
+          signature = "no";
         }
         bool response = await Services.loginUser(
             phoneNumber:
