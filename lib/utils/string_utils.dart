@@ -158,8 +158,7 @@ class StringUtils {
   String edit_address = 'تعديل';
 
   String edit_order = 'تعديل الطلب';
-    String submit_feedback = 'تقييم الطلب';
-
+  String submit_feedback = 'تقييم الطلب';
 
   //Labels
   String sign_in = 'تسجيل الدخول';
@@ -210,6 +209,13 @@ class StringUtils {
   String delivery = 'إجرة التوصيل';
   String total = 'المجموع الكلي';
 
+  // String location_request =
+  //     "بحال كنت متواجد بنفس المكان الذي سنقوم بتوصيل الطلب إليه بإمكانك مشاركة موقعك الحالي مما سيساعد كابتن التوصيل بالإستدلال على العنوان بشكل أفضل \n هذا الإجراء إختياري و لكنه يساعد في عملية التوصيل \n ملاحظة: يتم الوصول لعنوانك فقط في هذه المرحلة ولا يقوم التطبيق أبدا بجمع أو تتبع موقعك في أي مرحلة أخرى";
+  String loaction_request_info =
+      "مشاركة موقعك على الخريطة يمكن أن يساعد كابتن التوصيل على توصيل الطلب. \n يرجى تجاوز هذه المرحلة بحال كنت تقوم بالطلب لعنوان مغاير لموقعك الحالي";
+  String location_request_note =
+      "ملاحظة: هذا الإجراء لمرة واحدة واختياري ولايقوم تطبيق كمّون بتتبع موقعك او طلبه خارج هذه المرحلة";
+
   String delete = 'حذف';
 
   String add_new_address = '+ إضافة عنوان جديد';
@@ -226,6 +232,7 @@ class StringUtils {
   String city = 'اسم / رقم البناء';
   String state = 'الطابق:';
   String country = 'علامة قريبة:';
+  String dont_want_to_share_location = "لا أريد مشاركة موقعي على الخريطة";
 
   String profile_info = 'معلومات الحساب';
   String profile_info_descrip = 'تغيير معلومات الحساب';

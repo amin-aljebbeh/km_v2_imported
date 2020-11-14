@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -5,6 +6,7 @@ import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:location/location.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:toast/toast.dart';
 
@@ -34,13 +36,15 @@ class AddAddressViewState extends State<AddAddressView> {
 
   bool isLoading = false;
   bool isError = false;
-
+  bool userIgnorShareLocation;
   String selectedValue;
+
+  double lat;
+  double lon;
 
   @override
   void initState() {
     super.initState();
-
     if (widget.addressIndex != null) {
       streetController.text =
           LoadingScreenServices.userAddress[widget.addressIndex].street;
@@ -68,7 +72,17 @@ class AddAddressViewState extends State<AddAddressView> {
 
       // selectedValue =
       //     Services.userAddress[widget.addressIndex].supportedCityName;
+
+      userIgnorShareLocation = false;
+      print(userIgnorShareLocation);
+      print("userIgnorShareLocation Changed Value ");
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -125,7 +139,7 @@ class AddAddressViewState extends State<AddAddressView> {
                               _ShowCityInput(),
                               _ShowStateInput(),
                               _ShowCountryInput(),
-                              _showAddAddressButton()
+                              _showAddAddressButton(ctx: context)
                             ])))));
   }
 
@@ -196,6 +210,9 @@ class AddAddressViewState extends State<AddAddressView> {
         onSubmitted: (term) {
           FocusScope.of(context).requestFocus(_cityFocus);
         },
+        onChanged: (v) {
+          setState(() {});
+        },
         style: new TextStyle(
             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
             fontWeight: FontWeight.w500,
@@ -232,6 +249,9 @@ class AddAddressViewState extends State<AddAddressView> {
         autofocus: true,
         onSubmitted: (term) {
           FocusScope.of(context).requestFocus(_stateFocus);
+        },
+        onChanged: (v) {
+          setState(() {});
         },
         style: new TextStyle(
             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
@@ -270,6 +290,9 @@ class AddAddressViewState extends State<AddAddressView> {
         onSubmitted: (term) {
           FocusScope.of(context).requestFocus(_countryFocus);
         },
+        onChanged: (v) {
+          setState(() {});
+        },
         style: new TextStyle(
             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
             fontWeight: FontWeight.w500,
@@ -307,6 +330,9 @@ class AddAddressViewState extends State<AddAddressView> {
         onSubmitted: (term) {
           _countryFocus.unfocus();
         },
+        onChanged: (v) {
+          setState(() {});
+        },
         style: new TextStyle(
             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
             fontWeight: FontWeight.w500,
@@ -331,17 +357,200 @@ class AddAddressViewState extends State<AddAddressView> {
     );
   }
 
-  Widget _showAddAddressButton() {
+  void _settingModalBottomSheet(context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: StatefulBuilder(builder: (BuildContext context, setState) {
+              return ListView(
+                shrinkWrap: true,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.fromLTRB(
+                        0, screenHeight * 0.02, 0, screenHeight * 0.02),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide()),
+                    ),
+                    child: Text('هل تريد مشاركة موقعك؟',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            color: UtilsImporter().colorUtils.kmColors,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25)), //font color is diffrent
+                  ),
+                  Container(
+                    margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
+                    child: Text(
+                      UtilsImporter().stringUtils.loaction_request_info,
+                      style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          color: UtilsImporter().colorUtils.primarycolor,
+                          fontSize: 18),
+                    ), //font color is diffrent
+                  ),
+
+                  Container(
+                    margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
+                    child: Text(
+                      UtilsImporter().stringUtils.location_request_note,
+                      style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          color: Colors.red),
+                    ), //font color is diffrent
+                  ),
+                  //   _submitRating(),
+
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8.0, left: 8, right: 8, bottom: 3),
+                    child: _showGetUserLocation(ctx: context),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 0.0, left: 8, right: 8, bottom: 40),
+                    child: _showIgnoreAddLocation(
+                        ctx: context,
+                        text: UtilsImporter()
+                            .stringUtils
+                            .dont_want_to_share_location),
+                  ),
+                ],
+              );
+            }),
+          );
+        });
+  }
+
+  Widget _showGetUserLocation({BuildContext ctx, String text}) {
+    final GestureDetector loginButtonWithGesture = new GestureDetector(
+      onTap: () {
+        _getUserLocation();
+        Navigator.of(context).pop();
+      },
+      // onTap: () => _settingModalBottomSheet(ctx),
+      child: new Container(
+        height: 50.0,
+        decoration: new BoxDecoration(
+            color: Colors.green,
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new AutoSizeText(
+            "مشاركة الموقع",
+            maxLines: 1,
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 35.0),
+        child: selectedValue == null ||
+                countryController.text == "" ||
+                stateController.text == "" ||
+                streetController.text == ""
+            ? InkWell(
+                onTap: () => _showToast(),
+                child: new Container(
+                  height: 50.0,
+                  decoration: new BoxDecoration(
+                      color: Colors.grey[400],
+                      borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+                  child: new Center(
+                    child: new Text(
+                      "حفظ العنوان",
+                      style: new TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    ),
+                  ),
+                ),
+              )
+            : loginButtonWithGesture);
+  }
+
+  Widget _showAddAddressButton({BuildContext ctx, String text}) {
     final GestureDetector loginButtonWithGesture = new GestureDetector(
       onTap: _addAddressBtnTapped,
+      // onTap: () => _settingModalBottomSheet(ctx),
       child: new Container(
         height: 50.0,
         decoration: new BoxDecoration(
             color: UtilsImporter().colorUtils.primarycolor,
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
-          child: new Text(
-            "حفظ العنوان",
+          child: new AutoSizeText(
+            text ?? "حفظ العنوان",
+            maxLines: 1,
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 35.0),
+        child: selectedValue == null ||
+                countryController.text == "" ||
+                stateController.text == "" ||
+                streetController.text == ""
+            ? InkWell(
+                onTap: () => _showToast(),
+                child: new Container(
+                  height: 50.0,
+                  decoration: new BoxDecoration(
+                      color: Colors.grey[400],
+                      borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+                  child: new Center(
+                    child: new Text(
+                      "حفظ العنوان",
+                      style: new TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    ),
+                  ),
+                ),
+              )
+            : loginButtonWithGesture);
+  }
+
+  Widget _showIgnoreAddLocation({BuildContext ctx, String text}) {
+    final GestureDetector loginButtonWithGesture = new GestureDetector(
+      onTap: () {
+        setState(() {
+          userIgnorShareLocation = true;
+        });
+        Navigator.of(context).pop();
+
+        _addAddressBtnTapped();
+      },
+      // onTap: () => _settingModalBottomSheet(ctx),
+      child: new Container(
+        height: 50.0,
+        decoration: new BoxDecoration(
+            color: UtilsImporter().colorUtils.primarycolor,
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new AutoSizeText(
+            text ?? "حفظ العنوان",
+            maxLines: 1,
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -398,104 +607,164 @@ class AddAddressViewState extends State<AddAddressView> {
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
   }
 
-  Future<void> _addAddressBtnTapped() async {
-    Address newUserAddress = new Address();
+  var location = new Location();
 
-    //     final streetController = TextEditingController();
-    // final cityController = TextEditingController();
-    // final stateController = TextEditingController();
-    // final countryController = TextEditingController();
-    print("city id " + selectedValue.split("id")[1].toString());
+  Map<String, double> userLocation;
 
-    newUserAddress.deliveryPrice =
-        int.parse(selectedValue.split("price")[1].split("id")[0].split(".")[0]);
-    newUserAddress.supportedCityName = selectedValue.split("price")[0];
-    newUserAddress.street = streetController.text;
-    newUserAddress.building = cityController.text.length == 0
-        ? "لايوجد رقم بناء"
-        : cityController.text;
-    newUserAddress.floor = stateController.text;
-    newUserAddress.description = countryController.text;
-    newUserAddress.supportedCityId = selectedValue.split("id")[1];
+  // bool bottomSheetLoading = false;
 
-    if (widget.addressIndex != null) {
-      LoadingScreenServices.userAddress[widget.addressIndex].supportedCityName =
-          newUserAddress.supportedCityName;
-      LoadingScreenServices.userAddress[widget.addressIndex].street =
-          newUserAddress.street;
-      LoadingScreenServices.userAddress[widget.addressIndex].building =
-          newUserAddress.building;
-      LoadingScreenServices.userAddress[widget.addressIndex].floor =
-          newUserAddress.floor;
-      LoadingScreenServices.userAddress[widget.addressIndex].description =
-          newUserAddress.description;
-      LoadingScreenServices.userAddress[widget.addressIndex].supportedCityId =
-          newUserAddress.supportedCityId.toString();
-      setState(() {
-        isLoading = true;
-        isError = false;
-      });
+  Future<void> _getUserLocation() async {
+    setState(() {
+      isLoading = true;
+    });
+    LocationData currentLocation;
 
-      bool addressUpdted = await Services.updateAddress(
-          addressId: LoadingScreenServices.userAddress[widget.addressIndex].id
-              .toString(),
-          city: newUserAddress.supportedCityName,
-          street: newUserAddress.street,
-          building: newUserAddress.building,
-          floor: newUserAddress.floor,
-          description: newUserAddress.description,
-          supportedCityId: newUserAddress.supportedCityId.toString());
-
-      if (addressUpdted) {
-        setState(() {
-          isLoading = false;
-          isError = false;
+    if (await location.hasPermission() == PermissionStatus.granted) {
+      try {
+        await location.getLocation().then((onValue) {
+          setState(() {
+            userLocation = {
+              "latitude": onValue.latitude,
+              "longitude": onValue.longitude
+            };
+            lat = onValue.latitude;
+            lon = onValue.longitude;
+            print("----- the lat , lon is ------");
+            print(lat);
+            print(lon);
+          });
         });
-        Navigator.pop(context);
-        Navigator.pop(context);
-        if (widget.isFromDeliveryScreen) {
-          Navigator.pushNamed(context, '/delivery');
-        } else {
-          Navigator.pushNamed(context, '/profile');
-        }
-      } else {
-        setState(() {
-          isLoading = false;
-          isError = true;
-        });
+
+        _addAddressBtnTapped();
+      } catch (e) {
+        currentLocation = null;
       }
     } else {
-      LoadingScreenServices.userAddress.insert(0, newUserAddress);
+      await location.requestPermission().then((onValue) =>
+          onValue == PermissionStatus.granted ? _getUserLocation() : {});
+    }
+  }
 
-      setState(() {
-        isLoading = true;
-        isError = false;
-      });
-      bool successAddingAddress = await Services.addNewAddress(
-          newUserAddress.supportedCityName,
-          newUserAddress.street,
-          newUserAddress.building,
-          newUserAddress.floor,
-          newUserAddress.description,
-          newUserAddress.supportedCityId.toString());
+  Future<void> _addAddressBtnTapped() async {
+    print("selectedValue $selectedValue");
+    print("countryController + ${countryController.text}");
+    print("stateController + ${stateController.text}");
+    print("streetController + ${streetController.text}");
+    if (userIgnorShareLocation == null) {
+      userIgnorShareLocation = false;
+    }
 
-      if (successAddingAddress) {
+    if (userLocation == null && !userIgnorShareLocation) {
+      _settingModalBottomSheet(context);
+    } else {
+      Address newUserAddress = new Address();
+
+      //     final streetController = TextEditingController();
+      // final cityController = TextEditingController();
+      // final stateController = TextEditingController();
+      // final countryController = TextEditingController();
+      print("city id " + selectedValue.split("id")[1].toString());
+
+      newUserAddress.deliveryPrice = int.parse(
+          selectedValue.split("price")[1].split("id")[0].split(".")[0]);
+      newUserAddress.supportedCityName = selectedValue.split("price")[0];
+      newUserAddress.street = streetController.text;
+      newUserAddress.building = cityController.text.length == 0
+          ? "لايوجد رقم بناء"
+          : cityController.text;
+      newUserAddress.floor = stateController.text;
+      newUserAddress.description = countryController.text;
+      newUserAddress.supportedCityId = selectedValue.split("id")[1];
+      newUserAddress.lat = lat.toString();
+      newUserAddress.lon = lon.toString();
+
+      if (widget.addressIndex != null) {
+        LoadingScreenServices.userAddress[widget.addressIndex]
+            .supportedCityName = newUserAddress.supportedCityName;
+        LoadingScreenServices.userAddress[widget.addressIndex].street =
+            newUserAddress.street;
+        LoadingScreenServices.userAddress[widget.addressIndex].building =
+            newUserAddress.building;
+        LoadingScreenServices.userAddress[widget.addressIndex].floor =
+            newUserAddress.floor;
+        LoadingScreenServices.userAddress[widget.addressIndex].description =
+            newUserAddress.description;
+        LoadingScreenServices.userAddress[widget.addressIndex].supportedCityId =
+            newUserAddress.supportedCityId.toString();
+        LoadingScreenServices.userAddress[widget.addressIndex].lat =
+            newUserAddress.lat;
+        LoadingScreenServices.userAddress[widget.addressIndex].lon =
+            newUserAddress.lat;
         setState(() {
-          isLoading = false;
+          isLoading = true;
           isError = false;
         });
-        Navigator.pop(context);
-        Navigator.pop(context);
-        if (widget.isFromDeliveryScreen) {
-          Navigator.pushNamed(context, '/delivery');
+
+        bool addressUpdted = await Services.updateAddress(
+            addressId: LoadingScreenServices.userAddress[widget.addressIndex].id
+                .toString(),
+            city: newUserAddress.supportedCityName,
+            street: newUserAddress.street,
+            building: newUserAddress.building,
+            floor: newUserAddress.floor,
+            description: newUserAddress.description,
+            supportedCityId: newUserAddress.supportedCityId.toString(),
+            lat: lat,
+            lon: lon);
+
+        if (addressUpdted) {
+          setState(() {
+            isLoading = false;
+            isError = false;
+          });
+          Navigator.pop(context);
+          Navigator.pop(context);
+          if (widget.isFromDeliveryScreen) {
+            Navigator.pushNamed(context, '/delivery');
+          } else {
+            Navigator.pushNamed(context, '/profile');
+          }
         } else {
-          Navigator.pushNamed(context, '/profile');
+          setState(() {
+            isLoading = false;
+            isError = true;
+          });
         }
       } else {
+        LoadingScreenServices.userAddress.insert(0, newUserAddress);
+
         setState(() {
-          isLoading = false;
-          isError = true;
+          isLoading = true;
+          isError = false;
         });
+        bool successAddingAddress = await Services.addNewAddress(
+            newUserAddress.supportedCityName,
+            newUserAddress.street,
+            newUserAddress.building,
+            newUserAddress.floor,
+            newUserAddress.description,
+            newUserAddress.supportedCityId.toString(),
+            lat,
+            lon);
+
+        if (successAddingAddress) {
+          setState(() {
+            isLoading = false;
+            isError = false;
+          });
+          Navigator.pop(context);
+          Navigator.pop(context);
+          if (widget.isFromDeliveryScreen) {
+            Navigator.pushNamed(context, '/delivery');
+          } else {
+            Navigator.pushNamed(context, '/profile');
+          }
+        } else {
+          setState(() {
+            isLoading = false;
+            isError = true;
+          });
+        }
       }
     }
   }

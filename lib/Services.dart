@@ -50,8 +50,15 @@ class Services {
     }
   }
 
-  static Future<bool> addNewAddress(String city, String street, String building,
-      String floor, String description, String supportedCityId) async {
+  static Future<bool> addNewAddress(
+      String city,
+      String street,
+      String building,
+      String floor,
+      String description,
+      String supportedCityId,
+      double lat,
+      double lon) async {
     //  print("------------------ ADD NEW ADDRESS  --------------------");
 
     Map addressData = {
@@ -60,7 +67,9 @@ class Services {
       'building': building,
       'floor': floor,
       'description': description,
-      "supported_city_id": supportedCityId
+      "supported_city_id": supportedCityId,
+      "latitude": lat,
+      "longitude": lon
     };
     try {
       var response = await ApiProvider.sendRequest(
@@ -92,7 +101,9 @@ class Services {
       String building,
       String floor,
       String description,
-      String supportedCityId}) async {
+      String supportedCityId,
+      double lat,
+      double lon}) async {
     //  print("------------------ ADD NEW ADDRESS  --------------------");
     print("------- ID: $addressId");
     Map addressData = {
@@ -101,7 +112,9 @@ class Services {
       'building': building,
       'floor': floor,
       'description': description,
-      "supported_city_id": supportedCityId
+      "supported_city_id": supportedCityId,
+      "latitude": lat,
+      "longitude": lon,
     };
     try {
       var response = await ApiProvider.sendRequest(

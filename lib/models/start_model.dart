@@ -1034,6 +1034,8 @@ class Address {
     this.pivot,
     this.supportedCityName,
     this.deliveryPrice,
+    this.lat,
+    this.lon,
   });
 
   int id;
@@ -1045,6 +1047,8 @@ class Address {
   AddressPivot pivot;
   String supportedCityName;
   int deliveryPrice;
+  String lat;
+  String lon;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         id: json["id"],
@@ -1055,6 +1059,8 @@ class Address {
         description: json["description"],
         supportedCityName: json["supportedCityName"],
         deliveryPrice: json["deliveryPrice"],
+        lat: json["lat"],
+        lon: json["lon"],
         pivot: AddressPivot.fromJson(json["pivot"]),
       );
 
@@ -1067,6 +1073,8 @@ class Address {
         "description": description,
         "supportedCityName": supportedCityName,
         "deliveryPrice": deliveryPrice,
+        "lat": lat,
+        "lon": lon,
         "pivot": pivot.toJson(),
       };
 }
