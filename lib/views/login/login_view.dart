@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +9,6 @@ import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../Services.dart';
@@ -35,8 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String selectedValue;
   String errorMessage;
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  String firebaseToken;
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  // String firebaseToken;
 
   @override
   void initState() {
@@ -44,48 +42,48 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.push(context,
           new MaterialPageRoute(builder: (context) => new InternetError()));
     }
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _initializeNotificaiton(ctx: context));
+    // WidgetsBinding.instance
+    //     .addPostFrameCallback((_) => _initializeNotificaiton(ctx: context));
 
     super.initState();
   }
 
-  _initializeNotificaiton({BuildContext ctx}) {
-    print("====== Starting initializing Firebase ======");
-    //checkUpdate = _checkAppVersion();
+//   _initializeNotificaiton({BuildContext ctx}) {
+//     print("====== Starting initializing Firebase ======");
+//     //checkUpdate = _checkAppVersion();
 
-    Future.delayed(const Duration(seconds: 0), () {
-// Here you can write your code
+//     Future.delayed(const Duration(seconds: 0), () {
+// // Here you can write your code
 
-      _firebaseMessaging.requestNotificationPermissions(
-          const IosNotificationSettings(sound: true, badge: true, alert: true));
-      getoken();
-      print("====== End initializing Firebase ======");
-    });
-  }
+//       _firebaseMessaging.requestNotificationPermissions(
+//           const IosNotificationSettings(sound: true, badge: true, alert: true));
+//       getoken();
+//       print("====== End initializing Firebase ======");
+//     });
+//   }
 
-  Future getoken() async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // if (prefs.get("firebase_token") == null) {
-    //   firebaseToken = await _firebaseMessaging.getToken();
-    //   prefs.setString("firebase_token", firebaseToken);
-    //   print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
-    //   print(firebaseToken);
-    // } else {
-    //   print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
+//   Future getoken() async {
+//     // SharedPreferences prefs = await SharedPreferences.getInstance();
+//     // if (prefs.get("firebase_token") == null) {
+//     //   firebaseToken = await _firebaseMessaging.getToken();
+//     //   prefs.setString("firebase_token", firebaseToken);
+//     //   print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
+//     //   print(firebaseToken);
+//     // } else {
+//     //   print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
 
-    //   print(prefs.get("firebase_token"));
-    // }
+//     //   print(prefs.get("firebase_token"));
+//     // }
 
-    Future.delayed(const Duration(seconds: 100), () {
-// Here you can write your code
+//     Future.delayed(const Duration(seconds: 100), () {
+// // Here you can write your code
 
-      _firebaseMessaging.requestNotificationPermissions(
-          const IosNotificationSettings(sound: true, badge: true, alert: true));
-      getoken();
-      print("====== End initializing Firebase ======");
-    });
-  }
+//       _firebaseMessaging.requestNotificationPermissions(
+//           const IosNotificationSettings(sound: true, badge: true, alert: true));
+//       getoken();
+//       print("====== End initializing Firebase ======");
+//     });
+//   }
 
   void _showDialog(title, body) {
     showDialog(

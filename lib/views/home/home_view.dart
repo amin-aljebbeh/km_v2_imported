@@ -95,7 +95,7 @@ class HomeViewState extends State<HomeView> {
     );
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
-    getoken();
+      getoken();
     print("====== End initializing Firebase ======");
   }
 

@@ -130,7 +130,6 @@ class LoadingScreenServices {
         try {
           streamController.stream.listen((data) async {
             print("DataReceived: " + data.toString());
-
             finishedRequests++;
             print("Finished Requests: " + finishedRequests.toString());
             if (2 == finishedRequests) {
