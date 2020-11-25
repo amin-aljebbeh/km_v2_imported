@@ -672,22 +672,30 @@ class _CartViewFinalState extends State<CartViewFinal> {
           await OrderServices.updateOrder(userNotes: _userNotes.text);
 
       setState(() {
-        if (orderResponse != null) {
-          if (orderResponse.changedPriceProducts.length > 0 ||
-              orderResponse.inactiveProducts.length > 0) {
-            _showBottomSheet(
-                notActive: orderResponse.inactiveProducts,
-                priceProblem: orderResponse.changedPriceProducts);
+        try {
+          if (orderResponse != null) {
+            if (orderResponse.changedPriceProducts.length > 0 ||
+                orderResponse.inactiveProducts.length > 0) {
+              _showBottomSheet(
+                  notActive: orderResponse.inactiveProducts,
+                  priceProblem: orderResponse.changedPriceProducts);
 
+              loadingScreen = false;
+              errorCode = false;
+            } else if (orderResponse.success) {
+              CartViewFinal.message = orderResponse.data;
+              // CartServices.cartProducts.clear();
+              prefs.setString("orderUnderUpdateId", "-1");
+              OrderServices.orderUnderUpdateIndex = -1;
+            } else if (!orderResponse.success) {
+              loadingScreen = false;
+              errorCode = true;
+            }
+          } else {
             loadingScreen = false;
-            errorCode = false;
-          } else if (orderResponse.success) {
-            CartViewFinal.message = orderResponse.reason;
-            // CartServices.cartProducts.clear();
-            prefs.setString("orderUnderUpdateId", "-1");
-            OrderServices.orderUnderUpdateIndex = -1;
+            errorCode = true;
           }
-        } else {
+        } catch (e) {
           loadingScreen = false;
           errorCode = true;
         }
@@ -697,20 +705,30 @@ class _CartViewFinalState extends State<CartViewFinal> {
           await OrderServices.submitNewOrder(userNotes: _userNotes.text);
 
       setState(() {
-        if (orderResponse != null) {
-          if (orderResponse.changedPriceProducts.length > 0 ||
-              orderResponse.inactiveProducts.length > 0) {
-            _showBottomSheet(
-                notActive: orderResponse.inactiveProducts,
-                priceProblem: orderResponse.changedPriceProducts);
+        try {
+          if (orderResponse != null) {
+            if (orderResponse.changedPriceProducts.length > 0 ||
+                orderResponse.inactiveProducts.length > 0) {
+              _showBottomSheet(
+                  notActive: orderResponse.inactiveProducts,
+                  priceProblem: orderResponse.changedPriceProducts);
 
+              loadingScreen = false;
+              errorCode = false;
+            } else if (orderResponse.success) {
+              print("orderData is :");
+              print(orderResponse.data.toString());
+              CartViewFinal.message = orderResponse.data;
+              // CartServices.cartProducts.clear();
+            } else if (!orderResponse.success) {
+              loadingScreen = false;
+              errorCode = true;
+            }
+          } else {
             loadingScreen = false;
-            errorCode = false;
-          } else if (orderResponse.success) {
-            CartViewFinal.message = orderResponse.reason;
-            // CartServices.cartProducts.clear();
+            errorCode = true;
           }
-        } else {
+        } catch (e) {
           loadingScreen = false;
           errorCode = true;
         }
@@ -728,7 +746,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
           context,
           new MaterialPageRoute(
               builder: (context) =>
-                  ThankYouView(orderMessage: orderResponse.reason)));
+                  ThankYouView(orderMessage: orderResponse.data)));
 
       // Navigator.pushNamedAndRemoveUntil(
       //     context, '/thankyou', ModalRoute.withName('/home'),

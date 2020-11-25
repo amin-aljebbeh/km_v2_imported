@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
@@ -379,22 +380,6 @@ class ProductDetailViewState extends State<ProductDetailView>
         if (LoadingScreen.user_token.length > 5) {
           Navigator.of(context).pop(true);
 
-          // ProductsData productToAdd = new ProductsData();
-          // List<Warehouse> warehouses = new List<Warehouse>();
-          // Pivot pivot = new Pivot();
-          // pivot.price = widget.products.warehouses[0].pivot.price;
-          // warehouses[0].pivot = pivot;
-          // productToAdd.warehouses = warehouses;
-
-          // productToAdd.id = widget.products.id;
-          // productToAdd.name = widget.products.name;
-          // productToAdd.quantity = widget.products.quantity;
-          // // productToAdd.warehouses[0].pivot.price =
-          // //     widget.products.warehouses[0].pivot.price;
-          // productToAdd.unit = widget.products.unit;
-          // productToAdd.productCount = no_of_orders;
-          // productToAdd.images = widget.products.images;
-
           print("========= product price ========");
 
           print(widget.products.warehouses[0].pivot.price);
@@ -474,6 +459,58 @@ class ProductDetailViewState extends State<ProductDetailView>
     final GestureDetector addAddToOrderButtonWithGesture = new GestureDetector(
       onTap: () {
         _addToFavoraitBtnTapped(ctx);
+        if (LoadingScreenServices.userFavoriteProducts
+            .any((productId) => productId.id == widget.products.id)) {
+          Flushbar(
+            backgroundColor: Colors.red[900],
+            messageText: Text(
+              " تم إضافة ${widget.products.name}  إلى المفضلة",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            ),
+            boxShadows: [
+              BoxShadow(
+                color: Colors.red,
+                offset: Offset(0.0, 2.0),
+                blurRadius: 3.0,
+              )
+            ],
+            icon: Icon(
+              Icons.favorite,
+              size: 28.0,
+              color: Colors.white,
+            ),
+            duration: Duration(seconds: 3),
+            // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+          )..show(context);
+        } else {
+          Flushbar(
+            backgroundColor: Colors.red[900],
+            messageText: Text(
+              "تم إزالة ${widget.products.name}  من المفضلة",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            ),
+            boxShadows: [
+              BoxShadow(
+                color: Colors.red,
+                offset: Offset(0.0, 2.0),
+                blurRadius: 3.0,
+              )
+            ],
+            icon: Icon(
+              Icons.favorite,
+              size: 28.0,
+              color: Colors.white,
+            ),
+            duration: Duration(seconds: 3),
+            // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+          )..show(context);
+        }
       },
       child: Container(
         height: 50.0,
@@ -517,7 +554,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                   )
                   .length ==
               0
-          ? _addFavoraite(context)
+          ? _addFavoraite(context, widget.products)
           : _removeFavoraite();
       if (widget.isFromFavoraiteScreen) {
         Navigator.of(context).pushNamedAndRemoveUntil(
@@ -530,34 +567,12 @@ class ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  void _addFavoraite(BuildContext ctx) {
-    // Services.addToFavorites(widget.products.id.toString());
-    print("im in add to favoraitses");
-    //Navigator.of(context).pop();
+  void _addFavoraite(BuildContext ctx, ProductsData product) {
+    Services.addToFavorites(widget.products.id.toString());
+    LoadingScreenServices.userFavoriteProducts.add(product);
 
-    Flushbar(
-      messageText: Text(
-        " تم إضافة ${widget.products.name}  إلى المفضلة",
-        style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-      ),
-      boxShadows: [
-        BoxShadow(
-          color: Colors.red,
-          offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        )
-      ],
-      icon: Icon(
-        Icons.favorite,
-        size: 28.0,
-        color: Colors.white,
-      ),
-      duration: Duration(seconds: 3),
-      leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-    )..show(context);
+    print("im in add to favoraitses");
+    // Navigator.of(context).pop();
   }
 
   void _removeFavoraite() {
@@ -570,18 +585,5 @@ class ProductDetailViewState extends State<ProductDetailView>
 
     // Toast.show("تم إزالة ${widget.products.name}  من المفضلة", context,
     //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-
-    Flushbar(
-      //  backgroundColor: UtilsImporter().colorUtils.kmColors,
-      message: "تم إزالة ${widget.products.name}  من المفضلة",
-
-      icon: Icon(
-        Icons.favorite,
-        size: 28.0,
-        color: Colors.redAccent,
-      ),
-      duration: Duration(seconds: 3),
-      leftBarIndicatorColor: Colors.blue[300],
-    )..show(context);
   }
 }

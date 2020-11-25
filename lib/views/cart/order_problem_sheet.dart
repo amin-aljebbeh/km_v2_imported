@@ -52,7 +52,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
     print(priceCards);
     if (priceCards.length > 0 && notActivecards.length == 0) {
       dialogText =
-          "نأسف لحدوث ذلك ولكن أثناء قيامك التسوق تغير سعر  ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك مشاهدة تلك المنتجات و القيام بتحديث الطلب ليتم تحديث الأسعار او اختيار بدائل ";
+          "نأسف لحدوث ذلك ولكن أثناء قيامك بالتسوق تغير سعر  ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك مشاهدة تلك المنتجات و القيام بتحديث الطلب ليتم تحديث الأسعار او اختيار بدائل ";
     }
     if (notActivecards.length > 0 && priceCards.length == 0) {
       dialogText =

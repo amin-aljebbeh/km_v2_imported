@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
@@ -47,7 +48,7 @@ class LoadingScreenServices {
 
   // User Veriables
   static List<Address> userAddress = List<Address>();
-  static List<OrderProducts> userFavoriteProducts = List<OrderProducts>();
+  static List<ProductsData> userFavoriteProducts = List<ProductsData>();
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
   static String userNumber = "لم تقم بتسجيل رقم";
 

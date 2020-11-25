@@ -50,7 +50,7 @@ dependencies:
   group_button: ^1.0.2
   flushbar: ^1.10.4   
   shimmer: ^1.1.2
-  flutter_bloc: ^5.0.1
+  flutter_bloc: ^6.1.0
   location: ^3.0.2
 
 

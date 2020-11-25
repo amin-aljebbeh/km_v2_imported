@@ -15,12 +15,14 @@ class OrderResponse {
     this.reason,
     this.inactiveProducts,
     this.changedPriceProducts,
+    this.data,
   });
 
   bool success;
   String reason;
   List<String> inactiveProducts;
   List<String> changedPriceProducts;
+  String data;
 
   factory OrderResponse.fromJson(Map<String, dynamic> json) {
     List<String> inactiveProducts = new List<String>();
@@ -28,6 +30,7 @@ class OrderResponse {
 
     return OrderResponse(
       success: json["success"],
+      data: json["data"],
       reason: json["reason"],
       inactiveProducts: json["inactive_products"] != null
           ? List<String>.from(json["inactive_products"].map((x) => x))
@@ -41,6 +44,7 @@ class OrderResponse {
   Map<String, dynamic> toJson() => {
         "success": success,
         "reason": reason,
+        "data": data,
         "inactive_products": List<dynamic>.from(inactiveProducts.map((x) => x)),
         "changed_price_products":
             List<dynamic>.from(changedPriceProducts.map((x) => x)),
