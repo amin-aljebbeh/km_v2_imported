@@ -52,6 +52,7 @@ dependencies:
   shimmer: ^1.1.2
   flutter_bloc: ^6.1.0
   location: ^3.0.2
+  responsive_flutter: ^0.0.4
 
 
 flutter_icons:

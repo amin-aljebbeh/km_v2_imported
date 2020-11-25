@@ -5,6 +5,7 @@ import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 import '../../Services.dart';
 
 class SubCategory extends StatefulWidget {
@@ -36,36 +37,37 @@ class _SubCategoryState extends State<SubCategory> {
 
       List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
 
-    for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
-      print(LoadingScreenServices.categoryList[i].parentCategoryId.toString() +
-          "   ------   " +
-          index.toString());
-      if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() ==
-          index.toString()) {
-        subCategoryList.add(LoadingScreenServices.categoryList[i]);
+      for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
+        print(
+            LoadingScreenServices.categoryList[i].parentCategoryId.toString() +
+                "   ------   " +
+                index.toString());
+        if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() ==
+            index.toString()) {
+          subCategoryList.add(LoadingScreenServices.categoryList[i]);
+        }
       }
-    }
 
-    if (subCategoryList.length > 0) {
-      Navigator.push(
-        context,
-        new MaterialPageRoute(
-          builder: (context) => new SubCategory(
-            subCategory: subCategoryList,
+      if (subCategoryList.length > 0) {
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (context) => new SubCategory(
+              subCategory: subCategoryList,
+            ),
           ),
-        ),
-      );
-    } else {
-      Navigator.push(
-        context,
-        new MaterialPageRoute(
-          builder: (context) => new ProductsView(
-            heroIndex: (index),
-            categoryId: index.toString(),
+        );
+      } else {
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (context) => new ProductsView(
+              heroIndex: (index),
+              categoryId: index.toString(),
+            ),
           ),
-        ),
-      );
-    }
+        );
+      }
 
       // Navigator.push(
       //   context,
@@ -205,7 +207,7 @@ class _SubCategoryState extends State<SubCategory> {
                       "لا يوجد اصناف متوفرة حالياً، سيتم إضافة اصناف في المستقبل",
                       style: TextStyle(
                           color: UtilsImporter().colorUtils.primarycolor,
-                          fontSize: 20,
+                          fontSize: ResponsiveFlutter.of(context).fontSize(3),
                           fontWeight: FontWeight.bold,
                           fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
                 ),
@@ -247,7 +249,8 @@ class _SubCategoryState extends State<SubCategory> {
                                         eachProduct.imageFileName),
                                 width: MediaQuery.of(context).size.width,
                                 fadeInDuration: const Duration(seconds: 1),
-                                height: 150,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.25,
                                 // fadeInCurve: Curves.fastOutSlowIn,
                                 fadeInCurve: Curves.fastOutSlowIn,
 
@@ -271,7 +274,8 @@ class _SubCategoryState extends State<SubCategory> {
                                 // width: double.infinity,
                                 //  height: ,
                                 //constraints: BoxConstraints.expand(),
-                                height: 150,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.25,
                                 width: double.infinity,
                                 color: Colors.black54,
                                 padding: EdgeInsets.symmetric(
@@ -283,7 +287,8 @@ class _SubCategoryState extends State<SubCategory> {
                                   child: Text(
                                     eachProduct.name,
                                     style: TextStyle(
-                                      fontSize: 35,
+                                      fontSize: ResponsiveFlutter.of(context)
+                                          .fontSize(4),
                                       color: Colors.white,
                                       fontFamily:
                                           UtilsImporter().stringUtils.HKGrotesk,

@@ -298,6 +298,8 @@ class ProductsViewState extends State<ProductsView> {
                                   }
                                 },
                                 child: ListView.builder(
+                                  physics: const AlwaysScrollableScrollPhysics(
+                                      parent: BouncingScrollPhysics()),
                                   primary: false,
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
@@ -497,7 +499,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 )),
                 widget.active == 0
                     ? Badge(
-                      borderRadius: BorderRadius.zero,
+                        borderRadius: BorderRadius.zero,
                         shape: BadgeShape.square,
                         badgeColor: UtilsImporter().colorUtils.primarycolor,
                         badgeContent: Padding(

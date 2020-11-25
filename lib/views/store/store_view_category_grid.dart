@@ -5,6 +5,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:kammun_app/views/sub_category/sub_category.dart';
+import 'package:responsive_flutter/responsive_flutter.dart';
 
 class StoreViewCategory extends StatefulWidget {
   @override
@@ -200,7 +201,7 @@ class ShopByCategoryState extends State<ShopByCategory> {
                       widget.category_name,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 22,
+                        fontSize: ResponsiveFlutter.of(context).fontSize(3),
                         fontWeight: FontWeight.bold,
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                       ),

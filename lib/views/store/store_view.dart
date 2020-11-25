@@ -574,7 +574,7 @@ class StoreViewState extends State<StoreView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  image_carousel,
+                  _ImageCarousel(),
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -692,20 +692,24 @@ class StoreViewState extends State<StoreView> {
         child: searchButtonWithGesture);
   }
 
-  Widget image_carousel = new Container(
-    height: 200.0,
-    decoration: new BoxDecoration(
-        color: UtilsImporter().colorUtils.searchgreycolor,
-        borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-    child: new Carousel(
-      borderRadius: true,
-      boxFit: BoxFit.fill,
-      images: LoadingScreenServices.bannerListNetwork,
-      autoplay: true,
-      animationCurve: Curves.fastLinearToSlowEaseIn,
-      animationDuration: Duration(milliseconds: 1000),
-      dotSize: 6.0,
-      indicatorBgPadding: 2.0,
-    ),
-  );
+  Widget _ImageCarousel() {
+    return new Container(
+      // height: 200.0,
+      height: MediaQuery.of(context).size.height * 0.30,
+
+      decoration: new BoxDecoration(
+          color: UtilsImporter().colorUtils.searchgreycolor,
+          borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+      child: new Carousel(
+        borderRadius: true,
+        boxFit: BoxFit.fill,
+        images: LoadingScreenServices.bannerListNetwork,
+        autoplay: true,
+        animationCurve: Curves.fastLinearToSlowEaseIn,
+        animationDuration: Duration(milliseconds: 1000),
+        dotSize: 6.0,
+        indicatorBgPadding: 2.0,
+      ),
+    );
+  }
 }
