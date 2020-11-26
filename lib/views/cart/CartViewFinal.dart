@@ -279,14 +279,16 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             ? Loader()
                             : Column(
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      _addNotesButton(context: context),
-                                      _addCopouns(),
-                                    ],
-                                  ),
+                                  _addNotesButton(context: context),
+
+                                  // Row(
+                                  //   mainAxisAlignment:
+                                  //       MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     _addNotesButton(context: context),
+                                  //     //    _addCopouns(),
+                                  //   ],
+                                  // ),
                                   _showConfirmOrderButton(),
                                 ],
                               ),
@@ -790,23 +792,57 @@ class _CartViewFinalState extends State<CartViewFinal> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
         child: new Container(
-          padding: const EdgeInsets.all(10.0),
-          width: MediaQuery.of(context).size.width / 2.5,
+          //  padding: const EdgeInsets.all(10.0),
+          //  width: MediaQuery.of(context).size.width / 2.5,
           height: 40.0,
           decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.kmColors,
+              color: UtilsImporter().colorUtils.primarycolor,
               borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: new Center(
-            child: new AutoSizeText(
-              "إضافة ملاحظة",
-              maxLines: 1,
-              style: new TextStyle(
-                  color: Colors.white,
-                  // fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-          ),
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(top: 0, bottom: 0, right: 15),
+                    child: Icon(
+                      Icons.add_box_outlined,
+                      color: Colors.white,
+                      size: 32,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    child: Text(
+                      'إضافة ملاحظة',
+                      textAlign: TextAlign.start,
+                      style: new TextStyle(
+                          color: Colors.white,
+                          // fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                // padding: EdgeInsets.only(top: 7, bottom: 7, right: 5),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.transparent,
+                  size: 32,
+                ),
+              ),
+            ],
+          )),
         ),
       ),
     );
