@@ -191,6 +191,8 @@ class OrdersViewState extends State<OrdersView> {
                                 }
                               },
                               child: ListView.builder(
+                                physics: const AlwaysScrollableScrollPhysics(
+                                    parent: BouncingScrollPhysics()),
                                 primary: false,
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
@@ -236,7 +238,7 @@ class OrdersViewState extends State<OrdersView> {
                                       int.parse(orderDataList[index]
                                                   .orderStatusId) ==
                                               4
-                                          ? _showRatingButton(context,index)
+                                          ? _showRatingButton(context, index)
                                           : Container(),
                                       Padding(
                                         padding:
@@ -565,7 +567,7 @@ class OrdersViewState extends State<OrdersView> {
         });
   }
 
-  Widget _showRatingButton(BuildContext ctx,int orderIndex) {
+  Widget _showRatingButton(BuildContext ctx, int orderIndex) {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
       onTap: () => _settingModalBottomSheet(ctx),
       child: new Container(

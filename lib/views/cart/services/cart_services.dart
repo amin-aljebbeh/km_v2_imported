@@ -13,17 +13,24 @@ class CartServices {
   static String userNote;
   static String userCopoun;
 
-  static Future getUserCart({StreamController<int> streamController}) async {
+  static Future getUserCart() async {
     print("------------ GET USER CART FROM SHARED PREFRENCES --------------");
 
     Map<String, String> productsIdCount = new Map<String, String>();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     String userCart = prefs.getString('userCart');
-
-    if (userCart != null) {
+    print("------ Before if user Cart ------");
+    print(userCart);
+    if (userCart.length == 1 && userCart == "@") {
+      prefs.setString('userCart', "");
+    }
+    print("------ after setString if user Cart ------");
+    print(userCart);
+    if (userCart.length > 2 && userCart.toString() != "null") {
       cartProducts.clear();
+      print("------ user Cart ------");
+      print(userCart);
       List<String> productsIds = userCart.split("@")[0].split(";");
       List<String> productsCounts = userCart.split("@")[1].split(";");
 
@@ -59,7 +66,6 @@ class CartServices {
           }
         }
 
-        if (streamController != null) streamController.add(200);
         return true;
       } else {
         print(response.data);
@@ -68,6 +74,8 @@ class CartServices {
 
         return false;
       }
+    } else {
+      return true;
     }
   }
 

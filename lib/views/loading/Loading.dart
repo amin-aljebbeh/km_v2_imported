@@ -99,7 +99,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
           }
 
           if (snapShot.connectionState == ConnectionState.done) {
-            if (snapShot.hasError) return InternetError();
+            if (snapShot.hasError || snapShot.data == false)
+              return InternetError();
             if (LoadingScreenServices.updateRequired) return UpdateScreen();
             if (LoadingScreenServices.serverMaintain) return ServerUpdate();
             return AnimatedSwitcher(

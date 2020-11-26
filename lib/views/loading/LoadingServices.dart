@@ -54,8 +54,6 @@ class LoadingScreenServices {
 
   // -------------------------------------------------------//
 
-  StreamController<int> streamController = StreamController();
-
   Future<bool> getSupportedCity() async {
     var response = await ApiProvider.sendRequest(
       url: GET_SUPPORTED_CITIES,
@@ -125,28 +123,36 @@ class LoadingScreenServices {
   Future<bool> featchStartInformation() async {
     try {
       print("------------- get Start Screen Information returns ---------");
-
       bool userLoggedIn = await checkIfUserloddedIn();
       if (userLoggedIn) {
         try {
-          streamController.stream.listen((data) async {
-            print("DataReceived: " + data.toString());
-            finishedRequests++;
-            print("Finished Requests: " + finishedRequests.toString());
-            if (2 == finishedRequests) {
-              print(DateTime.now());
-              streamController.close();
-            }
-          });
-          CartServices.getUserCart(streamController: streamController);
-
-          bool everyThingGood = await getStartScreenInformation(
-              streamController: streamController);
-          if (everyThingGood) {
+          List responses;
+          try {
+            responses = await Future.wait([
+              CartServices.getUserCart(),
+              getStartScreenInformation(),
+            ]);
+          } catch (e) {
+            // handleError(e);
+            // print("--------- error call -----");
+            // print(e.toString());
+            return false;
+          }
+          print("TTTTTTTTTTTTT : " + responses[0].toString());
+          print("BBBBBBBBBBBBBB : " + responses[1].toString());
+          if (responses[0] && responses[1]) {
             return true;
           } else {
             return false;
           }
+
+          // bool everyThingGood = await getStartScreenInformation(
+          //     streamController: streamController);
+          // if (everyThingGood) {
+          //   return true;
+          // } else {
+          //   return false;
+          // }
         } catch (e) {
           print(e.toString());
           return false;
@@ -161,8 +167,7 @@ class LoadingScreenServices {
     }
   }
 
-  static Future<bool> getStartScreenInformation(
-      {StreamController<int> streamController}) async {
+  static Future<bool> getStartScreenInformation() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String buildNumber = packageInfo.buildNumber;
     int lastSupported;
@@ -298,29 +303,8 @@ class LoadingScreenServices {
       userAddress.addAll(startRequest.user.original.data.addresses);
       print("======= Get User Address DONE =======");
 
-      // print("User Address ");
-      // print(userAddress);
-
-      // userFavoriteProducts
-      //     .addAll(startRequest.user.original.data.userFavoriteProducts);
-      // userAddress.sort((a, b) {
-      //   if ((a.id) < (b.id))
-      //     return 1;
-      //   else if ((a.id) > (b.id))
-      //     return -1;
-      //   else
-      //     return 0;
-      // });
-
       myOrdersList.addAll(startRequest.orders.original.data.data);
-      // myOrdersList.sort((a, b) {
-      //   if (a.id < b.id)
-      //     return 1;
-      //   else if (a.id > b.id)
-      //     return -1;
-      //   else
-      //     return 0;
-      // });
+
       print("======= Get User Order DONE =======");
 
       for (int i = 0; i < myOrdersList.length; i++) {
@@ -337,24 +321,6 @@ class LoadingScreenServices {
         }
       }
 
-      // if (myOrdersList.indexWhere((order) => order.underUpdate == "1") !=
-      //     null) {
-      //   OrderServices.orderUnderUpdateIndex =
-      //       myOrdersList.indexWhere((order) => order.underUpdate == "1");
-      //   OrderServices.delivery_supported_City_id =
-      //       myOrdersList[OrderServices.orderUnderUpdateIndex]
-      //           .supportedCityId
-      //           .toString();
-      //   OrderServices.updateOrderNote =
-      //       myOrdersList[OrderServices.orderUnderUpdateIndex].userNotes;
-
-      //   DeliverToView.selectedIndex = myOrdersList.indexWhere((order) =>
-      //       order.addressId ==
-      //       myOrdersList[OrderServices.orderUnderUpdateIndex].addressId);
-
-      //   //int.parse(LoadingScreenServices.deliveryMethodsList[selectedIndex].price.split(".")[0])
-      //   //LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice
-      // }
       print("======= Check if Order Under Update DONE =======");
 
       // -------------------------------------------------------------------- //
@@ -362,14 +328,7 @@ class LoadingScreenServices {
 
       deliveryMethodsList.clear();
       deliveryMethodsList = startRequest.deliveryMethod.original.data;
-      // deliveryMethodsList.sort((a, b) {
-      //   if (a.id < b.id)
-      //     return 1;
-      //   else if (a.id > b.id)
-      //     return -1;
-      //   else
-      //     return 0;
-      // });
+
       print("======= Get Delivery method DONE =======");
 
       // --------------------------------------------------------------------- //
@@ -383,10 +342,6 @@ class LoadingScreenServices {
 
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
         for (int j = 0; j < userAddress.length; j++) {
-          // print("************************");
-          // print(userAddress[j].supportedCityId.toString() +
-          //     " : " +
-          //     supportedCitiesResponse.data[i].id.toString());
           if (int.parse(userAddress[j].supportedCityId) ==
               supportedCitiesResponse.data[i].id) {
             userAddress[j].supportedCityName =
@@ -401,11 +356,10 @@ class LoadingScreenServices {
         }
 
         // print("################ SUPPORTED CITIES ####################");
-        // print(supportedCitiesResponse.data[i].id);
 
         supportedCitiesList.add(new DropdownMenuItem(
           child: Text(
-            "${supportedCitiesResponse.data[i].name} - التوصيل : ${supportedCitiesResponse.data[i].deliveryPrice}",
+            "${supportedCitiesResponse.data[i].name} - التوص��ل : ${supportedCitiesResponse.data[i].deliveryPrice}",
             style: TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk),
           ),
           value: supportedCitiesResponse.data[i].name +
@@ -416,12 +370,9 @@ class LoadingScreenServices {
         ));
         print("The dropdownList value:" + supportedCitiesResponse.data[i].name);
       }
-      if (streamController != null) streamController.add(200);
-
       return true;
     } else {
       print("------------ ERROR GET COMPANY INFORMATION --------------");
-
       print(response.statusCode.toString());
       return false;
     }
