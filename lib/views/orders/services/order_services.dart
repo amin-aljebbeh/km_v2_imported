@@ -127,8 +127,8 @@ class OrderServices {
       'order_status_id': 5,
     };
     var response = await ApiProvider.sendRequest(
-      url: ORDER_URL + orderId,
-      method: httpMethods.put,
+      url: CANCEL_ORDER + orderId,
+      method: httpMethods.post,
       body: jsonEncode(cancelOrderBody),
     );
 
