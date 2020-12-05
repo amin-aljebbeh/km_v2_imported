@@ -22,12 +22,12 @@ class CartServices {
     String userCart = prefs.getString('userCart');
     print("------ Before if user Cart ------");
     print(userCart);
-    if (userCart.length == 1 && userCart == "@") {
+    if (userCart != null && userCart.length == 1 && userCart == "@") {
       prefs.setString('userCart', "");
     }
     print("------ after setString if user Cart ------");
     print(userCart);
-    if (userCart.length > 2 && userCart.toString() != "null") {
+    if (userCart != null && userCart.length > 2 && userCart.toString() != "null") {
       cartProducts.clear();
       print("------ user Cart ------");
       print(userCart);

@@ -133,9 +133,8 @@ class LoadingScreenServices {
               getStartScreenInformation(),
             ]);
           } catch (e) {
-            // handleError(e);
-            // print("--------- error call -----");
-            // print(e.toString());
+            print("--------- error call -----");
+            print(e.toString());
             return false;
           }
           print("TTTTTTTTTTTTT : " + responses[0].toString());
