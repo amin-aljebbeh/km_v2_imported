@@ -148,7 +148,7 @@ class OrderServices {
       method: httpMethods.put,
     );
     print(response.data);
-    if (response.statusCode == SUCCESS_CODE) {
+    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
       orderUnderUpdateIndex = LoadingScreenServices.myOrdersList
           .indexWhere((order) => order.id == int.parse(orderId));
       SharedPreferences prefs = await SharedPreferences.getInstance();
