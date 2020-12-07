@@ -140,6 +140,29 @@ class OrderServices {
     }
   }
 
+  static Future<bool> rateOrder(
+      {String orderId, String userFeedback, int rating}) async {
+    // print("------------------ Rate Order --------------------");
+
+    Map ratingOrderBody = {
+      'user_feedback': userFeedback,
+      "user_delivery_rating": rating,
+      "user_price_rating": rating,
+    };
+    var response = await ApiProvider.sendRequest(
+      url: RATE_ORDER + orderId,
+      method: httpMethods.post,
+      body: jsonEncode(ratingOrderBody),
+    );
+
+    if (response.statusCode == SUCCESS_CODE) {
+      return true;
+    } else {
+      print("------------ ERROR CANCEL ORDER --------------");
+      return false;
+    }
+  }
+
   static Future<bool> lockOrder(String orderId) async {
     // print("------------------ CANCEL ORDER  --------------------");
 

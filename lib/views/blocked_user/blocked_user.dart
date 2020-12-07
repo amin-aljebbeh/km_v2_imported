@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 
-class ServerUpdate extends StatelessWidget {
-  static final String routeName = "/server-update";
+class BlockedUser extends StatelessWidget {
+  static final String routeName = "/blocked-user";
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +17,12 @@ class ServerUpdate extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image.asset(
-                  "assets/maintenance.png",
+                  "assets/blocked_user.png",
                   width: 100,
                   height: 150,
                 ),
                 Text(
-                  "تحديثات ضمن النظام",
+                  "تم منعك من الوصول",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 25.0,
@@ -35,7 +35,7 @@ class ServerUpdate extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      "نأسف لحدوث ذلك ولكن يقوم مدير النظام حالياً بإجراء بعض الإصلاحات و التطويرات، سوف نعاود العمل خلال مدة قصيرة",
+                      "يبدو أن هناك مشكلة على حسابكم ضمن تطبيق كمّون للمزيد من المعلومات بإمكانكم التواصل مع خدمة العملاء على أحد منصات التواصل",
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.center,
                       style: TextStyle(

@@ -19,6 +19,8 @@ const String REMOVE_FROM_FAVORITE = "/api/user/remove_product_from_favorites";
 const String USER_ADDRESS = "/api/address";
 const String ORDER_URL = "/api/order/";
 const String LOCK_ORDER = "/api/order/lock_order/";
+const String RATE_ORDER = "/api/order/rate_order/";
+
 const String OTP_VERIFICATION = "/api/verification_code/verify_account/";
 const String ORDER = "/api/order";
 

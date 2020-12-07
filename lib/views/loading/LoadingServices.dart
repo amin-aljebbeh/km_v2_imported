@@ -32,6 +32,7 @@ class LoadingScreenServices {
   static String androidShareUrl = "";
   static String iOSShareUrl = "";
   static bool serverMaintain = false;
+  static bool userBlocked = false;
   static bool updateRequired = false;
   static bool updateOptional = false;
   static bool checkIfLoggedIn = false;
@@ -227,6 +228,7 @@ class LoadingScreenServices {
       } else if (int.parse(buildNumber) < currenVersion) {
         updateOptional = true;
       }
+
       print("======= DONE Mobile Compaiesion =======");
 
       // --------------------------------------------------------------------- //
@@ -304,6 +306,12 @@ class LoadingScreenServices {
 
       myOrdersList.addAll(startRequest.orders.original.data.data);
 
+      if (startRequest.user.original.data.isBanned == "1") {
+        userBlocked = true;
+      } else {
+        userBlocked = false;
+      }
+
       print("======= Get User Order DONE =======");
 
       for (int i = 0; i < myOrdersList.length; i++) {
@@ -340,6 +348,14 @@ class LoadingScreenServices {
       print("======= Get Supported City DONE =======");
 
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
+        if (supportedCitiesResponse.data[i].id.toString() ==
+            startRequest.user.original.data.supportedCityId) {
+          if (supportedCitiesResponse.data[i].isActive == "0") {
+            serverMaintain = true;
+          } else {
+            serverMaintain = false;
+          }
+        }
         for (int j = 0; j < userAddress.length; j++) {
           if (int.parse(userAddress[j].supportedCityId) ==
               supportedCitiesResponse.data[i].id) {

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/cartModel.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/blocked_user/blocked_user.dart';
 import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/home/home_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -103,6 +104,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
               return InternetError();
             if (LoadingScreenServices.updateRequired) return UpdateScreen();
             if (LoadingScreenServices.serverMaintain) return ServerUpdate();
+            if (LoadingScreenServices.userBlocked) return BlockedUser();
+
             return AnimatedSwitcher(
               transitionBuilder: (Widget child, Animation<double> animation) {
                 var begin = Offset(0.0, 1.0);

@@ -84,12 +84,14 @@ class UpdateScreen extends StatelessWidget {
                       top: 8.0, bottom: 10, left: 30, right: 15),
                   child: Align(
                     alignment: Alignment.centerRight,
-                                      child: Text(
+                    child: Text(
                       " لديك نسخة قديمة من التطبيق يرجى التحديث حتى تتمكن من الإستفادة من خدمات كمّون ",
+                      textDirection: TextDirection.rtl,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 18,
-                       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

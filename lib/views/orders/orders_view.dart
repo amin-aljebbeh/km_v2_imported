@@ -8,6 +8,7 @@ import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
+import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import '../../Services.dart';
@@ -231,14 +232,19 @@ class OrdersViewState extends State<OrdersView> {
                                           ? _showCancelButton(index)
                                           : Container(),
                                       int.parse(orderDataList[index]
-                                                  .orderStatusId) !=
-                                              6
+                                                  .orderStatusId) <
+                                              3
                                           ? _showEditButton(index)
                                           : Container(),
                                       int.parse(orderDataList[index]
                                                   .orderStatusId) ==
                                               4
-                                          ? _showRatingButton(context, index)
+                                          ? orderDataList[index]
+                                                      .userDeliveryRating ==
+                                                  null
+                                              ? _showRatingButton(
+                                                  context, index)
+                                              : Container()
                                           : Container(),
                                       Padding(
                                         padding:
@@ -398,7 +404,7 @@ class OrdersViewState extends State<OrdersView> {
     );
   }
 
-  void _settingModalBottomSheet(context) {
+  void _settingModalBottomSheet(context, int index) {
     double screenHeight = MediaQuery.of(context).size.height;
     showModalBottomSheet(
         context: context,
@@ -443,28 +449,26 @@ class OrdersViewState extends State<OrdersView> {
                             IconButton(
                               padding: EdgeInsets.zero,
                               iconSize: 40,
-                              icon: Icon(Icons.sentiment_very_satisfied,
-                                  color: rateValue == 5
-                                      ? Colors.green
-                                      : Colors.grey),
                               onPressed: () {
                                 setState(() {
-                                  rateValue = 5;
-                                  //  feedbackBloc.add(UpdateRateValue(rateValue: 5));
+                                  rateValue = 1;
+                                  // feedbackBloc.add(UpdateRateValue(rateValue: 1));
                                 });
                               },
+                              icon: Icon(Icons.mood_bad),
+                              color: rateValue == 1 ? Colors.red : Colors.grey,
                             ),
                             IconButton(
                               padding: EdgeInsets.zero,
                               iconSize: 40,
-                              icon: Icon(Icons.sentiment_satisfied,
-                                  color: rateValue == 4
-                                      ? Colors.lightGreen
+                              icon: Icon(Icons.sentiment_dissatisfied,
+                                  color: rateValue == 2
+                                      ? Colors.redAccent
                                       : Colors.grey),
                               onPressed: () {
                                 setState(() {
-                                  rateValue = 4;
-                                  //  feedbackBloc.add(UpdateRateValue(rateValue: 4));
+                                  rateValue = 2;
+                                  //  feedbackBloc.add(UpdateRateValue(rateValue: 2));
                                 });
                               },
                             ),
@@ -485,28 +489,30 @@ class OrdersViewState extends State<OrdersView> {
                             IconButton(
                               padding: EdgeInsets.zero,
                               iconSize: 40,
-                              icon: Icon(Icons.sentiment_dissatisfied,
-                                  color: rateValue == 2
-                                      ? Colors.redAccent
+                              icon: Icon(Icons.sentiment_satisfied,
+                                  color: rateValue == 4
+                                      ? Colors.lightGreen
                                       : Colors.grey),
                               onPressed: () {
                                 setState(() {
-                                  rateValue = 2;
-                                  //  feedbackBloc.add(UpdateRateValue(rateValue: 2));
+                                  rateValue = 4;
+                                  //  feedbackBloc.add(UpdateRateValue(rateValue: 4));
                                 });
                               },
                             ),
                             IconButton(
                               padding: EdgeInsets.zero,
                               iconSize: 40,
+                              icon: Icon(Icons.sentiment_very_satisfied,
+                                  color: rateValue == 5
+                                      ? Colors.green
+                                      : Colors.grey),
                               onPressed: () {
                                 setState(() {
-                                  rateValue = 1;
-                                  // feedbackBloc.add(UpdateRateValue(rateValue: 1));
+                                  rateValue = 5;
+                                  //  feedbackBloc.add(UpdateRateValue(rateValue: 5));
                                 });
                               },
-                              icon: Icon(Icons.mood_bad),
-                              color: rateValue == 1 ? Colors.red : Colors.grey,
                             ),
                           ],
                         ),
@@ -547,7 +553,7 @@ class OrdersViewState extends State<OrdersView> {
                           ),
                         ),
                       ),
-                      _submitRating(),
+                      _submitRating(index),
                       // Container(
                       //   margin: EdgeInsets.fromLTRB(17, 0, 17, screenHeight * 0.17),
                       //   child: CCAppButton(
@@ -569,7 +575,7 @@ class OrdersViewState extends State<OrdersView> {
 
   Widget _showRatingButton(BuildContext ctx, int orderIndex) {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () => _settingModalBottomSheet(ctx),
+      onTap: () => _settingModalBottomSheet(ctx, orderIndex),
       child: new Container(
         height: 40.0,
         decoration: new BoxDecoration(
@@ -593,9 +599,22 @@ class OrdersViewState extends State<OrdersView> {
         child: showConfirmButtonWithGesture);
   }
 
-  Widget _submitRating() {
+  Widget _submitRating(int index) {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () async {},
+      onTap: () async {
+        setState(() {
+          orderLoaded = false;
+        });
+        Navigator.of(context).pop();
+        bool x = await OrderServices.rateOrder(
+            orderId: orderDataList[index].id.toString(),
+            userFeedback: _textFieldController.text + ".",
+            rating: rateValue);
+        orderDataList[index].userDeliveryRating = rateValue.toString();
+        _getOrder();
+
+        // KammunRestart.restartApp(context);
+      },
       child: new Container(
         height: 40.0,
         decoration: new BoxDecoration(
@@ -671,62 +690,6 @@ class OrdersViewState extends State<OrdersView> {
         child: showConfirmButtonWithGesture);
   }
 
-  //  Widget _showEditOrder({int orderId, int index}) {
-  //   final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-  //     onTap: () async {
-  //       Services.cartProducts.clear();
-  //       Services.addressIdEditOrder = Services.myOrdersList[index].address.id;
-  //       Services.supportedCityIdEditOrder =
-  //           Services.myOrdersList[index].address.supportedCityId;
-  //       Services.currentUpdateOrderIndex = index;
-
-  //       for (int i = 0; i < Services.myOrdersList[index].products.length; i++) {
-  //         SearchProductsList2 product = new SearchProductsList2();
-
-  //         product.id = Services.myOrdersList[index].products[i].id;
-  //         product.images = Services.myOrdersList[index].products[i].images;
-  //         // product.isActive = Services.myOrdersList[index].products[i].
-  //         product.name = Services.myOrdersList[index].products[i].name;
-  //         product.price =
-  //             Services.myOrdersList[index].products[i].pivot.purchasePrice;
-  //         product.productCount =
-  //             Services.myOrdersList[index].products[i].pivot.quantity;
-  //         product.unit = Services.myOrdersList[index].products[i].unit;
-  //         product.quantity = Services.myOrdersList[index].products[i].quantity;
-
-  //         CartServices.addOrderToCart(product);
-  //       }
-
-  //       Navigator.of(context)
-  //           .pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
-  //     },
-  //     child: new Container(
-  //       height: 40.0,
-  //       decoration: new BoxDecoration(
-  //         color: UtilsImporter().colorUtils.kmColors,
-  //         borderRadius: new BorderRadius.all(
-  //           Radius.circular(6.0),
-  //         ),
-  //       ),
-  //       child: new Center(
-  //         child: new Text(
-  //           "تعديل الطلب",
-  //           style: new TextStyle(
-  //               color: Colors.white,
-  //               fontSize: 20.0,
-  //               fontWeight: FontWeight.w500,
-  //               fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-
-  //   return new Padding(
-  //       padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
-  //       child: showConfirmButtonWithGesture);
-  // }
-
-  // Function to be called on click
   void _onTileClicked(int index) {
     debugPrint("You tapped on item $index");
 
@@ -779,7 +742,7 @@ class OrdersViewCard extends StatefulWidget {
 }
 
 class OrdersViewCardState extends State<OrdersViewCard> {
-  String orderStatus = "طلبك قيد المعالجة ⌛️";
+  String orderStatus = "��لبك قيد المعالجة ⌛️";
   @override
   Widget build(BuildContext context) {
     if (widget.order_status == 2)
