@@ -509,6 +509,7 @@ class StickyDatum {
     this.appStoreUrl,
     this.iosIsActive,
     this.androidIsActive,
+    this.maintenanceMessages,
   });
 
   int id;
@@ -520,6 +521,7 @@ class StickyDatum {
   String appStoreUrl;
   String iosIsActive;
   String androidIsActive;
+  String maintenanceMessages;
 
   factory StickyDatum.fromJson(Map<String, dynamic> json) => StickyDatum(
         id: json["id"],
@@ -530,6 +532,7 @@ class StickyDatum {
         googlePlayUrl: json["google_play_url"],
         appStoreUrl: json["app_store_url"],
         iosIsActive: json["ios_is_active"],
+        maintenanceMessages: json["maintenance_messages"],
         androidIsActive: json["android_is_active"],
       );
 
@@ -542,6 +545,7 @@ class StickyDatum {
         "google_play_url": googlePlayUrl,
         "app_store_url": appStoreUrl,
         "ios_is_active": iosIsActive,
+        "maintenance_messages": maintenanceMessages,
         "android_is_active": androidIsActive,
       };
 }
@@ -878,6 +882,8 @@ class IndigoDatum {
     this.warehouseId,
     this.couponTypeId,
     this.isActive,
+    this.maintenanceMessages,
+    this.supportPhoneNumber,
     this.warehouse,
   });
 
@@ -888,6 +894,8 @@ class IndigoDatum {
   String couponTypeId;
   String isActive;
   Warehouse warehouse;
+  String supportPhoneNumber;
+  String maintenanceMessages;
 
   factory IndigoDatum.fromJson(Map<String, dynamic> json) => IndigoDatum(
         id: json["id"],
@@ -896,7 +904,11 @@ class IndigoDatum {
         warehouseId: json["warehouse_id"],
         couponTypeId: json["coupon_type_id"],
         isActive: json["is_active"],
-        warehouse: Warehouse.fromJson(json["warehouse"]),
+        supportPhoneNumber: json["support_phone_number"],
+        maintenanceMessages: json["maintenance_messages"],
+        warehouse: Warehouse.fromJson(
+          json["warehouse"],
+        ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -906,6 +918,8 @@ class IndigoDatum {
         "warehouse_id": warehouseId,
         "coupon_type_id": couponTypeId,
         "is_active": isActive,
+        "maintenance_messages": maintenanceMessages,
+        "support_phone_number": supportPhoneNumber,
         "warehouse": warehouse.toJson(),
       };
 }

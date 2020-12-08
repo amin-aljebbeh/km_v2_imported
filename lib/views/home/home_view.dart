@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/favoraites/favoraites.dart';
+import 'package:kammun_app/views/loading/Loading.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,7 +97,7 @@ class HomeViewState extends State<HomeView> {
     );
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
-      getoken();
+    getoken();
     print("====== End initializing Firebase ======");
   }
 
@@ -104,12 +106,16 @@ class HomeViewState extends State<HomeView> {
     if (prefs.get("firebase_token") == null) {
       firebaseToken = await _firebaseMessaging.getToken();
       prefs.setString("firebase_token", firebaseToken);
-      print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
+      print("FF firebase from firebase FF");
       print(firebaseToken);
     } else {
-      print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
-
+      print("FF firebase from sharedPref FF");
       print(prefs.get("firebase_token"));
+      firebaseToken = prefs.get("firebase_token");
+    }
+    if (LoadingScreenServices.userOriginal.data.firebaseToken == null) {
+      LoadingScreenServices().updateFirebaseToken(firebaseToken);
+      print("Firebase Updated");
     }
   }
 

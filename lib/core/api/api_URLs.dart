@@ -31,3 +31,5 @@ const String GET_START_REQUEST = "/api/mobile/startup";
 const String GET_SUPPORTED_CITIES = "/api/supported_city";
 
 const String LOGIN_URL = "/api/auth/user_signin";
+
+const String UPDATE_FIREBASE_TOKEN = "/api/user/update_firebase_token";

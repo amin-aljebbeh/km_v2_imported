@@ -38,14 +38,11 @@ class FavoraitesViewState extends State<Favoraites> {
       url = LoadingScreenServices.companyInformation.messengerUrl;
     } else if (selected == "facebook") {
       url = "fb://page/" +
-          LoadingScreenServices.companyInformation.facebookUrl
-              .toString();
+          LoadingScreenServices.companyInformation.facebookUrl.toString();
     } else if (selected == "instagram") {
-      url = LoadingScreenServices.companyInformation.instagramUrl
-          .toString();
+      url = LoadingScreenServices.companyInformation.instagramUrl.toString();
     } else if (selected == "website") {
-      url = LoadingScreenServices.companyInformation.websiteUrl
-          .toString();
+      url = LoadingScreenServices.companyInformation.websiteUrl.toString();
     } else if (selected == "email") {
       String platform = "Android";
       if (Platform.isIOS) {
@@ -54,16 +51,10 @@ class FavoraitesViewState extends State<Favoraites> {
       url =
           "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
     } else if (selected == "number") {
-      url =
-          "tel:${LoadingScreenServices.companyInformation.supportNumber}";
+      url = "tel:${LoadingScreenServices.supportPhoneNumber}";
     }
 
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      print(url);
-      throw 'Could not launch $url';
-    }
+    launch(url);
   }
 
   @override
@@ -233,8 +224,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                       UtilsImporter().stringUtils.HKGrotesk)),
                           subtitle: Text(
                             //'support@kammun.com',
-                            LoadingScreenServices
-                                .companyInformation.email,
+                            LoadingScreenServices.companyInformation.email,
 
                             style: TextStyle(
                                 fontFamily:
@@ -259,8 +249,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                     UtilsImporter().stringUtils.HKGrotesk)),
                         subtitle: Text(
                           // 'www.kammun.com',
-                          LoadingScreenServices
-                              .companyInformation.websiteUrl,
+                          LoadingScreenServices.companyInformation.websiteUrl,
 
                           style: TextStyle(
                               fontFamily: UtilsImporter().stringUtils.HKGrotesk,

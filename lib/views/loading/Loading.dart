@@ -74,7 +74,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             height: 100,
             width: 100,
             child: Image.asset(
-              "assets/Loading.gif",
+              "assets/non_loading.gif",
               // width: 20,
               // color: Colors.transparent,
             ),

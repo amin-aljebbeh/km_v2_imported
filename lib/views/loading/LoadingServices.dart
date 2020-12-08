@@ -37,6 +37,10 @@ class LoadingScreenServices {
   static bool updateOptional = false;
   static bool checkIfLoggedIn = false;
 
+  static SupportedCityOriginal supportedCityOriginal;
+  static String supportPhoneNumber;
+  static String systemMaintenanceMessages;
+  static UserOriginal userOriginal;
   // -------------------------------------------------------//
 
   // Supported City variables
@@ -55,6 +59,18 @@ class LoadingScreenServices {
 
   // -------------------------------------------------------//
 
+  Future<bool> updateFirebaseToken(String firebaseToken) async {
+    Map body = {
+      "firebase_token": firebaseToken,
+    };
+    await ApiProvider.sendRequest(
+      url: UPDATE_FIREBASE_TOKEN,
+      method: httpMethods.post,
+      body: jsonEncode(body),
+    );
+    return true;
+  }
+
   Future<bool> getSupportedCity() async {
     var response = await ApiProvider.sendRequest(
       url: GET_SUPPORTED_CITIES,
@@ -63,6 +79,8 @@ class LoadingScreenServices {
     if (response.statusCode == SUCCESS_CODE) {
       final supportedCitiesResponse =
           supportedCityOriginalFromJson(jsonEncode(response.data));
+      supportedCityOriginal = supportedCitiesResponse;
+
       supportedCitiesListIntro.clear();
       print(supportedCitiesResponse.data.length);
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
@@ -302,6 +320,9 @@ class LoadingScreenServices {
       // print("User Number ");
       // print(userNumber);
       userAddress.addAll(startRequest.user.original.data.addresses);
+
+      userOriginal = startRequest.user.original;
+
       print("======= Get User Address DONE =======");
 
       myOrdersList.addAll(startRequest.orders.original.data.data);
@@ -346,12 +367,37 @@ class LoadingScreenServices {
 
       final supportedCitiesResponse = startRequest.supportedCity.original;
       print("======= Get Supported City DONE =======");
+      supportedCityOriginal = supportedCitiesResponse;
 
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
         if (supportedCitiesResponse.data[i].id.toString() ==
             startRequest.user.original.data.supportedCityId) {
-          if (supportedCitiesResponse.data[i].isActive == "0") {
+          supportPhoneNumber =
+              supportedCitiesResponse.data[i].supportPhoneNumber;
+
+          if (supportedCitiesResponse.data[i].isActive == "0" ||
+              (Platform.isIOS &&
+                  startRequest.mobileAppConfigs.original.data[0].iosIsActive ==
+                      "0") ||
+              Platform.isAndroid &&
+                  startRequest
+                          .mobileAppConfigs.original.data[0].androidIsActive ==
+                      "0") {
             serverMaintain = true;
+            if (Platform.isIOS &&
+                    startRequest
+                            .mobileAppConfigs.original.data[0].iosIsActive ==
+                        "0" ||
+                Platform.isAndroid &&
+                    startRequest.mobileAppConfigs.original.data[0]
+                            .androidIsActive ==
+                        "0") {
+              systemMaintenanceMessages = startRequest
+                  .mobileAppConfigs.original.data[0].maintenanceMessages;
+            } else {
+              systemMaintenanceMessages =
+                  supportedCitiesResponse.data[i].maintenanceMessages;
+            }
           } else {
             serverMaintain = false;
           }

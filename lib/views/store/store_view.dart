@@ -292,15 +292,18 @@ class StoreViewState extends State<StoreView> {
       url =
           "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
     } else if (selected == "number") {
-      url = "tel:${LoadingScreenServices.companyInformation.supportNumber}";
+      print("-------- Support number ----------");
+
+      url = "tel:${LoadingScreenServices.supportPhoneNumber}";
     }
 
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      print(url);
-      throw 'Could not launch $url';
-    }
+    launch(url);
+    // if (await canLaunch(url)) {
+    //   await launch(url);
+    // } else {
+    //   print(url);
+    //   throw 'Could not launch $url';
+    // }
   }
 
   _shareApp() {

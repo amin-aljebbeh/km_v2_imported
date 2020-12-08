@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 
 class ServerUpdate extends StatelessWidget {
@@ -35,7 +36,8 @@ class ServerUpdate extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      "نأسف لحدوث ذلك ولكن يقوم مدير النظام حالياً بإجراء بعض الإصلاحات و التطويرات، سوف نعاود العمل خلال مدة قصيرة",
+                      "${LoadingScreenServices.systemMaintenanceMessages}",
+                      // "نأسف لحدوث ذلك ولكن يقوم مدير النظام حالياً بإجراء بعض الإصلاحات و التطويرات، سوف نعاود العمل خلال مدة قصيرة",
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.center,
                       style: TextStyle(
