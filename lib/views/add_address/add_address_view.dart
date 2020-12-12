@@ -607,41 +607,52 @@ class AddAddressViewState extends State<AddAddressView> {
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
   }
 
-  var location = new Location();
-
   Map<String, double> userLocation;
 
   // bool bottomSheetLoading = false;
 
   Future<void> _getUserLocation() async {
+    print("---- _getUserLocation function ----");
+
+    var location = new Location();
+
     setState(() {
       isLoading = true;
     });
-    LocationData currentLocation;
 
-    if (await location.hasPermission() == PermissionStatus.granted) {
-      try {
-        await location.getLocation().then((onValue) {
-          setState(() {
-            userLocation = {
-              "latitude": onValue.latitude,
-              "longitude": onValue.longitude
-            };
-            lat = onValue.latitude;
-            lon = onValue.longitude;
-            print("----- the lat , lon is ------");
-            print(lat);
-            print(lon);
+    try {
+      if (await location.hasPermission() == PermissionStatus.granted &&
+          await location.requestService() == true) {
+        try {
+          print("---- Location Garented ----");
+          print(await location.hasPermission());
+          await location.getLocation().then((onValue) {
+            setState(() {
+              userLocation = {
+                "latitude": onValue.latitude,
+                "longitude": onValue.longitude
+              };
+              lat = onValue.latitude;
+              lon = onValue.longitude;
+              print("----- the lat , lon is ------");
+              print(lat);
+              print(lon);
+            });
           });
-        });
 
-        _addAddressBtnTapped();
-      } catch (e) {
-        currentLocation = null;
+          _addAddressBtnTapped();
+        } catch (e) {
+          print("error getting user location");
+          print(e.toString());
+        }
+      } else {
+        print("---- address no granted ----");
+        await location.requestPermission().then((onValue) =>
+            onValue == PermissionStatus.granted ? _getUserLocation() : {});
       }
-    } else {
-      await location.requestPermission().then((onValue) =>
-          onValue == PermissionStatus.granted ? _getUserLocation() : {});
+    } catch (e) {
+      print("----- error before if --------");
+      print(e.toString());
     }
   }
 

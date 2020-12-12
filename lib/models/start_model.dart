@@ -280,8 +280,6 @@ class WarehousePivot {
     this.isFeatured,
     this.priority,
     this.numberOfVisits,
-    this.createdAt,
-    this.updatedAt,
     this.price,
   });
 
@@ -291,8 +289,7 @@ class WarehousePivot {
   String isFeatured;
   String priority;
   String numberOfVisits;
-  DateTime createdAt;
-  DateTime updatedAt;
+
   String price;
 
   factory WarehousePivot.fromJson(Map<String, dynamic> json) => WarehousePivot(
@@ -303,12 +300,6 @@ class WarehousePivot {
         isFeatured: json["is_featured"],
         priority: json["priority"],
         numberOfVisits: json["number_of_visits"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null
-            ? null
-            : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -319,8 +310,6 @@ class WarehousePivot {
         "is_featured": isFeatured,
         "priority": priority,
         "number_of_visits": numberOfVisits,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
       };
 }
 
@@ -612,31 +601,28 @@ class PageData {
 }
 
 class OrdersOriginalData {
-  OrdersOriginalData({
-    this.id,
-    this.expectedTimeMinutes,
-    this.deliveryCost,
-    this.supportedCityCost,
-    this.orderStatusId,
-    this.paymentMethodId,
-    this.deliveryMethodId,
-    this.warehouseId,
-    this.addressId,
-    this.userId,
-    this.couponId,
-    this.userDeliveryRating,
-    this.userPriceRating,
-    this.userComment,
-    this.total,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.userNotes,
-    this.supportedCityId,
-    this.underUpdate,
-    this.deliveryStaffId,
-    this.products,
-  });
+  OrdersOriginalData(
+      {this.id,
+      this.expectedTimeMinutes,
+      this.deliveryCost,
+      this.supportedCityCost,
+      this.orderStatusId,
+      this.paymentMethodId,
+      this.deliveryMethodId,
+      this.warehouseId,
+      this.addressId,
+      this.userId,
+      this.couponId,
+      this.userDeliveryRating,
+      this.userPriceRating,
+      this.userComment,
+      this.total,
+      this.userNotes,
+      this.supportedCityId,
+      this.underUpdate,
+      this.deliveryStaffId,
+      this.products,
+      this.createdAt});
 
   int id;
   String expectedTimeMinutes;
@@ -654,8 +640,7 @@ class OrdersOriginalData {
   dynamic userComment;
   String total;
   DateTime createdAt;
-  DateTime updatedAt;
-  dynamic deletedAt;
+
   String userNotes;
   String supportedCityId;
   String underUpdate;
@@ -679,10 +664,8 @@ class OrdersOriginalData {
         userPriceRating: json["user_price_rating"],
         userComment: json["user_comment"],
         total: json["total"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        deletedAt: json["deleted_at"],
         userNotes: json["user_notes"],
+        createdAt: DateTime.parse(json["created_at"]),
         supportedCityId: json["supported_city_id"],
         underUpdate: json["under_update"],
         deliveryStaffId: json["delivery_staff_id"],
@@ -707,8 +690,6 @@ class OrdersOriginalData {
         "user_comment": userComment,
         "total": total,
         "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "deleted_at": deletedAt,
         "user_notes": userNotes,
         "supported_city_id": supportedCityId,
         "under_update": underUpdate,
@@ -794,18 +775,12 @@ class ProductImage {
 
 class OrderProductPivot {
   OrderProductPivot(
-      {this.orderId,
-      this.productId,
-      this.purchasePrice,
-      this.createdAt,
-      this.updatedAt,
-      this.quantity});
+      {this.orderId, this.productId, this.purchasePrice, this.quantity});
 
   String orderId;
   String productId;
   String purchasePrice;
-  DateTime createdAt;
-  DateTime updatedAt;
+
   String quantity;
 
   factory OrderProductPivot.fromJson(Map<String, dynamic> json) =>
@@ -814,8 +789,6 @@ class OrderProductPivot {
         productId: json["product_id"],
         purchasePrice: json["purchase_price"],
         quantity: json["quantity"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -823,8 +796,6 @@ class OrderProductPivot {
         "product_id": productId,
         "purchase_price": purchasePrice,
         "quantity": quantity,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
       };
 }
 
@@ -979,7 +950,6 @@ class UserData {
     this.isActivated,
     this.couponId,
     this.rememberToken,
-    this.createdAt,
     this.warehouseId,
     this.supportedCityId,
     this.addresses,
@@ -995,7 +965,7 @@ class UserData {
   String isActivated;
   dynamic couponId;
   dynamic rememberToken;
-  DateTime createdAt;
+
   String warehouseId;
   dynamic supportedCityId;
   List<Address> addresses;
@@ -1011,7 +981,6 @@ class UserData {
         isActivated: json["is_activated"],
         couponId: json["coupon_id"],
         rememberToken: json["remember_token"],
-        createdAt: DateTime.parse(json["created_at"]),
         warehouseId: json["warehouse_id"],
         supportedCityId: json["supported_city_id"],
         addresses: List<Address>.from(
@@ -1029,7 +998,6 @@ class UserData {
         "is_activated": isActivated,
         "coupon_id": couponId,
         "remember_token": rememberToken,
-        "created_at": createdAt.toIso8601String(),
         "warehouse_id": warehouseId,
         "supported_city_id": supportedCityId,
         "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
@@ -1097,8 +1065,6 @@ class AddressPivot {
   AddressPivot({
     this.userId,
     this.addressId,
-    this.createdAt,
-    this.updatedAt,
   });
 
   String userId;
@@ -1109,8 +1075,6 @@ class AddressPivot {
   factory AddressPivot.fromJson(Map<String, dynamic> json) => AddressPivot(
         userId: json["user_id"],
         addressId: json["address_id"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
       );
 
   Map<String, dynamic> toJson() => {
