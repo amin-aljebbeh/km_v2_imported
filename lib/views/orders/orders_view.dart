@@ -290,40 +290,30 @@ class OrdersViewState extends State<OrdersView> {
   Widget _showCancelButton(int index) {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
       onTap: () async {
-        await _getOrder();
         setState(() {
           orderLoaded = false;
-          errorMessage = false;
         });
-        if (int.parse(orderDataList[index].orderStatusId) != 1) {
+        String x =
+            await OrderServices.cancelOrder(orderDataList[index].id.toString());
+        if (x == "true") {
           setState(() {
             orderLoaded = true;
-            errorMessage = true;
-            errorMessageVlue =
-                "لايمكن إلغاء طلبك لأن مدير العمليات قد قام بقبوله مسبقاً";
+            errorMessage = false;
           });
-          // Toast.show("لا يمكن إلغاء طلبك", context,
-          //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-          print("*************** You Can't cancel the Order ****************");
+          Toast.show("تم إلغاء طلبك بنجاح", context,
+              duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+          orderDataList[index].orderStatusId = "5";
         } else {
-          bool x = await OrderServices.cancelOrder(
-              orderDataList[index].id.toString());
-          if (x) {
-            setState(() {
-              orderLoaded = true;
-            });
-            Toast.show("تم إلغاء طلبك بنجاح", context,
-                duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-            orderDataList[index].orderStatusId = "5";
-          } else {
-            setState(() {
-              orderLoaded = true;
-              errorMessage = true;
-              errorMessageVlue = " يرجى تحديث الصفحة و المحاولة من جديد";
-            });
-            // Toast.show("حدثت مشكلة أثناء إلغاء الطلب يرجى تحديث لصفحة", context,
-            //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-          }
+          setState(() {
+            orderDataList[index].orderStatusId = "2";
+
+            orderLoaded = true;
+            errorMessage = true;
+
+            errorMessageVlue = x;
+          });
+          // Toast.show("حدثت مشكلة أثناء إلغاء الطلب يرجى تحديث لصفحة", context,
+          //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
         }
       },
       child: new Container(
@@ -606,7 +596,7 @@ class OrdersViewState extends State<OrdersView> {
           orderLoaded = false;
         });
         Navigator.of(context).pop();
-        bool x = await OrderServices.rateOrder(
+        await OrderServices.rateOrder(
             orderId: orderDataList[index].id.toString(),
             userFeedback: _textFieldController.text + ".",
             rating: rateValue);
@@ -658,9 +648,12 @@ class OrdersViewState extends State<OrdersView> {
           orderDataList[index].underUpdate = "1";
         } else {
           setState(() {
+            orderDataList[index].orderStatusId = "3";
+
             orderLoaded = true;
             errorMessage = true;
-            errorMessageVlue = "لا يمكنك تعديل طلبك";
+            errorMessageVlue =
+                "لا يمكنك تعديل طلبك حالياً لانه تم الإنتهاء من تطبيق طلبك بنجاح";
           });
 
           // Toast.show("حدثت مشكلة أثناء إلغاء الطلب يرجى تحديث لصفحة", context,
@@ -750,7 +743,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
     else if (widget.order_status == 3)
       orderStatus = "تم إرسال طلبك مع عامل التوصيل";
     else if (widget.order_status == 4)
-      orderStatus = "تم توصيل طلبك بنجاح ";
+      orderStatus = "تم ��وصيل طلبك بنجاح ";
     else if (widget.order_status == 5)
       orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
     else if (widget.order_status == 6)

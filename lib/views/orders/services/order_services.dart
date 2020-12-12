@@ -120,7 +120,7 @@ class OrderServices {
     }
   }
 
-  static Future<bool> cancelOrder(String orderId) async {
+  static Future<String> cancelOrder(String orderId) async {
     // print("------------------ CANCEL ORDER  --------------------");
 
     Map cancelOrderBody = {
@@ -132,11 +132,12 @@ class OrderServices {
       body: jsonEncode(cancelOrderBody),
     );
 
-    if (response.statusCode == SUCCESS_CODE) {
-      return true;
+    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      return "true";
     } else {
       print("------------ ERROR CANCEL ORDER --------------");
-      return false;
+      await Services.getMyOrders();
+      return "تم قبول طلبك مسبقاً لايمكن إلغاء الطلب حاليا اذا كنت مصراً على إلغاء الطلب يرجى التواصل مع فريق الدعم";
     }
   }
 
