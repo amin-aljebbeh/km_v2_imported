@@ -6,6 +6,7 @@ import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/home/home_view.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/login/login_view.dart';
+import 'package:kammun_app/views/supported_city/supported_city.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
@@ -100,6 +101,7 @@ class _MyAppState extends State<MyApp> {
               '/cartFinal': (_) => CartViewFinal(),
               OTPVerification.routeName: (_) => OTPVerification(),
               ServerUpdate.routeName: (_) => ServerUpdate(),
+              '/supportedCity': (_) => SupportedCity(),
               '/thankyou': (_) => new ThankYouView(),
               '/delivery': (_) => DeliverToView(),
               '/cart': (_) => new HomeView(routeIndex: 1),

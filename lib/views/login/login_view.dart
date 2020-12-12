@@ -18,6 +18,8 @@ class LoginScreen extends StatefulWidget {
   static String routeName = "/login";
   static String phoneNumber = "";
   static String supportedCityId;
+  static String selectedValue;
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -30,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool errorCode = false;
   bool loadingScreen = false;
-  String selectedValue;
   String errorMessage;
 
   // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -132,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
         errorCode = true;
         errorMessage = "يرجى إدخال رقم يتألف من عشرة خانات";
       });
-    } else if (selectedValue == null) {
+    } else if (LoginScreen.selectedValue == null) {
       setState(() {
         errorCode = true;
         errorMessage = "يرجى إختيار أقرب مدينة إليك";
@@ -142,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           loadingScreen = true;
         });
-        LoginScreen.supportedCityId = selectedValue.split("id")[1];
+        LoginScreen.supportedCityId = LoginScreen.selectedValue.split("id")[1];
 
         await SmsAutoFill().listenForCode;
 
@@ -157,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
             phoneNumber:
                 LoginServices.replaceFarsiNumber(myController.text.toString()),
             signCode: signature,
-            supportedCityId: selectedValue.split("id")[1]);
+            supportedCityId: LoginScreen.selectedValue.split("id")[1]);
 
         if (response) {
           await SmsAutoFill().listenForCode;
@@ -322,7 +323,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     underline: Container(),
                     isExpanded: true,
                     items: LoadingScreenServices.supportedCitiesListIntro,
-                    value: selectedValue,
+                    value: LoginScreen.selectedValue,
                     hint: new Text(
                       'يرجى اختيار اقرب مدينة',
                       style: TextStyle(
@@ -339,9 +340,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        selectedValue = value;
+                        LoginScreen.selectedValue = value;
                         print(value);
                       });
+                      // Navigator.of(context).pushNamed('/supportedCity');
                     },
                   ),
                 ),
