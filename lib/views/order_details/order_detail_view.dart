@@ -83,7 +83,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                                 orderDetail.images[0].imageFileName
                             : "",
                         product_name: orderDetail.name,
-                        quantity: orderDetail.pivot.quantity,
+                        quantity: orderDetail.quantity,
                         price: int.parse(orderDetail.pivot.purchasePrice),
                         unit: orderDetail.unit == null ? "" : orderDetail.unit,
                         productCount: orderDetail.pivot.quantity.toString(),

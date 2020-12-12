@@ -8,6 +8,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Services.dart';
@@ -28,6 +29,18 @@ class Favoraites extends StatefulWidget {
 class FavoraitesViewState extends State<Favoraites> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _searchController = TextEditingController();
+
+  _shareApp() {
+    String infoMessage =
+        "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
+    String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
+
+    String androidUrl = androidGrating + LoadingScreenServices.iOSShareUrl;
+    String iosGrating = "\n لتحميل التطبيق على الآيفون \n";
+    String iPhoneUrl = iosGrating + LoadingScreenServices.androidShareUrl;
+
+    Share.share(infoMessage + androidUrl + iPhoneUrl);
+  }
 
   _openUrl(String selected) async {
     String url = "";
@@ -187,24 +200,24 @@ class FavoraitesViewState extends State<Favoraites> {
                         leading: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Icon(
-                            FontAwesomeIcons.phoneSquare,
+                            Icons.phone,
                             color: UtilsImporter().colorUtils.kmColors,
                             size: 30,
                           ),
                         ),
                         title: Text(
-                          "رقم التواصل",
+                          "الإتصال بكمون",
                           style: TextStyle(
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                           ),
                         ),
-                        subtitle: Text(
-                          LoadingScreenServices
-                              .companyInformation.supportNumber,
-                          style: TextStyle(
-                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                              fontWeight: FontWeight.bold),
-                        ),
+                        // subtitle: Text(
+                        //   LoadingScreenServices
+                        //       .companyInformation.supportNumber,
+                        //   style: TextStyle(
+                        //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        //       fontWeight: FontWeight.bold),
+                        // ),
                         onTap: () => _openUrl("number"),
                       ),
                       InkWell(
@@ -213,49 +226,51 @@ class FavoraitesViewState extends State<Favoraites> {
                           leading: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Icon(
-                              Icons.email,
+                              Icons.share,
                               color: UtilsImporter().colorUtils.kmColors,
                               size: 30,
                             ),
                           ),
-                          title: Text("الدعم الفني",
+                          title: Text("إرسال التطبيق للأصدقاء",
                               style: TextStyle(
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk)),
-                          subtitle: Text(
-                            //'support@kammun.com',
-                            LoadingScreenServices.companyInformation.email,
+                          // subtitle: Text(
+                          //   //'support@kammun.com',
+                          //   "بدعمكم نستمر",
 
-                            style: TextStyle(
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          onTap: () => _openUrl("email"),
+                          //   style: TextStyle(
+                          //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          //       fontWeight: FontWeight.bold),
+                          // ),
+                          onTap: () => _shareApp(),
                         ),
                       ),
                       ListTile(
                         leading: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Icon(
-                            FontAwesomeIcons.internetExplorer,
+                            Icons.info_outline,
                             color: UtilsImporter().colorUtils.kmColors,
                             size: 30,
                           ),
                         ),
-                        title: Text("الموقع الإلكتروني",
+                        title: Text("الملف الشخصي",
                             style: TextStyle(
                                 fontFamily:
                                     UtilsImporter().stringUtils.HKGrotesk)),
-                        subtitle: Text(
-                          // 'www.kammun.com',
-                          LoadingScreenServices.companyInformation.websiteUrl,
+                        // subtitle: Text(
+                        //   // 'www.kammun.com',
+                        //   LoadingScreenServices
+                        //       .companyInformation.websiteUrl,
 
-                          style: TextStyle(
-                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        onTap: () => _openUrl("website"),
+                        //   style: TextStyle(
+                        //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        //       fontWeight: FontWeight.bold),
+                        // ),
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/profile');
+                        },
                       ),
                       Divider(
                         color: UtilsImporter().colorUtils.kmColors,

@@ -113,7 +113,8 @@ class HomeViewState extends State<HomeView> {
       print(prefs.get("firebase_token"));
       firebaseToken = prefs.get("firebase_token");
     }
-    if (LoadingScreenServices.userOriginal.data.firebaseToken == null) {
+    if (LoadingScreenServices.userOriginal.data.firebaseToken !=
+        firebaseToken) {
       LoadingScreenServices().updateFirebaseToken(firebaseToken);
       print("Firebase Updated");
     }

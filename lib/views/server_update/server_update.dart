@@ -18,9 +18,9 @@ class ServerUpdate extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image.asset(
-                  "assets/maintenance.png",
-                  width: 100,
-                  height: 150,
+                  "assets/system_update.gif",
+                  // width: 100,
+                  // height: 150,
                 ),
                 Text(
                   "تحديثات ضمن النظام",
