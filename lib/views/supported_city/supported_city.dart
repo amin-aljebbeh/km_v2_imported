@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/login/login_view.dart';
 
-class SupportedCity extends StatefulWidget {
+class SupportedCityWidget extends StatefulWidget {
+  final Function(String, String, String) onSelecte;
+  SupportedCityWidget({this.onSelecte});
   @override
-  _SupportedCityState createState() => _SupportedCityState();
+  _SupportedCityWidgetState createState() => _SupportedCityWidgetState();
 }
 
-class _SupportedCityState extends State<SupportedCity> {
+class _SupportedCityWidgetState extends State<SupportedCityWidget> {
   TextEditingController _searchBarController = new TextEditingController();
   String filter;
   Widget _showSearchTxtFld() {
@@ -70,7 +71,6 @@ class _SupportedCityState extends State<SupportedCity> {
   @override
   Widget build(BuildContext context) {
     print("------ supported city name ------");
-    print(LoginScreen.selectedValue);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -84,10 +84,28 @@ class _SupportedCityState extends State<SupportedCity> {
             return filter == null || filter == ""
                 ? GestureDetector(
                     onTap: () {
+                      widget.onSelecte(
+                          LoadingScreenServices
+                              .supportedCityOriginal.data[index].name,
+                          LoadingScreenServices
+                              .supportedCityOriginal.data[index].id
+                              .toString(),
+                          LoadingScreenServices
+                              .supportedCityOriginal.data[index].deliveryPrice);
                       setState(() {
-                        LoginScreen.selectedValue = LoadingScreenServices
-                            .supportedCityOriginal.data[index].name;
+                        LoadingScreenServices.selectedSupportedCityName =
+                            LoadingScreenServices
+                                .supportedCityOriginal.data[index].name;
+
+                        LoadingScreenServices.selectedSupportedCityId =
+                            LoadingScreenServices
+                                .supportedCityOriginal.data[index].id
+                                .toString();
                       });
+                      Navigator.of(context).pop();
+                      // Navigator.of(context).pushNamedAndRemoveUntil(
+                      //     LoginScreen.routeName,
+                      //     (Route<dynamic> route) => false);
                     },
                     behavior: HitTestBehavior.translucent,
                     child: SupportedCityCardView(
@@ -112,14 +130,28 @@ class _SupportedCityState extends State<SupportedCity> {
                         .contains(filter.toLowerCase())
                     ? GestureDetector(
                         onTap: () {
+                          widget.onSelecte(
+                              LoadingScreenServices
+                                  .supportedCityOriginal.data[index].name,
+                              LoadingScreenServices
+                                  .supportedCityOriginal.data[index].id
+                                  .toString(),
+                              LoadingScreenServices.supportedCityOriginal
+                                  .data[index].deliveryPrice);
                           setState(() {
-                            LoginScreen.selectedValue = LoadingScreenServices
-                                .supportedCityOriginal.data[index].name;
+                            LoadingScreenServices.selectedSupportedCityName =
+                                LoadingScreenServices
+                                    .supportedCityOriginal.data[index].name;
+                            LoadingScreenServices.selectedSupportedCityId =
+                                LoadingScreenServices
+                                    .supportedCityOriginal.data[index].id
+                                    .toString();
                           });
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                            LoginScreen.routeName,
-                            (Route<dynamic> route) => false,
-                          );
+                          Navigator.of(context).pop();
+                          // Navigator.of(context).pushNamedAndRemoveUntil(
+                          //   LoginScreen.routeName,
+                          //   (Route<dynamic> route) => false,
+                          // );
                         },
                         behavior: HitTestBehavior.translucent,
                         child: SupportedCityCardView(

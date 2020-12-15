@@ -18,7 +18,7 @@ class LoginScreen extends StatefulWidget {
   static String routeName = "/login";
   static String phoneNumber = "";
   static String supportedCityId;
-  static String selectedValue;
+  // static String selectedValue;
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -34,57 +34,15 @@ class _LoginScreenState extends State<LoginScreen> {
   bool loadingScreen = false;
   String errorMessage;
 
-  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  // String firebaseToken;
-
   @override
   void initState() {
     if (LoadingScreenServices.supportedCitiesListIntro.length == 0) {
       Navigator.push(context,
           new MaterialPageRoute(builder: (context) => new InternetError()));
     }
-    // WidgetsBinding.instance
-    //     .addPostFrameCallback((_) => _initializeNotificaiton(ctx: context));
 
     super.initState();
   }
-
-//   _initializeNotificaiton({BuildContext ctx}) {
-//     print("====== Starting initializing Firebase ======");
-//     //checkUpdate = _checkAppVersion();
-
-//     Future.delayed(const Duration(seconds: 0), () {
-// // Here you can write your code
-
-//       _firebaseMessaging.requestNotificationPermissions(
-//           const IosNotificationSettings(sound: true, badge: true, alert: true));
-//       getoken();
-//       print("====== End initializing Firebase ======");
-//     });
-//   }
-
-//   Future getoken() async {
-//     // SharedPreferences prefs = await SharedPreferences.getInstance();
-//     // if (prefs.get("firebase_token") == null) {
-//     //   firebaseToken = await _firebaseMessaging.getToken();
-//     //   prefs.setString("firebase_token", firebaseToken);
-//     //   print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
-//     //   print(firebaseToken);
-//     // } else {
-//     //   print("FFFFFFFFFFFFF TOKEN FFFFFFFFFFFFF  ");
-
-//     //   print(prefs.get("firebase_token"));
-//     // }
-
-//     Future.delayed(const Duration(seconds: 100), () {
-// // Here you can write your code
-
-//       _firebaseMessaging.requestNotificationPermissions(
-//           const IosNotificationSettings(sound: true, badge: true, alert: true));
-//       getoken();
-//       print("====== End initializing Firebase ======");
-//     });
-//   }
 
   void _showDialog(title, body) {
     showDialog(
@@ -133,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
         errorCode = true;
         errorMessage = "يرجى إدخال رقم يتألف من عشرة خانات";
       });
-    } else if (LoginScreen.selectedValue == null) {
+    } else if (LoadingScreenServices.selectedSupportedCityName == null) {
       setState(() {
         errorCode = true;
         errorMessage = "يرجى إختيار أقرب مدينة إليك";
@@ -143,7 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           loadingScreen = true;
         });
-        LoginScreen.supportedCityId = LoginScreen.selectedValue.split("id")[1];
+        LoginScreen.supportedCityId =
+            LoadingScreenServices.selectedSupportedCityId;
 
         await SmsAutoFill().listenForCode;
 
@@ -158,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
             phoneNumber:
                 LoginServices.replaceFarsiNumber(myController.text.toString()),
             signCode: signature,
-            supportedCityId: LoginScreen.selectedValue.split("id")[1]);
+            supportedCityId: LoadingScreenServices.selectedSupportedCityId);
 
         if (response) {
           await SmsAutoFill().listenForCode;
@@ -183,8 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
           loadingScreen = false;
           errorCode = true;
         });
-        print(
-            "---------------------------------- FEATCH OTP EXCEPTION ----------------------------------");
+        print("----------------- FEATCH OTP EXCEPTION ------");
         throw new Exception(e.toString());
       }
     }
@@ -306,48 +264,73 @@ class _LoginScreenState extends State<LoginScreen> {
                   // width: double.infinity,
                   // height: MediaQuery.of(context).size.height,
                   color: Colors.white),
-              Container(
-                padding: EdgeInsets.only(left: 5, right: 5),
-                margin: EdgeInsets.only(left: 20, right: 20),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 5, color: UtilsImporter().colorUtils.kmColors),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SearchableDropdown(
-                    style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                    closeButton: "إغلاق",
-                    isCaseSensitiveSearch: false,
-                    underline: Container(),
-                    isExpanded: true,
-                    items: LoadingScreenServices.supportedCitiesListIntro,
-                    value: LoginScreen.selectedValue,
-                    hint: new Text(
-                      'يرجى اختيار اقرب مدينة',
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/supportedCity');
+                },
+                child: Container(
+                  padding:
+                      EdgeInsets.only(left: 5, right: 5, top: 15, bottom: 15),
+                  margin: EdgeInsets.only(left: 20, right: 20),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        width: 5, color: UtilsImporter().colorUtils.kmColors),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      LoadingScreenServices.selectedSupportedCityName,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                       ),
                     ),
-                    searchHint: new Text(
-                      'يرجى كتابة اسم المنطقة',
-                      style: new TextStyle(
-                          fontSize: 20,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        LoginScreen.selectedValue = value;
-                        print(value);
-                      });
-                      // Navigator.of(context).pushNamed('/supportedCity');
-                    },
                   ),
                 ),
               ),
+              // Container(
+              //   padding: EdgeInsets.only(left: 5, right: 5),
+              //   margin: EdgeInsets.only(left: 20, right: 20),
+              //   decoration: BoxDecoration(
+              //     border: Border.all(
+              //         width: 5, color: UtilsImporter().colorUtils.kmColors),
+              //   ),
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(8.0),
+              //     child: SearchableDropdown(
+              //       style: TextStyle(
+              //           fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              //       closeButton: "إغلاق",
+              //       isCaseSensitiveSearch: false,
+              //       underline: Container(),
+              //       isExpanded: true,
+              //       items: LoadingScreenServices.supportedCitiesListIntro,
+              //       value: LoadingScreenServices.selectedSupportedCityName,
+              //       hint: new Text(
+              //         '${LoadingScreenServices.selectedSupportedCityName}',
+              //         style: TextStyle(
+              //           fontSize: 18,
+              //           fontWeight: FontWeight.bold,
+              //           fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              //         ),
+              //       ),
+              //       searchHint: new Text(
+              //         'يرجى كتابة اسم المنطقة',
+              //         style: new TextStyle(
+              //             fontSize: 20,
+              //             fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              //       ),
+              //       onChanged: (value) {
+              //         setState(() {
+              // //LoginScreen.selectedValue = value;
+              //           print(value);
+              //         });
+              //         Navigator.of(context).pushNamed('/supportedCity');
+              //       },
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: _ShowCountryInput(),

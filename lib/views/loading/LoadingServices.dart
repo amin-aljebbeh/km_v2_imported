@@ -59,6 +59,15 @@ class LoadingScreenServices {
 
   // -------------------------------------------------------//
 
+  /// -------- selecrted supported city information ------- ///
+
+  static String selectedSupportedCityName = "الرجاء اختيار المنطقة";
+  static String selectedSupportedCityPrice;
+  static String selectedSupportedCityIsActive;
+  static String selectedSupportedCityId;
+
+  // -------------------------------------------------------//
+
   Future<bool> updateFirebaseToken(String firebaseToken) async {
     Map body = {
       "firebase_token": firebaseToken,
