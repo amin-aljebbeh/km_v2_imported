@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gradient_app_bar/gradient_app_bar.dart';
 import 'package:kammun_app/utils/Loader.dart';
 
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -219,22 +220,28 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       //backgroundColor: Colors.white,
+      // appBar: GradientAppBar(
+      //   title: Text('Kammun.com'),
+      //   backgroundColorStart: Colors.cyan,
+      //   backgroundColorEnd: Colors.indigo,
+      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           reverse: true,
           controller: _scroll,
-          child: Column(
-            children: <Widget>[
-              errorCode
-                  ? AlertMessages(
-                      text: "$errorMessage",
-                      messageType: "internetError",
-                      headerText: "مشكلة بالبيانات المدخلة",
-                    )
-                  : Container(
-                      padding: EdgeInsets.zero,
-                    ),
-              Container(
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                errorCode
+                    ? AlertMessages(
+                        text: "$errorMessage",
+                        messageType: "internetError",
+                        headerText: "مشكلة بالبيانات المدخلة",
+                      )
+                    : Container(
+                        padding: EdgeInsets.zero,
+                      ),
+                Container(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 50.0),
                     child: Center(
@@ -247,8 +254,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   // width: double.infinity,
                   // height: MediaQuery.of(context).size.height,
-                  color: Colors.white),
-              Container(
+                ),
+                Container(
                   child: Padding(
                     padding: const EdgeInsets.only(
                         top: 20.0, right: 15, left: 15, bottom: 10),
@@ -263,83 +270,43 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   // width: double.infinity,
                   // height: MediaQuery.of(context).size.height,
-                  color: Colors.white),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushNamed('/supportedCity');
-                },
-                child: Container(
-                  padding:
-                      EdgeInsets.only(left: 5, right: 5, top: 15, bottom: 15),
-                  margin: EdgeInsets.only(left: 20, right: 20),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 5, color: UtilsImporter().colorUtils.kmColors),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      LoadingScreenServices.selectedSupportedCityName,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/supportedCity');
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.only(left: 5, right: 5, top: 15, bottom: 15),
+                    margin: EdgeInsets.only(left: 20, right: 20),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 5, color: UtilsImporter().colorUtils.kmColors),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        LoadingScreenServices.selectedSupportedCityName,
+                        style: TextStyle(
+                          color: UtilsImporter().colorUtils.primarycolor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              // Container(
-              //   padding: EdgeInsets.only(left: 5, right: 5),
-              //   margin: EdgeInsets.only(left: 20, right: 20),
-              //   decoration: BoxDecoration(
-              //     border: Border.all(
-              //         width: 5, color: UtilsImporter().colorUtils.kmColors),
-              //   ),
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: SearchableDropdown(
-              //       style: TextStyle(
-              //           fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-              //       closeButton: "إغلاق",
-              //       isCaseSensitiveSearch: false,
-              //       underline: Container(),
-              //       isExpanded: true,
-              //       items: LoadingScreenServices.supportedCitiesListIntro,
-              //       value: LoadingScreenServices.selectedSupportedCityName,
-              //       hint: new Text(
-              //         '${LoadingScreenServices.selectedSupportedCityName}',
-              //         style: TextStyle(
-              //           fontSize: 18,
-              //           fontWeight: FontWeight.bold,
-              //           fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-              //         ),
-              //       ),
-              //       searchHint: new Text(
-              //         'يرجى كتابة اسم المنطقة',
-              //         style: new TextStyle(
-              //             fontSize: 20,
-              //             fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-              //       ),
-              //       onChanged: (value) {
-              //         setState(() {
-              // //LoginScreen.selectedValue = value;
-              //           print(value);
-              //         });
-              //         Navigator.of(context).pushNamed('/supportedCity');
-              //       },
-              //     ),
-              //   ),
-              // ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: _ShowCountryInput(),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: _showAddAddressButton(),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: _ShowCountryInput(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _showAddAddressButton(),
+                ),
+              ],
+            ),
           ),
         ),
       ),

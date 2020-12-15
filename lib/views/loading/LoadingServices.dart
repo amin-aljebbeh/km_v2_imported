@@ -132,6 +132,7 @@ class LoadingScreenServices {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userToken = prefs.getString('userToken');
       print("user token is :");
+      //prefs.remove('userToken');
       print(userToken);
       if (userToken != null) {
         LoadingScreen.user_token = "Bearer " + userToken;
@@ -212,6 +213,8 @@ class LoadingScreenServices {
       // Get Company Information.
       companyInformation = startRequest.company.original.data[0];
       print("======= Get Company Information DONE =======");
+
+      //BaseUrl = companyInformation.baseUrl;
 
       // Get Image Url Prefix.
       imagePrefixUrl = startRequest.company.original.data[0].imageBaseUrl;
@@ -429,7 +432,7 @@ class LoadingScreenServices {
 
         supportedCitiesList.add(new DropdownMenuItem(
           child: Text(
-            "${supportedCitiesResponse.data[i].name} - التوص��ل : ${supportedCitiesResponse.data[i].deliveryPrice}",
+            "${supportedCitiesResponse.data[i].name} - التوصيل : ${supportedCitiesResponse.data[i].deliveryPrice}",
             style: TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk),
           ),
           value: supportedCitiesResponse.data[i].name +

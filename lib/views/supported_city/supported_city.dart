@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/login/login_view.dart';
 
 class SupportedCityWidget extends StatefulWidget {
-  final Function(String, String, String) onSelecte;
-  SupportedCityWidget({this.onSelecte});
   @override
   _SupportedCityWidgetState createState() => _SupportedCityWidgetState();
 }
@@ -84,14 +83,6 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
             return filter == null || filter == ""
                 ? GestureDetector(
                     onTap: () {
-                      widget.onSelecte(
-                          LoadingScreenServices
-                              .supportedCityOriginal.data[index].name,
-                          LoadingScreenServices
-                              .supportedCityOriginal.data[index].id
-                              .toString(),
-                          LoadingScreenServices
-                              .supportedCityOriginal.data[index].deliveryPrice);
                       setState(() {
                         LoadingScreenServices.selectedSupportedCityName =
                             LoadingScreenServices
@@ -102,10 +93,9 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
                                 .supportedCityOriginal.data[index].id
                                 .toString();
                       });
-                      Navigator.of(context).pop();
-                      // Navigator.of(context).pushNamedAndRemoveUntil(
-                      //     LoginScreen.routeName,
-                      //     (Route<dynamic> route) => false);
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          LoginScreen.routeName,
+                          (Route<dynamic> route) => false);
                     },
                     behavior: HitTestBehavior.translucent,
                     child: SupportedCityCardView(
@@ -130,14 +120,6 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
                         .contains(filter.toLowerCase())
                     ? GestureDetector(
                         onTap: () {
-                          widget.onSelecte(
-                              LoadingScreenServices
-                                  .supportedCityOriginal.data[index].name,
-                              LoadingScreenServices
-                                  .supportedCityOriginal.data[index].id
-                                  .toString(),
-                              LoadingScreenServices.supportedCityOriginal
-                                  .data[index].deliveryPrice);
                           setState(() {
                             LoadingScreenServices.selectedSupportedCityName =
                                 LoadingScreenServices
@@ -147,11 +129,10 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
                                     .supportedCityOriginal.data[index].id
                                     .toString();
                           });
-                          Navigator.of(context).pop();
-                          // Navigator.of(context).pushNamedAndRemoveUntil(
-                          //   LoginScreen.routeName,
-                          //   (Route<dynamic> route) => false,
-                          // );
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            LoginScreen.routeName,
+                            (Route<dynamic> route) => false,
+                          );
                         },
                         behavior: HitTestBehavior.translucent,
                         child: SupportedCityCardView(

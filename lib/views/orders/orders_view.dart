@@ -735,7 +735,7 @@ class OrdersViewCard extends StatefulWidget {
 }
 
 class OrdersViewCardState extends State<OrdersViewCard> {
-  String orderStatus = "��لبك قيد المعالجة ⌛️";
+  String orderStatus = "طلبك قيد المعالجة ⌛️";
   @override
   Widget build(BuildContext context) {
     if (widget.order_status == 2)
@@ -743,7 +743,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
     else if (widget.order_status == 3)
       orderStatus = "تم إرسال طلبك مع عامل التوصيل";
     else if (widget.order_status == 4)
-      orderStatus = "تم ��وصيل طلبك بنجاح ";
+      orderStatus = "تم توصيل طلبك بنجاح ";
     else if (widget.order_status == 5)
       orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
     else if (widget.order_status == 6)

@@ -219,7 +219,7 @@ class AddAddressViewState extends State<AddAddressView> {
             fontSize: 16.0,
             color: Colors.black),
         decoration: InputDecoration(
-            hintText: "مثال: بيت الجبه�� منزل الدكتور محمد",
+            hintText: "مثال: بيت الجبه منزل الدكتور محمد",
             hintStyle: TextStyle(
                 color: Colors.black26,
                 fontSize: 15,
