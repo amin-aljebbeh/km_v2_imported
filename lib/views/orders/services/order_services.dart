@@ -30,11 +30,11 @@ class OrderServices {
           CartServices.cartProducts[i].productCount.toString() +
           ";";
       purchasePrices = purchasePrices +
-          (int.parse(CartServices.cartProducts[i].warehouses[0].pivot.price
+          (int.parse(CartServices.cartProducts[i].price
                   .split(".")[0]) *
               CartServices.cartProducts[i].productCount);
       productPrices = productPrices +
-          int.parse(CartServices.cartProducts[i].warehouses[0].pivot.price
+          int.parse(CartServices.cartProducts[i].price
                   .split(".")[0])
               .toString() +
           ";";
@@ -82,11 +82,11 @@ class OrderServices {
           CartServices.cartProducts[i].productCount.toString() +
           ";";
       purchasePrices = purchasePrices +
-          (int.parse(CartServices.cartProducts[i].warehouses[0].pivot.price
+          (int.parse(CartServices.cartProducts[i].price
                   .split(".")[0]) *
               CartServices.cartProducts[i].productCount);
       productPrices = productPrices +
-          int.parse(CartServices.cartProducts[i].warehouses[0].pivot.price
+          int.parse(CartServices.cartProducts[i].price
                   .split(".")[0])
               .toString() +
           ";";

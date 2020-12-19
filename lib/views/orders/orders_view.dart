@@ -231,9 +231,12 @@ class OrdersViewState extends State<OrdersView> {
                                               1
                                           ? _showCancelButton(index)
                                           : Container(),
-                                      int.parse(orderDataList[index]
-                                                  .orderStatusId) <
-                                              3
+                                      (int.parse(orderDataList[index]
+                                                      .orderStatusId) <
+                                                  3) &&
+                                              orderDataList[index]
+                                                      .underUpdate ==
+                                                  "0"
                                           ? _showEditButton(index)
                                           : Container(),
                                       int.parse(orderDataList[index]
@@ -348,11 +351,11 @@ class OrdersViewState extends State<OrdersView> {
     for (int i = 0;
         i < LoadingScreenServices.myOrdersList[orderIndex].products.length;
         i++) {
-      ProductsData product = new ProductsData();
-      Warehouse warehouses = new Warehouse();
-      List<Warehouse> listWarehouses = [];
+      ProductData product = new ProductData();
+      // Warehouse warehouses = new Warehouse();
+      // List<Warehouse> listWarehouses = [];
 
-      WarehousePivot warehousePivot = new WarehousePivot();
+      //  WarehousePivot warehousePivot = new WarehousePivot();
 
       product.id =
           LoadingScreenServices.myOrdersList[orderIndex].products[i].id;
@@ -361,11 +364,13 @@ class OrdersViewState extends State<OrdersView> {
       // product.isActive = Services.myOrdersList[index].products[i].
       product.name =
           LoadingScreenServices.myOrdersList[orderIndex].products[i].name;
-      warehousePivot.price = LoadingScreenServices
+
+      product.price = LoadingScreenServices
           .myOrdersList[orderIndex].products[i].pivot.purchasePrice;
-      warehouses.pivot = warehousePivot;
-      listWarehouses.add(warehouses);
-      product.warehouses = listWarehouses;
+
+      // warehouses.pivot = warehousePivot;
+      // listWarehouses.add(warehouses);
+      //  product.warehouses = listWarehouses;
       // product. warehouses[0].pivot.price = LoadingScreenServices
       //     .myOrdersList[orderIndex].products[i].pivot.purchasePrice;
       product.productCount = int.parse(LoadingScreenServices
@@ -376,7 +381,6 @@ class OrdersViewState extends State<OrdersView> {
           LoadingScreenServices.myOrdersList[orderIndex].products[i].quantity;
 
       CartServices.addProductToCart(product);
-
       // products_Id += widget.products.id.toString();
       // products_quantity += widget.products.quantity.toString();
     }
@@ -739,7 +743,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
   @override
   Widget build(BuildContext context) {
     if (widget.order_status == 2)
-      orderStatus = "تم قبول طلبك ✅";
+      orderStatus = "تم قب��ل طلبك ✅";
     else if (widget.order_status == 3)
       orderStatus = "تم إرسال طلبك مع عامل التوصيل";
     else if (widget.order_status == 4)

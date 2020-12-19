@@ -21,7 +21,7 @@ class OrderProblemBottomSheet extends StatefulWidget {
 }
 
 class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
-  List<ProductsData> orderArray;
+  List<ProductData> orderArray;
   List<int> notActivecards = [];
   List<int> priceCards = [];
 
@@ -255,7 +255,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                                   child: Padding(
                                     padding: EdgeInsets.only(
                                         left: 0, right: 0, top: 0),
-                                    child: cardBodyPriceProblem(priceCards[index], context),
+                                    child: cardBodyPriceProblem(
+                                        priceCards[index], context),
                                   ),
                                 ),
                               );
@@ -427,7 +428,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].warehouses[0].pivot.price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color:

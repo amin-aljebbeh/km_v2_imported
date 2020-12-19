@@ -29,7 +29,7 @@ class CartViewFinal extends StatefulWidget {
 }
 
 class _CartViewFinalState extends State<CartViewFinal> {
-  List<ProductsData> orderArray;
+  List<ProductData> orderArray;
   int subtotal = 0;
   int delivaryCost = 10;
   List<int> cards = [];
@@ -71,7 +71,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
     for (int i = 0; i < orderArray.length; i++) {
       subtotal = subtotal +
-          ((int.parse(orderArray[i].warehouses[0].pivot.price.split(".")[0])) *
+          ((int.parse(orderArray[i].price.split(".")[0])) *
               orderArray[i].productCount);
     }
     total = subtotal +
@@ -494,7 +494,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].warehouses[0].pivot.price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color:
@@ -527,17 +527,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       onTap: () {
                         setState(() {
                           orderArray[index].productCount += 1;
-                          subtotal += (int.parse(orderArray[index]
-                              .warehouses[0]
-                              .pivot
-                              .price
-                              .split(".")[0]));
+                          subtotal += (int.parse(
+                              orderArray[index].price.split(".")[0]));
 
-                          total += (int.parse(orderArray[index]
-                              .warehouses[0]
-                              .pivot
-                              .price
-                              .split(".")[0]));
+                          total += (int.parse(
+                              orderArray[index].price.split(".")[0]));
                         });
                         _cartChanged();
                       },
@@ -569,31 +563,19 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       onTap: () {
                         setState(() {
                           if (orderArray[index].productCount > 1) {
-                            subtotal -= (int.parse(orderArray[index]
-                                .warehouses[0]
-                                .pivot
-                                .price
-                                .split(".")[0]));
+                            subtotal -= (int.parse(
+                                orderArray[index].price.split(".")[0]));
                             orderArray[index].productCount =
                                 orderArray[index].productCount - 1;
 
-                            total -= (int.parse(orderArray[index]
-                                .warehouses[0]
-                                .pivot
-                                .price
-                                .split(".")[0]));
+                            total -= (int.parse(
+                                orderArray[index].price.split(".")[0]));
                           } else if (orderArray[index].productCount == 1) {
-                            subtotal -= (int.parse(orderArray[index]
-                                .warehouses[0]
-                                .pivot
-                                .price
-                                .split(".")[0]));
+                            subtotal -= (int.parse(
+                                orderArray[index].price.split(".")[0]));
 
-                            total -= (int.parse(orderArray[index]
-                                .warehouses[0]
-                                .pivot
-                                .price
-                                .split(".")[0]));
+                            total -= (int.parse(
+                                orderArray[index].price.split(".")[0]));
                             onrRemove(index);
                             CartServices.cartProducts.removeAt(index);
                           }

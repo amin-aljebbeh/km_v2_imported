@@ -1,19 +1,14 @@
-// To parse this JSON data, do
-//
-//     final categoryProduct = categoryProductFromJson(jsonString);
-
 import 'dart:convert';
-
 import 'package:kammun_app/models/start_model.dart';
 
 CategoryProduct categoryProductFromJson(String str) =>
     CategoryProduct.fromJson(json.decode(str));
 
-List<ProductsData> syncCartFromJson(String str) => List<ProductsData>.from(
-    json.decode(str).map((x) => ProductsData.fromJson(x)));
-
 String categoryProductToJson(CategoryProduct data) =>
     json.encode(data.toJson());
+
+List<ProductData> syncCartFromJson(String str) => List<ProductData>.from(
+    json.decode(str).map((x) => ProductData.fromJson(x)));
 
 class CategoryProduct {
   CategoryProduct({
@@ -22,12 +17,12 @@ class CategoryProduct {
   });
 
   bool success;
-  Data data;
+  ProductResponse data;
 
   factory CategoryProduct.fromJson(Map<String, dynamic> json) =>
       CategoryProduct(
         success: json["success"],
-        data: Data.fromJson(json["data"]),
+        data: ProductResponse.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,8 +31,8 @@ class CategoryProduct {
       };
 }
 
-class Data {
-  Data({
+class ProductResponse {
+  ProductResponse({
     this.currentPage,
     this.data,
     this.firstPageUrl,
@@ -53,7 +48,7 @@ class Data {
   });
 
   int currentPage;
-  List<ProductsData> data;
+  List<ProductData> data;
   String firstPageUrl;
   int from;
   int lastPage;
@@ -65,10 +60,11 @@ class Data {
   int to;
   int total;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory ProductResponse.fromJson(Map<String, dynamic> json) =>
+      ProductResponse(
         currentPage: json["current_page"],
-        data: List<ProductsData>.from(
-            json["data"].map((x) => ProductsData.fromJson(x))),
+        data: List<ProductData>.from(
+            json["data"].map((x) => ProductData.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
@@ -97,64 +93,55 @@ class Data {
       };
 }
 
-class ProductsData {
-  ProductsData(
-      {this.id,
-      this.name,
-      this.description,
-      this.unit,
-      this.isInFacebook,
-      this.categoryId,
-      this.warehouses,
-      this.images,
-      this.productCount,
-      this.quantity});
+class ProductData {
+  ProductData({
+    this.id,
+    this.name,
+    this.description,
+    this.unit,
+    this.categoryId,
+    this.price,
+    this.isActive,
+    this.quantity,
+    this.productCount,
+    this.images,
+  });
 
   int id;
   String name;
   String description;
   String unit;
-  String isInFacebook;
   String categoryId;
+  String price;
+  String isActive;
   String quantity;
   int productCount;
-
-  List<Warehouse> warehouses;
   List<ProductImage> images;
 
-  factory ProductsData.fromJson(Map<String, dynamic> json) {
-    List<ProductImage> images = new List<ProductImage>();
-
-    return ProductsData(
-      id: json["id"],
-      name: json["name"],
-      description: json["description"],
-      unit: json["unit"],
-      isInFacebook: json["is_in_facebook"],
-      categoryId: json["category_id"],
-      quantity: json["quantity"],
-      warehouses: List<Warehouse>.from(
-          json["warehouses"].map((x) => Warehouse.fromJson(x))),
-      images: json["images"] == null
-          ? images
-          : List<ProductImage>.from(
-              json["images"].map((x) => ProductImage.fromJson(x))),
-      productCount: json["productCount"],
-      // images: List<ProductImage>.from(
-      //     json["images"].map((x) => ProductImage.fromJson(x))),
-    );
-  }
+  factory ProductData.fromJson(Map<String, dynamic> json) => ProductData(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        unit: json["unit"],
+        categoryId: json["category_id"],
+        price: json["price"],
+        isActive: json["is_active"],
+        quantity: json["quantity"],
+        productCount: json["productCount"],
+        images: List<ProductImage>.from(
+            json["images"].map((x) => ProductImage.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "description": description,
         "unit": unit,
-        "is_in_facebook": isInFacebook,
         "category_id": categoryId,
+        "price": price,
+        "is_active": isActive,
         "quantity": quantity,
-        "warehouses": List<dynamic>.from(warehouses.map((x) => x.toJson())),
-        "images": List<dynamic>.from(images.map((x) => x.toJson())),
         "productCount": productCount,
+        "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }

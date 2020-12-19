@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -238,6 +239,7 @@ class Services {
       'phone_code': signCode.toString() == "null" ? "" : signCode,
       'firebase_token':
           firebaseToken.toString().length < 20 ? "" : firebaseToken,
+      'platform_type': Platform.isAndroid ? "android" : "ios"
     };
 
     print(jsonEncode(loginBody));

@@ -186,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
 
-    Widget _showAddAddressButton() {
+    Widget _showSubmit() {
       final GestureDetector loginButtonWithGesture = new GestureDetector(
         onTap: featchOtp,
         child: new Container(
@@ -303,7 +303,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: _showAddAddressButton(),
+                  child: _showSubmit(),
                 ),
               ],
             ),

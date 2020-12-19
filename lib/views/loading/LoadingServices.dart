@@ -53,7 +53,7 @@ class LoadingScreenServices {
 
   // User Veriables
   static List<Address> userAddress = List<Address>();
-  static List<ProductsData> userFavoriteProducts = List<ProductsData>();
+  static List<ProductData> userFavoriteProducts = List<ProductData>();
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
   static String userNumber = "لم تقم بتسجيل رقم";
 
@@ -132,7 +132,7 @@ class LoadingScreenServices {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userToken = prefs.getString('userToken');
       print("user token is :");
-      //prefs.remove('userToken');
+     // prefs.remove('userToken');
       print(userToken);
       if (userToken != null) {
         LoadingScreen.user_token = "Bearer " + userToken;

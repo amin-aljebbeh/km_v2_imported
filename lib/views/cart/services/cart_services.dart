@@ -8,7 +8,7 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartServices {
-  static List<ProductsData> cartProducts = List<ProductsData>();
+  static List<ProductData> cartProducts = List<ProductData>();
 
   static String userNote;
   static String userCopoun;
@@ -27,7 +27,9 @@ class CartServices {
     }
     print("------ after setString if user Cart ------");
     print(userCart);
-    if (userCart != null && userCart.length > 2 && userCart.toString() != "null") {
+    if (userCart != null &&
+        userCart.length > 2 &&
+        userCart.toString() != "null") {
       cartProducts.clear();
       print("------ user Cart ------");
       print(userCart);
@@ -60,10 +62,8 @@ class CartServices {
           response.data['success'] == true) {
         final product = syncCartFromJson(jsonEncode(response.data["data"]));
         for (int i = 0; i < product.length; i++) {
-          if (product[i].warehouses.length > 0) {
-            product[i].productCount = int.parse(productsCounts[i]);
-            CartServices.addProductToCart(product[i]);
-          }
+          product[i].productCount = int.parse(productsCounts[i]);
+          CartServices.addProductToCart(product[i]);
         }
 
         return true;
@@ -79,7 +79,7 @@ class CartServices {
     }
   }
 
-  static addProductToCart(ProductsData product) {
+  static addProductToCart(ProductData product) {
     bool added = false;
     if (LoadingScreenServices.categoryList.length == 0) {
       CartServices.cartProducts.add(product);

@@ -32,7 +32,7 @@ class ProductsViewState extends State<ProductsView> {
   bool isLoading = false;
   bool firstLoading = false;
   int page = 1;
-  List<ProductsData> productsList = List<ProductsData>();
+  List<ProductData> productsList = List<ProductData>();
   bool searchLoading = false;
   bool theEndOfProducs = false;
   String errorMessage = "لم يتم العثور على المنتج";
@@ -69,16 +69,12 @@ class ProductsViewState extends State<ProductsView> {
           print("------ response status code -----");
           print(response.statusCode);
           if (response.statusCode == SUCCESS_CODE) {
+            
             final products = categoryProductFromJson(jsonEncode(response.data));
             print("----- LENGTH : ${products.data.data.length}");
             //productsList.addAll(products.data.data);
-            for (int i = 0; i < products.data.data.length; i++) {
-              print("---------- warehouse -----------");
-              print(products.data.data[i].warehouses.length);
-              if (products.data.data[i].warehouses.length != 0) {
-                productsList.add(products.data.data[i]);
-              }
-            }
+            print("---------- warehouse -----------");
+            productsList.addAll(products.data.data);
 
             print("Done Loading");
             if (this.mounted) {
@@ -316,8 +312,7 @@ class ProductsViewState extends State<ProductsView> {
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => _onTileClicked(index),
                                       child: ProductsViewCard(
-                                        active: int.parse(eachProduct
-                                            .warehouses[0].pivot.isActive),
+                                        active: int.parse(eachProduct.isActive),
                                         img: eachProduct.images.length > 0
                                             ? LoadingScreenServices
                                                     .imagePrefixUrl +
@@ -331,9 +326,8 @@ class ProductsViewState extends State<ProductsView> {
                                                 " " +
                                                 eachProduct.unit.toString()
                                             : eachProduct.quantity.toString(),
-                                        price: int.parse(eachProduct
-                                            .warehouses[0].pivot.price
-                                            .split(".")[0]),
+                                        price: int.parse(
+                                            eachProduct.price.split(".")[0]),
                                         index: index,
                                       ),
                                     );
@@ -363,7 +357,7 @@ class ProductsViewState extends State<ProductsView> {
   void _onTileClicked(int index) {
     debugPrint("You tapped on item $index");
 
-    ProductsData productsDic = productsList[index];
+    ProductData productsDic = productsList[index];
 
     Services.userVisitProduct(productsDic.id.toString());
 

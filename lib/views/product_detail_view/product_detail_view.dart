@@ -15,7 +15,7 @@ import 'package:full_screen_image/full_screen_image.dart';
 
 class ProductDetailView extends StatefulWidget {
   int heroIndex;
-  ProductsData products;
+  ProductData products;
   bool isFromFavoraiteScreen;
 
   ProductDetailView(
@@ -247,7 +247,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 )),
                             SizedBox(height: 10),
                             Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.products.warehouses[0].pivot.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.products.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color:
@@ -284,7 +284,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           fontSize: 20),
                     ),
                     SizedBox(height: 10),
-                    int.parse(widget.products.warehouses[0].pivot.isActive) != 0
+                    int.parse(widget.products.isActive) != 0
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -355,10 +355,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                       UtilsImporter().stringUtils.HKGrotesk),
                             )),
                           ),
-                    int.parse(widget.products.warehouses[0].pivot.isActive) != 0
+                    int.parse(widget.products.isActive) != 0
                         ? SizedBox(height: 30)
                         : Container(),
-                    int.parse(widget.products.warehouses[0].pivot.isActive) != 0
+                    int.parse(widget.products.isActive) != 0
                         ? _showAddToOrderButton(context)
                         : Container(),
                     Builder(builder: (context) => _showAddToFavorait(context)),
@@ -382,7 +382,7 @@ class ProductDetailViewState extends State<ProductDetailView>
 
           print("========= product price ========");
 
-          print(widget.products.warehouses[0].pivot.price);
+          print(widget.products.price);
           widget.products.productCount = no_of_orders;
 
           CartServices.addProductToCart(widget.products);
@@ -439,7 +439,7 @@ class ProductDetailViewState extends State<ProductDetailView>
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            'الإضافة لسلة المشتريات  ( ${UtilsImporter().stringUtils.oCcy.format(no_of_orders * int.parse(widget.products.warehouses[0].pivot.price.toString().split(".")[0]))})',
+            'الإضافة لسلة المشتريات  ( ${UtilsImporter().stringUtils.oCcy.format(no_of_orders * int.parse(widget.products.price.toString().split(".")[0]))})',
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 17.0,
@@ -567,7 +567,7 @@ class ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  void _addFavoraite(BuildContext ctx, ProductsData product) {
+  void _addFavoraite(BuildContext ctx, ProductData product) {
     Services.addToFavorites(widget.products.id.toString());
     LoadingScreenServices.userFavoriteProducts.add(product);
 
