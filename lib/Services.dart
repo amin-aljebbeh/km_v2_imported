@@ -254,7 +254,8 @@ class Services {
       print("-------- Login Response -----------");
       print(theResponse);
       if (response.statusCode == SUCCESS_CODE &&
-          theResponse["success"].toString() == "false") {
+          (theResponse["success"].toString() == "false" ||
+              theResponse["success"].toString() == "true")) {
         print(theResponse["success"].toString());
 
         return true;

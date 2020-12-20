@@ -62,8 +62,10 @@ class CartServices {
           response.data['success'] == true) {
         final product = syncCartFromJson(jsonEncode(response.data["data"]));
         for (int i = 0; i < product.length; i++) {
-          product[i].productCount = int.parse(productsCounts[i]);
-          CartServices.addProductToCart(product[i]);
+          if (product[i] != null) {
+            product[i].productCount = int.parse(productsCounts[i]);
+            CartServices.addProductToCart(product[i]);
+          }
         }
 
         return true;

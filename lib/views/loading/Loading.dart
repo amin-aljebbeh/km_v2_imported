@@ -84,10 +84,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
   }
 
-  navigateToHome() {
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-  }
+  // navigateToHome() {
+  //   Navigator.of(context)
+  //       .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -100,38 +100,42 @@ class _LoadingScreenState extends State<LoadingScreen> {
           }
 
           if (snapShot.connectionState == ConnectionState.done) {
-            if (snapShot.hasError || snapShot.data == false)
+            if (snapShot.hasError || snapShot.data == false) {
               return InternetError();
-            if (LoadingScreenServices.updateRequired) return UpdateScreen();
-            if (LoadingScreenServices.serverMaintain) return ServerUpdate();
-            if (LoadingScreenServices.userBlocked) return BlockedUser();
+            } else if (LoadingScreenServices.updateRequired) {
+              return UpdateScreen();
+            } else if (LoadingScreenServices.serverMaintain) {
+              return ServerUpdate();
+            } else if (LoadingScreenServices.userBlocked) {
+              return BlockedUser();
+            } else {
+              return AnimatedSwitcher(
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  var begin = Offset(0.0, 1.0);
+                  var end = Offset.zero;
+                  var curve = Curves.ease;
 
-            return AnimatedSwitcher(
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                var begin = Offset(0.0, 1.0);
-                var end = Offset.zero;
-                var curve = Curves.ease;
+                  var tween = Tween(begin: begin, end: end);
+                  var curvedAnimation = CurvedAnimation(
+                    parent: animation,
+                    curve: curve,
+                  );
 
-                var tween = Tween(begin: begin, end: end);
-                var curvedAnimation = CurvedAnimation(
-                  parent: animation,
-                  curve: curve,
-                );
-
-                return SlideTransition(
-                  position: tween.animate(curvedAnimation),
-                  child: HomeView(
-                    routeIndex: 0,
-                    notificationValue: notificationValue,
-                  ),
-                );
-              },
-              duration: Duration(milliseconds: 250),
-              child: HomeView(
-                routeIndex: 0,
-                notificationValue: notificationValue,
-              ),
-            );
+                  return SlideTransition(
+                    position: tween.animate(curvedAnimation),
+                    child: HomeView(
+                      routeIndex: 0,
+                      notificationValue: notificationValue,
+                    ),
+                  );
+                },
+                duration: Duration(milliseconds: 250),
+                child: HomeView(
+                  routeIndex: 0,
+                  notificationValue: notificationValue,
+                ),
+              );
+            }
           } else {
             return loadingProgress();
           }

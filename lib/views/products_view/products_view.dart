@@ -69,24 +69,34 @@ class ProductsViewState extends State<ProductsView> {
           print("------ response status code -----");
           print(response.statusCode);
           if (response.statusCode == SUCCESS_CODE) {
-            
-            final products = categoryProductFromJson(jsonEncode(response.data));
-            print("----- LENGTH : ${products.data.data.length}");
-            //productsList.addAll(products.data.data);
-            print("---------- warehouse -----------");
-            productsList.addAll(products.data.data);
-
-            print("Done Loading");
-            if (this.mounted) {
+            if (!response.data["success"] &&
+                response.data["reason"] == "No results") {
               setState(() {
-                if (page - 1 == products.data.lastPage) {
-                  theEndOfProducs = true;
-                }
                 searchLoading = false;
 
                 if (firstLoading == true) firstLoading = false;
                 isLoading = false;
               });
+            } else {
+              final products =
+                  categoryProductFromJson(jsonEncode(response.data));
+              print("----- LENGTH : ${products.data.data.length}");
+              //productsList.addAll(products.data.data);
+              print("---------- warehouse -----------");
+              productsList.addAll(products.data.data);
+
+              print("Done Loading");
+              if (this.mounted) {
+                setState(() {
+                  if (page - 1 == products.data.lastPage) {
+                    theEndOfProducs = true;
+                  }
+                  searchLoading = false;
+
+                  if (firstLoading == true) firstLoading = false;
+                  isLoading = false;
+                });
+              }
             }
             if (response.statusCode == 200)
               return true;

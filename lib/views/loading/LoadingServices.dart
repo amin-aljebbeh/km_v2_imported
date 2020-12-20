@@ -132,7 +132,7 @@ class LoadingScreenServices {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userToken = prefs.getString('userToken');
       print("user token is :");
-     // prefs.remove('userToken');
+      // prefs.remove('userToken');
       print(userToken);
       if (userToken != null) {
         LoadingScreen.user_token = "Bearer " + userToken;
@@ -296,26 +296,42 @@ class LoadingScreenServices {
       bannerList.clear();
       bannerListNetwork.clear();
       DateTime now = DateTime.now();
-      for (int i = 0; i < startRequest.banner.original.data.length; i++) {
-        if (!startRequest.banner.original.data[i].expirationDate
-            .isBefore(now)) {
-          bannerList.add(
-              AssetImage(startRequest.banner.original.data[i].imageFileName));
+      if (startRequest.banner.original.data.length == 0) {
+        bannerListNetwork.add(
+          FadeInImage(
+            image:
+                CacheImage(LoadingScreenServices.imagePrefixUrl + "slide3.png"),
+            // width: MediaQuery.of(context).size.width,
+            fadeInDuration: const Duration(seconds: 1),
+            // fadeInCurve: Curves.fastOutSlowIn,
+            fadeInCurve: Curves.fastOutSlowIn,
+            placeholder: AssetImage("assets/Logo_holder.jpg"),
+            fit: BoxFit.cover,
+          ),
+        );
+      } else {
+        for (int i = 0; i < startRequest.banner.original.data.length; i++) {
+          if (!startRequest.banner.original.data[i].expirationDate
+              .isBefore(now)) {
+            bannerList.add(
+                AssetImage(startRequest.banner.original.data[i].imageFileName));
 
-          bannerListNetwork.add(
-            FadeInImage(
-              image: CacheImage(LoadingScreenServices.imagePrefixUrl +
-                  startRequest.banner.original.data[i].imageFileName),
-              // width: MediaQuery.of(context).size.width,
-              fadeInDuration: const Duration(seconds: 1),
-              // fadeInCurve: Curves.fastOutSlowIn,
-              fadeInCurve: Curves.fastOutSlowIn,
-              placeholder: AssetImage("assets/Logo_holder.jpg"),
-              fit: BoxFit.cover,
-            ),
-          );
+            bannerListNetwork.add(
+              FadeInImage(
+                image: CacheImage(LoadingScreenServices.imagePrefixUrl +
+                    startRequest.banner.original.data[i].imageFileName),
+                // width: MediaQuery.of(context).size.width,
+                fadeInDuration: const Duration(seconds: 1),
+                // fadeInCurve: Curves.fastOutSlowIn,
+                fadeInCurve: Curves.fastOutSlowIn,
+                placeholder: AssetImage("assets/Logo_holder.jpg"),
+                fit: BoxFit.cover,
+              ),
+            );
+          }
         }
       }
+
       print("======= Get Banner DONE =======");
 
       // --------------------------------------------------------------------- //
@@ -425,7 +441,7 @@ class LoadingScreenServices {
                 .split(".")[0]));
           }
           if (userAddress[j].supportedCityName == null)
-            userAddress[j].supportedCityName = "يرجى حذف و إضافة العنوان";
+            userAddress[j].supportedCityName = "يرج�� حذف و إضافة العنوان";
         }
 
         // print("################ SUPPORTED CITIES ####################");

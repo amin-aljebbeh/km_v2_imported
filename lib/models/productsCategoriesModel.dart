@@ -60,26 +60,28 @@ class ProductResponse {
   int to;
   int total;
 
-  factory ProductResponse.fromJson(Map<String, dynamic> json) =>
-      ProductResponse(
-        currentPage: json["current_page"],
-        data: List<ProductData>.from(
-            json["data"].map((x) => ProductData.fromJson(x))),
-        firstPageUrl: json["first_page_url"],
-        from: json["from"],
-        lastPage: json["last_page"],
-        lastPageUrl: json["last_page_url"],
-        nextPageUrl: json["next_page_url"],
-        path: json["path"],
-        perPage: json["per_page"],
-        prevPageUrl: json["prev_page_url"],
-        to: json["to"],
-        total: json["total"],
-      );
+  factory ProductResponse.fromJson(Map<String, dynamic> json) {
+    return ProductResponse(
+      currentPage: json["current_page"],
+      data: List<ProductData>.from(
+          json["data"].map((x) => x == null ? null : ProductData.fromJson(x))),
+      firstPageUrl: json["first_page_url"],
+      from: json["from"],
+      lastPage: json["last_page"],
+      lastPageUrl: json["last_page_url"],
+      nextPageUrl: json["next_page_url"],
+      path: json["path"],
+      perPage: json["per_page"],
+      prevPageUrl: json["prev_page_url"],
+      to: json["to"],
+      total: json["total"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "current_page": currentPage,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data":
+            List<dynamic>.from(data.map((x) => x == null ? null : x.toJson())),
         "first_page_url": firstPageUrl,
         "from": from,
         "last_page": lastPage,
@@ -118,19 +120,24 @@ class ProductData {
   int productCount;
   List<ProductImage> images;
 
-  factory ProductData.fromJson(Map<String, dynamic> json) => ProductData(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        unit: json["unit"],
-        categoryId: json["category_id"],
-        price: json["price"],
-        isActive: json["is_active"],
-        quantity: json["quantity"],
-        productCount: json["productCount"],
-        images: List<ProductImage>.from(
-            json["images"].map((x) => ProductImage.fromJson(x))),
-      );
+  factory ProductData.fromJson(Map<String, dynamic> json) {
+    if (json == null) {
+      return null;
+    }
+    return ProductData(
+      id: json["id"],
+      name: json["name"],
+      description: json["description"],
+      unit: json["unit"],
+      categoryId: json["category_id"],
+      price: json["price"],
+      isActive: json["is_active"],
+      quantity: json["quantity"],
+      productCount: json["productCount"],
+      images: List<ProductImage>.from(
+          json["images"].map((x) => ProductImage.fromJson(x))),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,

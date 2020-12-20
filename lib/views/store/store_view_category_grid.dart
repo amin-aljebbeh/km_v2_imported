@@ -45,12 +45,13 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
     var width = (screenWidth - ((_crossAxisCount - 1) * _crossAxisSpacing)) /
         _crossAxisCount;
     var height = (width / _aspectRatio) * categoryListHome.length / 1.75;
-    return Column(
-      children: <Widget>[
-        Container(
-          height: height,
-          child: GridView.builder(
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          GridView.builder(
             primary: false,
+            shrinkWrap: true, // use it
+
             padding: EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
             itemCount: categoryListHome.length,
 
@@ -75,8 +76,8 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
               );
             },
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -147,7 +148,7 @@ class ShopByCategoryState extends State<ShopByCategory> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 10),
+      padding: EdgeInsets.only(right: 2, left: 2),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
         child: Stack(
