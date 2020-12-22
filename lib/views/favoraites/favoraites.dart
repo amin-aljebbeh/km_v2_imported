@@ -482,7 +482,7 @@ class FavoraitesViewState extends State<Favoraites> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    LoadingScreenServices.userFavoriteProducts.length > 0 && !isLoading
+                    LoadingScreenServices.userFavoriteProducts.length > 0
                         ? Expanded(
                             child: NotificationListener(
                               onNotification: (ScrollNotification scrollInfo) {
@@ -541,7 +541,9 @@ class FavoraitesViewState extends State<Favoraites> {
                               padding: EdgeInsets.only(top: screenHight * 0.3),
                               child: Center(
                                 child: Text(
-                                  "لم تقم بإضافة أي عنصر للمفضلة",
+                                  !isLoading
+                                      ? "لم تقم بإضافة أي عنصر للمفضلة"
+                                      : "",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: UtilsImporter().colorUtils.greycolor,

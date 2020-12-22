@@ -43,7 +43,6 @@ dependencies:
   url_launcher: ^5.4.1
   package_info: ^0.4.0+16
   cache_image: ^1.0.5
-  modal_bottom_sheet: ^0.2.2
   dio: ^3.0.9
   share: ^0.6.4+3
   auto_size_text_field: ^0.1.5
@@ -53,7 +52,8 @@ dependencies:
   flutter_bloc: ^6.1.0
   location: ^3.0.2
   responsive_flutter: ^0.0.4
-  gradient_app_bar: ^0.0.1
+  modal_bottom_sheet: ^1.0.0+1
+  flutter_rating_bar: ^3.2.0+1
 
 
 flutter_icons:

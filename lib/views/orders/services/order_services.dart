@@ -30,12 +30,10 @@ class OrderServices {
           CartServices.cartProducts[i].productCount.toString() +
           ";";
       purchasePrices = purchasePrices +
-          (int.parse(CartServices.cartProducts[i].price
-                  .split(".")[0]) *
+          (int.parse(CartServices.cartProducts[i].price.split(".")[0]) *
               CartServices.cartProducts[i].productCount);
       productPrices = productPrices +
-          int.parse(CartServices.cartProducts[i].price
-                  .split(".")[0])
+          int.parse(CartServices.cartProducts[i].price.split(".")[0])
               .toString() +
           ";";
     }
@@ -82,12 +80,10 @@ class OrderServices {
           CartServices.cartProducts[i].productCount.toString() +
           ";";
       purchasePrices = purchasePrices +
-          (int.parse(CartServices.cartProducts[i].price
-                  .split(".")[0]) *
+          (int.parse(CartServices.cartProducts[i].price.split(".")[0]) *
               CartServices.cartProducts[i].productCount);
       productPrices = productPrices +
-          int.parse(CartServices.cartProducts[i].price
-                  .split(".")[0])
+          int.parse(CartServices.cartProducts[i].price.split(".")[0])
               .toString() +
           ";";
     }
@@ -142,13 +138,13 @@ class OrderServices {
   }
 
   static Future<bool> rateOrder(
-      {String orderId, String userFeedback, int rating}) async {
+      {String orderId, String userFeedback, double rating}) async {
     // print("------------------ Rate Order --------------------");
 
     Map ratingOrderBody = {
       'user_feedback': userFeedback,
-      "user_delivery_rating": rating,
-      "user_price_rating": rating,
+      "user_delivery_rating": rating.toString(),
+      "user_price_rating": rating.toString(),
     };
     var response = await ApiProvider.sendRequest(
       url: RATE_ORDER + orderId,
@@ -164,37 +160,42 @@ class OrderServices {
     }
   }
 
-  static Future<bool> lockOrder(String orderId) async {
+  static Future<String> lockOrder(String orderId) async {
     // print("------------------ CANCEL ORDER  --------------------");
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: LOCK_ORDER + orderId,
+        method: httpMethods.put,
+      );
+      if (response.data == null) return "null";
+      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+        orderUnderUpdateIndex = LoadingScreenServices.myOrdersList
+            .indexWhere((order) => order.id == int.parse(orderId));
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("orderUnderUpdateId", orderId);
 
-    var response = await ApiProvider.sendRequest(
-      url: LOCK_ORDER + orderId,
-      method: httpMethods.put,
-    );
-    print(response.data);
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      orderUnderUpdateIndex = LoadingScreenServices.myOrdersList
-          .indexWhere((order) => order.id == int.parse(orderId));
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("orderUnderUpdateId", orderId);
+        DeliverToView.selectedIndex = LoadingScreenServices.userAddress
+            .indexWhere((address) =>
+                address.id ==
+                int.parse(LoadingScreenServices
+                    .myOrdersList[orderUnderUpdateIndex].addressId));
 
-      DeliverToView.selectedIndex = LoadingScreenServices.userAddress
-          .indexWhere((address) =>
-              address.id ==
-              int.parse(LoadingScreenServices
-                  .myOrdersList[orderUnderUpdateIndex].addressId));
+        Services.delivery_Price = int.parse(LoadingScreenServices
+            .myOrdersList[orderUnderUpdateIndex].supportedCityCost
+            .split(".")[0]);
 
-      Services.delivery_Price = int.parse(LoadingScreenServices
-          .myOrdersList[orderUnderUpdateIndex].supportedCityCost
-          .split(".")[0]);
+        updateOrderNote =
+            LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;
 
-      updateOrderNote =
-          LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;
+        return "true";
+      } else {
+        print("------------ ERROR Update ORDER --------------");
+        return "false";
+      }
+    } catch (e) {
+      print("------------ ERROR Catched --------------");
 
-      return true;
-    } else {
-      print("------------ ERROR CANCEL ORDER --------------");
-      return false;
+      return "null";
     }
   }
 }

@@ -1,17 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gradient_app_bar/gradient_app_bar.dart';
 import 'package:kammun_app/utils/Loader.dart';
-
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-
 import '../../Services.dart';
 import 'Services/login_services.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:group_button/group_button.dart';
@@ -20,6 +21,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
   @override
   void initState() {
     selectedIndex = 0;
+    DeliveryMethodView.selectedDeliveryIndex = selectedIndex;
     super.initState();
   }
 
@@ -100,6 +102,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                 ),
                 Expanded(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(30.0),
@@ -130,6 +133,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                             direction: Axis.vertical,
                             isRadio: true,
                             spacing: 10,
+
                             onSelected: (index, isSelected) {
                               print(index);
                               setState(() {
@@ -166,6 +170,17 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                 fontWeight: FontWeight.w500,
                                 fontFamily:
                                     UtilsImporter().stringUtils.HKGrotesk)),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 18.0),
+                          child: AlertMessages(
+                            messageType: "Successfully",
+                            headerText: "شرح عن طريقة التوصيل",
+                            text: LoadingScreenServices
+                                .deliveryMethodsList[selectedIndex].message,
+                          ),
+                        ),
                       ),
                     ],
                   ),

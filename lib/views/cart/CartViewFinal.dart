@@ -630,7 +630,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     print(notactiveId);
     showMaterialModalBottomSheet(
       context: context,
-      builder: (context, scrollController) => OrderProblemBottomSheet(
+      builder: (context) => OrderProblemBottomSheet(
         notActiveProducts: notactiveId,
         pricesChangesProducts: priceId,
         applyChanges: () {

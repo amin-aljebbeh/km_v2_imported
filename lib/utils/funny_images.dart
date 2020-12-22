@@ -8,4 +8,4 @@ List<Image> funnyImages = [
   )
 ];
 
-List<String> badWord = ["fuck", "خرا", "طز"];
+List<String> badWord = ["fuck", "خرا", "طز","زب","شرموطة","كس",];

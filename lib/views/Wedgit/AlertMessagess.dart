@@ -52,7 +52,7 @@ class AlertMessages extends StatelessWidget {
       this.insideBordercolor = Color.fromRGBO(225, 247, 228, 1);
       this.textColor = Colors.black;
       this.textWeight = FontWeight.w700;
-      this.headerText = "";
+      this.headerText = headerText + "\n";
     }
 
     if (messageType.contains("Successfully")) {
@@ -101,7 +101,6 @@ class AlertMessages extends StatelessWidget {
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
-      
       borderRadius: BorderRadius.all(Radius.circular(3.0)),
       border: Border.all(
         color: outsideBorderColor, //                   <--- border color
@@ -137,9 +136,7 @@ class AlertTextView extends StatelessWidget {
     return Wrap(
       children: <Widget>[
         Container(
-          
             decoration: BoxDecoration(
-              
               border: Border.all(color: insideBordercolor, width: 4),
             ),
             padding: const EdgeInsets.all(8),
