@@ -398,6 +398,8 @@ class OrdersViewState extends State<OrdersView> {
         orderId: orderDataList[index].id.toString(),
         onReqestDone: () {
           orderDataList[index].userDeliveryRating = rateValue.toString();
+          orderDataList.clear();
+
           _getOrder();
         },
       ),
