@@ -10,6 +10,12 @@ String categoryProductToJson(CategoryProduct data) =>
 List<ProductData> syncCartFromJson(String str) => List<ProductData>.from(
     json.decode(str).map((x) => ProductData.fromJson(x)));
 
+ProductResponse favoritesProductFromJson(String str) =>
+    ProductResponse.fromJson(json.decode(str));
+
+// CategoryProduct publicParameterFromJson(String str) =>
+//     CategoryProduct.fromJson(json.decode(str));
+
 class CategoryProduct {
   CategoryProduct({
     this.success,

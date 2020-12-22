@@ -2,9 +2,10 @@ import 'dart:io' show Platform;
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:kammun_app/models/searchResponseModel.dart';
-import 'package:kammun_app/models/start_model.dart';
+import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/favoraites/services/product_favoraites_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
@@ -70,34 +71,108 @@ class FavoraitesViewState extends State<Favoraites> {
     launch(url);
   }
 
+  int page = 1;
+  bool productLoaded = true;
+  bool theEndOfFavoraites = false;
+  bool isLoading = false;
+  bool errorMessage = false;
+
+  String errorMessageVlue;
+
+  List<ProductData> favoraitesProductData = new List<ProductData>();
+  _getFavoraites() async {
+    setState(() {
+      FavoraitesProductsServices.lastPageNumber = page;
+      if (page == 1) productLoaded = false;
+      if (!theEndOfFavoraites) isLoading = true;
+      errorMessage = false;
+    });
+
+    final productList =
+        await FavoraitesProductsServices.getUserFavoraites(pageNumber: page);
+    if (productList != null) {
+      if (productList.data == null) {
+        setState(() {
+          // LoadingScreenServices.userFavoriteProducts = productList.data;
+          print("---- the last page ---");
+          theEndOfFavoraites = true;
+          FavoraitesProductsServices.theEndOfFavoraites = true;
+          productLoaded = true;
+          errorMessage = false;
+          isLoading = false;
+        });
+      } else {
+        setState(() {
+          favoraitesProductData.addAll(productList.data);
+          LoadingScreenServices.userFavoriteProducts = favoraitesProductData;
+          productLoaded = true;
+          errorMessage = false;
+          isLoading = false;
+        });
+      }
+    } else {
+      setState(() {
+        productLoaded = true;
+        errorMessage = true;
+        isLoading = false;
+        errorMessageVlue = "حدث خطأ أثناء محاولة جلب المفضلة";
+      });
+    }
+  }
+
+  Future getFavoraites;
+
+  @override
+  void initState() {
+    if (FavoraitesProductsServices.lastPageNumber == 1) {
+      getFavoraites = _getFavoraites();
+    } else {
+      favoraitesProductData = LoadingScreenServices.userFavoriteProducts;
+    }
+    page = FavoraitesProductsServices.lastPageNumber;
+    theEndOfFavoraites = FavoraitesProductsServices.theEndOfFavoraites;
+    super.initState();
+  }
+
+  void _onTileClicked(int index) {
+    debugPrint("You tapped on item $index");
+
+    // Product productsDic = LoadingScreenServices.userFavoriteProducts[index];
+
+    // SearchProductsList productToSend = new SearchProductsList();
+    // productToSend.name = productsDic.name;
+    // //productToSend.price = productsDic.price;
+    // // productToSend.images = productsDic.images;
+    // productToSend.description = productsDic.description;
+    // productToSend.id = productsDic.id;
+    // //productToSend.quantity = productsDic.quantity;
+    // productToSend.unit = productsDic.unit;
+    // //productToSend.isActive = productsDic.isActive;
+
+    debugPrint("You tapped on item $index");
+
+    ProductData productsDic = favoraitesProductData[index];
+
+    Services.userVisitProduct(productsDic.id.toString());
+
+    //Second
+
+    // Navigator.push(
+    //     context, new MaterialPageRoute(builder: (context) => new Second()));
+
+    Navigator.push(
+        context,
+        new MaterialPageRoute(
+            builder: (context) => new ProductDetailView(
+                  heroIndex: index + 100,
+                  products: productsDic,
+                  isFromFavoraiteScreen: false,
+                )));
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenHight = MediaQuery.of(context).size.height;
-
-    void _onTileClicked(int index) {
-      debugPrint("You tapped on item $index");
-
-      // Product productsDic = LoadingScreenServices.userFavoriteProducts[index];
-
-      // SearchProductsList productToSend = new SearchProductsList();
-      // productToSend.name = productsDic.name;
-      // //productToSend.price = productsDic.price;
-      // // productToSend.images = productsDic.images;
-      // productToSend.description = productsDic.description;
-      // productToSend.id = productsDic.id;
-      // //productToSend.quantity = productsDic.quantity;
-      // productToSend.unit = productsDic.unit;
-      // //productToSend.isActive = productsDic.isActive;
-
-      // Navigator.push(
-      //     context,
-      //     new MaterialPageRoute(
-      //         builder: (context) => new ProductDetailView(
-      //               heroIndex: index + 100,
-      //               products: productToSend,
-      //               isFromFavoraiteScreen: true,
-      //             )));
-    }
 
     Widget _showSearchTxtFld() {
       final GestureDetector searchButtonWithGesture = new GestureDetector(
@@ -407,39 +482,58 @@ class FavoraitesViewState extends State<Favoraites> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    LoadingScreenServices.userFavoriteProducts.length > 0
+                    LoadingScreenServices.userFavoriteProducts.length > 0 && !isLoading
                         ? Expanded(
-                            child: ListView.builder(
-                              primary: false,
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              itemCount: LoadingScreenServices
-                                  .userFavoriteProducts.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                var eachProduct = LoadingScreenServices
-                                    .userFavoriteProducts[index];
-
-                                return new GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () => _onTileClicked(index),
-                                  child: ProductsViewCard(
-                                    //  active: eachProduct.isActive,
-                                    img: eachProduct.images.length > 0
-                                        ? LoadingScreenServices.imagePrefixUrl +
-                                            eachProduct.images[0].imageFileName
-                                        : "",
-                                    product_name: eachProduct.name,
-                                    // quantity:
-                                    //     eachProduct.unit.toString() != "null"
-                                    //         ? eachProduct.quantity.toString() +
-                                    //             " " +
-                                    //             eachProduct.unit.toString()
-                                    //         : eachProduct.quantity.toString(),
-                                    // price: (eachProduct.price),
-                                    index: index,
-                                  ),
-                                );
+                            child: NotificationListener(
+                              onNotification: (ScrollNotification scrollInfo) {
+                                if (!isLoading &&
+                                    scrollInfo.metrics.pixels ==
+                                        scrollInfo.metrics.maxScrollExtent) {
+                                  print("in List");
+                                  setState(() {
+                                    page++;
+                                  });
+                                  !theEndOfFavoraites ? _getFavoraites() : {};
+                                }
                               },
+                              child: ListView.builder(
+                                physics: const AlwaysScrollableScrollPhysics(
+                                    parent: BouncingScrollPhysics()),
+                                primary: false,
+                                scrollDirection: Axis.vertical,
+                                shrinkWrap: true,
+                                itemCount: favoraitesProductData == null
+                                    ? 0
+                                    : favoraitesProductData.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  var eachProduct =
+                                      favoraitesProductData[index];
+
+                                  return new GestureDetector(
+                                    behavior: HitTestBehavior.translucent,
+                                    onTap: () => _onTileClicked(index),
+                                    child: ProductsViewCard(
+                                      active: int.parse(eachProduct.isActive),
+                                      img: eachProduct.images.length > 0
+                                          ? LoadingScreenServices
+                                                  .imagePrefixUrl +
+                                              eachProduct
+                                                  .images[0].imageFileName
+                                          : "",
+                                      product_name: eachProduct.name,
+                                      quantity: eachProduct.unit.toString() !=
+                                              "null"
+                                          ? eachProduct.quantity.toString() +
+                                              " " +
+                                              eachProduct.unit.toString()
+                                          : eachProduct.quantity.toString(),
+                                      price: int.parse(
+                                          eachProduct.price.split(".")[0]),
+                                      index: index,
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           )
                         : Container(
@@ -458,23 +552,44 @@ class FavoraitesViewState extends State<Favoraites> {
                                 ),
                               ),
                             ),
+                          ),
+                    theEndOfFavoraites
+                        ? Container(
+                            height: 50.0,
+                            color: Colors.transparent,
+                            child: Center(
+                                child: Text("تم جلب جميع المنتجات",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk))))
+                        : Container(),
+                    isLoading
+                        ? Container(
+                            height: 50.0,
+                            color: Colors.transparent,
+                            child: Center(
+                              child: Loader(),
+                            ),
                           )
+                        : Container(),
                   ])),
         ));
   }
 
   // Function to be called on click
-  void _onTileClicked(int index) {
-    debugPrint("You tapped on item $index");
+  // void _onTileClicked(int index) {
+  //   debugPrint("You tapped on item $index");
 
-    // Map<String, dynamic> productsDic = widget.productsAry[index];
+  //   // Map<String, dynamic> productsDic = widget.productsAry[index];
 
-    // Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //         builder: (context) => new ProductDetailView(
-    //             heroIndex: index + 100, products: productsDic)));
-  }
+  //   // Navigator.push(
+  //   //     context,
+  //   //     new MaterialPageRoute(
+  //   //         builder: (context) => new ProductDetailView(
+  //   //             heroIndex: index + 100, products: productsDic)));
+  // }
 }
 
 class ProductsViewCard extends StatefulWidget {
@@ -587,11 +702,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 )),
                 widget.active == 0
                     ? Badge(
+                        borderRadius: BorderRadius.zero,
                         shape: BadgeShape.square,
-                        badgeColor: UtilsImporter()
-                            .colorUtils
-                            .primarycolor
-                            .withOpacity(0.6),
+                        badgeColor: UtilsImporter().colorUtils.primarycolor,
                         badgeContent: Padding(
                           padding: const EdgeInsets.only(
                             right: 10.0,
@@ -603,6 +716,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,
+
+                                    //fontWeight: FontWeight.w500,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk),
                               ),

@@ -1136,22 +1136,30 @@ class DeliveryMethodOriginalData {
     this.id,
     this.name,
     this.price,
+    this.isActive,
+    this.message,
   });
 
   int id;
   String name;
   String price;
+  String isActive;
+  String message;
 
   factory DeliveryMethodOriginalData.fromJson(Map<String, dynamic> json) =>
       DeliveryMethodOriginalData(
         id: json["id"],
         name: json["name"],
         price: json["price"],
+        isActive: json["is_active"],
+        message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "price": price,
+        "message": message,
+        "is_active": isActive
       };
 }

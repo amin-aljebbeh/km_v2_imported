@@ -57,6 +57,7 @@ class LoadingScreenServices {
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
   static String userNumber = "لم تقم بتسجيل رقم";
 
+
   // -------------------------------------------------------//
 
   /// -------- selecrted supported city information ------- ///
@@ -383,7 +384,14 @@ class LoadingScreenServices {
       // Get Delivery Methods
 
       deliveryMethodsList.clear();
-      deliveryMethodsList = startRequest.deliveryMethod.original.data;
+      for (int i = 0;
+          i < startRequest.deliveryMethod.original.data.length;
+          i++) {
+        if (startRequest.deliveryMethod.original.data[i].isActive == "1") {
+          deliveryMethodsList.add(startRequest.deliveryMethod.original.data[i]);
+        }
+      }
+      // deliveryMethodsList = startRequest.deliveryMethod.original.data;
 
       print("======= Get Delivery method DONE =======");
 
