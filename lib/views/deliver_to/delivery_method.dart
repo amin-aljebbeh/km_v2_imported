@@ -45,17 +45,11 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
             .toString());
 
     if (response != null && response) {
-      if (DeliveryMethodServices.deliveryMethodsList.length < 1) {
-        DeliveryMethodView.selectedDeliveryIndex = 0;
-        Navigator.push(context,
-            new MaterialPageRoute(builder: (context) => CartViewFinal()));
-      } else {
-        setState(() {
-          isLoading = false;
-          error = false;
-          errorMessage = "";
-        });
-      }
+      setState(() {
+        isLoading = false;
+        error = false;
+        errorMessage = "";
+      });
     } else {
       setState(() {
         isLoading = false;
