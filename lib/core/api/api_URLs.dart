@@ -14,6 +14,7 @@ const String GET_USER_ORDER = "/api/user/user_orders";
 const String SYNC_CART = "/api/cart/sync_cart";
 const String CANCEL_ORDER = "/api/order/change_order_status/";
 const String FAVORAITES_PRODUCTS = "/api/user/my_favorite_products/";
+const String DELIVERY_METHODS = "/api/supported_city/get_delivery_methods/";
 
 const String ADD_TO_FAVORITE = "/api/user/add_product_to_favorites/";
 const String REMOVE_FROM_FAVORITE = "/api/user/remove_product_from_favorites/";

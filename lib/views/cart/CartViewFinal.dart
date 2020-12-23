@@ -9,6 +9,7 @@ import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
+import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
@@ -76,8 +77,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
     }
     total = subtotal +
         Services.delivery_Price +
-        int.parse(LoadingScreenServices
-            .deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].price
+        int.parse(DeliveryMethodServices
+            .deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex]
+            .pivot
+            .price
             .split(".")[0]);
 
     OrderServices.updateOrderNote != null
@@ -240,7 +243,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 fontSize: 16.0,
                               )),
                           Text(
-                            "${UtilsImporter().stringUtils.oCcy.format(LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice + int.parse(LoadingScreenServices.deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                            "${UtilsImporter().stringUtils.oCcy.format(LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice + int.parse(DeliveryMethodServices.deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].pivot.price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,

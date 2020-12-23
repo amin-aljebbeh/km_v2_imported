@@ -7,6 +7,7 @@ import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
+import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,7 +41,7 @@ class OrderServices {
 
     Map orderData = {
       "payment_method_id": "1",
-      "delivery_method_id": LoadingScreenServices
+      "delivery_method_id": DeliveryMethodServices
           .deliveryMethodsList[(DeliveryMethodView.selectedDeliveryIndex)].id
           .toString(),
       "supported_city_id": delivery_supported_City_id,
@@ -89,7 +90,7 @@ class OrderServices {
     }
 
     Map orderData = {
-      "delivery_method_id": LoadingScreenServices
+      "delivery_method_id": DeliveryMethodServices
           .deliveryMethodsList[(DeliveryMethodView.selectedDeliveryIndex)].id,
       "product_ids": productIds.substring(0, productIds.length - 1),
       "quantities": quantities.substring(0, quantities.length - 1),

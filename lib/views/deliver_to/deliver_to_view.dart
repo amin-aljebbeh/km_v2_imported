@@ -4,6 +4,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
+import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:toast/toast.dart';
@@ -383,8 +384,8 @@ class DeliverToViewState extends State<DeliverToView> {
 
   void _showProceedToPayBtnTapped() {
     if (DeliverToView.selectedIndex != null) {
-      print(LoadingScreenServices.deliveryMethodsList.length);
-      if (LoadingScreenServices.deliveryMethodsList.length != 1) {
+      print(DeliveryMethodServices.deliveryMethodsList.length);
+      if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
         Navigator.push(
             context,
             new MaterialPageRoute(

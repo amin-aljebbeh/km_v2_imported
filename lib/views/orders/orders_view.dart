@@ -284,6 +284,10 @@ class OrdersViewState extends State<OrdersView> {
   }
 
   Widget _showCancelButton(int index) {
+    bool isOrderUnderUpdate = false;
+    if (orderDataList[index].underUpdate == "1") {
+      isOrderUnderUpdate = true;
+    }
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
       onTap: () async {
         setState(() {
@@ -296,6 +300,10 @@ class OrdersViewState extends State<OrdersView> {
             orderLoaded = true;
             errorMessage = false;
           });
+          if (isOrderUnderUpdate) {
+            orderDataList[index].underUpdate = "0";
+            OrderServices.orderUnderUpdateIndex = -1;
+          }
           Toast.show("تم إلغاء طلبك بنجاح", context,
               duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
           orderDataList[index].orderStatusId = "6";
@@ -558,7 +566,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
     else if (widget.order_status == 3)
       orderStatus = "تم تجهيز الطلب 😎";
     else if (widget.order_status == 4)
-      orderStatus = "تم إرسال طلبك مع كابتن ا��توصيل";
+      orderStatus = "تم إرسال طلبك مع كابتن التوصيل";
     else if (widget.order_status == 5)
       orderStatus = "تم توصيل طلبك بنجاح ";
     else if (widget.order_status == 6)
@@ -567,7 +575,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
       orderStatus = "😔 لم نستطع تأمين الطلب 😔";
 
     if (widget.underUpdate == 1) {
-      orderStatus = "طلبك معلق حتى ��أكيد التع��يل";
+      orderStatus = "طلبك معلق حتى تأكيد التوصيل";
     }
     return Container(
       child: Padding(

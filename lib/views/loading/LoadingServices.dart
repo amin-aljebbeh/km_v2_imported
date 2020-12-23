@@ -25,8 +25,8 @@ class LoadingScreenServices {
   static String imagePrefixUrl = "";
   static List<AssetImage> bannerList = List<AssetImage>();
   static List<FadeInImage> bannerListNetwork = List<FadeInImage>();
-  static List<DeliveryMethodOriginalData> deliveryMethodsList =
-      new List<DeliveryMethodOriginalData>();
+  // static List<DeliveryMethodOriginalData> deliveryMethodsList =
+  //     new List<DeliveryMethodOriginalData>();
   // Mobile Configuration variables
   static String updateUrl = "";
   static String androidShareUrl = "";
@@ -56,7 +56,6 @@ class LoadingScreenServices {
   static List<ProductData> userFavoriteProducts = List<ProductData>();
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
   static String userNumber = "لم تقم بتسجيل رقم";
-
 
   // -------------------------------------------------------//
 
@@ -169,10 +168,14 @@ class LoadingScreenServices {
           }
           print("TTTTTTTTTTTTT : " + responses[0].toString());
           print("BBBBBBBBBBBBBB : " + responses[1].toString());
-          if (responses[0] && responses[1]) {
-            return true;
+          if (responses[1] == null) {
+            featchStartInformation();
           } else {
-            return false;
+            if (responses[0] && responses[1]) {
+              return true;
+            } else {
+              return false;
+            }
           }
 
           // bool everyThingGood = await getStartScreenInformation(
@@ -212,13 +215,15 @@ class LoadingScreenServices {
       // print(response.data);
 
       // Get Company Information.
-      companyInformation = startRequest.company.original.data[0];
+      companyInformation = startRequest.company.original.data[1];
       print("======= Get Company Information DONE =======");
-
-      //BaseUrl = companyInformation.baseUrl;
-
+      String oldBaseUrl = BaseUrl;
+      BaseUrl = companyInformation.baseUrl;
+      if (oldBaseUrl != BaseUrl) {
+        return null;
+      }
       // Get Image Url Prefix.
-      imagePrefixUrl = startRequest.company.original.data[0].imageBaseUrl;
+      imagePrefixUrl = startRequest.company.original.data[1].imageBaseUrl;
       print("======= Get Image Url Prefix DONE =======");
 
       // --------------------------------------------------------------------- //
@@ -383,14 +388,14 @@ class LoadingScreenServices {
       // -------------------------------------------------------------------- //
       // Get Delivery Methods
 
-      deliveryMethodsList.clear();
-      for (int i = 0;
-          i < startRequest.deliveryMethod.original.data.length;
-          i++) {
-        if (startRequest.deliveryMethod.original.data[i].isActive == "1") {
-          deliveryMethodsList.add(startRequest.deliveryMethod.original.data[i]);
-        }
-      }
+      // deliveryMethodsList.clear();
+      // for (int i = 0;
+      //     i < startRequest.deliveryMethod.original.data.length;
+      //     i++) {
+      //   if (startRequest.deliveryMethod.original.data[i].isActive == "1") {
+      //     deliveryMethodsList.add(startRequest.deliveryMethod.original.data[i]);
+      //   }
+      // }
       // deliveryMethodsList = startRequest.deliveryMethod.original.data;
 
       print("======= Get Delivery method DONE =======");
