@@ -71,6 +71,7 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
   Widget build(BuildContext context) {
     print("------ supported city name ------");
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: _showSearchTxtFld(),
@@ -166,10 +167,8 @@ class SupportedCityCardView extends StatefulWidget {
   final int id;
   final String name;
   final String deliveryPrice;
-
   final String isActive;
   final String supportPhoneNumber;
-
   final String maintenanceMessages;
 
   SupportedCityCardView({
@@ -232,15 +231,39 @@ class SupportedCityCardViewState extends State<SupportedCityCardView> {
                           ),
                           SizedBox(height: 8),
                           Center(
-                            child: Text(widget.deliveryPrice,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color:
-                                        UtilsImporter().colorUtils.primarycolor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 18)),
+                            child: Wrap(
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("إجرة التوصيل:",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          color: UtilsImporter()
+                                              .colorUtils
+                                              .primarycolor,
+                                          fontFamily: UtilsImporter()
+                                              .stringUtils
+                                              .HKGrotesk,
+                                          fontSize: 18)),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(widget.deliveryPrice,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          color: UtilsImporter()
+                                              .colorUtils
+                                              .primarycolor,
+                                          fontFamily: UtilsImporter()
+                                              .stringUtils
+                                              .HKGrotesk,
+                                          fontSize: 18)),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
