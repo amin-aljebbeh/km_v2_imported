@@ -58,9 +58,15 @@ class OrderServices {
       var response = await ApiProvider.sendRequest(
           url: ORDER, method: httpMethods.post, body: jsonEncode(orderData));
 
-      var barsedJson = orderResponseFromJson(jsonEncode(response.data));
+      print(response.data["reason"]);
 
-      return barsedJson;
+      if (response.data["reason"].toString().contains("discontinued")) {
+        return new OrderResponse(success: false, reason: "discontinued");
+      } else {
+        var barsedJson = orderResponseFromJson(jsonEncode(response.data));
+
+        return barsedJson;
+      }
     } catch (e) {
       print(e);
       return null;
@@ -108,9 +114,13 @@ class OrderServices {
           method: httpMethods.put,
           body: jsonEncode(orderData));
 
-      var barsedJson = orderResponseFromJson(jsonEncode(response.data));
+      if (response.data["reason"].toString().contains("discontinued")) {
+        return new OrderResponse(success: false, reason: "discontinued");
+      } else {
+        var barsedJson = orderResponseFromJson(jsonEncode(response.data));
 
-      return barsedJson;
+        return barsedJson;
+      }
     } catch (e) {
       print(e);
       return null;

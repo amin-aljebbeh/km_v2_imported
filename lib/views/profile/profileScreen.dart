@@ -213,17 +213,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               isLoading
-                  ? Center(child: Loader())
+                  ? Container(
+                      width: double.infinity,
+                      height: 200,
+                      child: Center(child: Loader()),
+                    )
                   : Expanded(
                       child: ListView(
                         children: <Widget>[
                           isError
                               ? Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 10.0,
-                                      right: 0,
-                                      bottom: 0,
-                                      top: 10),
+                                      left: 10.0, right: 0, bottom: 0, top: 10),
                                   child: AlertMessages(
                                     text:
                                         " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",

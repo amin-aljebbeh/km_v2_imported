@@ -36,6 +36,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
   List<int> cards = [];
   bool loadingScreen = false;
   bool errorCode = false;
+  String errorMessage = "يرجى المحاولة مرة أخرى و التأكد من إتصالك بالإنترنت";
 
   int total = 0;
   TextEditingController _userNotes = TextEditingController();
@@ -145,8 +146,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                     children: <Widget>[
                       errorCode
                           ? AlertMessages(
-                              text:
-                                  " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
+                              text: " $errorMessage",
                               messageType: "internetError",
                               headerText: " حدث خطأ اثناء محاولة إرسال طلبك",
                             )
@@ -661,7 +661,13 @@ class _CartViewFinalState extends State<CartViewFinal> {
       setState(() {
         try {
           if (orderResponse != null) {
-            if (orderResponse.changedPriceProducts.length > 0 ||
+            if (!orderResponse.success &&
+                orderResponse.reason.contains("discontinued")) {
+              loadingScreen = false;
+              errorCode = true;
+              errorMessage =
+                  "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
+            } else if (orderResponse.changedPriceProducts.length > 0 ||
                 orderResponse.inactiveProducts.length > 0) {
               _showBottomSheet(
                   notActive: orderResponse.inactiveProducts,
@@ -694,7 +700,13 @@ class _CartViewFinalState extends State<CartViewFinal> {
       setState(() {
         try {
           if (orderResponse != null) {
-            if (orderResponse.changedPriceProducts.length > 0 ||
+            if (!orderResponse.success &&
+                orderResponse.reason.contains("discontinued")) {
+              loadingScreen = false;
+              errorCode = true;
+              errorMessage =
+                  "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
+            } else if (orderResponse.changedPriceProducts.length > 0 ||
                 orderResponse.inactiveProducts.length > 0) {
               _showBottomSheet(
                   notActive: orderResponse.inactiveProducts,
@@ -707,9 +719,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
               print(orderResponse.data.toString());
               CartViewFinal.message = orderResponse.data;
               // CartServices.cartProducts.clear();
-            } else if (!orderResponse.success) {
-              loadingScreen = false;
-              errorCode = true;
             }
           } else {
             loadingScreen = false;
@@ -718,6 +727,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
         } catch (e) {
           loadingScreen = false;
           errorCode = true;
+          print(e.toString());
+          print("I'm in catch");
         }
       });
     }

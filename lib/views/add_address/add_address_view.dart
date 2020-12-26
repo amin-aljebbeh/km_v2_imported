@@ -28,11 +28,13 @@ class AddAddressViewState extends State<AddAddressView> {
   final cityController = TextEditingController();
   final stateController = TextEditingController();
   final countryController = TextEditingController();
+  final entranceController = TextEditingController();
 
   final FocusNode _streetFocus = FocusNode();
   final FocusNode _cityFocus = FocusNode();
   final FocusNode _stateFocus = FocusNode();
   final FocusNode _countryFocus = FocusNode();
+  final FocusNode _entranceFocus = FocusNode();
 
   bool isLoading = false;
   bool isError = false;
@@ -54,7 +56,8 @@ class AddAddressViewState extends State<AddAddressView> {
           LoadingScreenServices.userAddress[widget.addressIndex].floor;
       countryController.text =
           LoadingScreenServices.userAddress[widget.addressIndex].description;
-
+      entranceController.text =
+          LoadingScreenServices.userAddress[widget.addressIndex].entrance;
       for (int i = 0;
           i < LoadingScreenServices.supportedCitiesList.length;
           i++) {
@@ -138,6 +141,7 @@ class AddAddressViewState extends State<AddAddressView> {
                               _ShowSupportedCities(),
                               _ShowCityInput(),
                               _ShowStateInput(),
+                              _ShowEntranceInput(),
                               _ShowCountryInput(),
                               _showAddAddressButton(ctx: context)
                             ])))));
@@ -305,6 +309,46 @@ class AddAddressViewState extends State<AddAddressView> {
                 fontSize: 15,
                 fontFamily: UtilsImporter().stringUtils.HKGrotesk),
             labelText: UtilsImporter().stringUtils.state,
+            labelStyle: TextStyle(
+              fontSize: 25,
+              color: UtilsImporter().colorUtils.greycolor,
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+            border: new UnderlineInputBorder(
+                borderSide: new BorderSide(
+                    color: UtilsImporter().colorUtils.primarycolor))),
+      ),
+    );
+  }
+
+  Widget _ShowEntranceInput() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
+      child: new AutoSizeTextField(
+        cursorColor: UtilsImporter().colorUtils.kmColors,
+        controller: entranceController,
+        maxLines: 1,
+        focusNode: _entranceFocus,
+        textInputAction: TextInputAction.next,
+        autofocus: true,
+        onSubmitted: (term) {
+          FocusScope.of(context).requestFocus(_entranceFocus);
+        },
+        onChanged: (v) {
+          setState(() {});
+        },
+        style: new TextStyle(
+            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            fontWeight: FontWeight.w500,
+            fontSize: 16.0,
+            color: Theme.of(context).primaryColorDark),
+        decoration: InputDecoration(
+            hintText: "المدخل اليميني",
+            hintStyle: TextStyle(
+                color: Colors.black26,
+                fontSize: 15,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            labelText: UtilsImporter().stringUtils.entrance,
             labelStyle: TextStyle(
               fontSize: 25,
               color: UtilsImporter().colorUtils.greycolor,
@@ -688,6 +732,7 @@ class AddAddressViewState extends State<AddAddressView> {
       newUserAddress.supportedCityId = selectedValue.split("id")[1];
       newUserAddress.lat = lat.toString();
       newUserAddress.lon = lon.toString();
+      newUserAddress.entrance = entranceController.text;
 
       if (widget.addressIndex != null) {
         LoadingScreenServices.userAddress[widget.addressIndex]
@@ -706,6 +751,8 @@ class AddAddressViewState extends State<AddAddressView> {
             newUserAddress.lat;
         LoadingScreenServices.userAddress[widget.addressIndex].lon =
             newUserAddress.lat;
+        LoadingScreenServices.userAddress[widget.addressIndex].entrance =
+            newUserAddress.entrance;
         setState(() {
           isLoading = true;
           isError = false;
@@ -721,7 +768,8 @@ class AddAddressViewState extends State<AddAddressView> {
             description: newUserAddress.description,
             supportedCityId: newUserAddress.supportedCityId.toString(),
             lat: lat,
-            lon: lon);
+            lon: lon,
+            entrance: newUserAddress.entrance);
 
         if (addressUpdted) {
           setState(() {
@@ -756,7 +804,8 @@ class AddAddressViewState extends State<AddAddressView> {
             newUserAddress.description,
             newUserAddress.supportedCityId.toString(),
             lat,
-            lon);
+            lon,
+            newUserAddress.entrance);
 
         if (successAddingAddress) {
           setState(() {

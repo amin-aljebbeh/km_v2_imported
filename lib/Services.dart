@@ -60,7 +60,8 @@ class Services {
       String description,
       String supportedCityId,
       double lat,
-      double lon) async {
+      double lon,
+      String entrance) async {
     //  print("------------------ ADD NEW ADDRESS  --------------------");
 
     Map addressData = {
@@ -71,7 +72,7 @@ class Services {
       'description': description,
       "supported_city_id": supportedCityId,
       "latitude": lat,
-      "longitude": lon
+      "longitude": lon, "entrance": entrance,
     };
     try {
       var response = await ApiProvider.sendRequest(
@@ -105,7 +106,8 @@ class Services {
       String description,
       String supportedCityId,
       double lat,
-      double lon}) async {
+      double lon,
+      String entrance}) async {
     //  print("------------------ ADD NEW ADDRESS  --------------------");
     print("------- ID: $addressId");
     Map addressData = {
@@ -117,6 +119,7 @@ class Services {
       "supported_city_id": supportedCityId,
       "latitude": lat,
       "longitude": lon,
+      "entrance": entrance
     };
     try {
       var response = await ApiProvider.sendRequest(

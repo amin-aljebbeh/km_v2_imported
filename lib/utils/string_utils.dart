@@ -168,6 +168,8 @@ class StringUtils {
   String full_name = 'الإسم الكامل ';
   String email_address = 'البريد الإلكتروني';
 
+  String entrance = "المدخل";
+
   String Continue = 'متابعة';
 
   String add_address = 'إضافة عنوان جديد';

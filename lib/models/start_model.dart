@@ -1006,19 +1006,19 @@ class UserData {
 }
 
 class Address {
-  Address({
-    this.id,
-    this.supportedCityId,
-    this.street,
-    this.building,
-    this.floor,
-    this.description,
-    this.pivot,
-    this.supportedCityName,
-    this.deliveryPrice,
-    this.lat,
-    this.lon,
-  });
+  Address(
+      {this.id,
+      this.supportedCityId,
+      this.street,
+      this.building,
+      this.floor,
+      this.description,
+      this.pivot,
+      this.supportedCityName,
+      this.deliveryPrice,
+      this.lat,
+      this.lon,
+      this.entrance});
 
   int id;
   String supportedCityId;
@@ -1031,6 +1031,7 @@ class Address {
   int deliveryPrice;
   String lat;
   String lon;
+  String entrance;
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         id: json["id"],
@@ -1043,6 +1044,7 @@ class Address {
         deliveryPrice: json["deliveryPrice"],
         lat: json["lat"],
         lon: json["lon"],
+        entrance: json["entrance"],
         pivot: AddressPivot.fromJson(json["pivot"]),
       );
 
@@ -1057,6 +1059,7 @@ class Address {
         "deliveryPrice": deliveryPrice,
         "lat": lat,
         "lon": lon,
+        "entrance": entrance,
         "pivot": pivot.toJson(),
       };
 }
