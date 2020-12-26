@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool errorCode = false;
   bool loadingScreen = false;
-  String errorMessage;
+  String errorMessage = " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت";
 
   @override
   void initState() {

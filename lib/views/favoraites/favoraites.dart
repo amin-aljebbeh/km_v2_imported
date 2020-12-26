@@ -166,7 +166,7 @@ class FavoraitesViewState extends State<Favoraites> {
             builder: (context) => new ProductDetailView(
                   heroIndex: index + 100,
                   products: productsDic,
-                  isFromFavoraiteScreen: false,
+                  isFromFavoraiteScreen: true,
                 )));
   }
 
