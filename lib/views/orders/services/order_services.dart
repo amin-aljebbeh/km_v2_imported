@@ -178,7 +178,9 @@ class OrderServices {
         url: LOCK_ORDER + orderId,
         method: httpMethods.put,
       );
-      if (response.data == null) return "null";
+      if (response.data == null) {
+        return "null";
+      }
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         orderUnderUpdateIndex = LoadingScreenServices.myOrdersList
             .indexWhere((order) => order.id == int.parse(orderId));
@@ -201,7 +203,11 @@ class OrderServices {
         return "true";
       } else {
         print("------------ ERROR Update ORDER --------------");
-        return "false";
+        if (response.data["reason"].toString().contains("admin")) {
+          return "admin";
+        } else {
+          return "false";
+        }
       }
     } catch (e) {
       print("------------ ERROR Catched --------------");

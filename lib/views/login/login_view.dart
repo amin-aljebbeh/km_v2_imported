@@ -41,44 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
-  void _showDialog(title, body) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text(
-            "$title",
-            style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-          ),
-          content: new Text(
-            "$body",
-            // maxLines: 20,
-            style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-          ),
-          scrollable: true,
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text(
-                "إغلاق",
-                style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   Future featchOtp() async {
     //print("^^^^^^^^^^ : " + myController.text.toString());
     SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -282,7 +244,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        LoadingScreenServices.selectedSupportedCityName,
+                        LoadingScreenServices.selectedSupportedCityName ??
+                            "الرجاء اختيار المنطقة",
                         style: TextStyle(
                           color: UtilsImporter().colorUtils.primarycolor,
                           fontSize: 20,

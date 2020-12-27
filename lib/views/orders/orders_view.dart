@@ -461,6 +461,14 @@ class OrdersViewState extends State<OrdersView> {
             // Toast.show("بإمكانك تعديل طلبك الآن", context,
             //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
             orderDataList[index].underUpdate = "1";
+          } else if (x == "admin") {
+            setState(() {
+              orderDataList[index].underUpdate = "2";
+              orderLoaded = true;
+              errorMessage = true;
+              errorMessageVlue =
+                  "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب يقوم بتعديله حالياً";
+            });
           } else {
             setState(() {
               orderDataList[index].orderStatusId = "3";

@@ -61,7 +61,7 @@ class LoadingScreenServices {
 
   /// -------- selecrted supported city information ------- ///
 
-  static String selectedSupportedCityName = "الرجاء اختيار المنطقة";
+  static String selectedSupportedCityName;
   static String selectedSupportedCityPrice;
   static String selectedSupportedCityIsActive;
   static String selectedSupportedCityId;

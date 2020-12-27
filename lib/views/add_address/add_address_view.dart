@@ -501,7 +501,8 @@ class AddAddressViewState extends State<AddAddressView> {
         child: selectedValue == null ||
                 countryController.text == "" ||
                 stateController.text == "" ||
-                streetController.text == ""
+                streetController.text == "" ||
+                entranceController.text == ""
             ? InkWell(
                 onTap: () => _showToast(),
                 child: new Container(
@@ -552,7 +553,8 @@ class AddAddressViewState extends State<AddAddressView> {
         child: selectedValue == null ||
                 countryController.text == "" ||
                 stateController.text == "" ||
-                streetController.text == ""
+                streetController.text == "" ||
+                entranceController.text == ""
             ? InkWell(
                 onTap: () => _showToast(),
                 child: new Container(
@@ -610,7 +612,8 @@ class AddAddressViewState extends State<AddAddressView> {
         child: selectedValue == null ||
                 countryController.text == "" ||
                 stateController.text == "" ||
-                streetController.text == ""
+                streetController.text == "" ||
+                entranceController.text == ""
             ? InkWell(
                 onTap: () => _showToast(),
                 child: new Container(
@@ -649,6 +652,10 @@ class AddAddressViewState extends State<AddAddressView> {
     else if (countryController.text == "")
       Toast.show("يرجى كتابة علامة قريبة للإستدلال", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+    else if (entranceController.text == "") {
+      Toast.show("يرجى كتابة المدخل", context,
+          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+    }
   }
 
   Map<String, double> userLocation;
