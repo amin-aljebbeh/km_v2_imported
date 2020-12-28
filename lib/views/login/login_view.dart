@@ -183,92 +183,126 @@ class _LoginScreenState extends State<LoginScreen> {
       //   backgroundColorStart: Colors.cyan,
       //   backgroundColorEnd: Colors.indigo,
       // ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return SingleChildScrollView(
           reverse: true,
           controller: _scroll,
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                errorCode
-                    ? AlertMessages(
-                        text: "$errorMessage",
-                        messageType: "internetError",
-                        headerText: "مشكلة بالبيانات المدخلة",
-                      )
-                    : Container(
-                        padding: EdgeInsets.zero,
-                      ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 50.0),
-                    child: Center(
-                      child: Image.asset(
-                        "assets/loginLogo.png",
-                        height: 100,
-                        width: 75,
-                      ),
-                    ),
-                  ),
-                  // width: double.infinity,
-                  // height: MediaQuery.of(context).size.height,
-                ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        top: 20.0, right: 15, left: 15, bottom: 10),
-                    child: Center(
-                      child: Text(
-                          "تحتاج لإدخال رقم هاتفك المحمول و اختيار أقرب مدينة إليك حتى تتمكن من استعمال تطبيق كمّون (هذا الإجراء فقط لمرة واحدة ) .",
-                          style: TextStyle(
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 20,
-                          )),
-                    ),
-                  ),
-                  // width: double.infinity,
-                  // height: MediaQuery.of(context).size.height,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/supportedCity');
-                  },
-                  child: Container(
-                    padding:
-                        EdgeInsets.only(left: 5, right: 5, top: 15, bottom: 15),
-                    margin: EdgeInsets.only(left: 20, right: 20),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 5, color: UtilsImporter().colorUtils.kmColors),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        LoadingScreenServices.selectedSupportedCityName ??
-                            "الرجاء اختيار المنطقة",
-                        style: TextStyle(
-                          color: UtilsImporter().colorUtils.primarycolor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight,
+            ),
+            child: IntrinsicHeight(
+              child: Stack(
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Container(
+                        color: Colors.white,
+                        height: 100.0,
+                        width: double.infinity,
+                        child: Image.asset(
+                          'assets/waves.png',
+                          fit: BoxFit.fill,
                         ),
                       ),
-                    ),
+                      //  Expanded(child: Container()),
+                      errorCode
+                          ? AlertMessages(
+                              text: "$errorMessage",
+                              messageType: "internetError",
+                              headerText: "مشكلة بالبيانات المدخلة",
+                            )
+                          : Container(
+                              padding: EdgeInsets.zero,
+                            ),
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 0.0),
+                          child: Center(
+                            child: Image.asset(
+                              "assets/kmlogoo.png",
+                              height: 200,
+                              width: 300,
+                            ),
+                          ),
+                        ),
+                        // width: double.infinity,
+                        // height: MediaQuery.of(context).size.height,
+                      ),
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 0.0, right: 10, left: 10, bottom: 10),
+                          child: Center(
+                            child: Text(
+                                "تحتاج لإدخال رقم هاتفك المحمول و اختيار أقرب مدينة إليك حتى تتمكن من استعمال تطبيق كمّون (هذا الإجراء فقط لمرة واحدة ) .",
+                                style: TextStyle(
+                                  fontFamily:
+                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontSize: 20,
+                                )),
+                          ),
+                        ),
+                        // width: double.infinity,
+                        // height: MediaQuery.of(context).size.height,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/supportedCity');
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              left: 5, right: 5, top: 5, bottom: 5),
+                          margin: EdgeInsets.only(left: 20, right: 20),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 5,
+                                color: UtilsImporter().colorUtils.kmColors),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Text(
+                                LoadingScreenServices
+                                        .selectedSupportedCityName ??
+                                    "الرجاء اختيار المنطقة",
+                                style: TextStyle(
+                                  color:
+                                      UtilsImporter().colorUtils.primarycolor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily:
+                                      UtilsImporter().stringUtils.HKGrotesk,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      LoadingScreenServices.selectedSupportedCityName != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20.0, right: 20, bottom: 10, top: 20),
+                              child: _ShowCountryInput(),
+                            )
+                          : Container(),
+                      LoadingScreenServices.selectedSupportedCityName != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0, right: 8.0, bottom: 20),
+                              child: _showSubmit(),
+                            )
+                          : Container(),
+                    ],
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: _ShowCountryInput(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _showSubmit(),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }
