@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
@@ -223,7 +224,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                         spacing: 10,
 
                                         onSelected: (index, isSelected) {
-                                          print(index);
+                                          Tools.logToConsole(index);
                                           setState(() {
                                             selectedIndex = index;
                                             DeliveryMethodView

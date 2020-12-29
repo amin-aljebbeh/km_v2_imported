@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -51,7 +52,7 @@ class _CounterOtpState extends State<CounterOtp> {
       if (signature.toString().length != 11) {
         signature = "";
       }
-      print("Signature: ###################" + signature.toString());
+      Tools.logToConsole("Signature: ###################" + signature.toString());
 
       bool response = await Services.loginUser(
           phoneNumber: LoginScreen.phoneNumber,
@@ -74,7 +75,7 @@ class _CounterOtpState extends State<CounterOtp> {
       setState(() {
         loadingScreen = false;
       });
-      print(
+      Tools.logToConsole(
           "---------------------------------- FEATCH OTP EXCEPTION ----------------------------------");
       throw new Exception(e.toString());
     }

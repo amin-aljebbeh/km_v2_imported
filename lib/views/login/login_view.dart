@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -42,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future featchOtp() async {
-    //print("^^^^^^^^^^ : " + myController.text.toString());
+    //Tools.logToConsole("^^^^^^^^^^ : " + myController.text.toString());
     SystemChannels.textInput.invokeMethod('TextInput.hide');
 
     if (myController.text.length != 10) {
@@ -67,8 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
         String signature = await SmsAutoFill().getAppSignature;
 
-        print("input number : " + myController.text);
-        print("Signature: ###################" + signature.toString());
+        Tools.logToConsole("input number : " + myController.text);
+        Tools.logToConsole("Signature: ###################" + signature.toString());
         if (signature.toString().length != 11) {
           signature = "no";
         }
@@ -101,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
           loadingScreen = false;
           errorCode = true;
         });
-        print("----------------- FEATCH OTP EXCEPTION ------");
+        Tools.logToConsole("----------------- FEATCH OTP EXCEPTION ------");
         throw new Exception(e.toString());
       }
     }

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
@@ -345,7 +346,7 @@ class DeliverToViewState extends State<DeliverToView> {
 
   // Function to be called on click
   void _onAddressClicked(int index) {
-    debugPrint("You tapped on item $index");
+    Tools.logToConsole("You tapped on item $index");
 
     setState(() {
       DeliverToView.selectedIndex = index + 1;
@@ -384,7 +385,7 @@ class DeliverToViewState extends State<DeliverToView> {
 
   void _showProceedToPayBtnTapped() {
     if (DeliverToView.selectedIndex != null) {
-      print(DeliveryMethodServices.deliveryMethodsList.length);
+      Tools.logToConsole(DeliveryMethodServices.deliveryMethodsList.length);
       if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
         Navigator.push(
             context,

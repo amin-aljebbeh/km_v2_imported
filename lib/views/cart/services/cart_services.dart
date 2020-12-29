@@ -4,6 +4,7 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,25 +15,25 @@ class CartServices {
   static String userCopoun;
 
   static Future getUserCart() async {
-    print("------------ GET USER CART FROM SHARED PREFRENCES --------------");
+    Tools.logToConsole("------------ GET USER CART FROM SHARED PREFRENCES --------------");
 
     Map<String, String> productsIdCount = new Map<String, String>();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userCart = prefs.getString('userCart');
-    print("------ Before if user Cart ------");
-    print(userCart);
+    Tools.logToConsole("------ Before if user Cart ------");
+    Tools.logToConsole(userCart);
     if (userCart != null && userCart.length == 1 && userCart == "@") {
       prefs.setString('userCart', "");
     }
-    print("------ after setString if user Cart ------");
-    print(userCart);
+    Tools.logToConsole("------ after setString if user Cart ------");
+    Tools.logToConsole(userCart);
     if (userCart != null &&
         userCart.length > 2 &&
         userCart.toString() != "null") {
       cartProducts.clear();
-      print("------ user Cart ------");
-      print(userCart);
+      Tools.logToConsole("------ user Cart ------");
+      Tools.logToConsole(userCart);
       List<String> productsIds = userCart.split("@")[0].split(";");
       List<String> productsCounts = userCart.split("@")[1].split(";");
 
@@ -40,8 +41,8 @@ class CartServices {
         productsIdCount[productsIds[i]] = productsCounts[i];
       }
 
-      print("----------- the product in synd --------");
-      print(userCart.split("@")[0].replaceRange(
+      Tools.logToConsole("----------- the product in synd --------");
+      Tools.logToConsole(userCart.split("@")[0].replaceRange(
           userCart.split("@")[0].length - 1,
           userCart.split("@")[0].length,
           ""));
@@ -57,7 +58,7 @@ class CartServices {
                 "")
           }));
 
-      print(response);
+      Tools.logToConsole(response);
       if (response.statusCode == SUCCESS_CODE &&
           response.data['success'] == true) {
         final product = syncCartFromJson(jsonEncode(response.data["data"]));
@@ -70,9 +71,9 @@ class CartServices {
 
         return true;
       } else {
-        print(response.data);
+        Tools.logToConsole(response.data);
         //   if (streamController != null) streamController.add(200);
-        print("------------ ERROR WHILE GETING USER CART --------------");
+        Tools.logToConsole("------------ ERROR WHILE GETING USER CART --------------");
 
         return false;
       }

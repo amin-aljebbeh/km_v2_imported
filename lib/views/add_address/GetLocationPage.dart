@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:location/location.dart';
 
 class GetLocationPage extends StatefulWidget {
@@ -50,8 +51,8 @@ class _GetLocationPageState extends State<GetLocationPage> {
 
   Future<Map<String, double>> _getLocation() async {
     LocationData currentLocation;
-    // print(await location.requestPermission());
-    // print(await location.hasPermission());
+    // Tools.logToConsole(await location.requestPermission());
+    // Tools.logToConsole(await location.hasPermission());
 
     await location.requestPermission();
     if (await location.hasPermission() == PermissionStatus.granted) {
@@ -64,11 +65,11 @@ class _GetLocationPageState extends State<GetLocationPage> {
         "latitude": currentLocation.latitude,
         "longitude": currentLocation.longitude
       };
-      print(currentLocation.latitude);
-      print(currentLocation.longitude);
+      Tools.logToConsole(currentLocation.latitude);
+      Tools.logToConsole(currentLocation.longitude);
       return userLocation;
     } else {
-      print("not gareented");
+      Tools.logToConsole("not gareented");
     }
   }
 }

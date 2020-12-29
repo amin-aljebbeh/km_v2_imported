@@ -1,5 +1,6 @@
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/errors_screen/internet_error.dart';
@@ -292,7 +293,7 @@ class StoreViewState extends State<StoreView> {
       url =
           "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
     } else if (selected == "number") {
-      print("-------- Support number ----------");
+      Tools.logToConsole("-------- Support number ----------");
 
       url = "tel:${LoadingScreenServices.supportPhoneNumber}";
     }
@@ -301,7 +302,7 @@ class StoreViewState extends State<StoreView> {
     // if (await canLaunch(url)) {
     //   await launch(url);
     // } else {
-    //   print(url);
+    //   Tools.logToConsole(url);
     //   throw 'Could not launch $url';
     // }
   }

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -177,7 +178,7 @@ class OrdersViewState extends State<OrdersView> {
                                 if (!isLoading &&
                                     scrollInfo.metrics.pixels ==
                                         scrollInfo.metrics.maxScrollExtent) {
-                                  print("in List");
+                                  Tools.logToConsole("in List");
                                   setState(() {
                                     page++;
                                   });
@@ -450,7 +451,7 @@ class OrdersViewState extends State<OrdersView> {
         });
         String x =
             await OrderServices.lockOrder(orderDataList[index].id.toString());
-        print(x);
+        Tools.logToConsole(x);
         if (x != "null") {
           if (x == "true") {
             setState(() {
@@ -515,7 +516,7 @@ class OrdersViewState extends State<OrdersView> {
   }
 
   void _onTileClicked(int index) {
-    debugPrint("You tapped on item $index");
+    Tools.logToConsole("You tapped on item $index");
 
     List<OrderProducts> ordAry = orderDataList[index].products;
 

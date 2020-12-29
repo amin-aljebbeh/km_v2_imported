@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -47,7 +48,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     for (int i = 0; i < orderArray.length; i++) {
       cards.add(i);
     }
-    print("Orders Length ${orderArray.length}");
+    Tools.logToConsole("Orders Length ${orderArray.length}");
   }
 
   _reloadPrices() async {
@@ -190,7 +191,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           shrinkWrap: true,
                           itemCount: orderArray == null ? 0 : cards.length,
                           itemBuilder: (BuildContext context, int index) {
-                            print("Build Card Length : $index");
+                            Tools.logToConsole("Build Card Length : $index");
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () => _onTileClicked(index),
@@ -607,7 +608,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
   // Function to be called on click
   void _onTileClicked(int index) {
-    debugPrint("You tapped on item $index");
+    Tools.logToConsole("You tapped on item $index");
     // Navigator.push(
     //     context,
     //     new MaterialPageRoute(
@@ -627,10 +628,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
         priceId.add(orderArray[i].id);
       }
     }
-    print("------ price array ---------");
-    print(priceId);
-    print("-------- inactive array --------");
-    print(notactiveId);
+    Tools.logToConsole("------ price array ---------");
+    Tools.logToConsole(priceId);
+    Tools.logToConsole("-------- inactive array --------");
+    Tools.logToConsole(notactiveId);
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => OrderProblemBottomSheet(
@@ -654,7 +655,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
     OrderResponse orderResponse;
     if (OrderServices.orderUnderUpdateIndex != -1) {
-      print("updating Order");
+      Tools.logToConsole("updating Order");
       orderResponse =
           await OrderServices.updateOrder(userNotes: _userNotes.text);
 
@@ -715,8 +716,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
               loadingScreen = false;
               errorCode = false;
             } else if (orderResponse.success) {
-              print("orderData is :");
-              print(orderResponse.data.toString());
+              Tools.logToConsole("orderData is :");
+              Tools.logToConsole(orderResponse.data.toString());
               CartViewFinal.message = orderResponse.data;
               // CartServices.cartProducts.clear();
             }
@@ -727,8 +728,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
         } catch (e) {
           loadingScreen = false;
           errorCode = true;
-          print(e.toString());
-          print("I'm in catch");
+          Tools.logToConsole(e.toString());
+          Tools.logToConsole("I'm in catch");
         }
       });
     }

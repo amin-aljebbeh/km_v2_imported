@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/favoraites/favoraites.dart';
@@ -48,19 +49,19 @@ class HomeViewState extends State<HomeView> {
   }
 
   _initializeNotificaiton({BuildContext ctx}) {
-    print("====== Starting initializing Firebase ======");
+    Tools.logToConsole("====== Starting initializing Firebase ======");
     //checkUpdate = _checkAppVersion();
 
 // Here you can write your code
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
+        Tools.logToConsole("onMessage: $message");
         final notification = message['notification'];
 
-        print(notification['title']);
-        print(notification['body']);
-        print("--------- the data route_name is -------");
-        print(message['data']['route_name']);
+        Tools.logToConsole(notification['title']);
+        Tools.logToConsole(notification['body']);
+        Tools.logToConsole("--------- the data route_name is -------");
+        Tools.logToConsole(message['data']['route_name']);
 
         if (message['data']['route_name'] != null)
           Navigator.pushNamed(context, message['data']['route_name']);
@@ -72,10 +73,10 @@ class HomeViewState extends State<HomeView> {
         // }
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
+        Tools.logToConsole("onLaunch: $message");
         final notification = message['data'];
-        print(notification['title']);
-        print(notification['body']);
+        Tools.logToConsole(notification['title']);
+        Tools.logToConsole(notification['body']);
         if (message['data']['route_name'] != null)
           Navigator.pushNamed(context, message['data']['route_name']);
 
@@ -85,7 +86,7 @@ class HomeViewState extends State<HomeView> {
       },
       onResume: (Map<String, dynamic> message) async {
         final notification = message['data'];
-        print("onResume: $message");
+        Tools.logToConsole("onResume: $message");
         // Navigator.push(
         //     context, new MaterialPageRoute(builder: (context) => HomeView(2)));
 
@@ -98,7 +99,7 @@ class HomeViewState extends State<HomeView> {
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
     getoken();
-    print("====== End initializing Firebase ======");
+    Tools.logToConsole("====== End initializing Firebase ======");
   }
 
   Future getoken() async {
@@ -106,17 +107,17 @@ class HomeViewState extends State<HomeView> {
     if (prefs.get("firebase_token") == null) {
       firebaseToken = await _firebaseMessaging.getToken();
       prefs.setString("firebase_token", firebaseToken);
-      print("FF firebase from firebase FF");
-      print(firebaseToken);
+      Tools.logToConsole("FF firebase from firebase FF");
+      Tools.logToConsole(firebaseToken);
     } else {
-      print("FF firebase from sharedPref FF");
-      print(prefs.get("firebase_token"));
+      Tools.logToConsole("FF firebase from sharedPref FF");
+      Tools.logToConsole(prefs.get("firebase_token"));
       firebaseToken = prefs.get("firebase_token");
     }
     if (LoadingScreenServices.userOriginal.data.firebaseToken !=
         firebaseToken) {
       LoadingScreenServices().updateFirebaseToken(firebaseToken);
-      print("Firebase Updated");
+      Tools.logToConsole("Firebase Updated");
     }
   }
 

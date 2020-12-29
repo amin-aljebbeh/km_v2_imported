@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 import 'package:badges/badges.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -94,7 +95,7 @@ class FavoraitesViewState extends State<Favoraites> {
       if (productList.data == null) {
         setState(() {
           // LoadingScreenServices.userFavoriteProducts = productList.data;
-          print("---- the last page ---");
+          Tools.logToConsole("---- the last page ---");
           theEndOfFavoraites = true;
           FavoraitesProductsServices.theEndOfFavoraites = true;
           productLoaded = true;
@@ -135,7 +136,7 @@ class FavoraitesViewState extends State<Favoraites> {
   }
 
   void _onTileClicked(int index) {
-    debugPrint("You tapped on item $index");
+    Tools.logToConsole("You tapped on item $index");
 
     // Product productsDic = LoadingScreenServices.userFavoriteProducts[index];
 
@@ -149,7 +150,7 @@ class FavoraitesViewState extends State<Favoraites> {
     // productToSend.unit = productsDic.unit;
     // //productToSend.isActive = productsDic.isActive;
 
-    debugPrint("You tapped on item $index");
+    Tools.logToConsole("You tapped on item $index");
 
     ProductData productsDic = favoraitesProductData[index];
 
@@ -489,7 +490,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                 if (!isLoading &&
                                     scrollInfo.metrics.pixels ==
                                         scrollInfo.metrics.maxScrollExtent) {
-                                  print("in List");
+                                  Tools.logToConsole("in List");
                                   setState(() {
                                     page++;
                                   });
@@ -582,7 +583,7 @@ class FavoraitesViewState extends State<Favoraites> {
 
   // Function to be called on click
   // void _onTileClicked(int index) {
-  //   debugPrint("You tapped on item $index");
+  //   Tools.logToConsole("You tapped on item $index");
 
   //   // Map<String, dynamic> productsDic = widget.productsAry[index];
 

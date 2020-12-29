@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/cartModel.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -94,7 +95,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return FutureBuilder(
         future: featchInformation,
         builder: (context, snapShot) {
-          // print("---------- THE SNAPSHOT ----------");
+          // Tools.logToConsole("---------- THE SNAPSHOT ----------");
           if (snapShot.data == "userNotLoggedIn") {
             return LoginScreen();
           }

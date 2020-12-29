@@ -2,7 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cache_image/cache_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
@@ -91,7 +92,7 @@ class LoadingScreenServices {
       supportedCityOriginal = supportedCitiesResponse;
 
       supportedCitiesListIntro.clear();
-      print(supportedCitiesResponse.data.length);
+      Tools.logToConsole(supportedCitiesResponse.data.length);
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
         supportedCitiesListIntro.add(new DropdownMenuItem(
           child: ListTile(
@@ -127,13 +128,13 @@ class LoadingScreenServices {
   }
 
   Future<bool> checkIfUserloddedIn() async {
-    print("--------- Checking User Token ---------- ");
+    Tools.logToConsole("--------- Checking User Token ---------- ");
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userToken = prefs.getString('userToken');
-      print("user token is :");
+      Tools.logToConsole("user token is :");
       // prefs.remove('userToken');
-      print(userToken);
+      Tools.logToConsole(userToken);
       if (userToken != null) {
         LoadingScreen.user_token = "Bearer " + userToken;
         return true;
@@ -141,7 +142,7 @@ class LoadingScreenServices {
         return false;
       }
     } catch (e) {
-      print(e.toString());
+      Tools.logToConsole(e.toString());
       return false;
     }
   }
@@ -151,7 +152,7 @@ class LoadingScreenServices {
 
   Future<bool> featchStartInformation() async {
     try {
-      print("------------- get Start Screen Information returns ---------");
+      Tools.logToConsole("------------- get Start Screen Information returns ---------");
       bool userLoggedIn = await checkIfUserloddedIn();
       if (userLoggedIn) {
         try {
@@ -162,12 +163,12 @@ class LoadingScreenServices {
               getStartScreenInformation(),
             ]);
           } catch (e) {
-            print("--------- error call -----");
-            print(e.toString());
+            Tools.logToConsole("--------- error call -----");
+            Tools.logToConsole(e.toString());
             return false;
           }
-          print("TTTTTTTTTTTTT : " + responses[0].toString());
-          print("BBBBBBBBBBBBBB : " + responses[1].toString());
+          Tools.logToConsole("TTTTTTTTTTTTT : " + responses[0].toString());
+          Tools.logToConsole("BBBBBBBBBBBBBB : " + responses[1].toString());
           if (responses[1] == null) {
             featchStartInformation();
           } else {
@@ -186,15 +187,15 @@ class LoadingScreenServices {
           //   return false;
           // }
         } catch (e) {
-          print(e.toString());
+          Tools.logToConsole(e.toString());
           return false;
         }
       } else {
         return false;
       }
     } catch (e) {
-      print("Error While checking user if loggedIn");
-      print(e.toString());
+      Tools.logToConsole("Error While checking user if loggedIn");
+      Tools.logToConsole(e.toString());
       return false;
     }
   }
@@ -204,7 +205,7 @@ class LoadingScreenServices {
     String buildNumber = packageInfo.buildNumber;
     int lastSupported;
     int currenVersion;
-    print("Sending Start Request");
+    Tools.logToConsole("Sending Start Request");
     var response = await ApiProvider.sendRequest(
       url: GET_START_REQUEST,
       method: httpMethods.get,
@@ -212,11 +213,11 @@ class LoadingScreenServices {
     if (response.statusCode == SUCCESS_CODE) {
       startRequest = startModelFromJson(jsonEncode(response.data));
 
-      // print(response.data);
+      // Tools.logToConsole(response.data);
 
       // Get Company Information.
       companyInformation = startRequest.company.original.data[1];
-      print("======= Get Company Information DONE =======");
+      Tools.logToConsole("======= Get Company Information DONE =======");
       String oldBaseUrl = BaseUrl;
       BaseUrl = companyInformation.baseUrl;
       if (oldBaseUrl != BaseUrl) {
@@ -224,7 +225,7 @@ class LoadingScreenServices {
       }
       // Get Image Url Prefix.
       imagePrefixUrl = startRequest.company.original.data[1].imageBaseUrl;
-      print("======= Get Image Url Prefix DONE =======");
+      Tools.logToConsole("======= Get Image Url Prefix DONE =======");
 
       // --------------------------------------------------------------------- //
 
@@ -252,10 +253,10 @@ class LoadingScreenServices {
             startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
       }
 
-      print("======= Mobile Configuration DONE =======");
+      Tools.logToConsole("======= Mobile Configuration DONE =======");
 
-      // print("------ the app version -------");
-      // print(int.parse(buildNumber));
+      // Tools.logToConsole("------ the app version -------");
+      // Tools.logToConsole(int.parse(buildNumber));
 
       if (startRequest.mobileAppConfigs.original.data[0].id == 0) {
         serverMaintain = true;
@@ -265,7 +266,7 @@ class LoadingScreenServices {
         updateOptional = true;
       }
 
-      print("======= DONE Mobile Compaiesion =======");
+      Tools.logToConsole("======= DONE Mobile Compaiesion =======");
 
       // --------------------------------------------------------------------- //
 
@@ -290,11 +291,11 @@ class LoadingScreenServices {
         else
           return 0;
       });
-      print("======= Get Category DONE =======");
+      Tools.logToConsole("======= Get Category DONE =======");
 
-      // print("========== The Categories ===========");
+      // Tools.logToConsole("========== The Categories ===========");
 
-      // print(categoryList);
+      // Tools.logToConsole(categoryList);
 
       // --------------------------------------------------------------------- //
 
@@ -338,7 +339,7 @@ class LoadingScreenServices {
         }
       }
 
-      print("======= Get Banner DONE =======");
+      Tools.logToConsole("======= Get Banner DONE =======");
 
       // --------------------------------------------------------------------- //
       // Get User
@@ -349,15 +350,15 @@ class LoadingScreenServices {
 
       userNumber = startRequest.user.original.data.phone;
 
-      print("======= Get User Number DONE =======");
+      Tools.logToConsole("======= Get User Number DONE =======");
 
-      // print("User Number ");
-      // print(userNumber);
+      // Tools.logToConsole("User Number ");
+      // Tools.logToConsole(userNumber);
       userAddress.addAll(startRequest.user.original.data.addresses);
 
       userOriginal = startRequest.user.original;
 
-      print("======= Get User Address DONE =======");
+      Tools.logToConsole("======= Get User Address DONE =======");
 
       myOrdersList.addAll(startRequest.orders.original.data.data);
 
@@ -367,7 +368,7 @@ class LoadingScreenServices {
         userBlocked = false;
       }
 
-      print("======= Get User Order DONE =======");
+      Tools.logToConsole("======= Get User Order DONE =======");
 
       for (int i = 0; i < myOrdersList.length; i++) {
         if (myOrdersList[i].underUpdate == "1") {
@@ -383,7 +384,7 @@ class LoadingScreenServices {
         }
       }
 
-      print("======= Check if Order Under Update DONE =======");
+      Tools.logToConsole("======= Check if Order Under Update DONE =======");
 
       // -------------------------------------------------------------------- //
       // Get Delivery Methods
@@ -398,7 +399,7 @@ class LoadingScreenServices {
       // }
       // deliveryMethodsList = startRequest.deliveryMethod.original.data;
 
-      print("======= Get Delivery method DONE =======");
+      Tools.logToConsole("======= Get Delivery method DONE =======");
 
       // --------------------------------------------------------------------- //
       // Get Supported Cities
@@ -407,7 +408,7 @@ class LoadingScreenServices {
       supportedCitiesListIntro.clear();
 
       final supportedCitiesResponse = startRequest.supportedCity.original;
-      print("======= Get Supported City DONE =======");
+      Tools.logToConsole("======= Get Supported City DONE =======");
       supportedCityOriginal = supportedCitiesResponse;
 
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
@@ -457,7 +458,7 @@ class LoadingScreenServices {
             userAddress[j].supportedCityName = "يرج�� حذف و إضافة العنوان";
         }
 
-        // print("################ SUPPORTED CITIES ####################");
+        // Tools.logToConsole("################ SUPPORTED CITIES ####################");
 
         supportedCitiesList.add(new DropdownMenuItem(
           child: Text(
@@ -470,12 +471,12 @@ class LoadingScreenServices {
               "id" +
               supportedCitiesResponse.data[i].id.toString(),
         ));
-        print("The dropdownList value:" + supportedCitiesResponse.data[i].name);
+        Tools.logToConsole("The dropdownList value:" + supportedCitiesResponse.data[i].name);
       }
       return true;
     } else {
-      print("------------ ERROR GET COMPANY INFORMATION --------------");
-      print(response.statusCode.toString());
+      Tools.logToConsole("------------ ERROR GET COMPANY INFORMATION --------------");
+      Tools.logToConsole(response.statusCode.toString());
       return false;
     }
   }

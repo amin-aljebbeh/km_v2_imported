@@ -1,5 +1,6 @@
 import 'package:cache_image/cache_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -24,8 +25,8 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
   void initState() {
     super.initState();
     setState(() {
-      print("-------- the Category List value ==========");
-      // print(LoadingScreenServices.categoryList);
+      Tools.logToConsole("-------- the Category List value ==========");
+      // Tools.logToConsole(LoadingScreenServices.categoryList);
       categoryListHome.clear();
       for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
         if (LoadingScreenServices.categoryList[i].parentCategoryId == null) {
@@ -38,7 +39,7 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
   @override
   Widget build(BuildContext context) {
     // for (int i = 0; i < categoryListHome.length; i++) {
-    //   print(categoryListHome[i].warehouses[0].pivot.priority);
+    //   Tools.logToConsole(categoryListHome[i].warehouses[0].pivot.priority);
     // }
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -83,7 +84,7 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
 
   // Function to be called on click
   void _onTileClicked(String index) {
-    debugPrint("You tapped on item $index");
+    Tools.logToConsole("You tapped on item $index");
 
     //String category_name = categoriesListArray[index]['category_name'];
     // List<Map<String, dynamic>> productsAry =
@@ -92,12 +93,12 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
     List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
 
     for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
-      print(LoadingScreenServices.categoryList[i].parentCategoryId.toString() +
+      Tools.logToConsole(LoadingScreenServices.categoryList[i].parentCategoryId.toString() +
           "   ------   " +
           index);
       if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() ==
           index.toString()) {
-        print("added");
+        Tools.logToConsole("added");
         subCategoryList.add(LoadingScreenServices.categoryList[i]);
       }
     }

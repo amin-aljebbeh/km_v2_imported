@@ -1,14 +1,15 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'error_types.dart';
 
 class ErrorHandler {
   static Response handleDioError(DioError error) {
-    print("Dio error : " + error.message);
+    Tools.logToConsole("Dio error : " + error.message);
 
     if (error.response == null) {
-      print("-------Service Unavailable--------");
+      Tools.logToConsole("-------Service Unavailable--------");
 
       return Response(statusCode: SERVICE_UNAVAILABLE_ERROR);
     } else {

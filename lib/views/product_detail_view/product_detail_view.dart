@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -77,8 +78,8 @@ class ProductDetailViewState extends State<ProductDetailView>
 
   @override
   Widget build(BuildContext context) {
-    print("------ the image length --------");
-    print(widget.products.images.length);
+    Tools.logToConsole("------ the image length --------");
+    Tools.logToConsole(widget.products.images.length);
     return SafeArea(
       top: true,
       left: false,
@@ -380,9 +381,9 @@ class ProductDetailViewState extends State<ProductDetailView>
         if (LoadingScreen.user_token.length > 5) {
           Navigator.of(context).pop(true);
 
-          print("========= product price ========");
+          Tools.logToConsole("========= product price ========");
 
-          print(widget.products.price);
+          Tools.logToConsole(widget.products.price);
           widget.products.productCount = no_of_orders;
 
           CartServices.addProductToCart(widget.products);
@@ -571,7 +572,7 @@ class ProductDetailViewState extends State<ProductDetailView>
     Services.addToFavorites(widget.products.id.toString());
     LoadingScreenServices.userFavoriteProducts.add(product);
 
-    print("im in add to favoraitses");
+    Tools.logToConsole("im in add to favoraitses");
     // Navigator.of(context).pop();
   }
 

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -61,7 +62,7 @@ class AddAddressViewState extends State<AddAddressView> {
       for (int i = 0;
           i < LoadingScreenServices.supportedCitiesList.length;
           i++) {
-        print(LoadingScreenServices.supportedCitiesList[i].value);
+        Tools.logToConsole(LoadingScreenServices.supportedCitiesList[i].value);
         if (LoadingScreenServices.supportedCitiesList[i].value.split("id")[1] ==
             LoadingScreenServices
                 .userAddress[widget.addressIndex].supportedCityId
@@ -70,15 +71,15 @@ class AddAddressViewState extends State<AddAddressView> {
         }
       }
 
-      // print(Services.userAddress[widget.addressIndex].supportedCityName);
-      // print(Services.userAddress[widget.addressIndex].supportedCityId);
+      // Tools.logToConsole(Services.userAddress[widget.addressIndex].supportedCityName);
+      // Tools.logToConsole(Services.userAddress[widget.addressIndex].supportedCityId);
 
       // selectedValue =
       //     Services.userAddress[widget.addressIndex].supportedCityName;
 
       userIgnorShareLocation = false;
-      print(userIgnorShareLocation);
-      print("userIgnorShareLocation Changed Value ");
+      Tools.logToConsole(userIgnorShareLocation);
+      Tools.logToConsole("userIgnorShareLocation Changed Value ");
     }
   }
 
@@ -190,7 +191,7 @@ class AddAddressViewState extends State<AddAddressView> {
               onChanged: (value) {
                 setState(() {
                   selectedValue = value;
-                  print(value);
+                  Tools.logToConsole(value);
                 });
               },
             ),
@@ -663,7 +664,7 @@ class AddAddressViewState extends State<AddAddressView> {
   // bool bottomSheetLoading = false;
 
   Future<void> _getUserLocation() async {
-    print("---- _getUserLocation function ----");
+    Tools.logToConsole("---- _getUserLocation function ----");
 
     var location = new Location();
 
@@ -675,8 +676,8 @@ class AddAddressViewState extends State<AddAddressView> {
       if (await location.hasPermission() == PermissionStatus.granted &&
           await location.requestService() == true) {
         try {
-          print("---- Location Garented ----");
-          print(await location.hasPermission());
+          Tools.logToConsole("---- Location Garented ----");
+          Tools.logToConsole(await location.hasPermission());
           await location.getLocation().then((onValue) {
             setState(() {
               userLocation = {
@@ -685,33 +686,33 @@ class AddAddressViewState extends State<AddAddressView> {
               };
               lat = onValue.latitude;
               lon = onValue.longitude;
-              print("----- the lat , lon is ------");
-              print(lat);
-              print(lon);
+              Tools.logToConsole("----- the lat , lon is ------");
+              Tools.logToConsole(lat);
+              Tools.logToConsole(lon);
             });
           });
 
           _addAddressBtnTapped();
         } catch (e) {
-          print("error getting user location");
-          print(e.toString());
+          Tools.logToConsole("error getting user location");
+          Tools.logToConsole(e.toString());
         }
       } else {
-        print("---- address no granted ----");
+        Tools.logToConsole("---- address no granted ----");
         await location.requestPermission().then((onValue) =>
             onValue == PermissionStatus.granted ? _getUserLocation() : {});
       }
     } catch (e) {
-      print("----- error before if --------");
-      print(e.toString());
+      Tools.logToConsole("----- error before if --------");
+      Tools.logToConsole(e.toString());
     }
   }
 
   Future<void> _addAddressBtnTapped() async {
-    print("selectedValue $selectedValue");
-    print("countryController + ${countryController.text}");
-    print("stateController + ${stateController.text}");
-    print("streetController + ${streetController.text}");
+    Tools.logToConsole("selectedValue $selectedValue");
+    Tools.logToConsole("countryController + ${countryController.text}");
+    Tools.logToConsole("stateController + ${stateController.text}");
+    Tools.logToConsole("streetController + ${streetController.text}");
     if (userIgnorShareLocation == null) {
       userIgnorShareLocation = false;
     }
@@ -725,7 +726,7 @@ class AddAddressViewState extends State<AddAddressView> {
       // final cityController = TextEditingController();
       // final stateController = TextEditingController();
       // final countryController = TextEditingController();
-      print("city id " + selectedValue.split("id")[1].toString());
+      Tools.logToConsole("city id " + selectedValue.split("id")[1].toString());
 
       newUserAddress.deliveryPrice = int.parse(
           selectedValue.split("price")[1].split("id")[0].split(".")[0]);

@@ -40,7 +40,7 @@
 
 //       return true;
 //     } else {
-//       print("------------ ERROR GET CATEGORIES --------------");
+//       Tools.logToConsole("------------ ERROR GET CATEGORIES --------------");
 //       return false;
 //     }
 //   }

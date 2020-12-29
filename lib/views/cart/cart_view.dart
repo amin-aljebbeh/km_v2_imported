@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
@@ -119,7 +120,7 @@ class CartViewState extends State<CartView> {
               orderArray[i].productCount);
     }
 
-    print(widget.isFromUpdateOrder);
+    Tools.logToConsole(widget.isFromUpdateOrder);
     widget.isFromUpdateOrder
         ? WidgetsBinding.instance.addPostFrameCallback(
             (_) => _showUpdateOrderInstruction(context: context))
@@ -413,7 +414,7 @@ class CartViewState extends State<CartView> {
 
   // Function to be called on click
   void _onTileClicked(int index) {
-    debugPrint("You tapped on item $index");
+    Tools.logToConsole("You tapped on item $index");
     // Navigator.push(
     //     context,
     //     new MaterialPageRoute(
@@ -423,7 +424,7 @@ class CartViewState extends State<CartView> {
 
   void _showConfirmOrderBtnTapped() {
     if (CartServices.cartProducts.length > 0) {
-      print(
+      Tools.logToConsole(
           "the orderUnderUpdateIndex value is : ${OrderServices.orderUnderUpdateIndex}");
       if (OrderServices.orderUnderUpdateIndex == -1) {
         Navigator.push(context,

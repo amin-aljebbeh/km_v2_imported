@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:cache_image/cache_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -38,7 +39,7 @@ class _SubCategoryState extends State<SubCategory> {
       List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
 
       for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
-        print(
+        Tools.logToConsole(
             LoadingScreenServices.categoryList[i].parentCategoryId.toString() +
                 "   ------   " +
                 index.toString());

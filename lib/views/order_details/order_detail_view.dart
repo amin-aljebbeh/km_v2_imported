@@ -1,5 +1,6 @@
 import 'package:cache_image/cache_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -181,7 +182,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
   }
 
   void _onTileClicked(int index) {
-    debugPrint("You tapped on item $index");
+    Tools.logToConsole("You tapped on item $index");
 
 //    Navigator.push(context,
 //        new MaterialPageRoute(builder: (context) => new ProductDetailView(heroIndex: index + 100)));

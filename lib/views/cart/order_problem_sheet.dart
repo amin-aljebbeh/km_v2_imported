@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
@@ -44,12 +45,12 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
         priceCards.add(i);
       }
     }
-    print("not active");
-    print(widget.notActiveProducts);
-    print(notActivecards);
-    print("price");
-    print(widget.pricesChangesProducts);
-    print(priceCards);
+    Tools.logToConsole("not active");
+    Tools.logToConsole(widget.notActiveProducts);
+    Tools.logToConsole(notActivecards);
+    Tools.logToConsole("price");
+    Tools.logToConsole(widget.pricesChangesProducts);
+    Tools.logToConsole(priceCards);
     if (priceCards.length > 0 && notActivecards.length == 0) {
       dialogText =
           "نأسف لحدوث ذلك ولكن أثناء قيامك بالتسوق تغير سعر  ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك مشاهدة تلك المنتجات و القيام بتحديث الطلب ليتم تحديث الأسعار او اختيار بدائل ";
@@ -456,7 +457,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
 
   // Function to be called on click
   void _onTileClicked(int index) {
-    debugPrint("You tapped on item $index");
+    Tools.logToConsole("You tapped on item $index");
     // Navigator.push(
     //     context,
     //     new MaterialPageRoute(

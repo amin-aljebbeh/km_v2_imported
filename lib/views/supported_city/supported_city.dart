@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
@@ -69,7 +70,7 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print("------ supported city name ------");
+    Tools.logToConsole("------ supported city name ------");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

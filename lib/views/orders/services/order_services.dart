@@ -4,6 +4,7 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/orders_response.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
@@ -58,7 +59,7 @@ class OrderServices {
       var response = await ApiProvider.sendRequest(
           url: ORDER, method: httpMethods.post, body: jsonEncode(orderData));
 
-      print(response.data["reason"]);
+      Tools.logToConsole(response.data["reason"]);
 
       if (response.data["reason"].toString().contains("discontinued")) {
         return new OrderResponse(success: false, reason: "discontinued");
@@ -68,7 +69,7 @@ class OrderServices {
         return barsedJson;
       }
     } catch (e) {
-      print(e);
+      Tools.logToConsole(e);
       return null;
     }
   }
@@ -122,13 +123,13 @@ class OrderServices {
         return barsedJson;
       }
     } catch (e) {
-      print(e);
+      Tools.logToConsole(e);
       return null;
     }
   }
 
   static Future<String> cancelOrder(String orderId) async {
-    // print("------------------ CANCEL ORDER  --------------------");
+    // Tools.logToConsole("------------------ CANCEL ORDER  --------------------");
 
     Map cancelOrderBody = {
       'order_status_id': 5,
@@ -142,7 +143,7 @@ class OrderServices {
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
       return "true";
     } else {
-      print("------------ ERROR CANCEL ORDER --------------");
+      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
       await Services.getMyOrders();
       return "تم قبول طلبك مسبقاً لايمكن إلغاء الطلب حاليا اذا كنت مصراً على إلغاء الطلب يرجى التواصل مع فريق الدعم";
     }
@@ -150,7 +151,7 @@ class OrderServices {
 
   static Future<bool> rateOrder(
       {String orderId, String userFeedback, double rating}) async {
-    // print("------------------ Rate Order --------------------");
+    // Tools.logToConsole("------------------ Rate Order --------------------");
 
     Map ratingOrderBody = {
       'user_feedback': userFeedback,
@@ -166,13 +167,13 @@ class OrderServices {
     if (response.statusCode == SUCCESS_CODE) {
       return true;
     } else {
-      print("------------ ERROR CANCEL ORDER --------------");
+      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
       return false;
     }
   }
 
   static Future<String> lockOrder(String orderId) async {
-    // print("------------------ CANCEL ORDER  --------------------");
+    // Tools.logToConsole("------------------ CANCEL ORDER  --------------------");
     try {
       var response = await ApiProvider.sendRequest(
         url: LOCK_ORDER + orderId,
@@ -202,7 +203,7 @@ class OrderServices {
 
         return "true";
       } else {
-        print("------------ ERROR Update ORDER --------------");
+        Tools.logToConsole("------------ ERROR Update ORDER --------------");
         if (response.data["reason"].toString().contains("admin")) {
           return "admin";
         } else {
@@ -210,7 +211,7 @@ class OrderServices {
         }
       }
     } catch (e) {
-      print("------------ ERROR Catched --------------");
+      Tools.logToConsole("------------ ERROR Catched --------------");
 
       return "null";
     }

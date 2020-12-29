@@ -1,7 +1,8 @@
 // import 'dart:async';
 // import 'dart:convert';
 
-// import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 // import 'package:kammun_app/core/api/api_URLs.dart';
 // import 'package:kammun_app/core/api/api_provider.dart';
 // import 'package:kammun_app/core/errors/error_types.dart';
@@ -26,8 +27,8 @@
 
 //       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
 //         for (int j = 0; j < UserServices.userAddress.length; j++) {
-//           print("************************");
-//           print(UserServices.userAddress[j].supportedCityId.toString() +
+//           Tools.logToConsole("************************");
+//           Tools.logToConsole(UserServices.userAddress[j].supportedCityId.toString() +
 //               " : " +
 //               supportedCitiesResponse.data[i].id.toString());
 //           if (UserServices.userAddress[j].supportedCityId.toString() ==
@@ -41,8 +42,8 @@
 //             UserServices.userAddress[j].supportedCityName =
 //                 "يرجى حذف و إضافة العنوان";
 //         }
-//         print("################ SUPPORTED CITIES ####################");
-//         print(supportedCitiesResponse.data[i].id);
+//         Tools.logToConsole("################ SUPPORTED CITIES ####################");
+//         Tools.logToConsole(supportedCitiesResponse.data[i].id);
 
 //         supportedCitiesList.add(new DropdownMenuItem(
 //           child: Text(
@@ -55,12 +56,12 @@
 //               "id" +
 //               supportedCitiesResponse.data[i].id.toString(),
 //         ));
-//         print("The dropdownList value:" + supportedCitiesResponse.data[i].name);
+//         Tools.logToConsole("The dropdownList value:" + supportedCitiesResponse.data[i].name);
 //       }
 //       streamController.add(200);
 //       return true;
 //     } else {
-//       print("------------ ERROR GETING SUPPORTED CITY --------------");
+//       Tools.logToConsole("------------ ERROR GETING SUPPORTED CITY --------------");
 //       return false;
 //     }
 //   }

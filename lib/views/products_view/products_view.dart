@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:badges/badges.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -42,7 +43,7 @@ class ProductsViewState extends State<ProductsView> {
   bool badWordmatched = false;
 
   Future<bool> _loadData(String query, String type) async {
-    print(
+    Tools.logToConsole(
         "******************** => " + page.toString() + "the CatId : " + query);
     setState(() {
       badWordmatched = false;
@@ -66,8 +67,8 @@ class ProductsViewState extends State<ProductsView> {
             url: url,
             method: httpMethods.get,
           );
-          print("------ response status code -----");
-          print(response.statusCode);
+          Tools.logToConsole("------ response status code -----");
+          Tools.logToConsole(response.statusCode);
           if (response.statusCode == SUCCESS_CODE) {
             if (!response.data["success"] &&
                 response.data["reason"] == "No results") {
@@ -80,12 +81,12 @@ class ProductsViewState extends State<ProductsView> {
             } else {
               final products =
                   categoryProductFromJson(jsonEncode(response.data));
-              print("----- LENGTH : ${products.data.data.length}");
+              Tools.logToConsole("----- LENGTH : ${products.data.data.length}");
               //productsList.addAll(products.data.data);
-              print("---------- warehouse -----------");
+              Tools.logToConsole("---------- warehouse -----------");
               productsList.addAll(products.data.data);
 
-              print("Done Loading");
+              Tools.logToConsole("Done Loading");
               if (this.mounted) {
                 setState(() {
                   if (page - 1 == products.data.lastPage) {
@@ -103,7 +104,7 @@ class ProductsViewState extends State<ProductsView> {
             else
               return false;
           } else {
-            print("------ the error code is 503 --------");
+            Tools.logToConsole("------ the error code is 503 --------");
             setState(() {
               errorMessage =
                   "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
@@ -113,8 +114,8 @@ class ProductsViewState extends State<ProductsView> {
             });
           }
         } catch (e) {
-          print("------- error catched ---------");
-          print(e.toString());
+          Tools.logToConsole("------- error catched ---------");
+          Tools.logToConsole(e.toString());
         }
       } else {
         return false;
@@ -315,9 +316,9 @@ class ProductsViewState extends State<ProductsView> {
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     var eachProduct = productsList[index];
-                                    print(
+                                    Tools.logToConsole(
                                         "--------- image length -------- $index ");
-                                    print(eachProduct.images.length);
+                                    Tools.logToConsole(eachProduct.images.length);
                                     return new GestureDetector(
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => _onTileClicked(index),
@@ -365,7 +366,7 @@ class ProductsViewState extends State<ProductsView> {
 
   // Function to be called on click
   void _onTileClicked(int index) {
-    debugPrint("You tapped on item $index");
+    Tools.logToConsole("You tapped on item $index");
 
     ProductData productsDic = productsList[index];
 

@@ -4,6 +4,7 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/delivery_method_model.dart';
+import 'package:kammun_app/utils/tools.dart';
 
 class DeliveryMethodServices {
   static List<DeliveryMethodData> deliveryMethodsList =
@@ -15,7 +16,7 @@ class DeliveryMethodServices {
       method: httpMethods.get,
     );
 
-    print(response);
+    Tools.logToConsole(response);
     if (response.statusCode == SUCCESS_CODE) {
       final product = deliveryMethodFromJson(jsonEncode(response.data));
       deliveryMethodsList.clear();
@@ -28,9 +29,9 @@ class DeliveryMethodServices {
 
       return true;
     } else {
-      print(response.data);
+      Tools.logToConsole(response.data);
       //   if (streamController != null) streamController.add(200);
-      print("------------ ERROR WHILE GETING USER CART --------------");
+      Tools.logToConsole("------------ ERROR WHILE GETING USER CART --------------");
 
       return false;
     }
