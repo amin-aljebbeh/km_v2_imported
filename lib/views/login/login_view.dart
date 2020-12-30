@@ -1,3 +1,4 @@
+import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -22,7 +23,8 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
   String currentText = "";
   final myController = TextEditingController();
 
@@ -172,129 +174,113 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColorLight,
+      backgroundColor: UtilsImporter().colorUtils.kmColors,
       //backgroundColor: Colors.white,
       // appBar: GradientAppBar(
       //   title: Text('Kammun.com'),
       //   backgroundColorStart: Colors.cyan,
       //   backgroundColorEnd: Colors.indigo,
       // ),
-      body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints viewportConstraints) {
-        return SingleChildScrollView(
-          reverse: true,
-          controller: _scroll,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: viewportConstraints.maxHeight,
-            ),
-            child: IntrinsicHeight(
-              child: Stack(
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Container(
-                        color: Colors.white,
-                        height: 100.0,
-                        width: double.infinity,
-                        child: Image.asset(
-                          'assets/waves.png',
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      //  Expanded(child: Container()),
-                      errorCode
-                          ? AlertMessages(
-                              text: "$errorMessage",
-                              messageType: "internetError",
-                              headerText: "مشكلة بالبيانات المدخلة",
-                            )
-                          : Container(
-                              padding: EdgeInsets.zero,
-                            ),
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 0.0),
-                          child: Center(
-                            child: Image.asset(
-                              "assets/kmlogoo.png",
-                              height: 200,
-                              width: 300,
-                            ),
-                          ),
-                        ),
-                        // width: double.infinity,
-                        // height: MediaQuery.of(context).size.height,
-                      ),
-                      // Container(
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.only(
-                      //         top: 0.0, right: 10, left: 10, bottom: 10),
-                      //     child: Center(
-                      //       child: Text(
-                      //           "تحتاج لإدخال رقم هاتفك المحمول و اختيار أقرب مدينة إليك حتى تتمكن من استعمال تطبيق كمّون (هذا الإجراء فقط لمرة واحدة ) .",
-                      //           style: TextStyle(
-                      //             fontFamily:
-                      //                 UtilsImporter().stringUtils.HKGrotesk,
-                      //             fontSize: 20,
-                      //           )),
-                      //     ),
-                      //   ),
-                      //   // width: double.infinity,
-                      //   // height: MediaQuery.of(context).size.height,
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.of(context).pushNamed('/supportedCity');
-                      //   },
-                      //   child: Container(
-                      //     padding: EdgeInsets.only(
-                      //         left: 5, right: 5, top: 5, bottom: 5),
-                      //     margin: EdgeInsets.only(left: 20, right: 20),
-                      //     decoration: BoxDecoration(
-                      //       border: Border.all(
-                      //           width: 5,
-                      //           color: UtilsImporter().colorUtils.kmColors),
-                      //     ),
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.all(8.0),
-                      //       child: Center(
-                      //         child: Text(
-                      //           LoadingScreenServices
-                      //                   .selectedSupportedCityName ??
-                      //               "الرجاء اختيار المنطقة",
-                      //           style: TextStyle(
-                      //             color:
-                      //                 UtilsImporter().colorUtils.primarycolor,
-                      //             fontSize: 20,
-                      //             fontWeight: FontWeight.bold,
-                      //             fontFamily:
-                      //                 UtilsImporter().stringUtils.HKGrotesk,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20, bottom: 10, top: 20),
-                        child: _ShowCountryInput(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, right: 8.0, bottom: 20),
-                        child: _showSubmit(),
-                      )
-                    ],
-                  ),
-                ],
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            AnimatedBackground(
+              behaviour: RandomParticleBehaviour(),
+              vsync: this,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.90,
+                decoration: new BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      // topLeft: Radius.circular(180),
+                      // topRight: Radius.circular(180),
+                      bottomLeft: Radius.circular(
+                          MediaQuery.of(context).viewInsets.bottom != 0
+                              ? 0
+                              : 180),
+                      bottomRight: Radius.circular(
+                          MediaQuery.of(context).viewInsets.bottom != 0
+                              ? 0
+                              : 180),
+                    )),
               ),
             ),
-          ),
-        );
-      }),
+            errorCode
+                ? AlertMessages(
+                    text: "$errorMessage",
+                    messageType: "internetError",
+                    headerText: "مشكلة بالبيانات المدخلة",
+                  )
+                : Container(
+                    padding: EdgeInsets.zero,
+                  ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  //  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 50.0),
+                    child: Center(
+                      child: Image.asset(
+                        "assets/kmlogoo.png",
+                        height: 150,
+                        width: 200,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(
+                      left: 20.0, right: 20, bottom: 0, top: 5),
+                  //  color: Colors.white,
+
+                  child: _ShowCountryInput(),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(
+                      left: 20.0, right: 20, bottom: 20, top: 5),
+                  //  color: Colors.white,
+
+                  child: _showSubmit(),
+                )
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 50.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //     children: [
+                //       Container(
+                //         width: 60,
+                //         height: 60,
+                //         child: Icon(
+                //           Icons.panorama_fish_eye_outlined,
+                //           size: 20,
+                //           color: Colors.white,
+                //         ),
+                //         decoration: BoxDecoration(
+                //             shape: BoxShape.circle,
+                //             color: UtilsImporter().colorUtils.primarycolor),
+                //       ),
+                //       Container(
+                //         width: 60,
+                //         height: 60,
+                //         child: Icon(
+                //           Icons.panorama_fish_eye_outlined,
+                //           size: 20,
+                //           color: Colors.white,
+                //         ),
+                //         decoration: BoxDecoration(
+                //             shape: BoxShape.circle,
+                //             color: UtilsImporter().colorUtils.primarycolor),
+                //       ),
+                //     ],
+                //   ),
+                // )
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

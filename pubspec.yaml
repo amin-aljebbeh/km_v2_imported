@@ -54,6 +54,7 @@ dependencies:
   responsive_flutter: ^0.0.4
   modal_bottom_sheet: ^1.0.0+1
   flutter_rating_bar: ^3.2.0+1
+  animated_background: ^1.0.5
 
 
 flutter_icons:

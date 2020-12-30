@@ -73,6 +73,44 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
     });
   }
 
+  void _showDialog({title, body}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(
+            "$title",
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          content: new Text(
+            "$body",
+            // maxLines: 20,
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          scrollable: true,
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text(
+                "إغلاق",
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   _getSupportedCity() async {
     setState(() {
       isLoading = true;
@@ -85,6 +123,10 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
         isLoading = false;
         isError = false;
       });
+      WidgetsBinding.instance.addPostFrameCallback((_) => _showDialog(
+          title: 'يرجى إختيار أقرب منطقة إليك',
+          body:
+              "بالقائمة التالية تجد المناطق المدعومة للتوصيل ضمن كمّون إذا كانت منطقتكم غير مدعومة بعد لا تقلق بإمكانك اختيار اي منطقة قريبة إليك والإستفادة من خدمة متابعة أسعار المواد الغذائية والإستهلاكية بشكل مستمر و سوف يقوم تطبيق كمّون بالتوسع قريبا و دعم مناطق متعددة"));
     } else {
       setState(() {
         isLoading = false;
@@ -172,7 +214,8 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
                                   deliveryPrice: LoadingScreenServices
                                       .supportedCityOriginal
                                       .data[index]
-                                      .deliveryPrice,
+                                      .deliveryPrice
+                                      .split(".")[0],
                                   supportPhoneNumber: LoadingScreenServices
                                       .supportedCityOriginal
                                       .data[index]

@@ -23,6 +23,7 @@ class _OTPVerificationState extends State<OTPVerification> {
   String signature = "{{ app signature }}";
   bool errorCode = false;
   bool loadingScreen = false;
+  String errorMessage = "رمز التفعيل الخاص بك غير صحيح";
 
   Future checkOtpValidation(String verificationCode) async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
@@ -75,7 +76,13 @@ class _OTPVerificationState extends State<OTPVerification> {
     Widget _showAddAddressButton() {
       final GestureDetector loginButtonWithGesture = new GestureDetector(
         onTap: () {
-          checkOtpValidation(_textController.text);
+          if (_textController.text.length == 6) {
+            checkOtpValidation(_textController.text);
+          } else {
+            setState(() {
+              errorCode = true;
+            });
+          }
         },
         child: new Container(
           height: 50.0,
@@ -115,7 +122,7 @@ class _OTPVerificationState extends State<OTPVerification> {
             children: <Widget>[
               errorCode
                   ? AlertMessages(
-                      text: "رمز التفعيل الخاص بك غير صحيح",
+                      text: errorMessage,
                       messageType: "internetError",
                       headerText: "حدث خطأ أثناء التفعيل",
                     )
@@ -129,8 +136,8 @@ class _OTPVerificationState extends State<OTPVerification> {
                     child: Center(
                       child: Image.asset(
                         "assets/loginLogo.png",
-                        height: 150,
-                        width: 100,
+                        height: 100,
+                        width: 75,
                       ),
                     ),
                   ),
@@ -219,7 +226,16 @@ class _OTPVerificationState extends State<OTPVerification> {
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: CounterOtp(59, 0),
+                child: CounterOtp(59, 0, (success) {
+                  if (success) {
+                    setState(() {
+                      errorCode = false;
+                    });
+                  } else {
+                    errorMessage =
+                        "حدث خطأ أثناء محاولة إرسال الرمز من جديد يرجى التحقق من إتصالك بالإانترنت و المحاولة من جديد";
+                  }
+                }),
               ),
             ],
           ),

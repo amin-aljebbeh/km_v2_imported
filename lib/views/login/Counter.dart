@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -19,8 +19,9 @@ class CounterOtp extends StatefulWidget {
 
   int counterr;
   int counterMinn;
+  Function(bool success) onRequestSent;
 
-  CounterOtp(this.counterr, this.counterMinn);
+  CounterOtp(this.counterr, this.counterMinn, this.onRequestSent);
 
   @override
   _CounterOtpState createState() => _CounterOtpState(counterr, counterMinn);
@@ -52,7 +53,8 @@ class _CounterOtpState extends State<CounterOtp> {
       if (signature.toString().length != 11) {
         signature = "";
       }
-      Tools.logToConsole("Signature: ###################" + signature.toString());
+      Tools.logToConsole(
+          "Signature: ###################" + signature.toString());
 
       bool response = await Services.loginUser(
           phoneNumber: LoginScreen.phoneNumber,
@@ -66,14 +68,17 @@ class _CounterOtpState extends State<CounterOtp> {
           counter = 59;
           counterMin = 0;
         });
+        widget.onRequestSent(true);
       } else {
         setState(() {
           loadingScreen = false;
         });
+        widget.onRequestSent(false);
       }
     } catch (e) {
       setState(() {
         loadingScreen = false;
+        widget.onRequestSent(false);
       });
       Tools.logToConsole(
           "---------------------------------- FEATCH OTP EXCEPTION ----------------------------------");
