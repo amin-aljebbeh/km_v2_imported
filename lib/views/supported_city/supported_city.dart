@@ -1,8 +1,12 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
+import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'package:kammun_app/views/supported_city/services/supported_city_services.dart';
 
 class SupportedCityWidget extends StatefulWidget {
   @override
@@ -12,6 +16,11 @@ class SupportedCityWidget extends StatefulWidget {
 class _SupportedCityWidgetState extends State<SupportedCityWidget> {
   TextEditingController _searchBarController = new TextEditingController();
   String filter;
+  bool isLoading = false;
+  bool isError = false;
+  String errorMessage =
+      "حدث خطأ أثناء محاولة جلب البيانات يرجى التحقق من إتصالك بالإانترنت و المحاولة مجدداً";
+
   Widget _showSearchTxtFld() {
     final GestureDetector searchButtonWithGesture = new GestureDetector(
       child: Padding(
@@ -55,11 +64,58 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
   void initState() {
     super.initState();
 
+    _getSupportedCity();
+
     _searchBarController.addListener(() {
       setState(() {
         filter = _searchBarController.text;
       });
     });
+  }
+
+  _getSupportedCity() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    bool success = await LoadingScreenServices().getSupportedCity();
+
+    if (success) {
+      setState(() {
+        isLoading = false;
+        isError = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+        isError = true;
+        errorMessage =
+            "حدث خطأ أثناء محاولة جلب البيانات يرجى التحقق من إتصالك بالإانترنت و المحاولة مجدداً";
+      });
+    }
+  }
+
+  _updateUserSupportedCity({String supportedCityId}) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    bool success = await SupportedCityServices.updateUserSupportedCity(
+        supportedCityId: supportedCityId);
+    if (success) {
+      setState(() {
+        isLoading = false;
+        isError = false;
+      });
+      KammunRestart.restartApp(context);
+    } else {
+      setState(() {
+        isLoading = false;
+        isError = true;
+        errorMessage =
+            "حدث خطأ أثناء محاولتك إختيار المدينة الأقرب إليك يرجى التأكد من إتصالك بالإانترنت و المحاولة مجدداً";
+      });
+    }
   }
 
   @override
@@ -79,86 +135,120 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
       ),
       body: Container(
         padding: EdgeInsets.only(top: 20),
-        child: ListView.builder(
-          itemCount: LoadingScreenServices.supportedCityOriginal.data.length,
-          itemBuilder: (BuildContext context, int index) {
-            return filter == null || filter == ""
-                ? GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        LoadingScreenServices.selectedSupportedCityName =
-                            LoadingScreenServices
-                                .supportedCityOriginal.data[index].name;
+        child: isLoading
+            ? Center(child: Loader())
+            : Column(
+                children: [
+                  isError
+                      ? AlertMessages(
+                          text: errorMessage,
+                          messageType: "internetError",
+                          headerText: "حدث خطأ",
+                        )
+                      : Container(),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: LoadingScreenServices
+                          .supportedCityOriginal.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return filter == null || filter == ""
+                            ? GestureDetector(
+                                onTap: () {
+                                  _updateUserSupportedCity(
+                                      supportedCityId: LoadingScreenServices
+                                          .supportedCityOriginal.data[index].id
+                                          .toString());
+                                },
+                                behavior: HitTestBehavior.translucent,
+                                child: SupportedCityCardView(
+                                  name: LoadingScreenServices
+                                      .supportedCityOriginal.data[index].name,
+                                  id: LoadingScreenServices
+                                      .supportedCityOriginal.data[index].id,
+                                  isActive: LoadingScreenServices
+                                      .supportedCityOriginal
+                                      .data[index]
+                                      .isActive,
+                                  deliveryPrice: LoadingScreenServices
+                                      .supportedCityOriginal
+                                      .data[index]
+                                      .deliveryPrice,
+                                  supportPhoneNumber: LoadingScreenServices
+                                      .supportedCityOriginal
+                                      .data[index]
+                                      .supportPhoneNumber,
+                                  maintenanceMessages: LoadingScreenServices
+                                      .supportedCityOriginal
+                                      .data[index]
+                                      .maintenanceMessages,
+                                ),
+                              )
+                            : LoadingScreenServices
+                                    .supportedCityOriginal.data[index].name
+                                    .toLowerCase()
+                                    .contains(filter.toLowerCase())
+                                ? GestureDetector(
+                                    onTap: () {
+                                      // setState(() {
+                                      //   LoadingScreenServices
+                                      //           .selectedSupportedCityName =
+                                      //       LoadingScreenServices
+                                      //           .supportedCityOriginal
+                                      //           .data[index]
+                                      //           .name;
+                                      //   LoadingScreenServices
+                                      //           .selectedSupportedCityId =
+                                      //       LoadingScreenServices
+                                      //           .supportedCityOriginal
+                                      //           .data[index]
+                                      //           .id
+                                      //           .toString();
+                                      // });
+                                      // Navigator.of(context)
+                                      //     .pushNamedAndRemoveUntil(
+                                      //   LoginScreen.routeName,
+                                      //   (Route<dynamic> route) => false,
+                                      // );
 
-                        LoadingScreenServices.selectedSupportedCityId =
-                            LoadingScreenServices
-                                .supportedCityOriginal.data[index].id
-                                .toString();
-                      });
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          LoginScreen.routeName,
-                          (Route<dynamic> route) => false);
-                    },
-                    behavior: HitTestBehavior.translucent,
-                    child: SupportedCityCardView(
-                      name: LoadingScreenServices
-                          .supportedCityOriginal.data[index].name,
-                      id: LoadingScreenServices
-                          .supportedCityOriginal.data[index].id,
-                      isActive: LoadingScreenServices
-                          .supportedCityOriginal.data[index].isActive,
-                      deliveryPrice: LoadingScreenServices
-                          .supportedCityOriginal.data[index].deliveryPrice,
-                      supportPhoneNumber: LoadingScreenServices
-                          .supportedCityOriginal.data[index].supportPhoneNumber,
-                      maintenanceMessages: LoadingScreenServices
-                          .supportedCityOriginal
-                          .data[index]
-                          .maintenanceMessages,
+                                      _updateUserSupportedCity(
+                                          supportedCityId: LoadingScreenServices
+                                              .supportedCityOriginal
+                                              .data[index]
+                                              .id
+                                              .toString());
+                                    },
+                                    behavior: HitTestBehavior.translucent,
+                                    child: SupportedCityCardView(
+                                      name: LoadingScreenServices
+                                          .supportedCityOriginal
+                                          .data[index]
+                                          .name,
+                                      id: LoadingScreenServices
+                                          .supportedCityOriginal.data[index].id,
+                                      isActive: LoadingScreenServices
+                                          .supportedCityOriginal
+                                          .data[index]
+                                          .isActive,
+                                      deliveryPrice: LoadingScreenServices
+                                          .supportedCityOriginal
+                                          .data[index]
+                                          .deliveryPrice,
+                                      supportPhoneNumber: LoadingScreenServices
+                                          .supportedCityOriginal
+                                          .data[index]
+                                          .supportPhoneNumber,
+                                      maintenanceMessages: LoadingScreenServices
+                                          .supportedCityOriginal
+                                          .data[index]
+                                          .maintenanceMessages,
+                                    ),
+                                  )
+                                : Container();
+                      },
                     ),
-                  )
-                : LoadingScreenServices.supportedCityOriginal.data[index].name
-                        .toLowerCase()
-                        .contains(filter.toLowerCase())
-                    ? GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            LoadingScreenServices.selectedSupportedCityName =
-                                LoadingScreenServices
-                                    .supportedCityOriginal.data[index].name;
-                            LoadingScreenServices.selectedSupportedCityId =
-                                LoadingScreenServices
-                                    .supportedCityOriginal.data[index].id
-                                    .toString();
-                          });
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                            LoginScreen.routeName,
-                            (Route<dynamic> route) => false,
-                          );
-                        },
-                        behavior: HitTestBehavior.translucent,
-                        child: SupportedCityCardView(
-                          name: LoadingScreenServices
-                              .supportedCityOriginal.data[index].name,
-                          id: LoadingScreenServices
-                              .supportedCityOriginal.data[index].id,
-                          isActive: LoadingScreenServices
-                              .supportedCityOriginal.data[index].isActive,
-                          deliveryPrice: LoadingScreenServices
-                              .supportedCityOriginal.data[index].deliveryPrice,
-                          supportPhoneNumber: LoadingScreenServices
-                              .supportedCityOriginal
-                              .data[index]
-                              .supportPhoneNumber,
-                          maintenanceMessages: LoadingScreenServices
-                              .supportedCityOriginal
-                              .data[index]
-                              .maintenanceMessages,
-                        ),
-                      )
-                    : Container();
-          },
-        ),
+                  ),
+                ],
+              ),
       ),
     );
   }

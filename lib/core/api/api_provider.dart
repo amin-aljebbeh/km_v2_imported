@@ -40,8 +40,8 @@ class ApiProvider {
     // };
     // --------------------------------------- //
 
-    //Tools.logToConsole("------- THE USER TOKEN IS ----------");
-    //Tools.logToConsole(LoadingScreen.user_token);
+    Tools.logToConsole("------- THE USER TOKEN IS ----------");
+    Tools.logToConsole(LoadingScreen.user_token);
     Map<String, String> header = {
       // 'Authorization': "Bearer user",
 

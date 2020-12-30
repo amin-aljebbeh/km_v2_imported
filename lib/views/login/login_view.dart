@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -34,10 +34,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    if (LoadingScreenServices.supportedCitiesListIntro.length == 0) {
-      Navigator.push(context,
-          new MaterialPageRoute(builder: (context) => new InternetError()));
-    }
+    // if (LoadingScreenServices.supportedCitiesListIntro.length == 0) {
+    //   Navigator.push(context,
+    //       new MaterialPageRoute(builder: (context) => new InternetError()));
+    // }
 
     super.initState();
   }
@@ -51,25 +51,20 @@ class _LoginScreenState extends State<LoginScreen> {
         errorCode = true;
         errorMessage = "يرجى إدخال رقم يتألف من عشرة خانات";
       });
-    } else if (LoadingScreenServices.selectedSupportedCityName == null) {
-      setState(() {
-        errorCode = true;
-        errorMessage = "يرجى إختيار أقرب مدينة إليك";
-      });
     } else {
       try {
         setState(() {
           loadingScreen = true;
         });
-        LoginScreen.supportedCityId =
-            LoadingScreenServices.selectedSupportedCityId;
+        LoginScreen.supportedCityId = "1";
 
         await SmsAutoFill().listenForCode;
 
         String signature = await SmsAutoFill().getAppSignature;
 
         Tools.logToConsole("input number : " + myController.text);
-        Tools.logToConsole("Signature: ###################" + signature.toString());
+        Tools.logToConsole(
+            "Signature: ###################" + signature.toString());
         if (signature.toString().length != 11) {
           signature = "no";
         }
@@ -77,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
             phoneNumber:
                 LoginServices.replaceFarsiNumber(myController.text.toString()),
             signCode: signature,
-            supportedCityId: LoadingScreenServices.selectedSupportedCityId);
+            supportedCityId: "1");
 
         if (response) {
           await SmsAutoFill().listenForCode;
@@ -232,70 +227,66 @@ class _LoginScreenState extends State<LoginScreen> {
                         // width: double.infinity,
                         // height: MediaQuery.of(context).size.height,
                       ),
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 0.0, right: 10, left: 10, bottom: 10),
-                          child: Center(
-                            child: Text(
-                                "تحتاج لإدخال رقم هاتفك المحمول و اختيار أقرب مدينة إليك حتى تتمكن من استعمال تطبيق كمّون (هذا الإجراء فقط لمرة واحدة ) .",
-                                style: TextStyle(
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                  fontSize: 20,
-                                )),
-                          ),
-                        ),
-                        // width: double.infinity,
-                        // height: MediaQuery.of(context).size.height,
+                      // Container(
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.only(
+                      //         top: 0.0, right: 10, left: 10, bottom: 10),
+                      //     child: Center(
+                      //       child: Text(
+                      //           "تحتاج لإدخال رقم هاتفك المحمول و اختيار أقرب مدينة إليك حتى تتمكن من استعمال تطبيق كمّون (هذا الإجراء فقط لمرة واحدة ) .",
+                      //           style: TextStyle(
+                      //             fontFamily:
+                      //                 UtilsImporter().stringUtils.HKGrotesk,
+                      //             fontSize: 20,
+                      //           )),
+                      //     ),
+                      //   ),
+                      //   // width: double.infinity,
+                      //   // height: MediaQuery.of(context).size.height,
+                      // ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.of(context).pushNamed('/supportedCity');
+                      //   },
+                      //   child: Container(
+                      //     padding: EdgeInsets.only(
+                      //         left: 5, right: 5, top: 5, bottom: 5),
+                      //     margin: EdgeInsets.only(left: 20, right: 20),
+                      //     decoration: BoxDecoration(
+                      //       border: Border.all(
+                      //           width: 5,
+                      //           color: UtilsImporter().colorUtils.kmColors),
+                      //     ),
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.all(8.0),
+                      //       child: Center(
+                      //         child: Text(
+                      //           LoadingScreenServices
+                      //                   .selectedSupportedCityName ??
+                      //               "الرجاء اختيار المنطقة",
+                      //           style: TextStyle(
+                      //             color:
+                      //                 UtilsImporter().colorUtils.primarycolor,
+                      //             fontSize: 20,
+                      //             fontWeight: FontWeight.bold,
+                      //             fontFamily:
+                      //                 UtilsImporter().stringUtils.HKGrotesk,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, bottom: 10, top: 20),
+                        child: _ShowCountryInput(),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushNamed('/supportedCity');
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(
-                              left: 5, right: 5, top: 5, bottom: 5),
-                          margin: EdgeInsets.only(left: 20, right: 20),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 5,
-                                color: UtilsImporter().colorUtils.kmColors),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Text(
-                                LoadingScreenServices
-                                        .selectedSupportedCityName ??
-                                    "الرجاء اختيار المنطقة",
-                                style: TextStyle(
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      LoadingScreenServices.selectedSupportedCityName != null
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20.0, right: 20, bottom: 10, top: 20),
-                              child: _ShowCountryInput(),
-                            )
-                          : Container(),
-                      LoadingScreenServices.selectedSupportedCityName != null
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8.0, bottom: 20),
-                              child: _showSubmit(),
-                            )
-                          : Container(),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 8.0, right: 8.0, bottom: 20),
+                        child: _showSubmit(),
+                      )
                     ],
                   ),
                 ],

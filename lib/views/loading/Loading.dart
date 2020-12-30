@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/cartModel.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -13,6 +13,7 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/server_update/server_update.dart';
+import 'package:kammun_app/views/supported_city/supported_city.dart';
 import 'package:kammun_app/views/update_screen/updateRequiredScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,6 +42,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   _getClientInfo() async {
     bool userLoggedIn = await LoadingScreenServices().checkIfUserloddedIn();
+    if (userLoggedIn == null) return "userNotSelectSupportedCity";
     if (userLoggedIn) {
       bool x = await LoadingScreenServices().featchStartInformation();
       if (x) {
@@ -51,7 +53,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     } else {
       // check application version //
       // get supported cities //
-      await LoadingScreenServices().getSupportedCity();
+      //  LoadingScreenServices().getSupportedCity();
       return "userNotLoggedIn";
     }
   }
@@ -98,6 +100,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
           // Tools.logToConsole("---------- THE SNAPSHOT ----------");
           if (snapShot.data == "userNotLoggedIn") {
             return LoginScreen();
+          }
+          if (snapShot.data == "userNotSelectSupportedCity") {
+            return SupportedCityWidget();
           }
 
           if (snapShot.connectionState == ConnectionState.done) {

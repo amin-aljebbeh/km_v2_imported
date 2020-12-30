@@ -1,5 +1,5 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -26,16 +26,20 @@ class _OTPVerificationState extends State<OTPVerification> {
 
   Future checkOtpValidation(String verificationCode) async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    Tools.logToConsole(LoginServices.replaceFarsiNumber( verificationCode.toString()));
+    Tools.logToConsole(
+        LoginServices.replaceFarsiNumber(verificationCode.toString()));
     try {
       setState(() {
         loadingScreen = true;
       });
       bool response = await Services.verifyCode(
-          LoginServices.replaceFarsiNumber(LoginServices.replaceFarsiNumber(verificationCode.toString())));
+          LoginServices.replaceFarsiNumber(
+              LoginServices.replaceFarsiNumber(verificationCode.toString())));
       Tools.logToConsole(response.toString());
       if (response) {
-        KammunRestart.restartApp(context);
+        await Navigator.of(context).pushNamedAndRemoveUntil(
+            '/supportedCity', (Route<dynamic> route) => false);
+        // KammunRestart.restartApp(context);
       } else {
         setState(() {
           errorCode = true;
@@ -50,7 +54,8 @@ class _OTPVerificationState extends State<OTPVerification> {
         errorCode = true;
         _textController.text = "";
       });
-      Tools.logToConsole("--------------------- Cehck OTP EXCEption ----------------------");
+      Tools.logToConsole(
+          "--------------------- Cehck OTP EXCEption ----------------------");
       Tools.logToConsole(e.toString());
     }
   }
