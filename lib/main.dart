@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kammun_app/utils/common_utils.dart';
@@ -14,10 +14,10 @@ import 'package:flutter/cupertino.dart';
 import 'views/cart/CartViewFinal.dart';
 import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
-import 'views/product_detail_view/product_detail_view.dart';
 import 'views/profile/profileScreen.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
+import 'package:custom_splash/custom_splash.dart';
 
 void main() {
   //BlocSupervisor.delegate = SimpleBlocDelegate();
