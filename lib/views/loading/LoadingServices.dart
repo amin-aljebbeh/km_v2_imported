@@ -329,7 +329,7 @@ class LoadingScreenServices {
             fadeInDuration: const Duration(seconds: 1),
             // fadeInCurve: Curves.fastOutSlowIn,
             fadeInCurve: Curves.fastOutSlowIn,
-            placeholder: AssetImage("assets/Logo_holder.jpg"),
+            placeholder: AssetImage("assets/kmlogoo.png"),
             fit: BoxFit.cover,
           ),
         );
@@ -348,7 +348,7 @@ class LoadingScreenServices {
                 fadeInDuration: const Duration(seconds: 1),
                 // fadeInCurve: Curves.fastOutSlowIn,
                 fadeInCurve: Curves.fastOutSlowIn,
-                placeholder: AssetImage("assets/Logo_holder.jpg"),
+                placeholder: AssetImage("assets/kmlogoo.png"),
                 fit: BoxFit.cover,
               ),
             );
