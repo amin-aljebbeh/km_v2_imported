@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -17,7 +16,6 @@ import 'dart:ui' as ui;
 import 'views/profile/profileScreen.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
-import 'package:custom_splash/custom_splash.dart';
 
 void main() {
   //BlocSupervisor.delegate = SimpleBlocDelegate();

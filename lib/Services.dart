@@ -10,7 +10,6 @@ import 'core/api/api_URLs.dart';
 import 'core/api/api_provider.dart';
 import 'core/errors/error_types.dart';
 import 'models/addAddressResponse.dart';
-import 'models/productsCategoriesModel.dart';
 import 'models/start_model.dart';
 
 class Services {
@@ -252,6 +251,7 @@ class Services {
       }
     } catch (e) {
       Tools.logToConsole(e.toString());
+      return false;
     }
   }
 
