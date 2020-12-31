@@ -143,6 +143,11 @@ class LoadingScreenServices {
         Tools.logToConsole(
             "supportedCitySelected :" + userSelectSupportedCity.toString());
         LoadingScreen.user_token = "Bearer " + userToken;
+        if (userToken == "APPLE_VERIFICATION") {
+          BaseUrl = APPLE_BASEURL;
+        } else {
+          BaseUrl = PRODUCTION_BASE_URL;
+        }
         if (userSelectSupportedCity == null) {
           Tools.logToConsole("Im in false supported city ");
           return null;

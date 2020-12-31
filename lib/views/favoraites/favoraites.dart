@@ -1,6 +1,6 @@
 import 'dart:io' show Platform;
 import 'package:badges/badges.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -556,7 +556,7 @@ class FavoraitesViewState extends State<Favoraites> {
                               ),
                             ),
                           ),
-                    theEndOfFavoraites
+                    theEndOfFavoraites && favoraitesProductData.length != 0
                         ? Container(
                             height: 50.0,
                             color: Colors.transparent,
