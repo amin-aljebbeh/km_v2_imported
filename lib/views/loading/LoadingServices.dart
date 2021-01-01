@@ -472,7 +472,7 @@ class LoadingScreenServices {
                 .split(".")[0]));
           }
           if (userAddress[j].supportedCityName == null)
-            userAddress[j].supportedCityName = "يرج�� حذف و إضافة العنوان";
+            userAddress[j].supportedCityName = "يرجى حذف و إضافة العنوان";
         }
 
         // Tools.logToConsole("################ SUPPORTED CITIES ####################");
