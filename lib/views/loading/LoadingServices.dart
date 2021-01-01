@@ -272,8 +272,9 @@ class LoadingScreenServices {
 
       Tools.logToConsole("======= Mobile Configuration DONE =======");
 
-      // Tools.logToConsole("------ the app version -------");
-      // Tools.logToConsole(int.parse(buildNumber));
+      Tools.logToConsole("------ the app version -------");
+      Tools.logToConsole(int.parse(buildNumber));
+      Tools.logToConsole(lastSupported);
 
       if (startRequest.mobileAppConfigs.original.data[0].id == 0) {
         serverMaintain = true;
