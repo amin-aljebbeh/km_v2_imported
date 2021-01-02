@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:cache_image/cache_image.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
@@ -132,12 +132,28 @@ class LoadingScreenServices {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userToken = prefs.getString('userToken');
-      Tools.logToConsole("user token is :");
+      String userSelectSupportedCity = prefs.getString('supportedCitySelected');
+      Tools.logToConsole(
+          "supportedCitySelected :" + userSelectSupportedCity.toString());
       // prefs.remove('userToken');
+      // prefs.remove('supportedCitySelected');
+
       Tools.logToConsole(userToken);
       if (userToken != null) {
+        Tools.logToConsole(
+            "supportedCitySelected :" + userSelectSupportedCity.toString());
         LoadingScreen.user_token = "Bearer " + userToken;
-        return true;
+        if (userToken == "APPLE_VERIFICATION") {
+          BaseUrl = APPLE_BASEURL;
+        } else {
+          BaseUrl = PRODUCTION_BASE_URL;
+        }
+        if (userSelectSupportedCity == null) {
+          Tools.logToConsole("Im in false supported city ");
+          return null;
+        } else {
+          return true;
+        }
       } else {
         return false;
       }
@@ -152,7 +168,8 @@ class LoadingScreenServices {
 
   Future<bool> featchStartInformation() async {
     try {
-      Tools.logToConsole("------------- get Start Screen Information returns ---------");
+      Tools.logToConsole(
+          "------------- get Start Screen Information returns ---------");
       bool userLoggedIn = await checkIfUserloddedIn();
       if (userLoggedIn) {
         try {
@@ -255,8 +272,9 @@ class LoadingScreenServices {
 
       Tools.logToConsole("======= Mobile Configuration DONE =======");
 
-      // Tools.logToConsole("------ the app version -------");
-      // Tools.logToConsole(int.parse(buildNumber));
+      Tools.logToConsole("------ the app version -------");
+      Tools.logToConsole(int.parse(buildNumber));
+      Tools.logToConsole(lastSupported);
 
       if (startRequest.mobileAppConfigs.original.data[0].id == 0) {
         serverMaintain = true;
@@ -312,7 +330,7 @@ class LoadingScreenServices {
             fadeInDuration: const Duration(seconds: 1),
             // fadeInCurve: Curves.fastOutSlowIn,
             fadeInCurve: Curves.fastOutSlowIn,
-            placeholder: AssetImage("assets/Logo_holder.jpg"),
+            placeholder: AssetImage("assets/kmlogoo.png"),
             fit: BoxFit.cover,
           ),
         );
@@ -331,7 +349,7 @@ class LoadingScreenServices {
                 fadeInDuration: const Duration(seconds: 1),
                 // fadeInCurve: Curves.fastOutSlowIn,
                 fadeInCurve: Curves.fastOutSlowIn,
-                placeholder: AssetImage("assets/Logo_holder.jpg"),
+                placeholder: AssetImage("assets/kmlogoo.png"),
                 fit: BoxFit.cover,
               ),
             );
@@ -455,7 +473,7 @@ class LoadingScreenServices {
                 .split(".")[0]));
           }
           if (userAddress[j].supportedCityName == null)
-            userAddress[j].supportedCityName = "يرج�� حذف و إضافة العنوان";
+            userAddress[j].supportedCityName = "يرجى حذف و إضافة العنوان";
         }
 
         // Tools.logToConsole("################ SUPPORTED CITIES ####################");
@@ -471,11 +489,13 @@ class LoadingScreenServices {
               "id" +
               supportedCitiesResponse.data[i].id.toString(),
         ));
-        Tools.logToConsole("The dropdownList value:" + supportedCitiesResponse.data[i].name);
+        Tools.logToConsole(
+            "The dropdownList value:" + supportedCitiesResponse.data[i].name);
       }
       return true;
     } else {
-      Tools.logToConsole("------------ ERROR GET COMPANY INFORMATION --------------");
+      Tools.logToConsole(
+          "------------ ERROR GET COMPANY INFORMATION --------------");
       Tools.logToConsole(response.statusCode.toString());
       return false;
     }

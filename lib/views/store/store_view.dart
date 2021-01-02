@@ -1,5 +1,5 @@
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -45,11 +45,11 @@ class StoreViewState extends State<StoreView> {
   void initState() {
     super.initState();
 
-    if (LoadingScreenServices.bannerListNetwork.length == 0 ||
-        LoadingScreenServices.categoryList.length == 0) {
-      Navigator.push(context,
-          new MaterialPageRoute(builder: (context) => new InternetError()));
-    }
+    // if (LoadingScreenServices.bannerListNetwork.length == 0 ||
+    //     LoadingScreenServices.categoryList.length == 0) {
+    //   Navigator.push(context,
+    //       new MaterialPageRoute(builder: (context) => new InternetError()));
+    // }
     bool isThereOrderUnderUbdate = false;
     for (int i = 0; i < LoadingScreenServices.myOrdersList.length; i++) {
       if (LoadingScreenServices.myOrdersList[i].underUpdate == "1") {

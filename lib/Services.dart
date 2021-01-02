@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api/api_URLs.dart';
 import 'core/api/api_provider.dart';
 import 'core/errors/error_types.dart';
 import 'models/addAddressResponse.dart';
-import 'models/productsCategoriesModel.dart';
 import 'models/start_model.dart';
 
 class Services {
@@ -201,51 +201,30 @@ class Services {
     }
   }
 
-  // static Future<bool> cancelOrder(String orderId) async {
-  //   Tools.logToConsole("@@@@@@@@@@@@@@@@@@@@@@@@");
-  //   Tools.logToConsole("$BaseUrl/api/order/$orderId");
-  //   Tools.logToConsole(LoadingScreen.user_token.length > 10
-  //       ? LoadingScreen.user_token
-  //       : "null");
-  //   final response = await http.put(
-  //     "$BaseUrl/api/order/$orderId",
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //       'Authorization': LoadingScreen.user_token.length > 10
-  //           ? LoadingScreen.user_token
-  //           : "",
-  //     },
-  //     body: "order_status_id=5",
-  //   );
-  //   if (response.statusCode == 200) {
-  //     Tools.logToConsole(response.body);
-  //     return true;
-  //   } else {
-  //     Tools.logToConsole("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-  //     Tools.logToConsole(response.body);
-  //     return false;
-  //   }
-  // }
-
   static Future<bool> loginUser(
       {String phoneNumber, String signCode, String supportedCityId}) async {
     //Tools.logToConsole("------------------ LOGIN USER   --------------------");
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String firebaseToken = prefs.getString('firebase_token');
-    Tools.logToConsole("--------------------");
-    Tools.logToConsole(phoneNumber);
-    Tools.logToConsole(supportedCityId);
-    Tools.logToConsole(signCode.toString() == "null" ? "" : signCode);
-    Tools.logToConsole(
-        firebaseToken.toString().length < 20 ? "" : firebaseToken);
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // String firebaseToken = prefs.getString('firebase_token');
+    // Tools.logToConsole("--------------------");
+    // Tools.logToConsole(phoneNumber);
+    // Tools.logToConsole(supportedCityId);
+    // Tools.logToConsole(signCode.toString() == "null" ? "" : signCode);
+    // Tools.logToConsole(
+    //     firebaseToken.toString().length < 20 ? "" : firebaseToken);
+
+    if (phoneNumber == "5000000001") {
+      BaseUrl = APPLE_BASEURL;
+    } else {
+      BaseUrl = PRODUCTION_BASE_URL;
+    }
 
     Map loginBody = {
       'phone': phoneNumber,
       'supported_city_id': supportedCityId,
       'phone_code': signCode.toString() == "null" ? "" : signCode,
-      'firebase_token':
-          firebaseToken.toString().length < 20 ? "" : firebaseToken,
+      'firebase_token': "",
       'platform_type': Platform.isAndroid ? "android" : "ios"
     };
 
@@ -272,6 +251,7 @@ class Services {
       }
     } catch (e) {
       Tools.logToConsole(e.toString());
+      return false;
     }
   }
 
@@ -308,10 +288,16 @@ class Services {
     var data = (response.data);
 
     if (response.statusCode == SUCCESS_CODE && data["success"] == true) {
+      Tools.logToConsole("The Token from VerifyCode is");
       Tools.logToConsole(data["success"].toString());
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("userToken", data["api_token"]);
-
+      LoadingScreen.user_token = "Bearer " + data["api_token"];
+      if (data["api_token"] == "APPLE_VERIFICATION") {
+        BaseUrl = APPLE_BASEURL;
+      } else {
+        BaseUrl = PRODUCTION_BASE_URL;
+      }
       return true;
     } else {
       Tools.logToConsole("------------ ERROR OTP VERIFICATION --------------");

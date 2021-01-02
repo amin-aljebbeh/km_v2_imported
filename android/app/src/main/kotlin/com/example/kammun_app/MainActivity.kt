@@ -1,4 +1,4 @@
-package com.kammunapp.app
+package com.kammun.app
 
 import io.flutter.embedding.android.FlutterActivity
 

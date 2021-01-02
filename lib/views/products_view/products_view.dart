@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:badges/badges.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
@@ -74,9 +74,11 @@ class ProductsViewState extends State<ProductsView> {
                 response.data["reason"] == "No results") {
               setState(() {
                 searchLoading = false;
-
                 if (firstLoading == true) firstLoading = false;
                 isLoading = false;
+                if (productsList.length != 0) {
+                  theEndOfProducs = true;
+                }
               });
             } else {
               final products =
@@ -318,7 +320,8 @@ class ProductsViewState extends State<ProductsView> {
                                     var eachProduct = productsList[index];
                                     Tools.logToConsole(
                                         "--------- image length -------- $index ");
-                                    Tools.logToConsole(eachProduct.images.length);
+                                    Tools.logToConsole(
+                                        eachProduct.images.length);
                                     return new GestureDetector(
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => _onTileClicked(index),

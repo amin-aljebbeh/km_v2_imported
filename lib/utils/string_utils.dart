@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 
-// import 'package:flutter/material.dart'; 
-import 'package:kammun_app/utils/tools.dart';
+// import 'package:flutter/material.dart';
 
 // class StringUtils {
 //   //Font
@@ -215,7 +214,7 @@ class StringUtils {
   // String location_request =
   //     "بحال كنت متواجد بنفس المكان الذي سنقوم بتوصيل الطلب إليه بإمكانك مشاركة موقعك الحالي مما سيساعد كابتن التوصيل بالإستدلال على العنوان بشكل أفضل \n هذا الإجراء إختياري و لكنه يساعد في عملية التوصيل \n ملاحظة: يتم الوصول لعنوانك فقط في هذه المرحلة ولا يقوم التطبيق أبدا بجمع أو تتبع موقعك في أي مرحلة أخرى";
   String loaction_request_info =
-      "مشاركة موقعك على الخريطة يمكن أن يساعد كابتن التوصيل على توصيل الطلب. \n يرجى تجاوز هذه المرحلة بحال كنت تقوم بالطلب لعنوان مغاير لموقعك الحالي";
+      "مشاركة موقعك على الخريطة يمكننا أن يساعد كابتن التوصيل على توصيل الطلب. \n يرجى تجاوز هذه المرحلة بحال كنت تقوم بالطلب لعنوان مغاير لموقعك الحالي";
   String location_request_note =
       "ملاحظة: هذا الإجراء لمرة واحدة واختياري ولايقوم تطبيق كمّون بتتبع موقعك او طلبه خارج هذه المرحلة";
 
@@ -231,10 +230,10 @@ class StringUtils {
 
   String share = 'مشاركة';
 
-  String street = 'منزل - مكتب السيد/ة:';
+  String street = 'منزل - مكتب السيد/ة';
   String city = 'اسم / رقم البناء';
-  String state = 'الطابق:';
-  String country = 'علامة قريبة:';
+  String state = 'الطابق';
+  String country = 'علامة قريبة';
   String dont_want_to_share_location = "لا أريد مشاركة موقعي على الخريطة";
 
   String profile_info = 'معلومات الحساب';

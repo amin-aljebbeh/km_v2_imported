@@ -256,7 +256,7 @@ class _SubCategoryState extends State<SubCategory> {
                                 fadeInCurve: Curves.fastOutSlowIn,
 
                                 placeholder:
-                                    AssetImage("assets/Logo_holder.jpg"),
+                                    AssetImage("assets/kmlogoo.png"),
                                 fit: BoxFit.cover,
                               ),
 
