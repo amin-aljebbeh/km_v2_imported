@@ -1,5 +1,0 @@
-version: "Apple Swift version 5.1.3 (swiftlang-1100.0.282.1 clang-1100.0.33.15)"
-options: "2959ac734b67d74ad8e35e8dc3260d14"
-build_time: [1609621625, 37626000]
-inputs:
-  "/Users/amin/development/flutter/.pub-cache/hosted/pub.dartlang.org/searchable_dropdown-1.1.3/ios/Classes/SwiftSearchableDropdownPlugin.swift": [1583141073, 0]

@@ -1,5 +1,0 @@
-version: "Apple Swift version 5.1.3 (swiftlang-1100.0.282.1 clang-1100.0.33.15)"
-options: "d296f896c716cb962d3aa34d6d335329"
-build_time: [1609621643, 341650000]
-inputs:
-  "/Users/amin/untitled/new_kammun_app/kammun_app/ios/Runner/AppDelegate.swift": [1605242362, 761873204]
