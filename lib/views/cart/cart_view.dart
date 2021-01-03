@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -424,22 +424,25 @@ class CartViewState extends State<CartView> {
 
   void _showConfirmOrderBtnTapped() {
     if (CartServices.cartProducts.length > 0) {
-      Tools.logToConsole(
-          "the orderUnderUpdateIndex value is : ${OrderServices.orderUnderUpdateIndex}");
-      if (OrderServices.orderUnderUpdateIndex == -1) {
-        Navigator.push(context,
-            new MaterialPageRoute(builder: (context) => new DeliverToView()));
-      } else {
-        if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
-          Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (context) => new DeliveryMethodView()));
-        } else {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => new CartViewFinal()));
-        }
-      }
+      Navigator.push(context,
+          new MaterialPageRoute(builder: (context) => new CartViewFinal()));
+
+      // Tools.logToConsole(
+      //     "the orderUnderUpdateIndex value is : ${OrderServices.orderUnderUpdateIndex}");
+      // if (OrderServices.orderUnderUpdateIndex == -1) {
+      //   Navigator.push(context,
+      //       new MaterialPageRoute(builder: (context) => new DeliverToView()));
+      // } else {
+      //   if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
+      //     Navigator.push(
+      //         context,
+      //         new MaterialPageRoute(
+      //             builder: (context) => new DeliveryMethodView()));
+      //   } else {
+      //     Navigator.push(context,
+      //         new MaterialPageRoute(builder: (context) => new CartViewFinal()));
+      //   }
+      // }
     } else {
       Toast.show("يرجى إضافة منتج واحد على الأقل", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);

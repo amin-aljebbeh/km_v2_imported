@@ -11,15 +11,14 @@ import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/home/home_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
-import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/server_update/server_update.dart';
 import 'package:kammun_app/views/supported_city/supported_city.dart';
 import 'package:kammun_app/views/update_screen/updateRequiredScreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoadingScreen extends StatefulWidget {
   static String user_token = "Bearer ";
   static String updateUrl = "";
+  static bool isAdmin = false;
 
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
@@ -42,7 +41,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   _getClientInfo() async {
     bool userLoggedIn = await LoadingScreenServices().checkIfUserloddedIn();
-    if (userLoggedIn == null) return "userNotSelectSupportedCity";
+    // if (userLoggedIn == null) return "userNotSelectSupportedCity";
     if (userLoggedIn) {
       bool x = await LoadingScreenServices().featchStartInformation();
       if (x) {

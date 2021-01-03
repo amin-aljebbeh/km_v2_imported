@@ -171,7 +171,7 @@ class Services {
         "------------------ Get My Orders  --------------------");
     try {
       var response = await ApiProvider.sendRequest(
-        url: GET_USER_ORDER,
+        url: ORDER,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -200,6 +200,42 @@ class Services {
       return null;
     }
   }
+
+  // static Future<List<OrdersOriginalData>> getMyOrders(
+  //     {int pageNumber = 1}) async {
+  //   Tools.logToConsole(
+  //       "------------------ Get My Orders  --------------------");
+  //   try {
+  //     var response = await ApiProvider.sendRequest(
+  //       url: GET_USER_ORDER,
+  //       method: httpMethods.get,
+  //       queryParameters: {"page": pageNumber},
+  //     );
+  //     Tools.logToConsole("------- orders data -------");
+
+  //     if (response.statusCode == SUCCESS_CODE) {
+  //       LoadingScreenServices.myOrdersList =
+  //           ordersFromJson(jsonEncode(response.data)).data.data;
+
+  //       // LoadingScreenServices.myOrdersList.sort((a, b) {
+  //       //   if (a.id < b.id)
+  //       //     return 1;
+  //       //   else if (a.id > b.id)
+  //       //     return -1;
+  //       //   else
+  //       //     return 0;
+  //       // });
+
+  //       return LoadingScreenServices.myOrdersList;
+  //     } else {
+  //       return LoadingScreenServices.myOrdersList;
+  //     }
+  //   } catch (e) {
+  //     Tools.logToConsole("------------ ERROR GET USER ORDER --------------");
+  //     Tools.logToConsole(e.toString());
+  //     return null;
+  //   }
+  // }
 
   static Future<bool> loginUser(
       {String phoneNumber, String signCode, String supportedCityId}) async {

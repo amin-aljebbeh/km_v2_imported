@@ -1,3 +1,15 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:kammun_app/core/api/admin_URLs.dart';
+import 'package:kammun_app/core/api/api_URLs.dart';
+import 'package:kammun_app/core/api/api_provider.dart';
+import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/views/loading/Loading.dart';
+import 'package:kammun_app/views/login/models/login_admin_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class LoginServices {
   // static String replaceFarsiNumber(String input) {
   //   const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -83,5 +95,43 @@ class LoginServices {
       }
     }
     return sb.toString();
+  }
+
+  static Future<bool> loginAdmin({String username, String password}) async {
+    Map loginBody = {
+      'username': username,
+      'password': password,
+    };
+
+    Tools.logToConsole(jsonEncode(loginBody));
+    try {
+      var response = await ApiProvider.sendRequest(
+          url: LOGIN_ADMIN,
+          method: httpMethods.post,
+          body: jsonEncode(loginBody),
+          reponseType: ResponseType.json);
+      var theResponse = response.data;
+
+      Tools.logToConsole("----- Login Response -----");
+      Tools.logToConsole(theResponse);
+      if (response.statusCode == SUCCESS_CODE &&
+          (theResponse["success"].toString() == "true")) {
+        Tools.logToConsole(theResponse["success"].toString());
+
+        final resposne = adminLoginResponseFromJson(jsonEncode(response.data));
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("userToken", resposne.data.apiToken);
+        LoadingScreen.user_token = resposne.data.apiToken;
+        LoadingScreen.isAdmin = true;
+
+        return true;
+      } else {
+        Tools.logToConsole("------- ERROR LOGIN ADMIN --------");
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return false;
+    }
   }
 }

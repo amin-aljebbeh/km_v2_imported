@@ -6,9 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
-import 'package:kammun_app/views/errors_screen/internet_error.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
+import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'Services/login_services.dart';
@@ -27,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
   String currentText = "";
   final myController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   ScrollController _scroll = new ScrollController();
 
@@ -44,8 +44,41 @@ class _LoginScreenState extends State<LoginScreen>
     super.initState();
   }
 
+  Future adminLogin() async {
+    setState(() {
+      loadingScreen = true;
+    });
+    if (myController.text.length == 0) {
+      setState(() {
+        errorCode = true;
+        loadingScreen = false;
+
+        errorMessage = "يرجى إدخال اسم المستخدم";
+      });
+    } else if (_passwordController.text.length == 0) {
+      setState(() {
+        errorCode = true;
+        loadingScreen = false;
+
+        errorMessage = "يرجى إدخال كلمة السر";
+      });
+    } else {
+      bool response = await LoginServices.loginAdmin(
+          username: myController.text, password: _passwordController.text);
+      if (response) {
+        KammunRestart.restartApp(context);
+      } else {
+        setState(() {
+          errorCode = true;
+          loadingScreen = false;
+
+          errorMessage = "خطأ بإسم المستخدم أو كلمة المرور";
+        });
+      }
+    }
+  }
+
   Future featchOtp() async {
-    //Tools.logToConsole("^^^^^^^^^^ : " + myController.text.toString());
     SystemChannels.textInput.invokeMethod('TextInput.hide');
 
     if (myController.text.length != 10) {
@@ -64,7 +97,6 @@ class _LoginScreenState extends State<LoginScreen>
 
         String signature = await SmsAutoFill().getAppSignature;
 
-        Tools.logToConsole("input number : " + myController.text);
         Tools.logToConsole(
             "Signature: ###################" + signature.toString());
         if (signature.toString().length != 11) {
@@ -105,74 +137,112 @@ class _LoginScreenState extends State<LoginScreen>
     }
   }
 
+  Widget _ShowPasswordInpur() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
+      child: TextField(
+        textDirection: TextDirection.ltr,
+        // maxLengthEnforced: true,
+        // maxLength: 20,
+
+        // keyboardType: TextInputType.multiline,
+        maxLines: 1,
+        controller: _passwordController,
+        keyboardType: TextInputType.text,
+        enableSuggestions: false,
+        autocorrect: false,
+        obscureText: true,
+        decoration: InputDecoration(
+          labelText: "كلمة المرور",
+          labelStyle: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk, fontSize: 30),
+          hintStyle: TextStyle(color: Colors.black45),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: UtilsImporter().colorUtils.primarycolor,
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: UtilsImporter().colorUtils.kmColors,
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _ShowCountryInput() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
+      child: TextField(
+        textDirection: TextDirection.ltr,
+
+        // maxLengthEnforced: true,
+        // maxLength: 20,
+
+        // keyboardType: TextInputType.multiline,
+        maxLines: 1,
+        controller: myController,
+        keyboardType: TextInputType.text,
+
+        decoration: InputDecoration(
+          labelText: "اسم المستخدم",
+          labelStyle: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk, fontSize: 30),
+          hintStyle: TextStyle(color: Colors.black45),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: UtilsImporter().colorUtils.primarycolor,
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: UtilsImporter().colorUtils.kmColors,
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _showSubmit() {
+    final GestureDetector loginButtonWithGesture = new GestureDetector(
+      onTap: adminLogin,
+      child: new Container(
+        height: 50.0,
+        decoration: new BoxDecoration(
+            color: UtilsImporter().colorUtils.primarycolor,
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new Text(
+            "تسجيل الدخول",
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return loadingScreen
+        ? Padding(
+            padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+            child: Loader(),
+          )
+        : Padding(
+            padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+            child: loginButtonWithGesture);
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget _ShowCountryInput() {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-        child: TextField(
-          maxLengthEnforced: true,
-          maxLength: 10,
-
-          // keyboardType: TextInputType.multiline,
-          maxLines: 1,
-          controller: myController,
-          keyboardType: TextInputType.numberWithOptions(),
-
-          decoration: InputDecoration(
-            labelText: "رقم الموبايل",
-            labelStyle: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                fontSize: 30),
-            hintStyle: TextStyle(color: Colors.black45),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: UtilsImporter().colorUtils.primarycolor,
-              ),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: UtilsImporter().colorUtils.kmColors,
-              ),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-          ),
-        ),
-      );
-    }
-
-    Widget _showSubmit() {
-      final GestureDetector loginButtonWithGesture = new GestureDetector(
-        onTap: featchOtp,
-        child: new Container(
-          height: 50.0,
-          decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.primarycolor,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new Text(
-              "تأكيد رقم الموبايل",
-              style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-          ),
-        ),
-      );
-
-      return loadingScreen
-          ? Padding(
-              padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-              child: Loader(),
-            )
-          : Padding(
-              padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-              child: loginButtonWithGesture);
-    }
-
     return Scaffold(
       backgroundColor: UtilsImporter().colorUtils.kmColors,
       //backgroundColor: Colors.white,
@@ -214,8 +284,9 @@ class _LoginScreenState extends State<LoginScreen>
                 : Container(
                     padding: EdgeInsets.zero,
                   ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+            ListView(
+              //    mainAxisAlignment: MainAxisAlignment.start,
+              shrinkWrap: true,
               children: [
                 Container(
                   //  color: Colors.white,
@@ -237,6 +308,15 @@ class _LoginScreenState extends State<LoginScreen>
 
                   child: _ShowCountryInput(),
                 ),
+
+                Container(
+                  padding: const EdgeInsets.only(
+                      left: 20.0, right: 20, bottom: 0, top: 5),
+                  //  color: Colors.white,
+
+                  child: _ShowPasswordInpur(),
+                ),
+
                 Container(
                   padding: const EdgeInsets.only(
                       left: 20.0, right: 20, bottom: 20, top: 5),

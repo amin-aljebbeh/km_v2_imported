@@ -97,8 +97,8 @@ class OrderServices {
     }
 
     Map orderData = {
-      "delivery_method_id": DeliveryMethodServices
-          .deliveryMethodsList[(DeliveryMethodView.selectedDeliveryIndex)].id,
+      "delivery_method_id": LoadingScreenServices
+          .myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryMethodId,
       "product_ids": productIds.substring(0, productIds.length - 1),
       "quantities": quantities.substring(0, quantities.length - 1),
       "purchase_prices": purchasePrices.toString(),

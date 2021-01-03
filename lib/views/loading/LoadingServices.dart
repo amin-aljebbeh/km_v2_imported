@@ -24,7 +24,7 @@ class LoadingScreenServices {
 
   static List<CategoryOriginalData> categoryList = List<CategoryOriginalData>();
   static String imagePrefixUrl = "";
-  static List<AssetImage> bannerList = List<AssetImage>();
+  // static List<AssetImage> bannerList = List<AssetImage>();
   static List<FadeInImage> bannerListNetwork = List<FadeInImage>();
   // static List<DeliveryMethodOriginalData> deliveryMethodsList =
   //     new List<DeliveryMethodOriginalData>();
@@ -81,51 +81,51 @@ class LoadingScreenServices {
     return true;
   }
 
-  Future<bool> getSupportedCity() async {
-    var response = await ApiProvider.sendRequest(
-      url: GET_SUPPORTED_CITIES,
-      method: httpMethods.get,
-    );
-    if (response.statusCode == SUCCESS_CODE) {
-      final supportedCitiesResponse =
-          supportedCityOriginalFromJson(jsonEncode(response.data));
-      supportedCityOriginal = supportedCitiesResponse;
+  // Future<bool> getSupportedCity() async {
+  //   var response = await ApiProvider.sendRequest(
+  //     url: GET_SUPPORTED_CITIES,
+  //     method: httpMethods.get,
+  //   );
+  //   if (response.statusCode == SUCCESS_CODE) {
+  //     final supportedCitiesResponse =
+  //         supportedCityOriginalFromJson(jsonEncode(response.data));
+  //     supportedCityOriginal = supportedCitiesResponse;
 
-      supportedCitiesListIntro.clear();
-      Tools.logToConsole(supportedCitiesResponse.data.length);
-      for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
-        supportedCitiesListIntro.add(new DropdownMenuItem(
-          child: ListTile(
-            //isThreeLine: true,
-            leading: Icon(
-              Icons.pin_drop,
-              color: UtilsImporter().colorUtils.kmColors,
-            ),
-            title: Text(
-              '${supportedCitiesResponse.data[i].name} ',
-              style: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-              ),
-            ),
-            trailing: Text(
-              "${supportedCitiesResponse.data[i].deliveryPrice.split(".")[0]}",
-              style: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-              ),
-            ),
-          ),
-          value: supportedCitiesResponse.data[i].name +
-              " price" +
-              "${supportedCitiesResponse.data[i].deliveryPrice}" +
-              "id" +
-              supportedCitiesResponse.data[i].id.toString(),
-        ));
-      }
-      return true;
-    } else {
-      return false;
-    }
-  }
+  //     supportedCitiesListIntro.clear();
+  //     Tools.logToConsole(supportedCitiesResponse.data.length);
+  //     for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
+  //       supportedCitiesListIntro.add(new DropdownMenuItem(
+  //         child: ListTile(
+  //           //isThreeLine: true,
+  //           leading: Icon(
+  //             Icons.pin_drop,
+  //             color: UtilsImporter().colorUtils.kmColors,
+  //           ),
+  //           title: Text(
+  //             '${supportedCitiesResponse.data[i].name} ',
+  //             style: TextStyle(
+  //               fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+  //             ),
+  //           ),
+  //           trailing: Text(
+  //             "${supportedCitiesResponse.data[i].deliveryPrice.split(".")[0]}",
+  //             style: TextStyle(
+  //               fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+  //             ),
+  //           ),
+  //         ),
+  //         value: supportedCitiesResponse.data[i].name +
+  //             " price" +
+  //             "${supportedCitiesResponse.data[i].deliveryPrice}" +
+  //             "id" +
+  //             supportedCitiesResponse.data[i].id.toString(),
+  //       ));
+  //     }
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   Future<bool> checkIfUserloddedIn() async {
     Tools.logToConsole("--------- Checking User Token ---------- ");
@@ -148,12 +148,12 @@ class LoadingScreenServices {
         } else {
           BaseUrl = PRODUCTION_BASE_URL;
         }
-        if (userSelectSupportedCity == null) {
-          Tools.logToConsole("Im in false supported city ");
-          return null;
-        } else {
-          return true;
-        }
+        // if (!LoadingScreen.isAdmin && userSelectSupportedCity == null) {
+        //   Tools.logToConsole("Im in false supported city ");
+        //   return null;
+        // } else {
+        return true;
+        // }
       } else {
         return false;
       }
@@ -166,6 +166,112 @@ class LoadingScreenServices {
   int finishedRequests = 0;
   int contractsLength = 0;
 
+  Future<bool> getCategory() async {
+    Tools.logToConsole("==== Getting Category ====");
+
+    var response = await ApiProvider.sendRequest(
+      url: GET_CATEGORY,
+      method: httpMethods.get,
+    );
+    Tools.logToConsole("==== Category Result ====");
+    Tools.logToConsole(response.data);
+
+    if (response.statusCode == SUCCESS_CODE) {
+      categoryList.clear();
+      final category = categoryOriginalFromJson(jsonEncode(response.data)).data;
+      for (int i = 0; i < category.length; i++) {
+        if (category[i].warehouses.length > 0 &&
+            category[i].warehouses[0].pivot.isActive == "1") {
+          categoryList.add(category[i]);
+        }
+      }
+
+      categoryList.sort((a, b) {
+        if ((int.parse(a.warehouses[0].pivot.priority)) >
+            (int.parse(b.warehouses[0].pivot.priority)))
+          return 1;
+        else if ((int.parse(a.warehouses[0].pivot.priority) <
+            (int.parse(b.warehouses[0].pivot.priority))))
+          return -1;
+        else
+          return 0;
+      });
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> featchAdminInformation() async {
+    String buildNumber = "100";
+    int lastSupported;
+    int currenVersion;
+
+    companyInformation = new CompanyOriginalData(
+        email: "support@kammun.com",
+        whatsappNumber: "+963969999204",
+        supportNumber: "0969999204",
+        facebookUrl: "106414764313952",
+        instagramUrl: "https://www.instagram.com/kammunapp",
+        messengerUrl: "http://m.me/KammunApp",
+        supportUrl: "https://www.instagram.com/",
+        baseUrl: "https://kammun.com",
+        imageBaseUrl: "https://kammunapp.com/images/",
+        currency: "S.P",
+        additionalInfo: "http://m.me/KammunApp");
+
+    imagePrefixUrl = "https://kammunapp.com/images/";
+
+    // --------------------------------------------------------------------- //
+
+    // Mobile Configuration
+
+    androidShareUrl =
+        "https://play.google.com/store/apps/details?id=com.kammun.app";
+    iOSShareUrl =
+        "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
+
+    if (Platform.isIOS) {
+      lastSupported = 100;
+      currenVersion = 100;
+
+      LoadingScreen.updateUrl =
+          "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
+    } else {
+      lastSupported = 100;
+      currenVersion = 100;
+      LoadingScreen.updateUrl =
+          "https://play.google.com/store/apps/details?id=com.kammun.app";
+    }
+
+    if (int.parse(buildNumber) < lastSupported) {
+      updateRequired = true;
+    } else if (int.parse(buildNumber) < currenVersion) {
+      updateOptional = true;
+    }
+
+    Tools.logToConsole("======= DONE Mobile Compaiesion =======");
+
+    bannerListNetwork.clear();
+    bannerListNetwork.add(
+      FadeInImage(
+        image: CacheImage(LoadingScreenServices.imagePrefixUrl + "slide3.png"),
+        // width: MediaQuery.of(context).size.width,
+        fadeInDuration: const Duration(seconds: 1),
+        // fadeInCurve: Curves.fastOutSlowIn,
+        fadeInCurve: Curves.fastOutSlowIn,
+        placeholder: AssetImage("assets/kmlogoo.png"),
+        fit: BoxFit.cover,
+      ),
+    );
+
+    userNumber = "0000000000";
+
+    userBlocked = false;
+
+    return true;
+  }
+
   Future<bool> featchStartInformation() async {
     try {
       Tools.logToConsole(
@@ -176,8 +282,9 @@ class LoadingScreenServices {
           List responses;
           try {
             responses = await Future.wait([
-              CartServices.getUserCart(),
-              getStartScreenInformation(),
+              //CartServices.getUserCart(),
+              getCategory(),
+              featchAdminInformation(),
             ]);
           } catch (e) {
             Tools.logToConsole("--------- error call -----");
@@ -217,287 +324,288 @@ class LoadingScreenServices {
     }
   }
 
-  static Future<bool> getStartScreenInformation() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    String buildNumber = packageInfo.buildNumber;
-    int lastSupported;
-    int currenVersion;
-    Tools.logToConsole("Sending Start Request");
-    var response = await ApiProvider.sendRequest(
-      url: GET_START_REQUEST,
-      method: httpMethods.get,
-    );
-    if (response.statusCode == SUCCESS_CODE) {
-      startRequest = startModelFromJson(jsonEncode(response.data));
+  // static Future<bool> getStartScreenInformation() async {
+  //   PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  //   String buildNumber = packageInfo.buildNumber;
+  //   int lastSupported;
+  //   int currenVersion;
+  //   Tools.logToConsole("Sending Start Request");
+  //   var response = await ApiProvider.sendRequest(
+  //     url: GET_START_REQUEST,
+  //     method: httpMethods.get,
+  //   );
+  //   if (response.statusCode == SUCCESS_CODE) {
+  //     startRequest = startModelFromJson(jsonEncode(response.data));
 
-      // Tools.logToConsole(response.data);
+  //     // Tools.logToConsole(response.data);
 
-      // Get Company Information.
-      companyInformation = startRequest.company.original.data[1];
-      Tools.logToConsole("======= Get Company Information DONE =======");
-      String oldBaseUrl = BaseUrl;
-      BaseUrl = companyInformation.baseUrl;
-      if (oldBaseUrl != BaseUrl) {
-        return null;
-      }
-      // Get Image Url Prefix.
-      imagePrefixUrl = startRequest.company.original.data[1].imageBaseUrl;
-      Tools.logToConsole("======= Get Image Url Prefix DONE =======");
+  //     // Get Company Information.
+  //     companyInformation = startRequest.company.original.data[1];
+  //     Tools.logToConsole("======= Get Company Information DONE =======");
+  //     String oldBaseUrl = BaseUrl;
+  //     BaseUrl = companyInformation.baseUrl;
+  //     if (oldBaseUrl != BaseUrl) {
+  //       return null;
+  //     }
+  //     // Get Image Url Prefix.
+  //     imagePrefixUrl = startRequest.company.original.data[1].imageBaseUrl;
+  //     Tools.logToConsole("======= Get Image Url Prefix DONE =======");
 
-      // --------------------------------------------------------------------- //
+  //     // --------------------------------------------------------------------- //
 
-      // Mobile Configuration
+  //     // Mobile Configuration
 
-      androidShareUrl =
-          startRequest.mobileAppConfigs.original.data[0].appStoreUrl;
-      iOSShareUrl =
-          startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
+  //     androidShareUrl =
+  //         startRequest.mobileAppConfigs.original.data[0].appStoreUrl;
+  //     iOSShareUrl =
+  //         startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
 
-      if (Platform.isIOS) {
-        lastSupported = int.parse(startRequest
-            .mobileAppConfigs.original.data[0].iosLastSupportedVersion);
-        currenVersion = int.parse(
-            startRequest.mobileAppConfigs.original.data[0].iosCurrentVersion);
+  //     if (Platform.isIOS) {
+  //       lastSupported = int.parse(startRequest
+  //           .mobileAppConfigs.original.data[0].iosLastSupportedVersion);
+  //       currenVersion = int.parse(
+  //           startRequest.mobileAppConfigs.original.data[0].iosCurrentVersion);
 
-        LoadingScreen.updateUrl =
-            startRequest.mobileAppConfigs.original.data[0].appStoreUrl;
-      } else {
-        lastSupported = int.parse(startRequest
-            .mobileAppConfigs.original.data[0].androidLastSupportedVersion);
-        currenVersion = int.parse(startRequest
-            .mobileAppConfigs.original.data[0].androidCurrentVersion);
-        LoadingScreen.updateUrl =
-            startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
-      }
+  //       LoadingScreen.updateUrl =
+  //           startRequest.mobileAppConfigs.original.data[0].appStoreUrl;
+  //     } else {
+  //       lastSupported = int.parse(startRequest
+  //           .mobileAppConfigs.original.data[0].androidLastSupportedVersion);
+  //       currenVersion = int.parse(startRequest
+  //           .mobileAppConfigs.original.data[0].androidCurrentVersion);
+  //       LoadingScreen.updateUrl =
+  //           startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
+  //     }
 
-      Tools.logToConsole("======= Mobile Configuration DONE =======");
+  //     Tools.logToConsole("======= Mobile Configuration DONE =======");
 
-      Tools.logToConsole("------ the app version -------");
-      Tools.logToConsole(int.parse(buildNumber));
-      Tools.logToConsole(lastSupported);
+  //     Tools.logToConsole("------ the app version -------");
+  //     Tools.logToConsole(int.parse(buildNumber));
+  //     Tools.logToConsole(lastSupported);
 
-      if (startRequest.mobileAppConfigs.original.data[0].id == 0) {
-        serverMaintain = true;
-      } else if (int.parse(buildNumber) < lastSupported) {
-        updateRequired = true;
-      } else if (int.parse(buildNumber) < currenVersion) {
-        updateOptional = true;
-      }
+  //     if (startRequest.mobileAppConfigs.original.data[0].id == 0) {
+  //       serverMaintain = true;
+  //     } else if (int.parse(buildNumber) < lastSupported) {
+  //       updateRequired = true;
+  //     } else if (int.parse(buildNumber) < currenVersion) {
+  //       updateOptional = true;
+  //     }
 
-      Tools.logToConsole("======= DONE Mobile Compaiesion =======");
+  //     Tools.logToConsole("======= DONE Mobile Compaiesion =======");
 
-      // --------------------------------------------------------------------- //
+  //     // --------------------------------------------------------------------- //
 
-      // Get Category
-      categoryList.clear();
-      final category = startRequest.category.original.data;
-      for (int i = 0; i < category.length; i++) {
-        if (category[i].warehouses.length > 0 &&
-            category[i].warehouses[0].pivot.isActive == "1") {
-          categoryList.add(category[i]);
-        }
-      }
-      //  categoryList.addAll(category);
+  //     // Get Category
+  //     categoryList.clear();
+  //     final category = startRequest.category.original.data;
+  //     for (int i = 0; i < category.length; i++) {
+  //       if (category[i].warehouses.length > 0 &&
+  //           category[i].warehouses[0].pivot.isActive == "1") {
+  //         categoryList.add(category[i]);
+  //       }
+  //     }
+  //  categoryList.addAll(category);
 
-      categoryList.sort((a, b) {
-        if ((int.parse(a.warehouses[0].pivot.priority)) >
-            (int.parse(b.warehouses[0].pivot.priority)))
-          return 1;
-        else if ((int.parse(a.warehouses[0].pivot.priority) <
-            (int.parse(b.warehouses[0].pivot.priority))))
-          return -1;
-        else
-          return 0;
-      });
-      Tools.logToConsole("======= Get Category DONE =======");
+  //     categoryList.sort((a, b) {
+  //       if ((int.parse(a.warehouses[0].pivot.priority)) >
+  //           (int.parse(b.warehouses[0].pivot.priority)))
+  //         return 1;
+  //       else if ((int.parse(a.warehouses[0].pivot.priority) <
+  //           (int.parse(b.warehouses[0].pivot.priority))))
+  //         return -1;
+  //       else
+  //         return 0;
+  //     });
+  //     Tools.logToConsole("======= Get Category DONE =======");
 
-      // Tools.logToConsole("========== The Categories ===========");
+  //     // Tools.logToConsole("========== The Categories ===========");
 
-      // Tools.logToConsole(categoryList);
+  //     // Tools.logToConsole(categoryList);
 
-      // --------------------------------------------------------------------- //
+  //     // --------------------------------------------------------------------- //
 
-      // Get Banner
-      bannerList.clear();
-      bannerListNetwork.clear();
-      DateTime now = DateTime.now();
-      if (startRequest.banner.original.data.length == 0) {
-        bannerListNetwork.add(
-          FadeInImage(
-            image:
-                CacheImage(LoadingScreenServices.imagePrefixUrl + "slide3.png"),
-            // width: MediaQuery.of(context).size.width,
-            fadeInDuration: const Duration(seconds: 1),
-            // fadeInCurve: Curves.fastOutSlowIn,
-            fadeInCurve: Curves.fastOutSlowIn,
-            placeholder: AssetImage("assets/kmlogoo.png"),
-            fit: BoxFit.cover,
-          ),
-        );
-      } else {
-        for (int i = 0; i < startRequest.banner.original.data.length; i++) {
-          if (!startRequest.banner.original.data[i].expirationDate
-              .isBefore(now)) {
-            bannerList.add(
-                AssetImage(startRequest.banner.original.data[i].imageFileName));
+  //     // Get Banner
+  //     bannerList.clear();
+  //     bannerListNetwork.clear();
+  //     DateTime now = DateTime.now();
+  //     if (startRequest.banner.original.data.length == 0) {
+  //       bannerListNetwork.add(
+  //         FadeInImage(
+  //           image:
+  //               CacheImage(LoadingScreenServices.imagePrefixUrl + "slide3.png"),
+  //           // width: MediaQuery.of(context).size.width,
+  //           fadeInDuration: const Duration(seconds: 1),
+  //           // fadeInCurve: Curves.fastOutSlowIn,
+  //           fadeInCurve: Curves.fastOutSlowIn,
+  //           placeholder: AssetImage("assets/kmlogoo.png"),
+  //           fit: BoxFit.cover,
+  //         ),
+  //       );
+  //     } else {
+  //       for (int i = 0; i < startRequest.banner.original.data.length; i++) {
+  //         if (!startRequest.banner.original.data[i].expirationDate
+  //             .isBefore(now)) {
+  //           bannerList.add(
+  //               AssetImage(startRequest.banner.original.data[i].imageFileName));
 
-            bannerListNetwork.add(
-              FadeInImage(
-                image: CacheImage(LoadingScreenServices.imagePrefixUrl +
-                    startRequest.banner.original.data[i].imageFileName),
-                // width: MediaQuery.of(context).size.width,
-                fadeInDuration: const Duration(seconds: 1),
-                // fadeInCurve: Curves.fastOutSlowIn,
-                fadeInCurve: Curves.fastOutSlowIn,
-                placeholder: AssetImage("assets/kmlogoo.png"),
-                fit: BoxFit.cover,
-              ),
-            );
-          }
-        }
-      }
+  //           bannerListNetwork.add(
+  //             FadeInImage(
+  //               image: CacheImage(LoadingScreenServices.imagePrefixUrl +
+  //                   startRequest.banner.original.data[i].imageFileName),
+  //               // width: MediaQuery.of(context).size.width,
+  //               fadeInDuration: const Duration(seconds: 1),
+  //               // fadeInCurve: Curves.fastOutSlowIn,
+  //               fadeInCurve: Curves.fastOutSlowIn,
+  //               placeholder: AssetImage("assets/kmlogoo.png"),
+  //               fit: BoxFit.cover,
+  //             ),
+  //           );
+  //         }
+  //       }
+  //     }
 
-      Tools.logToConsole("======= Get Banner DONE =======");
+  //     Tools.logToConsole("======= Get Banner DONE =======");
 
-      // --------------------------------------------------------------------- //
-      // Get User
+  //     // --------------------------------------------------------------------- //
+  //     // Get User
 
-      userAddress.clear();
-      //userFavoriteProducts.clear();
-      myOrdersList.clear();
+  //     userAddress.clear();
+  //     //userFavoriteProducts.clear();
+  //     myOrdersList.clear();
 
-      userNumber = startRequest.user.original.data.phone;
+  //     userNumber = startRequest.user.original.data.phone;
 
-      Tools.logToConsole("======= Get User Number DONE =======");
+  //     Tools.logToConsole("======= Get User Number DONE =======");
 
-      // Tools.logToConsole("User Number ");
-      // Tools.logToConsole(userNumber);
-      userAddress.addAll(startRequest.user.original.data.addresses);
+  //     // Tools.logToConsole("User Number ");
+  //     // Tools.logToConsole(userNumber);
+  //     userAddress.addAll(startRequest.user.original.data.addresses);
 
-      userOriginal = startRequest.user.original;
+  //     userOriginal = startRequest.user.original;
 
-      Tools.logToConsole("======= Get User Address DONE =======");
+  //     Tools.logToConsole("======= Get User Address DONE =======");
 
-      myOrdersList.addAll(startRequest.orders.original.data.data);
+  //     myOrdersList.addAll(startRequest.orders.original.data.data);
 
-      if (startRequest.user.original.data.isBanned == "1") {
-        userBlocked = true;
-      } else {
-        userBlocked = false;
-      }
+  //     if (startRequest.user.original.data.isBanned == "1") {
+  //       userBlocked = true;
+  //     } else {
+  //       userBlocked = false;
+  //     }
 
-      Tools.logToConsole("======= Get User Order DONE =======");
+  //     Tools.logToConsole("======= Get User Order DONE =======");
 
-      for (int i = 0; i < myOrdersList.length; i++) {
-        if (myOrdersList[i].underUpdate == "1") {
-          OrderServices.orderUnderUpdateIndex = i;
+  //     for (int i = 0; i < myOrdersList.length; i++) {
+  //       if (myOrdersList[i].underUpdate == "1") {
+  //         OrderServices.orderUnderUpdateIndex = i;
 
-          OrderServices.delivery_supported_City_id =
-              myOrdersList[i].supportedCityId.toString();
+  //         OrderServices.delivery_supported_City_id =
+  //             myOrdersList[i].supportedCityId.toString();
 
-          OrderServices.updateOrderNote = myOrdersList[i].userNotes;
+  //         OrderServices.updateOrderNote = myOrdersList[i].userNotes;
 
-          DeliverToView.selectedIndex = myOrdersList.indexWhere(
-              (order) => order.addressId == myOrdersList[i].addressId);
-        }
-      }
+  //         DeliverToView.selectedIndex = myOrdersList.indexWhere(
+  //             (order) => order.addressId == myOrdersList[i].addressId);
+  //       }
+  //     }
 
-      Tools.logToConsole("======= Check if Order Under Update DONE =======");
+  //     Tools.logToConsole("======= Check if Order Under Update DONE =======");
 
-      // -------------------------------------------------------------------- //
-      // Get Delivery Methods
+  //     // -------------------------------------------------------------------- //
+  //     // Get Delivery Methods
 
-      // deliveryMethodsList.clear();
-      // for (int i = 0;
-      //     i < startRequest.deliveryMethod.original.data.length;
-      //     i++) {
-      //   if (startRequest.deliveryMethod.original.data[i].isActive == "1") {
-      //     deliveryMethodsList.add(startRequest.deliveryMethod.original.data[i]);
-      //   }
-      // }
-      // deliveryMethodsList = startRequest.deliveryMethod.original.data;
+  //     // deliveryMethodsList.clear();
+  //     // for (int i = 0;
+  //     //     i < startRequest.deliveryMethod.original.data.length;
+  //     //     i++) {
+  //     //   if (startRequest.deliveryMethod.original.data[i].isActive == "1") {
+  //     //     deliveryMethodsList.add(startRequest.deliveryMethod.original.data[i]);
+  //     //   }
+  //     // }
+  //     // deliveryMethodsList = startRequest.deliveryMethod.original.data;
 
-      Tools.logToConsole("======= Get Delivery method DONE =======");
+  //     Tools.logToConsole("======= Get Delivery method DONE =======");
 
-      // --------------------------------------------------------------------- //
-      // Get Supported Cities
+  //     // --------------------------------------------------------------------- //
+  //     // Get Supported Cities
 
-      supportedCitiesList.clear();
-      supportedCitiesListIntro.clear();
+  //     supportedCitiesList.clear();
+  //     supportedCitiesListIntro.clear();
 
-      final supportedCitiesResponse = startRequest.supportedCity.original;
-      Tools.logToConsole("======= Get Supported City DONE =======");
-      supportedCityOriginal = supportedCitiesResponse;
+  //     final supportedCitiesResponse = startRequest.supportedCity.original;
+  //     Tools.logToConsole("======= Get Supported City DONE =======");
+  //     supportedCityOriginal = supportedCitiesResponse;
 
-      for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
-        if (supportedCitiesResponse.data[i].id.toString() ==
-            startRequest.user.original.data.supportedCityId) {
-          supportPhoneNumber =
-              supportedCitiesResponse.data[i].supportPhoneNumber;
+  //     for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
+  //       if (supportedCitiesResponse.data[i].id.toString() ==
+  //           startRequest.user.original.data.supportedCityId) {
+  //         supportPhoneNumber =
+  //             supportedCitiesResponse.data[i].supportPhoneNumber;
 
-          if (supportedCitiesResponse.data[i].isActive == "0" ||
-              (Platform.isIOS &&
-                  startRequest.mobileAppConfigs.original.data[0].iosIsActive ==
-                      "0") ||
-              Platform.isAndroid &&
-                  startRequest
-                          .mobileAppConfigs.original.data[0].androidIsActive ==
-                      "0") {
-            serverMaintain = true;
-            if (Platform.isIOS &&
-                    startRequest
-                            .mobileAppConfigs.original.data[0].iosIsActive ==
-                        "0" ||
-                Platform.isAndroid &&
-                    startRequest.mobileAppConfigs.original.data[0]
-                            .androidIsActive ==
-                        "0") {
-              systemMaintenanceMessages = startRequest
-                  .mobileAppConfigs.original.data[0].maintenanceMessages;
-            } else {
-              systemMaintenanceMessages =
-                  supportedCitiesResponse.data[i].maintenanceMessages;
-            }
-          } else {
-            serverMaintain = false;
-          }
-        }
-        for (int j = 0; j < userAddress.length; j++) {
-          if (int.parse(userAddress[j].supportedCityId) ==
-              supportedCitiesResponse.data[i].id) {
-            userAddress[j].supportedCityName =
-                supportedCitiesResponse.data[i].name;
-            userAddress[j].deliveryPrice = (int.parse(supportedCitiesResponse
-                .data[i].deliveryPrice
-                .toString()
-                .split(".")[0]));
-          }
-          if (userAddress[j].supportedCityName == null)
-            userAddress[j].supportedCityName = "يرجى حذف و إضافة العنوان";
-        }
+  //         if (supportedCitiesResponse.data[i].isActive == "0" ||
+  //             (Platform.isIOS &&
+  //                 startRequest.mobileAppConfigs.original.data[0].iosIsActive ==
+  //                     "0") ||
+  //             Platform.isAndroid &&
+  //                 startRequest
+  //                         .mobileAppConfigs.original.data[0].androidIsActive ==
+  //                     "0") {
+  //           serverMaintain = true;
+  //           if (Platform.isIOS &&
+  //                   startRequest
+  //                           .mobileAppConfigs.original.data[0].iosIsActive ==
+  //                       "0" ||
+  //               Platform.isAndroid &&
+  //                   startRequest.mobileAppConfigs.original.data[0]
+  //                           .androidIsActive ==
+  //                       "0") {
+  //             systemMaintenanceMessages = startRequest
+  //                 .mobileAppConfigs.original.data[0].maintenanceMessages;
+  //           } else {
+  //             systemMaintenanceMessages =
+  //                 supportedCitiesResponse.data[i].maintenanceMessages;
+  //           }
+  //         } else {
+  //           serverMaintain = false;
+  //         }
+  //       }
+  //       for (int j = 0; j < userAddress.length; j++) {
+  //         if (int.parse(userAddress[j].supportedCityId) ==
+  //             supportedCitiesResponse.data[i].id) {
+  //           userAddress[j].supportedCityName =
+  //               supportedCitiesResponse.data[i].name;
+  //           userAddress[j].deliveryPrice = (int.parse(supportedCitiesResponse
+  //               .data[i].deliveryPrice
+  //               .toString()
+  //               .split(".")[0]));
+  //         }
+  //         if (userAddress[j].supportedCityName == null)
+  //           userAddress[j].supportedCityName = "يرجى حذف و إضافة العنوان";
+  //       }
 
-        // Tools.logToConsole("################ SUPPORTED CITIES ####################");
+  //       // Tools.logToConsole("################ SUPPORTED CITIES ####################");
 
-        supportedCitiesList.add(new DropdownMenuItem(
-          child: Text(
-            "${supportedCitiesResponse.data[i].name} - التوصيل : ${supportedCitiesResponse.data[i].deliveryPrice}",
-            style: TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-          value: supportedCitiesResponse.data[i].name +
-              " price" +
-              "${supportedCitiesResponse.data[i].deliveryPrice}" +
-              "id" +
-              supportedCitiesResponse.data[i].id.toString(),
-        ));
-        Tools.logToConsole(
-            "The dropdownList value:" + supportedCitiesResponse.data[i].name);
-      }
-      return true;
-    } else {
-      Tools.logToConsole(
-          "------------ ERROR GET COMPANY INFORMATION --------------");
-      Tools.logToConsole(response.statusCode.toString());
-      return false;
-    }
-  }
+  //       supportedCitiesList.add(new DropdownMenuItem(
+  //         child: Text(
+  //           "${supportedCitiesResponse.data[i].name} - التوصيل : ${supportedCitiesResponse.data[i].deliveryPrice}",
+  //           style: TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+  //         ),
+  //         value: supportedCitiesResponse.data[i].name +
+  //             " price" +
+  //             "${supportedCitiesResponse.data[i].deliveryPrice}" +
+  //             "id" +
+  //             supportedCitiesResponse.data[i].id.toString(),
+  //       ));
+  //       Tools.logToConsole(
+  //           "The dropdownList value:" + supportedCitiesResponse.data[i].name);
+  //     }
+  //     return true;
+  //   } else {
+  //     Tools.logToConsole(
+  //         "------------ ERROR GET COMPANY INFORMATION --------------");
+  //     Tools.logToConsole(response.statusCode.toString());
+  //     return false;
+  //   }
+  // }
+
 }

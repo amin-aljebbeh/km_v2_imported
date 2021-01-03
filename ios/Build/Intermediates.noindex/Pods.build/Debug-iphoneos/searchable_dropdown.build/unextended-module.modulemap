@@ -1,0 +1,10 @@
+framework module searchable_dropdown {
+  umbrella header "searchable_dropdown-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module searchable_dropdown.__Swift {
+    exclude header "searchable_dropdown-Swift.h"
+}

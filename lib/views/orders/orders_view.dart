@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -220,10 +220,8 @@ class OrdersViewState extends State<OrdersView> {
                                           order_created_date: dateTime,
                                         ),
                                       ),
-                                      int.parse(orderDataList[index]
-                                                  .orderStatusId) ==
-                                              1
-                                          ? _showCancelButton(index)
+                                      orderDataList[index].userNotes != null
+                                          ? _showUserNoteButton(index)
                                           : Container(),
                                       (int.parse(orderDataList[index]
                                                       .orderStatusId) <
@@ -282,6 +280,72 @@ class OrdersViewState extends State<OrdersView> {
                               : Container()
                         ])),
         ));
+  }
+
+  void _showDialog({title = "ملاحظة العميل", body}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(
+            "$title",
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          content: new Text(
+            "$body",
+            // maxLines: 20,
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          scrollable: true,
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text(
+                "إغلاق",
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _showUserNoteButton(int index) {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () {
+        _showDialog(body: orderDataList[index].userNotes);
+      },
+      child: new Container(
+        height: 40.0,
+        decoration: new BoxDecoration(
+            color: Colors.indigoAccent,
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new Text(
+            "مشاهدة ملاحظة العميل ",
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
+        child: showConfirmButtonWithGesture);
   }
 
   Widget _showCancelButton(int index) {

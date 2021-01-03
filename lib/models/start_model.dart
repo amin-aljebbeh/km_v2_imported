@@ -9,6 +9,13 @@ OrdersOriginal ordersFromJson(String str) =>
 SupportedCityOriginal supportedCityOriginalFromJson(String str) =>
     SupportedCityOriginal.fromJson(json.decode(str));
 
+// List<CategoryOriginalData> categoryOriginalDataFromJson(dynamic json) =>
+//     List<CategoryOriginalData>.from(json.map((x) => CategoryOriginalData.fromJson(x)));
+
+CategoryOriginal categoryOriginalFromJson(String str) =>
+    CategoryOriginal.fromJson(json.decode(str));
+// CategoryOriginal categoryOriginalFromJson //CategoryOriginal
+
 String startModelToJson(StartModel data) => json.encode(data.toJson());
 
 class StartModel {

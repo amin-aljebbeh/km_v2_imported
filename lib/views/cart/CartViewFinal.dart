@@ -79,11 +79,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
     }
     total = subtotal +
         Services.delivery_Price +
-        int.parse(DeliveryMethodServices
-            .deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex]
-            .pivot
-            .price
+        int.parse(LoadingScreenServices
+            .myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryCost
             .split(".")[0]);
+
+    // total = subtotal + Services.delivery_Price;
 
     OrderServices.updateOrderNote != null
         ? WidgetsBinding.instance
@@ -105,7 +105,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   _userNotesInitial() {
-    _userNotes.text = OrderServices.updateOrderNote;
+    _userNotes.text = LoadingScreenServices
+        .myOrdersList[OrderServices.orderUnderUpdateIndex].userNotes;
 
     if (CartServices.userNote != null) {
       _userNotes.text = CartServices.userNote;
@@ -244,7 +245,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 fontSize: 16.0,
                               )),
                           Text(
-                            "${UtilsImporter().stringUtils.oCcy.format(LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice + int.parse(DeliveryMethodServices.deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].pivot.price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                            "${UtilsImporter().stringUtils.oCcy.format(int.parse(LoadingScreenServices.myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryCost.split(".")[0]) + int.parse(LoadingScreenServices.myOrdersList[OrderServices.orderUnderUpdateIndex].supportedCityCost.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,
