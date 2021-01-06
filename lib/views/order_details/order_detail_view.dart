@@ -1,5 +1,4 @@
-import 'package:cache_image/cache_image.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -299,7 +298,7 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                             placeholder: AssetImage("assets/kmIcon.png"),
                             fit: BoxFit.contain,
                             image: widget.img.length > 0
-                                ? CacheImage(widget.img)
+                                ? NetworkImage(widget.img)
                                 : AssetImage("assets/kmIcon.png"),
                             width: MediaQuery.of(context).size.width,
                             height: 120,
