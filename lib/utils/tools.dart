@@ -1,6 +1,6 @@
 class Tools {
   static void logToConsole(Object message) {
-    bool allowLogs = false;
+    bool allowLogs = true;
     if (allowLogs) print(message);
   }
 }

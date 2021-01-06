@@ -37,6 +37,7 @@ class LoadingScreenServices {
   static bool updateRequired = false;
   static bool updateOptional = false;
   static bool checkIfLoggedIn = false;
+  static bool showOnLucnhNotification = true;
 
   static SupportedCityOriginal supportedCityOriginal;
   static String supportPhoneNumber;

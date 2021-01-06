@@ -205,18 +205,20 @@ class _LoginScreenState extends State<LoginScreen>
                     )),
               ),
             ),
-            errorCode
-                ? AlertMessages(
-                    text: "$errorMessage",
-                    messageType: "internetError",
-                    headerText: "مشكلة بالبيانات المدخلة",
-                  )
-                : Container(
-                    padding: EdgeInsets.zero,
-                  ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+            ListView(
+              ///   mainAxisAlignment: MainAxisAlignment.start,
+
+              shrinkWrap: true,
               children: [
+                errorCode
+                    ? AlertMessages(
+                        text: "$errorMessage",
+                        messageType: "internetError",
+                        headerText: "مشكلة بالبيانات المدخلة",
+                      )
+                    : Container(
+                        padding: EdgeInsets.zero,
+                      ),
                 Container(
                   //  color: Colors.white,
                   child: Padding(

@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/favoraites/favoraites.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/store/store_view.dart';
@@ -68,6 +65,8 @@ class HomeViewState extends State<HomeView> {
 
         _showDialog(notification['title'], notification['body']);
 
+        // WidgetsBinding.instance.addPostFrameCallback(
+        //     (_) => _showDialog(notification['title'], notification['body']));
         // if (message['data']['route_name'] == "/productDetails") {
 
         // }
@@ -80,9 +79,10 @@ class HomeViewState extends State<HomeView> {
         if (message['data']['route_name'] != null)
           Navigator.pushNamed(context, message['data']['route_name']);
 
-        _showDialog(notification['title'], notification['body']);
-
-        widget.notificationValue = notification;
+        if (LoadingScreenServices.showOnLucnhNotification)
+          _showDialog(notification['title'], notification['body']);
+        LoadingScreenServices.showOnLucnhNotification = false;
+        // widget.notificationValue = notification;
       },
       onResume: (Map<String, dynamic> message) async {
         final notification = message['data'];
@@ -162,6 +162,7 @@ class HomeViewState extends State<HomeView> {
   _showNotificationDialog({BuildContext ctx}) {
     String title = widget.notificationValue["title"];
     String body = widget.notificationValue["body"];
+
     showDialog(
       context: ctx,
       builder: (BuildContext context) {
