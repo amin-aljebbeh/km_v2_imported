@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -8,9 +9,11 @@ import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../Services.dart';
 import 'package:intl/intl.dart';
 
@@ -35,15 +38,6 @@ class OrdersViewState extends State<OrdersView> {
     super.initState();
   }
 
-  FocusNode _focusNode = new FocusNode();
-  TextEditingController _textFieldController = new TextEditingController();
-
-  void _requestFocus() {
-    setState(() {
-      FocusScope.of(context).requestFocus(_focusNode);
-    });
-  }
-
   bool orderLoaded = true;
   bool errorMessage = false;
   String errorMessageVlue = "";
@@ -57,6 +51,8 @@ class OrdersViewState extends State<OrdersView> {
       if (page == 1) orderLoaded = false;
       if (!theEndOfOrders) isLoading = true;
       errorMessage = false;
+      orderDataList.clear();
+      LoadingScreenServices.myOrdersList.clear();
     });
     final orderList = await Services.getMyOrders(pageNumber: page);
     if (orderList != null) {
@@ -98,7 +94,7 @@ class OrdersViewState extends State<OrdersView> {
         body: SafeArea(
           child: Padding(
               padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
-              child: !orderLoaded
+              child: !orderLoaded || isLoading
                   ? Center(
                       child: Loader(),
                     )
@@ -118,7 +114,7 @@ class OrdersViewState extends State<OrdersView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                UtilsImporter().stringUtils.your_orders,
+                                "طلبات اليوم",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontFamily:
@@ -130,16 +126,103 @@ class OrdersViewState extends State<OrdersView> {
                                 child: IconButton(
                                   onPressed: () {
                                     setState(() {
-                                      page = 1;
-                                      theEndOfOrders = false;
-                                      orderDataList.clear();
-                                      LoadingScreenServices.myOrdersList
-                                          .clear();
+                                      page++;
                                     });
+
                                     _getOrder();
                                   },
                                   icon: Icon(
-                                    Icons.refresh,
+                                    Icons.arrow_back,
+                                    size: 40,
+                                    color: UtilsImporter().colorUtils.kmColors,
+                                  ),
+                                ),
+                              ),
+                              DropdownButton(
+                                value: page,
+                                items: [
+                                  DropdownMenuItem<int>(
+                                    child: Text("1"),
+                                    value: 1,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("2"),
+                                    value: 2,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("3"),
+                                    value: 3,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("4"),
+                                    value: 4,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("5"),
+                                    value: 5,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("6"),
+                                    value: 6,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("7"),
+                                    value: 7,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("8"),
+                                    value: 8,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("9"),
+                                    value: 9,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("10"),
+                                    value: 10,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("11"),
+                                    value: 11,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("12"),
+                                    value: 12,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("13"),
+                                    value: 13,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("14"),
+                                    value: 14,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text("15"),
+                                    value: 15,
+                                  ),
+                                ],
+                                onChanged: (value) {
+                                  setState(() {
+                                    page = value;
+                                  });
+                                  _getOrder();
+                                },
+                              ),
+                              //Text("$pageNumber"),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (page > 1) {
+                                        page--;
+                                      }
+                                      _getOrder();
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.last_page,
                                     size: 40,
                                     color: UtilsImporter().colorUtils.kmColors,
                                   ),
@@ -147,6 +230,39 @@ class OrdersViewState extends State<OrdersView> {
                               ),
                             ],
                           ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: <Widget>[
+                          //     Text(
+                          //       UtilsImporter().stringUtils.your_orders,
+                          //       style: TextStyle(
+                          //           fontWeight: FontWeight.w700,
+                          //           fontFamily:
+                          //               UtilsImporter().stringUtils.HKGrotesk,
+                          //           fontSize: 30),
+                          //     ),
+                          //     Padding(
+                          //       padding: const EdgeInsets.only(bottom: 15),
+                          //       child: IconButton(
+                          //         onPressed: () {
+                          //           setState(() {
+                          //             page = 1;
+                          //             theEndOfOrders = false;
+                          //             orderDataList.clear();
+                          //             LoadingScreenServices.myOrdersList
+                          //                 .clear();
+                          //           });
+                          //           _getOrder();
+                          //         },
+                          //         icon: Icon(
+                          //           Icons.refresh,
+                          //           size: 40,
+                          //           color: UtilsImporter().colorUtils.kmColors,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           orderDataList.length == 0
                               ? Container(
                                   child: Padding(
@@ -173,90 +289,96 @@ class OrdersViewState extends State<OrdersView> {
                                   padding: EdgeInsets.zero,
                                 ),
                           Expanded(
-                            child: NotificationListener<ScrollNotification>(
-                              onNotification: (ScrollNotification scrollInfo) {
-                                if (!isLoading &&
-                                    scrollInfo.metrics.pixels ==
-                                        scrollInfo.metrics.maxScrollExtent) {
-                                  Tools.logToConsole("in List");
-                                  setState(() {
-                                    page++;
-                                  });
-                                  !theEndOfOrders ? _getOrder() : {};
-                                }
-                              },
-                              child: ListView.builder(
-                                physics: const AlwaysScrollableScrollPhysics(
-                                    parent: BouncingScrollPhysics()),
-                                primary: false,
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                itemCount: orderDataList == null
-                                    ? 0
-                                    : orderDataList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  String dateTime =
-                                      DateFormat('kk:mm - yyyy-MM-dd').format(
-                                          orderDataList[index].createdAt);
-                                  return Column(
-                                    children: <Widget>[
-                                      new GestureDetector(
-                                        behavior: HitTestBehavior.translucent,
-                                        onTap: () => _onTileClicked(index),
-                                        child: OrdersViewCard(
-                                          underUpdate: int.parse(
-                                              orderDataList[index].underUpdate),
-                                          order_title: "",
-                                          order_total_price:
-                                              orderDataList[index]
-                                                  .total
-                                                  .toString(),
-                                          order_status: int.parse(
-                                              orderDataList[index]
-                                                  .orderStatusId),
-                                          order_quantity: orderDataList[index]
-                                              .products
-                                              .length,
-                                          order_created_date: dateTime,
-                                        ),
+                            child: ListView.builder(
+                              physics: const AlwaysScrollableScrollPhysics(
+                                  parent: BouncingScrollPhysics()),
+                              primary: false,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: orderDataList == null
+                                  ? 0
+                                  : orderDataList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                String dateTime =
+                                    DateFormat('kk:mm - yyyy-MM-dd')
+                                        .format(orderDataList[index].createdAt);
+                                return Column(
+                                  children: <Widget>[
+                                    new GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () => _onTileClicked(index),
+                                      child: OrdersViewCard(
+                                        lat: orderDataList[index].address.lat !=
+                                                null
+                                            ? double.parse(orderDataList[index]
+                                                .address
+                                                .lat)
+                                            : null,
+                                        lon: orderDataList[index].address.lon !=
+                                                null
+                                            ? double.parse(orderDataList[index]
+                                                .address
+                                                .lon)
+                                            : null,
+                                        userNumber:
+                                            orderDataList[index].userData.phone,
+                                        address: orderDataList[index]
+                                                .address
+                                                .street +
+                                            " " +
+                                            orderDataList[index]
+                                                .address
+                                                .building +
+                                            " طابق " +
+                                            orderDataList[index].address.floor +
+                                            " " +
+                                            orderDataList[index]
+                                                .address
+                                                .description,
+                                        supportedCityId: orderDataList[index]
+                                            .supportedCityId,
+                                        underUpdate: int.parse(
+                                            orderDataList[index].underUpdate),
+                                        order_title: "",
+                                        order_total_price: orderDataList[index]
+                                            .total
+                                            .toString(),
+                                        order_status: int.parse(
+                                            orderDataList[index].orderStatusId),
+                                        order_quantity: orderDataList[index]
+                                            .products
+                                            .length,
+                                        order_created_date: dateTime,
                                       ),
-                                      orderDataList[index].userNotes != null
-                                          ? _showUserNoteButton(index)
-                                          : Container(),
-                                      (int.parse(orderDataList[index]
-                                                      .orderStatusId) <
-                                                  3) &&
-                                              orderDataList[index]
-                                                      .underUpdate ==
-                                                  "0"
-                                          ? _showEditButton(index)
-                                          : Container(),
-                                      int.parse(orderDataList[index]
-                                                  .orderStatusId) ==
-                                              5
-                                          ? orderDataList[index]
-                                                      .userDeliveryRating ==
-                                                  null
-                                              ? _showRatingButton(
-                                                  context, index, screenHight)
-                                              : Container()
-                                          : Container(),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
-                                        child: Divider(
-                                          thickness: 5,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .kmColors2,
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                },
-                              ),
+                                    ),
+                                    orderDataList[index].userNotes != null
+                                        ? _showUserNoteButton(index)
+                                        : Container(),
+                                    (int.parse(orderDataList[index]
+                                                    .orderStatusId) <
+                                                5) &&
+                                            (orderDataList[index].underUpdate ==
+                                                    "0" ||
+                                                orderDataList[index]
+                                                        .underUpdate ==
+                                                    "2")
+                                        ? _showEditButton(index)
+                                        : Container(),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Divider(
+                                        thickness: 5,
+                                        color: UtilsImporter()
+                                            .colorUtils
+                                            .kmColors2,
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
                             ),
                           ),
+
                           theEndOfOrders
                               ? Container(
                                   height: 50.0,
@@ -269,15 +391,15 @@ class OrdersViewState extends State<OrdersView> {
                                                   .stringUtils
                                                   .HKGrotesk))))
                               : Container(),
-                          isLoading
-                              ? Container(
-                                  height: 50.0,
-                                  color: Colors.transparent,
-                                  child: Center(
-                                    child: Loader(),
-                                  ),
-                                )
-                              : Container()
+                          // isLoading
+                          //     ? Container(
+                          //         height: 50.0,
+                          //         color: Colors.transparent,
+                          //         child: Center(
+                          //           child: Loader(),
+                          //         ),
+                          //       )
+                          //     : Container()
                         ])),
         ));
   }
@@ -588,6 +710,8 @@ class OrdersViewState extends State<OrdersView> {
         context,
         new MaterialPageRoute(
             builder: (context) => new OrderDetailView(
+                  orderId: orderDataList[index].id,
+                  orderIndex: index,
                   ordersAry: ordAry,
                   subTotal: int.parse(
                           orderDataList[index].total.toString().split(".")[0]) -
@@ -609,12 +733,18 @@ class OrdersViewState extends State<OrdersView> {
 }
 
 class OrdersViewCard extends StatefulWidget {
+  final String userNumber;
+
   int order_quantity;
   String order_title;
   String order_total_price;
   int order_status;
   String order_created_date;
   int underUpdate;
+  String supportedCityId;
+  final String address;
+  final double lat;
+  final double lon;
 
   OrdersViewCard(
       {this.order_quantity,
@@ -622,6 +752,11 @@ class OrdersViewCard extends StatefulWidget {
       this.order_total_price,
       this.order_status,
       this.order_created_date,
+      this.supportedCityId,
+      this.address,
+      this.lat,
+      this.lon,
+      this.userNumber,
       this.underUpdate});
 
   @override
@@ -630,26 +765,68 @@ class OrdersViewCard extends StatefulWidget {
   }
 }
 
+_makePhoneCall(String number) async {
+  String url = 'tel:$number';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+openMapsSheet(context, lat, lon) async {
+  try {
+    final coords = Coords(lat, lon);
+    final title = "Ocean Beach";
+    final availableMaps = await MapLauncher.installedMaps;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  for (var map in availableMaps)
+                    ListTile(
+                      onTap: () => map.showMarker(
+                        coords: coords,
+                        title: title,
+                      ),
+                      title: Text(map.mapName),
+                      leading: Icon(Icons.map),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  } catch (e) {
+    print(e);
+  }
+}
+
 class OrdersViewCardState extends State<OrdersViewCard> {
   String orderStatus = "طلبك قيد المعالجة ⌛️";
   @override
   Widget build(BuildContext context) {
-    if (widget.order_status == 2)
-      orderStatus = "تم قبول طلبك ✅";
-    else if (widget.order_status == 3)
-      orderStatus = "تم تجهيز الطلب 😎";
-    else if (widget.order_status == 4)
+    if (widget.order_status == 2) orderStatus = "تم قبول طلبك ✅";
+    if (widget.order_status == 3) orderStatus = "تم تجهيز الطلب 😎";
+    if (widget.order_status == 4)
       orderStatus = "تم إرسال طلبك مع كابتن التوصيل";
-    else if (widget.order_status == 5)
-      orderStatus = "تم توصيل طلبك بنجاح ";
-    else if (widget.order_status == 6)
-      orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
-    else if (widget.order_status == 7)
-      orderStatus = "😔 لم نستطع تأمين الطلب 😔";
+    if (widget.underUpdate == 1)
+      orderStatus = "الطلب معلق حتى يأكد الزبون التعديل";
 
-    if (widget.underUpdate == 1) {
-      orderStatus = "طلبك معلق حتى تأكيد التوصيل";
-    }
+    if (widget.underUpdate == 2)
+      orderStatus = "الطلب معلق حتى تقوم بتأكيد التعديل";
+
+    if (widget.order_status == 5) orderStatus = "تم توصيل طلبك بنجاح ";
+    if (widget.order_status == 6) orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
+    if (widget.order_status == 7) orderStatus = "😔 لم نستطع تأمين الطلب 😔";
+
     return Container(
       child: Padding(
         padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
@@ -728,6 +905,141 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                     ),
                                   ),
                                 ]),
+
+                            SizedBox(height: 10),
+
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  RichText(
+                                    text: TextSpan(
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: "رقم الهاتف : ",
+                                          style: TextStyle(
+                                            color: UtilsImporter()
+                                                .colorUtils
+                                                .primarycolor,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: UtilsImporter()
+                                                .stringUtils
+                                                .HKGrotesk,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () => _makePhoneCall(
+                                                widget.userNumber),
+                                          text: widget.userNumber,
+                                          style: TextStyle(
+                                            color: UtilsImporter()
+                                                .colorUtils
+                                                .kmColors,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: UtilsImporter()
+                                                .stringUtils
+                                                .HKGrotesk,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                            SizedBox(height: 10),
+
+                            Wrap(children: <Widget>[
+                              RichText(
+                                text: TextSpan(
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: "العنوان : ",
+                                      style: TextStyle(
+                                        color: UtilsImporter()
+                                            .colorUtils
+                                            .primarycolor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: widget.address,
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ]),
+
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: "المدينة: ",
+                                        style: TextStyle(
+                                          color: UtilsImporter()
+                                              .colorUtils
+                                              .primarycolor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: UtilsImporter()
+                                              .stringUtils
+                                              .HKGrotesk,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: LoadingScreenServices
+                                                .supportedCitiesListIntro
+                                                .where((supportedCity) =>
+                                                    supportedCity.id
+                                                        .toString() ==
+                                                    widget.supportedCityId)
+                                                .first
+                                                .name +
+                                            "   ",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: UtilsImporter()
+                                              .stringUtils
+                                              .HKGrotesk,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                widget.lat != null && widget.lon != null
+                                    ? InkWell(
+                                        child: Icon(
+                                          Icons.delivery_dining,
+                                          color: Colors.blue,
+                                          size: 30,
+                                        ),
+                                        onTap: () {
+                                          openMapsSheet(
+                                              context, widget.lat, widget.lon);
+                                        },
+                                      )
+                                    : Container(),
+                              ],
+                            ),
+
                             SizedBox(height: 10),
                             RichText(
                               text: TextSpan(
@@ -757,15 +1069,18 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                 ],
                               ),
                             ),
+
                             Text(
                               orderStatus,
                               style: TextStyle(
-                                  color: UtilsImporter().colorUtils.greycolor,
+                                  color: UtilsImporter().colorUtils.blueColor,
                                   fontWeight: FontWeight.bold,
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 18),
                             ),
+
+                            //supportedCitiesResponse
                           ],
                         ),
                       ),

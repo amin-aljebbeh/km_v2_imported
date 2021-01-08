@@ -47,8 +47,10 @@ class LoadingScreenServices {
   // Supported City variables
 
   static List<DropdownMenuItem> supportedCitiesList = List<DropdownMenuItem>();
-  static List<DropdownMenuItem> supportedCitiesListIntro =
-      List<DropdownMenuItem>();
+  // static List<DropdownMenuItem> supportedCitiesListIntro =
+  //     List<DropdownMenuItem>();
+
+  static List<IndigoDatum> supportedCitiesListIntro = List<IndigoDatum>();
 
   // -------------------------------------------------------//
 
@@ -81,51 +83,31 @@ class LoadingScreenServices {
     return true;
   }
 
-  // Future<bool> getSupportedCity() async {
-  //   var response = await ApiProvider.sendRequest(
-  //     url: GET_SUPPORTED_CITIES,
-  //     method: httpMethods.get,
-  //   );
-  //   if (response.statusCode == SUCCESS_CODE) {
-  //     final supportedCitiesResponse =
-  //         supportedCityOriginalFromJson(jsonEncode(response.data));
-  //     supportedCityOriginal = supportedCitiesResponse;
+  Future<bool> getSupportedCity() async {
+    var response = await ApiProvider.sendRequest(
+      url: GET_SUPPORTED_CITIES,
+      method: httpMethods.get,
+    );
+    if (response.statusCode == SUCCESS_CODE) {
+      final supportedCitiesResponse =
+          supportedCityOriginalFromJson(jsonEncode(response.data));
+      supportedCityOriginal = supportedCitiesResponse;
 
-  //     supportedCitiesListIntro.clear();
-  //     Tools.logToConsole(supportedCitiesResponse.data.length);
-  //     for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
-  //       supportedCitiesListIntro.add(new DropdownMenuItem(
-  //         child: ListTile(
-  //           //isThreeLine: true,
-  //           leading: Icon(
-  //             Icons.pin_drop,
-  //             color: UtilsImporter().colorUtils.kmColors,
-  //           ),
-  //           title: Text(
-  //             '${supportedCitiesResponse.data[i].name} ',
-  //             style: TextStyle(
-  //               fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-  //             ),
-  //           ),
-  //           trailing: Text(
-  //             "${supportedCitiesResponse.data[i].deliveryPrice.split(".")[0]}",
-  //             style: TextStyle(
-  //               fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-  //             ),
-  //           ),
-  //         ),
-  //         value: supportedCitiesResponse.data[i].name +
-  //             " price" +
-  //             "${supportedCitiesResponse.data[i].deliveryPrice}" +
-  //             "id" +
-  //             supportedCitiesResponse.data[i].id.toString(),
-  //       ));
-  //     }
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+      supportedCitiesListIntro.clear();
+      Tools.logToConsole("=== DONE getting supported Cities ====");
+
+      Tools.logToConsole(supportedCitiesResponse.data);
+      // Tools.logToConsole(supportedCitiesResponse.data[0].name);
+      // Tools.logToConsole(supportedCitiesResponse.data[1].name);
+      // Tools.logToConsole(supportedCitiesResponse.data[2].name);
+
+      supportedCitiesListIntro.addAll(supportedCitiesResponse.data);
+
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   Future<bool> checkIfUserloddedIn() async {
     Tools.logToConsole("--------- Checking User Token ---------- ");
@@ -283,6 +265,8 @@ class LoadingScreenServices {
           try {
             responses = await Future.wait([
               //CartServices.getUserCart(),
+              getSupportedCity(),
+
               getCategory(),
               featchAdminInformation(),
             ]);
@@ -294,7 +278,7 @@ class LoadingScreenServices {
           Tools.logToConsole("TTTTTTTTTTTTT : " + responses[0].toString());
           Tools.logToConsole("BBBBBBBBBBBBBB : " + responses[1].toString());
           if (responses[1] == null) {
-            featchStartInformation();
+            featchAdminInformation();
           } else {
             if (responses[0] && responses[1]) {
               return true;

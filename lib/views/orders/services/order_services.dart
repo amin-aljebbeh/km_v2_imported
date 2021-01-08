@@ -216,4 +216,23 @@ class OrderServices {
       return "null";
     }
   }
+
+  static Future<bool> changeOrderStatus(String orderId, int statusId) async {
+    try {
+      var body = {"order_status_id": "$statusId"};
+      var response = await ApiProvider.sendRequest(
+        url: ORDER + orderId,
+        method: httpMethods.put,
+        body: jsonEncode(body),
+      );
+      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      Tools.logToConsole("------------ ERROR Catched --------------");
+
+      return false;
+    }
+  }
 }

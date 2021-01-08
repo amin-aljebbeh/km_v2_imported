@@ -1,18 +1,26 @@
 import 'package:cache_image/cache_image.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/orders/services/order_services.dart';
 
 class OrderDetailView extends StatefulWidget {
   List<OrderProducts> ordersAry;
   int subTotal;
   String total;
   String delivery_price;
+  int orderIndex;
+  int orderId;
 
   OrderDetailView(
-      {this.ordersAry, this.subTotal, this.total, this.delivery_price});
+      {this.ordersAry,
+      this.subTotal,
+      this.total,
+      this.delivery_price,
+      this.orderId,
+      this.orderIndex});
 
   @override
   State<StatefulWidget> createState() {
@@ -29,7 +37,95 @@ class OrderDetailViewState extends State<OrderDetailView> {
 
     setState(() {
       productsAry = widget.ordersAry;
+      idOrder = widget.orderId;
+      orderArrayIndex = widget.orderIndex;
     });
+  }
+
+  int idOrder;
+  bool isloading = false;
+  int orderArrayIndex;
+  bool erroAlert = false;
+
+  Widget _showCancelButton(int index) {
+    print("----------- index --------------------");
+    print(index);
+    int changeStatus = 0;
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () async {
+        setState(() {
+          isloading = true;
+          erroAlert = false;
+        });
+        if (LoadingScreenServices.myOrdersList[orderArrayIndex].orderStatusId ==
+            "1")
+          changeStatus = 2;
+        else if (LoadingScreenServices
+                .myOrdersList[orderArrayIndex].orderStatusId ==
+            "2")
+          changeStatus = 3;
+        else if (LoadingScreenServices
+                .myOrdersList[orderArrayIndex].orderStatusId ==
+            "3")
+          changeStatus = 4;
+        else if (LoadingScreenServices
+                .myOrdersList[orderArrayIndex].orderStatusId ==
+            "4") changeStatus = 5;
+
+        bool x = await OrderServices.changeOrderStatus(
+            index.toString(), changeStatus);
+
+        if (x) {
+          setState(() {
+            LoadingScreenServices.myOrdersList[orderArrayIndex].orderStatusId =
+                changeStatus.toString();
+            isloading = false;
+          });
+        } else {
+          isloading = false;
+          erroAlert = true;
+        }
+      },
+      child: new Container(
+        height: 40.0,
+        decoration: new BoxDecoration(
+            color: LoadingScreenServices
+                        .myOrdersList[orderArrayIndex].orderStatusId ==
+                    "1"
+                ? Colors.green[700]
+                : LoadingScreenServices
+                            .myOrdersList[orderArrayIndex].orderStatusId ==
+                        "2"
+                    ? Colors.yellow[700]
+                    : Colors.cyan[700],
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new Text(
+            LoadingScreenServices.myOrdersList[orderArrayIndex].orderStatusId ==
+                    "1"
+                ? "قبول الطلب"
+                : LoadingScreenServices
+                            .myOrdersList[orderArrayIndex].orderStatusId ==
+                        "2"
+                    ? "تعيين الطلب أنه قد أصبح جاهز"
+                    : LoadingScreenServices
+                                .myOrdersList[orderArrayIndex].orderStatusId ==
+                            "3"
+                        ? "تعيين الطلب أنه مع كابتن التوصيل"
+                        : "تعيين الطلب أنه قد وصل",
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
+        child: showConfirmButtonWithGesture);
   }
 
   @override
@@ -174,6 +270,14 @@ class OrderDetailViewState extends State<OrderDetailView> {
               ),
               SizedBox(height: 5),
               // _showReOrderButton(),
+              int.parse(LoadingScreenServices
+                          .myOrdersList[orderArrayIndex].orderStatusId) <=
+                      4
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: _showCancelButton(idOrder),
+                    )
+                  : Container(),
             ],
           ),
         ),

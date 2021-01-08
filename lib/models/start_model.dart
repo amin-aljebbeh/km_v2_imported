@@ -629,6 +629,8 @@ class OrdersOriginalData {
       this.underUpdate,
       this.deliveryStaffId,
       this.products,
+      this.address,
+      this.userData,
       this.createdAt});
 
   int id;
@@ -647,6 +649,8 @@ class OrdersOriginalData {
   dynamic userComment;
   String total;
   DateTime createdAt;
+  OrderAddress address;
+  UserData userData;
 
   String userNotes;
   String supportedCityId;
@@ -671,6 +675,8 @@ class OrdersOriginalData {
         userPriceRating: json["user_price_rating"],
         userComment: json["user_comment"],
         total: json["total"],
+        userData: UserData.fromJson(json["user"]),
+        address: OrderAddress.fromJson(json["address"]),
         userNotes: json["user_notes"],
         createdAt: DateTime.parse(json["created_at"]),
         supportedCityId: json["supported_city_id"],
@@ -698,6 +704,8 @@ class OrdersOriginalData {
         "total": total,
         "created_at": createdAt.toIso8601String(),
         "user_notes": userNotes,
+        "address": address.toJson(),
+        "user": userData.toJson(),
         "supported_city_id": supportedCityId,
         "under_update": underUpdate,
         "delivery_staff_id": deliveryStaffId,
@@ -959,7 +967,7 @@ class UserData {
     this.rememberToken,
     this.warehouseId,
     this.supportedCityId,
-    this.addresses,
+    // this.addresses,
     this.coupon,
   });
 
@@ -975,7 +983,7 @@ class UserData {
 
   String warehouseId;
   dynamic supportedCityId;
-  List<Address> addresses;
+  // List<Address> addresses;
   dynamic coupon;
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
@@ -990,8 +998,8 @@ class UserData {
         rememberToken: json["remember_token"],
         warehouseId: json["warehouse_id"],
         supportedCityId: json["supported_city_id"],
-        addresses: List<Address>.from(
-            json["addresses"].map((x) => Address.fromJson(x))),
+        // addresses: List<Address>.from(
+        //     json["addresses"].map((x) => Address.fromJson(x))),
         coupon: json["coupon"],
       );
 
@@ -1007,8 +1015,59 @@ class UserData {
         "remember_token": rememberToken,
         "warehouse_id": warehouseId,
         "supported_city_id": supportedCityId,
-        "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
+        // "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
         "coupon": coupon,
+      };
+}
+
+class OrderAddress {
+  OrderAddress(
+      {this.id,
+      this.supportedCityId,
+      this.street,
+      this.building,
+      this.floor,
+      this.description,
+      this.deliveryPrice,
+      this.lat,
+      this.lon,
+      this.entrance});
+
+  int id;
+  String supportedCityId;
+  String street;
+  String building;
+  String floor;
+  String description;
+  int deliveryPrice;
+  String lat;
+  String lon;
+  String entrance;
+
+  factory OrderAddress.fromJson(Map<String, dynamic> json) => OrderAddress(
+        id: json["id"],
+        supportedCityId: json["supported_city_id"],
+        street: json["street"],
+        building: json["building"],
+        floor: json["floor"],
+        description: json["description"],
+        deliveryPrice: json["deliveryPrice"],
+        lat: json["lat"],
+        lon: json["lon"],
+        entrance: json["entrance"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "supported_city_id": supportedCityId,
+        "street": street,
+        "building": building,
+        "floor": floor,
+        "description": description,
+        "deliveryPrice": deliveryPrice,
+        "lat": lat,
+        "lon": lon,
+        "entrance": entrance,
       };
 }
 
