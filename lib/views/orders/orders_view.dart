@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -584,7 +584,10 @@ class OrdersViewCardState extends State<OrdersViewCard> {
       orderStatus = "😔 لم نستطع تأمين الطلب 😔";
 
     if (widget.underUpdate == 1) {
-      orderStatus = "طلبك معلق حتى تأكيد التوصيل";
+      orderStatus = "طلبك معلق حتى تأكيد التعديل";
+    }
+    if (widget.underUpdate == 3) {
+      orderStatus = "يقوم مسؤول الطلب بتعديل طلبكم";
     }
     return Container(
       child: Padding(
