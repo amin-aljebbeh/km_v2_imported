@@ -570,25 +570,20 @@ class OrdersViewCardState extends State<OrdersViewCard> {
   String orderStatus = "طلبك قيد المعالجة ⌛️";
   @override
   Widget build(BuildContext context) {
-    if (widget.order_status == 2)
-      orderStatus = "تم قبول طلبك ✅";
-    else if (widget.order_status == 3)
-      orderStatus = "تم تجهيز الطلب 😎";
-    else if (widget.order_status == 4)
-      orderStatus = "تم إرسال طلبك مع كابتن التوصيل";
-    else if (widget.order_status == 5)
-      orderStatus = "تم توصيل طلبك بنجاح ";
-    else if (widget.order_status == 6)
-      orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
-    else if (widget.order_status == 7)
-      orderStatus = "😔 لم نستطع تأمين الطلب 😔";
-
+    if (widget.order_status == 2) orderStatus = "تم قبول طلبك ✅";
     if (widget.underUpdate == 1) {
       orderStatus = "طلبك معلق حتى تأكيد التعديل";
     }
-    if (widget.underUpdate == 3) {
+    if (widget.underUpdate == 2) {
       orderStatus = "يقوم مسؤول الطلب بتعديل طلبكم";
     }
+    if (widget.order_status == 3) orderStatus = "تم تجهيز الطلب 😎";
+    if (widget.order_status == 4)
+      orderStatus = "تم إرسال طلبك مع كابتن التوصيل";
+    if (widget.order_status == 5) orderStatus = "تم توصيل طلبك بنجاح ";
+    if (widget.order_status == 6) orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
+    if (widget.order_status == 7) orderStatus = "😔 لم نستطع تأمين الطلب 😔";
+
     return Container(
       child: Padding(
         padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
