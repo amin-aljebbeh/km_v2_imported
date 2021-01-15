@@ -159,6 +159,9 @@ class StringUtils {
 
   String edit_order = 'تعديل الطلب';
   String submit_feedback = 'تقييم الطلب';
+  String approveUsagePolicy = 'موافق';
+    String rejectUsagePolicy = 'غير موافق';
+
 
   //Labels
   String sign_in = 'تسجيل الدخول';

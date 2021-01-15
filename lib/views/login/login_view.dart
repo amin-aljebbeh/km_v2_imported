@@ -6,9 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
-import 'package:kammun_app/views/errors_screen/internet_error.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
+import 'package:kammun_app/views/login/policy.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'Services/login_services.dart';
@@ -142,9 +142,33 @@ class _LoginScreenState extends State<LoginScreen>
       );
     }
 
+    void _settingModalBottomSheet(context) {
+      showMaterialModalBottomSheet(
+        context: context,
+        builder: (context) => Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            decoration: new BoxDecoration(
+              color: Colors.white,
+              borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(25.0),
+                topRight: const Radius.circular(25.0),
+              ),
+            ),
+            child: UsagePolicy((approve) {
+              if (approve) {
+                Navigator.of(context).pop();
+                featchOtp();
+              }
+            })),
+      );
+    }
+
     Widget _showSubmit() {
       final GestureDetector loginButtonWithGesture = new GestureDetector(
-        onTap: featchOtp,
+        //onTap: featchOtp,
+        onTap: () {
+          _settingModalBottomSheet(context);
+        },
         child: new Container(
           height: 50.0,
           decoration: new BoxDecoration(
