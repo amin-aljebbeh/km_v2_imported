@@ -99,7 +99,7 @@ class _UsagePolicyState extends State<UsagePolicy> {
                         TextSpan(
                           recognizer: TapGestureRecognizer()
                             ..onTap = () => launch(
-                                'https://kammun.com/privacy-policy.html'),
+                                'http://kammun.com/privacy-policy.html'),
                           text: " سياسة الإستخدام ",
                           style: TextStyle(
                             color: Colors.blue[800],
