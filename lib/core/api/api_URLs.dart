@@ -2,7 +2,7 @@
 String BaseUrl = "https://kammunapp.com";
 
 const String APPLE_BASEURL = "http://kmbe.kammun.com";
-const String PRODUCTION_BASE_URL = "https://kammunapp.com";
+const String PRODUCTION_BASE_URL = "https://kammun.app";
 
 ////////////////////////////////////////////////////////////////////
 
