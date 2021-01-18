@@ -194,9 +194,9 @@ class OrderServices {
                 int.parse(LoadingScreenServices
                     .myOrdersList[orderUnderUpdateIndex].addressId));
 
-        Services.delivery_Price = int.parse(LoadingScreenServices
-            .myOrdersList[orderUnderUpdateIndex].supportedCityCost
-            .split(".")[0]);
+        // Services.delivery_Price = int.parse(LoadingScreenServices
+        //     .myOrdersList[orderUnderUpdateIndex].supportedCityCost
+        //     .split(".")[0]);
 
         updateOrderNote =
             LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;

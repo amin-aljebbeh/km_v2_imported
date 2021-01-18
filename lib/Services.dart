@@ -19,7 +19,7 @@ class Services {
   static String googlePlayUrl = "";
   static String appStoreUrl = "";
 
-  static int delivery_Price = 50;
+  // static int delivery_Price ;
 
   static Future<bool> addToFavorites(String productsId) async {
     // Tools.logToConsole("------------------ ADD TO FAVORITES  --------------------");

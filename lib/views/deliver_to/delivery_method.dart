@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -76,7 +76,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
         new GestureDetector(
       onTap: _showGoToReviewPage,
       child: new Container(
-        margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
+        margin: EdgeInsets.only(left: 25.0, right: 10.0, bottom: 10.0),
         height: 50.0,
         decoration: new BoxDecoration(
             color: selectedIndex != null
@@ -185,8 +185,9 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                               ],
                             )
                           : Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                              child: ListView(
+                                shrinkWrap: true,
+                                // crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(30.0),
@@ -240,8 +241,8 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                  Center(
+                                    // padding: const EdgeInsets.all(8.0),
                                     child: Text("اجرةالتوصيل النهائية",
                                         style: TextStyle(
                                             color: UtilsImporter()
@@ -253,8 +254,11 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                                 .stringUtils
                                                 .HKGrotesk)),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Center(
+                                    // padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                         "${int.parse(DeliveryMethodServices.deliveryMethodsList[selectedIndex].pivot.price.split(".")[0]) + LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice} ${LoadingScreenServices.companyInformation.currency}",
                                         style: TextStyle(
@@ -267,6 +271,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                                 .stringUtils
                                                 .HKGrotesk)),
                                   ),
+                                 
                                   Center(
                                     child: Padding(
                                       padding:

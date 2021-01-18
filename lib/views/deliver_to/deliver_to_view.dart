@@ -58,12 +58,12 @@ class DeliverToViewState extends State<DeliverToView> {
       OrderServices.delivery_supported_City_id = LoadingScreenServices
           .userAddress[DeliverToView.selectedIndex].supportedCityId
           .toString();
-      Services.delivery_Price = LoadingScreenServices
-                  .userAddress[DeliverToView.selectedIndex].deliveryPrice ==
-              null
-          ? 500
-          : LoadingScreenServices
-              .userAddress[DeliverToView.selectedIndex].deliveryPrice;
+      // Services.delivery_Price = LoadingScreenServices
+      //             .userAddress[DeliverToView.selectedIndex].deliveryPrice ==
+      //         null
+      //     ? 500
+      //     : LoadingScreenServices
+      //         .userAddress[DeliverToView.selectedIndex].deliveryPrice;
     });
   }
 

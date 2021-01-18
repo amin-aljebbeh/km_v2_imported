@@ -79,7 +79,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
     }
     Tools.logToConsole("subtotal: $subtotal");
 
-    Tools.logToConsole("Total Delivery_price: ${Services.delivery_Price}");
+    Tools.logToConsole(
+        "Total Delivery_price: ${int.parse(DeliveryMethodServices.deliveryMethodsList[DeliverToView.selectedIndex].pivot.price.split(".")[0])}");
     Tools.logToConsole("Delivery method Price");
     Tools.logToConsole(DeliveryMethodServices
         .deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex]
@@ -88,14 +89,16 @@ class _CartViewFinalState extends State<CartViewFinal> {
         .split(".")[0]);
 
     total = subtotal +
-        Services.delivery_Price +
+        // Services.delivery_Price +
+        LoadingScreenServices
+            .userAddress[DeliverToView.selectedIndex].deliveryPrice +
         int.parse(DeliveryMethodServices
             .deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex]
             .pivot
             .price
             .split(".")[0]);
 
-    OrderServices.updateOrderNote != null
+    OrderServices.updateOrderNote != null && OrderServices.orderUnderUpdateIndex != -1
         ? WidgetsBinding.instance
             .addPostFrameCallback((_) => _userNotesInitial())
         : {};
