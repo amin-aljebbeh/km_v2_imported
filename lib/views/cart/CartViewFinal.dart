@@ -77,6 +77,16 @@ class _CartViewFinalState extends State<CartViewFinal> {
           ((int.parse(orderArray[i].price.split(".")[0])) *
               orderArray[i].productCount);
     }
+    Tools.logToConsole("subtotal: $subtotal");
+
+    Tools.logToConsole("Total Delivery_price: ${Services.delivery_Price}");
+    Tools.logToConsole("Delivery method Price");
+    Tools.logToConsole(DeliveryMethodServices
+        .deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex]
+        .pivot
+        .price
+        .split(".")[0]);
+
     total = subtotal +
         Services.delivery_Price +
         int.parse(DeliveryMethodServices
@@ -107,12 +117,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
   _userNotesInitial() {
     _userNotes.text = OrderServices.updateOrderNote;
 
-    if (CartServices.userNote != null) {
-      _userNotes.text = CartServices.userNote;
-    }
+    // if (CartServices.userNote != null) {
+    //   _userNotes.text = CartServices.userNote;
+    // }
     if (CartServices.userCopoun != null) {
       _copouns.text = CartServices.userCopoun;
     }
+    // if (CartServices.userNote == null) {
+    //   _userNotes.text = OrderServices.updateOrderNote;
+    // }
   }
 
   _cartChanged() async {

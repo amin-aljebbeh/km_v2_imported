@@ -71,11 +71,11 @@ class Pivot {
   String message;
 
   factory Pivot.fromJson(Map<String, dynamic> json) => Pivot(
-        supportedCityId: json["supported_city_id"],
-        deliveryMethodId: json["delivery_method_id"],
-        price: json["price"],
-        isActive: json["is_active"],
-        message: json["message"],
+        supportedCityId: json["supported_city_id"].toString(),
+        deliveryMethodId: json["delivery_method_id"].toString(),
+        price: json["price"].toString(),
+        isActive: json["is_active"].toString(),
+        message: json["message"].toString(),
       );
 
   Map<String, dynamic> toJson() => {

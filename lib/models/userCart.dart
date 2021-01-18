@@ -52,7 +52,7 @@ class Data {
         id: json["id"],
         name: json["name"],
         price: int.parse(json["price"].toString().split(".")[0]),
-        quantity: json["quantity"],
+        quantity: json["quantity"].tos,
         unit: json["unit"],
         isActive: json["is_active"],
         images: List<ProductImage>.from(

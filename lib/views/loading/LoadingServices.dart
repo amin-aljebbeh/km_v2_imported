@@ -189,6 +189,7 @@ class LoadingScreenServices {
           Tools.logToConsole("BBBBBBBBBBBBBB : " + responses[1].toString());
           if (responses[1] == null) {
             featchStartInformation();
+            return false;
           } else {
             if (responses[0] && responses[1]) {
               return true;
@@ -236,11 +237,11 @@ class LoadingScreenServices {
       // Get Company Information.
       companyInformation = startRequest.company.original.data[1];
       Tools.logToConsole("======= Get Company Information DONE =======");
-      String oldBaseUrl = BaseUrl;
-      BaseUrl = companyInformation.baseUrl;
-      if (oldBaseUrl != BaseUrl) {
-        return null;
-      }
+      // String oldBaseUrl = BaseUrl;
+      // BaseUrl = companyInformation.baseUrl;
+      // if (oldBaseUrl != BaseUrl) {
+      //   return null;
+      // }
       // Get Image Url Prefix.
       imagePrefixUrl = startRequest.company.original.data[1].imageBaseUrl;
       Tools.logToConsole("======= Get Image Url Prefix DONE =======");
