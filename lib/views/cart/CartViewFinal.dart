@@ -98,7 +98,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
             .price
             .split(".")[0]);
 
-    OrderServices.updateOrderNote != null && OrderServices.orderUnderUpdateIndex != -1
+    OrderServices.updateOrderNote != null &&
+            OrderServices.orderUnderUpdateIndex != -1
         ? WidgetsBinding.instance
             .addPostFrameCallback((_) => _userNotesInitial())
         : {};
@@ -151,14 +152,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
     return Scaffold(
         backgroundColor: Colors.white,
         // backgroundColor: Theme.of(context).primaryColorLight,
-        body: Padding(
-          padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
-          child: SafeArea(
-            child: loadingScreen
-                ? Center(
-                    child: Loader(),
-                  )
-                : Column(
+        body: SafeArea(
+          child: loadingScreen
+              ? Center(
+                  child: Loader(),
+                )
+              : Padding(
+                  padding:
+                      EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       errorCode
@@ -316,7 +318,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       ),
                     ],
                   ),
-          ),
+                ),
         ));
   }
 

@@ -52,7 +52,8 @@ class StoreViewState extends State<StoreView> {
     // }
     bool isThereOrderUnderUbdate = false;
     for (int i = 0; i < LoadingScreenServices.myOrdersList.length; i++) {
-      if (LoadingScreenServices.myOrdersList[i].underUpdate == "1") {
+      if (LoadingScreenServices.myOrdersList[i].underUpdate == "1" &&
+          int.parse(LoadingScreenServices.myOrdersList[i].orderStatusId) < 3) {
         isThereOrderUnderUbdate = true;
       }
     }
@@ -218,8 +219,6 @@ class StoreViewState extends State<StoreView> {
     );
   }
 
- 
- 
   _showUpdateOrderInstruction({BuildContext context}) {
     showDialog(
         context: context,

@@ -70,13 +70,15 @@ class OrdersViewState extends State<OrdersView> {
           isLoading = false;
         });
       } else {
-        setState(() {
-          orderDataList.addAll(orderList);
-          LoadingScreenServices.myOrdersList = orderDataList;
-          orderLoaded = true;
-          errorMessage = false;
-          isLoading = false;
-        });
+        if (this.mounted) {
+          setState(() {
+            orderDataList.addAll(orderList);
+            LoadingScreenServices.myOrdersList = orderDataList;
+            orderLoaded = true;
+            errorMessage = false;
+            isLoading = false;
+          });
+        }
       }
     } else {
       setState(() {
