@@ -50,8 +50,8 @@ class CartProduct {
         name: json["name"],
         price: int.parse(json["price"].toString().split(".")[0]),
         imageName: json["image_name"],
-        unit: json["unit"],
-        quantity: json["quantity"],
+        unit: json["unit"].toString(),
+        quantity: json["quantity"].toString(),
       );
 
   Map<String, dynamic> toJson() => {

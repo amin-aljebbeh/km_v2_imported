@@ -114,11 +114,11 @@ class HomeViewState extends State<HomeView> {
       Tools.logToConsole(prefs.get("firebase_token"));
       firebaseToken = prefs.get("firebase_token");
     }
-    if (LoadingScreenServices.userOriginal.data.firebaseToken !=
-        firebaseToken) {
-      LoadingScreenServices().updateFirebaseToken(firebaseToken);
-      Tools.logToConsole("Firebase Updated");
-    }
+    // if (LoadingScreenServices.userOriginal.data.firebaseToken !=
+    //     firebaseToken) {
+    //   LoadingScreenServices().updateFirebaseToken(firebaseToken);
+    //   Tools.logToConsole("Firebase Updated");
+    // }
   }
 
   void _showDialog(title, body) {

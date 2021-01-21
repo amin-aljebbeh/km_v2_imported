@@ -1,8 +1,10 @@
 import 'package:cache_image/cache_image.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 
@@ -82,8 +84,10 @@ class OrderDetailViewState extends State<OrderDetailView> {
             isloading = false;
           });
         } else {
-          isloading = false;
-          erroAlert = true;
+          setState(() {
+            isloading = false;
+            erroAlert = true;
+          });
         }
       },
       child: new Container(
@@ -136,150 +140,170 @@ class OrderDetailViewState extends State<OrderDetailView> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  IconButton(
-                      icon: Icon(Icons.arrow_back_ios,
-                          color: Theme.of(context).primaryColorDark, size: 45),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      }),
-                  InkWell(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        UtilsImporter().stringUtils.order_detail,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 30),
-                      )),
-                ],
-              ),
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                  primary: false,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: productsAry == null ? 0 : productsAry.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    OrderProducts orderDetail = productsAry[index];
-                    return new GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () => _onTileClicked(index),
-                      child: OrderDetailViewCard(
-                        img: orderDetail.images.length != 0
-                            ? LoadingScreenServices.imagePrefixUrl +
-                                orderDetail.images[0].imageFileName
-                            : "",
-                        product_name: orderDetail.name,
-                        quantity: orderDetail.quantity,
-                        price: int.parse(orderDetail.pivot.purchasePrice),
-                        unit: orderDetail.unit == null ? "" : orderDetail.unit,
-                        productCount: orderDetail.pivot.quantity.toString(),
-                        index: index,
+          child: isloading
+              ? Center(child: Loader())
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        IconButton(
+                            icon: Icon(Icons.arrow_back_ios,
+                                color: Theme.of(context).primaryColorDark,
+                                size: 45),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            }),
+                        InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              UtilsImporter().stringUtils.order_detail,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily:
+                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontSize: 30),
+                            )),
+                      ],
+                    ),
+                    erroAlert
+                        ? AlertMessages(
+                            text: "خطأ اثناء محاولة تغيير حالة الطلب",
+                            messageType: "internetError",
+                            headerText: "حدث خطأ",
+                          )
+                        : Container(),
+                    Expanded(
+                      child: ListView.builder(
+                        padding: EdgeInsets.only(left: 20.0, top: 20.0),
+                        primary: false,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: productsAry == null ? 0 : productsAry.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          OrderProducts orderDetail = productsAry[index];
+                          return new GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () => _onTileClicked(index),
+                            child: OrderDetailViewCard(
+                              img: orderDetail.images.length != 0
+                                  ? LoadingScreenServices.imagePrefixUrl +
+                                      orderDetail.images[0].imageFileName
+                                  : "",
+                              product_name: orderDetail.name,
+                              quantity: orderDetail.quantity,
+                              price: int.parse(orderDetail.pivot.purchasePrice),
+                              unit: orderDetail.unit == null
+                                  ? ""
+                                  : orderDetail.unit,
+                              productCount:
+                                  orderDetail.pivot.quantity.toString(),
+                              index: index,
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 20, top: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(UtilsImporter().stringUtils.subtotal,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                          fontSize: 17.0,
-                        )),
-                    Text(
-                      UtilsImporter()
-                              .stringUtils
-                              .oCcy
-                              .format(widget.subTotal)
-                              .toString() +
-                          " ${LoadingScreenServices.companyInformation.currency}",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                          fontSize: 17.0),
                     ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20, top: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(UtilsImporter().stringUtils.subtotal,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 17.0,
+                              )),
+                          Text(
+                            UtilsImporter()
+                                    .stringUtils
+                                    .oCcy
+                                    .format(widget.subTotal)
+                                    .toString() +
+                                " ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 17.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20, top: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(UtilsImporter().stringUtils.delivery,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 16.0,
+                              )),
+                          Text(
+                            widget.delivery_price +
+                                " ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20, top: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(UtilsImporter().stringUtils.total,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 19.0,
+                              )),
+                          Text(
+                            "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.total))}" +
+                                " ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 19),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    // _showReOrderButton(),
+                    int.parse(LoadingScreenServices
+                                .myOrdersList[orderArrayIndex].orderStatusId) <=
+                            4
+                        ? Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: _showCancelButton(idOrder),
+                          )
+                        : Container(),
                   ],
                 ),
-              ),
-              SizedBox(height: 15),
-              Padding(
-                padding: EdgeInsets.only(left: 20, top: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(UtilsImporter().stringUtils.delivery,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                          fontSize: 16.0,
-                        )),
-                    Text(
-                      widget.delivery_price +
-                          " ${LoadingScreenServices.companyInformation.currency}",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                          fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 15),
-              Padding(
-                padding: EdgeInsets.only(left: 20, top: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(UtilsImporter().stringUtils.total,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                          fontSize: 19.0,
-                        )),
-                    Text(
-                      "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.total))}" +
-                          " ${LoadingScreenServices.companyInformation.currency}",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                          fontSize: 19),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 5),
-              // _showReOrderButton(),
-              int.parse(LoadingScreenServices
-                          .myOrdersList[orderArrayIndex].orderStatusId) <=
-                      4
-                  ? Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: _showCancelButton(idOrder),
-                    )
-                  : Container(),
-            ],
-          ),
         ),
       ),
     );

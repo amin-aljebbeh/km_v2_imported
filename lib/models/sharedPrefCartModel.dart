@@ -37,8 +37,8 @@ class CartProduct {
 
     factory CartProduct.fromJson(Map<String, dynamic> json) => CartProduct(
         id: json["id"],
-        quantity: json["quantity"] == null ? null : json["quantity"],
-        price: json["price"] == null ? null : json["price"],
+        quantity: json["quantity"] == null ? null : json["quantity"].toString(),
+        price: json["price"] == null ? null : json["price"].toString(),
     );
 
     Map<String, dynamic> toJson() => {

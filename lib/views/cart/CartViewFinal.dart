@@ -105,15 +105,27 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   _userNotesInitial() {
-    _userNotes.text = LoadingScreenServices
-        .myOrdersList[OrderServices.orderUnderUpdateIndex].userNotes;
+    _userNotes.text = OrderServices.updateOrderNote;
 
-    if (CartServices.userNote != null) {
-      _userNotes.text = CartServices.userNote;
-    }
+    // if (CartServices.userNote != null) {
+    //   _userNotes.text = CartServices.userNote;
+    // }
     if (CartServices.userCopoun != null) {
       _copouns.text = CartServices.userCopoun;
     }
+    // if (CartServices.userNote == null) {
+    //   _userNotes.text = OrderServices.updateOrderNote;
+    // }
+
+    // _userNotes.text = LoadingScreenServices
+    //     .myOrdersList[OrderServices.orderUnderUpdateIndex].userNotes;
+
+    // if (CartServices.userNote != null) {
+    //   _userNotes.text = CartServices.userNote;
+    // }
+    // if (CartServices.userCopoun != null) {
+    //   _copouns.text = CartServices.userCopoun;
+    // }
   }
 
   _cartChanged() async {

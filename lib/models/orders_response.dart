@@ -31,7 +31,7 @@ class OrderResponse {
     return OrderResponse(
       success: json["success"],
       data: json["data"],
-      reason: json["reason"],
+      reason: json["reason"].toString(),
       inactiveProducts: json["inactive_products"] != null
           ? List<String>.from(json["inactive_products"].map((x) => x))
           : inactiveProducts,

@@ -221,14 +221,19 @@ class OrderServices {
     try {
       var body = {"order_status_id": "$statusId"};
       var response = await ApiProvider.sendRequest(
-        url: ORDER + orderId,
+        url: ORDER + "/$orderId",
         method: httpMethods.put,
         body: jsonEncode(body),
       );
+      Tools.logToConsole("ChangeStatusCode is: ");
+      Tools.logToConsole(response.data);
+
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         return true;
-      }
+      }else{
       return false;
+
+      }
     } catch (e) {
       Tools.logToConsole("------------ ERROR Catched --------------");
 

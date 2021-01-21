@@ -60,7 +60,7 @@ class Data {
   String addNotificationPermission;
   String isSuperUser;
   String warehouseId;
-  dynamic firebaseToken;
+  String firebaseToken;
   String updateCategoryWarehousePermission;
   String updateProductWarehousePermission;
 
@@ -69,20 +69,20 @@ class Data {
         username: json["username"],
         name: json["name"],
         apiToken: json["api_token"],
-        addProductPermission: json["add_product_permission"],
-        addCategoryPermission: json["add_category_permission"],
-        addSpecialOfferPermission: json["add_special_offer_permission"],
-        viewOrdersPermission: json["view_orders_permission"],
-        banUserPermission: json["ban_user_permission"],
-        viewReportPermission: json["view_report_permission"],
-        addNotificationPermission: json["add_notification_permission"],
-        isSuperUser: json["is_super_user"],
-        warehouseId: json["warehouse_id"],
-        firebaseToken: json["firebase_token"],
+        addProductPermission: json["add_product_permission"].toString(),
+        addCategoryPermission: json["add_category_permission"].toString(),
+        addSpecialOfferPermission: json["add_special_offer_permission"].toString(),
+        viewOrdersPermission: json["view_orders_permission"].toString(),
+        banUserPermission: json["ban_user_permission"].toString(),
+        viewReportPermission: json["view_report_permission"].toString(),
+        addNotificationPermission: json["add_notification_permission"].toString(),
+        isSuperUser: json["is_super_user"].toString(),
+        warehouseId: json["warehouse_id"].toString(),
+        firebaseToken: json["firebase_token"].toString(),
         updateCategoryWarehousePermission:
-            json["update_category_warehouse_permission"],
+            json["update_category_warehouse_permission"].toString(),
         updateProductWarehousePermission:
-            json["update_product_warehouse_permission"],
+            json["update_product_warehouse_permission"].toString(),
       );
 
   Map<String, dynamic> toJson() => {

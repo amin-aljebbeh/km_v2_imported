@@ -141,7 +141,7 @@ class PurpleDatum {
         description: json["description"],
         imageFileName: json["image_file_name"],
         expirationDate: DateTime.parse(json["expiration_date"]),
-        warehouseId: json["warehouse_id"],
+        warehouseId: json["warehouse_id"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -224,8 +224,8 @@ class CategoryOriginalData {
         imageFileName: json["image_file_name"],
         parentCategoryId: json["parent_category_id"] == null
             ? null
-            : json["parent_category_id"],
-        isCompany: json["is_company"],
+            : json["parent_category_id"].toString(),
+        isCompany: json["is_company"].toString(),
         warehouses: List<Warehouse>.from(
             json["warehouses"].map((x) => Warehouse.fromJson(x))),
       );
@@ -262,8 +262,8 @@ class Warehouse {
         id: json["id"],
         name: json["name"],
         description: json["description"],
-        numberOfWorkers: json["number_of_workers"],
-        isActive: json["is_active"],
+        numberOfWorkers: json["number_of_workers"].toString(),
+        isActive: json["is_active"].toString(),
         pivot: json["pivot"] == null
             ? null
             : WarehousePivot.fromJson(json["pivot"]),
@@ -300,13 +300,13 @@ class WarehousePivot {
   String price;
 
   factory WarehousePivot.fromJson(Map<String, dynamic> json) => WarehousePivot(
-        categoryId: json["category_id"],
-        warehouseId: json["warehouse_id"],
-        price: json["price"],
-        isActive: json["is_active"],
-        isFeatured: json["is_featured"],
-        priority: json["priority"],
-        numberOfVisits: json["number_of_visits"],
+        categoryId: json["category_id"].toString(),
+        warehouseId: json["warehouse_id"].toString(),
+        price: json["price"].toString(),
+        isActive: json["is_active"].toString(),
+        isFeatured: json["is_featured"].toString(),
+        priority: json["priority"].toString(),
+        numberOfVisits: json["number_of_visits"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -410,20 +410,20 @@ class CompanyOriginalData {
         id: json["id"],
         name: json["name"],
         logoFileName: json["logo_file_name"],
-        phone: json["phone"],
+        phone: json["phone"].toString(),
         email: json["email"],
-        addressId: json["address_id"],
-        whatsappNumber: json["whatsapp_number"],
-        supportNumber: json["support_number"],
-        facebookUrl: json["facebook_url"],
-        instagramUrl: json["instagram_url"],
-        messengerUrl: json["messenger_url"],
-        supportUrl: json["support_url"],
-        websiteUrl: json["website_url"],
-        baseUrl: json["base_url"],
-        imageBaseUrl: json["image_base_url"],
-        currency: json["currency"],
-        additionalInfo: json["additional_info"],
+        addressId: json["address_id"].toString(),
+        whatsappNumber: json["whatsapp_number"].toString(),
+        supportNumber: json["support_number"].toString(),
+        facebookUrl: json["facebook_url"].toString(),
+        instagramUrl: json["instagram_url"].toString(),
+        messengerUrl: json["messenger_url"].toString(),
+        supportUrl: json["support_url"].toString(),
+        websiteUrl: json["website_url"].toString(),
+        baseUrl: json["base_url"].toString(),
+        imageBaseUrl: json["image_base_url"].toString(),
+        currency: json["currency"].toString(),
+        additionalInfo: json["additional_info"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -521,15 +521,16 @@ class StickyDatum {
 
   factory StickyDatum.fromJson(Map<String, dynamic> json) => StickyDatum(
         id: json["id"],
-        iosCurrentVersion: json["ios_current_version"],
-        iosLastSupportedVersion: json["ios_last_supported_version"],
-        androidCurrentVersion: json["android_current_version"],
-        androidLastSupportedVersion: json["android_last_supported_version"],
-        googlePlayUrl: json["google_play_url"],
-        appStoreUrl: json["app_store_url"],
-        iosIsActive: json["ios_is_active"],
-        maintenanceMessages: json["maintenance_messages"],
-        androidIsActive: json["android_is_active"],
+        iosCurrentVersion: json["ios_current_version"].toString(),
+        iosLastSupportedVersion: json["ios_last_supported_version"].toString(),
+        androidCurrentVersion: json["android_current_version"].toString(),
+        androidLastSupportedVersion:
+            json["android_last_supported_version"].toString(),
+        googlePlayUrl: json["google_play_url"].toString(),
+        appStoreUrl: json["app_store_url"].toString(),
+        iosIsActive: json["ios_is_active"].toString(),
+        maintenanceMessages: json["maintenance_messages"].toString(),
+        androidIsActive: json["android_is_active"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -661,27 +662,27 @@ class OrdersOriginalData {
   factory OrdersOriginalData.fromJson(Map<String, dynamic> json) =>
       OrdersOriginalData(
         id: json["id"],
-        expectedTimeMinutes: json["expected_time_minutes"],
-        deliveryCost: json["delivery_cost"],
-        supportedCityCost: json["supported_city_cost"],
-        orderStatusId: json["order_status_id"],
-        paymentMethodId: json["payment_method_id"],
-        deliveryMethodId: json["delivery_method_id"],
-        warehouseId: json["warehouse_id"],
-        addressId: json["address_id"],
-        userId: json["user_id"],
-        couponId: json["coupon_id"],
-        userDeliveryRating: json["user_delivery_rating"],
-        userPriceRating: json["user_price_rating"],
-        userComment: json["user_comment"],
-        total: json["total"],
+        expectedTimeMinutes: json["expected_time_minutes"].toString(),
+        deliveryCost: json["delivery_cost"].toString(),
+        supportedCityCost: json["supported_city_cost"].toString(),
+        orderStatusId: json["order_status_id"].toString(),
+        paymentMethodId: json["payment_method_id"].toString(),
+        deliveryMethodId: json["delivery_method_id"].toString(),
+        warehouseId: json["warehouse_id"].toString(),
+        addressId: json["address_id"].toString(),
+        userId: json["user_id"].toString(),
+        couponId: json["coupon_id"].toString(),
+        userDeliveryRating: json["user_delivery_rating"].toString(),
+        userPriceRating: json["user_price_rating"].toString(),
+        userComment: json["user_comment"].toString(),
+        total: json["total"].toString(),
         userData: UserData.fromJson(json["user"]),
         address: OrderAddress.fromJson(json["address"]),
         userNotes: json["user_notes"],
         createdAt: DateTime.parse(json["created_at"]),
-        supportedCityId: json["supported_city_id"],
-        underUpdate: json["under_update"],
-        deliveryStaffId: json["delivery_staff_id"],
+        supportedCityId: json["supported_city_id"].toString(),
+        underUpdate: json["under_update"].toString(),
+        deliveryStaffId: json["delivery_staff_id"].toString(),
         products: List<OrderProducts>.from(
             json["products"].map((x) => OrderProducts.fromJson(x))),
       );
@@ -742,10 +743,10 @@ class OrderProducts {
         id: json["id"],
         name: json["name"],
         description: json["description"],
-        unit: json["unit"],
-        isInFacebook: json["is_in_facebook"],
-        categoryId: json["category_id"],
-        quantity: json["quantity"],
+        unit: json["unit"].toString(),
+        isInFacebook: json["is_in_facebook"].toString(),
+        categoryId: json["category_id"].toString(),
+        quantity: json["quantity"].toString(),
         pivot: OrderProductPivot.fromJson(json["pivot"]),
         images: List<ProductImage>.from(
             json["images"].map((x) => ProductImage.fromJson(x))),
@@ -777,7 +778,7 @@ class ProductImage {
 
   factory ProductImage.fromJson(Map<String, dynamic> json) => ProductImage(
         id: json["id"],
-        productId: json["product_id"],
+        productId: json["product_id"].toString(),
         imageFileName: json["image_file_name"],
       );
 
@@ -800,10 +801,10 @@ class OrderProductPivot {
 
   factory OrderProductPivot.fromJson(Map<String, dynamic> json) =>
       OrderProductPivot(
-        orderId: json["order_id"],
-        productId: json["product_id"],
-        purchasePrice: json["purchase_price"],
-        quantity: json["quantity"],
+        orderId: json["order_id"].toString(),
+        productId: json["product_id"].toString(),
+        purchasePrice: json["purchase_price"].toString(),
+        quantity: json["quantity"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -886,12 +887,12 @@ class IndigoDatum {
   factory IndigoDatum.fromJson(Map<String, dynamic> json) => IndigoDatum(
         id: json["id"],
         name: json["name"],
-        deliveryPrice: json["delivery_price"],
-        warehouseId: json["warehouse_id"],
-        couponTypeId: json["coupon_type_id"],
-        isActive: json["is_active"],
-        supportPhoneNumber: json["support_phone_number"],
-        maintenanceMessages: json["maintenance_messages"],
+        deliveryPrice: json["delivery_price"].toString(),
+        warehouseId: json["warehouse_id"].toString(),
+        couponTypeId: json["coupon_type_id"].toString(),
+        isActive: json["is_active"].toString(),
+        supportPhoneNumber: json["support_phone_number"].toString(),
+        maintenanceMessages: json["maintenance_messages"].toString(),
         warehouse: Warehouse.fromJson(
           json["warehouse"],
         ),
@@ -992,12 +993,12 @@ class UserData {
         phone: json["phone"],
         email: json["email"],
         firebaseToken: json["firebase_token"],
-        isBanned: json["is_banned"],
-        isActivated: json["is_activated"],
-        couponId: json["coupon_id"],
-        rememberToken: json["remember_token"],
-        warehouseId: json["warehouse_id"],
-        supportedCityId: json["supported_city_id"],
+        isBanned: json["is_banned"].toString(),
+        isActivated: json["is_activated"].toString(),
+        couponId: json["coupon_id"].toString(),
+        rememberToken: json["remember_token"].toString(),
+        warehouseId: json["warehouse_id"].toString(),
+        supportedCityId: json["supported_city_id"].toString(),
         // addresses: List<Address>.from(
         //     json["addresses"].map((x) => Address.fromJson(x))),
         coupon: json["coupon"],
@@ -1046,15 +1047,15 @@ class OrderAddress {
 
   factory OrderAddress.fromJson(Map<String, dynamic> json) => OrderAddress(
         id: json["id"],
-        supportedCityId: json["supported_city_id"],
-        street: json["street"],
-        building: json["building"],
-        floor: json["floor"],
-        description: json["description"],
+        supportedCityId: json["supported_city_id"].toString(),
+        street: json["street"].toString(),
+        building: json["building"].toString(),
+        floor: json["floor"].toString(),
+        description: json["description"].toString(),
         deliveryPrice: json["deliveryPrice"],
-        lat: json["lat"],
-        lon: json["lon"],
-        entrance: json["entrance"],
+        lat: json["lat"].toString(),
+        lon: json["lon"].toString(),
+        entrance: json["entrance"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -1101,16 +1102,16 @@ class Address {
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         id: json["id"],
-        supportedCityId: json["supported_city_id"],
-        street: json["street"],
-        building: json["building"],
-        floor: json["floor"],
-        description: json["description"],
-        supportedCityName: json["supportedCityName"],
+        supportedCityId: json["supported_city_id"].toString(),
+        street: json["street"].toString(),
+        building: json["building"].toString(),
+        floor: json["floor"].toString(),
+        description: json["description"].toString(),
+        supportedCityName: json["supportedCityName"].toString(),
         deliveryPrice: json["deliveryPrice"],
-        lat: json["lat"],
-        lon: json["lon"],
-        entrance: json["entrance"],
+        lat: json["lat"].toString(),
+        lon: json["lon"].toString(),
+        entrance: json["entrance"].toString(),
         pivot: AddressPivot.fromJson(json["pivot"]),
       );
 
@@ -1142,8 +1143,8 @@ class AddressPivot {
   dynamic updatedAt;
 
   factory AddressPivot.fromJson(Map<String, dynamic> json) => AddressPivot(
-        userId: json["user_id"],
-        addressId: json["address_id"],
+        userId: json["user_id"].toString(),
+        addressId: json["address_id"].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -1219,9 +1220,9 @@ class DeliveryMethodOriginalData {
       DeliveryMethodOriginalData(
         id: json["id"],
         name: json["name"],
-        price: json["price"],
-        isActive: json["is_active"],
-        message: json["message"],
+        price: json["price"].toString(),
+        isActive: json["is_active"].toString(),
+        message: json["message"].toString(),
       );
 
   Map<String, dynamic> toJson() => {

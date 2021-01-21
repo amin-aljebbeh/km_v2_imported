@@ -111,15 +111,50 @@ class OrdersViewState extends State<OrdersView> {
                                   padding: EdgeInsets.zero,
                                 ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                "طلبات اليوم",
+                                "فلترة الطلبات",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 30),
+                                    fontSize: 20),
+                              ),
+                              DropdownButton(
+                                value: page,
+                                items: [
+                                  DropdownMenuItem<int>(
+                                    child: Text(
+                                      "1",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: UtilsImporter()
+                                              .stringUtils
+                                              .HKGrotesk,
+                                          fontSize: 10),
+                                    ),
+                                    value: 1,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text(
+                                      "2",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: UtilsImporter()
+                                              .stringUtils
+                                              .HKGrotesk,
+                                          fontSize: 10),
+                                    ),
+                                    value: 2,
+                                  ),
+                                ],
+                                onChanged: (value) {
+                                  setState(() {
+                                    page = value;
+                                  });
+                                  _getOrder();
+                                },
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 15),
@@ -309,13 +344,13 @@ class OrdersViewState extends State<OrdersView> {
                                       onTap: () => _onTileClicked(index),
                                       child: OrdersViewCard(
                                         lat: orderDataList[index].address.lat !=
-                                                null
+                                                "null"
                                             ? double.parse(orderDataList[index]
                                                 .address
                                                 .lat)
                                             : null,
                                         lon: orderDataList[index].address.lon !=
-                                                null
+                                                "null"
                                             ? double.parse(orderDataList[index]
                                                 .address
                                                 .lon)
