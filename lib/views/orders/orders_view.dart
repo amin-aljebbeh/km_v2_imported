@@ -111,7 +111,7 @@ class OrdersViewState extends State<OrdersView> {
                                   padding: EdgeInsets.zero,
                                 ),
                           Row(
-                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
                                 "فلترة الطلبات",
@@ -698,7 +698,7 @@ class OrdersViewState extends State<OrdersView> {
               orderLoaded = true;
               errorMessage = true;
               errorMessageVlue =
-                  "لا يمكنك تعديل طلبك حالياً لانه تم الإنتهاء من تطبيق طلبك بنجاح";
+                  "لا يمكنك تعديل الطلب حالياً لان الزبون يقوم بتعديله ";
             });
 
             // Toast.show("حدثت مشكلة أثناء إلغاء الطلب يرجى تحديث لصفحة", context,
