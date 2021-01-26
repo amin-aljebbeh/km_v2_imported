@@ -48,7 +48,7 @@ class FavoraitesViewState extends State<Favoraites> {
     String url = "";
     if (selected == "whatsapp") {
       url = 'whatsapp://send?phone=' +
-          LoadingScreenServices.companyInformation.whatsappNumber;
+          LoadingScreenServices.supportPhoneNumber.toString();
     } else if (selected == "messenger") {
       url = LoadingScreenServices.companyInformation.messengerUrl;
     } else if (selected == "facebook") {
@@ -66,7 +66,7 @@ class FavoraitesViewState extends State<Favoraites> {
       url =
           "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
     } else if (selected == "number") {
-      url = "tel:${LoadingScreenServices.supportPhoneNumber}";
+      url = "tel:${LoadingScreenServices.supportPhoneNumber.toString()}";
     }
 
     launch(url);

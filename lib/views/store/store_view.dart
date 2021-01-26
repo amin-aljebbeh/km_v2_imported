@@ -276,7 +276,7 @@ class StoreViewState extends State<StoreView> {
     String url = "";
     if (selected == "whatsapp") {
       url = 'whatsapp://send?phone=' +
-          LoadingScreenServices.companyInformation.whatsappNumber;
+          LoadingScreenServices.supportPhoneNumber.toString();
     } else if (selected == "messenger") {
       url = LoadingScreenServices.companyInformation.messengerUrl;
     } else if (selected == "facebook") {
@@ -296,7 +296,7 @@ class StoreViewState extends State<StoreView> {
     } else if (selected == "number") {
       Tools.logToConsole("-------- Support number ----------");
 
-      url = "tel:${LoadingScreenServices.supportPhoneNumber}";
+      url = "tel:${LoadingScreenServices.supportPhoneNumber.toString()}";
     }
 
     launch(url);

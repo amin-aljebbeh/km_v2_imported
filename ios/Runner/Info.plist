@@ -27,6 +27,7 @@
 		<string>whatsapp</string>
 		<string>fb</string>
 		<string>mailto</string>
+		<string>instagram</string>
 		<string>tel</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
