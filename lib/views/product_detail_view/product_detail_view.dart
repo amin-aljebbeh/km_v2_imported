@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -285,84 +285,80 @@ class ProductDetailViewState extends State<ProductDetailView>
                           fontSize: 20),
                     ),
                     SizedBox(height: 10),
-                    int.parse(widget.products.isActive) != 0
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0),
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      if (no_of_orders > 1) {
-                                        no_of_orders = no_of_orders - 1;
-                                      }
-                                    });
-                                  },
-                                  child: Image.asset(
-                                    "assets/remove.png",
-                                    width: 60,
-                                    height: 60,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Text(no_of_orders.toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey[700],
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
-                                        fontSize: 30)),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0),
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      no_of_orders = no_of_orders + 1;
-                                    });
-                                  },
-                                  child: Image.asset(
-                                    "assets/add.png",
-                                    width: 60,
-                                    height: 60,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Container(
-                            margin: const EdgeInsets.all(10.0),
-                            padding: const EdgeInsets.all(3.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                        10.0) //                 <--- border radius here
-                                    ),
-                                border: Border.all(
-                                    color:
-                                        UtilsImporter().colorUtils.primarycolor,
-                                    width: 4)),
-                            child: Center(
-                                child: Text(
-                              "المنتج نفذ من المستودعات",
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk),
-                            )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                if (no_of_orders > 1) {
+                                  no_of_orders = no_of_orders - 1;
+                                }
+                              });
+                            },
+                            child: Image.asset(
+                              "assets/remove.png",
+                              width: 60,
+                              height: 60,
+                            ),
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(no_of_orders.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey[700],
+                                  fontFamily:
+                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontSize: 30)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                no_of_orders = no_of_orders + 1;
+                              });
+                            },
+                            child: Image.asset(
+                              "assets/add.png",
+                              width: 60,
+                              height: 60,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 30),
+                    Container(
+                      margin: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(3.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  10.0) //                 <--- border radius here
+                              ),
+                          border: Border.all(
+                              color: UtilsImporter().colorUtils.primarycolor,
+                              width: 4)),
+                      child: Center(
+                          child: Text(
+                        "المنتج نفذ من المستودعات",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                      )),
+                    ),
+
                     int.parse(widget.products.isActive) != 0
                         ? SizedBox(height: 30)
                         : Container(),
-                    int.parse(widget.products.isActive) != 0
-                        ? _showAddToOrderButton(context)
-                        : Container(),
-                    Builder(builder: (context) => _showAddToFavorait(context)),
+                    SizedBox(height: 30),
+                    _showAddToOrderButton(context),
+
+                    // Builder(builder: (context) => _showAddToFavorait(context)),
                   ],
                 ),
               ),

@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:badges/badges.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
@@ -326,6 +328,7 @@ class ProductsViewState extends State<ProductsView> {
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => _onTileClicked(index),
                                       child: ProductsViewCard(
+                                        productId: eachProduct.id.toString(),
                                         active: int.parse(eachProduct.isActive),
                                         img: eachProduct.images.length > 0
                                             ? LoadingScreenServices
@@ -403,7 +406,8 @@ class ProductsViewCard extends StatefulWidget {
   final String quantity;
   final int price;
   final int index;
-  final int active;
+  int active;
+  final String productId;
 
   ProductsViewCard(
       {this.img,
@@ -411,6 +415,7 @@ class ProductsViewCard extends StatefulWidget {
       this.quantity,
       this.price,
       this.index,
+      this.productId,
       this.active});
 
   @override
@@ -421,6 +426,85 @@ class ProductsViewCard extends StatefulWidget {
 
 class ProductsViewCardState extends State<ProductsViewCard> {
   bool addedToCart = false;
+
+  Future<bool> updateStatus(String productId, String statusId) async {
+    Map jsonData = {
+      // 'name': widget.productName,
+      // 'quantity': widget.quantity,
+      // 'is_featured': widget.isFeatured,
+      // 'priority': widget.priority,
+      // 'price': widget.price,
+      // 'unit': widget.unit,
+      // 'is_in_facebook': widget.isInfacebook,
+      // 'description': widget.description,
+      // 'category_id': widget.categoryId,
+      'is_active': statusId,
+    };
+
+    var response = await ApiProvider.sendRequest(
+      url: GET_PRODUCT + "$productId",
+      method: httpMethods.put,
+      body: jsonEncode(jsonData),
+    );
+
+    Tools.logToConsole(response.data);
+
+    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      Flushbar(
+        backgroundColor: Colors.green,
+        // titleText: Text("تمت الإضافة بنجاح"),
+        messageText: Text(
+          "تم التعديل بنجاح",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+        ),
+
+        boxShadows: [
+          BoxShadow(
+            color: UtilsImporter().colorUtils.primarycolor,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          )
+        ],
+        icon: Icon(
+          Icons.assignment_turned_in,
+          size: 28.0,
+          color: Colors.white,
+        ),
+        duration: Duration(seconds: 3),
+        leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      )..show(context);
+      return true;
+    } else {
+      Flushbar(
+        backgroundColor: Colors.red[900],
+        messageText: Text(
+          "فشل في العملية يرجى المحاولة من جديد",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.red,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          )
+        ],
+        icon: Icon(
+          Icons.close,
+          size: 28.0,
+          color: Colors.white,
+        ),
+        duration: Duration(seconds: 3),
+        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      )..show(context);
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -505,41 +589,79 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                     ],
                   ),
                 )),
-                widget.active == 0
-                    ? Badge(
-                        borderRadius: BorderRadius.zero,
-                        shape: BadgeShape.square,
-                        badgeColor: UtilsImporter().colorUtils.primarycolor,
-                        badgeContent: Padding(
-                          padding: const EdgeInsets.only(
-                            right: 10.0,
+                Container(
+                  margin: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(
+                              10.0) //                 <--- border radius here
                           ),
-                          child: Column(
-                            children: [
-                              Text(
-                                'نفذ من',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-
-                                    //fontWeight: FontWeight.w500,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
-                              ),
-                              Text(
-                                'المستودعات',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    //   fontWeight: FontWeight.w500,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
-                              ),
-                            ],
-                          ),
+                      border: Border.all(
+                          color: UtilsImporter().colorUtils.primarycolor,
+                          width: 2)),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Switch(
+                          value: widget.active == 1 ? true : false,
+                          onChanged: (value) {
+                            if (widget.active == 1) {
+                              updateStatus(widget.productId, "0");
+                            } else {
+                              updateStatus(widget.productId, "1");
+                            }
+                            setState(() {
+                              if (widget.active == 1) {
+                                widget.active = 0;
+                              } else {
+                                widget.active = 1;
+                              }
+                            });
+                          },
+                          activeTrackColor:
+                              UtilsImporter().colorUtils.kmColors2,
+                          activeColor: UtilsImporter().colorUtils.kmColors,
                         ),
-                      )
-                    : Container(),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // widget.active == 0
+                //     ? Badge(
+                //         borderRadius: BorderRadius.zero,
+                //         shape: BadgeShape.square,
+                //         badgeColor: UtilsImporter().colorUtils.primarycolor,
+                //         badgeContent: Padding(
+                //           padding: const EdgeInsets.only(
+                //             right: 10.0,
+                //           ),
+                //           child: Column(
+                //             children: [
+                //               Text(
+                //                 'نفذ من',
+                //                 style: TextStyle(
+                //                     color: Colors.white,
+                //                     fontSize: 15,
+
+                //                     //fontWeight: FontWeight.w500,
+                //                     fontFamily:
+                //                         UtilsImporter().stringUtils.HKGrotesk),
+                //               ),
+                //               Text(
+                //                 'المستودعات',
+                //                 style: TextStyle(
+                //                     color: Colors.white,
+                //                     fontSize: 15,
+                //                     //   fontWeight: FontWeight.w500,
+                //                     fontFamily:
+                //                         UtilsImporter().stringUtils.HKGrotesk),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       )
+                //     : Container(),
               ],
             ),
           ],
