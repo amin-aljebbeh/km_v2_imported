@@ -50,19 +50,19 @@ class StoreViewState extends State<StoreView> {
     //   Navigator.push(context,
     //       new MaterialPageRoute(builder: (context) => new InternetError()));
     // }
-    bool isThereOrderUnderUbdate = false;
-    for (int i = 0; i < LoadingScreenServices.myOrdersList.length; i++) {
-      if (LoadingScreenServices.myOrdersList[i].underUpdate == "1") {
-        isThereOrderUnderUbdate = true;
-      }
-    }
+    // bool isThereOrderUnderUbdate = false;
+    // for (int i = 0; i < LoadingScreenServices.myOrdersList.length; i++) {
+    //   if (LoadingScreenServices.myOrdersList[i].underUpdate == "1") {
+    //     isThereOrderUnderUbdate = true;
+    //   }
+    // }
     if (Services.updateOption)
       WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog());
 
-    if (isThereOrderUnderUbdate) {
-      WidgetsBinding.instance.addPostFrameCallback(
-          (_) => _showUpdateOrderInstruction(context: context));
-    }
+    // if (isThereOrderUnderUbdate) {
+    //   WidgetsBinding.instance.addPostFrameCallback(
+    //       (_) => _showUpdateOrderInstruction(context: context));
+    // }
   }
 
   Widget _updateButton() {

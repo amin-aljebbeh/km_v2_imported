@@ -221,8 +221,8 @@ class OrderServices {
     try {
       var body = {"order_status_id": "$statusId"};
       var response = await ApiProvider.sendRequest(
-        url: ORDER + "/$orderId",
-        method: httpMethods.put,
+        url: ORDER + "/change_order_status/$orderId",
+        method: httpMethods.post,
         body: jsonEncode(body),
       );
       Tools.logToConsole("ChangeStatusCode is: ");
@@ -230,9 +230,8 @@ class OrderServices {
 
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         return true;
-      }else{
-      return false;
-
+      } else {
+        return false;
       }
     } catch (e) {
       Tools.logToConsole("------------ ERROR Catched --------------");

@@ -295,8 +295,13 @@ class OrderDetailViewState extends State<OrderDetailView> {
                     SizedBox(height: 5),
                     // _showReOrderButton(),
                     int.parse(LoadingScreenServices
-                                .myOrdersList[orderArrayIndex].orderStatusId) <=
-                            4
+                                    .myOrdersList[orderArrayIndex]
+                                    .orderStatusId) <=
+                                4 &&
+                            int.parse(LoadingScreenServices
+                                    .myOrdersList[orderArrayIndex]
+                                    .underUpdate) !=
+                                1
                         ? Padding(
                             padding: const EdgeInsets.only(left: 10.0),
                             child: _showCancelButton(idOrder),

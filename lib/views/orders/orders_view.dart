@@ -34,9 +34,17 @@ class OrdersViewState extends State<OrdersView> {
   @override
   void initState() {
     rateValue = 0;
-    getOrders = _getOrder();
+
+    if (LoadingScreenServices.myOrdersList.length == 0) {
+      getOrders = _getOrder();
+    } else {
+      getOrders = _initalFunction();
+      orderDataList = LoadingScreenServices.myOrdersList;
+    }
     super.initState();
   }
+
+  _initalFunction() {}
 
   bool orderLoaded = true;
   bool errorMessage = false;
@@ -44,6 +52,19 @@ class OrdersViewState extends State<OrdersView> {
   bool isLoading = false;
   int page = 1;
   bool theEndOfOrders = false;
+
+  int filterOrders = 0;
+
+  List<String> orderStatus = [
+    "فلترة الطلبات",
+    "قيد المعالجة",
+    "تم قبولها",
+    "تم تجهيزها",
+    "مع التوصيل",
+    "تم توصيلها",
+    "تم إلغائها",
+    "تم رفضها"
+  ];
 
   List<OrdersOriginalData> orderDataList = new List<OrdersOriginalData>();
   _getOrder() async {
@@ -68,6 +89,13 @@ class OrdersViewState extends State<OrdersView> {
       } else {
         setState(() {
           orderDataList.addAll(orderList);
+          if (filterOrders == 0) {
+            orderDataList
+                .removeWhere((order) => int.parse(order.orderStatusId) > 5);
+          } else {
+            orderDataList.removeWhere(
+                (order) => int.parse(order.orderStatusId) != filterOrders);
+          }
           LoadingScreenServices.myOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
@@ -113,45 +141,108 @@ class OrdersViewState extends State<OrdersView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(
-                                "فلترة الطلبات",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 20),
-                              ),
                               DropdownButton(
-                                value: page,
+                                value: filterOrders,
                                 items: [
                                   DropdownMenuItem<int>(
                                     child: Text(
-                                      "1",
+                                      orderStatus[0],
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
                                           fontFamily: UtilsImporter()
                                               .stringUtils
-                                              .HKGrotesk,
-                                          fontSize: 10),
+                                              .HKGrotesk),
+                                    ),
+                                    value: 0,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text(
+                                      orderStatus[1],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
                                     ),
                                     value: 1,
                                   ),
                                   DropdownMenuItem<int>(
                                     child: Text(
-                                      "2",
+                                      orderStatus[2],
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
-                                          fontSize: 10),
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
                                     ),
                                     value: 2,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text(
+                                      orderStatus[3],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
+                                    ),
+                                    value: 3,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text(
+                                      orderStatus[4],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
+                                    ),
+                                    value: 4,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text(
+                                      orderStatus[5],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
+                                    ),
+                                    value: 5,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text(
+                                      orderStatus[6],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
+                                    ),
+                                    value: 6,
+                                  ),
+                                  DropdownMenuItem<int>(
+                                    child: Text(
+                                      orderStatus[7],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
+                                    ),
+                                    value: 7,
                                   ),
                                 ],
                                 onChanged: (value) {
                                   setState(() {
-                                    page = value;
+                                    filterOrders = value;
                                   });
                                   _getOrder();
                                 },

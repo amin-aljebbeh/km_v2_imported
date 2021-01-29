@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
@@ -207,7 +207,7 @@ class HomeViewState extends State<HomeView> {
         isFromUpdateOrder: _isFromUpdateOrder,
       ),
       OrdersView(),
-      Favoraites(),
+      // Favoraites(),
     ];
     return Scaffold(
       body: _tabs[_selectedIndex],
@@ -263,24 +263,24 @@ class HomeViewState extends State<HomeView> {
                     fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                     fontSize: 15),
               )),
-          BottomNavigationBarItem(
-              activeIcon: Icon(
-                Icons.favorite,
-                //   color: Theme.of(context).primaryColor,
-                color: Color.fromARGB(255, 210, 178, 2),
-              ),
-              icon: Icon(
-                Icons.favorite,
-                color: Color.fromARGB(255, 53, 99, 124),
-              ),
-              title: Text(
-                UtilsImporter().stringUtils.profile,
-                style: TextStyle(
-                    color: Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                    fontSize: 15),
-              )),
+          // BottomNavigationBarItem(
+          //     activeIcon: Icon(
+          //       Icons.favorite,
+          //       //   color: Theme.of(context).primaryColor,
+          //       color: Color.fromARGB(255, 210, 178, 2),
+          //     ),
+          //     icon: Icon(
+          //       Icons.favorite,
+          //       color: Color.fromARGB(255, 53, 99, 124),
+          //     ),
+          //     title: Text(
+          //       UtilsImporter().stringUtils.profile,
+          //       style: TextStyle(
+          //           color: Color.fromARGB(255, 53, 99, 124),
+          //           fontWeight: FontWeight.w500,
+          //           fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+          //           fontSize: 15),
+          //     )),
         ],
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,

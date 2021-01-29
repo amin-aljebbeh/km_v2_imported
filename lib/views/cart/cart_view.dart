@@ -120,11 +120,11 @@ class CartViewState extends State<CartView> {
               orderArray[i].productCount);
     }
 
-    Tools.logToConsole(widget.isFromUpdateOrder);
-    widget.isFromUpdateOrder
-        ? WidgetsBinding.instance.addPostFrameCallback(
-            (_) => _showUpdateOrderInstruction(context: context))
-        : {};
+    // Tools.logToConsole(widget.isFromUpdateOrder);
+    // widget.isFromUpdateOrder
+    //     ? WidgetsBinding.instance.addPostFrameCallback(
+    //         (_) => _showUpdateOrderInstruction(context: context))
+    //     : {};
   }
 
   void onrRemove(item) {

@@ -333,28 +333,29 @@ class ProductDetailViewState extends State<ProductDetailView>
                       ],
                     ),
                     SizedBox(height: 30),
-                    Container(
-                      margin: const EdgeInsets.all(10.0),
-                      padding: const EdgeInsets.all(3.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(
-                                  10.0) //                 <--- border radius here
-                              ),
-                          border: Border.all(
-                              color: UtilsImporter().colorUtils.primarycolor,
-                              width: 4)),
-                      child: Center(
-                          child: Text(
-                        "المنتج نفذ من المستودعات",
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                      )),
-                    ),
-
-                    int.parse(widget.products.isActive) != 0
-                        ? SizedBox(height: 30)
+                    int.parse(widget.products.isActive) == 0
+                        ? Container(
+                            margin: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(3.0),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                        10.0) //                 <--- border radius here
+                                    ),
+                                border: Border.all(
+                                    color:
+                                        UtilsImporter().colorUtils.primarycolor,
+                                    width: 4)),
+                            child: Center(
+                                child: Text(
+                              "المنتج نفذ من المستودعات",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontFamily:
+                                      UtilsImporter().stringUtils.HKGrotesk),
+                            )),
+                          )
                         : Container(),
+
                     SizedBox(height: 30),
                     _showAddToOrderButton(context),
 
