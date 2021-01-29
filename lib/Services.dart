@@ -293,7 +293,7 @@ class Services {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("userToken", data["api_token"]);
       LoadingScreen.user_token = "Bearer " + data["api_token"];
-      if (data["api_token"] == "APPLE_VERIFICATION") {
+      if (data["api_token"].toString().contains("APPLE_VERIFICATION")) {
         BaseUrl = APPLE_BASEURL;
       } else {
         BaseUrl = PRODUCTION_BASE_URL;

@@ -92,6 +92,32 @@ class StoreViewState extends State<StoreView> {
         child: loginButtonWithGesture);
   }
 
+  Widget _okButton() {
+    final GestureDetector loginButtonWithGesture = new GestureDetector(
+      onTap: () => Navigator.of(context).pop(),
+      child: new Container(
+        height: 50.0,
+        decoration: new BoxDecoration(
+            color: UtilsImporter().colorUtils.primarycolor,
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new Text(
+            "موافق",
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+        child: loginButtonWithGesture);
+  }
+
   Widget _cancelButton() {
     final GestureDetector loginButtonWithGesture = new GestureDetector(
       onTap: () {
@@ -227,19 +253,6 @@ class StoreViewState extends State<StoreView> {
             content: Stack(
               overflow: Overflow.visible,
               children: <Widget>[
-                Positioned(
-                  right: -40.0,
-                  top: -40.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
-                ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -249,21 +262,24 @@ class StoreViewState extends State<StoreView> {
                       child: Text(
                         "لديك طلب قيد التعديل",
                         style: TextStyle(
-                            fontWeight: FontWeight.w700,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                             fontSize: 18),
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.only(left: 8, right: 8),
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "يرجى التأكد من تثبيت الطلب بعد الإنتهاء من تعديله، يمكنك مشاهدة محتويات الطلب ضمن سلة المشتريات أو مراجعة الطلب ضمن صفحة الطلبات",
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
+                            color: Colors.grey[800],
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                             fontSize: 18),
                       ),
                     ),
+                    _okButton(),
                   ],
                 ),
               ],

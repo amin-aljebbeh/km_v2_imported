@@ -24,6 +24,8 @@ class AlertMessages extends StatelessWidget {
     @required this.messageType,
     this.headerText,
     this.headerTextColor,
+    this.headerTextSize,
+    this.messageTextSize,
   });
 
   void selectListItem(BuildContext ctx) {

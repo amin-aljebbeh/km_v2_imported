@@ -242,13 +242,32 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                     ),
                                   ),
                                   Center(
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 18.0),
+                                      child: AlertMessages(
+                                        headerTextSize: 23,
+                                        messageTextSize: 20,
+                                        messageType: "Successfully",
+                                        headerText: "شرح عن طريقة التوصيل",
+                                        text: DeliveryMethodServices
+                                            .deliveryMethodsList[selectedIndex]
+                                            .pivot
+                                            .message,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Center(
                                     // padding: const EdgeInsets.all(8.0),
                                     child: Text("اجرةالتوصيل النهائية",
                                         style: TextStyle(
                                             color: UtilsImporter()
                                                 .colorUtils
                                                 .primarycolor,
-                                            fontSize: 25.0,
+                                            fontSize: 30.0,
                                             fontWeight: FontWeight.w500,
                                             fontFamily: UtilsImporter()
                                                 .stringUtils
@@ -265,26 +284,11 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                             color: UtilsImporter()
                                                 .colorUtils
                                                 .primarycolor,
-                                            fontSize: 25.0,
+                                            fontSize: 30.0,
                                             fontWeight: FontWeight.w500,
                                             fontFamily: UtilsImporter()
                                                 .stringUtils
                                                 .HKGrotesk)),
-                                  ),
-                                 
-                                  Center(
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 18.0),
-                                      child: AlertMessages(
-                                        messageType: "Successfully",
-                                        headerText: "شرح عن طريقة التوصيل",
-                                        text: DeliveryMethodServices
-                                            .deliveryMethodsList[selectedIndex]
-                                            .pivot
-                                            .message,
-                                      ),
-                                    ),
                                   ),
                                 ],
                               ),

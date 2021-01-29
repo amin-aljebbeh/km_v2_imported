@@ -92,8 +92,8 @@ class LoadingScreenServices {
           supportedCityOriginalFromJson(jsonEncode(response.data));
       supportedCityOriginal = supportedCitiesResponse;
 
+      supportedCityOriginal.data.removeWhere((city) => city.isActive == "0");
       supportedCitiesListIntro.clear();
-      Tools.logToConsole(supportedCitiesResponse.data.length);
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
         supportedCitiesListIntro.add(new DropdownMenuItem(
           child: ListTile(
@@ -144,7 +144,7 @@ class LoadingScreenServices {
         Tools.logToConsole(
             "supportedCitySelected :" + userSelectSupportedCity.toString());
         LoadingScreen.user_token = "Bearer " + userToken;
-        if (userToken == "APPLE_VERIFICATION") {
+        if (userToken.contains("APPLE_VERIFICATION")) {
           BaseUrl = APPLE_BASEURL;
         } else {
           BaseUrl = PRODUCTION_BASE_URL;
@@ -409,16 +409,6 @@ class LoadingScreenServices {
       // -------------------------------------------------------------------- //
       // Get Delivery Methods
 
-      // deliveryMethodsList.clear();
-      // for (int i = 0;
-      //     i < startRequest.deliveryMethod.original.data.length;
-      //     i++) {
-      //   if (startRequest.deliveryMethod.original.data[i].isActive == "1") {
-      //     deliveryMethodsList.add(startRequest.deliveryMethod.original.data[i]);
-      //   }
-      // }
-      // deliveryMethodsList = startRequest.deliveryMethod.original.data;
-
       Tools.logToConsole("======= Get Delivery method DONE =======");
 
       // --------------------------------------------------------------------- //
@@ -437,7 +427,7 @@ class LoadingScreenServices {
           supportPhoneNumber =
               supportedCitiesResponse.data[i].supportPhoneNumber;
 
-          if (supportedCitiesResponse.data[i].isActive == "0" ||
+          if (supportedCitiesResponse.data[i].isActive == "2" ||
               (Platform.isIOS &&
                   startRequest.mobileAppConfigs.original.data[0].iosIsActive ==
                       "0") ||
@@ -479,18 +469,21 @@ class LoadingScreenServices {
         }
 
         // Tools.logToConsole("################ SUPPORTED CITIES ####################");
+        if (int.parse(supportedCitiesResponse.data[i].isActive) != 0) {
+          supportedCitiesList.add(new DropdownMenuItem(
+            child: Text(
+              "${supportedCitiesResponse.data[i].name} - التوصيل : ${supportedCitiesResponse.data[i].deliveryPrice}",
+              style:
+                  TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            ),
+            value: supportedCitiesResponse.data[i].name +
+                " price" +
+                "${supportedCitiesResponse.data[i].deliveryPrice}" +
+                "id" +
+                supportedCitiesResponse.data[i].id.toString(),
+          ));
+        }
 
-        supportedCitiesList.add(new DropdownMenuItem(
-          child: Text(
-            "${supportedCitiesResponse.data[i].name} - التوصيل : ${supportedCitiesResponse.data[i].deliveryPrice}",
-            style: TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-          value: supportedCitiesResponse.data[i].name +
-              " price" +
-              "${supportedCitiesResponse.data[i].deliveryPrice}" +
-              "id" +
-              supportedCitiesResponse.data[i].id.toString(),
-        ));
         Tools.logToConsole(
             "The dropdownList value:" + supportedCitiesResponse.data[i].name);
       }
