@@ -26,6 +26,7 @@ class CartViewState extends State<CartView> {
   int subtotal = 0;
   int delivaryCost = 10;
   static List<int> cards = [];
+  int indexToEdit = -1;
 
   makeCards() {
     cards = [];
@@ -106,6 +107,18 @@ class CartViewState extends State<CartView> {
             ),
           );
         });
+  }
+
+  _calculateTotal() {
+    subtotal = 0;
+
+    setState(() {
+      for (int i = 0; i < orderArray.length; i++) {
+        subtotal = subtotal +
+            ((int.parse(orderArray[i].price.split(".")[0])) *
+                orderArray[i].productCount);
+      }
+    });
   }
 
   @override
@@ -229,6 +242,8 @@ class CartViewState extends State<CartView> {
         ));
   }
 
+  TextEditingController _priceController = new TextEditingController();
+
   Widget cardBody(int index, BuildContext context) {
     return Container(
       child: Column(
@@ -300,22 +315,77 @@ class CartViewState extends State<CartView> {
                                   fontSize: 17),
                             ),
                             SizedBox(height: 8),
-                            Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color:
-                                        UtilsImporter().colorUtils.primarycolor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 18)),
-                            //SizedBox(height: 8),
-                            // IconButton(
-                            //   icon: Icon(Icons.delete_forever),
-                            //   color: Colors.red,
-                            //   onPressed: () {},
-                            //     iconSize: 30,
-                            // ),
+                            Row(
+                              children: [
+                                indexToEdit == index
+                                    ? Expanded(
+                                        flex: 2,
+                                        child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          child: TextFormField(
+                                            controller: _priceController,
+                                            textAlign: TextAlign.center,
+                                            keyboardType: TextInputType.number,
+                                            decoration: new InputDecoration(
+                                              hintText: "السعر الجديد",
+                                              fillColor: Colors.white,
+                                              border: new OutlineInputBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        10.0),
+                                                borderSide: new BorderSide(),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Text(
+                                        "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            color: UtilsImporter()
+                                                .colorUtils
+                                                .primarycolor,
+                                            fontFamily: UtilsImporter()
+                                                .stringUtils
+                                                .HKGrotesk,
+                                            fontSize: 18)),
+                                indexToEdit == index
+                                    ? IconButton(
+                                        icon: Icon(Icons.save_rounded),
+                                        color: Colors.green,
+                                        onPressed: () {
+                                          setState(() {
+                                            indexToEdit = -1;
+                                            if (_priceController.text.length >
+                                                0) {
+                                              orderArray[index].price =
+                                                  _priceController.text;
+                                            }
+                                          });
+                                          _priceController.text = "";
+
+                                          _calculateTotal();
+                                        },
+                                        iconSize: 30,
+                                      )
+                                    : IconButton(
+                                        icon: Icon(Icons.edit),
+                                        color: Colors.green,
+                                        onPressed: () {
+                                          setState(() {
+                                            indexToEdit = index;
+
+                                            orderArray[index].price = "50";
+                                          });
+
+                                          _calculateTotal();
+                                        },
+                                        iconSize: 30,
+                                      ),
+                              ],
+                            ),
                           ],
                         ),
                       ),

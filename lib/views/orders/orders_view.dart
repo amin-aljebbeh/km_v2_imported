@@ -477,7 +477,8 @@ class OrdersViewState extends State<OrdersView> {
                                         order_created_date: dateTime,
                                       ),
                                     ),
-                                    orderDataList[index].userNotes != null
+                                    orderDataList[index].userNotes.toString() !=
+                                            "null"
                                         ? _showUserNoteButton(index)
                                         : Container(),
                                     (int.parse(orderDataList[index]
