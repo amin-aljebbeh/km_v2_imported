@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cache_image/cache_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -15,6 +16,7 @@ class OrderDetailView extends StatefulWidget {
   String delivery_price;
   int orderIndex;
   int orderId;
+  String addressName;
 
   OrderDetailView(
       {this.ordersAry,
@@ -22,6 +24,7 @@ class OrderDetailView extends StatefulWidget {
       this.total,
       this.delivery_price,
       this.orderId,
+      this.addressName,
       this.orderIndex});
 
   @override
@@ -157,19 +160,23 @@ class OrderDetailViewState extends State<OrderDetailView> {
                               Navigator.of(context).pop();
                             }),
                         InkWell(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              UtilsImporter().stringUtils.order_detail,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                  fontSize: 30),
-                            )),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: AutoSizeText(
+                            widget.addressName,
+                            maxLines: 1,
+                            // maxFontSize: 20,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
+
                     erroAlert
                         ? AlertMessages(
                             text: "خطأ اثناء محاولة تغيير حالة الطلب",

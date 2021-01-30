@@ -840,6 +840,7 @@ class OrdersViewState extends State<OrdersView> {
                   orderId: orderDataList[index].id,
                   orderIndex: index,
                   ordersAry: ordAry,
+                  addressName: orderDataList[index].address.street,
                   subTotal: int.parse(
                           orderDataList[index].total.toString().split(".")[0]) -
                       int.parse(orderDataList[index]
