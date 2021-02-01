@@ -19,7 +19,8 @@ class OrderServices {
   static int orderUnderUpdateIndex = -1;
   static String updateOrderNote = "";
 
-  static Future<OrderResponse> submitNewOrder({String userNotes}) async {
+  static Future<OrderResponse> submitNewOrder(
+      {String userNotes, bool checkPrices = true}) async {
     String productIds = "";
     String quantities = "";
     String productPrices = "";
@@ -52,7 +53,8 @@ class OrderServices {
       "quantities": quantities.substring(0, quantities.length - 1),
       "purchase_prices": purchasePrices.toString(),
       "product_prices": productPrices.substring(0, productPrices.length - 1),
-      "user_notes": "$userNotes"
+      "user_notes": "$userNotes",
+      "check_changed_price_product": checkPrices ? "1" : "0"
     };
 
     try {
@@ -74,7 +76,8 @@ class OrderServices {
     }
   }
 
-  static Future<OrderResponse> updateOrder({String userNotes}) async {
+  static Future<OrderResponse> updateOrder(
+      {String userNotes, bool checkPrices = true}) async {
     String productIds = "";
     String quantities = "";
     String productPrices = "";
@@ -103,7 +106,8 @@ class OrderServices {
       "quantities": quantities.substring(0, quantities.length - 1),
       "purchase_prices": purchasePrices.toString(),
       "product_prices": productPrices.substring(0, productPrices.length - 1),
-      "user_notes": "$userNotes"
+      "user_notes": "$userNotes",
+      "check_changed_price_product": checkPrices ? "1" : "0"
     };
     orderId = LoadingScreenServices
         .myOrdersList[OrderServices.orderUnderUpdateIndex].id

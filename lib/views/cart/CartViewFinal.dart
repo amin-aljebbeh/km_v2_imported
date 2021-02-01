@@ -179,12 +179,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                       color: Theme.of(context).primaryColorDark,
                                       size: 45),
                                   onPressed: () {
-                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop("updatePrice");
                                   }),
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.of(context).pop();
+                                Navigator.of(context).pop("updatePrice");
                               },
                               child: Text(
                                 UtilsImporter().stringUtils.shoppingcart,
@@ -650,14 +650,18 @@ class _CartViewFinalState extends State<CartViewFinal> {
       builder: (context) => OrderProblemBottomSheet(
         notActiveProducts: notactiveId,
         pricesChangesProducts: priceId,
-        applyChanges: () {
-          _reloadPrices();
+        applyChanges: (submitOrder) {
+          if (submitOrder) {
+            _showConfirmOrderBtnTapped(checkOrderPrice: false);
+          } else {
+            _reloadPrices();
+          }
         },
       ),
     );
   }
 
-  void _showConfirmOrderBtnTapped() async {
+  void _showConfirmOrderBtnTapped({bool checkOrderPrice = true}) async {
     setState(() {
       loadingScreen = true;
       errorCode = false;
@@ -669,8 +673,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
     OrderResponse orderResponse;
     if (OrderServices.orderUnderUpdateIndex != -1) {
       Tools.logToConsole("updating Order");
-      orderResponse =
-          await OrderServices.updateOrder(userNotes: _userNotes.text);
+      orderResponse = await OrderServices.updateOrder(
+          userNotes: _userNotes.text, checkPrices: checkOrderPrice);
 
       setState(() {
         try {
@@ -708,8 +712,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
         }
       });
     } else {
-      orderResponse =
-          await OrderServices.submitNewOrder(userNotes: _userNotes.text);
+      orderResponse = await OrderServices.submitNewOrder(
+          userNotes: _userNotes.text, checkPrices: checkOrderPrice);
 
       setState(() {
         try {

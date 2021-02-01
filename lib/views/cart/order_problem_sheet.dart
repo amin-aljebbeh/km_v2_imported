@@ -1,5 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -11,7 +11,7 @@ import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 class OrderProblemBottomSheet extends StatefulWidget {
   final List<int> notActiveProducts;
   final List<int> pricesChangesProducts;
-  final Function applyChanges;
+  final Function(bool updatePrice) applyChanges;
   OrderProblemBottomSheet(
       {@required this.notActiveProducts,
       @required this.pricesChangesProducts,
@@ -467,7 +467,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
 
   Widget _applyChanges() {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: widget.applyChanges,
+      onTap: () => widget.applyChanges(false),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
         child: new Container(
@@ -482,10 +482,10 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
               "تحديث الطلب",
               style: new TextStyle(
                   color: Colors.white,
-                  fontSize: 20.0,
+                //fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                   fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-              maxLines: 2,
+              maxLines: 1,
               wrapWords: false,
             ),
           ),
@@ -501,7 +501,9 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
   Widget _showEditOrder() {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
       onTap: () {
-        KammunRestart.restartApp(context);
+        // KammunRestart.restartApp(context);
+        Navigator.of(context).pop();
+        widget.applyChanges(true);
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
@@ -510,17 +512,17 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
           height: 50.0,
           width: MediaQuery.of(context).size.width / 2.3,
           decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.primarycolor,
+              color: Colors.red,
               borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: new Center(
             child: new AutoSizeText(
-              "محاولة إيجاد بدائل",
+              "!! إرسال الطلب !!",
               style: new TextStyle(
                   color: Colors.white,
-                  fontSize: 20.0,
+                  // fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                   fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-              maxLines: 2,
+              maxLines: 1,
               wrapWords: false,
             ),
           ),

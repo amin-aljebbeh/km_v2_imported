@@ -495,7 +495,10 @@ class CartViewState extends State<CartView> {
   void _showConfirmOrderBtnTapped() {
     if (CartServices.cartProducts.length > 0) {
       Navigator.push(context,
-          new MaterialPageRoute(builder: (context) => new CartViewFinal()));
+              new MaterialPageRoute(builder: (context) => new CartViewFinal()))
+          .then((onValue) {
+        _calculateTotal();
+      });
 
       // Tools.logToConsole(
       //     "the orderUnderUpdateIndex value is : ${OrderServices.orderUnderUpdateIndex}");
