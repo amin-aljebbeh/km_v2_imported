@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen>
         Tools.logToConsole(
             "Signature: ###################" + signature.toString());
         if (signature.toString().length != 11) {
-          signature = "no";
+          signature = "";
         }
         bool response = await Services.loginUser(
             phoneNumber:

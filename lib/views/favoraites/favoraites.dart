@@ -326,7 +326,7 @@ class FavoraitesViewState extends State<Favoraites> {
                         leading: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Icon(
-                            Icons.info_outline,
+                            Icons.person,
                             color: UtilsImporter().colorUtils.kmColors,
                             size: 30,
                           ),
