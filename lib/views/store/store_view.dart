@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
@@ -11,6 +10,7 @@ import 'package:kammun_app/views/store/store_view_category_grid.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
+
 import 'package:share/share.dart';
 
 class StoreView extends StatefulWidget {
@@ -451,7 +451,7 @@ class StoreViewState extends State<StoreView> {
                       leading: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Icon(
-                          Icons.info_outline,
+                          Icons.person,
                           color: UtilsImporter().colorUtils.kmColors,
                           size: 30,
                         ),
@@ -471,6 +471,24 @@ class StoreViewState extends State<StoreView> {
                       // ),
                       onTap: () {
                         Navigator.of(context).pushNamed('/profile');
+                      },
+                    ),
+                    ListTile(
+                      leading: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Icon(
+                          Icons.policy,
+                          color: UtilsImporter().colorUtils.kmColors,
+                          size: 30,
+                        ),
+                      ),
+                      title: Text("سياسة الإستخدام",
+                          style: TextStyle(
+                              fontFamily:
+                                  UtilsImporter().stringUtils.HKGrotesk)),
+                      onTap: () {
+                        launch('http://kammun.com/privacy-policy.html',
+                            enableJavaScript: false);
                       },
                     ),
                     Divider(

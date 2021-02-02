@@ -348,6 +348,24 @@ class FavoraitesViewState extends State<Favoraites> {
                           Navigator.of(context).pushNamed('/profile');
                         },
                       ),
+                      ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Icon(
+                            Icons.policy,
+                            color: UtilsImporter().colorUtils.kmColors,
+                            size: 30,
+                          ),
+                        ),
+                        title: Text("سياسة الإستخدام",
+                            style: TextStyle(
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk)),
+                        onTap: () {
+                          launch('http://kammun.com/privacy-policy.html',
+                            enableJavaScript: false);
+                        },
+                      ),
                       Divider(
                         color: UtilsImporter().colorUtils.kmColors,
                         height: 20,
