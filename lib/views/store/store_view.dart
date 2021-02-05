@@ -296,8 +296,15 @@ class StoreViewState extends State<StoreView> {
     } else if (selected == "messenger") {
       url = LoadingScreenServices.companyInformation.messengerUrl;
     } else if (selected == "facebook") {
-      url = "fb://page/" +
-          LoadingScreenServices.companyInformation.facebookUrl.toString();
+      if (Platform.isIOS) {
+        url =
+            'fb://profile/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
+      } else {
+        url =
+            'fb://page/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
+      }
+      // url = "fb://page/" +
+      // LoadingScreenServices.companyInformation.facebookUrl.toString();
     } else if (selected == "instagram") {
       url = LoadingScreenServices.companyInformation.instagramUrl.toString();
     } else if (selected == "website") {
@@ -315,7 +322,7 @@ class StoreViewState extends State<StoreView> {
       url = "tel:${LoadingScreenServices.supportPhoneNumber.toString()}";
     }
 
-    launch(url);
+    launch(url, forceSafariVC: false);
     // if (await canLaunch(url)) {
     //   await launch(url);
     // } else {
@@ -704,13 +711,15 @@ class StoreViewState extends State<StoreView> {
           child: TextField(
             controller: _searchController,
             onSubmitted: (_) {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new ProductsView(
-                            queryString: _searchController.text,
-                            categoryId: "0",
-                          )));
+              if (_searchController.text.length > 0) {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new ProductsView(
+                              queryString: _searchController.text,
+                              categoryId: "0",
+                            )));
+              }
             },
             cursorColor: UtilsImporter().colorUtils.primarycolor,
             decoration: InputDecoration(

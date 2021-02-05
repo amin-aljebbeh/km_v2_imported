@@ -1,6 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:cache_image/cache_image.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -93,13 +93,15 @@ class _SubCategoryState extends State<SubCategory> {
             child: TextField(
               controller: _searchController,
               onSubmitted: (_) {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new ProductsView(
-                              queryString: _searchController.text,
-                              categoryId: "0",
-                            )));
+                if (_searchController.text.length > 0) {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new ProductsView(
+                                queryString: _searchController.text,
+                                categoryId: "0",
+                              )));
+                }
               },
               cursorColor: UtilsImporter().colorUtils.primarycolor,
               decoration: InputDecoration(
@@ -255,8 +257,7 @@ class _SubCategoryState extends State<SubCategory> {
                                 // fadeInCurve: Curves.fastOutSlowIn,
                                 fadeInCurve: Curves.fastOutSlowIn,
 
-                                placeholder:
-                                    AssetImage("assets/kmlogoo.png"),
+                                placeholder: AssetImage("assets/kmlogoo.png"),
                                 fit: BoxFit.cover,
                               ),
 

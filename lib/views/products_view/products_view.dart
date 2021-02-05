@@ -157,20 +157,22 @@ class ProductsViewState extends State<ProductsView> {
             child: TextField(
               controller: _searchController,
               onSubmitted: (_) {
-                setState(() {
-                  // searchLoading = true;
-                  productsList.clear();
-                  // _loadData(_searchController.text, "search");
-                  Navigator.of(context).pop();
+                if (_searchController.text.length > 0) {
+                  setState(() {
+                    // searchLoading = true;
+                    productsList.clear();
+                    // _loadData(_searchController.text, "search");
+                    Navigator.of(context).pop();
 
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new ProductsView(
-                                queryString: _searchController.text,
-                                categoryId: "0",
-                              )));
-                });
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new ProductsView(
+                                  queryString: _searchController.text,
+                                  categoryId: "0",
+                                )));
+                  });
+                }
               },
               cursorColor: UtilsImporter().colorUtils.primarycolor,
               decoration: InputDecoration(

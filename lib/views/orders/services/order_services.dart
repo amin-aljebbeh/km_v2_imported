@@ -206,6 +206,8 @@ class OrderServices {
         Tools.logToConsole("------------ ERROR Update ORDER --------------");
         if (response.data["reason"].toString().contains("admin")) {
           return "admin";
+        } else if (response.data["reason"].toString().contains("Another")) {
+          return "Another";
         } else {
           return "false";
         }

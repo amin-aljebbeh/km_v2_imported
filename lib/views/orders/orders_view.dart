@@ -472,10 +472,16 @@ class OrdersViewState extends State<OrdersView> {
               errorMessageVlue =
                   "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب يقوم بتعديله حالياً";
             });
+          } else if (x == "Another") {
+            setState(() {
+              orderDataList[index].underUpdate = "2";
+              orderLoaded = true;
+              errorMessage = true;
+              errorMessageVlue =
+                  " لا يمكنك تعديل طلبك حالياً لأنه بالفعل لديك طلب آخر قيد التعديل يرجى الإنتهاء من تعديل الطلب السابق و المحاولة من جديد";
+            });
           } else {
             setState(() {
-              orderDataList[index].orderStatusId = "3";
-
               orderLoaded = true;
               errorMessage = true;
               errorMessageVlue =

@@ -52,8 +52,15 @@ class FavoraitesViewState extends State<Favoraites> {
     } else if (selected == "messenger") {
       url = LoadingScreenServices.companyInformation.messengerUrl;
     } else if (selected == "facebook") {
-      url = "fb://page/" +
-          LoadingScreenServices.companyInformation.facebookUrl.toString();
+      if (Platform.isIOS) {
+        url =
+            'fb://profile/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
+      } else {
+        url =
+            'fb://page/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
+      }
+      // url = "fb://page/" +
+      // LoadingScreenServices.companyInformation.facebookUrl.toString();
     } else if (selected == "instagram") {
       url = LoadingScreenServices.companyInformation.instagramUrl.toString();
     } else if (selected == "website") {
@@ -66,10 +73,18 @@ class FavoraitesViewState extends State<Favoraites> {
       url =
           "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
     } else if (selected == "number") {
+      Tools.logToConsole("-------- Support number ----------");
+
       url = "tel:${LoadingScreenServices.supportPhoneNumber.toString()}";
     }
 
-    launch(url);
+    launch(url, forceSafariVC: false);
+    // if (await canLaunch(url)) {
+    //   await launch(url);
+    // } else {
+    //   Tools.logToConsole(url);
+    //   throw 'Could not launch $url';
+    // }
   }
 
   int page = 1;
@@ -187,13 +202,15 @@ class FavoraitesViewState extends State<Favoraites> {
             child: TextField(
               controller: _searchController,
               onSubmitted: (_) {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new ProductsView(
-                              queryString: _searchController.text,
-                              categoryId: "0",
-                            )));
+                if (_searchController.text.length > 0) {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new ProductsView(
+                                queryString: _searchController.text,
+                                categoryId: "0",
+                              )));
+                }
               },
               cursorColor: UtilsImporter().colorUtils.primarycolor,
               decoration: InputDecoration(
@@ -363,7 +380,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                     UtilsImporter().stringUtils.HKGrotesk)),
                         onTap: () {
                           launch('http://kammun.com/privacy-policy.html',
-                            enableJavaScript: false);
+                              enableJavaScript: false);
                         },
                       ),
                       Divider(
