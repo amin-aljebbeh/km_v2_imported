@@ -13,12 +13,6 @@ class ApiProvider {
       ResponseType reponseType,
       bool mapService,
       bool isUrlEncodedFormat}) async {
-    Tools.logToConsole("---------------------service url : ");
-    Tools.logToConsole(BaseUrl + url);
-    Tools.logToConsole(body);
-    Tools.logToConsole(method);
-    Tools.logToConsole("-----------------------------------");
-
     if (mapService == null) mapService = false;
     if (isUrlEncodedFormat == null) isUrlEncodedFormat = false;
 
@@ -40,8 +34,6 @@ class ApiProvider {
     // };
     // --------------------------------------- //
 
-    Tools.logToConsole("------- THE USER TOKEN IS ----------");
-    Tools.logToConsole(LoadingScreen.user_token);
     Map<String, String> header = {
       // 'Authorization': "Bearer user",
 
@@ -92,9 +84,6 @@ class ApiProvider {
           }
       }
     } on DioError catch (e) {
-      Tools.logToConsole(
-          "------------------------ API Exception --------------------------------------");
-
       return ErrorHandler.handleDioError(e);
     }
 

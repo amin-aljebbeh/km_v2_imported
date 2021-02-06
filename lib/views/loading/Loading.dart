@@ -97,7 +97,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return FutureBuilder(
         future: featchInformation,
         builder: (context, snapShot) {
-          // Tools.logToConsole("---------- THE SNAPSHOT ----------");
           if (snapShot.data == "userNotLoggedIn") {
             return LoginScreen();
           }

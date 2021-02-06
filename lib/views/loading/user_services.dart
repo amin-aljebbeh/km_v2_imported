@@ -13,7 +13,6 @@
 //   static String userNumber = "لم تقم بتسجيل رقم";
 
 //   static Future<bool> getUser({StreamController<int> streamController}) async {
-//     // Tools.logToConsole("------------------ GET USER INFORMATION --------------------");
 
 //     var response = await ApiProvider.sendRequest(
 //       url: GET_USER,
@@ -52,7 +51,6 @@
 //       streamController.add(200);
 //       return true;
 //     } else {
-//       Tools.logToConsole("------------ ERROR GET USER INFORMATION --------------");
 //       return false;
 //     }
 //   }

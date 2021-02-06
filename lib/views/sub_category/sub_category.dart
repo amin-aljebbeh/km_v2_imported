@@ -39,10 +39,6 @@ class _SubCategoryState extends State<SubCategory> {
       List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
 
       for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
-        Tools.logToConsole(
-            LoadingScreenServices.categoryList[i].parentCategoryId.toString() +
-                "   ------   " +
-                index.toString());
         if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() ==
             index.toString()) {
           subCategoryList.add(LoadingScreenServices.categoryList[i]);

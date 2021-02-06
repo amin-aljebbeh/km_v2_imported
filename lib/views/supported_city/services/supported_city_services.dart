@@ -14,9 +14,7 @@ class SupportedCityServices {
           url: UPDATE_USER_SUPPORTED_CITY,
           method: httpMethods.post,
           body: jsonEncode(body));
-      Tools.logToConsole("THE UPDATE SUPPORTED CITY $supportedCityId");
 
-      Tools.logToConsole(response.data);
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("supportedCitySelected", "true");
@@ -25,7 +23,6 @@ class SupportedCityServices {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return false;
     }
   }

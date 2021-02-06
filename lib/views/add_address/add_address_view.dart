@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -62,7 +62,6 @@ class AddAddressViewState extends State<AddAddressView> {
       for (int i = 0;
           i < LoadingScreenServices.supportedCitiesList.length;
           i++) {
-        Tools.logToConsole(LoadingScreenServices.supportedCitiesList[i].value);
         if (LoadingScreenServices.supportedCitiesList[i].value.split("id")[1] ==
             LoadingScreenServices
                 .userAddress[widget.addressIndex].supportedCityId
@@ -71,15 +70,7 @@ class AddAddressViewState extends State<AddAddressView> {
         }
       }
 
-      // Tools.logToConsole(Services.userAddress[widget.addressIndex].supportedCityName);
-      // Tools.logToConsole(Services.userAddress[widget.addressIndex].supportedCityId);
-
-      // selectedValue =
-      //     Services.userAddress[widget.addressIndex].supportedCityName;
-
       userIgnorShareLocation = false;
-      Tools.logToConsole(userIgnorShareLocation);
-      Tools.logToConsole("userIgnorShareLocation Changed Value ");
     }
   }
 
@@ -190,7 +181,6 @@ class AddAddressViewState extends State<AddAddressView> {
               onChanged: (value) {
                 setState(() {
                   selectedValue = value;
-                  Tools.logToConsole(value);
                 });
               },
             ),
@@ -663,8 +653,6 @@ class AddAddressViewState extends State<AddAddressView> {
   // bool bottomSheetLoading = false;
 
   Future<void> _getUserLocation() async {
-    Tools.logToConsole("---- _getUserLocation function ----");
-
     var location = new Location();
 
     setState(() {
@@ -675,8 +663,6 @@ class AddAddressViewState extends State<AddAddressView> {
       if (await location.hasPermission() == PermissionStatus.granted &&
           await location.requestService() == true) {
         try {
-          Tools.logToConsole("---- Location Garented ----");
-          Tools.logToConsole(await location.hasPermission());
           await location.getLocation().then((onValue) {
             setState(() {
               userLocation = {
@@ -685,33 +671,19 @@ class AddAddressViewState extends State<AddAddressView> {
               };
               lat = onValue.latitude;
               lon = onValue.longitude;
-              Tools.logToConsole("----- the lat , lon is ------");
-              Tools.logToConsole(lat);
-              Tools.logToConsole(lon);
             });
           });
 
           _addAddressBtnTapped();
-        } catch (e) {
-          Tools.logToConsole("error getting user location");
-          Tools.logToConsole(e.toString());
-        }
+        } catch (e) {}
       } else {
-        Tools.logToConsole("---- address no granted ----");
         await location.requestPermission().then((onValue) =>
             onValue == PermissionStatus.granted ? _getUserLocation() : {});
       }
-    } catch (e) {
-      Tools.logToConsole("----- error before if --------");
-      Tools.logToConsole(e.toString());
-    }
+    } catch (e) {}
   }
 
   Future<void> _addAddressBtnTapped() async {
-    Tools.logToConsole("selectedValue $selectedValue");
-    Tools.logToConsole("countryController + ${countryController.text}");
-    Tools.logToConsole("stateController + ${stateController.text}");
-    Tools.logToConsole("streetController + ${streetController.text}");
     if (userIgnorShareLocation == null) {
       userIgnorShareLocation = false;
     }
@@ -720,12 +692,6 @@ class AddAddressViewState extends State<AddAddressView> {
       _settingModalBottomSheet(context);
     } else {
       Address newUserAddress = new Address();
-
-      //     final streetController = TextEditingController();
-      // final cityController = TextEditingController();
-      // final stateController = TextEditingController();
-      // final countryController = TextEditingController();
-      Tools.logToConsole("city id " + selectedValue.split("id")[1].toString());
 
       newUserAddress.deliveryPrice = int.parse(
           selectedValue.split("price")[1].split("id")[0].split(".")[0]);

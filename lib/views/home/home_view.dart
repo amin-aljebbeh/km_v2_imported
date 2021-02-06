@@ -46,19 +46,12 @@ class HomeViewState extends State<HomeView> {
   }
 
   _initializeNotificaiton({BuildContext ctx}) {
-    Tools.logToConsole("====== Starting initializing Firebase ======");
     //checkUpdate = _checkAppVersion();
 
 // Here you can write your code
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        Tools.logToConsole("onMessage: $message");
         final notification = message['notification'];
-
-        Tools.logToConsole(notification['title']);
-        Tools.logToConsole(notification['body']);
-        Tools.logToConsole("--------- the data route_name is -------");
-        Tools.logToConsole(message['data']['route_name']);
 
         if (message['data']['route_name'] != null)
           Navigator.pushNamed(context, message['data']['route_name']);
@@ -72,10 +65,8 @@ class HomeViewState extends State<HomeView> {
         // }
       },
       onLaunch: (Map<String, dynamic> message) async {
-        Tools.logToConsole("onLaunch: $message");
         final notification = message['data'];
-        Tools.logToConsole(notification['title']);
-        Tools.logToConsole(notification['body']);
+
         if (message['data']['route_name'] != null)
           Navigator.pushNamed(context, message['data']['route_name']);
 
@@ -86,7 +77,6 @@ class HomeViewState extends State<HomeView> {
       },
       onResume: (Map<String, dynamic> message) async {
         final notification = message['data'];
-        Tools.logToConsole("onResume: $message");
         // Navigator.push(
         //     context, new MaterialPageRoute(builder: (context) => HomeView(2)));
 
@@ -99,7 +89,6 @@ class HomeViewState extends State<HomeView> {
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
     getoken();
-    Tools.logToConsole("====== End initializing Firebase ======");
   }
 
   Future getoken() async {
@@ -107,17 +96,12 @@ class HomeViewState extends State<HomeView> {
     if (prefs.get("firebase_token") == null) {
       firebaseToken = await _firebaseMessaging.getToken();
       prefs.setString("firebase_token", firebaseToken);
-      Tools.logToConsole("FF firebase from firebase FF");
-      Tools.logToConsole(firebaseToken);
     } else {
-      Tools.logToConsole("FF firebase from sharedPref FF");
-      Tools.logToConsole(prefs.get("firebase_token"));
       firebaseToken = prefs.get("firebase_token");
     }
     if (LoadingScreenServices.userOriginal.data.firebaseToken !=
         firebaseToken) {
       LoadingScreenServices().updateFirebaseToken(firebaseToken);
-      Tools.logToConsole("Firebase Updated");
     }
   }
 

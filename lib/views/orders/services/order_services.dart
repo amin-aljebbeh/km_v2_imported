@@ -59,8 +59,6 @@ class OrderServices {
       var response = await ApiProvider.sendRequest(
           url: ORDER, method: httpMethods.post, body: jsonEncode(orderData));
 
-      Tools.logToConsole(response.data["reason"]);
-
       if (response.data["reason"].toString().contains("discontinued")) {
         return new OrderResponse(success: false, reason: "discontinued");
       } else {
@@ -69,7 +67,6 @@ class OrderServices {
         return barsedJson;
       }
     } catch (e) {
-      Tools.logToConsole(e);
       return null;
     }
   }
@@ -123,14 +120,11 @@ class OrderServices {
         return barsedJson;
       }
     } catch (e) {
-      Tools.logToConsole(e);
       return null;
     }
   }
 
   static Future<String> cancelOrder(String orderId) async {
-    // Tools.logToConsole("------------------ CANCEL ORDER  --------------------");
-
     Map cancelOrderBody = {
       'order_status_id': 5,
     };
@@ -143,7 +137,6 @@ class OrderServices {
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
       return "true";
     } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
       await Services.getMyOrders();
       return "تم قبول طلبك مسبقاً لايمكن إلغاء الطلب حاليا اذا كنت مصراً على إلغاء الطلب يرجى التواصل مع فريق الدعم";
     }
@@ -151,8 +144,6 @@ class OrderServices {
 
   static Future<bool> rateOrder(
       {String orderId, String userFeedback, double rating}) async {
-    // Tools.logToConsole("------------------ Rate Order --------------------");
-
     Map ratingOrderBody = {
       'user_feedback': userFeedback,
       "user_delivery_rating": rating.toString(),
@@ -167,13 +158,11 @@ class OrderServices {
     if (response.statusCode == SUCCESS_CODE) {
       return true;
     } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
       return false;
     }
   }
 
   static Future<String> lockOrder(String orderId) async {
-    // Tools.logToConsole("------------------ CANCEL ORDER  --------------------");
     try {
       var response = await ApiProvider.sendRequest(
         url: LOCK_ORDER + orderId,
@@ -203,7 +192,6 @@ class OrderServices {
 
         return "true";
       } else {
-        Tools.logToConsole("------------ ERROR Update ORDER --------------");
         if (response.data["reason"].toString().contains("admin")) {
           return "admin";
         } else if (response.data["reason"].toString().contains("Another")) {
@@ -213,8 +201,6 @@ class OrderServices {
         }
       }
     } catch (e) {
-      Tools.logToConsole("------------ ERROR Catched --------------");
-
       return "null";
     }
   }

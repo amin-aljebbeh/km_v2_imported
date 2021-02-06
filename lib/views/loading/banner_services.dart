@@ -2,8 +2,8 @@
 // import 'dart:convert';
 
 // import 'package:cache_image/cache_image.dart';
-// import 'package:flutter/material.dart'; 
-import 'package:kammun_app/utils/tools.dart';
+// import 'package:flutter/material.dart';
+// import 'package:kammun_app/utils/tools.dart';
 // import 'package:kammun_app/core/api/api_URLs.dart';
 // import 'package:kammun_app/core/api/api_provider.dart';
 // import 'package:kammun_app/core/errors/error_types.dart';
@@ -16,7 +16,6 @@ import 'package:kammun_app/utils/tools.dart';
 
 //   static Future<bool> getBanner(
 //       {StreamController<int> streamController}) async {
-//     //  Tools.logToConsole("------------ GET BANNER --------------");
 
 //     DateTime now = DateTime.now();
 
@@ -51,7 +50,6 @@ import 'package:kammun_app/utils/tools.dart';
 
 //       return true;
 //     } else {
-//       Tools.logToConsole("------------ ERROR GETING BANNER INFORMATION --------------");
 //       return false;
 //     }
 //   }

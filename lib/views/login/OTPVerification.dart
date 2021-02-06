@@ -27,8 +27,7 @@ class _OTPVerificationState extends State<OTPVerification> {
 
   Future checkOtpValidation(String verificationCode) async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    Tools.logToConsole(
-        LoginServices.replaceFarsiNumber(verificationCode.toString()));
+
     try {
       setState(() {
         loadingScreen = true;
@@ -36,7 +35,7 @@ class _OTPVerificationState extends State<OTPVerification> {
       bool response = await Services.verifyCode(
           LoginServices.replaceFarsiNumber(
               LoginServices.replaceFarsiNumber(verificationCode.toString())));
-      Tools.logToConsole(response.toString());
+
       if (response) {
         await Navigator.of(context).pushNamedAndRemoveUntil(
             '/supportedCity', (Route<dynamic> route) => false);
@@ -47,7 +46,6 @@ class _OTPVerificationState extends State<OTPVerification> {
           loadingScreen = false;
           _textController.text = "";
         });
-        Tools.logToConsole("Error");
       }
     } catch (e) {
       setState(() {
@@ -55,9 +53,6 @@ class _OTPVerificationState extends State<OTPVerification> {
         errorCode = true;
         _textController.text = "";
       });
-      Tools.logToConsole(
-          "--------------------- Cehck OTP EXCEption ----------------------");
-      Tools.logToConsole(e.toString());
     }
   }
 

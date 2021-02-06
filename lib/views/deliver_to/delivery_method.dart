@@ -225,7 +225,6 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                         spacing: 10,
 
                                         onSelected: (index, isSelected) {
-                                          Tools.logToConsole(index);
                                           setState(() {
                                             selectedIndex = index;
                                             DeliveryMethodView

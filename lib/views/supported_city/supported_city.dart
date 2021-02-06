@@ -168,7 +168,6 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Tools.logToConsole("------ supported city name ------");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

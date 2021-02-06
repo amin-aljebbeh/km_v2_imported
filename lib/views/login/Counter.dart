@@ -53,8 +53,6 @@ class _CounterOtpState extends State<CounterOtp> {
       if (signature.toString().length != 11) {
         signature = "";
       }
-      Tools.logToConsole(
-          "Signature: ###################" + signature.toString());
 
       bool response = await Services.loginUser(
           phoneNumber: LoginScreen.phoneNumber,
@@ -80,8 +78,6 @@ class _CounterOtpState extends State<CounterOtp> {
         loadingScreen = false;
         widget.onRequestSent(false);
       });
-      Tools.logToConsole(
-          "---------------------------------- FEATCH OTP EXCEPTION ----------------------------------");
       throw new Exception(e.toString());
     }
   }

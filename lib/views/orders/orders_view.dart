@@ -180,7 +180,6 @@ class OrdersViewState extends State<OrdersView> {
                                 if (!isLoading &&
                                     scrollInfo.metrics.pixels ==
                                         scrollInfo.metrics.maxScrollExtent) {
-                                  Tools.logToConsole("in List");
                                   setState(() {
                                     page++;
                                   });
@@ -453,7 +452,6 @@ class OrdersViewState extends State<OrdersView> {
         });
         String x =
             await OrderServices.lockOrder(orderDataList[index].id.toString());
-        Tools.logToConsole(x);
         if (x != "null") {
           if (x == "true") {
             setState(() {
@@ -524,8 +522,6 @@ class OrdersViewState extends State<OrdersView> {
   }
 
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-
     List<OrderProducts> ordAry = orderDataList[index].products;
 
     Navigator.push(

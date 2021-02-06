@@ -1,7 +1,7 @@
 // import 'dart:async';
 // import 'dart:convert';
 
-// import 'package:flutter/material.dart'; 
+// import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 // import 'package:kammun_app/core/api/api_URLs.dart';
 // import 'package:kammun_app/core/api/api_provider.dart';
@@ -27,10 +27,7 @@ import 'package:kammun_app/utils/tools.dart';
 
 //       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
 //         for (int j = 0; j < UserServices.userAddress.length; j++) {
-//           Tools.logToConsole("************************");
-//           Tools.logToConsole(UserServices.userAddress[j].supportedCityId.toString() +
-//               " : " +
-//               supportedCitiesResponse.data[i].id.toString());
+
 //           if (UserServices.userAddress[j].supportedCityId.toString() ==
 //               supportedCitiesResponse.data[i].id.toString()) {
 //             UserServices.userAddress[j].supportedCityName =
@@ -42,8 +39,6 @@ import 'package:kammun_app/utils/tools.dart';
 //             UserServices.userAddress[j].supportedCityName =
 //                 "يرجى حذف و إضافة العنوان";
 //         }
-//         Tools.logToConsole("################ SUPPORTED CITIES ####################");
-//         Tools.logToConsole(supportedCitiesResponse.data[i].id);
 
 //         supportedCitiesList.add(new DropdownMenuItem(
 //           child: Text(
@@ -56,12 +51,10 @@ import 'package:kammun_app/utils/tools.dart';
 //               "id" +
 //               supportedCitiesResponse.data[i].id.toString(),
 //         ));
-//         Tools.logToConsole("The dropdownList value:" + supportedCitiesResponse.data[i].name);
 //       }
 //       streamController.add(200);
 //       return true;
 //     } else {
-//       Tools.logToConsole("------------ ERROR GETING SUPPORTED CITY --------------");
 //       return false;
 //     }
 //   }

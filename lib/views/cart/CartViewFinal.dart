@@ -48,7 +48,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
     for (int i = 0; i < orderArray.length; i++) {
       cards.add(i);
     }
-    Tools.logToConsole("Orders Length ${orderArray.length}");
   }
 
   _reloadPrices() async {
@@ -77,16 +76,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
           ((int.parse(orderArray[i].price.split(".")[0])) *
               orderArray[i].productCount);
     }
-    Tools.logToConsole("subtotal: $subtotal");
-
-    Tools.logToConsole(
-        "Total Delivery_price: ${int.parse(DeliveryMethodServices.deliveryMethodsList[DeliverToView.selectedIndex].pivot.price.split(".")[0])}");
-    Tools.logToConsole("Delivery method Price");
-    Tools.logToConsole(DeliveryMethodServices
-        .deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex]
-        .pivot
-        .price
-        .split(".")[0]);
 
     total = subtotal +
         // Services.delivery_Price +
@@ -130,6 +119,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
     // if (CartServices.userNote == null) {
     //   _userNotes.text = OrderServices.updateOrderNote;
     // }
+    if (_userNotes.text == "null") {
+      _userNotes.text = "";
+    }
   }
 
   _cartChanged() async {
@@ -209,7 +201,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           shrinkWrap: true,
                           itemCount: orderArray == null ? 0 : cards.length,
                           itemBuilder: (BuildContext context, int index) {
-                            Tools.logToConsole("Build Card Length : $index");
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () => _onTileClicked(index),
@@ -626,7 +617,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
   // Function to be called on click
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
     // Navigator.push(
     //     context,
     //     new MaterialPageRoute(
@@ -646,10 +636,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
         priceId.add(orderArray[i].id);
       }
     }
-    Tools.logToConsole("------ price array ---------");
-    Tools.logToConsole(priceId);
-    Tools.logToConsole("-------- inactive array --------");
-    Tools.logToConsole(notactiveId);
+
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => OrderProblemBottomSheet(
@@ -673,83 +660,86 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
     OrderResponse orderResponse;
     if (OrderServices.orderUnderUpdateIndex != -1) {
-      Tools.logToConsole("updating Order");
-      orderResponse =
-          await OrderServices.updateOrder(userNotes: _userNotes.text);
+      if (cards.length == 0) {
+        KammunRestart.restartApp(context);
+      } else {
+        orderResponse =
+            await OrderServices.updateOrder(userNotes: _userNotes.text);
 
-      setState(() {
-        try {
-          if (orderResponse != null) {
-            if (!orderResponse.success &&
-                orderResponse.reason.contains("discontinued")) {
-              loadingScreen = false;
-              errorCode = true;
-              errorMessage =
-                  "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
-            } else if (orderResponse.changedPriceProducts.length > 0 ||
-                orderResponse.inactiveProducts.length > 0) {
-              _showBottomSheet(
-                  notActive: orderResponse.inactiveProducts,
-                  priceProblem: orderResponse.changedPriceProducts);
+        setState(() {
+          try {
+            if (orderResponse != null) {
+              if (!orderResponse.success &&
+                  orderResponse.reason.contains("discontinued")) {
+                loadingScreen = false;
+                errorCode = true;
+                errorMessage =
+                    "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
+              } else if (orderResponse.changedPriceProducts.length > 0 ||
+                  orderResponse.inactiveProducts.length > 0) {
+                _showBottomSheet(
+                    notActive: orderResponse.inactiveProducts,
+                    priceProblem: orderResponse.changedPriceProducts);
 
-              loadingScreen = false;
-              errorCode = false;
-            } else if (orderResponse.success) {
-              CartViewFinal.message = orderResponse.data;
-              // CartServices.cartProducts.clear();
-              prefs.setString("orderUnderUpdateId", "-1");
-              OrderServices.orderUnderUpdateIndex = -1;
-            } else if (!orderResponse.success) {
+                loadingScreen = false;
+                errorCode = false;
+              } else if (orderResponse.success) {
+                CartViewFinal.message = orderResponse.data;
+                // CartServices.cartProducts.clear();
+                prefs.setString("orderUnderUpdateId", "-1");
+                OrderServices.orderUnderUpdateIndex = -1;
+              } else if (!orderResponse.success) {
+                loadingScreen = false;
+                errorCode = true;
+              }
+            } else {
               loadingScreen = false;
               errorCode = true;
             }
-          } else {
+          } catch (e) {
             loadingScreen = false;
             errorCode = true;
           }
-        } catch (e) {
-          loadingScreen = false;
-          errorCode = true;
-        }
-      });
+        });
+      }
     } else {
-      orderResponse =
-          await OrderServices.submitNewOrder(userNotes: _userNotes.text);
+      if (cards.length == 0) {
+        KammunRestart.restartApp(context);
+      } else {
+        orderResponse =
+            await OrderServices.submitNewOrder(userNotes: _userNotes.text);
 
-      setState(() {
-        try {
-          if (orderResponse != null) {
-            if (!orderResponse.success &&
-                orderResponse.reason.contains("discontinued")) {
+        setState(() {
+          try {
+            if (orderResponse != null) {
+              if (!orderResponse.success &&
+                  orderResponse.reason.contains("discontinued")) {
+                loadingScreen = false;
+                errorCode = true;
+                errorMessage =
+                    "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
+              } else if (orderResponse.changedPriceProducts.length > 0 ||
+                  orderResponse.inactiveProducts.length > 0) {
+                _showBottomSheet(
+                    notActive: orderResponse.inactiveProducts,
+                    priceProblem: orderResponse.changedPriceProducts);
+
+                loadingScreen = false;
+                errorCode = false;
+              } else if (orderResponse.success) {
+                CartViewFinal.message = orderResponse.data;
+                // CartServices.cartProducts.clear();
+              }
+            } else {
               loadingScreen = false;
               errorCode = true;
-              errorMessage =
-                  "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
-            } else if (orderResponse.changedPriceProducts.length > 0 ||
-                orderResponse.inactiveProducts.length > 0) {
-              _showBottomSheet(
-                  notActive: orderResponse.inactiveProducts,
-                  priceProblem: orderResponse.changedPriceProducts);
-
-              loadingScreen = false;
-              errorCode = false;
-            } else if (orderResponse.success) {
-              Tools.logToConsole("orderData is :");
-              Tools.logToConsole(orderResponse.data.toString());
-              CartViewFinal.message = orderResponse.data;
-              // CartServices.cartProducts.clear();
             }
-          } else {
+          } catch (e) {
             loadingScreen = false;
             errorCode = true;
           }
-        } catch (e) {
-          loadingScreen = false;
-          errorCode = true;
-          Tools.logToConsole(e.toString());
-          Tools.logToConsole("I'm in catch");
-        }
-      });
+        });
+      }
     }
 
     if (orderResponse.success == true) {

@@ -16,7 +16,6 @@ class DeliveryMethodServices {
       method: httpMethods.get,
     );
 
-    Tools.logToConsole(response);
     if (response.statusCode == SUCCESS_CODE) {
       final product = deliveryMethodFromJson(jsonEncode(response.data));
       deliveryMethodsList.clear();
@@ -29,10 +28,6 @@ class DeliveryMethodServices {
 
       return true;
     } else {
-      Tools.logToConsole(response.data);
-      //   if (streamController != null) streamController.add(200);
-      Tools.logToConsole("------------ ERROR WHILE GETING USER CART --------------");
-
       return false;
     }
   }

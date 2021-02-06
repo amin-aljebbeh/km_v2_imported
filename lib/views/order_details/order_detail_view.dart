@@ -181,8 +181,6 @@ class OrderDetailViewState extends State<OrderDetailView> {
   }
 
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-
 //    Navigator.push(context,
 //        new MaterialPageRoute(builder: (context) => new ProductDetailView(heroIndex: index + 100)));
   }

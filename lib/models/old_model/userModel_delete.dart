@@ -240,9 +240,6 @@
 //   });
 
 //   factory Pivot.fromJson(Map<String, dynamic> json) {
-//     Tools.logToConsole("-------------- purchase_price AMIN -----------");
-//     Tools.logToConsole(json["purchase_price"]);
-//     Tools.logToConsole(json["quantity"]);
 
 //     if (json["purchase_price"] == null)
 //       return Pivot(purchasePrice: 0, quantity: 0);

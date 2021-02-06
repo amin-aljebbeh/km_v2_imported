@@ -129,20 +129,15 @@ class LoadingScreenServices {
   }
 
   Future<bool> checkIfUserloddedIn() async {
-    Tools.logToConsole("--------- Checking User Token ---------- ");
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userToken = prefs.getString('userToken');
       String userSelectSupportedCity = prefs.getString('supportedCitySelected');
-      Tools.logToConsole(
-          "supportedCitySelected :" + userSelectSupportedCity.toString());
+
       // prefs.remove('userToken');
       // prefs.remove('supportedCitySelected');
 
-      Tools.logToConsole(userToken);
       if (userToken != null) {
-        Tools.logToConsole(
-            "supportedCitySelected :" + userSelectSupportedCity.toString());
         LoadingScreen.user_token = "Bearer " + userToken;
         if (userToken.contains("APPLE_VERIFICATION")) {
           BaseUrl = APPLE_BASEURL;
@@ -150,7 +145,6 @@ class LoadingScreenServices {
           BaseUrl = PRODUCTION_BASE_URL;
         }
         if (userSelectSupportedCity == null) {
-          Tools.logToConsole("Im in false supported city ");
           return null;
         } else {
           return true;
@@ -159,7 +153,6 @@ class LoadingScreenServices {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return false;
     }
   }
@@ -169,8 +162,6 @@ class LoadingScreenServices {
 
   Future<bool> featchStartInformation() async {
     try {
-      Tools.logToConsole(
-          "------------- get Start Screen Information returns ---------");
       bool userLoggedIn = await checkIfUserloddedIn();
       if (userLoggedIn) {
         try {
@@ -181,12 +172,9 @@ class LoadingScreenServices {
               getStartScreenInformation(),
             ]);
           } catch (e) {
-            Tools.logToConsole("--------- error call -----");
-            Tools.logToConsole(e.toString());
             return false;
           }
-          Tools.logToConsole("TTTTTTTTTTTTT : " + responses[0].toString());
-          Tools.logToConsole("BBBBBBBBBBBBBB : " + responses[1].toString());
+
           if (responses[1] == null) {
             featchStartInformation();
             return false;
@@ -197,24 +185,13 @@ class LoadingScreenServices {
               return false;
             }
           }
-
-          // bool everyThingGood = await getStartScreenInformation(
-          //     streamController: streamController);
-          // if (everyThingGood) {
-          //   return true;
-          // } else {
-          //   return false;
-          // }
         } catch (e) {
-          Tools.logToConsole(e.toString());
           return false;
         }
       } else {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole("Error While checking user if loggedIn");
-      Tools.logToConsole(e.toString());
       return false;
     }
   }
@@ -224,7 +201,7 @@ class LoadingScreenServices {
     String buildNumber = packageInfo.buildNumber;
     int lastSupported;
     int currenVersion;
-    Tools.logToConsole("Sending Start Request");
+
     var response = await ApiProvider.sendRequest(
       url: GET_START_REQUEST,
       method: httpMethods.get,
@@ -232,11 +209,8 @@ class LoadingScreenServices {
     if (response.statusCode == SUCCESS_CODE) {
       startRequest = startModelFromJson(jsonEncode(response.data));
 
-      // Tools.logToConsole(response.data);
-
       // Get Company Information.
       companyInformation = startRequest.company.original.data[1];
-      Tools.logToConsole("======= Get Company Information DONE =======");
       // String oldBaseUrl = BaseUrl;
       // BaseUrl = companyInformation.baseUrl;
       // if (oldBaseUrl != BaseUrl) {
@@ -244,7 +218,6 @@ class LoadingScreenServices {
       // }
       // Get Image Url Prefix.
       imagePrefixUrl = startRequest.company.original.data[1].imageBaseUrl;
-      Tools.logToConsole("======= Get Image Url Prefix DONE =======");
 
       // --------------------------------------------------------------------- //
 
@@ -272,12 +245,6 @@ class LoadingScreenServices {
             startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
       }
 
-      Tools.logToConsole("======= Mobile Configuration DONE =======");
-
-      Tools.logToConsole("------ the app version -------");
-      Tools.logToConsole(int.parse(buildNumber));
-      Tools.logToConsole(lastSupported);
-
       if (startRequest.mobileAppConfigs.original.data[0].id == 0) {
         serverMaintain = true;
       } else if (int.parse(buildNumber) < lastSupported) {
@@ -285,8 +252,6 @@ class LoadingScreenServices {
       } else if (int.parse(buildNumber) < currenVersion) {
         updateOptional = true;
       }
-
-      Tools.logToConsole("======= DONE Mobile Compaiesion =======");
 
       // --------------------------------------------------------------------- //
 
@@ -311,11 +276,6 @@ class LoadingScreenServices {
         else
           return 0;
       });
-      Tools.logToConsole("======= Get Category DONE =======");
-
-      // Tools.logToConsole("========== The Categories ===========");
-
-      // Tools.logToConsole(categoryList);
 
       // --------------------------------------------------------------------- //
 
@@ -359,8 +319,6 @@ class LoadingScreenServices {
         }
       }
 
-      Tools.logToConsole("======= Get Banner DONE =======");
-
       // --------------------------------------------------------------------- //
       // Get User
 
@@ -370,15 +328,9 @@ class LoadingScreenServices {
 
       userNumber = startRequest.user.original.data.phone;
 
-      Tools.logToConsole("======= Get User Number DONE =======");
-
-      // Tools.logToConsole("User Number ");
-      // Tools.logToConsole(userNumber);
       userAddress.addAll(startRequest.user.original.data.addresses);
 
       userOriginal = startRequest.user.original;
-
-      Tools.logToConsole("======= Get User Address DONE =======");
 
       myOrdersList.addAll(startRequest.orders.original.data.data);
 
@@ -387,8 +339,6 @@ class LoadingScreenServices {
       } else {
         userBlocked = false;
       }
-
-      Tools.logToConsole("======= Get User Order DONE =======");
 
       for (int i = 0; i < myOrdersList.length; i++) {
         if (myOrdersList[i].underUpdate == "1") {
@@ -404,12 +354,8 @@ class LoadingScreenServices {
         }
       }
 
-      Tools.logToConsole("======= Check if Order Under Update DONE =======");
-
       // -------------------------------------------------------------------- //
       // Get Delivery Methods
-
-      Tools.logToConsole("======= Get Delivery method DONE =======");
 
       // --------------------------------------------------------------------- //
       // Get Supported Cities
@@ -418,7 +364,6 @@ class LoadingScreenServices {
       supportedCitiesListIntro.clear();
 
       final supportedCitiesResponse = startRequest.supportedCity.original;
-      Tools.logToConsole("======= Get Supported City DONE =======");
       supportedCityOriginal = supportedCitiesResponse;
 
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
@@ -468,7 +413,6 @@ class LoadingScreenServices {
             userAddress[j].supportedCityName = "يرجى حذف و إضافة العنوان";
         }
 
-        // Tools.logToConsole("################ SUPPORTED CITIES ####################");
         if (int.parse(supportedCitiesResponse.data[i].isActive) != 0) {
           supportedCitiesList.add(new DropdownMenuItem(
             child: Text(
@@ -483,15 +427,9 @@ class LoadingScreenServices {
                 supportedCitiesResponse.data[i].id.toString(),
           ));
         }
-
-        Tools.logToConsole(
-            "The dropdownList value:" + supportedCitiesResponse.data[i].name);
       }
       return true;
     } else {
-      Tools.logToConsole(
-          "------------ ERROR GET COMPANY INFORMATION --------------");
-      Tools.logToConsole(response.statusCode.toString());
       return false;
     }
   }

@@ -45,7 +45,6 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Future featchOtp() async {
-    //Tools.logToConsole("^^^^^^^^^^ : " + myController.text.toString());
     SystemChannels.textInput.invokeMethod('TextInput.hide');
 
     if (myController.text.length != 10) {
@@ -64,9 +63,6 @@ class _LoginScreenState extends State<LoginScreen>
 
         String signature = await SmsAutoFill().getAppSignature;
 
-        Tools.logToConsole("input number : " + myController.text);
-        Tools.logToConsole(
-            "Signature: ###################" + signature.toString());
         if (signature.toString().length != 11) {
           signature = "";
         }
@@ -99,7 +95,6 @@ class _LoginScreenState extends State<LoginScreen>
           loadingScreen = false;
           errorCode = true;
         });
-        Tools.logToConsole("----------------- FEATCH OTP EXCEPTION ------");
         throw new Exception(e.toString());
       }
     }

@@ -8,6 +8,7 @@ import 'package:kammun_app/views/deliver_to/delivery_method.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
+import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'services/cart_services.dart';
@@ -115,7 +116,6 @@ class CartViewState extends State<CartView> {
         });
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -128,7 +128,6 @@ class CartViewState extends State<CartView> {
               orderArray[i].productCount);
     }
 
-    Tools.logToConsole(widget.isFromUpdateOrder);
     widget.isFromUpdateOrder
         ? WidgetsBinding.instance.addPostFrameCallback(
             (_) => _showUpdateOrderInstruction(context: context))
@@ -422,18 +421,17 @@ class CartViewState extends State<CartView> {
 
   // Function to be called on click
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
     // Navigator.push(
     //     context,
     //     new MaterialPageRoute(
-    //         builder: (context) =>
-    //             new ProductDetailView(heroIndex: index + 100)));
+    //         builder: (context) => new ProductDetailView(
+    //               heroIndex: index + 100,
+    //               isFromFavoraiteScreen: false,
+    //             )));
   }
 
   void _showConfirmOrderBtnTapped() {
     if (CartServices.cartProducts.length > 0) {
-      Tools.logToConsole(
-          "the orderUnderUpdateIndex value is : ${OrderServices.orderUnderUpdateIndex}");
       if (OrderServices.orderUnderUpdateIndex == -1) {
         Navigator.push(context,
             new MaterialPageRoute(builder: (context) => new DeliverToView()));

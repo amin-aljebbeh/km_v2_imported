@@ -1,5 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -45,12 +45,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
         priceCards.add(i);
       }
     }
-    Tools.logToConsole("not active");
-    Tools.logToConsole(widget.notActiveProducts);
-    Tools.logToConsole(notActivecards);
-    Tools.logToConsole("price");
-    Tools.logToConsole(widget.pricesChangesProducts);
-    Tools.logToConsole(priceCards);
+
     if (priceCards.length > 0 && notActivecards.length == 0) {
       dialogText =
           "نأسف لحدوث ذلك ولكن أثناء قيامك بالتسوق تغير سعر  ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك مشاهدة تلك المنتجات و القيام بتحديث الطلب ليتم تحديث الأسعار او اختيار بدائل ";
@@ -79,7 +74,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
             maxLines: 1,
             style: new TextStyle(
                 color: Colors.white,
-              //  fontSize: 20.0,
+                //  fontSize: 20.0,
                 fontWeight: FontWeight.bold,
                 fontFamily: UtilsImporter().stringUtils.HKGrotesk),
           ),
@@ -457,7 +452,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
 
   // Function to be called on click
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
     // Navigator.push(
     //     context,
     //     new MaterialPageRoute(
@@ -482,7 +476,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
               "تحديث الطلب",
               style: new TextStyle(
                   color: Colors.white,
-                //  fontSize: 20.0,
+                  //  fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                   fontFamily: UtilsImporter().stringUtils.HKGrotesk),
               maxLines: 1,
@@ -517,7 +511,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
               "محاولة إيجاد بدائل",
               style: new TextStyle(
                   color: Colors.white,
-                //  fontSize: 20.0,
+                  //  fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                   fontFamily: UtilsImporter().stringUtils.HKGrotesk),
               maxLines: 1,

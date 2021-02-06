@@ -73,8 +73,6 @@ class FavoraitesViewState extends State<Favoraites> {
       url =
           "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
     } else if (selected == "number") {
-      Tools.logToConsole("-------- Support number ----------");
-
       url = "tel:${LoadingScreenServices.supportPhoneNumber.toString()}";
     }
 
@@ -82,7 +80,6 @@ class FavoraitesViewState extends State<Favoraites> {
     // if (await canLaunch(url)) {
     //   await launch(url);
     // } else {
-    //   Tools.logToConsole(url);
     //   throw 'Could not launch $url';
     // }
   }
@@ -110,7 +107,6 @@ class FavoraitesViewState extends State<Favoraites> {
       if (productList.data == null) {
         setState(() {
           // LoadingScreenServices.userFavoriteProducts = productList.data;
-          Tools.logToConsole("---- the last page ---");
           theEndOfFavoraites = true;
           FavoraitesProductsServices.theEndOfFavoraites = true;
           productLoaded = true;
@@ -151,8 +147,6 @@ class FavoraitesViewState extends State<Favoraites> {
   }
 
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-
     // Product productsDic = LoadingScreenServices.userFavoriteProducts[index];
 
     // SearchProductsList productToSend = new SearchProductsList();
@@ -164,8 +158,6 @@ class FavoraitesViewState extends State<Favoraites> {
     // //productToSend.quantity = productsDic.quantity;
     // productToSend.unit = productsDic.unit;
     // //productToSend.isActive = productsDic.isActive;
-
-    Tools.logToConsole("You tapped on item $index");
 
     ProductData productsDic = favoraitesProductData[index];
 
@@ -525,7 +517,6 @@ class FavoraitesViewState extends State<Favoraites> {
                                 if (!isLoading &&
                                     scrollInfo.metrics.pixels ==
                                         scrollInfo.metrics.maxScrollExtent) {
-                                  Tools.logToConsole("in List");
                                   setState(() {
                                     page++;
                                   });
@@ -615,19 +606,6 @@ class FavoraitesViewState extends State<Favoraites> {
                   ])),
         ));
   }
-
-  // Function to be called on click
-  // void _onTileClicked(int index) {
-  //   Tools.logToConsole("You tapped on item $index");
-
-  //   // Map<String, dynamic> productsDic = widget.productsAry[index];
-
-  //   // Navigator.push(
-  //   //     context,
-  //   //     new MaterialPageRoute(
-  //   //         builder: (context) => new ProductDetailView(
-  //   //             heroIndex: index + 100, products: productsDic)));
-  // }
 }
 
 class ProductsViewCard extends StatefulWidget {

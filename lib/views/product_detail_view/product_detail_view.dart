@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -58,7 +58,7 @@ class ProductDetailViewState extends State<ProductDetailView>
   }
 
   @override
-  void dispose() {
+   dispose() {
     _controller.dispose();
     super.dispose();
   }
@@ -78,8 +78,6 @@ class ProductDetailViewState extends State<ProductDetailView>
 
   @override
   Widget build(BuildContext context) {
-    Tools.logToConsole("------ the image length --------");
-    Tools.logToConsole(widget.products.images.length);
     return SafeArea(
       top: true,
       left: false,
@@ -381,9 +379,6 @@ class ProductDetailViewState extends State<ProductDetailView>
         if (LoadingScreen.user_token.length > 5) {
           Navigator.of(context).pop(true);
 
-          Tools.logToConsole("========= product price ========");
-
-          Tools.logToConsole(widget.products.price);
           widget.products.productCount = no_of_orders;
 
           CartServices.addProductToCart(widget.products);
@@ -572,7 +567,6 @@ class ProductDetailViewState extends State<ProductDetailView>
     Services.addToFavorites(widget.products.id.toString());
     LoadingScreenServices.userFavoriteProducts.add(product);
 
-    Tools.logToConsole("im in add to favoraitses");
     // Navigator.of(context).pop();
   }
 

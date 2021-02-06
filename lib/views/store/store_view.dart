@@ -317,8 +317,6 @@ class StoreViewState extends State<StoreView> {
       url =
           "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
     } else if (selected == "number") {
-      Tools.logToConsole("-------- Support number ----------");
-
       url = "tel:${LoadingScreenServices.supportPhoneNumber.toString()}";
     }
 
@@ -326,7 +324,6 @@ class StoreViewState extends State<StoreView> {
     // if (await canLaunch(url)) {
     //   await launch(url);
     // } else {
-    //   Tools.logToConsole(url);
     //   throw 'Could not launch $url';
     // }
   }
