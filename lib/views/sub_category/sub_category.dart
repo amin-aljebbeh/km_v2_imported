@@ -253,14 +253,13 @@ class _SubCategoryState extends State<SubCategory> {
                                 width: MediaQuery.of(context).size.width,
                                 fadeInDuration: const Duration(seconds: 1),
                                 height:
-                                    MediaQuery.of(context).size.height * 0.25,
+                                    MediaQuery.of(context).size.height * 0.18,
                                 // fadeInCurve: Curves.fastOutSlowIn,
                                 fadeInCurve: Curves.fastOutSlowIn,
 
                                 placeholder: AssetImage("assets/kmlogoo.png"),
                                 fit: BoxFit.cover,
                               ),
-
                               // Image.asset(
                               //   eachProduct.image_file_name,
                               //   height: 150,
@@ -277,7 +276,7 @@ class _SubCategoryState extends State<SubCategory> {
                                 //  height: ,
                                 //constraints: BoxConstraints.expand(),
                                 height:
-                                    MediaQuery.of(context).size.height * 0.25,
+                                    MediaQuery.of(context).size.height * 0.18,
                                 width: double.infinity,
                                 color: Colors.black54,
                                 padding: EdgeInsets.symmetric(
