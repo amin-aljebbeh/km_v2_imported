@@ -740,14 +740,14 @@ class StoreViewState extends State<StoreView> {
   Widget _ImageCarousel() {
     return new Container(
       // height: 200.0,
-      height: MediaQuery.of(context).size.height * 0.30,
+      height: MediaQuery.of(context).size.height * 0.25,
 
       decoration: new BoxDecoration(
           color: UtilsImporter().colorUtils.searchgreycolor,
           borderRadius: new BorderRadius.all(Radius.circular(20.0))),
       child: new Carousel(
         borderRadius: true,
-        boxFit: BoxFit.fill,
+        boxFit: BoxFit.cover,
         images: LoadingScreenServices.bannerListNetwork,
         autoplay: true,
         animationCurve: Curves.fastLinearToSlowEaseIn,

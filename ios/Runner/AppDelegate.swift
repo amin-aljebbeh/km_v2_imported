@@ -27,7 +27,6 @@ import Firebase
            Messaging.messaging().appDidReceiveMessage(userInfo)
 
           // Print message ID.
-        print("Firebase1")
         
         let alert = UIAlertController(title: notification.request.content.title, message: notification.request.content.body, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "موافق", style: .default, handler: { action in
@@ -51,9 +50,6 @@ import Firebase
     override func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let userInfo = response.notification.request.content.userInfo
          Messaging.messaging().appDidReceiveMessage(userInfo)
-        print("Firebase2")
-
-        
         let alert = UIAlertController(title: response.notification.request.content.title, message: response.notification.request.content.body, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "موافق", style: .default, handler: { action in
               switch action.style{
@@ -75,52 +71,13 @@ import Firebase
   
     
     override func applicationWillEnterForeground(_ application: UIApplication) {
-        print("APP_ENTER_IN_FOREGROUND")
         UIApplication.shared.applicationIconBadgeNumber = 0
-        print("Firebase3")
 
-        
-//
-//        let alert = UIAlertController(title: notification.request.content.title, message: notification.request.content.body, preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "موافق", style: .default, handler: { action in
-//              switch action.style{
-//              case .default:
-//                    print("default")
-//
-//              case .cancel:
-//                    print("cancel")
-//
-//              case .destructive:
-//                    print("destructive")
-//
-//
-//        }}))
-//        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+
     }
     
     override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("DEVICE_TOKEN_DATA :: \(deviceToken.description)") // (SWIFT = 3) : TOKEN PARSING
         Messaging.messaging().apnsToken = deviceToken
-        
-        print("Firebase4")
-
-        
-//
-//                let alert = UIAlertController(title: notification.request.content.title, message: notification.request.content.body, preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "موافق", style: .default, handler: { action in
-//                      switch action.style{
-//                      case .default:
-//                            print("default")
-//
-//                      case .cancel:
-//                            print("cancel")
-//
-//                      case .destructive:
-//                            print("destructive")
-//
-//
-//                }}))
-//                self.window?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     
 }

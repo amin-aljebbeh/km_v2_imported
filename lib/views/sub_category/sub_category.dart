@@ -212,97 +212,100 @@ class _SubCategoryState extends State<SubCategory> {
                 ),
               ),
             )
-          : ListView.builder(
-              primary: false,
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount:
-                  widget.subCategory == null ? 0 : widget.subCategory.length,
-              itemBuilder: (BuildContext context, int index) {
-                var eachProduct = widget.subCategory[index];
+          : SafeArea(
+              child: ListView.builder(
+                primary: false,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount:
+                    widget.subCategory == null ? 0 : widget.subCategory.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var eachProduct = widget.subCategory[index];
 
-                return new GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => _onTileClicked(widget.subCategory[index].id),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      side: BorderSide(
-                        color: UtilsImporter().colorUtils.kmColors,
-                        width: 4.0,
+                  return new GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () => _onTileClicked(widget.subCategory[index].id),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        side: BorderSide(
+                          color: UtilsImporter().colorUtils.kmColors,
+                          width: 4.0,
+                        ),
                       ),
-                    ),
-                    elevation: 4,
-                    margin: EdgeInsets.all(10),
-                    child: Column(
-                      children: <Widget>[
-                        Stack(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30),
-                              ),
-                              child: FadeInImage(
-                                image: CacheImage(
-                                    LoadingScreenServices.imagePrefixUrl +
-                                        eachProduct.imageFileName),
-                                width: MediaQuery.of(context).size.width,
-                                fadeInDuration: const Duration(seconds: 1),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.18,
-                                // fadeInCurve: Curves.fastOutSlowIn,
-                                fadeInCurve: Curves.fastOutSlowIn,
-
-                                placeholder: AssetImage("assets/kmlogoo.png"),
-                                fit: BoxFit.cover,
-                              ),
-                              // Image.asset(
-                              //   eachProduct.image_file_name,
-                              //   height: 150,
-                              //   width: double.infinity,
-                              //   fit: BoxFit.cover,
-                              // ),
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30),
-                              ),
-                              child: Container(
-                                // width: double.infinity,
-                                //  height: ,
-                                //constraints: BoxConstraints.expand(),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.18,
-                                width: double.infinity,
-                                color: Colors.black54,
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 5,
-                                  horizontal: 20,
+                      elevation: 4,
+                      margin: EdgeInsets.all(10),
+                      child: Column(
+                        children: <Widget>[
+                          Stack(
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30),
                                 ),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    eachProduct.name,
-                                    style: TextStyle(
-                                      fontSize: ResponsiveFlutter.of(context)
-                                          .fontSize(4),
-                                      color: Colors.white,
-                                      fontFamily:
-                                          UtilsImporter().stringUtils.HKGrotesk,
+                                child: FadeInImage(
+                                  image: CacheImage(
+                                      LoadingScreenServices.imagePrefixUrl +
+                                          eachProduct.imageFileName),
+                                  width: MediaQuery.of(context).size.width,
+                                  fadeInDuration: const Duration(seconds: 1),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.18,
+                                  // fadeInCurve: Curves.fastOutSlowIn,
+                                  fadeInCurve: Curves.fastOutSlowIn,
+
+                                  placeholder: AssetImage("assets/kmlogoo.png"),
+                                  fit: BoxFit.cover,
+                                ),
+                                // Image.asset(
+                                //   eachProduct.image_file_name,
+                                //   height: 150,
+                                //   width: double.infinity,
+                                //   fit: BoxFit.cover,
+                                // ),
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30),
+                                ),
+                                child: Container(
+                                  // width: double.infinity,
+                                  //  height: ,
+                                  //constraints: BoxConstraints.expand(),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.18,
+                                  width: double.infinity,
+                                  color: Colors.black54,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 5,
+                                    horizontal: 20,
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      eachProduct.name,
+                                      style: TextStyle(
+                                        fontSize: ResponsiveFlutter.of(context)
+                                            .fontSize(4),
+                                        color: Colors.white,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
+                                      softWrap: true,
+                                      overflow: TextOverflow.fade,
                                     ),
-                                    softWrap: true,
-                                    overflow: TextOverflow.fade,
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
     );
   }

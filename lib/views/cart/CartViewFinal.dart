@@ -58,6 +58,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     });
 
     CartServices.cartProducts.clear();
+
     await CartServices.getUserCart();
     setState(() {
       loadingScreen = false;
