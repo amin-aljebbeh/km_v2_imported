@@ -46,7 +46,6 @@ class CartServices {
                 userCart.split("@")[0].length - 1,
                 userCart.split("@")[0].length,
                 ""),
-            "warehouse_id": "2",
           }));
 
       if (response.statusCode == SUCCESS_CODE &&
