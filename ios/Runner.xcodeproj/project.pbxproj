@@ -363,7 +363,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/كمّون - kammun.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = B86VTA68V6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -507,7 +507,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/كمّون - kammun.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = B86VTA68V6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -545,7 +545,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/كمّون - kammun.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = B86VTA68V6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
