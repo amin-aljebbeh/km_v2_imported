@@ -109,6 +109,7 @@ class HomeViewState extends State<HomeView> {
       prefs.setString("firebase_token", firebaseToken);
       Tools.logToConsole("FF firebase from firebase FF");
       Tools.logToConsole(firebaseToken);
+      LoadingScreenServices().updateFirebaseToken(firebaseToken);
     } else {
       Tools.logToConsole("FF firebase from sharedPref FF");
       Tools.logToConsole(prefs.get("firebase_token"));

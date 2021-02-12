@@ -34,6 +34,8 @@ class OrdersViewState extends State<OrdersView> {
   @override
   void initState() {
     rateValue = 0;
+    filterOrders = 0;
+
 
     if (LoadingScreenServices.myOrdersList.length == 0) {
       getOrders = _getOrder();
@@ -53,7 +55,7 @@ class OrdersViewState extends State<OrdersView> {
   int page = 1;
   bool theEndOfOrders = false;
 
-  int filterOrders = 0;
+  int filterOrders;
 
   List<String> orderStatus = [
     "فلترة الطلبات",
@@ -91,7 +93,7 @@ class OrdersViewState extends State<OrdersView> {
           orderDataList.addAll(orderList);
           if (filterOrders == 0) {
             orderDataList
-                .removeWhere((order) => int.parse(order.orderStatusId) > 5);
+                .removeWhere((order) => int.parse(order.orderStatusId) > 4);
           } else {
             orderDataList.removeWhere(
                 (order) => int.parse(order.orderStatusId) != filterOrders);

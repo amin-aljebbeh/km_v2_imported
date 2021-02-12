@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:cache_image/cache_image.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/core/api/admin_URLs.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
@@ -76,7 +77,7 @@ class LoadingScreenServices {
       "firebase_token": firebaseToken,
     };
     await ApiProvider.sendRequest(
-      url: UPDATE_FIREBASE_TOKEN,
+      url: UPDATE_ADMIN_FIREBASE_TOKEN,
       method: httpMethods.post,
       body: jsonEncode(body),
     );
