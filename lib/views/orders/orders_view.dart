@@ -36,7 +36,6 @@ class OrdersViewState extends State<OrdersView> {
     rateValue = 0;
     filterOrders = 0;
 
-
     if (LoadingScreenServices.myOrdersList.length == 0) {
       getOrders = _getOrder();
     } else {
@@ -436,6 +435,9 @@ class OrdersViewState extends State<OrdersView> {
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => _onTileClicked(index),
                                       child: OrdersViewCard(
+                                        deliveryMethodId: int.parse(
+                                            orderDataList[index]
+                                                .deliveryMethodId),
                                         lat: orderDataList[index].address.lat !=
                                                 "null"
                                             ? double.parse(orderDataList[index]
@@ -864,7 +866,7 @@ class OrdersViewState extends State<OrdersView> {
 
 class OrdersViewCard extends StatefulWidget {
   final String userNumber;
-
+  final int deliveryMethodId;
   int order_quantity;
   String order_title;
   String order_total_price;
@@ -887,6 +889,7 @@ class OrdersViewCard extends StatefulWidget {
       this.lat,
       this.lon,
       this.userNumber,
+      this.deliveryMethodId,
       this.underUpdate});
 
   @override
@@ -955,9 +958,15 @@ class OrdersViewCardState extends State<OrdersViewCard> {
 
     if (widget.order_status == 5) orderStatus = "تم توصيل طلبك بنجاح ";
     if (widget.order_status == 6) orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
-    if (widget.order_status == 7) orderStatus = "😔 لم نستطع تأمين الطلب 😔";
+    if (widget.order_status == 7) orderStatus = "😔 لم نستط�� تأمين الطلب 😔";
 
     return Container(
+      decoration: widget.deliveryMethodId == 2
+          ? BoxDecoration(border: Border.all(color: Colors.red, width: 5))
+          : widget.deliveryMethodId == 3
+              ? BoxDecoration(border: Border.all(color: Colors.green, width: 5))
+              : BoxDecoration(
+                  border: Border.all(color: Colors.transparent, width: 5)),
       child: Padding(
         padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
         child: Column(
