@@ -141,7 +141,7 @@ class ProductData {
   int isFeatured;
   int priority;
   int numberOfVisits;
-  int minThreshold;
+  double minThreshold;
   String increasePercentage;
   String priceFactor;
   int underCheckAvailability;
@@ -168,8 +168,9 @@ class ProductData {
       priority: json["priority"] == null ? null : json["priority"],
       numberOfVisits:
           json["number_of_visits"] == null ? null : json["number_of_visits"],
-      minThreshold:
-          json["min_threshold"] == null ? null : json["min_threshold"],
+      minThreshold: json["min_threshold"] == null
+          ? null
+          : json["min_threshold"].toDouble(),
       increasePercentage: json["increase_percentage"] == null
           ? null
           : json["increase_percentage"],
