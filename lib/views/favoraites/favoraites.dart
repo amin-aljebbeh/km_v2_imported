@@ -154,7 +154,7 @@ class FavoraitesViewState extends State<Favoraites> {
 
     ProductData productsDic = favoraitesProductData[index];
 
-    Services.userVisitProduct(productsDic.id.toString());
+    // Services.userVisitProduct(productsDic.id.toString());
 
     //Second
 

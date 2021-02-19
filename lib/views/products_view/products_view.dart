@@ -328,6 +328,7 @@ class ProductsViewState extends State<ProductsView> {
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => _onTileClicked(index),
                                       child: ProductsViewCard(
+                                        supplierCode: eachProduct.supplierCode,
                                         productId: eachProduct.id.toString(),
                                         active: int.parse(eachProduct.isActive),
                                         img: eachProduct.images.length > 0
@@ -376,7 +377,7 @@ class ProductsViewState extends State<ProductsView> {
 
     ProductData productsDic = productsList[index];
 
-    Services.userVisitProduct(productsDic.id.toString());
+    // Services.userVisitProduct(productsDic.id.toString());
 
     //Second
 
@@ -408,6 +409,7 @@ class ProductsViewCard extends StatefulWidget {
   final int index;
   int active;
   final String productId;
+  final String supplierCode;
 
   ProductsViewCard(
       {this.img,
@@ -416,6 +418,7 @@ class ProductsViewCard extends StatefulWidget {
       this.price,
       this.index,
       this.productId,
+      this.supplierCode,
       this.active});
 
   @override
@@ -473,7 +476,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
           size: 28.0,
           color: Colors.white,
         ),
-        duration: Duration(seconds: 3),
+        duration: Duration(seconds: 1),
         leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
       )..show(context);
       return true;
@@ -499,7 +502,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
           size: 28.0,
           color: Colors.white,
         ),
-        duration: Duration(seconds: 3),
+        duration: Duration(seconds: 1),
         // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
       )..show(context);
       return false;
@@ -589,43 +592,48 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                     ],
                   ),
                 )),
-                Container(
-                  margin: const EdgeInsets.all(15.0),
-                  padding: const EdgeInsets.all(3.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(
-                              10.0) //                 <--- border radius here
+                (widget.supplierCode != null &&
+                        LoadingScreenServices.subSupplierCodeHint
+                            .hasMatch(widget.supplierCode))
+                    ? Container(
+                        margin: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(3.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                    10.0) //                 <--- border radius here
+                                ),
+                            border: Border.all(
+                                color: UtilsImporter().colorUtils.primarycolor,
+                                width: 2)),
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Switch(
+                                value: widget.active == 1 ? true : false,
+                                onChanged: (value) {
+                                  if (widget.active == 1) {
+                                    updateStatus(widget.productId, "0");
+                                  } else {
+                                    updateStatus(widget.productId, "1");
+                                  }
+                                  setState(() {
+                                    if (widget.active == 1) {
+                                      widget.active = 0;
+                                    } else {
+                                      widget.active = 1;
+                                    }
+                                  });
+                                },
+                                activeTrackColor:
+                                    UtilsImporter().colorUtils.kmColors2,
+                                activeColor:
+                                    UtilsImporter().colorUtils.kmColors,
+                              )
+                            ],
                           ),
-                      border: Border.all(
-                          color: UtilsImporter().colorUtils.primarycolor,
-                          width: 2)),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Switch(
-                          value: widget.active == 1 ? true : false,
-                          onChanged: (value) {
-                            if (widget.active == 1) {
-                              updateStatus(widget.productId, "0");
-                            } else {
-                              updateStatus(widget.productId, "1");
-                            }
-                            setState(() {
-                              if (widget.active == 1) {
-                                widget.active = 0;
-                              } else {
-                                widget.active = 1;
-                              }
-                            });
-                          },
-                          activeTrackColor:
-                              UtilsImporter().colorUtils.kmColors2,
-                          activeColor: UtilsImporter().colorUtils.kmColors,
                         ),
-                      ],
-                    ),
-                  ),
-                ),
+                      )
+                    : Container(),
 
                 // widget.active == 0
                 //     ? Badge(

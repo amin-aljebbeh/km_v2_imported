@@ -725,6 +725,7 @@ class OrderProducts {
     this.quantity,
     this.pivot,
     this.images,
+    this.supplierCode,
   });
 
   int id;
@@ -734,6 +735,7 @@ class OrderProducts {
   String isInFacebook;
   String categoryId;
   String quantity;
+  String supplierCode;
 
   OrderProductPivot pivot;
 
@@ -746,6 +748,7 @@ class OrderProducts {
         unit: json["unit"].toString(),
         isInFacebook: json["is_in_facebook"].toString(),
         categoryId: json["category_id"].toString(),
+        supplierCode: json["supplier_code"].toString(),
         quantity: json["quantity"].toString(),
         pivot: OrderProductPivot.fromJson(json["pivot"]),
         images: List<ProductImage>.from(
@@ -761,6 +764,7 @@ class OrderProducts {
         "category_id": categoryId,
         "quantity": quantity,
         "pivot": pivot.toJson(),
+        "supplier_code": supplierCode,
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }

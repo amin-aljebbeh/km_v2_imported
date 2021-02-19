@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cache_image/cache_image.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/core/api/api_URLs.dart';
+import 'package:kammun_app/core/api/api_provider.dart';
+import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -8,6 +14,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
+import 'package:kammun_app/views/products_view/services/products_services.dart';
 
 class OrderDetailView extends StatefulWidget {
   List<OrderProducts> ordersAry;
@@ -197,6 +204,8 @@ class OrderDetailViewState extends State<OrderDetailView> {
                             behavior: HitTestBehavior.translucent,
                             onTap: () => _onTileClicked(index),
                             child: OrderDetailViewCard(
+                              active: 1,
+                              productId: orderDetail.pivot.productId,
                               img: orderDetail.images.length != 0
                                   ? LoadingScreenServices.imagePrefixUrl +
                                       orderDetail.images[0].imageFileName
@@ -355,31 +364,8 @@ class OrderDetailViewState extends State<OrderDetailView> {
         child: showRepeatButtonWithGesture);
   }
 
-  //  img: orderDetail['product_img'],
-  //                       product_name: orderDetail['product_name'],
-  //                       quantity: orderDetail['product_quantity'],
-  //                       price: orderDetail['product_price'],
-
   void _showRepeatOrderBtnTapped() {
-    // for (int i = 0; i < productsAry.length; i++) {
-    //   Map orderDetail = productsAry[i];
-    //   String x = orderDetail[''];
-    // }
-    // productsAry = widget.ordersAry['products_ary'];
-    // DateFormat dateFormat = DateFormat("MM-dd-yyyy ");
-
-    // ordersAry.insert(0, {
-    //   "products_ary": productsAry,
-    //   "order_title": widget.ordersAry['order_title'],
-    //   "order_quantity": widget.ordersAry['order_quantity'],
-    //   "subtotal_price": widget.ordersAry['subtotal_price'],
-    //   "total_price": widget.ordersAry['total_price'],
-    //   "created_date": dateFormat.format(DateTime.now()),
-    //   "order_status": "بإنتظار الموافقة",
-    // });
     Navigator.pop(context);
-//    Navigator.push(context,
-//        new MaterialPageRoute(builder: (context) => new DeliverToView()));
   }
 }
 
@@ -391,6 +377,8 @@ class OrderDetailViewCard extends StatefulWidget {
   final int index;
   final String unit;
   final String productCount;
+  int active;
+  final String productId;
 
   OrderDetailViewCard(
       {this.img,
@@ -399,7 +387,9 @@ class OrderDetailViewCard extends StatefulWidget {
       this.price,
       this.index,
       this.unit,
-      this.productCount});
+      this.active,
+      this.productCount,
+      this.productId});
 
   @override
   State<StatefulWidget> createState() {
@@ -491,6 +481,96 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 18)),
+                          Switch(
+                            value: widget.active == 1 ? true : false,
+                            onChanged: (value) async {
+                              setState(() {
+                                if (widget.active == 1) {
+                                  widget.active = 0;
+                                } else {
+                                  widget.active = 1;
+                                }
+                              });
+                              bool result;
+
+                              result =
+                                  await ProductsServices.updateProductsDetails(
+                                      bodyKey: "is_active",
+                                      value: value ? "1" : "0",
+                                      productId: widget.productId);
+
+                              if (result) {
+                                Flushbar(
+                                  backgroundColor: Colors.green,
+                                  // titleText: Text("تمت الإضافة بنجاح"),
+                                  messageText: Text(
+                                    "تم التعديل بنجاح",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk),
+                                  ),
+
+                                  boxShadows: [
+                                    BoxShadow(
+                                      color: UtilsImporter()
+                                          .colorUtils
+                                          .primarycolor,
+                                      offset: Offset(0.0, 2.0),
+                                      blurRadius: 3.0,
+                                    )
+                                  ],
+                                  icon: Icon(
+                                    Icons.assignment_turned_in,
+                                    size: 28.0,
+                                    color: Colors.white,
+                                  ),
+                                  duration: Duration(seconds: 3),
+                                  leftBarIndicatorColor:
+                                      UtilsImporter().colorUtils.kmColors,
+                                )..show(context);
+                              } else {
+                                Flushbar(
+                                  backgroundColor: Colors.red[900],
+                                  messageText: Text(
+                                    "فشل في العملية يرجى المحاولة من جديد",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk),
+                                  ),
+                                  boxShadows: [
+                                    BoxShadow(
+                                      color: Colors.red,
+                                      offset: Offset(0.0, 2.0),
+                                      blurRadius: 3.0,
+                                    )
+                                  ],
+                                  icon: Icon(
+                                    Icons.close,
+                                    size: 28.0,
+                                    color: Colors.white,
+                                  ),
+                                  duration: Duration(seconds: 3),
+                                  // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+                                )..show(context);
+                                setState(() {
+                                  if (widget.active == 1) {
+                                    widget.active = 0;
+                                  } else {
+                                    widget.active = 1;
+                                  }
+                                });
+                              }
+                            },
+                            activeTrackColor:
+                                UtilsImporter().colorUtils.kmColors2,
+                            activeColor: UtilsImporter().colorUtils.kmColors,
+                          )
                         ],
                       ),
                     ],

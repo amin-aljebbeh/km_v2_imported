@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
+import 'package:kammun_app/utils/updatePriceWidget.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
+import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
@@ -182,188 +184,250 @@ class ProductDetailViewState extends State<ProductDetailView>
           body: SafeArea(
             top: false,
             child: Padding(
-              padding: EdgeInsets.only(left: 20, right: 20, top: 25),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20.0),
-                        topLeft: Radius.circular(20.0))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(widget.products.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 22,
-                          )),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text("الكمية",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                  fontSize: 20.0,
-                                )),
-                            SizedBox(height: 10),
-                            Text(
-                              widget.products.unit.toString() != "null"
-                                  ? widget.products.quantity.toString() +
-                                      " " +
-                                      widget.products.unit.toString()
-                                  : widget.products.quantity.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                  fontSize: 20),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text("السعر",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                  fontSize: 20.0,
-                                )),
-                            SizedBox(height: 10),
-                            Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.products.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                padding: EdgeInsets.only(left: 20, right: 20, top: 25),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20.0),
+                          topLeft: Radius.circular(20.0))),
+                  child: ListView(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(widget.products.name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontSize: 22,
+                            )),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text("الكمية",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color:
+                                        UtilsImporter().colorUtils.primarycolor,
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontSize: 20.0,
+                                  )),
+                              SizedBox(height: 10),
+                              Text(
+                                widget.products.unit.toString() != "null"
+                                    ? widget.products.quantity.toString() +
+                                        " " +
+                                        widget.products.unit.toString()
+                                    : widget.products.quantity.toString(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color:
                                         UtilsImporter().colorUtils.primarycolor,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 20)),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "الوصف",
-                          style: TextStyle(
+                                    fontSize: 20),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text("السعر",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: UtilsImporter().colorUtils.greycolor,
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontSize: 20.0,
+                                  )),
+                              SizedBox(height: 10),
+                              Text(
+                                  "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.products.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: UtilsImporter()
+                                          .colorUtils
+                                          .primarycolor,
+                                      fontFamily:
+                                          UtilsImporter().stringUtils.HKGrotesk,
+                                      fontSize: 20)),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "الوصف",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: UtilsImporter().colorUtils.greycolor,
+                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        widget.products.description.split("@")[0],
+                        style: TextStyle(
                             fontWeight: FontWeight.w400,
-                            color: UtilsImporter().colorUtils.greycolor,
+                            color: Theme.of(context).primaryColorDark,
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 20.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      widget.products.description.split("@")[0],
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                          fontSize: 20),
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                if (no_of_orders > 1) {
-                                  no_of_orders = no_of_orders - 1;
-                                }
-                              });
-                            },
-                            child: Image.asset(
-                              "assets/remove.png",
-                              width: 60,
-                              height: 60,
+                            fontSize: 20),
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  if (no_of_orders > 1) {
+                                    no_of_orders = no_of_orders - 1;
+                                  }
+                                });
+                              },
+                              child: Image.asset(
+                                "assets/remove.png",
+                                width: 60,
+                                height: 60,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(no_of_orders.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.grey[700],
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                  fontSize: 30)),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                no_of_orders = no_of_orders + 1;
-                              });
-                            },
-                            child: Image.asset(
-                              "assets/add.png",
-                              width: 60,
-                              height: 60,
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(no_of_orders.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.grey[700],
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontSize: 30)),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  no_of_orders = no_of_orders + 1;
+                                });
+                              },
+                              child: Image.asset(
+                                "assets/add.png",
+                                width: 60,
+                                height: 60,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-                    int.parse(widget.products.isActive) == 0
-                        ? Container(
-                            margin: const EdgeInsets.all(10.0),
-                            padding: const EdgeInsets.all(3.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                        10.0) //                 <--- border radius here
-                                    ),
-                                border: Border.all(
-                                    color:
-                                        UtilsImporter().colorUtils.primarycolor,
-                                    width: 4)),
-                            child: Center(
-                                child: Text(
-                              "المنتج نفذ من المستودعات",
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk),
-                            )),
-                          )
-                        : Container(),
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      int.parse(widget.products.isActive) == 0
+                          ? Container(
+                              margin: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.all(3.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          10.0) //                 <--- border radius here
+                                      ),
+                                  border: Border.all(
+                                      color: UtilsImporter()
+                                          .colorUtils
+                                          .primarycolor,
+                                      width: 4)),
+                              child: Center(
+                                  child: Text(
+                                "المنتج نفذ من المستودعات",
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk),
+                              )),
+                            )
+                          : Container(),
+                      _showAddToOrderButton(context),
+                      (widget.products.supplierCode != null &&
+                                  LoadingScreenServices.subSupplierCodeHint
+                                      .hasMatch(
+                                          widget.products.supplierCode)) ||
+                              LoadingScreenServices.viewOrderPermission
+                          ? Column(
+                              children: [
+                                SizedBox(height: 30),
+                                UpdatePriceWidget(
+                                  title: "تعديل السعر:",
+                                  textHint: widget.products.price,
+                                  bodyKey: "price",
+                                  productId: widget.products.id,
+                                ),
+                                SizedBox(height: 30),
+                                UpdatePriceWidget(
+                                  title: "تعديل رمز المادة:",
+                                  inputType: TextInputType.text,
+                                  textHint: widget.products.supplierCode,
+                                  bodyKey: "supplier_code",
+                                  productId: widget.products.id,
+                                ),
+                                SizedBox(height: 30),
+                                UpdatePriceWidget(
+                                  title: "تعديل الكمية:",
+                                  textHint: widget.products.quantity,
+                                  bodyKey: "quantity",
+                                  productId: widget.products.id,
+                                ),
+                                SizedBox(height: 30),
+                                // UpdatePriceWidget(
+                                //   title: "معدل الضرب",
+                                //   textHint: widget.products.,
+                                //   inputType: TextInputType.number,
+                                //   bodyKey: "price_factor",
+                                //   productId: widget.products.id,
+                                // ),
+                                // SizedBox(height: 30),
+                                UpdatePriceWidget(
+                                  title: "تعديل الوحدة:",
+                                  textHint: widget.products.unit,
+                                  inputType: TextInputType.text,
+                                  bodyKey: "unit",
+                                  productId: widget.products.id,
+                                ),
+                                SizedBox(height: 30),
+                                UpdatePriceWidget(
+                                  title: "تعديل الوصف:",
+                                  textHint: "الوصف الجديد",
+                                  inputType: TextInputType.text,
+                                  bodyKey: "description",
+                                  productId: widget.products.id,
+                                ),
+                                SizedBox(height: 30),
+                              ],
+                            )
+                          : Container(),
+                    ],
+                  ),
+                )
 
-                    SizedBox(height: 30),
-                    _showAddToOrderButton(context),
+                // Builder(builder: (context) => _showAddToFavorait(context)),
 
-                    // Builder(builder: (context) => _showAddToFavorait(context)),
-                  ],
                 ),
-              ),
-            ),
           ),
         ),
       ),

@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api/api_URLs.dart';
 import 'core/api/api_provider.dart';
@@ -348,10 +350,16 @@ class Services {
   //   Tools.logToConsole(response.body);
   // }
 
-  static Future<void> userVisitProduct(String productId) async {
-    //Tools.logToConsole("------------------ LOGIN USER   --------------------");
+  // static Future<void> userVisitProduct(String productId) async {
+  //   //Tools.logToConsole("------------------ LOGIN USER   --------------------");
 
-    await ApiProvider.sendRequest(
-        url: GET_PRODUCT + productId, method: httpMethods.post);
+  //   await ApiProvider.sendRequest(
+  //       url: GET_PRODUCT + productId, method: httpMethods.post);
+  // }
+
+  static Future<bool> logOutAdmin(BuildContext context) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    KammunRestart.restartApp(context);
   }
 }

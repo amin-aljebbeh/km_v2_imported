@@ -113,6 +113,15 @@ class ProductData {
     this.quantity,
     this.productCount,
     this.images,
+    this.supplierCode,
+    this.warehouseId,
+    this.isFeatured,
+    this.underCheckAvailability,
+    this.priceFactor,
+    this.increasePercentage,
+    this.minThreshold,
+    this.numberOfVisits,
+    this.priority,
   });
 
   int id;
@@ -125,11 +134,23 @@ class ProductData {
   String quantity;
   int productCount;
   List<ProductImage> images;
+  String supplierCode;
+  //////
+
+  int warehouseId;
+  int isFeatured;
+  int priority;
+  int numberOfVisits;
+  int minThreshold;
+  String increasePercentage;
+  String priceFactor;
+  int underCheckAvailability;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return null;
     }
+
     return ProductData(
       id: json["id"],
       name: json["name"],
@@ -140,8 +161,26 @@ class ProductData {
       isActive: json["is_active"].toString(),
       quantity: json["quantity"].toString(),
       productCount: json["productCount"],
-      images: List<ProductImage>.from(
-          json["images"].map((x) => ProductImage.fromJson(x))),
+      supplierCode:
+          json["supplier_code"] == null ? null : json["supplier_code"],
+      warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"],
+      isFeatured: json["is_featured"] == null ? null : json["is_featured"],
+      priority: json["priority"] == null ? null : json["priority"],
+      numberOfVisits:
+          json["number_of_visits"] == null ? null : json["number_of_visits"],
+      minThreshold:
+          json["min_threshold"] == null ? null : json["min_threshold"],
+      increasePercentage: json["increase_percentage"] == null
+          ? null
+          : json["increase_percentage"],
+      priceFactor: json["price_factor"] == null ? null : json["price_factor"],
+      underCheckAvailability: json["under_check_availability"] == null
+          ? null
+          : json["under_check_availability"],
+      images: json["images"] == null
+          ? new List<ProductImage>()
+          : List<ProductImage>.from(
+              json["images"].map((x) => ProductImage.fromJson(x))),
     );
   }
 
@@ -155,6 +194,7 @@ class ProductData {
         "is_active": isActive,
         "quantity": quantity,
         "productCount": productCount,
+        "supplier_code": supplierCode,
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }

@@ -72,6 +72,11 @@ class LoadingScreenServices {
 
   // -------------------------------------------------------//
 
+  // static String subSupplierCodeHint = 'kh';
+  static RegExp subSupplierCodeHint = RegExp(".*kh");
+
+  static bool viewOrderPermission = false;
+
   Future<bool> updateFirebaseToken(String firebaseToken) async {
     Map body = {
       "firebase_token": firebaseToken,
@@ -208,6 +213,21 @@ class LoadingScreenServices {
     // --------------------------------------------------------------------- //
 
     // Mobile Configuration
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString("adminRoll") != null &&
+        prefs.getString("adminRoll").contains("@")) {
+      subSupplierCodeHint =
+          RegExp(".*${prefs.getString("adminRoll").split("@")[1]}");
+    } else {
+      subSupplierCodeHint = RegExp(".*");
+    }
+    if (prefs.getBool("view_orders_permission") != null &&
+        prefs.getBool("view_orders_permission")) {
+      viewOrderPermission = true;
+    } else {
+      viewOrderPermission = false;
+    }
 
     androidShareUrl =
         "https://play.google.com/store/apps/details?id=com.kammun.app";

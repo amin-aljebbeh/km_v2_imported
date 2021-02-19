@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -205,7 +205,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                   child: Text(
-                    UtilsImporter().stringUtils.addressTitle,
+                    "تسجيل الخروج",
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
@@ -213,127 +213,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              isLoading
-                  ? Container(
-                      width: double.infinity,
-                      height: 200,
-                      child: Center(child: Loader()),
-                    )
-                  : Expanded(
-                      child: ListView(
-                        children: <Widget>[
-                          isError
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 0, bottom: 0, top: 10),
-                                  child: AlertMessages(
-                                    text:
-                                        " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
-                                    messageType: "internetError",
-                                    headerText:
-                                        " حدث خطأ اثناء محاولة حذف العنوان ",
-                                  ),
-                                )
-                              : Container(),
-                          LoadingScreenServices.userAddress.length != 0
-                              ? ListView.builder(
-                                  primary: false,
-                                  scrollDirection: Axis.vertical,
-                                  shrinkWrap: true,
-                                  itemCount:
-                                      LoadingScreenServices.userAddress == null
-                                          ? 0
-                                          : LoadingScreenServices
-                                              .userAddress.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return new GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      child: Container(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 0, right: 0, top: 0),
-                                          child: cardBody(index, context),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 30.0,
-                                      right: 0,
-                                      bottom: 30,
-                                      top: 10),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: UtilsImporter()
-                                                .colorUtils
-                                                .primarycolor,
-                                            spreadRadius: 3),
-                                      ],
-                                    ),
-                                    child: ListTile(
-                                      leading: Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
-                                        child: Icon(
-                                          FontAwesomeIcons.addressCard,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .kmColors,
-                                          size: 30,
-                                        ),
-                                      ),
-                                      title: Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 5.0),
-                                        child: Text(
-                                          "لايوجد عنوان مسجل ",
-                                          style: TextStyle(
-                                              fontFamily: UtilsImporter()
-                                                  .stringUtils
-                                                  .HKGrotesk,
-                                              fontSize: 25,
-                                              color: Colors.black),
-                                        ),
-                                      ),
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                ),
-                          Align(
-                              alignment: Alignment.center,
-                              child: FlatButton(
-                                padding: EdgeInsets.only(left: 30.0, top: 10.0),
-                                child: Text(
-                                    UtilsImporter().stringUtils.add_new_address,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greycolor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
-                                        fontSize: 17)),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (context) =>
-                                              new AddAddressView(
-                                                isFromDeliveryScreen: false,
-                                              )));
-                                },
-                              )),
-                        ],
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 30.0, right: 0, bottom: 30, top: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: UtilsImporter().colorUtils.primarycolor,
+                          spreadRadius: 3),
+                    ],
+                  ),
+                  child: ListTile(
+                    leading: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: IconButton(
+                        onPressed: () {
+                          Services.logOutAdmin(context);
+                        },
+                        icon: Icon(
+                          Icons.logout,
+                          color: UtilsImporter().colorUtils.kmColors,
+                          size: 30,
+                        ),
                       ),
-                    )
+                    ),
+                    title: Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Text(
+                        "تسجيل الخروج",
+                        style: TextStyle(
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontSize: 25,
+                            color: Colors.black),
+                      ),
+                    ),
+
+                    // subtitle: Text(
+                    //   "0957570213",
+                    //   style: TextStyle(
+                    //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 30),
+                    // ),
+                    onTap: () {},
+                  ),
+                ),
+              ),
             ],
           ),
         ),

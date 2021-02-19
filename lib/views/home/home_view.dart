@@ -6,6 +6,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/favoraites/favoraites.dart';
+import 'package:kammun_app/views/inventory/inventory.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
@@ -200,95 +201,148 @@ class HomeViewState extends State<HomeView> {
     );
   }
 
+  Widget _buttomNavBar({BuildContext context}) {
+    return BottomNavigationBar(
+      // backgroundColor: Color.fromARGB(255, 53, 99, 124),
+      //backgroundColor: Color.fromARGB(255, 57, 107, 137),
+      backgroundColor: Colors.white,
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.store,
+              // color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
+            title: Text(
+              UtilsImporter().stringUtils.store,
+              style: TextStyle(
+                  color: Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontSize: 15),
+            )),
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.shopping_cart,
+              // color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon: Icon(Icons.shopping_cart,
+                color: Color.fromARGB(255, 53, 99, 124)),
+            title: Text(
+              UtilsImporter().stringUtils.cart,
+              style: TextStyle(
+                  color: Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontSize: 15),
+            )),
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.reorder,
+              //color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon: Icon(Icons.reorder, color: Color.fromARGB(255, 53, 99, 124)),
+            title: Text(
+              UtilsImporter().stringUtils.orders,
+              style: TextStyle(
+                  color: Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontSize: 15),
+            )),
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.category,
+              // color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon: Icon(Icons.category, color: Color.fromARGB(255, 53, 99, 124)),
+            title: Text(
+              "جرد منتجات",
+              style: TextStyle(
+                  color: Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontSize: 15),
+            )),
+      ],
+      currentIndex: _selectedIndex,
+      type: BottomNavigationBarType.fixed,
+      fixedColor: Colors.white,
+      onTap: _onItemTapped,
+    );
+  }
+
+  Widget _buttomNavBarNoPermission({BuildContext context}) {
+    return BottomNavigationBar(
+      // backgroundColor: Color.fromARGB(255, 53, 99, 124),
+      //backgroundColor: Color.fromARGB(255, 57, 107, 137),
+      backgroundColor: Colors.white,
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.store,
+              // color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
+            title: Text(
+              UtilsImporter().stringUtils.store,
+              style: TextStyle(
+                  color: Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontSize: 15),
+            )),
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.category,
+              // color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon: Icon(Icons.category, color: Color.fromARGB(255, 53, 99, 124)),
+            title: Text(
+              "جرد منتجات",
+              style: TextStyle(
+                  color: Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontSize: 15),
+            )),
+      ],
+      currentIndex: _selectedIndex,
+      type: BottomNavigationBarType.fixed,
+      fixedColor: Colors.white,
+      onTap: _onItemTapped,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _tabs = [
-      StoreView(),
-      CartView(
-        isFromUpdateOrder: _isFromUpdateOrder,
-      ),
-      OrdersView(),
-      // Favoraites(),
-    ];
+    final _tabs = LoadingScreenServices.viewOrderPermission
+        ? [
+            StoreView(),
+            CartView(
+              isFromUpdateOrder: _isFromUpdateOrder,
+            ),
+            OrdersView(),
+            // Favoraites(),
+            Inventory(),
+          ]
+        : [
+            StoreView(),
+            Inventory(),
+            // OrdersView(),
+            // Favoraites(),
+          ];
     return Scaffold(
-      body: _tabs[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        // backgroundColor: Color.fromARGB(255, 53, 99, 124),
-        //backgroundColor: Color.fromARGB(255, 57, 107, 137),
-        backgroundColor: Colors.white,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              activeIcon: Icon(
-                Icons.store,
-                // color: Theme.of(context).primaryColor,
-                color: Color.fromARGB(255, 210, 178, 2),
-              ),
-              icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
-              title: Text(
-                UtilsImporter().stringUtils.store,
-                style: TextStyle(
-                    color: Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                    fontSize: 15),
-              )),
-          BottomNavigationBarItem(
-              activeIcon: Icon(
-                Icons.shopping_cart,
-                // color: Theme.of(context).primaryColor,
-                color: Color.fromARGB(255, 210, 178, 2),
-              ),
-              icon: Icon(Icons.shopping_cart,
-                  color: Color.fromARGB(255, 53, 99, 124)),
-              title: Text(
-                UtilsImporter().stringUtils.cart,
-                style: TextStyle(
-                    color: Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                    fontSize: 15),
-              )),
-          BottomNavigationBarItem(
-              activeIcon: Icon(
-                Icons.reorder,
-                //color: Theme.of(context).primaryColor,
-                color: Color.fromARGB(255, 210, 178, 2),
-              ),
-              icon:
-                  Icon(Icons.reorder, color: Color.fromARGB(255, 53, 99, 124)),
-              title: Text(
-                UtilsImporter().stringUtils.orders,
-                style: TextStyle(
-                    color: Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                    fontSize: 15),
-              )),
-          // BottomNavigationBarItem(
-          //     activeIcon: Icon(
-          //       Icons.favorite,
-          //       //   color: Theme.of(context).primaryColor,
-          //       color: Color.fromARGB(255, 210, 178, 2),
-          //     ),
-          //     icon: Icon(
-          //       Icons.favorite,
-          //       color: Color.fromARGB(255, 53, 99, 124),
-          //     ),
-          //     title: Text(
-          //       UtilsImporter().stringUtils.profile,
-          //       style: TextStyle(
-          //           color: Color.fromARGB(255, 53, 99, 124),
-          //           fontWeight: FontWeight.w500,
-          //           fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-          //           fontSize: 15),
-          //     )),
-        ],
-        currentIndex: _selectedIndex,
-        type: BottomNavigationBarType.fixed,
-        fixedColor: Colors.white,
-        onTap: _onItemTapped,
-      ),
-    );
+        body: _tabs[_selectedIndex],
+        bottomNavigationBar: LoadingScreenServices.viewOrderPermission
+            ? _buttomNavBar(context: context)
+            : _buttomNavBarNoPermission(context: context));
   }
 
   void _onItemTapped(int index) {

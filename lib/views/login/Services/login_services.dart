@@ -121,6 +121,10 @@ class LoginServices {
         final resposne = adminLoginResponseFromJson(jsonEncode(response.data));
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("userToken", resposne.data.apiToken);
+        prefs.setString("adminRoll", username);
+        prefs.setBool("view_orders_permission",
+            resposne.data.viewOrdersPermission == "1" ? true : false);
+
         LoadingScreen.user_token = resposne.data.apiToken;
         LoadingScreen.isAdmin = true;
 

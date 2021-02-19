@@ -97,6 +97,16 @@ class OrdersViewState extends State<OrdersView> {
             orderDataList.removeWhere(
                 (order) => int.parse(order.orderStatusId) != filterOrders);
           }
+          Tools.logToConsole("orderDataList before filltiting");
+          Tools.logToConsole(orderDataList.length);
+          for (int i = 0; i < orderDataList.length; i++) {
+            orderDataList[i].products.removeWhere((theProduct) =>
+                !LoadingScreenServices.subSupplierCodeHint
+                    .hasMatch(theProduct.supplierCode));
+          }
+          orderDataList.removeWhere((order) => order.products.length == 0);
+          Tools.logToConsole("orderDataList After filltiting");
+          Tools.logToConsole(orderDataList.length);
           LoadingScreenServices.myOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
@@ -958,7 +968,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
 
     if (widget.order_status == 5) orderStatus = "تم توصيل طلبك بنجاح ";
     if (widget.order_status == 6) orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
-    if (widget.order_status == 7) orderStatus = "😔 لم نستط�� تأمين الطلب 😔";
+    if (widget.order_status == 7) orderStatus = "😔 لم نستطع تأمين الطلب 😔";
 
     return Container(
       decoration: widget.deliveryMethodId == 2
