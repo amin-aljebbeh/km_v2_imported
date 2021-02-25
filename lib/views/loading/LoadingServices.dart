@@ -76,6 +76,7 @@ class LoadingScreenServices {
   static RegExp subSupplierCodeHint = RegExp(".*kh");
 
   static bool viewOrderPermission = false;
+  static bool addProductsPermission = false;
 
   Future<bool> updateFirebaseToken(String firebaseToken) async {
     Map body = {
@@ -227,6 +228,12 @@ class LoadingScreenServices {
       viewOrderPermission = true;
     } else {
       viewOrderPermission = false;
+    }
+    if (prefs.getBool("add_products_permission") != null &&
+        prefs.getBool("add_products_permission")) {
+      addProductsPermission = true;
+    } else {
+      addProductsPermission = false;
     }
 
     androidShareUrl =

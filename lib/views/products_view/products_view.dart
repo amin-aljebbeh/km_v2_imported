@@ -14,6 +14,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/facebook_loader.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
+import 'package:kammun_app/views/products_view/add_products.dart';
 import '../../Services.dart';
 
 class ProductsView extends StatefulWidget {
@@ -196,6 +197,20 @@ class ProductsViewState extends State<ProductsView> {
 // Color.fromARGB(255, 210, 178, 2) كموني
 //Color.fromARGB(255, 53, 99, 124) كجلي
     return Scaffold(
+        floatingActionButton: widget.queryString == null
+            ? FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new AddProductsView(
+                                categoryId: widget.categoryId,
+                              )));
+                },
+                tooltip: 'Pick Image',
+                child: Icon(Icons.add),
+              )
+            : null,
         appBar: PreferredSize(
           child: AppBar(
             backgroundColor: Color.fromARGB(255, 210, 178, 2),

@@ -10,6 +10,7 @@ import 'package:kammun_app/views/inventory/inventory.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
+import 'package:kammun_app/views/products_view/add_products.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -262,6 +263,22 @@ class HomeViewState extends State<HomeView> {
             icon: Icon(Icons.category, color: Color.fromARGB(255, 53, 99, 124)),
             title: Text(
               "جرد منتجات",
+              style: TextStyle(
+                  color: Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontSize: 15),
+            )),
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.merge_type,
+              // color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon:
+                Icon(Icons.merge_type, color: Color.fromARGB(255, 53, 99, 124)),
+            title: Text(
+              "إضافة منتحات",
               style: TextStyle(
                   color: Color.fromARGB(255, 53, 99, 124),
                   fontWeight: FontWeight.w500,
