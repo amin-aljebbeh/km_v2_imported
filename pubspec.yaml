@@ -60,6 +60,9 @@ dependencies:
   flutter_launcher_icons: ^0.8.0
   flutter_image_compress: ^0.7.0
   image_picker: ^0.6.7+22
+  http: ^0.12.2
+  http_parser: ^3.1.4
+  flutter_uploader: ^1.2.0
 
 
 flutter_icons:

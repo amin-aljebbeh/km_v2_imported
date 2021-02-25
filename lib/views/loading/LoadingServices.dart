@@ -205,7 +205,7 @@ class LoadingScreenServices {
         messengerUrl: "http://m.me/KammunApp",
         supportUrl: "https://www.instagram.com/",
         baseUrl: "https://kammun.com",
-        imageBaseUrl: "https://kammunapp.com/images/",
+        imageBaseUrl: "https://kammun.app/images/",
         currency: "S.P",
         additionalInfo: "http://m.me/KammunApp");
 

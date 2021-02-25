@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -22,15 +23,40 @@ class _AddProductsViewState extends State<AddProductsView> {
 
   final picker = ImagePicker();
 
-  Future getImage() async {
-    final pickedFile =
-        await picker.getImage(source: ImageSource.camera, imageQuality: 30);
+  Future getImageCamera() async {
+    final pickedFile = await picker.getImage(
+        source: ImageSource.camera,
+        imageQuality: 80,
+        maxHeight: 350,
+        maxWidth: 300);
     // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
     Tools.logToConsole("Image Path");
-    Tools.logToConsole(File(pickedFile.path));
+    // Tools.logToConsole(File(pickedFile.path));
     // Tools.logToConsole("Compressed Image Path");
     // Tools.logToConsole(uploadedFile);
+    // Tools.logToConsole(uploadedFile.path);
 
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        // _uploadedFile = uploadedFile;
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future getImageGalery() async {
+    final pickedFile = await picker.getImage(
+        source: ImageSource.gallery,
+        imageQuality: 80,
+        maxHeight: 350,
+        maxWidth: 300);
+    // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
+    Tools.logToConsole("Image Path");
+    // Tools.logToConsole(File(pickedFile.path));
+    // Tools.logToConsole("Compressed Image Path");
+    // Tools.logToConsole(uploadedFile);
     // Tools.logToConsole(uploadedFile.path);
 
     setState(() {
@@ -100,8 +126,8 @@ class _AddProductsViewState extends State<AddProductsView> {
         Text(
           title,
           style: TextStyle(
-            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-          ),
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontWeight: FontWeight.bold),
         ),
         subTitle == null
             ? Container(width: 0, height: 0)
@@ -116,7 +142,7 @@ class _AddProductsViewState extends State<AddProductsView> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.0),
               color: Colors.white,
-              border: Border.all(width: 1.0, color: Colors.red),
+              border: Border.all(width: 1.0, color: Colors.green[700]),
               boxShadow: [
                 BoxShadow(
                     color: Colors.black.withOpacity(0.16),
@@ -181,31 +207,57 @@ class _AddProductsViewState extends State<AddProductsView> {
       isLoading = true;
       isError = false;
     });
-    // int productIds = await ProductsServices.addNewProducts(
-    //     name: nameController.text,
-    //     quantity: quantityController.text,
-    //     unit: unitController.text,
-    //     price: priceController.text,
-    //     description: descriptionController.text,
-    //     supplierCode: supplierCodeController.text,
-    //     priceFactor: priceController.text,
-    //     categoryId: widget.categoryId,
-    //     minThreshold: "0",
-    //     isActive: switchController ? "1" : "0");
+    int productIds = await ProductsServices.addNewProducts(
+        name: nameController.text,
+        quantity: quantityController.text,
+        unit: unitController.text,
+        price: priceController.text,
+        description: descriptionController.text,
+        supplierCode: supplierCodeController.text,
+        priceFactor: priceController.text,
+        categoryId: widget.categoryId,
+        minThreshold: "0",
+        isActive: switchController ? "1" : "0");
 
-    if (true) {
+    if (productIds != 0) {
       bool result = await ProductsServices.setImageToProducts(
-          productId: 7706, image: _image);
+          productId: productIds, image: _image);
       if (result) {
         setState(() {
           isLoading = false;
           isError = false;
         });
+
+        Navigator.of(context).pop();
       } else {
         setState(() {
           isLoading = false;
           isError = true;
         });
+        Flushbar(
+          backgroundColor: Colors.red[900],
+          messageText: Text(
+            "فشل في إضافة المنتج",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+          boxShadows: [
+            BoxShadow(
+              color: Colors.red,
+              offset: Offset(0.0, 2.0),
+              blurRadius: 3.0,
+            )
+          ],
+          icon: Icon(
+            Icons.close,
+            size: 28.0,
+            color: Colors.white,
+          ),
+          duration: Duration(seconds: 1),
+          // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+        )..show(context);
       }
     }
   }
@@ -223,10 +275,69 @@ class _AddProductsViewState extends State<AddProductsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 210, 178, 2),
+        automaticallyImplyLeading: false,
+        // hides leading widget
+
+        flexibleSpace: SafeArea(
+          // top: true,
+          // left: false,
+          // bottom: false,
+          // right: false,
+          child: Column(
+            children: <Widget>[
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Opacity(
+                      opacity: 0.0,
+                      child: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Transform.scale(
+                        scale: 2,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/home',
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: Image.asset(
+                            "assets/logobw.png",
+                            width: 150,
+                            height: 50,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.only(top: 5.0, left: 0),
+                        child: IconButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            icon: Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
+                              size: 40,
+                            ))),
+                  ]),
+            ],
+          ),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding:
+              const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
           child: isLoading
               ? Center(child: Loader())
               : ListView(
@@ -248,7 +359,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                             width: MediaQuery.of(context).size.width / 4),
                         _entryField(
                             controller: unitController,
-                            title: "وحدة القياس",
+                            title: "الوحدة",
                             fieldType: TextInputType.name,
                             hint: "لتر",
                             width: MediaQuery.of(context).size.width / 4),
@@ -270,7 +381,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                       children: [
                         _entryField(
                             controller: supplierCodeController,
-                            title: "رمز المادة في المستودع",
+                            title: "رمز المادة ",
                             fieldType: TextInputType.name,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
@@ -285,10 +396,22 @@ class _AddProductsViewState extends State<AddProductsView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        RaisedButton(
-                          child: Icon(Icons.add),
+                        FlatButton(
+                          child: Icon(
+                            Icons.camera,
+                            color: UtilsImporter().colorUtils.kmColors,
+                          ),
                           onPressed: () {
-                            getImage();
+                            getImageCamera();
+                          },
+                        ),
+                        FlatButton(
+                          child: Icon(
+                            Icons.image,
+                            color: UtilsImporter().colorUtils.kmColors,
+                          ),
+                          onPressed: () {
+                            getImageGalery();
                           },
                         ),
                         SizedBox(
