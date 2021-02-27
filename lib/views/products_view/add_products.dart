@@ -26,9 +26,9 @@ class _AddProductsViewState extends State<AddProductsView> {
   Future getImageCamera() async {
     final pickedFile = await picker.getImage(
         source: ImageSource.camera,
-        imageQuality: 80,
-        maxHeight: 350,
-        maxWidth: 300);
+        imageQuality: 100,
+        maxHeight: 600,
+        maxWidth: 500);
     // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
     Tools.logToConsole("Image Path");
     // Tools.logToConsole(File(pickedFile.path));
@@ -49,9 +49,9 @@ class _AddProductsViewState extends State<AddProductsView> {
   Future getImageGalery() async {
     final pickedFile = await picker.getImage(
         source: ImageSource.gallery,
-        imageQuality: 80,
-        maxHeight: 350,
-        maxWidth: 300);
+        imageQuality: 100,
+        maxHeight: 600,
+        maxWidth: 500);
     // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
     Tools.logToConsole("Image Path");
     // Tools.logToConsole(File(pickedFile.path));

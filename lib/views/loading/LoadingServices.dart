@@ -209,7 +209,7 @@ class LoadingScreenServices {
         currency: "S.P",
         additionalInfo: "http://m.me/KammunApp");
 
-    imagePrefixUrl = "https://kammunapp.com/images/";
+    imagePrefixUrl = "https://kammun.app/images/";
 
     // --------------------------------------------------------------------- //
 
