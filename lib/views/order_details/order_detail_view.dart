@@ -51,6 +51,10 @@ class OrderDetailViewState extends State<OrderDetailView> {
       productsAry = widget.ordersAry;
       idOrder = widget.orderId;
       orderArrayIndex = widget.orderIndex;
+
+      productsAry.removeWhere((element) => !LoadingScreenServices
+          .subSupplierCodeHint
+          .hasMatch(element.supplierCode));
     });
   }
 

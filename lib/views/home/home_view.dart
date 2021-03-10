@@ -10,6 +10,7 @@ import 'package:kammun_app/views/inventory/inventory.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
+import 'package:kammun_app/views/prices_changes/prices.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -269,6 +270,21 @@ class HomeViewState extends State<HomeView> {
                   fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                   fontSize: 15),
             )),
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.money_off_csred_outlined,
+              // color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon: Icon(Icons.money_off_csred_outlined, color: Color.fromARGB(255, 53, 99, 124)),
+            title: Text(
+              "الأسعار",
+              style: TextStyle(
+                  color: Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontSize: 15),
+            )),
       ],
       currentIndex: _selectedIndex,
       type: BottomNavigationBarType.fixed,
@@ -332,6 +348,7 @@ class HomeViewState extends State<HomeView> {
             OrdersView(),
             // Favoraites(),
             Inventory(),
+            Prices(),
           ]
         : [
             StoreView(),

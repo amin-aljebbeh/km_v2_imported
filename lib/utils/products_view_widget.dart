@@ -15,6 +15,7 @@ class ProductsViewCard extends StatefulWidget {
   final String productId;
   final String supplierCode;
   Function(bool) onChangeStatus;
+  final int oldPrice;
 
   ProductsViewCard(
       {this.img,
@@ -25,6 +26,7 @@ class ProductsViewCard extends StatefulWidget {
       this.productId,
       this.supplierCode,
       this.onChangeStatus,
+      this.oldPrice,
       this.active});
 
   @override
@@ -100,20 +102,45 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
-                          Text(
-                              UtilsImporter()
-                                      .stringUtils
-                                      .oCcy
-                                      .format(widget.price)
-                                      .toString() +
-                                  " ${LoadingScreenServices.companyInformation.currency}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                  fontSize: 18)),
+                          Wrap(
+                            children: [
+                              Text(
+                                  UtilsImporter()
+                                          .stringUtils
+                                          .oCcy
+                                          .format(widget.price)
+                                          .toString() +
+                                      "  ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: UtilsImporter()
+                                          .colorUtils
+                                          .primarycolor,
+                                      fontFamily:
+                                          UtilsImporter().stringUtils.HKGrotesk,
+                                      fontSize: 18)),
+                              widget.oldPrice != null
+                                  ? RichText(
+                                      text: new TextSpan(
+                                        children: <TextSpan>[
+                                          new TextSpan(
+                                            text: UtilsImporter()
+                                                .stringUtils
+                                                .oCcy
+                                                .format(widget.oldPrice)
+                                                .toString(),
+                                            style: new TextStyle(
+                                              color: Colors.grey,
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Container()
+                            ],
+                          ),
                         ],
                       ),
                     ],
@@ -121,7 +148,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 )),
                 widget.supplierCode != null &&
                         LoadingScreenServices.subSupplierCodeHint
-                            .hasMatch(widget.supplierCode)
+                            .hasMatch(widget.supplierCode) &&
+                        widget.active != null
                     ? Container(
                         margin: const EdgeInsets.all(15.0),
                         padding: const EdgeInsets.all(3.0),
