@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:badges/badges.dart';
+import 'package:cache_image/cache_image.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
@@ -546,15 +547,18 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Hero(
-                          tag: widget.index + 100,
-                          child: FadeInImage.assetNetwork(
-                            fadeInCurve: Curves.fastOutSlowIn,
-                            placeholder: "assets/kmIcon.png",
-                            fit: BoxFit.contain,
-                            image: widget.img,
-                            width: MediaQuery.of(context).size.width,
-                            height: 120,
-                          ))),
+                        tag: widget.index + 100,
+                        child: FadeInImage(
+                          fadeInCurve: Curves.fastOutSlowIn,
+                          placeholder: AssetImage("assets/kmIcon.png"),
+                          fit: BoxFit.contain,
+                          image: widget.img.length > 0
+                              ? CacheImage(widget.img)
+                              : AssetImage("assets/kmIcon.png"),
+                          width: MediaQuery.of(context).size.width,
+                          height: 120,
+                        ),
+                      )),
                 ),
                 SizedBox(width: 10),
                 Expanded(
