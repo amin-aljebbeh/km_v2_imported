@@ -217,7 +217,9 @@ class ProductsServices {
   // }
 
   static Future<bool> _upload(File file, int productId) async {
-    var headers = {'Authorization': 'Bearer aboHashim'};
+    var headers = {
+      'Authorization': 'Bearer ${LoadingScreen.user_token.length}'
+    };
     var request = http.MultipartRequest(
         'POST', Uri.parse(BaseUrl + ADD_IMAGE_TO_PRODUCTS));
     request.fields.addAll({'product_id': '$productId'});
