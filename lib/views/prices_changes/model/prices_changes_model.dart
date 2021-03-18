@@ -56,6 +56,7 @@ class ProuctsPriceChange {
     this.priceFactor,
     this.underCheckAvailability,
     this.priceChange,
+    this.updateAt,
     this.images,
   });
 
@@ -72,11 +73,12 @@ class ProuctsPriceChange {
   int priority;
   int numberOfVisits;
   String supplierCode;
-  int minThreshold;
+  double minThreshold;
   String increasePercentage;
   String priceFactor;
   int underCheckAvailability;
   String priceChange;
+  DateTime updateAt;
   List<Image> images;
 
   factory ProuctsPriceChange.fromJson(Map<String, dynamic> json) =>
@@ -94,11 +96,12 @@ class ProuctsPriceChange {
         priority: json["priority"],
         numberOfVisits: json["number_of_visits"],
         supplierCode: json["supplier_code"],
-        minThreshold: json["min_threshold"],
+        minThreshold: json["min_threshold"].toDouble(),
         increasePercentage: json["increase_percentage"],
         priceFactor: json["price_factor"],
         underCheckAvailability: json["under_check_availability"],
         priceChange: json["price_change"],
+        updateAt: DateTime.parse(json["update_at"]),
         images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
       );
 
@@ -121,6 +124,7 @@ class ProuctsPriceChange {
         "price_factor": priceFactor,
         "under_check_availability": underCheckAvailability,
         "price_change": priceChange,
+        "update_at": updateAt.toIso8601String(),
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }

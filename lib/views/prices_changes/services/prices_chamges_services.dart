@@ -15,7 +15,21 @@ class PricesChangesSerives {
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
       Tools.logToConsole(response.data["count"]);
+      Tools.logToConsole(response.data["count"]);
       return pricesChangesFromJson(jsonEncode(response.data));
+    } else {
+      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+      return null;
+    }
+  }
+
+  static Future<bool> deleteImage({int imageId}) async {
+    var response = await ApiProvider.sendRequest(
+      url: PRODUCT_IMAGE + imageId.toString(),
+      method: httpMethods.delete,
+    );
+    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      return true;
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
       return null;

@@ -2,6 +2,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/products_view_widget.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -28,6 +29,9 @@ class _PricesState extends State<Prices> {
       isError = false;
     });
     productsList = await PricesChangesSerives.loadData();
+    Tools.logToConsole("Count if products List");
+
+    Tools.logToConsole(productsList.count);
     if (productsList != null) {
       setState(() {
         isLoading = false;

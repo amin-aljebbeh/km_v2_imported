@@ -51,7 +51,7 @@ class _UpdatePriceWidgetState extends State<UpdatePriceWidget> {
           child: TextFormField(
             controller: _textController,
             textAlign: TextAlign.center,
-            keyboardType: TextInputType.number,
+            keyboardType: widget.inputType,
             decoration: new InputDecoration(
               hintText: widget.textHint,
               fillColor: Colors.white,

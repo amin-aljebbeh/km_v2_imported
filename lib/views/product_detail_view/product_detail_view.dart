@@ -11,6 +11,7 @@ import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
+import 'package:kammun_app/views/prices_changes/services/prices_chamges_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
@@ -394,14 +395,14 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   productId: widget.products.id,
                                 ),
                                 SizedBox(height: 30),
-                                // UpdatePriceWidget(
-                                //   title: "معدل الضرب",
-                                //   textHint: widget.products.,
-                                //   inputType: TextInputType.number,
-                                //   bodyKey: "price_factor",
-                                //   productId: widget.products.id,
-                                // ),
-                                // SizedBox(height: 30),
+                                UpdatePriceWidget(
+                                  title: "معدل الضرب",
+                                  textHint: widget.products.priceFactor,
+                                  inputType: TextInputType.number,
+                                  bodyKey: "price_factor",
+                                  productId: widget.products.id,
+                                ),
+                                SizedBox(height: 30),
                                 UpdatePriceWidget(
                                   title: "تعديل الوحدة:",
                                   textHint: widget.products.unit,
@@ -417,6 +418,16 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   bodyKey: "description",
                                   productId: widget.products.id,
                                 ),
+                                SizedBox(height: 30),
+                                UpdatePriceWidget(
+                                  title: "تعديل الإسم:",
+                                  textHint: widget.products.name,
+                                  inputType: TextInputType.text,
+                                  bodyKey: "name",
+                                  productId: widget.products.id,
+                                ),
+                                SizedBox(height: 30),
+                                _deleteImageButton(),
                                 SizedBox(height: 30),
                               ],
                             )
@@ -648,4 +659,37 @@ class ProductDetailViewState extends State<ProductDetailView>
     // Toast.show("تم إزالة ${widget.products.name}  من المفضلة", context,
     //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
   }
+}
+
+_deleteImageButton({int imageId}) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: [
+      Text(
+        "حذف الصورة",
+        overflow: TextOverflow.clip,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 15,
+          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+        ),
+      ),
+      IconButton(
+          icon: Icon(
+            Icons.delete,
+            color: Colors.red,
+            size: 30,
+          ),
+
+          // widget.products.supplierCode != null &&
+          //                 LoadingScreenServices.subSupplierCodeHint
+          //                     .hasMatch(widget.products.supplierCode)
+          onPressed: () async {
+            bool resposne =
+                await PricesChangesSerives.deleteImage(imageId: imageId);
+            if (resposne) {
+            } else {}
+          }),
+    ],
+  );
 }

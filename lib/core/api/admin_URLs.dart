@@ -4,3 +4,5 @@ const String GET_INVENTORY_PRODUCTS =
     "/api/product/product_under_check_availability";
 
 const String GET_PRICES_CHANGES = "/api/product/products_price_change";
+
+const String PRODUCT_IMAGE = "/api/product/product_image/";
