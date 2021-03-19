@@ -5,4 +5,4 @@ const String GET_INVENTORY_PRODUCTS =
 
 const String GET_PRICES_CHANGES = "/api/product/products_price_change";
 
-const String PRODUCT_IMAGE = "/api/product/product_image/";
+const String PRODUCT_IMAGE = "/api/product_image/";

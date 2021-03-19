@@ -1,17 +1,23 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:kammun_app/utils/Loader.dart';
+import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/updatePriceWidget.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_chamges_services.dart';
+import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
@@ -79,10 +85,107 @@ class ProductDetailViewState extends State<ProductDetailView>
 
   // curve: Curves.linear, duration: Duration(milliseconds: 500));
 
+  File _image;
+  // File _uploadedFile;
+
+  final picker = ImagePicker();
+
+  bool isLoading = false;
+  bool isError = false;
+
+  Future getImageCamera() async {
+    final pickedFile = await picker.getImage(
+        source: ImageSource.camera,
+        imageQuality: 100,
+        maxHeight: 600,
+        maxWidth: 500);
+    // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
+    Tools.logToConsole("Image Path");
+    // Tools.logToConsole(File(pickedFile.path));
+    // Tools.logToConsole("Compressed Image Path");
+    // Tools.logToConsole(uploadedFile);
+    // Tools.logToConsole(uploadedFile.path);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        // _uploadedFile = uploadedFile;
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future getImageGalery() async {
+    final pickedFile = await picker.getImage(
+        source: ImageSource.gallery,
+        imageQuality: 100,
+        maxHeight: 600,
+        maxWidth: 500);
+    // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
+    Tools.logToConsole("Image Path");
+    // Tools.logToConsole(File(pickedFile.path));
+    // Tools.logToConsole("Compressed Image Path");
+    // Tools.logToConsole(uploadedFile);
+    // Tools.logToConsole(uploadedFile.path);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        // _uploadedFile = uploadedFile;
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  _getImage() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        FlatButton(
+          child: Icon(
+            Icons.camera,
+            color: UtilsImporter().colorUtils.kmColors,
+          ),
+          onPressed: () {
+            getImageCamera();
+          },
+        ),
+        FlatButton(
+          child: Icon(
+            Icons.image,
+            color: UtilsImporter().colorUtils.kmColors,
+          ),
+          onPressed: () {
+            getImageGalery();
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget imagesBody() {
+    return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.only(top: 10),
+      child: SelectedFileToUpload(
+        image: _image,
+        name: 'Product Image}',
+        close: () {
+          setState(() {
+            _image = null;
+            // _uploadedFile = null;
+          });
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    Tools.logToConsole("------ the image length --------");
-    Tools.logToConsole(widget.products.images.length);
+    // Tools.logToConsole("------ the image length --------");
+    // Tools.logToConsole(widget.products.images.length);
     return SafeArea(
       top: true,
       left: false,
@@ -427,7 +530,86 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   productId: widget.products.id,
                                 ),
                                 SizedBox(height: 30),
-                                _deleteImageButton(),
+                                widget.products.images.length > 0
+                                    ? _deleteImageButton(
+                                        imageId: widget.products.images[0].id,
+                                        context: context)
+                                    : Container(),
+                                SizedBox(height: 30),
+                                _getImage(),
+                                _image != null ? imagesBody() : Container(),
+                                isLoading
+                                    ? Loader()
+                                    : KammunButton(
+                                        text: "حفظ",
+                                        onPress: () async {
+                                          bool result = await ProductsServices
+                                              .setImageToProducts(
+                                                  productId: widget.products.id,
+                                                  image: _image);
+                                          if (result) {
+                                            setState(() {
+                                              isLoading = false;
+                                            });
+                                            Flushbar(
+                                              backgroundColor: Colors.red[900],
+                                              messageText: Text(
+                                                "تم إضافة صورة بنجاح",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: UtilsImporter()
+                                                        .stringUtils
+                                                        .HKGrotesk),
+                                              ),
+                                              boxShadows: [
+                                                BoxShadow(
+                                                  color: Colors.green,
+                                                  offset: Offset(0.0, 2.0),
+                                                  blurRadius: 3.0,
+                                                )
+                                              ],
+                                              icon: Icon(
+                                                Icons.assignment_turned_in,
+                                                size: 28.0,
+                                                color: Colors.white,
+                                              ),
+                                              duration: Duration(seconds: 1),
+                                              // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+                                            )..show(context);
+                                          } else {
+                                            setState(() {
+                                              isLoading = false;
+                                            });
+                                            Flushbar(
+                                              backgroundColor: Colors.red[900],
+                                              messageText: Text(
+                                                "فشل في إضافة المنتج",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: UtilsImporter()
+                                                        .stringUtils
+                                                        .HKGrotesk),
+                                              ),
+                                              boxShadows: [
+                                                BoxShadow(
+                                                  color: Colors.red,
+                                                  offset: Offset(0.0, 2.0),
+                                                  blurRadius: 3.0,
+                                                )
+                                              ],
+                                              icon: Icon(
+                                                Icons.close,
+                                                size: 28.0,
+                                                color: Colors.white,
+                                              ),
+                                              duration: Duration(seconds: 1),
+                                              // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+                                            )..show(context);
+                                          }
+                                        },
+                                      ),
                                 SizedBox(height: 30),
                               ],
                             )
@@ -661,7 +843,7 @@ class ProductDetailViewState extends State<ProductDetailView>
   }
 }
 
-_deleteImageButton({int imageId}) {
+_deleteImageButton({int imageId, BuildContext context}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
@@ -688,7 +870,58 @@ _deleteImageButton({int imageId}) {
             bool resposne =
                 await PricesChangesSerives.deleteImage(imageId: imageId);
             if (resposne) {
-            } else {}
+              Flushbar(
+                backgroundColor: Colors.green,
+                // titleText: Text("تمت الإضافة بنجاح"),
+                messageText: Text(
+                  "تم حذف الصورة بنجاح",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                ),
+
+                boxShadows: [
+                  BoxShadow(
+                    color: UtilsImporter().colorUtils.primarycolor,
+                    offset: Offset(0.0, 2.0),
+                    blurRadius: 3.0,
+                  )
+                ],
+                icon: Icon(
+                  Icons.assignment_turned_in,
+                  size: 28.0,
+                  color: Colors.white,
+                ),
+                duration: Duration(seconds: 2),
+                leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+              )..show(context);
+            } else {
+              Flushbar(
+                backgroundColor: Colors.red[900],
+                messageText: Text(
+                  "فشل بعملية حذف الصورة",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                ),
+                boxShadows: [
+                  BoxShadow(
+                    color: Colors.red,
+                    offset: Offset(0.0, 2.0),
+                    blurRadius: 3.0,
+                  )
+                ],
+                icon: Icon(
+                  Icons.error,
+                  size: 28.0,
+                  color: Colors.white,
+                ),
+                duration: Duration(seconds: 3),
+                // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+              )..show(context);
+            }
           }),
     ],
   );
