@@ -19,6 +19,7 @@ import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_chamges_services.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
@@ -54,6 +55,13 @@ class ProductDetailViewState extends State<ProductDetailView>
   void initState() {
     super.initState();
 
+    // selectedValueCategoryValue = LoadingScreenServices.fullCategoryList.firstWhere((element) => element.value == widget.products.categoryId));
+
+    // selectedValueCategoryValue = LoadingScreenServices.fullCategoryList
+    //     .firstWhere((element) =>
+    //         element.value.toString() == widget.products.categoryId.toString())
+    //     .value
+    //     .toString();
     Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));
 
     _animationController = new AnimationController(
@@ -181,6 +189,8 @@ class ProductDetailViewState extends State<ProductDetailView>
       ),
     );
   }
+
+  String selectedValueCategoryValue;
 
   @override
   Widget build(BuildContext context) {
@@ -536,80 +546,152 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         context: context)
                                     : Container(),
                                 SizedBox(height: 30),
+                                Center(
+                                  child: Wrap(
+                                    children: [
+                                      Container(
+                                        padding:
+                                            EdgeInsets.only(left: 5, right: 5),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 5,
+                                              color: UtilsImporter()
+                                                  .colorUtils
+                                                  .kmColors),
+                                        ),
+                                        child: new SearchableDropdown(
+                                          isCaseSensitiveSearch: false,
+                                          underline: Container(),
+                                          isExpanded: false,
+                                          items: LoadingScreenServices
+                                              .fullCategoryList,
+                                          value: selectedValueCategoryValue,
+                                          hint: new Text(
+                                            'اختيار الصنف التابع له المنتج',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: UtilsImporter()
+                                                  .stringUtils
+                                                  .HKGrotesk,
+                                            ),
+                                          ),
+                                          searchHint: new Text(
+                                            'إختيار الصنف',
+                                            style: new TextStyle(
+                                                fontSize: 20,
+                                                fontFamily: UtilsImporter()
+                                                    .stringUtils
+                                                    .HKGrotesk),
+                                          ),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedValueCategoryValue = value
+                                                  .toString()
+                                                  .split(";")[1];
+                                              Tools.logToConsole(
+                                                  selectedValueCategoryValue);
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                      _saveCategoryButton(
+                                          categoryId:
+                                              selectedValueCategoryValue,
+                                          context: context,
+                                          productId: widget.products.id)
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 30),
                                 _getImage(),
                                 _image != null ? imagesBody() : Container(),
                                 isLoading
                                     ? Loader()
-                                    : KammunButton(
-                                        text: "حفظ",
-                                        onPress: () async {
-                                          bool result = await ProductsServices
-                                              .setImageToProducts(
-                                                  productId: widget.products.id,
-                                                  image: _image);
-                                          if (result) {
-                                            setState(() {
-                                              isLoading = false;
-                                            });
-                                            Flushbar(
-                                              backgroundColor: Colors.red[900],
-                                              messageText: Text(
-                                                "تم إضافة صورة بنجاح",
-                                                style: TextStyle(
+                                    : _image != null
+                                        ? KammunButton(
+                                            text: "حفظ الصورة",
+                                            onPress: () async {
+                                              setState(() {
+                                                isLoading = true;
+                                              });
+                                              bool result =
+                                                  await ProductsServices
+                                                      .setImageToProducts(
+                                                          productId: widget
+                                                              .products.id,
+                                                          image: _image);
+                                              if (result) {
+                                                setState(() {
+                                                  isLoading = false;
+                                                });
+                                                Flushbar(
+                                                  backgroundColor:
+                                                      Colors.green[900],
+                                                  messageText: Text(
+                                                    "تم إضافة صورة بنجاح",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            UtilsImporter()
+                                                                .stringUtils
+                                                                .HKGrotesk),
+                                                  ),
+                                                  boxShadows: [
+                                                    BoxShadow(
+                                                      color: Colors.green,
+                                                      offset: Offset(0.0, 2.0),
+                                                      blurRadius: 3.0,
+                                                    )
+                                                  ],
+                                                  icon: Icon(
+                                                    Icons.assignment_turned_in,
+                                                    size: 28.0,
                                                     color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: UtilsImporter()
-                                                        .stringUtils
-                                                        .HKGrotesk),
-                                              ),
-                                              boxShadows: [
-                                                BoxShadow(
-                                                  color: Colors.green,
-                                                  offset: Offset(0.0, 2.0),
-                                                  blurRadius: 3.0,
-                                                )
-                                              ],
-                                              icon: Icon(
-                                                Icons.assignment_turned_in,
-                                                size: 28.0,
-                                                color: Colors.white,
-                                              ),
-                                              duration: Duration(seconds: 1),
-                                              // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-                                            )..show(context);
-                                          } else {
-                                            setState(() {
-                                              isLoading = false;
-                                            });
-                                            Flushbar(
-                                              backgroundColor: Colors.red[900],
-                                              messageText: Text(
-                                                "فشل في إضافة المنتج",
-                                                style: TextStyle(
+                                                  ),
+                                                  duration:
+                                                      Duration(seconds: 1),
+                                                  // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+                                                )..show(context);
+                                              } else {
+                                                setState(() {
+                                                  isLoading = false;
+                                                });
+                                                Flushbar(
+                                                  backgroundColor:
+                                                      Colors.red[900],
+                                                  messageText: Text(
+                                                    "فشل في إضافة المنتج",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            UtilsImporter()
+                                                                .stringUtils
+                                                                .HKGrotesk),
+                                                  ),
+                                                  boxShadows: [
+                                                    BoxShadow(
+                                                      color: Colors.red,
+                                                      offset: Offset(0.0, 2.0),
+                                                      blurRadius: 3.0,
+                                                    )
+                                                  ],
+                                                  icon: Icon(
+                                                    Icons.close,
+                                                    size: 28.0,
                                                     color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: UtilsImporter()
-                                                        .stringUtils
-                                                        .HKGrotesk),
-                                              ),
-                                              boxShadows: [
-                                                BoxShadow(
-                                                  color: Colors.red,
-                                                  offset: Offset(0.0, 2.0),
-                                                  blurRadius: 3.0,
-                                                )
-                                              ],
-                                              icon: Icon(
-                                                Icons.close,
-                                                size: 28.0,
-                                                color: Colors.white,
-                                              ),
-                                              duration: Duration(seconds: 1),
-                                              // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-                                            )..show(context);
-                                          }
-                                        },
-                                      ),
+                                                  ),
+                                                  duration:
+                                                      Duration(seconds: 1),
+                                                  // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+                                                )..show(context);
+                                              }
+                                            },
+                                          )
+                                        : Container(),
                                 SizedBox(height: 30),
                               ],
                             )
@@ -841,6 +923,85 @@ class ProductDetailViewState extends State<ProductDetailView>
     // Toast.show("تم إزالة ${widget.products.name}  من المفضلة", context,
     //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
   }
+}
+
+_saveCategoryButton({BuildContext context, int productId, String categoryId}) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: KammunButton(
+        // icon: Icon(
+        //   Icons.save,
+        //   color: Colors.green,
+        //   size: 30,
+        // ),
+        text: "حقظ الصنف الجديد",
+        onPress: () async {
+          {
+            bool result = await ProductsServices.updateProductsDetails(
+                bodyKey: "category_id",
+                value: categoryId,
+                productId: productId.toString());
+
+            if (result) {
+              Flushbar(
+                backgroundColor: Colors.green,
+                // titleText: Text("تمت الإضافة بنجاح"),
+                messageText: Text(
+                  "تم التعديل بنجاح",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                ),
+
+                boxShadows: [
+                  BoxShadow(
+                    color: UtilsImporter().colorUtils.primarycolor,
+                    offset: Offset(0.0, 2.0),
+                    blurRadius: 3.0,
+                  )
+                ],
+                icon: Icon(
+                  Icons.assignment_turned_in,
+                  size: 28.0,
+                  color: Colors.white,
+                ),
+                duration: Duration(seconds: 1),
+                leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+              )..show(context);
+            } else {
+              Flushbar(
+                backgroundColor: Colors.red,
+                // titleText: Text("تمت الإضافة بنجاح"),
+                messageText: Text(
+                  "فشل بعملية التعديل",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                ),
+
+                boxShadows: [
+                  BoxShadow(
+                    color: UtilsImporter().colorUtils.primarycolor,
+                    offset: Offset(0.0, 2.0),
+                    blurRadius: 3.0,
+                  )
+                ],
+                icon: Icon(
+                  Icons.error,
+                  size: 28.0,
+                  color: Colors.white,
+                ),
+                duration: Duration(seconds: 1),
+                leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+              )..show(context);
+
+              // return result;
+            }
+          }
+        }),
+  );
 }
 
 _deleteImageButton({int imageId, BuildContext context}) {

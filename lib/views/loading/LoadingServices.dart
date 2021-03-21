@@ -24,6 +24,11 @@ class LoadingScreenServices {
   static CompanyOriginalData companyInformation = new CompanyOriginalData();
 
   static List<CategoryOriginalData> categoryList = List<CategoryOriginalData>();
+  // static List<CategoryOriginalData> fullCategoryList =
+  //     List<CategoryOriginalData>();
+
+  static List<DropdownMenuItem> fullCategoryList = List<DropdownMenuItem>();
+
   static String imagePrefixUrl = "";
   // static List<AssetImage> bannerList = List<AssetImage>();
   static List<FadeInImage> bannerListNetwork = List<FadeInImage>();
@@ -167,8 +172,19 @@ class LoadingScreenServices {
 
     if (response.statusCode == SUCCESS_CODE) {
       categoryList.clear();
+      fullCategoryList.clear();
       final category = categoryOriginalFromJson(jsonEncode(response.data)).data;
+
       for (int i = 0; i < category.length; i++) {
+        if (category[i].parentCategoryId != null) {
+          fullCategoryList.add(new DropdownMenuItem(
+            child: Text(
+              category[i].name,
+            ),
+            value: category[i].name + ";" + category[i].id.toString(),
+          ));
+        }
+
         if (category[i].warehouses.length > 0 &&
             category[i].warehouses[0].pivot.isActive == "1") {
           categoryList.add(category[i]);

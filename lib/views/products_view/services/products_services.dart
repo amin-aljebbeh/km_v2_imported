@@ -71,38 +71,37 @@ class ProductsServices {
     }
   }
 
-  static Future<bool> setImageToProducts({File image, int productId}) async {
-    // var body = {
-    //   "product_id": productId,
-    //   "image": image,
-    // };
-    try {
-      // FormData formData = FormData.fromMap({
-      //   "product_id": productId,
-      //   "image": await MultipartFile.fromFile("${image.path.toString()}",
-      //       filename: "upload.jpg")
-      // });
-      // var response = await ApiProvider.sendRequest(
-      //     url: ADD_IMAGE_TO_PRODUCTS,
-      //     method: httpMethods.post,
-      //     body: jsonEncode(jsonEncode(formData)));
+  // static Future<bool> setImageToProducts({File image, int productId}) async {
+  //   // var body = {
+  //   //   "product_id": productId,
+  //   //   "image": image,
+  //   // };
+  //   try {
+  //     // FormData formData = FormData.fromMap({
+  //     //   "product_id": productId,
+  //     //   "image": await MultipartFile.fromFile("${image.path.toString()}",
+  //     //       filename: "upload.jpg")
+  //     // });
+  //     // var response = await ApiProvider.sendRequest(
+  //     //     url: ADD_IMAGE_TO_PRODUCTS,
+  //     //     method: httpMethods.post,
+  //     //     body: jsonEncode(jsonEncode(formData)));
 
-      bool result = await _upload(image, productId);
+  //     bool result = await _upload(image, productId);
 
-      if (result) {
-        // Tools.logToConsole("Image Uploaded");
-        // Tools.logToConsole(response.data);
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      Tools.logToConsole("Catched Error");
-
-      Tools.logToConsole(e.toString());
-      return false;
-    }
-  }
+  //     if (result) {
+  //       // Tools.logToConsole("Image Uploaded");
+  //       // Tools.logToConsole(response.data);
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   } catch (e) {
+  //     Tools.logToConsole("Catched Error");
+  //     Tools.logToConsole(e.toString());
+  //     return false;
+  //   }
+  // }
 
   // static Future<bool> _upload(File file, int productId) async {
   //   String fileName = file.path.split('/').last;
@@ -216,22 +215,20 @@ class ProductsServices {
   //   return false;
   // }
 
-  static Future<bool> _upload(File file, int productId) async {
-    var headers = {
-      'Authorization': 'Bearer ${LoadingScreen.user_token.length}'
-    };
+  static Future<bool> setImageToProducts({File image, int productId}) async {
+    var headers = {'Authorization': 'Bearer aboHashim'};
     var request = http.MultipartRequest(
         'POST', Uri.parse(BaseUrl + ADD_IMAGE_TO_PRODUCTS));
     request.fields.addAll({'product_id': '$productId'});
     request.files
-        .add(await http.MultipartFile.fromPath('image', '${file.path}'));
+        .add(await http.MultipartFile.fromPath('image', '${image.path}'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      // print(await response.stream.bytesToString());
       return true;
     } else {
-      print(response.reasonPhrase);
+      //  print(response.reasonPhrase);
       return false;
     }
   }
