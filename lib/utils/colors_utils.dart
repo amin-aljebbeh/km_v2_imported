@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 
 class ColorUtils {
   // Color.fromARGB(255, 210, 178, 2) كموني
@@ -25,6 +25,11 @@ class ColorUtils {
 
   Color kmColors2 = HexColor("e5cb37");
   Color blueColor2 = HexColor("396b89");
+
+  Color khawajaColor = Colors.purple;
+  Color vegtableColor = Colors.green[800];
+  Color libraryColor = Colors.indigo;
+  Color normalColor = Colors.transparent;
 }
 
 class HexColor extends Color {

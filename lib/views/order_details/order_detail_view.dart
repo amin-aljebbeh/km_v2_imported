@@ -8,6 +8,7 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/Loader.dart';
+import 'package:kammun_app/utils/colors_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -52,9 +53,44 @@ class OrderDetailViewState extends State<OrderDetailView> {
       idOrder = widget.orderId;
       orderArrayIndex = widget.orderIndex;
 
-      productsAry.removeWhere((element) => !LoadingScreenServices
-          .subSupplierCodeHint
-          .hasMatch(element.supplierCode));
+      if (LoadingScreenServices.subSupplierCodeHint == RegExp(".*")) {
+        RegExp subSupplierCodeHint = RegExp("^[0-9]*\$");
+        productsAry.sort((productWarehouse1, productWarehouse2) {
+          if (subSupplierCodeHint.hasMatch(productWarehouse1.supplierCode)) {
+            return -1;
+          } else if (!subSupplierCodeHint
+              .hasMatch(productWarehouse1.supplierCode)) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      } else {
+        productsAry.sort((productWarehouse1, productWarehouse2) {
+          if (LoadingScreenServices.subSupplierCodeHint
+              .hasMatch(productWarehouse1.supplierCode)) {
+            return -1;
+          } else if (!LoadingScreenServices.subSupplierCodeHint
+              .hasMatch(productWarehouse1.supplierCode)) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+      }
+
+      //       categoryList.sort((a, b) {
+//         if ((a.priority) > (b.priority))
+//           return 1;
+//         else if ((a.priority) < (b.priority))
+//           return -1;
+//         else
+//           return 0;
+//       });
+
+      // productsAry.removeWhere((element) => !LoadingScreenServices
+      //     .subSupplierCodeHint
+      //     .hasMatch(element.supplierCode));
     });
   }
 
@@ -208,6 +244,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                             behavior: HitTestBehavior.translucent,
                             onTap: () => _onTileClicked(index),
                             child: OrderDetailViewCard(
+                              supplierCode: orderDetail.supplierCode,
                               active: 1,
                               productId: orderDetail.pivot.productId,
                               img: orderDetail.images.length != 0
@@ -383,6 +420,7 @@ class OrderDetailViewCard extends StatefulWidget {
   final String productCount;
   int active;
   final String productId;
+  final String supplierCode;
 
   OrderDetailViewCard(
       {this.img,
@@ -393,6 +431,7 @@ class OrderDetailViewCard extends StatefulWidget {
       this.unit,
       this.active,
       this.productCount,
+      this.supplierCode,
       this.productId});
 
   @override
@@ -404,12 +443,26 @@ class OrderDetailViewCard extends StatefulWidget {
 
 class OrderDetailViewCardState extends State<OrderDetailViewCard> {
   int no_of_orders = 1;
+  Color borderColor = Colors.transparent;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    Tools.logToConsole(widget.supplierCode);
+    if (RegExp(".*kh").hasMatch(widget.supplierCode)) {
+      borderColor = ColorUtils().khawajaColor;
+    } else if (RegExp(".*br").hasMatch(widget.supplierCode)) {
+      borderColor = ColorUtils().vegtableColor;
+    } else if (RegExp(".*kt").hasMatch(widget.supplierCode)) {
+      borderColor = ColorUtils().libraryColor;
+    }
+
     return Container(
-      color: Theme.of(context).primaryColorLight,
+      padding: EdgeInsets.only(
+        top: 10,
+      ),
+      decoration:
+          BoxDecoration(border: Border.all(color: borderColor, width: 3)),
+      // color: Theme.of(context).primaryColorLight,
       child: Padding(
         padding: EdgeInsets.only(left: 0, right: 0, top: 0),
         child: Column(

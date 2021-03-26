@@ -99,11 +99,11 @@ class OrdersViewState extends State<OrdersView> {
           }
           Tools.logToConsole("orderDataList before filltiting");
           Tools.logToConsole(orderDataList.length);
-          for (int i = 0; i < orderDataList.length; i++) {
-            orderDataList[i].products.removeWhere((theProduct) =>
-                !LoadingScreenServices.subSupplierCodeHint
-                    .hasMatch(theProduct.supplierCode));
-          }
+          // for (int i = 0; i < orderDataList.length; i++) {
+          //   orderDataList[i].products.removeWhere((theProduct) =>
+          //       !LoadingScreenServices.subSupplierCodeHint
+          //           .hasMatch(theProduct.supplierCode));
+          // }
           orderDataList.removeWhere((order) => order.products.length == 0);
           Tools.logToConsole("orderDataList After filltiting");
           Tools.logToConsole(orderDataList.length);
