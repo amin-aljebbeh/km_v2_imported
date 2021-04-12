@@ -214,7 +214,7 @@ class _AddProductsViewState extends State<AddProductsView> {
         price: priceController.text,
         description: descriptionController.text,
         supplierCode: supplierCodeController.text,
-        priceFactor: priceController.text,
+        priceFactor: priceFactorController.text,
         categoryId: widget.categoryId,
         minThreshold: "0",
         isActive: switchController ? "1" : "0");
