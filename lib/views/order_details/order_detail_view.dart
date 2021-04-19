@@ -1,12 +1,7 @@
-import 'dart:convert';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cache_image/cache_image.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/colors_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -17,6 +12,7 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 
+// ignore: must_be_immutable
 class OrderDetailView extends StatefulWidget {
   List<OrderProducts> ordersAry;
   int subTotal;
@@ -42,7 +38,7 @@ class OrderDetailView extends StatefulWidget {
 }
 
 class OrderDetailViewState extends State<OrderDetailView> {
-  List<OrderProducts> productsAry;
+  static List<OrderProducts> productsAry;
 
   @override
   void initState() {
@@ -422,17 +418,18 @@ class OrderDetailViewCard extends StatefulWidget {
   final String productId;
   final String supplierCode;
 
-  OrderDetailViewCard(
-      {this.img,
-      this.product_name,
-      this.quantity,
-      this.price,
-      this.index,
-      this.unit,
-      this.active,
-      this.productCount,
-      this.supplierCode,
-      this.productId});
+  OrderDetailViewCard({
+    this.img,
+    this.product_name,
+    this.quantity,
+    this.price,
+    this.index,
+    this.unit,
+    this.active,
+    this.productCount,
+    this.supplierCode,
+    this.productId,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -444,6 +441,7 @@ class OrderDetailViewCard extends StatefulWidget {
 class OrderDetailViewCardState extends State<OrderDetailViewCard> {
   int no_of_orders = 1;
   Color borderColor = Colors.transparent;
+  Color checkboxColor = Colors.blue;
 
   @override
   Widget build(BuildContext context) {
@@ -471,6 +469,30 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
           children: <Widget>[
             Row(
               children: <Widget>[
+                Checkbox(
+                    activeColor: checkboxColor,
+                    // focusColor: Colors.grey,
+                    // hoverColor: Colors.orange,
+                    value: OrderDetailViewState
+                        .productsAry[widget.index].productAvailable,
+                    onChanged: (v) {
+                      setState(() {
+                        OrderDetailViewState
+                            .productsAry[widget.index].productAvailable = v;
+
+                        // for (int i = 0;
+                        //     i < OrderDetailViewState.productsAry.length;
+                        //     i++) {
+                        //   checkboxColor = Colors.green;
+                        //   if (OrderDetailViewState
+                        //           .productsAry[i].productAvailable ==
+                        //       false) {
+                        //     checkboxColor = Colors.red;
+                        //     break;
+                        //   }
+                        // }
+                      });
+                    }),
                 new Container(
                   width: 100.0,
                   height: 100.0,

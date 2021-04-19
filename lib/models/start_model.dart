@@ -726,6 +726,7 @@ class OrderProducts {
     this.pivot,
     this.images,
     this.supplierCode,
+    this.productAvailable,
   });
 
   int id;
@@ -736,6 +737,7 @@ class OrderProducts {
   String categoryId;
   String quantity;
   String supplierCode;
+  bool productAvailable;
 
   OrderProductPivot pivot;
 
@@ -750,6 +752,7 @@ class OrderProducts {
         categoryId: json["category_id"].toString(),
         supplierCode: json["supplier_code"].toString(),
         quantity: json["quantity"].toString(),
+        productAvailable: false,
         pivot: OrderProductPivot.fromJson(json["pivot"]),
         images: List<ProductImage>.from(
             json["images"].map((x) => ProductImage.fromJson(x))),
@@ -765,6 +768,7 @@ class OrderProducts {
         "quantity": quantity,
         "pivot": pivot.toJson(),
         "supplier_code": supplierCode,
+        "product_available": productAvailable,
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }
