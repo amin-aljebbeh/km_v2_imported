@@ -57,16 +57,23 @@ class ProductsServices {
       "increase_percentage": 0,
       "price_factor": priceFactor,
     };
+    try {
+      var response = await ApiProvider.sendRequest(
+          url: GET_PRODUCT, method: httpMethods.post, body: jsonEncode(body));
 
-    var response = await ApiProvider.sendRequest(
-        url: GET_PRODUCT, method: httpMethods.post, body: jsonEncode(body));
+      if (response.statusCode == SUCCESS_CODE &&
+          response.data["success"] == true) {
+        Tools.logToConsole("Product Added");
+        Tools.logToConsole(response.data);
+        Tools.logToConsole(response.data["data"]["id"].toString());
 
-    if (response.statusCode == SUCCESS_CODE &&
-        response.data["success"] == true) {
-      Tools.logToConsole("Product Added");
-      Tools.logToConsole(response.data);
-      return int.parse(response.data["data"]["id"].toString());
-    } else {
+        return int.parse(response.data["data"]["id"].toString());
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+
       return 0;
     }
   }
@@ -225,10 +232,10 @@ class ProductsServices {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-      // print(await response.stream.bytesToString());
+      print(await response.stream.bytesToString());
       return true;
     } else {
-      //  print(response.reasonPhrase);
+      print(response.reasonPhrase);
       return false;
     }
   }

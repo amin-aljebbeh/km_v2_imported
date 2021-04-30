@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/louck_order.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -671,48 +672,65 @@ class OrdersViewState extends State<OrdersView> {
         child: showConfirmButtonWithGesture);
   }
 
-  _moveOrderProductsToCart({int orderIndex}) async {
+  _moveOrderProductsToCart(
+      {int orderIndex, List<OrderProducts> orderProducts}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     CartServices.cartProducts.clear();
     String products_Id = "";
     String products_quantity = "";
 
-    for (int i = 0;
-        i < LoadingScreenServices.myOrdersList[orderIndex].products.length;
-        i++) {
+    for (int i = 0; i < orderProducts.length; i++) {
       ProductData product = new ProductData();
-      // Warehouse warehouses = new Warehouse();
-      // List<Warehouse> listWarehouses = [];
 
-      //  WarehousePivot warehousePivot = new WarehousePivot();
+      product.id = orderProducts[i].id;
+      product.images = orderProducts[i].images;
+      product.name = orderProducts[i].name;
 
-      product.id =
-          LoadingScreenServices.myOrdersList[orderIndex].products[i].id;
-      product.images =
-          LoadingScreenServices.myOrdersList[orderIndex].products[i].images;
-      // product.isActive = Services.myOrdersList[index].products[i].
-      product.name =
-          LoadingScreenServices.myOrdersList[orderIndex].products[i].name;
+      product.price = orderProducts[i].pivot.purchasePrice;
 
-      product.price = LoadingScreenServices
-          .myOrdersList[orderIndex].products[i].pivot.purchasePrice;
-
-      // warehouses.pivot = warehousePivot;
-      // listWarehouses.add(warehouses);
-      //  product.warehouses = listWarehouses;
-      // product. warehouses[0].pivot.price = LoadingScreenServices
-      //     .myOrdersList[orderIndex].products[i].pivot.purchasePrice;
-      product.productCount = int.parse(LoadingScreenServices
-          .myOrdersList[orderIndex].products[i].pivot.quantity);
-      product.unit =
-          LoadingScreenServices.myOrdersList[orderIndex].products[i].unit;
-      product.quantity =
-          LoadingScreenServices.myOrdersList[orderIndex].products[i].quantity;
+      product.productCount = int.parse(orderProducts[i].pivot.quantity);
+      product.unit = orderProducts[i].unit;
+      product.quantity = orderProducts[i].quantity;
 
       CartServices.addProductToCart(product);
-      // products_Id += widget.products.id.toString();
-      // products_quantity += widget.products.quantity.toString();
     }
+
+    // for (int i = 0;
+    //     i < LoadingScreenServices.myOrdersList[orderIndex].products.length;
+    //     i++) {
+    //   ProductData product = new ProductData();
+    //   // Warehouse warehouses = new Warehouse();
+    //   // List<Warehouse> listWarehouses = [];
+
+    //   //  WarehousePivot warehousePivot = new WarehousePivot();
+
+    //   product.id =
+    //       LoadingScreenServices.myOrdersList[orderIndex].products[i].id;
+    //   product.images =
+    //       LoadingScreenServices.myOrdersList[orderIndex].products[i].images;
+    //   // product.isActive = Services.myOrdersList[index].products[i].
+    //   product.name =
+    //       LoadingScreenServices.myOrdersList[orderIndex].products[i].name;
+
+    //   product.price = LoadingScreenServices
+    //       .myOrdersList[orderIndex].products[i].pivot.purchasePrice;
+
+    //   // warehouses.pivot = warehousePivot;
+    //   // listWarehouses.add(warehouses);
+    //   //  product.warehouses = listWarehouses;
+    //   // product. warehouses[0].pivot.price = LoadingScreenServices
+    //   //     .myOrdersList[orderIndex].products[i].pivot.purchasePrice;
+    //   product.productCount = int.parse(LoadingScreenServices
+    //       .myOrdersList[orderIndex].products[i].pivot.quantity);
+    //   product.unit =
+    //       LoadingScreenServices.myOrdersList[orderIndex].products[i].unit;
+    //   product.quantity =
+    //       LoadingScreenServices.myOrdersList[orderIndex].products[i].quantity;
+
+    //   CartServices.addProductToCart(product);
+    //   // products_Id += widget.products.id.toString();
+    //   // products_quantity += widget.products.quantity.toString();
+    // }
 
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
       products_Id += CartServices.cartProducts[i].id.toString() + ";";
@@ -776,40 +794,41 @@ class OrdersViewState extends State<OrdersView> {
           orderLoaded = false;
           errorMessage = false;
         });
-        String x =
+        LouckOrder response =
             await OrderServices.lockOrder(orderDataList[index].id.toString());
-        Tools.logToConsole(x);
-        if (x != "null") {
-          if (x == "true") {
+        if (response != null) {
+          if (response.success) {
             setState(() {
               orderLoaded = true;
               errorMessage = false;
             });
-            _moveOrderProductsToCart(orderIndex: index);
+            _moveOrderProductsToCart(
+                orderIndex: index, orderProducts: response.products);
             // Toast.show("بإمكانك تعديل طلبك الآن", context,
             //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
             orderDataList[index].underUpdate = "1";
-          } else if (x == "admin") {
+          } else if (!response.success) {
             setState(() {
               orderDataList[index].underUpdate = "2";
               orderLoaded = true;
               errorMessage = true;
               errorMessageVlue =
-                  "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب يقوم بتعديله حالياً";
+                  "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
             });
-          } else {
-            setState(() {
-              orderDataList[index].orderStatusId = "3";
-
-              orderLoaded = true;
-              errorMessage = true;
-              errorMessageVlue =
-                  "لا يمكنك تعديل الطلب حالياً لان الزبون يقوم بتعديله ";
-            });
-
-            // Toast.show("حدثت مشكلة أثناء إلغاء الطلب يرجى تحديث لصفحة", context,
-            //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
           }
+          // } else {
+          //   setState(() {
+          //     orderDataList[index].orderStatusId = "3";
+
+          //     orderLoaded = true;
+          //     errorMessage = true;
+          //     errorMessageVlue =
+          //         "لا يمكنك تعديل الطلب حالياً لان الزبون يقوم بتعديله ";
+          //   });
+
+          //   // Toast.show("حدثت مشكلة أثناء إلغاء الطلب يرجى تحديث لصفحة", context,
+          //   //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+          // }
         } else {
           setState(() {
             orderLoaded = true;

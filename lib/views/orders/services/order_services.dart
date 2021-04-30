@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/models/louck_order.dart';
 import 'package:kammun_app/models/orders_response.dart';
+import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
@@ -176,7 +178,7 @@ class OrderServices {
     }
   }
 
-  static Future<String> lockOrder(String orderId) async {
+  static Future<LouckOrder> lockOrder(String orderId) async {
     // Tools.logToConsole("------------------ CANCEL ORDER  --------------------");
     try {
       var response = await ApiProvider.sendRequest(
@@ -184,7 +186,7 @@ class OrderServices {
         method: httpMethods.put,
       );
       if (response.data == null) {
-        return "null";
+        return null;
       }
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         orderUnderUpdateIndex = LoadingScreenServices.myOrdersList
@@ -204,20 +206,22 @@ class OrderServices {
 
         updateOrderNote =
             LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;
-
-        return "true";
+        return louckOrderFromJson(json.encode(response.data));
+        // return "true";
       } else {
-        Tools.logToConsole("------------ ERROR Update ORDER --------------");
-        if (response.data["reason"].toString().contains("admin")) {
-          return "admin";
-        } else {
-          return "false";
-        }
+        return louckOrderFromJson(json.encode(response.data));
+        // Tools.logToConsole("------------ ERROR Update ORDER --------------");
+        // if (response.data["reason"].toString().contains("admin")) {
+        //   return "admin";
+        // } else {
+        //   return "false";
+        // }
       }
     } catch (e) {
       Tools.logToConsole("------------ ERROR Catched --------------");
+      Tools.logToConsole(e.toString());
 
-      return "null";
+      return null;
     }
   }
 
