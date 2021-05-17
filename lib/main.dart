@@ -6,6 +6,7 @@ import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/home/home_view.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/login/login_view.dart';
+import 'package:kammun_app/views/reports/reports.dart';
 import 'package:kammun_app/views/supported_city/supported_city.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,6 +16,7 @@ import 'views/cart/CartViewFinal.dart';
 import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
 import 'views/profile/profileScreen.dart';
+import 'views/reports/sales_report.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
 
@@ -113,6 +115,8 @@ class _MyAppState extends State<MyApp> {
 
               '/orders': (_) => HomeView(routeIndex: 2),
               '/profile': (_) => ProfileScreen(),
+              '/statistics': (_) => DailyStatistics(),
+              '/sales_reports': (_) => SalesReport(),
             },
             theme: CustomTheme.of(context),
             home: LoadingScreen()));

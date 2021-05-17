@@ -124,6 +124,8 @@ class LoginServices {
         prefs.setString("adminRoll", username);
         prefs.setBool("view_orders_permission",
             resposne.data.viewOrdersPermission == "1" ? true : false);
+        prefs.setBool("view_report_permission",
+            resposne.data.viewOrdersPermission == "1" ? true : false);
         prefs.setBool("add_products_permission",
             resposne.data.viewOrdersPermission == "1" ? true : false);
 

@@ -82,6 +82,7 @@ class LoadingScreenServices {
 
   static bool viewOrderPermission = false;
   static bool addProductsPermission = false;
+  static bool viewReportsPermission = false;
 
   Future<bool> updateFirebaseToken(String firebaseToken) async {
     Map body = {
@@ -250,6 +251,13 @@ class LoadingScreenServices {
       addProductsPermission = true;
     } else {
       addProductsPermission = false;
+    }
+
+    if (prefs.getBool("view_report_permission") != null &&
+        prefs.getBool("view_report_permission")) {
+      viewOrderPermission = true;
+    } else {
+      viewOrderPermission = false;
     }
 
     androidShareUrl =

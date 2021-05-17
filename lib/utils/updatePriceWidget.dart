@@ -12,9 +12,11 @@ class UpdatePriceWidget extends StatefulWidget {
   final String textHint;
   final String bodyKey;
   final int productId;
+  final String initialText;
 
   UpdatePriceWidget(
       {this.onSavePressed,
+      this.initialText = "",
       this.title,
       this.inputType = TextInputType.number,
       @required this.bodyKey,
@@ -27,6 +29,12 @@ class UpdatePriceWidget extends StatefulWidget {
 
 class _UpdatePriceWidgetState extends State<UpdatePriceWidget> {
   final _textController = TextEditingController();
+
+  @override
+  void initState() {
+    _textController.text = widget.initialText;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

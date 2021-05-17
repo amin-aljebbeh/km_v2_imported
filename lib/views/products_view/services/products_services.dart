@@ -1,25 +1,28 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:dio/dio.dart';
-import 'package:flutter_uploader/flutter_uploader.dart';
-import 'package:http_parser/http_parser.dart';
+import 'package:kammun_app/core/api/admin_URLs.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:http/http.dart' as http;
-import 'package:kammun_app/views/loading/Loading.dart';
 
 class ProductsServices {
   static Future<bool> updateProductsDetails(
       {String bodyKey, String value, String productId}) async {
     var body = {bodyKey: value};
-
-    var response = await ApiProvider.sendRequest(
-        url: GET_PRODUCT + productId,
-        method: httpMethods.put,
-        body: jsonEncode(body));
+    var response;
+    if (bodyKey == "category_id") {
+      response = await ApiProvider.sendRequest(
+          url: ADD_PRODUCTS_TO_CATEGORY + productId,
+          method: httpMethods.post,
+          body: jsonEncode(body));
+    } else {
+      response = await ApiProvider.sendRequest(
+          url: GET_PRODUCT + productId,
+          method: httpMethods.put,
+          body: jsonEncode(body));
+    }
 
     if (response.statusCode == SUCCESS_CODE &&
         response.data["success"] == true) {

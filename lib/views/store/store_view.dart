@@ -456,6 +456,25 @@ class StoreViewState extends State<StoreView> {
                         Navigator.of(context).pushNamed('/profile');
                       },
                     ),
+                    LoadingScreenServices.viewReportsPermission
+                        ? ListTile(
+                            leading: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Icon(
+                                Icons.report_sharp,
+                                color: UtilsImporter().colorUtils.kmColors,
+                                size: 30,
+                              ),
+                            ),
+                            title: Text("إحصائيات",
+                                style: TextStyle(
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk)),
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/statistics');
+                            },
+                          )
+                        : Container(),
                     Divider(
                       color: UtilsImporter().colorUtils.kmColors,
                       height: 20,
