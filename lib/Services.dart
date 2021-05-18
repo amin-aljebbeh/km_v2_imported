@@ -357,7 +357,7 @@ class Services {
   //       url: GET_PRODUCT + productId, method: httpMethods.post);
   // }
 
-  static Future<bool> logOutAdmin(BuildContext context) async {
+  static Future<void> logOutAdmin(BuildContext context) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
     KammunRestart.restartApp(context);

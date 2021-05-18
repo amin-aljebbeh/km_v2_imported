@@ -11,7 +11,6 @@ import 'package:kammun_app/views/supported_city/supported_city.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'views/cart/CartViewFinal.dart';
 import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
@@ -22,7 +21,6 @@ import 'views/server_update/server_update.dart';
 
 void main() {
   //BlocSupervisor.delegate = SimpleBlocDelegate();
-  SharedPreferences.setMockInitialValues({});
   RenderErrorBox.backgroundColor = Colors.transparent;
   RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
   runApp(
