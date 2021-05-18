@@ -491,6 +491,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   textHint: widget.products.price,
                                   bodyKey: "price",
                                   productId: widget.products.id,
+                                  initialText: widget.products.price,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
@@ -499,6 +500,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   textHint: widget.products.supplierCode,
                                   bodyKey: "supplier_code",
                                   productId: widget.products.id,
+                                  initialText: widget.products.supplierCode,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
@@ -506,6 +508,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   textHint: widget.products.quantity,
                                   bodyKey: "quantity",
                                   productId: widget.products.id,
+                                  initialText: widget.products.quantity,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
@@ -514,15 +517,16 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   inputType: TextInputType.number,
                                   bodyKey: "price_factor",
                                   productId: widget.products.id,
+                                  initialText: widget.products.priceFactor,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
-                                  title: "تعديل الوحدة:",
-                                  textHint: widget.products.unit,
-                                  inputType: TextInputType.text,
-                                  bodyKey: "unit",
-                                  productId: widget.products.id,
-                                ),
+                                    title: "تعديل الوحدة:",
+                                    textHint: widget.products.unit,
+                                    inputType: TextInputType.text,
+                                    bodyKey: "unit",
+                                    productId: widget.products.id,
+                                    initialText: widget.products.unit),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
                                   title: "تعديل الوصف:",
@@ -530,6 +534,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   inputType: TextInputType.text,
                                   bodyKey: "description",
                                   productId: widget.products.id,
+                                  initialText: widget.products.description,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
@@ -538,6 +543,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   inputType: TextInputType.text,
                                   bodyKey: "name",
                                   productId: widget.products.id,
+                                  initialText: widget.products.name,
                                 ),
                                 SizedBox(height: 30),
                                 widget.products.images.length > 0
@@ -934,7 +940,7 @@ _saveCategoryButton({BuildContext context, int productId, String categoryId}) {
         //   color: Colors.green,
         //   size: 30,
         // ),
-        text: "حقظ الصنف الجديد",
+        text: "الإضافة لصنف جديد",
         onPress: () async {
           {
             bool result = await ProductsServices.updateProductsDetails(

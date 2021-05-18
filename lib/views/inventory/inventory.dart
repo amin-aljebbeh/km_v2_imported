@@ -63,7 +63,7 @@ class _InventoryState extends State<Inventory> {
         }
 
         productsList.removeWhere((data) =>
-            !warehouseFillter[fillterIndex].hasMatch(data.supplierCode));
+            !warehouseFillter[fillterIndex].hasMatch(data.supplierCode ?? "0"));
 
         setState(() {
           isLoading = false;

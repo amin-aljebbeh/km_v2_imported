@@ -446,6 +446,9 @@ class OrdersViewState extends State<OrdersView> {
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => _onTileClicked(index),
                                       child: OrdersViewCard(
+                                        entrance: orderDataList[index]
+                                            .address
+                                            .entrance,
                                         deliveryMethodId: int.parse(
                                             orderDataList[index]
                                                 .deliveryMethodId),
@@ -906,6 +909,7 @@ class OrdersViewCard extends StatefulWidget {
   final String address;
   final double lat;
   final double lon;
+  final String entrance;
 
   OrdersViewCard(
       {this.order_quantity,
@@ -919,6 +923,7 @@ class OrdersViewCard extends StatefulWidget {
       this.lon,
       this.userNumber,
       this.deliveryMethodId,
+      @required this.entrance,
       this.underUpdate});
 
   @override
@@ -1206,6 +1211,34 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                       )
                                     : Container(),
                               ],
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: "المدخل: ",
+                                    style: TextStyle(
+                                      color: UtilsImporter()
+                                          .colorUtils
+                                          .primarycolor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily:
+                                          UtilsImporter().stringUtils.HKGrotesk,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: widget.entrance,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily:
+                                          UtilsImporter().stringUtils.HKGrotesk,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
 
                             SizedBox(height: 10),

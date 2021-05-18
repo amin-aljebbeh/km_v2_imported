@@ -255,9 +255,9 @@ class LoadingScreenServices {
 
     if (prefs.getBool("view_report_permission") != null &&
         prefs.getBool("view_report_permission")) {
-      viewOrderPermission = true;
+      viewReportsPermission = true;
     } else {
-      viewOrderPermission = false;
+      viewReportsPermission = false;
     }
 
     androidShareUrl =
