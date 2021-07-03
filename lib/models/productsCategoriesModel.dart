@@ -122,6 +122,7 @@ class ProductData {
     this.minThreshold,
     this.numberOfVisits,
     this.priority,
+    this.subWarehouseId,
   });
 
   int id;
@@ -145,6 +146,7 @@ class ProductData {
   String increasePercentage;
   String priceFactor;
   int underCheckAvailability;
+  int subWarehouseId;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -164,6 +166,8 @@ class ProductData {
       supplierCode:
           json["supplier_code"] == null ? null : json["supplier_code"],
       warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"],
+      subWarehouseId:
+          json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
       isFeatured: json["is_featured"] == null ? null : json["is_featured"],
       priority: json["priority"] == null ? null : json["priority"],
       numberOfVisits:

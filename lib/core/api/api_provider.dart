@@ -24,8 +24,8 @@ class ApiProvider {
 
     var options = BaseOptions(
         baseUrl: mapService ? "" : BaseUrl,
-        connectTimeout: 30000,
-        receiveTimeout: 30000,
+        connectTimeout: 40000,
+        receiveTimeout: 40000,
         contentType: isUrlEncodedFormat
             ? Headers.formUrlEncodedContentType
             : Headers.jsonContentType);
@@ -66,6 +66,7 @@ class ApiProvider {
           {
             response = await dio.delete(
               url,
+              data: body,
               queryParameters: queryParameters,
               options: Options(headers: header, responseType: reponseType),
             );

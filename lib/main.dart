@@ -14,6 +14,7 @@ import 'package:flutter/cupertino.dart';
 import 'views/cart/CartViewFinal.dart';
 import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
+import 'views/products_attached_to_warehouse/views/view_products.dart';
 import 'views/profile/profileScreen.dart';
 import 'views/reports/sales_report.dart';
 import 'views/restart/kammunapp_restart.dart';
@@ -115,6 +116,7 @@ class _MyAppState extends State<MyApp> {
               '/profile': (_) => ProfileScreen(),
               '/statistics': (_) => DailyStatistics(),
               '/sales_reports': (_) => SalesReport(),
+              '/products_added_to_warehouse': (_) => AddedProductsToWarehouse()
             },
             theme: CustomTheme.of(context),
             home: LoadingScreen()));

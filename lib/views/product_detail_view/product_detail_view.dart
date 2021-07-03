@@ -394,14 +394,18 @@ class ProductDetailViewState extends State<ProductDetailView>
                         ],
                       ),
                       SizedBox(height: 10),
-                      Text(
-                        widget.products.description.split("@")[0],
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).primaryColorDark,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 20),
-                      ),
+                      widget.products.description ??
+                          Text(
+                            widget.products.description != null
+                                ? widget.products.description.split("@")[0]
+                                : "",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context).primaryColorDark,
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontSize: 20),
+                          ),
                       SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

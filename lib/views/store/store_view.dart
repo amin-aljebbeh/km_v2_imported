@@ -439,6 +439,24 @@ class StoreViewState extends State<StoreView> {
                           size: 30,
                         ),
                       ),
+                      title: Text("المنتجات المضافة للمستودع",
+                          style: TextStyle(
+                              fontFamily:
+                                  UtilsImporter().stringUtils.HKGrotesk)),
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed('/products_added_to_warehouse');
+                      },
+                    ),
+                    ListTile(
+                      leading: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Icon(
+                          Icons.info_outline,
+                          color: UtilsImporter().colorUtils.kmColors,
+                          size: 30,
+                        ),
+                      ),
                       title: Text("الملف الشخصي",
                           style: TextStyle(
                               fontFamily:
