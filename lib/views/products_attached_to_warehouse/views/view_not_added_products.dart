@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -9,13 +8,14 @@ import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 
-class AddedProductsToWarehouse extends StatefulWidget {
+class NotAddedProductsToWarehouse extends StatefulWidget {
   @override
-  _AddedProductsToWarehouseState createState() =>
-      _AddedProductsToWarehouseState();
+  _NotAddedProductsToWarehouseState createState() =>
+      _NotAddedProductsToWarehouseState();
 }
 
-class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
+class _NotAddedProductsToWarehouseState
+    extends State<NotAddedProductsToWarehouse> {
   List<ProductData> productsList = List<ProductData>();
   bool isLoading = false;
   bool isError = false;
@@ -32,7 +32,8 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
       isError = false;
     });
     try {
-      var response = await AddedProductsServices.getAddedProductsToWarehouse();
+      var response =
+          await AddedProductsServices.getNotAddedProductsToWarehouse();
       if (response != null) {
         productsList.addAll(response);
         setState(() {
@@ -114,35 +115,10 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
           padding: const EdgeInsets.only(right: 8.0),
           child: IconButton(
             onPressed: () {
-              Flushbar(
-                backgroundColor: Colors.red[800],
-                // titleText: Text("تمت الإضافة بنجاح"),
-                messageText: Text(
-                  "ونحنا كمان منحبك",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                ),
-
-                boxShadows: [
-                  BoxShadow(
-                    color: UtilsImporter().colorUtils.primarycolor,
-                    offset: Offset(0.0, 2.0),
-                    blurRadius: 3.0,
-                  )
-                ],
-                icon: Icon(
-                  Icons.favorite,
-                  size: 28.0,
-                  color: Colors.white,
-                ),
-                duration: Duration(seconds: 3),
-                leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-              )..show(context);
+              _loadData();
             },
             icon: Icon(
-              Icons.favorite,
+              Icons.refresh,
               size: 35,
             ),
           ),
@@ -151,9 +127,11 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
               icon: Icon(
-                Icons.refresh,
+                Icons.keyboard_arrow_left,
                 size: 35,
               ),
             ),
@@ -225,7 +203,9 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                   },
                                   supplierCode: eachProduct.supplierCode,
                                   productId: eachProduct.id.toString(),
-                                  active: int.parse(eachProduct.isActive),
+                                  // active: eachProduct.isActive != null
+                                  //     ? int.parse(eachProduct.isActive)
+                                  //     : eachProduct.isActive,
                                   img: eachProduct.images.length > 0
                                       ? LoadingScreenServices.imagePrefixUrl +
                                           eachProduct.images[0].imageFileName
@@ -237,8 +217,10 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                               " " +
                                               eachProduct.unit.toString()
                                           : eachProduct.quantity.toString(),
-                                  price: int.parse(
-                                      eachProduct.price.split(".")[0]),
+                                  price: eachProduct.price.toString() != "null"
+                                      ? int.parse(
+                                          eachProduct.price.split(".")[0])
+                                      : null,
                                   index: index,
                                 ),
                               )
@@ -259,7 +241,9 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                       productData: eachProduct,
                                       supplierCode: eachProduct.supplierCode,
                                       productId: eachProduct.id.toString(),
-                                      active: int.parse(eachProduct.isActive),
+                                      active: eachProduct.isActive != null
+                                          ? int.parse(eachProduct.isActive)
+                                          : null,
                                       img: eachProduct.images.length > 0
                                           ? LoadingScreenServices
                                                   .imagePrefixUrl +
@@ -273,8 +257,11 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                               " " +
                                               eachProduct.unit.toString()
                                           : eachProduct.quantity.toString(),
-                                      price: int.parse(
-                                          eachProduct.price.split(".")[0]),
+                                      price: eachProduct.price.toString() !=
+                                              "null"
+                                          ? int.parse(
+                                              eachProduct.price.split(".")[0])
+                                          : null,
                                       index: index,
                                     ),
                                   )

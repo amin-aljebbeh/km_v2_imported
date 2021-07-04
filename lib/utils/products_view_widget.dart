@@ -7,6 +7,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
+import 'package:kammun_app/views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 
 class ProductsViewCard extends StatefulWidget {
@@ -114,7 +115,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
     )..show(context);
   }
 
-  void _showDialog(
+  void _showDialogDeleteProducts(
       {@required String productsId, @required String productsName}) {
     // flutter defined function
     showDialog(
@@ -178,7 +179,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                   context,
                   new MaterialPageRoute(
                       builder: (context) => new ProductDetailView(
-                            heroIndex: 100,
                             products: widget.productData,
                             isFromFavoraiteScreen: false,
                           )));
@@ -204,7 +204,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Hero(
-                            tag: widget.index + 100,
+                            tag: widget.productId,
                             child: FadeInImage(
                               fadeInCurve: Curves.fastOutSlowIn,
                               placeholder: AssetImage("assets/kmIcon.png"),
@@ -250,22 +250,24 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             SizedBox(height: 8),
                             Wrap(
                               children: [
-                                Text(
-                                    UtilsImporter()
-                                            .stringUtils
-                                            .oCcy
-                                            .format(widget.price)
-                                            .toString() +
-                                        "  ",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .primarycolor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
-                                        fontSize: 18)),
+                                widget.price != null
+                                    ? Text(
+                                        UtilsImporter()
+                                                .stringUtils
+                                                .oCcy
+                                                .format(widget.price)
+                                                .toString() +
+                                            "  ",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            color: UtilsImporter()
+                                                .colorUtils
+                                                .primarycolor,
+                                            fontFamily: UtilsImporter()
+                                                .stringUtils
+                                                .HKGrotesk,
+                                            fontSize: 18))
+                                    : Container(),
                                 widget.oldPrice != null
                                     ? RichText(
                                         text: new TextSpan(
@@ -405,18 +407,32 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                       UtilsImporter().colorUtils.kmColors,
                                 )
                               : Container(),
-                          widget.attached
+                          widget.attached && widget.supplierCode != null
                               ? IconButton(
                                   icon: Icon(
                                     Icons.close_sharp,
                                     color: Colors.red,
                                   ),
                                   onPressed: () {
-                                    _showDialog(
+                                    _showDialogDeleteProducts(
                                         productsId: widget.productId,
                                         productsName: widget.product_name);
                                   })
-                              : Container()
+                              : IconButton(
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: Colors.green,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (context) =>
+                                                new AddProductsToSubWarehouse(
+                                                  productData:
+                                                      widget.productData,
+                                                )));
+                                  })
                         ],
                       ),
                     ),

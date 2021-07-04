@@ -25,12 +25,10 @@ import '../../Services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 
 class ProductDetailView extends StatefulWidget {
-  int heroIndex;
   ProductData products;
   bool isFromFavoraiteScreen;
 
-  ProductDetailView(
-      {this.heroIndex, this.products, @required this.isFromFavoraiteScreen});
+  ProductDetailView({this.products, @required this.isFromFavoraiteScreen});
 
   @override
   State<StatefulWidget> createState() {

@@ -20,6 +20,19 @@ class AddedProductsServices {
     }
   }
 
+  static Future<List<ProductData>> getNotAddedProductsToWarehouse() async {
+    var response = await ApiProvider.sendRequest(
+      url: GET_NOT_ADDED_PRODUCTS_TO_WAREHOUSE,
+      method: httpMethods.get,
+    );
+    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      return syncCartFromJson(jsonEncode(response.data["data"]));
+    } else {
+      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+      return null;
+    }
+  }
+
   static Future<bool> unAttcahProductsToSubWarehouse({
     String productsId,
     String subWarehouse,
@@ -27,7 +40,6 @@ class AddedProductsServices {
     var response = await ApiProvider.sendRequest(
         url: UN_ATTCAHE_PRODUCTS_TO_SUB_WAREHOUSE + productsId,
         method: httpMethods.delete,
-        
         body: jsonEncode({"sub_warehouse_id": int.parse(subWarehouse)}));
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {

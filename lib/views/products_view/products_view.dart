@@ -404,7 +404,6 @@ class ProductsViewState extends State<ProductsView> {
         context,
         new MaterialPageRoute(
             builder: (context) => new ProductDetailView(
-                  heroIndex: index + 100,
                   products: productsDic,
                   isFromFavoraiteScreen: false,
                 )));

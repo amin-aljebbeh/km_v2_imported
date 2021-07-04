@@ -165,7 +165,6 @@ class FavoraitesViewState extends State<Favoraites> {
         context,
         new MaterialPageRoute(
             builder: (context) => new ProductDetailView(
-                  heroIndex: index + 100,
                   products: productsDic,
                   isFromFavoraiteScreen: true,
                 )));

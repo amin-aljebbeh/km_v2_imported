@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/admin_URLs.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
@@ -9,26 +10,41 @@ import 'package:http/http.dart' as http;
 
 class ProductsServices {
   static Future<bool> updateProductsDetails(
-      {String bodyKey, String value, String productId}) async {
-    var body = {bodyKey: value};
-    var response;
-    if (bodyKey == "category_id") {
-      response = await ApiProvider.sendRequest(
-          url: ADD_PRODUCTS_TO_CATEGORY + productId,
-          method: httpMethods.post,
-          body: jsonEncode(body));
-    } else {
-      response = await ApiProvider.sendRequest(
-          url: GET_PRODUCT + productId,
-          method: httpMethods.put,
-          body: jsonEncode(body));
-    }
+      {String bodyKey,
+      String value,
+      @required String productId,
+      Map<String, String> fullRequestBody}) async {
+    try {
+      var body;
+      if (fullRequestBody != null) {
+        body = fullRequestBody;
+      } else {
+        body = {bodyKey: value};
+      }
+      Tools.logToConsole("THE BODY FROM ATTCCH PRODUCT $body");
 
-    if (response.statusCode == SUCCESS_CODE &&
-        response.data["success"] == true) {
-      Tools.logToConsole(response.data);
-      return true;
-    } else {
+      var response;
+      if (bodyKey == "category_id") {
+        response = await ApiProvider.sendRequest(
+            url: ADD_PRODUCTS_TO_CATEGORY + productId,
+            method: httpMethods.post,
+            body: jsonEncode(body));
+      } else {
+        response = await ApiProvider.sendRequest(
+            url: GET_PRODUCT + productId,
+            method: httpMethods.put,
+            body: jsonEncode(body));
+      }
+
+      if (response.statusCode == SUCCESS_CODE &&
+          response.data["success"] == true) {
+        Tools.logToConsole(response.data);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole("Error While Adding the Product $e");
       return false;
     }
   }
