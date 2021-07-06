@@ -18,6 +18,7 @@ import 'views/products_attached_to_warehouse/views/add_products_to_sub_warehouse
 import 'views/products_attached_to_warehouse/views/view_added_products.dart';
 import 'views/products_attached_to_warehouse/views/view_not_added_products.dart';
 import 'views/profile/profileScreen.dart';
+import 'views/reports/matching_report.dart';
 import 'views/reports/sales_report.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
@@ -123,6 +124,7 @@ class _MyAppState extends State<MyApp> {
                   NotAddedProductsToWarehouse(),
               '/attach_product_to_sub_warehouse': (_) =>
                   AddProductsToSubWarehouse(),
+              '/matching_report': (_) => MatchingReport(),
             },
             theme: CustomTheme.of(context),
             home: LoadingScreen()));

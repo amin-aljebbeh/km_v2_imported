@@ -6,6 +6,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
@@ -121,20 +122,22 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       isError = false;
     });
     dynamic body = {
+      "product_id": widget.productData.id.toString(),
       "sub_warehouse_id": _selectedValue.toString(),
-      "is_active": switchController ? "1" : "0",
-      "is_featured": "0",
-      "priority": "100",
       "price": priceController.text != null ? priceController.text : "0",
-      "automatic_activation": "0",
+      "is_featured": "0",
+      "is_active": switchController ? "1" : "0",
+      "priority": "100",
+      "supplier_code": supplierCodeController.text,
       "min_threshold": "0",
+      "increase_percentage": "0",
       "price_factor":
           priceFactorController.text != null ? priceFactorController.text : "1",
-      "supplier_code": supplierCodeController.text,
-      "increase_percentage": "0",
+      "automatic_activation": "0",
     };
-    bool response = await ProductsServices.updateProductsDetails(
-        fullRequestBody: body, productId: widget.productData.id.toString());
+
+    bool response = await AddedProductsServices.attcahProductsToSubWarehouse(
+        fullRequestBody: body);
     if (response) {
       setState(() {
         isLoading = false;

@@ -163,7 +163,9 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                       fontFamily: UtilsImporter()
                                           .stringUtils
                                           .HKGrotesk)),
-                              onPressed: () {}),
+                              onPressed: () {
+                                _loadData();
+                              }),
                         ],
                       ),
                     ),

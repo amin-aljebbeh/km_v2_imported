@@ -51,4 +51,22 @@ class AddedProductsServices {
       return false;
     }
   }
+
+  static Future<bool> attcahProductsToSubWarehouse({
+    Map<String, String> fullRequestBody,
+  }) async {
+    var response = await ApiProvider.sendRequest(
+        url: ATTCAHE_PRODUCTS_TO_SUB_WAREHOUSE,
+        method: httpMethods.post,
+        body: jsonEncode(fullRequestBody));
+
+    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      return true;
+    } else {
+      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+      Tools.logToConsole(response.data);
+
+      return false;
+    }
+  }
 }

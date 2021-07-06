@@ -392,18 +392,19 @@ class ProductDetailViewState extends State<ProductDetailView>
                         ],
                       ),
                       SizedBox(height: 10),
-                      widget.products.description ??
-                          Text(
-                            widget.products.description != null
-                                ? widget.products.description.split("@")[0]
-                                : "",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
-                                fontSize: 20),
-                          ),
+                      widget.products.description != null
+                          ? Text(
+                              widget.products.description != null
+                                  ? widget.products.description.split("@")[0]
+                                  : "",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: Theme.of(context).primaryColorDark,
+                                  fontFamily:
+                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontSize: 20),
+                            )
+                          : Container(),
                       SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -494,6 +495,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   bodyKey: "price",
                                   productId: widget.products.id,
                                   initialText: widget.products.price,
+                                  productData: widget.products,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
@@ -503,14 +505,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   bodyKey: "supplier_code",
                                   productId: widget.products.id,
                                   initialText: widget.products.supplierCode,
-                                ),
-                                SizedBox(height: 30),
-                                UpdatePriceWidget(
-                                  title: "تعديل الكمية:",
-                                  textHint: widget.products.quantity,
-                                  bodyKey: "quantity",
-                                  productId: widget.products.id,
-                                  initialText: widget.products.quantity,
+                                  productData: widget.products,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
@@ -520,23 +515,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   bodyKey: "price_factor",
                                   productId: widget.products.id,
                                   initialText: widget.products.priceFactor,
-                                ),
-                                SizedBox(height: 30),
-                                UpdatePriceWidget(
-                                    title: "تعديل الوحدة:",
-                                    textHint: widget.products.unit,
-                                    inputType: TextInputType.text,
-                                    bodyKey: "unit",
-                                    productId: widget.products.id,
-                                    initialText: widget.products.unit),
-                                SizedBox(height: 30),
-                                UpdatePriceWidget(
-                                  title: "تعديل الوصف:",
-                                  textHint: "الوصف الجديد",
-                                  inputType: TextInputType.text,
-                                  bodyKey: "description",
-                                  productId: widget.products.id,
-                                  initialText: widget.products.description,
+                                  productData: widget.products,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
@@ -546,6 +525,39 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   bodyKey: "name",
                                   productId: widget.products.id,
                                   initialText: widget.products.name,
+                                  isForSubWarehouse: false,
+                                  productData: widget.products,
+                                ),
+                                SizedBox(height: 30),
+                                UpdatePriceWidget(
+                                    title: "تعديل الوحدة:",
+                                    textHint: widget.products.unit,
+                                    inputType: TextInputType.text,
+                                    bodyKey: "unit",
+                                    productId: widget.products.id,
+                                    isForSubWarehouse: false,
+                                    productData: widget.products,
+                                    initialText: widget.products.unit),
+                                SizedBox(height: 30),
+                                UpdatePriceWidget(
+                                  title: "تعديل الكمية:",
+                                  isForSubWarehouse: false,
+                                  productData: widget.products,
+                                  textHint: widget.products.quantity,
+                                  bodyKey: "quantity",
+                                  productId: widget.products.id,
+                                  initialText: widget.products.quantity,
+                                ),
+                                SizedBox(height: 30),
+                                UpdatePriceWidget(
+                                  title: "تعديل الوصف:",
+                                  textHint: "الوصف الجديد",
+                                  inputType: TextInputType.text,
+                                  bodyKey: "description",
+                                  productId: widget.products.id,
+                                  isForSubWarehouse: false,
+                                  productData: widget.products,
+                                  initialText: widget.products.description,
                                 ),
                                 SizedBox(height: 30),
                                 widget.products.images.length > 0

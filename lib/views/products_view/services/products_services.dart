@@ -9,18 +9,19 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:http/http.dart' as http;
 
 class ProductsServices {
-  static Future<bool> updateProductsDetails(
-      {String bodyKey,
-      String value,
-      @required String productId,
-      Map<String, String> fullRequestBody}) async {
+  static Future<bool> updateProductsDetails({
+    String bodyKey,
+    String value,
+    @required String productId,
+    bool isForSubWarehouse = true,
+    String subWarehouseId,
+  }) async {
     try {
+      Tools.logToConsole("is for subwarehouse $isForSubWarehouse");
       var body;
-      if (fullRequestBody != null) {
-        body = fullRequestBody;
-      } else {
-        body = {bodyKey: value};
-      }
+
+      body = {bodyKey: value};
+
       Tools.logToConsole("THE BODY FROM ATTCCH PRODUCT $body");
 
       var response;
@@ -29,13 +30,20 @@ class ProductsServices {
             url: ADD_PRODUCTS_TO_CATEGORY + productId,
             method: httpMethods.post,
             body: jsonEncode(body));
-      } else {
+      } else if (!isForSubWarehouse) {
+        Tools.logToConsole("Updating Products information $body");
         response = await ApiProvider.sendRequest(
             url: GET_PRODUCT + productId,
             method: httpMethods.put,
             body: jsonEncode(body));
+      } else {
+        Tools.logToConsole("Updating warehouse information $body");
+        response = await ApiProvider.sendRequest(
+            url: UPDATE_SUB_WAREHOUSE_PRODUCTS + productId,
+            method: httpMethods.put,
+            body: jsonEncode(
+                {"sub_warehouse_id": subWarehouseId, bodyKey: value}));
       }
-
       if (response.statusCode == SUCCESS_CODE &&
           response.data["success"] == true) {
         Tools.logToConsole(response.data);

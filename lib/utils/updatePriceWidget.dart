@@ -1,5 +1,6 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -13,6 +14,8 @@ class UpdatePriceWidget extends StatefulWidget {
   final String bodyKey;
   final int productId;
   final String initialText;
+  final ProductData productData;
+  final bool isForSubWarehouse;
 
   UpdatePriceWidget(
       {this.onSavePressed,
@@ -21,6 +24,8 @@ class UpdatePriceWidget extends StatefulWidget {
       this.inputType = TextInputType.number,
       @required this.bodyKey,
       @required this.productId,
+      this.productData,
+      this.isForSubWarehouse = true,
       this.textHint = "."});
 
   @override
@@ -81,6 +86,7 @@ class _UpdatePriceWidgetState extends State<UpdatePriceWidget> {
             //                 LoadingScreenServices.subSupplierCodeHint
             //                     .hasMatch(widget.products.supplierCode)
             onPressed: () async {
+              Tools.logToConsole("button save clicked");
               if (widget.bodyKey == "supplier_code" &&
                   !LoadingScreenServices.subSupplierCodeHint
                       .hasMatch(_textController.text)) {
@@ -111,9 +117,24 @@ class _UpdatePriceWidgetState extends State<UpdatePriceWidget> {
                   leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
                 )..show(context);
               } else {
+                Tools.logToConsole(
+                    "I'm in else on save cliked ${widget.bodyKey}");
+
+                Tools.logToConsole(
+                    "I'm in else on save _textController ${_textController.text}");
+                Tools.logToConsole(
+                    "I'm in else on save isForSubWarehouse ${widget.isForSubWarehouse}");
+                Tools.logToConsole(
+                    "I'm in else on save subWarehouseId ${widget.productData.subWarehouseId != null}");
+
+                Tools.logToConsole(
+                    "I'm in else on save productId ${widget.productId}");
                 bool result = await ProductsServices.updateProductsDetails(
                     bodyKey: widget.bodyKey,
                     value: _textController.text,
+                    isForSubWarehouse: widget.isForSubWarehouse,
+                    subWarehouseId:
+                        widget.productData.subWarehouseId.toString(),
                     productId: widget.productId.toString());
 
                 Tools.logToConsole("The Result issssss from onPresed $result");
