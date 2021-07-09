@@ -6,6 +6,7 @@ import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -20,7 +21,7 @@ class AddProductsView extends StatefulWidget {
 class _AddProductsViewState extends State<AddProductsView> {
   File _image;
   // File _uploadedFile;
-
+  int _selectedSubWarehouseValue = -1;
   final picker = ImagePicker();
 
   Future getImageCamera() async {
@@ -68,29 +69,6 @@ class _AddProductsViewState extends State<AddProductsView> {
       }
     });
   }
-
-  // Future<File> testCompressAndGetFile(File file) async {
-  //   try {
-  //     FlutterImageCompress.validator.ignoreCheckExtName = true;
-  //     print("testCompressAndGetFile");
-  //     final targetPath = file.absolute.path + "/compressedImage.jpg";
-  //     final result = await FlutterImageCompress.compressAndGetFile(
-  //       file.absolute.path,
-  //       targetPath,
-  //       quality: 90,
-  //       minWidth: 1024,
-  //       minHeight: 1024,
-  //       rotate: 50,
-  //     );
-  //     Tools.logToConsole("Printing Compressed Path");
-  //     print(file.path);
-  //     return result;
-  //   } catch (e) {
-  //     Tools.logToConsole("Error in  Compressed");
-  //     Tools.logToConsole(e.toString());
-  //     return null;
-  //   }
-  // }
 
   Widget imagesBody() {
     return Container(
@@ -208,6 +186,7 @@ class _AddProductsViewState extends State<AddProductsView> {
       isError = false;
     });
     int productIds = await ProductsServices.addNewProducts(
+        subWarehouseId: _selectedSubWarehouseValue.toString(),
         name: nameController.text,
         quantity: quantityController.text,
         unit: unitController.text,
@@ -219,7 +198,7 @@ class _AddProductsViewState extends State<AddProductsView> {
         minThreshold: "0",
         isActive: switchController ? "1" : "0");
 
-    if (productIds != 0) {
+    if (productIds != null && productIds != 0) {
       bool result = await ProductsServices.setImageToProducts(
           productId: productIds, image: _image);
       if (result) {
@@ -259,6 +238,31 @@ class _AddProductsViewState extends State<AddProductsView> {
           // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
         )..show(context);
       }
+    } else if (productIds == null) {
+      Flushbar(
+        backgroundColor: Colors.red[900],
+        messageText: Text(
+          "!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.purple,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          )
+        ],
+        icon: Icon(
+          Icons.close,
+          size: 28.0,
+          color: Colors.white,
+        ),
+        duration: Duration(seconds: 10),
+        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      )..show(context);
     }
   }
 
@@ -343,6 +347,46 @@ class _AddProductsViewState extends State<AddProductsView> {
               : ListView(
                   shrinkWrap: true,
                   children: [
+                    Text(
+                      "يرجى إختيار المستودع التابع لهذه المادة",
+                      style: TextStyle(
+                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    ListTile(
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                      title: Column(
+                        children: LoadingScreenServices.swbWarehouses
+                            .map((data) => Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                  ),
+                                  child: RadioListTile(
+                                    controlAffinity:
+                                        ListTileControlAffinity.trailing,
+                                    activeColor: Theme.of(context).primaryColor,
+                                    title: Text(
+                                      "${data.name}",
+                                      style: TextStyle(
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
+                                    ),
+                                    groupValue: _selectedSubWarehouseValue,
+                                    value: data.id,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        _selectedSubWarehouseValue = data.id;
+                                      });
+                                    },
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ),
                     _entryField(
                         controller: nameController,
                         title: "اسم المنتج",

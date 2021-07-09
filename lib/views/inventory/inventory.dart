@@ -398,6 +398,7 @@ class _InventoryState extends State<Inventory> {
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () => () {},
                                     child: ProductsViewCard(
+                                      fromInventory: true,
                                       productData: eachProduct,
                                       onChangeStatus: (result) {
                                         if (result) {
@@ -436,6 +437,7 @@ class _InventoryState extends State<Inventory> {
                                         behavior: HitTestBehavior.translucent,
                                         onTap: () => () {},
                                         child: ProductsViewCard(
+                                          fromInventory: true,
                                           productData: eachProduct,
                                           supplierCode:
                                               eachProduct.supplierCode,

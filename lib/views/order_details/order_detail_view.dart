@@ -574,9 +574,11 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
 
                               result =
                                   await ProductsServices.updateProductsDetails(
-                                      bodyKey: "is_active",
-                                      value: value ? "1" : "0",
-                                      productId: widget.productId);
+                                bodyKey: "is_active",
+                                value: value ? "1" : "0",
+                                productId: widget.productId,
+                                isForSubWarehouse: true,
+                              );
 
                               if (result) {
                                 Flushbar(

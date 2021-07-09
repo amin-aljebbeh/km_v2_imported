@@ -24,6 +24,7 @@ class ProductsViewCard extends StatefulWidget {
   final bool attached;
   final ProductData productData;
   final Function(bool) onDelete;
+  final bool fromInventory;
 
   ProductsViewCard(
       {this.img,
@@ -38,6 +39,7 @@ class ProductsViewCard extends StatefulWidget {
       this.active,
       this.productData,
       this.onDelete,
+      this.fromInventory = false,
       this.attached = true});
 
   @override
@@ -174,7 +176,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
         padding: EdgeInsets.only(left: 0, right: 0, top: 10),
         child: GestureDetector(
           onTap: () {
-            if (widget.productData != null)
+            if (widget.productData != null &&
+                widget.productData.supplierCode != null)
               Navigator.push(
                   context,
                   new MaterialPageRoute(
@@ -328,69 +331,17 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                         .updateProductsDetails(
                                             bodyKey: "is_active",
                                             value: value ? "1" : "0",
+                                            subWarehouseId: widget
+                                                .productData.subWarehouseId
+                                                .toString(),
+                                            isForSubWarehouse: true,
                                             productId: widget.productId);
 
                                     if (result) {
-                                      Flushbar(
-                                        backgroundColor: Colors.green,
-                                        // titleText: Text("تمت الإضافة بنجاح"),
-                                        messageText: Text(
-                                          "تم التعديل بنجاح",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: UtilsImporter()
-                                                  .stringUtils
-                                                  .HKGrotesk),
-                                        ),
-
-                                        boxShadows: [
-                                          BoxShadow(
-                                            color: UtilsImporter()
-                                                .colorUtils
-                                                .primarycolor,
-                                            offset: Offset(0.0, 2.0),
-                                            blurRadius: 3.0,
-                                          )
-                                        ],
-                                        icon: Icon(
-                                          Icons.assignment_turned_in,
-                                          size: 28.0,
-                                          color: Colors.white,
-                                        ),
-                                        duration: Duration(seconds: 1),
-                                        leftBarIndicatorColor:
-                                            UtilsImporter().colorUtils.kmColors,
-                                      )..show(context);
-                                      widget.onChangeStatus(true);
+                                      _successFlushBar();
+                                      widget.onDelete(true);
                                     } else {
-                                      Flushbar(
-                                        backgroundColor: Colors.red[900],
-                                        messageText: Text(
-                                          "فشل في العملية يرجى المحاولة من جديد",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: UtilsImporter()
-                                                  .stringUtils
-                                                  .HKGrotesk),
-                                        ),
-                                        boxShadows: [
-                                          BoxShadow(
-                                            color: Colors.red,
-                                            offset: Offset(0.0, 2.0),
-                                            blurRadius: 3.0,
-                                          )
-                                        ],
-                                        icon: Icon(
-                                          Icons.close,
-                                          size: 28.0,
-                                          color: Colors.white,
-                                        ),
-                                        duration: Duration(seconds: 2),
-                                        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-                                      )..show(context);
-
+                                      _errorFlushBar();
                                       setState(() {
                                         if (widget.active == 1) {
                                           widget.active = 0;
@@ -398,7 +349,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                           widget.active = 1;
                                         }
                                       });
-                                      widget.onChangeStatus(true);
                                     }
                                   },
                                   activeTrackColor:
@@ -407,7 +357,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                       UtilsImporter().colorUtils.kmColors,
                                 )
                               : Container(),
-                          widget.attached && widget.supplierCode != null
+                          widget.attached &&
+                                  widget.supplierCode != null &&
+                                  !widget.fromInventory
                               ? IconButton(
                                   icon: Icon(
                                     Icons.close_sharp,
@@ -418,21 +370,47 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                         productsId: widget.productId,
                                         productsName: widget.product_name);
                                   })
-                              : IconButton(
-                                  icon: Icon(
-                                    Icons.add,
-                                    color: Colors.green,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                            builder: (context) =>
-                                                new AddProductsToSubWarehouse(
-                                                  productData:
-                                                      widget.productData,
-                                                )));
-                                  })
+                              : !widget.fromInventory
+                                  ? IconButton(
+                                      icon: Icon(
+                                        Icons.add,
+                                        color: Colors.green,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            new MaterialPageRoute(
+                                                builder: (context) =>
+                                                    new AddProductsToSubWarehouse(
+                                                      productData:
+                                                          widget.productData,
+                                                    )));
+                                      })
+                                  : IconButton(
+                                      icon: Icon(
+                                        Icons.check,
+                                        color: Colors.green,
+                                      ),
+                                      onPressed: () async {
+                                        bool result = await ProductsServices
+                                            .updateProductsDetails(
+                                                bodyKey:
+                                                    "under_check_availability",
+                                                value: "0",
+                                                isForSubWarehouse: true,
+                                                subWarehouseId: widget
+                                                    .productData.subWarehouseId
+                                                    .toString(),
+                                                productId: widget.productId
+                                                    .toString());
+
+                                        if (result) {
+                                          widget.onDelete(true);
+                                          _successFlushBar();
+                                        } else {
+                                          _errorFlushBar();
+                                        }
+                                      })
                         ],
                       ),
                     ),

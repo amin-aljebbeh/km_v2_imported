@@ -15,7 +15,6 @@ class ReportsServcies {
     response = await ApiProvider.sendRequest(
       url: GET_DAILY_STATISTICS,
       queryParameters: {
-        "warehouse_id": warehouseId,
         "from_date": fromDate,
         "to_date": toDate,
       },

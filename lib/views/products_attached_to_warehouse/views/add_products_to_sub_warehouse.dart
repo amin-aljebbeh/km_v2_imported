@@ -2,13 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/kammun_button.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
-import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
   final ProductData productData;

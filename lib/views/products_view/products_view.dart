@@ -16,6 +16,7 @@ import 'package:kammun_app/views/Wedgit/facebook_loader.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
+import 'package:kammun_app/views/products_view/services/products_services.dart';
 import '../../Services.dart';
 
 class ProductsView extends StatefulWidget {
@@ -344,6 +345,7 @@ class ProductsViewState extends State<ProductsView> {
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => _onTileClicked(index),
                                       child: ProductsViewCard(
+                                        productData: eachProduct,
                                         supplierCode: eachProduct.supplierCode,
                                         productId: eachProduct.id.toString(),
                                         active: int.parse(eachProduct.isActive),
@@ -425,6 +427,7 @@ class ProductsViewCard extends StatefulWidget {
   int active;
   final String productId;
   final String supplierCode;
+  final ProductData productData;
 
   ProductsViewCard(
       {this.img,
@@ -434,6 +437,7 @@ class ProductsViewCard extends StatefulWidget {
       this.index,
       this.productId,
       this.supplierCode,
+      this.productData,
       this.active});
 
   @override
@@ -446,28 +450,27 @@ class ProductsViewCardState extends State<ProductsViewCard> {
   bool addedToCart = false;
 
   Future<bool> updateStatus(String productId, String statusId) async {
-    Map jsonData = {
-      // 'name': widget.productName,
-      // 'quantity': widget.quantity,
-      // 'is_featured': widget.isFeatured,
-      // 'priority': widget.priority,
-      // 'price': widget.price,
-      // 'unit': widget.unit,
-      // 'is_in_facebook': widget.isInfacebook,
-      // 'description': widget.description,
-      // 'category_id': widget.categoryId,
-      'is_active': statusId,
-    };
+    // Map jsonData = {
+    //   // 'name': widget.productName,
+    //   // 'quantity': widget.quantity,
+    //   // 'is_featured': widget.isFeatured,
+    //   // 'priority': widget.priority,
+    //   // 'price': widget.price,
+    //   // 'unit': widget.unit,
+    //   // 'is_in_facebook': widget.isInfacebook,
+    //   // 'description': widget.description,
+    //   // 'category_id': widget.categoryId,
+    //   'is_active': statusId,
+    // };
 
-    var response = await ApiProvider.sendRequest(
-      url: GET_PRODUCT + "$productId",
-      method: httpMethods.put,
-      body: jsonEncode(jsonData),
-    );
+    var response = await ProductsServices.updateProductsDetails(
+        bodyKey: "is_active",
+        value: statusId,
+        subWarehouseId: widget.productData.subWarehouseId.toString(),
+        isForSubWarehouse: true,
+        productId: widget.productId);
 
-    Tools.logToConsole(response.data);
-
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+    if (response) {
       Flushbar(
         backgroundColor: Colors.green,
         // titleText: Text("تمت الإضافة بنجاح"),
