@@ -240,6 +240,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                             behavior: HitTestBehavior.translucent,
                             onTap: () => _onTileClicked(index),
                             child: OrderDetailViewCard(
+                              productsData: orderDetail,
                               supplierCode: orderDetail.supplierCode,
                               active: 1,
                               productId: orderDetail.pivot.productId,
@@ -417,6 +418,7 @@ class OrderDetailViewCard extends StatefulWidget {
   int active;
   final String productId;
   final String supplierCode;
+  final OrderProducts productsData;
 
   OrderDetailViewCard({
     this.img,
@@ -429,6 +431,7 @@ class OrderDetailViewCard extends StatefulWidget {
     this.productCount,
     this.supplierCode,
     this.productId,
+    this.productsData,
   });
 
   @override
@@ -578,6 +581,9 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                                 value: value ? "1" : "0",
                                 productId: widget.productId,
                                 isForSubWarehouse: true,
+                                subWarehouseId: widget
+                                    .productsData.subWarehouseId
+                                    .toString(),
                               );
 
                               if (result) {

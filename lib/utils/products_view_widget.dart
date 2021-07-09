@@ -338,8 +338,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                             productId: widget.productId);
 
                                     if (result) {
+                                      widget.onChangeStatus(true);
                                       _successFlushBar();
-                                      widget.onDelete(true);
                                     } else {
                                       _errorFlushBar();
                                       setState(() {
@@ -388,7 +388,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                       })
                                   : IconButton(
                                       icon: Icon(
-                                        Icons.check,
+                                        Icons.check_sharp,
                                         color: Colors.green,
                                       ),
                                       onPressed: () async {
@@ -405,7 +405,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                                     .toString());
 
                                         if (result) {
-                                          widget.onDelete(true);
+                                          widget.onChangeStatus(true);
                                           _successFlushBar();
                                         } else {
                                           _errorFlushBar();

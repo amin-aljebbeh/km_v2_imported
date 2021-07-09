@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:kammun_app/models/productsCategoriesModel.dart';
+
 PricesChanges pricesChangesFromJson(String str) =>
     PricesChanges.fromJson(json.decode(str));
 
@@ -18,14 +20,14 @@ class PricesChanges {
 
   bool success;
   int count;
-  List<ProuctsPriceChange> prouctsPriceChange;
+  List<ProductData> prouctsPriceChange;
 
   factory PricesChanges.fromJson(Map<String, dynamic> json) => PricesChanges(
         success: json["success"],
         count: json["count"],
-        prouctsPriceChange: List<ProuctsPriceChange>.from(
+        prouctsPriceChange: List<ProductData>.from(
             json["proucts_price_change"]
-                .map((x) => ProuctsPriceChange.fromJson(x))),
+                .map((x) => ProductData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
