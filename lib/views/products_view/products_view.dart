@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:badges/badges.dart';
-import 'package:cache_image/cache_image.dart';
+// import 'package:cache_image/cache_image.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
@@ -555,7 +556,11 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           placeholder: AssetImage("assets/kmIcon.png"),
                           fit: BoxFit.contain,
                           image: widget.img.length > 0
-                              ? CacheImage(widget.img)
+                              ? AdvImageCache(
+                                  widget.img,
+                                  useMemCache: true,
+                                  diskCacheExpire: Duration(minutes: 1),
+                                )
                               : AssetImage("assets/kmIcon.png"),
                           width: MediaQuery.of(context).size.width,
                           height: 120,

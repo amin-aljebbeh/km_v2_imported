@@ -1,5 +1,6 @@
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cache_image/cache_image.dart';
+// import 'package:cache_image/cache_image.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -511,7 +512,11 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                             placeholder: AssetImage("assets/kmIcon.png"),
                             fit: BoxFit.contain,
                             image: widget.img.length > 0
-                                ? CacheImage(widget.img)
+                                ? AdvImageCache(
+                                    widget.img,
+                                    useMemCache: true,
+                                    diskCacheExpire: Duration(minutes: 1),
+                                  )
                                 : AssetImage("assets/kmIcon.png"),
                             width: MediaQuery.of(context).size.width,
                             height: 120,

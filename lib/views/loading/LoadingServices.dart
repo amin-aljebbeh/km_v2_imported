@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:cache_image/cache_image.dart';
+// import 'package:cache_image/cache_image.dart';
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/admin_URLs.dart';
 import 'package:kammun_app/models/sub_warehouse_model.dart';
@@ -236,11 +237,11 @@ class LoadingScreenServices {
         messengerUrl: "http://m.me/KammunApp",
         supportUrl: "https://www.instagram.com/",
         baseUrl: "https://kammun.com",
-        imageBaseUrl: "http://test.kammun.com/images/",
+        imageBaseUrl: "https://kammun.app/images/",
         currency: "S.P",
         additionalInfo: "http://m.me/KammunApp");
 
-    imagePrefixUrl = "http://test.kammun.com/images/";
+    imagePrefixUrl = "https://kammun.app/images/";
 
     // --------------------------------------------------------------------- //
 
@@ -303,7 +304,11 @@ class LoadingScreenServices {
     bannerListNetwork.clear();
     bannerListNetwork.add(
       FadeInImage(
-        image: CacheImage(LoadingScreenServices.imagePrefixUrl + "slide3.png"),
+        image: AdvImageCache(
+          LoadingScreenServices.imagePrefixUrl + "slide3.png",
+          useMemCache: true,
+          diskCacheExpire: Duration(minutes: 1),
+        ),
         // width: MediaQuery.of(context).size.width,
         fadeInDuration: const Duration(seconds: 1),
         // fadeInCurve: Curves.fastOutSlowIn,
