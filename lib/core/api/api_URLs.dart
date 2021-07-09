@@ -1,10 +1,8 @@
 // String BaseUrl = "https://kammunapp.com";
-String BaseUrl = "http://test.kammun.com";
+String BaseUrl = "https://kammun.app";
 
-const String APPLE_BASEURL = "http://test.kammun.com";
-const String PRODUCTION_BASE_URL = "http://test.kammun.com";
-
-////////////////////////////////////////////////////////////////////
+const String APPLE_BASEURL = "https://kammun.app";
+const String PRODUCTION_BASE_URL = "https://kammun.app";
 
 const String GET_COMPANY = "/api/company";
 const String GET_MOBILE_VERSION = "/api/mob_v_config";
@@ -37,8 +35,6 @@ const String ORDER = "/api/order";
 const String GET_START_REQUEST = "/api/mobile/startup";
 
 const String GET_SUPPORTED_CITIES = "/api/supported_city";
-
-
 
 const String LOGIN_URL = "/api/auth/user_signin";
 
