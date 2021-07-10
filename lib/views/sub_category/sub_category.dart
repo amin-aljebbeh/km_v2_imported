@@ -1,13 +1,10 @@
-import 'package:badges/badges.dart';
-import 'package:cache_image/cache_image.dart';
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
-import '../../Services.dart';
 
 class SubCategory extends StatefulWidget {
   int heroIndex;
@@ -244,9 +241,12 @@ class _SubCategoryState extends State<SubCategory> {
                                   Radius.circular(30),
                                 ),
                                 child: FadeInImage(
-                                  image: CacheImage(
-                                      LoadingScreenServices.imagePrefixUrl +
-                                          eachProduct.imageFileName),
+                                  image: AdvImageCache(
+                                    LoadingScreenServices.imagePrefixUrl +
+                                        eachProduct.imageFileName,
+                                    useMemCache: true,
+                                    diskCacheExpire: Duration(minutes: 1),
+                                  ),
                                   width: MediaQuery.of(context).size.width,
                                   fadeInDuration: const Duration(seconds: 1),
                                   height:

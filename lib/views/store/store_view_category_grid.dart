@@ -1,6 +1,5 @@
-import 'package:cache_image/cache_image.dart';
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -146,8 +145,11 @@ class ShopByCategoryState extends State<ShopByCategory> {
         child: Stack(
           children: <Widget>[
             FadeInImage(
-              image:
-                  CacheImage(LoadingScreenServices.imagePrefixUrl + widget.img),
+              image: AdvImageCache(
+                LoadingScreenServices.imagePrefixUrl + widget.img,
+                useMemCache: true,
+                diskCacheExpire: Duration(minutes: 1),
+              ),
               width: MediaQuery.of(context).size.width,
               fadeInDuration: const Duration(seconds: 1),
               // fadeInCurve: Curves.fastOutSlowIn,
