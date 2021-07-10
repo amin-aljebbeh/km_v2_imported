@@ -1,5 +1,6 @@
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cache_image/cache_image.dart';
+// import 'package:cache_image/cache_image.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -240,6 +241,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                             behavior: HitTestBehavior.translucent,
                             onTap: () => _onTileClicked(index),
                             child: OrderDetailViewCard(
+                              productsData: orderDetail,
                               supplierCode: orderDetail.supplierCode,
                               active: 1,
                               productId: orderDetail.pivot.productId,
@@ -417,6 +419,7 @@ class OrderDetailViewCard extends StatefulWidget {
   int active;
   final String productId;
   final String supplierCode;
+  final OrderProducts productsData;
 
   OrderDetailViewCard({
     this.img,
@@ -429,6 +432,7 @@ class OrderDetailViewCard extends StatefulWidget {
     this.productCount,
     this.supplierCode,
     this.productId,
+    this.productsData,
   });
 
   @override
@@ -508,7 +512,11 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                             placeholder: AssetImage("assets/kmIcon.png"),
                             fit: BoxFit.contain,
                             image: widget.img.length > 0
-                                ? CacheImage(widget.img)
+                                ? AdvImageCache(
+                                    widget.img,
+                                    useMemCache: true,
+                                    diskCacheExpire: Duration(minutes: 1),
+                                  )
                                 : AssetImage("assets/kmIcon.png"),
                             width: MediaQuery.of(context).size.width,
                             height: 120,
@@ -574,9 +582,14 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
 
                               result =
                                   await ProductsServices.updateProductsDetails(
-                                      bodyKey: "is_active",
-                                      value: value ? "1" : "0",
-                                      productId: widget.productId);
+                                bodyKey: "is_active",
+                                value: value ? "1" : "0",
+                                productId: widget.productId,
+                                isForSubWarehouse: true,
+                                subWarehouseId: widget
+                                    .productsData.subWarehouseId
+                                    .toString(),
+                              );
 
                               if (result) {
                                 Flushbar(

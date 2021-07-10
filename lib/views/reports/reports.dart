@@ -31,6 +31,17 @@ class _DailyStatisticsState extends State<DailyStatistics> {
                     Navigator.of(context).pushNamed('/sales_reports');
                   },
                 ),
+                ListTile(
+                  leading: Icon(Icons.info),
+                  // trailing: Icon(Icons.arrow_back),
+                  title: Text("تقرير المطابقة",
+                      style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontSize: 25)),
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/matching_report');
+                  },
+                ),
               ],
             )),
       ),

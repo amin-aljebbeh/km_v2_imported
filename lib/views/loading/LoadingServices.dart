@@ -1,20 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:cache_image/cache_image.dart';
+// import 'package:cache_image/cache_image.dart';
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/admin_URLs.dart';
+import 'package:kammun_app/models/sub_warehouse_model.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/cart/services/cart_services.dart';
-import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
-import 'package:kammun_app/views/orders/services/order_services.dart';
-import 'package:package_info/package_info.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
 import 'Loading.dart';
@@ -26,6 +24,8 @@ class LoadingScreenServices {
   static List<CategoryOriginalData> categoryList = List<CategoryOriginalData>();
   // static List<CategoryOriginalData> fullCategoryList =
   //     List<CategoryOriginalData>();
+
+  static List<SubWarehouse> swbWarehouses = new List<SubWarehouse>();
 
   static List<DropdownMenuItem> fullCategoryList = List<DropdownMenuItem>();
 
@@ -96,6 +96,21 @@ class LoadingScreenServices {
     return true;
   }
 
+  Future<bool> getSubWarehouse() async {
+    var response = await ApiProvider.sendRequest(
+      url: GET_SUB_WAREHOUSE,
+      method: httpMethods.get,
+    );
+    if (response.statusCode == SUCCESS_CODE) {
+      swbWarehouses.addAll(subWarehouseFromJson(jsonEncode(response.data)));
+      Tools.logToConsole("=== DONE getting Warehouses  ====");
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+//
   Future<bool> getSupportedCity() async {
     var response = await ApiProvider.sendRequest(
       url: GET_SUPPORTED_CITIES,
@@ -289,7 +304,11 @@ class LoadingScreenServices {
     bannerListNetwork.clear();
     bannerListNetwork.add(
       FadeInImage(
-        image: CacheImage(LoadingScreenServices.imagePrefixUrl + "slide3.png"),
+        image: AdvImageCache(
+          LoadingScreenServices.imagePrefixUrl + "slide3.png",
+          useMemCache: true,
+          diskCacheExpire: Duration(minutes: 1),
+        ),
         // width: MediaQuery.of(context).size.width,
         fadeInDuration: const Duration(seconds: 1),
         // fadeInCurve: Curves.fastOutSlowIn,
@@ -318,7 +337,7 @@ class LoadingScreenServices {
             responses = await Future.wait([
               //CartServices.getUserCart(),
               getSupportedCity(),
-
+              getSubWarehouse(),
               getCategory(),
               featchAdminInformation(),
             ]);

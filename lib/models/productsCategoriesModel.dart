@@ -122,6 +122,8 @@ class ProductData {
     this.minThreshold,
     this.numberOfVisits,
     this.priority,
+    this.subWarehouseId,
+    this.priceChange,
   });
 
   int id;
@@ -145,6 +147,8 @@ class ProductData {
   String increasePercentage;
   String priceFactor;
   int underCheckAvailability;
+  int subWarehouseId;
+  String priceChange;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -158,12 +162,16 @@ class ProductData {
       unit: json["unit"].toString(),
       categoryId: json["category_id"].toString(),
       price: json["price"].toString(),
+      priceChange:
+          json["price_change"] == null ? null : json["price_change"].toString(),
       isActive: json["is_active"].toString(),
       quantity: json["quantity"].toString(),
       productCount: json["productCount"],
       supplierCode:
           json["supplier_code"] == null ? null : json["supplier_code"],
       warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"],
+      subWarehouseId:
+          json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
       isFeatured: json["is_featured"] == null ? null : json["is_featured"],
       priority: json["priority"] == null ? null : json["priority"],
       numberOfVisits:
@@ -195,7 +203,9 @@ class ProductData {
         "is_active": isActive,
         "quantity": quantity,
         "productCount": productCount,
+        "sub_warehouse_id": subWarehouseId,
         "supplier_code": supplierCode,
+        "price_change": priceChange,
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }

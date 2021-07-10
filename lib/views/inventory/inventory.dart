@@ -398,6 +398,8 @@ class _InventoryState extends State<Inventory> {
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () => () {},
                                     child: ProductsViewCard(
+                                      fromInventory: true,
+                                      productData: eachProduct,
                                       onChangeStatus: (result) {
                                         if (result) {
                                           Tools.logToConsole(
@@ -435,6 +437,17 @@ class _InventoryState extends State<Inventory> {
                                         behavior: HitTestBehavior.translucent,
                                         onTap: () => () {},
                                         child: ProductsViewCard(
+                                          onChangeStatus: (result) {
+                                            if (result) {
+                                              Tools.logToConsole(
+                                                  "the result : $result");
+                                              setState(() {
+                                                productsList.removeAt(index);
+                                              });
+                                            }
+                                          },
+                                          fromInventory: true,
+                                          productData: eachProduct,
                                           supplierCode:
                                               eachProduct.supplierCode,
                                           productId: eachProduct.id.toString(),

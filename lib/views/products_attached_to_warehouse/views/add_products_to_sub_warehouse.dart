@@ -1,91 +1,23 @@
-import 'dart:io';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/kammun_button.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/products_view/select_file.dart';
-import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 
-class AddProductsView extends StatefulWidget {
-  final String categoryId;
-  AddProductsView({@required this.categoryId});
+class AddProductsToSubWarehouse extends StatefulWidget {
+  final ProductData productData;
+  AddProductsToSubWarehouse({this.productData});
   @override
-  _AddProductsViewState createState() => _AddProductsViewState();
+  _AddProductsToSubWarehouseState createState() =>
+      _AddProductsToSubWarehouseState();
 }
 
-class _AddProductsViewState extends State<AddProductsView> {
-  File _image;
-  // File _uploadedFile;
-  int _selectedSubWarehouseValue = -1;
-  final picker = ImagePicker();
+class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
+  List<DropdownMenuItem> listSubWarehouses = new List<DropdownMenuItem>();
 
-  Future getImageCamera() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.camera,
-        imageQuality: 100,
-        maxHeight: 600,
-        maxWidth: 500);
-    // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
-    Tools.logToConsole("Image Path");
-    // Tools.logToConsole(File(pickedFile.path));
-    // Tools.logToConsole("Compressed Image Path");
-    // Tools.logToConsole(uploadedFile);
-    // Tools.logToConsole(uploadedFile.path);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        // _uploadedFile = uploadedFile;
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  Future getImageGalery() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.gallery,
-        imageQuality: 100,
-        maxHeight: 600,
-        maxWidth: 500);
-    // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
-    Tools.logToConsole("Image Path");
-    // Tools.logToConsole(File(pickedFile.path));
-    // Tools.logToConsole("Compressed Image Path");
-    // Tools.logToConsole(uploadedFile);
-    // Tools.logToConsole(uploadedFile.path);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        // _uploadedFile = uploadedFile;
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  Widget imagesBody() {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.only(top: 10),
-      child: SelectedFileToUpload(
-        image: _image,
-        name: 'Product Image}',
-        close: () {
-          setState(() {
-            _image = null;
-            // _uploadedFile = null;
-          });
-        },
-      ),
-    );
-  }
+  int _selectedValue = -1;
 
   Widget _entryField(
       {bool canBeEmpty = true,
@@ -185,96 +117,61 @@ class _AddProductsViewState extends State<AddProductsView> {
       isLoading = true;
       isError = false;
     });
-    int productIds = await ProductsServices.addNewProducts(
-        subWarehouseId: _selectedSubWarehouseValue.toString(),
-        name: nameController.text,
-        quantity: quantityController.text,
-        unit: unitController.text,
-        price: priceController.text,
-        description: descriptionController.text,
-        supplierCode: supplierCodeController.text,
-        priceFactor: priceFactorController.text,
-        categoryId: widget.categoryId,
-        minThreshold: "0",
-        isActive: switchController ? "1" : "0");
+    dynamic body = {
+      "product_id": widget.productData.id.toString(),
+      "sub_warehouse_id": _selectedValue.toString(),
+      "price": priceController.text != null ? priceController.text : "0",
+      "is_featured": "0",
+      "is_active": switchController ? "1" : "0",
+      "priority": "100",
+      "supplier_code": supplierCodeController.text,
+      "min_threshold": "0",
+      "increase_percentage": "0",
+      "price_factor":
+          priceFactorController.text != null ? priceFactorController.text : "1",
+      "automatic_activation": "0",
+    };
 
-    if (productIds != null && productIds != 0) {
-      bool result = await ProductsServices.setImageToProducts(
-          productId: productIds, image: _image);
-      if (result) {
-        setState(() {
-          isLoading = false;
-          isError = false;
-        });
-
-        Navigator.of(context).pop();
-      } else {
-        setState(() {
-          isLoading = false;
-          isError = true;
-        });
-        Flushbar(
-          backgroundColor: Colors.red[900],
-          messageText: Text(
-            "فشل في إضافة المنتج",
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-          boxShadows: [
-            BoxShadow(
-              color: Colors.red,
-              offset: Offset(0.0, 2.0),
-              blurRadius: 3.0,
-            )
-          ],
-          icon: Icon(
-            Icons.close,
-            size: 28.0,
-            color: Colors.white,
-          ),
-          duration: Duration(seconds: 1),
-          // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-        )..show(context);
-      }
-    } else if (productIds == null) {
-      Flushbar(
-        backgroundColor: Colors.red[900],
-        messageText: Text(
-          "!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!",
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: Colors.purple,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: Icon(
-          Icons.close,
-          size: 28.0,
-          color: Colors.white,
-        ),
-        duration: Duration(seconds: 10),
-        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-      )..show(context);
+    bool response = await AddedProductsServices.attcahProductsToSubWarehouse(
+        fullRequestBody: body);
+    if (response) {
+      setState(() {
+        isLoading = false;
+        isError = false;
+      });
+      Navigator.of(context).pop();
+    } else {
+      setState(() {
+        isLoading = false;
+        isError = true;
+      });
     }
   }
 
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController quantityController = TextEditingController();
-  final TextEditingController unitController = TextEditingController();
   final TextEditingController priceFactorController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
   final TextEditingController supplierCodeController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
 
   bool switchController = false;
+
+  @override
+  void initState() {
+    // fullCategoryList.add(new DropdownMenuItem(
+    //           child: Text(
+    //             category[i].name,
+    //           ),
+    //           value: category[i].name + ";" + category[i].id.toString(),
+    //         )
+
+    for (int i = 0; i < LoadingScreenServices.swbWarehouses.length; i++) {
+      listSubWarehouses.add(DropdownMenuItem(
+        child: Text(LoadingScreenServices.swbWarehouses[i].name),
+        value: LoadingScreenServices.swbWarehouses[i].id,
+      ));
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -375,11 +272,11 @@ class _AddProductsViewState extends State<AddProductsView> {
                                             .HKGrotesk,
                                       ),
                                     ),
-                                    groupValue: _selectedSubWarehouseValue,
+                                    groupValue: _selectedValue,
                                     value: data.id,
                                     onChanged: (val) {
                                       setState(() {
-                                        _selectedSubWarehouseValue = data.id;
+                                        _selectedValue = data.id;
                                       });
                                     },
                                   ),
@@ -387,39 +284,6 @@ class _AddProductsViewState extends State<AddProductsView> {
                             .toList(),
                       ),
                     ),
-                    _entryField(
-                        controller: nameController,
-                        title: "اسم المنتج",
-                        fieldType: TextInputType.name,
-                        hint: "زيت سولينا"),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _entryField(
-                            controller: quantityController,
-                            title: "الكمية",
-                            fieldType: TextInputType.number,
-                            hint: "100",
-                            width: MediaQuery.of(context).size.width / 4),
-                        _entryField(
-                            controller: unitController,
-                            title: "الوحدة",
-                            fieldType: TextInputType.name,
-                            hint: "لتر",
-                            width: MediaQuery.of(context).size.width / 4),
-                        _entryField(
-                            controller: priceFactorController,
-                            title: "معدل الضرب",
-                            fieldType: TextInputType.number,
-                            hint: "1",
-                            width: MediaQuery.of(context).size.width / 4),
-                      ],
-                    ),
-                    _entryField(
-                        controller: descriptionController,
-                        title: "الوصف",
-                        fieldType: TextInputType.name,
-                        hint: "زيت دوار الشمس الصافي @كلمات مفتاحية"),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -440,24 +304,12 @@ class _AddProductsViewState extends State<AddProductsView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        FlatButton(
-                          child: Icon(
-                            Icons.camera,
-                            color: UtilsImporter().colorUtils.kmColors,
-                          ),
-                          onPressed: () {
-                            getImageCamera();
-                          },
-                        ),
-                        FlatButton(
-                          child: Icon(
-                            Icons.image,
-                            color: UtilsImporter().colorUtils.kmColors,
-                          ),
-                          onPressed: () {
-                            getImageGalery();
-                          },
-                        ),
+                        _entryField(
+                            controller: priceFactorController,
+                            title: "معدل الضرب",
+                            fieldType: TextInputType.number,
+                            hint: "1",
+                            width: MediaQuery.of(context).size.width / 4),
                         SizedBox(
                           width: 110,
                           // height: 100,
@@ -487,12 +339,15 @@ class _AddProductsViewState extends State<AddProductsView> {
                         ),
                       ],
                     ),
-                    _image != null ? imagesBody() : Container(),
                     KammunButton(
                       text: "حفظ",
-                      onPress: () {
-                        _addNewProduct();
-                      },
+                      onPress: priceFactorController.text != null &&
+                              supplierCodeController.text != null &&
+                              priceController.text != null
+                          ? () {
+                              _addNewProduct();
+                            }
+                          : null,
                     )
                   ],
                 ),

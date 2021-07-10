@@ -4,8 +4,6 @@ String BaseUrl = "https://kammun.app";
 const String APPLE_BASEURL = "https://kammun.app";
 const String PRODUCTION_BASE_URL = "https://kammun.app";
 
-////////////////////////////////////////////////////////////////////
-
 const String GET_COMPANY = "/api/company";
 const String GET_MOBILE_VERSION = "/api/mob_v_config";
 const String GET_PRODUCT = "/api/product/";

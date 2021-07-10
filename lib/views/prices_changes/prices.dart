@@ -171,6 +171,7 @@ class _PricesState extends State<Prices> {
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () => () {},
                                     child: ProductsViewCard(
+                                      productData: eachProduct,
                                       oldPrice: int.parse(
                                               eachProduct.price.split(".")[0]) -
                                           int.parse(eachProduct.priceChange
@@ -185,7 +186,7 @@ class _PricesState extends State<Prices> {
                                                   .images[0].imageFileName
                                           : "",
                                       product_name: eachProduct.name,
-                                      active: eachProduct.isActive,
+                                      active: int.parse(eachProduct.isActive),
                                       quantity: eachProduct.unit.toString() !=
                                               "null"
                                           ? eachProduct.quantity.toString() +
@@ -204,6 +205,7 @@ class _PricesState extends State<Prices> {
                                         behavior: HitTestBehavior.translucent,
                                         onTap: () => () {},
                                         child: ProductsViewCard(
+                                          productData: eachProduct,
                                           oldPrice: int.parse(eachProduct.price
                                                   .split(".")[0]) -
                                               int.parse(eachProduct.priceChange
@@ -219,7 +221,8 @@ class _PricesState extends State<Prices> {
                                                       .images[0].imageFileName
                                               : "",
                                           product_name: eachProduct.name,
-                                          active: eachProduct.isActive,
+                                          active:
+                                              int.parse(eachProduct.isActive),
                                           quantity: eachProduct.unit
                                                       .toString() !=
                                                   "null"

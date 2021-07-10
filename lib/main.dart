@@ -14,7 +14,11 @@ import 'package:flutter/cupertino.dart';
 import 'views/cart/CartViewFinal.dart';
 import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
+import 'views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
+import 'views/products_attached_to_warehouse/views/view_added_products.dart';
+import 'views/products_attached_to_warehouse/views/view_not_added_products.dart';
 import 'views/profile/profileScreen.dart';
+import 'views/reports/matching_report.dart';
 import 'views/reports/sales_report.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
@@ -115,6 +119,12 @@ class _MyAppState extends State<MyApp> {
               '/profile': (_) => ProfileScreen(),
               '/statistics': (_) => DailyStatistics(),
               '/sales_reports': (_) => SalesReport(),
+              '/products_added_to_warehouse': (_) => AddedProductsToWarehouse(),
+              '/products_not_added_to_warehouse': (_) =>
+                  NotAddedProductsToWarehouse(),
+              '/attach_product_to_sub_warehouse': (_) =>
+                  AddProductsToSubWarehouse(),
+              '/matching_report': (_) => MatchingReport(),
             },
             theme: CustomTheme.of(context),
             home: LoadingScreen()));

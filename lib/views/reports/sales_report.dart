@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/kammun_button.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 
+import 'models/sailes_reports_model.dart';
 import 'services/reports_services.dart';
 
 class SalesReport extends StatefulWidget {
@@ -24,6 +26,257 @@ class _SalesReportState extends State<SalesReport> {
   int library = 0;
   int seed = 0;
   int all = 0;
+  List<Widget> totalSubWarehouses = [];
+  _reportCard(GetDailyStatistics response) {
+    totalSubWarehouses.clear();
+    Tools.logToConsole("Response Data Length: ${response.data.length}");
+    for (int i = 0; i < response.data.length; i++) {
+      if (response.data[i].statisticsWarehouses != null) {
+        totalSubWarehouses.add(
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                response.data[i].name,
+                style: TextStyle(
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontSize: 25,
+                ),
+              ),
+            ),
+          ),
+        );
+        totalSubWarehouses.add(
+          Center(
+            child: Table(
+              border: TableBorder.all(
+                  color: Colors.black, style: BorderStyle.solid, width: 2),
+              children: [
+                TableRow(children: [
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      "إجمالي المبيعات",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      "إجمالي التوصيل",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      "المجموع الكلي",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    ),
+                  )
+                ]),
+                TableRow(children: [
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      UtilsImporter()
+                          .stringUtils
+                          .oCcy
+                          .format(
+                              response.data[i].statisticsWarehouses.totalSales)
+                          .toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      UtilsImporter()
+                          .stringUtils
+                          .oCcy
+                          .format(response
+                              .data[i].statisticsWarehouses.deliveryIncome)
+                          .toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      UtilsImporter()
+                          .stringUtils
+                          .oCcy
+                          .format(response.data[i].statisticsWarehouses.total)
+                          .toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    ),
+                  )
+                ]),
+              ],
+            ),
+          ),
+        );
+        if (response.data[i].statisticsSubWarehouses != null) {
+          for (int j = 0;
+              j < response.data[i].statisticsSubWarehouses.length;
+              j++) {
+            totalSubWarehouses.add(
+              Table(
+                border: TableBorder.all(
+                    color: Theme.of(context).primaryColor,
+                    style: BorderStyle.solid,
+                    width: 1),
+                children: [
+                  TableRow(children: [
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        response.data[i].statisticsSubWarehouses[j].name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        UtilsImporter()
+                            .stringUtils
+                            .oCcy
+                            .format(int.parse(response.data[i]
+                                .statisticsSubWarehouses[j].sumPurchasePrice))
+                            .toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        ),
+                      ),
+                    )
+                  ]),
+                ],
+              ),
+            );
+          }
+        }
+
+        if (response.data[i].statisticsSupportedCities != null) {
+          for (int j = 0;
+              j < response.data[i].statisticsSupportedCities.length;
+              j++) {
+            totalSubWarehouses.add(
+              Table(
+                border: TableBorder.all(
+                    color: Theme.of(context).primaryColor,
+                    style: BorderStyle.solid,
+                    width: 1),
+                children: [
+                  TableRow(children: [
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        response.data[i].statisticsSupportedCities[j].name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        "عدد الطلبات",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        "تسعيرة التوصيل",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        ),
+                      ),
+                    ),
+                  ]),
+                  TableRow(children: [
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        UtilsImporter()
+                            .stringUtils
+                            .oCcy
+                            .format(int.parse(response.data[i]
+                                .statisticsSupportedCities[j].deliveryIncome
+                                .split(".")[0]))
+                            .toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        UtilsImporter()
+                            .stringUtils
+                            .oCcy
+                            .format(int.parse(response.data[i]
+                                .statisticsSupportedCities[j].ordersCount
+                                .toString()))
+                            .toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        UtilsImporter()
+                            .stringUtils
+                            .oCcy
+                            .format(int.parse(response.data[i]
+                                .statisticsSupportedCities[j].deliveryPrice
+                                .split(".")[0]
+                                .toString()))
+                            .toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        ),
+                      ),
+                    )
+                  ])
+                ],
+              ),
+            );
+          }
+        }
+      }
+    }
+    Tools.logToConsole(
+        "The end if for  and the length : ${totalSubWarehouses.length}");
+  }
 
   _getSailesReport() async {
     setState(() {
@@ -32,16 +285,18 @@ class _SalesReportState extends State<SalesReport> {
     });
 
     var response = await ReportsServcies.getSailesReports(
-        fromDate: _fromDateTimeValue,
-        toDate: _toDateTimeValue,
-        warehouseId: "1");
+      fromDate: _fromDateTimeValue,
+      toDate: _toDateTimeValue,
+    );
     if (response != null) {
+      _reportCard(response);
+
       setState(() {
-        vegetables = response.data.vegetables;
-        toaster = response.data.toaster;
-        library = response.data.dataLibrary;
-        seed = response.data.seed;
-        all = response.data.all;
+        // vegetables = response.data[0].subWarehouses[0].sumPurchasePrice;
+        // toaster = response.data.toaster;
+        // library = response.data.dataLibrary;
+        // seed = response.data.seed;
+        // all = response.data.all;
         isLoading = false;
       });
     } else {
@@ -132,98 +387,104 @@ class _SalesReportState extends State<SalesReport> {
                     : Container(),
                 isLoading
                     ? Loader()
-                    : Column(children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text("البزورية:",
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
-                            Text(
-                                UtilsImporter()
-                                    .stringUtils
-                                    .oCcy
-                                    .format(seed)
-                                    .toString(),
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk))
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text("المحمصة:",
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
-                            Text(
-                                UtilsImporter()
-                                    .stringUtils
-                                    .oCcy
-                                    .format(toaster)
-                                    .toString(),
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk))
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text("الخضار:",
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
-                            Text(
-                                UtilsImporter()
-                                    .stringUtils
-                                    .oCcy
-                                    .format(vegetables)
-                                    .toString(),
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk))
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text("المكتبة:",
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
-                            Text(
-                                UtilsImporter()
-                                    .stringUtils
-                                    .oCcy
-                                    .format(library)
-                                    .toString(),
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk))
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text("المجموع:",
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
-                            Text(
-                                UtilsImporter()
-                                    .stringUtils
-                                    .oCcy
-                                    .format(all)
-                                    .toString(),
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk))
-                          ],
-                        ),
-                      ]),
+                    : totalSubWarehouses.length > 0
+                        ? Column(
+                            // shrinkWrap: true,
+                            children: totalSubWarehouses,
+                          )
+                        : Container(),
+                // : Column(children: [
+                //     Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       children: [
+                //         Text("البزورية:",
+                //             style: TextStyle(
+                //                 fontFamily:
+                //                     UtilsImporter().stringUtils.HKGrotesk)),
+                //         Text(
+                // UtilsImporter()
+                //     .stringUtils
+                //     .oCcy
+                //     .format(seed)
+                //                 .toString(),
+                //             style: TextStyle(
+                //                 fontFamily:
+                //                     UtilsImporter().stringUtils.HKGrotesk))
+                //       ],
+                //     ),
+                //     Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       children: [
+                //         Text("المحمصة:",
+                //             style: TextStyle(
+                //                 fontFamily:
+                //                     UtilsImporter().stringUtils.HKGrotesk)),
+                //         Text(
+                //             UtilsImporter()
+                //                 .stringUtils
+                //                 .oCcy
+                //                 .format(toaster)
+                //                 .toString(),
+                //             style: TextStyle(
+                //                 fontFamily:
+                //                     UtilsImporter().stringUtils.HKGrotesk))
+                //       ],
+                //     ),
+                //     Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       children: [
+                //         Text("الخضار:",
+                //             style: TextStyle(
+                //                 fontFamily:
+                //                     UtilsImporter().stringUtils.HKGrotesk)),
+                //         Text(
+                //             UtilsImporter()
+                //                 .stringUtils
+                //                 .oCcy
+                //                 .format(vegetables)
+                //                 .toString(),
+                //             style: TextStyle(
+                //                 fontFamily:
+                //                     UtilsImporter().stringUtils.HKGrotesk))
+                //       ],
+                //     ),
+                //     Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       children: [
+                //         Text("المكتبة:",
+                //             style: TextStyle(
+                //                 fontFamily:
+                //                     UtilsImporter().stringUtils.HKGrotesk)),
+                //         Text(
+                //             UtilsImporter()
+                //                 .stringUtils
+                //                 .oCcy
+                //                 .format(library)
+                //                 .toString(),
+                //             style: TextStyle(
+                //                 fontFamily:
+                //                     UtilsImporter().stringUtils.HKGrotesk))
+                //       ],
+                //     ),
+                //     Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //       children: [
+                //         Text("المجموع:",
+                //             style: TextStyle(
+                //                 fontFamily:
+                //                     UtilsImporter().stringUtils.HKGrotesk)),
+                //         Text(
+                //             UtilsImporter()
+                //                 .stringUtils
+                //                 .oCcy
+                //                 .format(all)
+                //                 .toString(),
+                //             style: TextStyle(
+                //                 fontFamily:
+                //                     UtilsImporter().stringUtils.HKGrotesk))
+                //       ],
+                //     ),
+                //   ]),
               ],
             )),
       ),

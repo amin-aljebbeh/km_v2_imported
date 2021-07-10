@@ -385,7 +385,7 @@ class StoreViewState extends State<StoreView> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Icon(
                           Icons.phone,
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: UtilsImporter().colorUtils.primarycolor,
                           size: 30,
                         ),
                       ),
@@ -411,7 +411,7 @@ class StoreViewState extends State<StoreView> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Icon(
                             Icons.share,
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: UtilsImporter().colorUtils.primarycolor,
                             size: 30,
                           ),
                         ),
@@ -434,8 +434,44 @@ class StoreViewState extends State<StoreView> {
                       leading: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Icon(
+                          Icons.category,
+                          color: UtilsImporter().colorUtils.primarycolor,
+                          size: 30,
+                        ),
+                      ),
+                      title: Text("المنتجات المضافة للمستودع",
+                          style: TextStyle(
+                              fontFamily:
+                                  UtilsImporter().stringUtils.HKGrotesk)),
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed('/products_added_to_warehouse');
+                      },
+                    ),
+                    ListTile(
+                      leading: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Icon(
+                          Icons.category,
+                          color: UtilsImporter().colorUtils.primarycolor,
+                          size: 30,
+                        ),
+                      ),
+                      title: Text("المنتجات الغير مضافة للمستودع",
+                          style: TextStyle(
+                              fontFamily:
+                                  UtilsImporter().stringUtils.HKGrotesk)),
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed('/products_not_added_to_warehouse');
+                      },
+                    ),
+                    ListTile(
+                      leading: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Icon(
                           Icons.info_outline,
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: UtilsImporter().colorUtils.primarycolor,
                           size: 30,
                         ),
                       ),
@@ -443,15 +479,6 @@ class StoreViewState extends State<StoreView> {
                           style: TextStyle(
                               fontFamily:
                                   UtilsImporter().stringUtils.HKGrotesk)),
-                      // subtitle: Text(
-                      //   // 'www.kammun.com',
-                      //   LoadingScreenServices
-                      //       .companyInformation.websiteUrl,
-
-                      //   style: TextStyle(
-                      //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                      //       fontWeight: FontWeight.bold),
-                      // ),
                       onTap: () {
                         Navigator.of(context).pushNamed('/profile');
                       },
@@ -462,7 +489,7 @@ class StoreViewState extends State<StoreView> {
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Icon(
                                 Icons.report_sharp,
-                                color: UtilsImporter().colorUtils.kmColors,
+                                color: UtilsImporter().colorUtils.primarycolor,
                                 size: 30,
                               ),
                             ),
