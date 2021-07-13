@@ -7,6 +7,7 @@ import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:http/http.dart' as http;
+import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 
 class ProductsServices {
@@ -69,6 +70,7 @@ class ProductsServices {
       String supplierCode,
       String minThreshold,
       String priceFactor,
+      bool autoActivation,
       @required String subWarehouseId}) async {
     var productBody = {
       "name": name,
@@ -77,14 +79,6 @@ class ProductsServices {
       "description": description,
       "category_ids": categoryId,
       "quantity": quantity,
-      // "price": price,
-      // "is_featured": 0,
-      // "is_active": isActive,
-      // "priority": 20,
-      // "supplier_code": supplierCode,
-      // "min_threshold": minThreshold,
-      // "increase_percentage": 0,
-      // "price_factor": priceFactor,
     };
 
     try {
@@ -95,6 +89,8 @@ class ProductsServices {
 
       if (response.statusCode == SUCCESS_CODE &&
           response.data["success"] == true) {
+        Tools.logToConsole(
+            "THE Product Id from Add PRoduct is : ${response.data["data"]["id"]}");
         var subWarehouseBody = {
           "product_id": response.data["data"]["id"].toString(),
           "sub_warehouse_id": subWarehouseId,
@@ -103,9 +99,10 @@ class ProductsServices {
           "is_active": isActive,
           "priority": 20,
           "supplier_code": supplierCode,
-          "min_threshold": minThreshold,
+          "min_threshold": 0,
           "increase_percentage": 0,
           "price_factor": priceFactor,
+          "automatic_activation": autoActivation,
         };
         bool result = await AddedProductsServices.attcahProductsToSubWarehouse(
             fullRequestBody: subWarehouseBody);
@@ -116,6 +113,7 @@ class ProductsServices {
 
           return int.parse(response.data["data"]["id"].toString());
         } else {
+          Tools.logToConsole(result);
           return null;
         }
       } else {
@@ -129,7 +127,10 @@ class ProductsServices {
   }
 
   static Future<bool> setImageToProducts({File image, int productId}) async {
-    var headers = {'Authorization': 'Bearer aboHashim'};
+    var headers = {
+      'Authorization':
+          LoadingScreen.user_token.length > 10 ? LoadingScreen.user_token : ""
+    };
     var request = http.MultipartRequest(
         'POST', Uri.parse(BaseUrl + ADD_IMAGE_TO_PRODUCTS));
     request.fields.addAll({'product_id': '$productId'});

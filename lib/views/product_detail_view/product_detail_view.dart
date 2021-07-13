@@ -560,6 +560,17 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   initialText: widget.products.description,
                                 ),
                                 SizedBox(height: 30),
+                                UpdatePriceWidget(
+                                  title: "تعديل الأولوية:",
+                                  textHint: widget.products.priority.toString(),
+                                  inputType: TextInputType.text,
+                                  bodyKey: "priority",
+                                  productId: widget.products.id,
+                                  isForSubWarehouse: false,
+                                  productData: widget.products,
+                                  initialText: "",
+                                ),
+                                SizedBox(height: 30),
                                 widget.products.images.length > 0
                                     ? _deleteImageButton(
                                         imageId: widget.products.images[0].id,

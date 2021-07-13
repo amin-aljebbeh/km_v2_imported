@@ -53,7 +53,7 @@ class AddedProductsServices {
   }
 
   static Future<bool> attcahProductsToSubWarehouse({
-    Map<String, String> fullRequestBody,
+    dynamic fullRequestBody,
   }) async {
     var response = await ApiProvider.sendRequest(
         url: ATTCAHE_PRODUCTS_TO_SUB_WAREHOUSE,
@@ -61,6 +61,7 @@ class AddedProductsServices {
         body: jsonEncode(fullRequestBody));
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      Tools.logToConsole("Product Attached to ptoducts successully");
       return true;
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");

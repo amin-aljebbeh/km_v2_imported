@@ -59,7 +59,6 @@ dependencies:
   custom_splash: ^0.0.2
   map_launcher: ^1.1.1
   flutter_launcher_icons: ^0.8.0
-  flutter_image_compress: ^0.7.0
   image_picker: ^0.6.7+22
   http: ^0.12.2
   http_parser: ^3.1.4

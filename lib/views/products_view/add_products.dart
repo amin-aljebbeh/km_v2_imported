@@ -9,7 +9,6 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class AddProductsView extends StatefulWidget {
   final String categoryId;
@@ -196,6 +195,7 @@ class _AddProductsViewState extends State<AddProductsView> {
         priceFactor: priceFactorController.text,
         categoryId: widget.categoryId,
         minThreshold: "0",
+        autoActivation: autoActivationController,
         isActive: switchController ? "1" : "0");
 
     if (productIds != null && productIds != 0) {
@@ -275,6 +275,8 @@ class _AddProductsViewState extends State<AddProductsView> {
   final TextEditingController priceController = TextEditingController();
 
   bool switchController = false;
+
+  bool autoActivationController = true;
 
   @override
   Widget build(BuildContext context) {
@@ -487,6 +489,47 @@ class _AddProductsViewState extends State<AddProductsView> {
                         ),
                       ],
                     ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "السماح بتفعيل المنتاج تلقائيا",
+                            style: TextStyle(
+                                fontFamily:
+                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 110,
+                            // height: 100,
+                            child: Container(
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(
+                                          10.0) //                 <--- border radius here
+                                      ),
+                                  border: Border.all(
+                                      color: UtilsImporter()
+                                          .colorUtils
+                                          .primarycolor,
+                                      width: 2)),
+                              child: Switch(
+                                value: autoActivationController,
+                                onChanged: (value) {
+                                  setState(() {
+                                    autoActivationController = value;
+                                  });
+                                },
+                                activeTrackColor:
+                                    UtilsImporter().colorUtils.kmColors2,
+                                activeColor:
+                                    UtilsImporter().colorUtils.kmColors,
+                              ),
+                            ),
+                          ),
+                        ]),
                     _image != null ? imagesBody() : Container(),
                     KammunButton(
                       text: "حفظ",

@@ -36,6 +36,12 @@ class _NotAddedProductsToWarehouseState
           await AddedProductsServices.getNotAddedProductsToWarehouse();
       if (response != null) {
         productsList.addAll(response);
+        productsList.sort((a, b) {
+          if (a.id > b.id) {
+            return -1;
+          } else if (a.id < b.id) return 1;
+          return 0;
+        });
         setState(() {
           isLoading = false;
         });
@@ -224,7 +230,7 @@ class _NotAddedProductsToWarehouseState
                                   index: index,
                                 ),
                               )
-                            : eachProduct.name
+                            : eachProduct.description
                                     .toLowerCase()
                                     .contains(filter.toLowerCase())
                                 ? GestureDetector(
@@ -239,11 +245,20 @@ class _NotAddedProductsToWarehouseState
                                         }
                                       },
                                       productData: eachProduct,
+                                      onChangeStatus: (result) {
+                                        if (result) {
+                                          Tools.logToConsole(
+                                              "the result : $result");
+                                          setState(() {
+                                            productsList.removeAt(index);
+                                          });
+                                        }
+                                      },
                                       supplierCode: eachProduct.supplierCode,
                                       productId: eachProduct.id.toString(),
-                                      active: eachProduct.isActive != null
-                                          ? int.parse(eachProduct.isActive)
-                                          : null,
+                                      // active: eachProduct.isActive != null
+                                      //     ? int.parse(eachProduct.isActive)
+                                      //     : null,
                                       img: eachProduct.images.length > 0
                                           ? LoadingScreenServices
                                                   .imagePrefixUrl +
