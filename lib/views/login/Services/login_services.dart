@@ -128,6 +128,8 @@ class LoginServices {
             resposne.data.viewReportPermission == "1" ? true : false);
         prefs.setBool("add_products_permission",
             resposne.data.viewOrdersPermission == "1" ? true : false);
+        prefs.setBool(
+            "is_super_admin", resposne.data.isSuperUser == "1" ? true : false);
 
         LoadingScreen.user_token = resposne.data.apiToken;
         LoadingScreen.isAdmin = true;
