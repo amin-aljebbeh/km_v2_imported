@@ -1,9 +1,8 @@
-import 'package:carousel_pro/carousel_pro.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
@@ -745,21 +744,37 @@ class StoreViewState extends State<StoreView> {
   Widget _ImageCarousel() {
     return new Container(
       // height: 200.0,
-      height: MediaQuery.of(context).size.height * 0.30,
+      //  height: MediaQuery.of(context).size.height * 0.30,
 
-      decoration: new BoxDecoration(
-          color: UtilsImporter().colorUtils.searchgreycolor,
-          borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-      child: new Carousel(
-        borderRadius: true,
-        boxFit: BoxFit.fill,
-        images: LoadingScreenServices.bannerListNetwork,
-        autoplay: true,
-        animationCurve: Curves.fastLinearToSlowEaseIn,
-        animationDuration: Duration(milliseconds: 1000),
-        dotSize: 6.0,
-        indicatorBgPadding: 2.0,
-      ),
+      // decoration: new BoxDecoration(
+      //     color: UtilsImporter().colorUtils.searchgreycolor,
+      //     borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+      child: Container(
+          child: CarouselSlider.builder(
+        itemCount: LoadingScreenServices.bannerListNetwork.length,
+        options: CarouselOptions(
+          autoPlay: true,
+          aspectRatio: 2.0,
+          enlargeCenterPage: true,
+        ),
+        itemBuilder: (context, index, realIdx) {
+          return Container(
+            child: Center(
+              child: LoadingScreenServices.bannerListNetwork[index],
+            ),
+          );
+        },
+      )),
+      // child: new Carousel(
+      //   borderRadius: true,
+      //   boxFit: BoxFit.fill,
+      //   images: LoadingScreenServices.bannerListNetwork,
+      //   autoplay: true,
+      //   animationCurve: Curves.fastLinearToSlowEaseIn,
+      //   animationDuration: Duration(milliseconds: 1000),
+      //   dotSize: 6.0,
+      //   indicatorBgPadding: 2.0,
+      // ),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class CommonUtils {
@@ -88,14 +88,14 @@ class CustomTheme extends StatefulWidget {
   CustomThemeState createState() => new CustomThemeState();
 
   static ThemeData of(BuildContext context) {
-    _CustomTheme inherited =
-        (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
+    _CustomTheme inherited = (context
+        .dependOnInheritedWidgetOfExactType<_CustomTheme>() as _CustomTheme);
     return inherited.data.theme;
   }
 
   static CustomThemeState instanceOf(BuildContext context) {
-    _CustomTheme inherited =
-        (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
+    _CustomTheme inherited = (context
+        .dependOnInheritedWidgetOfExactType<_CustomTheme>() as _CustomTheme);
     return inherited.data;
   }
 }
