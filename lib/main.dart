@@ -12,6 +12,7 @@ import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'views/cart/CartViewFinal.dart';
+import 'views/inventory/manager_subWarehouse.dart';
 import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
 import 'views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
@@ -125,6 +126,7 @@ class _MyAppState extends State<MyApp> {
               '/attach_product_to_sub_warehouse': (_) =>
                   AddProductsToSubWarehouse(),
               '/matching_report': (_) => MatchingReport(),
+              '/subWarehouseManagement': (_) => GetSubWarehouse(),
             },
             theme: CustomTheme.of(context),
             home: LoadingScreen()));

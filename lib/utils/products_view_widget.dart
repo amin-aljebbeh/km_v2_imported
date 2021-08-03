@@ -340,7 +340,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                                 .productData.subWarehouseId
                                                 .toString(),
                                             isForSubWarehouse: true,
-                                            productId: widget.productId);
+                                            productId: widget.productData.id
+                                                .toString());
 
                                     if (result) {
                                       widget.onChangeStatus(true);
@@ -406,7 +407,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                                 subWarehouseId: widget
                                                     .productData.subWarehouseId
                                                     .toString(),
-                                                productId: widget.productId
+                                                productId: widget.productData.id
                                                     .toString());
 
                                         if (result) {

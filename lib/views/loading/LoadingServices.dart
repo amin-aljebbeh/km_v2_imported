@@ -83,6 +83,10 @@ class LoadingScreenServices {
   static bool viewOrderPermission = false;
   static bool addProductsPermission = false;
   static bool viewReportsPermission = false;
+  static bool productsWarehouseOperationPermission = false;
+  static bool isSuperAdmin = false;
+
+  static bool productsOperationPermission = false;
 
   Future<bool> updateFirebaseToken(String firebaseToken) async {
     Map body = {
@@ -273,6 +277,27 @@ class LoadingScreenServices {
       viewReportsPermission = true;
     } else {
       viewReportsPermission = false;
+    }
+
+    if (prefs.getBool("product_warehouse_operations_permission") != null &&
+        prefs.getBool("product_warehouse_operations_permission")) {
+      productsWarehouseOperationPermission = true;
+    } else {
+      productsWarehouseOperationPermission = false;
+    }
+
+    if (prefs.getBool("is_super_admin") != null &&
+        prefs.getBool("is_super_admin")) {
+      isSuperAdmin = true;
+    } else {
+      isSuperAdmin = false;
+    }
+
+    if (prefs.getBool("product_operations_permission") != null &&
+        prefs.getBool("product_operations_permission")) {
+      productsOperationPermission = true;
+    } else {
+      productsOperationPermission = false;
     }
 
     androidShareUrl =

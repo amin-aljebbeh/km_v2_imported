@@ -122,14 +122,29 @@ class LoginServices {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("userToken", resposne.data.apiToken);
         prefs.setString("adminRoll", username);
-        prefs.setBool("view_orders_permission",
-            resposne.data.viewOrdersPermission == "1" ? true : false);
-        prefs.setBool("view_report_permission",
-            resposne.data.viewReportPermission == "1" ? true : false);
-        prefs.setBool("add_products_permission",
-            resposne.data.viewOrdersPermission == "1" ? true : false);
+        prefs.setString("adminId", resposne.data.id.toString());
+
+        prefs.setBool("product_operations_permission",
+            resposne.data.productOperationsPermission == 1 ? true : false);
         prefs.setBool(
-            "is_super_admin", resposne.data.isSuperUser == "1" ? true : false);
+            "product_warehouse_operations_permission",
+            resposne.data.productWarehouseOperationsPermission == 1
+                ? true
+                : false);
+
+        prefs.setBool("add_category_permission",
+            resposne.data.addCategoryPermission == 1 ? true : false);
+
+        prefs.setBool("view_orders_permission",
+            resposne.data.viewOrdersPermission == 1 ? true : false);
+        prefs.setBool("view_report_permission",
+            resposne.data.viewReportPermission == 1 ? true : false);
+        prefs.setBool("add_products_permission",
+            resposne.data.viewOrdersPermission == 1 ? true : false);
+        prefs.setBool(
+            "is_super_admin", resposne.data.isSuperUser == 1 ? true : false);
+
+        prefs.setString("warehouse_id", resposne.data.warehouseId.toString());
 
         LoadingScreen.user_token = resposne.data.apiToken;
         LoadingScreen.isAdmin = true;

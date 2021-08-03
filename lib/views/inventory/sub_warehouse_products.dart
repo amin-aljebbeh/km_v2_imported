@@ -6,16 +6,18 @@ import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 
-class AddedProductsToWarehouse extends StatefulWidget {
+class SubWarehouseProducts extends StatefulWidget {
+  final String subWarehouseId;
+  SubWarehouseProducts({this.subWarehouseId});
   @override
-  _AddedProductsToWarehouseState createState() =>
-      _AddedProductsToWarehouseState();
+  _SubWarehouseProductsState createState() => _SubWarehouseProductsState();
 }
 
-class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
+class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
   List<ProductData> productsList = List<ProductData>();
   bool isLoading = false;
   bool isError = false;
@@ -32,7 +34,8 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
       isError = false;
     });
     try {
-      var response = await AddedProductsServices.getAddedProductsToWarehouse();
+      var response = await InventoryServices.getSubWarehouseProducts(
+          subWarehouseId: widget.subWarehouseId);
       if (response != null) {
         productsList.addAll(response);
         setState(() {
@@ -72,6 +75,113 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
         filter = _controller.text;
       });
     });
+  }
+
+  int fillterIndex =
+      0; // 1 soft by not active // 2 sort as newer // 0 active first;
+
+  _filterProducts() {
+    Tools.logToConsole("FilterIndex : $fillterIndex");
+    if (fillterIndex == 0) {
+      // sort not active first
+      setState(() {
+        productsList.sort((a, b) {
+          if (int.parse(a.isActive) == 0)
+            return -1;
+          else
+            return 1;
+        });
+        fillterIndex = 1;
+      });
+      Flushbar(
+        backgroundColor: Colors.green,
+        // titleText: Text("تمت الإضافة بنجاح"),
+        messageText: Text(
+          "فرز حسب المواد الغير مفعلة",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+        ),
+
+        boxShadows: [
+          BoxShadow(
+            color: UtilsImporter().colorUtils.primarycolor,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          )
+        ],
+        duration: Duration(seconds: 3),
+        leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      )..show(context);
+    } else if (fillterIndex == 1) {
+      // Active first
+      setState(() {
+        productsList.sort((a, b) {
+          if (int.parse(a.isActive) == 0)
+            return 1;
+          else
+            return -1;
+        });
+        fillterIndex = 2;
+      });
+      Flushbar(
+        backgroundColor: Colors.green,
+        // titleText: Text("تمت الإضافة بنجاح"),
+        messageText: Text(
+          "فرز حسب المواد  المفعلة",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+        ),
+
+        boxShadows: [
+          BoxShadow(
+            color: UtilsImporter().colorUtils.primarycolor,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          )
+        ],
+        duration: Duration(seconds: 3),
+        leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      )..show(context);
+    } else if (fillterIndex == 2) {
+      // Oldest First
+      setState(() {
+        productsList.sort((a, b) {
+          if (a.id > b.id)
+            return -1;
+          else if (a.id < b.id)
+            return 1;
+          else
+            return 0;
+        });
+        fillterIndex = 0;
+      });
+
+      Flushbar(
+        backgroundColor: Colors.green,
+        // titleText: Text("تمت الإضافة بنجاح"),
+        messageText: Text(
+          "فرز حسب المواد المضافة حديثاً",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+        ),
+
+        boxShadows: [
+          BoxShadow(
+            color: UtilsImporter().colorUtils.primarycolor,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          )
+        ],
+        duration: Duration(seconds: 3),
+        leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      )..show(context);
+    }
   }
 
   @override
@@ -114,10 +224,11 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
           padding: const EdgeInsets.only(right: 8.0),
           child: IconButton(
             onPressed: () {
-              _loadData();
+              // _loadData();
+              _filterProducts();
             },
             icon: Icon(
-              Icons.refresh,
+              Icons.filter_list_rounded,
               size: 35,
             ),
           ),

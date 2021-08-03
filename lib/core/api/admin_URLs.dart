@@ -28,3 +28,7 @@ const String GET_SUB_WAREHOUSE = "/api/admin/get_sub_warehouses_admin";
 
 const String UPDATE_SUB_WAREHOUSE_PRODUCTS =
     "/api/product/update_product_warehouse/";
+
+const String GET_ADMIN_INFO = "/api/admin/";
+
+const String GET_SUB_WAREHOUSE_PRODUCTS = "/api/sub_warehouse/";

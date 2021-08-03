@@ -156,7 +156,7 @@ class ProductData {
     }
 
     return ProductData(
-      id: json["id"],
+      id: json["id"] == null ? json["product_id"] : json["id"],
       name: json["name"],
       description: json["description"],
       unit: json["unit"].toString(),

@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final adminLoginResponse = adminLoginResponseFromJson(jsonString);
+
 import 'dart:convert';
 
 AdminLoginResponse adminLoginResponseFromJson(String str) =>
@@ -33,7 +37,7 @@ class Data {
     this.username,
     this.name,
     this.apiToken,
-    this.addProductPermission,
+    this.productOperationsPermission,
     this.addCategoryPermission,
     this.addSpecialOfferPermission,
     this.viewOrdersPermission,
@@ -44,45 +48,54 @@ class Data {
     this.warehouseId,
     this.firebaseToken,
     this.updateCategoryWarehousePermission,
-    this.updateProductWarehousePermission,
+    this.productWarehouseOperationsPermission,
+    this.updateOrderPermission,
+    this.subWarehouses,
   });
 
   int id;
   String username;
   String name;
   String apiToken;
-  String addProductPermission;
-  String addCategoryPermission;
-  String addSpecialOfferPermission;
-  String viewOrdersPermission;
-  String banUserPermission;
-  String viewReportPermission;
-  String addNotificationPermission;
-  String isSuperUser;
-  String warehouseId;
+  int productOperationsPermission;
+  int addCategoryPermission;
+  int addSpecialOfferPermission;
+  int viewOrdersPermission;
+  int banUserPermission;
+  int viewReportPermission;
+  int addNotificationPermission;
+  int isSuperUser;
+  int warehouseId;
   String firebaseToken;
-  String updateCategoryWarehousePermission;
-  String updateProductWarehousePermission;
+  int updateCategoryWarehousePermission;
+  int productWarehouseOperationsPermission;
+  int updateOrderPermission;
+  List<SubWarehouse> subWarehouses;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         username: json["username"],
         name: json["name"],
         apiToken: json["api_token"],
-        addProductPermission: json["add_product_permission"].toString(),
-        addCategoryPermission: json["add_category_permission"].toString(),
-        addSpecialOfferPermission: json["add_special_offer_permission"].toString(),
-        viewOrdersPermission: json["view_orders_permission"].toString(),
-        banUserPermission: json["ban_user_permission"].toString(),
-        viewReportPermission: json["view_report_permission"].toString(),
-        addNotificationPermission: json["add_notification_permission"].toString(),
-        isSuperUser: json["is_super_user"].toString(),
-        warehouseId: json["warehouse_id"].toString(),
-        firebaseToken: json["firebase_token"].toString(),
+        productOperationsPermission: json["product_operations_permission"],
+        addCategoryPermission: json["add_category_permission"],
+        addSpecialOfferPermission: json["add_special_offer_permission"],
+        viewOrdersPermission: json["view_orders_permission"],
+        banUserPermission: json["ban_user_permission"],
+        viewReportPermission: json["view_report_permission"],
+        addNotificationPermission: json["add_notification_permission"],
+        isSuperUser: json["is_super_user"],
+        warehouseId: json["warehouse_id"],
+        firebaseToken: json["firebase_token"],
         updateCategoryWarehousePermission:
-            json["update_category_warehouse_permission"].toString(),
-        updateProductWarehousePermission:
-            json["update_product_warehouse_permission"].toString(),
+            json["update_category_warehouse_permission"],
+        productWarehouseOperationsPermission:
+            json["product_warehouse_operations_permission"],
+        updateOrderPermission: json["update_order_permission"],
+        subWarehouses: json["sub_warehouses"] == null
+            ? null
+            : List<SubWarehouse>.from(
+                json["sub_warehouses"].map((x) => SubWarehouse.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -90,7 +103,7 @@ class Data {
         "username": username,
         "name": name,
         "api_token": apiToken,
-        "add_product_permission": addProductPermission,
+        "product_operations_permission": productOperationsPermission,
         "add_category_permission": addCategoryPermission,
         "add_special_offer_permission": addSpecialOfferPermission,
         "view_orders_permission": viewOrdersPermission,
@@ -102,6 +115,74 @@ class Data {
         "firebase_token": firebaseToken,
         "update_category_warehouse_permission":
             updateCategoryWarehousePermission,
-        "update_product_warehouse_permission": updateProductWarehousePermission,
+        "product_warehouse_operations_permission":
+            productWarehouseOperationsPermission,
+        "update_order_permission": updateOrderPermission,
+        "sub_warehouses":
+            List<dynamic>.from(subWarehouses.map((x) => x.toJson())),
+      };
+}
+
+class SubWarehouse {
+  SubWarehouse({
+    this.id,
+    this.name,
+    this.description,
+    this.phone,
+    this.businessDomain,
+    this.accountingSystemId,
+    this.warehouseId,
+    this.pivot,
+  });
+
+  int id;
+  String name;
+  String description;
+  String phone;
+  String businessDomain;
+  int accountingSystemId;
+  int warehouseId;
+  Pivot pivot;
+
+  factory SubWarehouse.fromJson(Map<String, dynamic> json) => SubWarehouse(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        phone: json["phone"],
+        businessDomain: json["business_domain"],
+        accountingSystemId: json["accounting_system_id"],
+        warehouseId: json["warehouse_id"],
+        pivot: Pivot.fromJson(json["pivot"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "phone": phone,
+        "business_domain": businessDomain,
+        "accounting_system_id": accountingSystemId,
+        "warehouse_id": warehouseId,
+        "pivot": pivot.toJson(),
+      };
+}
+
+class Pivot {
+  Pivot({
+    this.adminId,
+    this.subWarehouseId,
+  });
+
+  int adminId;
+  int subWarehouseId;
+
+  factory Pivot.fromJson(Map<String, dynamic> json) => Pivot(
+        adminId: json["admin_id"],
+        subWarehouseId: json["sub_warehouse_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "admin_id": adminId,
+        "sub_warehouse_id": subWarehouseId,
       };
 }

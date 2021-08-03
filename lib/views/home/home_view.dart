@@ -204,42 +204,45 @@ class HomeViewState extends State<HomeView> {
   }
 
   Widget _buttomNavBar({BuildContext context}) {
-    return BottomNavigationBar(
-      // backgroundColor: Color.fromARGB(255, 53, 99, 124),
-      //backgroundColor: Color.fromARGB(255, 57, 107, 137),
-      backgroundColor: Colors.white,
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.store,
-              // color: Theme.of(context).primaryColor,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
-            title: Text(
-              UtilsImporter().stringUtils.store,
-              style: TextStyle(
-                  color: Color.fromARGB(255, 53, 99, 124),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  fontSize: 15),
-            )),
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.shopping_cart,
-              // color: Theme.of(context).primaryColor,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            icon: Icon(Icons.shopping_cart,
-                color: Color.fromARGB(255, 53, 99, 124)),
-            title: Text(
-              UtilsImporter().stringUtils.cart,
-              style: TextStyle(
-                  color: Color.fromARGB(255, 53, 99, 124),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  fontSize: 15),
-            )),
+    List<BottomNavigationBarItem> buttomList = [];
+
+    buttomList.add(
+      BottomNavigationBarItem(
+          activeIcon: Icon(
+            Icons.store,
+            // color: Theme.of(context).primaryColor,
+            color: Color.fromARGB(255, 210, 178, 2),
+          ),
+          icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
+          title: Text(
+            UtilsImporter().stringUtils.store,
+            style: TextStyle(
+                color: Color.fromARGB(255, 53, 99, 124),
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                fontSize: 15),
+          )),
+    );
+    buttomList.add(
+      BottomNavigationBarItem(
+          activeIcon: Icon(
+            Icons.shopping_cart,
+            // color: Theme.of(context).primaryColor,
+            color: Color.fromARGB(255, 210, 178, 2),
+          ),
+          icon: Icon(Icons.shopping_cart,
+              color: Color.fromARGB(255, 53, 99, 124)),
+          title: Text(
+            UtilsImporter().stringUtils.cart,
+            style: TextStyle(
+                color: Color.fromARGB(255, 53, 99, 124),
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                fontSize: 15),
+          )),
+    );
+    if (LoadingScreenServices.viewOrderPermission) {
+      buttomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
               Icons.reorder,
@@ -255,6 +258,10 @@ class HomeViewState extends State<HomeView> {
                   fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                   fontSize: 15),
             )),
+      );
+    }
+    if (LoadingScreenServices.productsOperationPermission) {
+      buttomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
               Icons.category,
@@ -270,66 +277,32 @@ class HomeViewState extends State<HomeView> {
                   fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                   fontSize: 15),
             )),
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.money_off_csred_outlined,
-              // color: Theme.of(context).primaryColor,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            icon: Icon(Icons.money_off_csred_outlined, color: Color.fromARGB(255, 53, 99, 124)),
-            title: Text(
-              "الأسعار",
-              style: TextStyle(
-                  color: Color.fromARGB(255, 53, 99, 124),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  fontSize: 15),
-            )),
-      ],
-      currentIndex: _selectedIndex,
-      type: BottomNavigationBarType.fixed,
-      fixedColor: Colors.white,
-      onTap: _onItemTapped,
-    );
-  }
+      );
+    }
+    if (LoadingScreenServices.isSuperAdmin) {
+      buttomList.add(BottomNavigationBarItem(
+          activeIcon: Icon(
+            Icons.money_off_csred_outlined,
+            // color: Theme.of(context).primaryColor,
+            color: Color.fromARGB(255, 210, 178, 2),
+          ),
+          icon: Icon(Icons.money_off_csred_outlined,
+              color: Color.fromARGB(255, 53, 99, 124)),
+          title: Text(
+            "الأسعار",
+            style: TextStyle(
+                color: Color.fromARGB(255, 53, 99, 124),
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                fontSize: 15),
+          )));
+    }
 
-  Widget _buttomNavBarNoPermission({BuildContext context}) {
     return BottomNavigationBar(
       // backgroundColor: Color.fromARGB(255, 53, 99, 124),
       //backgroundColor: Color.fromARGB(255, 57, 107, 137),
       backgroundColor: Colors.white,
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.store,
-              // color: Theme.of(context).primaryColor,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
-            title: Text(
-              UtilsImporter().stringUtils.store,
-              style: TextStyle(
-                  color: Color.fromARGB(255, 53, 99, 124),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  fontSize: 15),
-            )),
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.category,
-              // color: Theme.of(context).primaryColor,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            icon: Icon(Icons.category, color: Color.fromARGB(255, 53, 99, 124)),
-            title: Text(
-              "جرد منتجات",
-              style: TextStyle(
-                  color: Color.fromARGB(255, 53, 99, 124),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  fontSize: 15),
-            )),
-      ],
+      items: buttomList,
       currentIndex: _selectedIndex,
       type: BottomNavigationBarType.fixed,
       fixedColor: Colors.white,
@@ -339,28 +312,26 @@ class HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    final _tabs = LoadingScreenServices.viewOrderPermission
-        ? [
-            StoreView(),
-            CartView(
-              isFromUpdateOrder: _isFromUpdateOrder,
-            ),
-            OrdersView(),
-            // Favoraites(),
-            Inventory(),
-            Prices(),
-          ]
-        : [
-            StoreView(),
-            Inventory(),
-            // OrdersView(),
-            // Favoraites(),
-          ];
+    List<Widget> _tabs = [];
+    _tabs.add(StoreView());
+    _tabs.add(CartView(
+      isFromUpdateOrder: _isFromUpdateOrder,
+    ));
+
+    if (LoadingScreenServices.viewOrderPermission) {
+      _tabs.add(OrdersView());
+    }
+    if (LoadingScreenServices.productsOperationPermission) {
+      _tabs.add(Inventory());
+    }
+
+    if (LoadingScreenServices.isSuperAdmin) {
+      _tabs.add(Prices());
+    }
+
     return Scaffold(
         body: _tabs[_selectedIndex],
-        bottomNavigationBar: LoadingScreenServices.viewOrderPermission
-            ? _buttomNavBar(context: context)
-            : _buttomNavBarNoPermission(context: context));
+        bottomNavigationBar: _buttomNavBar(context: context));
   }
 
   void _onItemTapped(int index) {

@@ -430,42 +430,46 @@ class StoreViewState extends State<StoreView> {
                         onTap: () => _shareApp(),
                       ),
                     ),
-                    ListTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Icon(
-                          Icons.category,
-                          color: UtilsImporter().colorUtils.primarycolor,
-                          size: 30,
-                        ),
-                      ),
-                      title: Text("المنتجات المضافة للمستودع",
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk)),
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed('/products_added_to_warehouse');
-                      },
-                    ),
-                    ListTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Icon(
-                          Icons.category,
-                          color: UtilsImporter().colorUtils.primarycolor,
-                          size: 30,
-                        ),
-                      ),
-                      title: Text("المنتجات الغير مضافة للمستودع",
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk)),
-                      onTap: () {
-                        Navigator.of(context)
-                            .pushNamed('/products_not_added_to_warehouse');
-                      },
-                    ),
+                    LoadingScreenServices.productsWarehouseOperationPermission
+                        ? ListTile(
+                            leading: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Icon(
+                                Icons.category,
+                                color: UtilsImporter().colorUtils.primarycolor,
+                                size: 30,
+                              ),
+                            ),
+                            title: Text("المنتجات المضافة للمستودع",
+                                style: TextStyle(
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk)),
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed('/products_added_to_warehouse');
+                            },
+                          )
+                        : Container(),
+                    LoadingScreenServices.productsWarehouseOperationPermission
+                        ? ListTile(
+                            leading: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Icon(
+                                Icons.category,
+                                color: UtilsImporter().colorUtils.primarycolor,
+                                size: 30,
+                              ),
+                            ),
+                            title: Text("المنتجات الغير مضافة للمستودع",
+                                style: TextStyle(
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk)),
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  '/products_not_added_to_warehouse');
+                            },
+                          )
+                        : Container(),
                     ListTile(
                       leading: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
@@ -502,6 +506,24 @@ class StoreViewState extends State<StoreView> {
                             },
                           )
                         : Container(),
+                    ListTile(
+                      leading: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Icon(
+                          Icons.inventory,
+                          color: UtilsImporter().colorUtils.primarycolor,
+                          size: 30,
+                        ),
+                      ),
+                      title: Text("إدارة المستودعات",
+                          style: TextStyle(
+                              fontFamily:
+                                  UtilsImporter().stringUtils.HKGrotesk)),
+                      onTap: () {
+                        Navigator.of(context)
+                            .pushNamed('/subWarehouseManagement');
+                      },
+                    ),
                     Divider(
                       color: UtilsImporter().colorUtils.kmColors,
                       height: 20,
