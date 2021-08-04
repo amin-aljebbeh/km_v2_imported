@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 // import 'package:cache_image/cache_image.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:image_viewer/image_viewer.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/colors_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -40,6 +41,7 @@ class OrderDetailView extends StatefulWidget {
 
 class OrderDetailViewState extends State<OrderDetailView> {
   static List<OrderProducts> productsAry;
+  static List<OrderProducts> productsAryDemo;
 
   @override
   void initState() {
@@ -50,44 +52,34 @@ class OrderDetailViewState extends State<OrderDetailView> {
       idOrder = widget.orderId;
       orderArrayIndex = widget.orderIndex;
 
-      if (LoadingScreenServices.subSupplierCodeHint == RegExp(".*")) {
-        RegExp subSupplierCodeHint = RegExp("^[0-9]*\$");
-        productsAry.sort((productWarehouse1, productWarehouse2) {
-          if (subSupplierCodeHint.hasMatch(productWarehouse1.supplierCode)) {
+      if (LoadingScreenServices.swbWarehouses.length == 1) {
+        productsAry.sort((a, b) {
+          if (a.subWarehouseId > b.subWarehouseId) {
             return -1;
-          } else if (!subSupplierCodeHint
-              .hasMatch(productWarehouse1.supplierCode)) {
+          } else if (a.subWarehouseId < b.subWarehouseId) {
             return 1;
-          } else {
+          } else
             return 0;
-          }
         });
       } else {
-        productsAry.sort((productWarehouse1, productWarehouse2) {
-          if (LoadingScreenServices.subSupplierCodeHint
-              .hasMatch(productWarehouse1.supplierCode)) {
-            return -1;
-          } else if (!LoadingScreenServices.subSupplierCodeHint
-              .hasMatch(productWarehouse1.supplierCode)) {
+        productsAry.sort((a, b) {
+          if (a.subWarehouseId > b.subWarehouseId) {
             return 1;
-          } else {
+          } else if (a.subWarehouseId < b.subWarehouseId) {
+            return -1;
+          } else
             return 0;
-          }
         });
       }
+      productsAryDemo = productsAry;
+    });
+  }
 
-      //       categoryList.sort((a, b) {
-//         if ((a.priority) > (b.priority))
-//           return 1;
-//         else if ((a.priority) < (b.priority))
-//           return -1;
-//         else
-//           return 0;
-//       });
-
-      // productsAry.removeWhere((element) => !LoadingScreenServices
-      //     .subSupplierCodeHint
-      //     .hasMatch(element.supplierCode));
+  _refillProducts() {
+    Tools.logToConsole("productsAry Length is : ${productsAry.length}");
+    setState(() {
+      productsAryDemo = [];
+      productsAryDemo.addAll(productsAry);
     });
   }
 
@@ -190,7 +182,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
           child: isloading
               ? Center(child: Loader())
               : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -208,8 +200,11 @@ class OrderDetailViewState extends State<OrderDetailView> {
                             Navigator.of(context).pop();
                           },
                           child: AutoSizeText(
-                            widget.addressName,
+                            widget.addressName.length > 40
+                                ? widget.addressName.substring(0, 40)
+                                : widget.addressName,
                             maxLines: 1,
+
                             // maxFontSize: 20,
                             overflow: TextOverflow.clip,
                             style: TextStyle(
@@ -218,6 +213,13 @@ class OrderDetailViewState extends State<OrderDetailView> {
                             ),
                           ),
                         ),
+                        IconButton(
+                            icon: Icon(Icons.refresh,
+                                color: Theme.of(context).primaryColor,
+                                size: 30),
+                            onPressed: () {
+                              _refillProducts();
+                            }),
                       ],
                     ),
 
@@ -234,13 +236,21 @@ class OrderDetailViewState extends State<OrderDetailView> {
                         primary: false,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount: productsAry == null ? 0 : productsAry.length,
+                        itemCount: productsAryDemo == null
+                            ? 0
+                            : productsAryDemo.length,
                         itemBuilder: (BuildContext context, int index) {
-                          OrderProducts orderDetail = productsAry[index];
+                          OrderProducts orderDetail = productsAryDemo[index];
                           return new GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () => _onTileClicked(index),
                             child: OrderDetailViewCard(
+                              subWarehouseId: orderDetail.subWarehouseId,
+                              onCheckbox: (a) {
+                                setState(() {
+                                  productsAryDemo.removeAt(a);
+                                });
+                              },
                               productsData: orderDetail,
                               supplierCode: orderDetail.supplierCode,
                               active: 1,
@@ -264,7 +274,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 20, top: 30),
+                      padding: EdgeInsets.only(left: 20, top: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -293,34 +303,34 @@ class OrderDetailViewState extends State<OrderDetailView> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 15),
-                    Padding(
-                      padding: EdgeInsets.only(left: 20, top: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(UtilsImporter().stringUtils.delivery,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
-                                fontSize: 16.0,
-                              )),
-                          Text(
-                            widget.delivery_price +
-                                " ${LoadingScreenServices.companyInformation.currency}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
-                                fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 15),
+                    //SizedBox(height: 15),
+                    // Padding(
+                    //   padding: EdgeInsets.only(left: 20, top: 5),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: <Widget>[
+                    //       Text(UtilsImporter().stringUtils.delivery,
+                    //           style: TextStyle(
+                    //             fontWeight: FontWeight.w400,
+                    //             color: Theme.of(context).primaryColorDark,
+                    //             fontFamily:
+                    //                 UtilsImporter().stringUtils.HKGrotesk,
+                    //             fontSize: 16.0,
+                    //           )),
+                    //       Text(
+                    //         widget.delivery_price +
+                    //             " ${LoadingScreenServices.companyInformation.currency}",
+                    //         style: TextStyle(
+                    //             fontWeight: FontWeight.w500,
+                    //             color: Theme.of(context).primaryColorDark,
+                    //             fontFamily:
+                    //                 UtilsImporter().stringUtils.HKGrotesk,
+                    //             fontSize: 16),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // SizedBox(height: 15),
                     Padding(
                       padding: EdgeInsets.only(left: 20, top: 5),
                       child: Row(
@@ -420,20 +430,24 @@ class OrderDetailViewCard extends StatefulWidget {
   final String productId;
   final String supplierCode;
   final OrderProducts productsData;
+  final int subWarehouseId;
 
-  OrderDetailViewCard({
-    this.img,
-    this.product_name,
-    this.quantity,
-    this.price,
-    this.index,
-    this.unit,
-    this.active,
-    this.productCount,
-    this.supplierCode,
-    this.productId,
-    this.productsData,
-  });
+  Function(int) onCheckbox;
+
+  OrderDetailViewCard(
+      {this.img,
+      this.product_name,
+      this.quantity,
+      this.price,
+      this.index,
+      this.unit,
+      this.active,
+      this.productCount,
+      this.supplierCode,
+      this.productId,
+      this.productsData,
+      this.onCheckbox,
+      @required this.subWarehouseId});
 
   @override
   State<StatefulWidget> createState() {
@@ -447,15 +461,69 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
   Color borderColor = Colors.transparent;
   Color checkboxColor = Colors.blue;
 
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(
+            "تحقق من الكمية",
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          content: new Text(
+            "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.product_name}",
+            // maxLines: 20,
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          scrollable: true,
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text(
+                "نعم",
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+
+                widget.onCheckbox(widget.index);
+              },
+            ),
+            new FlatButton(
+              child: new Text(
+                "لا",
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Tools.logToConsole(widget.supplierCode);
-    if (RegExp(".*kh").hasMatch(widget.supplierCode)) {
+    if (widget.subWarehouseId == 2 || widget.subWarehouseId == 6) {
       borderColor = ColorUtils().khawajaColor;
-    } else if (RegExp(".*br").hasMatch(widget.supplierCode)) {
+    } else if (widget.subWarehouseId == 3) {
       borderColor = ColorUtils().vegtableColor;
-    } else if (RegExp(".*kt").hasMatch(widget.supplierCode)) {
+    } else if (widget.subWarehouseId == 4) {
       borderColor = ColorUtils().libraryColor;
+    } else if (widget.subWarehouseId == 7) {
+      borderColor = ColorUtils().meetColor;
+    } else if (widget.subWarehouseId == 8) {
+      borderColor = ColorUtils().pharmaColor;
     }
 
     return Container(
@@ -473,54 +541,70 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Checkbox(
-                    activeColor: checkboxColor,
-                    // focusColor: Colors.grey,
-                    // hoverColor: Colors.orange,
-                    value: OrderDetailViewState
-                        .productsAry[widget.index].productAvailable,
-                    onChanged: (v) {
-                      setState(() {
-                        OrderDetailViewState
-                            .productsAry[widget.index].productAvailable = v;
-
-                        // for (int i = 0;
-                        //     i < OrderDetailViewState.productsAry.length;
-                        //     i++) {
-                        //   checkboxColor = Colors.green;
-                        //   if (OrderDetailViewState
-                        //           .productsAry[i].productAvailable ==
-                        //       false) {
-                        //     checkboxColor = Colors.red;
-                        //     break;
-                        //   }
-                        // }
-                      });
+                IconButton(
+                    icon: Icon(
+                      Icons.library_add_check_outlined,
+                      color: Colors.green,
+                    ),
+                    onPressed: () {
+                      if (widget.productCount != "1") {
+                        _showDialog();
+                      } else {
+                        widget.onCheckbox(widget.index);
+                      }
                     }),
-                new Container(
-                  width: 100.0,
-                  height: 100.0,
-                  decoration: new BoxDecoration(
-                      borderRadius:
-                          new BorderRadius.all(Radius.circular(20.0))),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Hero(
-                          tag: widget.index + 100,
-                          child: FadeInImage(
-                            fadeInCurve: Curves.fastOutSlowIn,
-                            placeholder: AssetImage("assets/kmIcon.png"),
-                            fit: BoxFit.contain,
-                            image: widget.img.length > 0
-                                ? AdvImageCache(
-                                    widget.img,
-                                    useMemCache: true,
-                                    diskCacheExpire: Duration(minutes: 1),
-                                  )
-                                : AssetImage("assets/kmIcon.png"),
-                            width: MediaQuery.of(context).size.width,
-                            height: 120,
-                          ))),
+                // Checkbox(
+                //     activeColor: checkboxColor,
+                //     // focusColor: Colors.grey,
+                //     // hoverColor: Colors.orange,
+                //     value: OrderDetailViewState
+                //         .productsAryDemo[widget.index].productAvailable,
+                //     onChanged: (v) {
+                //       setState(() {
+                //         OrderDetailViewState
+                //             .productsAryDemo[widget.index].productAvailable = v;
+                //         widget.onCheckbox(widget.index);
+                //       });
+                //     }),
+                InkWell(
+                  onTap: () {
+                    ImageViewer.showImageSlider(
+                      images: [widget.img],
+                    );
+                    // showDialog(
+                    //     context: context,
+                    //     barrierDismissible: true,
+                    //     builder: (BuildContext context) {
+                    //       return ImagePreview(
+                    //         images: images,
+                    //       );
+                    //     });
+                  },
+                  child: new Container(
+                    width: 100.0,
+                    height: 100.0,
+                    decoration: new BoxDecoration(
+                        borderRadius:
+                            new BorderRadius.all(Radius.circular(20.0))),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Hero(
+                            tag: widget.index + 100,
+                            child: FadeInImage(
+                              fadeInCurve: Curves.fastOutSlowIn,
+                              placeholder: AssetImage("assets/kmIcon.png"),
+                              fit: BoxFit.contain,
+                              image: widget.img.length > 0
+                                  ? AdvImageCache(
+                                      widget.img,
+                                      useMemCache: true,
+                                      diskCacheExpire: Duration(minutes: 1),
+                                    )
+                                  : AssetImage("assets/kmIcon.png"),
+                              width: MediaQuery.of(context).size.width,
+                              height: 120,
+                            ))),
+                  ),
                 ),
                 SizedBox(width: 10),
                 Expanded(

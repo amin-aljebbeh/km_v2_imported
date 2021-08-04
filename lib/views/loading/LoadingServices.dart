@@ -12,6 +12,8 @@ import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
+import 'package:kammun_app/views/inventory/services/inventory_services.dart';
+import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
@@ -101,17 +103,28 @@ class LoadingScreenServices {
   }
 
   Future<bool> getSubWarehouse() async {
-    var response = await ApiProvider.sendRequest(
-      url: GET_SUB_WAREHOUSE,
-      method: httpMethods.get,
-    );
-    if (response.statusCode == SUCCESS_CODE) {
-      swbWarehouses.addAll(subWarehouseFromJson(jsonEncode(response.data)));
-      Tools.logToConsole("=== DONE getting Warehouses  ====");
+    swbWarehouses.clear();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<SubWarehouse> response = await InventoryServices.getSubWarehoused(
+        adminId: prefs.getString("adminId"));
+    if (response != null) {
+      swbWarehouses.addAll(response);
       return true;
     } else {
       return false;
     }
+
+    // var response = await ApiProvider.sendRequest(
+    //   url: GET_SUB_WAREHOUSE,
+    //   method: httpMethods.get,
+    // );
+    // if (response.statusCode == SUCCESS_CODE) {
+    //   swbWarehouses.addAll(subWarehouseFromJson(jsonEncode(response.data)));
+    //   Tools.logToConsole("=== DONE getting Warehouses  ====");
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 
 //

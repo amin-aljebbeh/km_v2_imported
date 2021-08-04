@@ -446,6 +446,7 @@ class OrdersViewState extends State<OrdersView> {
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => _onTileClicked(index),
                                       child: OrdersViewCard(
+                                        orderId: orderDataList[index].id,
                                         entrance: orderDataList[index]
                                             .address
                                             .entrance,
@@ -897,6 +898,7 @@ class OrdersViewState extends State<OrdersView> {
 }
 
 class OrdersViewCard extends StatefulWidget {
+  int orderId;
   final String userNumber;
   final int deliveryMethodId;
   int order_quantity;
@@ -912,7 +914,8 @@ class OrdersViewCard extends StatefulWidget {
   final String entrance;
 
   OrdersViewCard(
-      {this.order_quantity,
+      {@required this.orderId,
+      this.order_quantity,
       this.order_title,
       this.order_total_price,
       this.order_status,
@@ -1077,6 +1080,20 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                       ],
                                     ),
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20.0),
+                                    child: Text(
+                                      "#${widget.orderId.toString().substring(3, widget.orderId.toString().length)}",
+                                      style: TextStyle(
+                                        color: Colors.purple,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                      ),
+                                    ),
+                                  )
                                 ]),
 
                             SizedBox(height: 10),

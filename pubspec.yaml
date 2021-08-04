@@ -64,6 +64,7 @@ dependencies:
   http_parser: ^3.1.4
   flutter_uploader: ^1.2.0
   flutter_datetime_picker: ^0.1.9
+  image_viewer: ^1.0.0
 
 
 flutter_icons:

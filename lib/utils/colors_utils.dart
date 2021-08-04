@@ -30,6 +30,8 @@ class ColorUtils {
   Color vegtableColor = Colors.green[800];
   Color libraryColor = Colors.indigo;
   Color normalColor = Colors.transparent;
+  Color meetColor = Colors.deepOrange;
+  Color pharmaColor = Colors.blueAccent;
 }
 
 class HexColor extends Color {

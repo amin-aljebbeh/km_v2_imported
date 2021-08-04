@@ -83,6 +83,8 @@ PODS:
     - GoogleUtilities/Logger
   - image_picker (0.0.1):
     - Flutter
+  - image_viewer (0.0.1):
+    - Flutter
   - location (0.0.1):
     - Flutter
   - map_launcher (0.0.1):
@@ -115,6 +117,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_uploader (from `.symlinks/plugins/flutter_uploader/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - image_viewer (from `.symlinks/plugins/image_viewer/ios`)
   - location (from `.symlinks/plugins/location/ios`)
   - map_launcher (from `.symlinks/plugins/map_launcher/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
@@ -153,6 +156,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_uploader/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
+  image_viewer:
+    :path: ".symlinks/plugins/image_viewer/ios"
   location:
     :path: ".symlinks/plugins/location/ios"
   map_launcher:
@@ -189,6 +194,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
+  image_viewer: 3ff6248139d02dd4e15d4329bb36c69f00e615e2
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   map_launcher: e325db1261d029ff33e08e03baccffe09593ffea
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc

@@ -177,12 +177,13 @@ class Pivot {
   int subWarehouseId;
 
   factory Pivot.fromJson(Map<String, dynamic> json) => Pivot(
-        adminId: json["admin_id"],
-        subWarehouseId: json["sub_warehouse_id"],
+        adminId: json["admin_id"] == null ? null : json["admin_id"],
+        subWarehouseId:
+            json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "admin_id": adminId,
-        "sub_warehouse_id": subWarehouseId,
+        "admin_id": adminId == null ? null : adminId,
+        "sub_warehouse_id": subWarehouseId == null ? null : subWarehouseId,
       };
 }
