@@ -346,6 +346,8 @@ class ProductsViewState extends State<ProductsView> {
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => _onTileClicked(index),
                                       child: ProductsViewCard(
+                                        subWarehouseId:
+                                            eachProduct.subWarehouseId,
                                         productData: eachProduct,
                                         supplierCode: eachProduct.supplierCode,
                                         productId: eachProduct.id.toString(),
@@ -429,17 +431,20 @@ class ProductsViewCard extends StatefulWidget {
   final String productId;
   final String supplierCode;
   final ProductData productData;
+  final int subWarehouseId;
 
-  ProductsViewCard(
-      {this.img,
-      this.product_name,
-      this.quantity,
-      this.price,
-      this.index,
-      this.productId,
-      this.supplierCode,
-      this.productData,
-      this.active});
+  ProductsViewCard({
+    this.img,
+    this.product_name,
+    this.quantity,
+    this.price,
+    this.index,
+    this.productId,
+    this.supplierCode,
+    this.productData,
+    this.active,
+    @required this.subWarehouseId,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -451,19 +456,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
   bool addedToCart = false;
 
   Future<bool> updateStatus(String productId, String statusId) async {
-    // Map jsonData = {
-    //   // 'name': widget.productName,
-    //   // 'quantity': widget.quantity,
-    //   // 'is_featured': widget.isFeatured,
-    //   // 'priority': widget.priority,
-    //   // 'price': widget.price,
-    //   // 'unit': widget.unit,
-    //   // 'is_in_facebook': widget.isInfacebook,
-    //   // 'description': widget.description,
-    //   // 'category_id': widget.categoryId,
-    //   'is_active': statusId,
-    // };
-
     var response = await ProductsServices.updateProductsDetails(
         bodyKey: "is_active",
         value: statusId,
@@ -530,6 +522,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
 
   @override
   Widget build(BuildContext context) {
+    Tools.logToConsole(
+        "SUBWAREHOUSE ${LoadingScreenServices.swbWarehouses[0]}     ${widget.subWarehouseId}");
     return Container(
       color: Theme.of(context).primaryColorLight,
       child: Padding(
@@ -618,9 +612,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                     ],
                   ),
                 )),
-                (widget.supplierCode != null &&
-                        LoadingScreenServices.subSupplierCodeHint
-                            .hasMatch(widget.supplierCode))
+                LoadingScreenServices.swbWarehouses
+                        .any((element) => element.id == widget.subWarehouseId)
                     ? Container(
                         margin: const EdgeInsets.all(15.0),
                         padding: const EdgeInsets.all(3.0),
