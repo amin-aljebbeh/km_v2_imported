@@ -41,7 +41,6 @@ class OrderDetailView extends StatefulWidget {
 
 class OrderDetailViewState extends State<OrderDetailView> {
   static List<OrderProducts> productsAry;
-  static List<OrderProducts> productsAryDemo;
 
   @override
   void initState() {
@@ -71,15 +70,35 @@ class OrderDetailViewState extends State<OrderDetailView> {
             return 0;
         });
       }
-      productsAryDemo = productsAry;
     });
   }
 
   _refillProducts() {
-    Tools.logToConsole("productsAry Length is : ${productsAry.length}");
+    Tools.logToConsole("productsAry Length is : ${widget.ordersAry.length}");
     setState(() {
-      productsAryDemo = [];
-      productsAryDemo.addAll(productsAry);
+      productsAry = widget.ordersAry;
+      idOrder = widget.orderId;
+      orderArrayIndex = widget.orderIndex;
+
+      if (LoadingScreenServices.swbWarehouses.length == 1) {
+        productsAry.sort((a, b) {
+          if (a.subWarehouseId > b.subWarehouseId) {
+            return -1;
+          } else if (a.subWarehouseId < b.subWarehouseId) {
+            return 1;
+          } else
+            return 0;
+        });
+      } else {
+        productsAry.sort((a, b) {
+          if (a.subWarehouseId > b.subWarehouseId) {
+            return 1;
+          } else if (a.subWarehouseId < b.subWarehouseId) {
+            return -1;
+          } else
+            return 0;
+        });
+      }
     });
   }
 
@@ -236,11 +255,9 @@ class OrderDetailViewState extends State<OrderDetailView> {
                         primary: false,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount: productsAryDemo == null
-                            ? 0
-                            : productsAryDemo.length,
+                        itemCount: productsAry == null ? 0 : productsAry.length,
                         itemBuilder: (BuildContext context, int index) {
-                          OrderProducts orderDetail = productsAryDemo[index];
+                          OrderProducts orderDetail = productsAry[index];
                           return new GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () => _onTileClicked(index),
@@ -248,7 +265,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                               subWarehouseId: orderDetail.subWarehouseId,
                               onCheckbox: (a) {
                                 setState(() {
-                                  productsAryDemo.removeAt(a);
+                                  productsAry.removeAt(a);
                                 });
                               },
                               productsData: orderDetail,
@@ -553,32 +570,11 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                         widget.onCheckbox(widget.index);
                       }
                     }),
-                // Checkbox(
-                //     activeColor: checkboxColor,
-                //     // focusColor: Colors.grey,
-                //     // hoverColor: Colors.orange,
-                //     value: OrderDetailViewState
-                //         .productsAryDemo[widget.index].productAvailable,
-                //     onChanged: (v) {
-                //       setState(() {
-                //         OrderDetailViewState
-                //             .productsAryDemo[widget.index].productAvailable = v;
-                //         widget.onCheckbox(widget.index);
-                //       });
-                //     }),
                 InkWell(
                   onTap: () {
                     ImageViewer.showImageSlider(
                       images: [widget.img],
                     );
-                    // showDialog(
-                    //     context: context,
-                    //     barrierDismissible: true,
-                    //     builder: (BuildContext context) {
-                    //       return ImagePreview(
-                    //         images: images,
-                    //       );
-                    //     });
                   },
                   child: new Container(
                     width: 100.0,
