@@ -107,6 +107,102 @@ class OrderDetailViewState extends State<OrderDetailView> {
   int orderArrayIndex;
   bool erroAlert = false;
 
+  Widget _showCancelOrderButton(int index) {
+    int changeStatus = 0;
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () async {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            // return object of type Dialog
+            return AlertDialog(
+              title: Text(
+                "إلغاء الطلب",
+                style: TextStyle(
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                ),
+              ),
+              content: Text(
+                "هل أنت متأكد انك تريد إلغاء الطلب",
+                style: TextStyle(
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                ),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(
+                    "نعم",
+                    style: TextStyle(
+                      fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                    ),
+                  ),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+
+                    setState(() {
+                      isloading = true;
+                      erroAlert = false;
+                    });
+                    changeStatus = 6;
+
+                    bool x = await OrderServices.changeOrderStatus(
+                        index.toString(), changeStatus);
+
+                    if (x) {
+                      setState(() {
+                        LoadingScreenServices.myOrdersList[orderArrayIndex]
+                            .orderStatusId = changeStatus.toString();
+                        isloading = false;
+                      });
+                    } else {
+                      setState(() {
+                        isloading = false;
+                        erroAlert = true;
+                      });
+                    }
+                  },
+                ),
+                FlatButton(
+                  child: Text(
+                    "إلغاء",
+                    style: TextStyle(
+                      fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+      child: new Container(
+        height: 40.0,
+        width: MediaQuery.of(context).size.width * 0.4,
+        decoration: new BoxDecoration(
+            color: Colors.red,
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new AutoSizeText(
+            "إلغاء الطلب",
+            maxLines: 1,
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
+        child: showConfirmButtonWithGesture);
+  }
+
   Widget _showCancelButton(int index) {
     print("----------- index --------------------");
     print(index);
@@ -150,6 +246,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
       },
       child: new Container(
         height: 40.0,
+        width: MediaQuery.of(context).size.width * 0.4,
         decoration: new BoxDecoration(
             color: LoadingScreenServices
                         .myOrdersList[orderArrayIndex].orderStatusId ==
@@ -162,19 +259,20 @@ class OrderDetailViewState extends State<OrderDetailView> {
                     : Colors.cyan[700],
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
-          child: new Text(
+          child: new AutoSizeText(
             LoadingScreenServices.myOrdersList[orderArrayIndex].orderStatusId ==
                     "1"
                 ? "قبول الطلب"
                 : LoadingScreenServices
                             .myOrdersList[orderArrayIndex].orderStatusId ==
                         "2"
-                    ? "تعيين الطلب أنه قد أصبح جاهز"
+                    ? "الطلب جاهز"
                     : LoadingScreenServices
                                 .myOrdersList[orderArrayIndex].orderStatusId ==
                             "3"
-                        ? "تعيين الطلب أنه مع كابتن التوصيل"
-                        : "تعيين الطلب أنه قد وصل",
+                        ? "مع التوصيل"
+                        : "تم التوصيل",
+            maxLines: 1,
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -386,7 +484,13 @@ class OrderDetailViewState extends State<OrderDetailView> {
                                 1
                         ? Padding(
                             padding: const EdgeInsets.only(left: 10.0),
-                            child: _showCancelButton(idOrder),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                _showCancelButton(idOrder),
+                                _showCancelOrderButton(idOrder),
+                              ],
+                            ),
                           )
                         : Container(),
                   ],

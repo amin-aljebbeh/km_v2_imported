@@ -46,8 +46,8 @@ android {
         applicationId "com.kammun.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 16
-        versionName "2.01"
+        versionCode 17
+        versionName "2.02"
     }
       signingConfigs {
     release {

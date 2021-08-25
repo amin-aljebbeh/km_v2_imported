@@ -30,6 +30,10 @@ const String RATE_ORDER = "/api/order/rate_order/";
 const String OTP_VERIFICATION = "/api/verification_code/verify_account/";
 const String ORDER = "/api/order";
 
+
+const String UNLOUCK_ORDER = "/api/order/unlock_order/";
+
+
 /// NEW Version ///
 
 const String GET_START_REQUEST = "/api/mobile/startup";

@@ -1,6 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/louck_order.dart';
+import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -368,39 +371,6 @@ class OrdersViewState extends State<OrdersView> {
                               ),
                             ],
                           ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: <Widget>[
-                          //     Text(
-                          //       UtilsImporter().stringUtils.your_orders,
-                          //       style: TextStyle(
-                          //           fontWeight: FontWeight.w700,
-                          //           fontFamily:
-                          //               UtilsImporter().stringUtils.HKGrotesk,
-                          //           fontSize: 30),
-                          //     ),
-                          //     Padding(
-                          //       padding: const EdgeInsets.only(bottom: 15),
-                          //       child: IconButton(
-                          //         onPressed: () {
-                          //           setState(() {
-                          //             page = 1;
-                          //             theEndOfOrders = false;
-                          //             orderDataList.clear();
-                          //             LoadingScreenServices.myOrdersList
-                          //                 .clear();
-                          //           });
-                          //           _getOrder();
-                          //         },
-                          //         icon: Icon(
-                          //           Icons.refresh,
-                          //           size: 40,
-                          //           color: UtilsImporter().colorUtils.kmColors,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
                           orderDataList.length == 0
                               ? Container(
                                   child: Padding(
@@ -496,19 +466,36 @@ class OrdersViewState extends State<OrdersView> {
                                         order_created_date: dateTime,
                                       ),
                                     ),
+                                    Wrap(
+                                      children: [
+                                        (int.parse(orderDataList[index]
+                                                        .orderStatusId) <
+                                                    5) &&
+                                                (orderDataList[index]
+                                                            .underUpdate ==
+                                                        "0" ||
+                                                    orderDataList[index]
+                                                            .underUpdate ==
+                                                        "2")
+                                            ? _showEditButton(index)
+                                            : Container(),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        _showAddSpendingButton(index),
+
+                                        // _showAddImageToOrderButton(index),
+                                      ],
+                                    ),
                                     orderDataList[index].userNotes.toString() !=
                                             "null"
                                         ? _showUserNoteButton(index)
                                         : Container(),
-                                    (int.parse(orderDataList[index]
-                                                    .orderStatusId) <
-                                                5) &&
-                                            (orderDataList[index].underUpdate ==
-                                                    "0" ||
-                                                orderDataList[index]
-                                                        .underUpdate ==
-                                                    "2")
-                                        ? _showEditButton(index)
+                                    orderDataList[index]
+                                                .underUpdate
+                                                .toString() !=
+                                            "0"
+                                        ? _showUnlouckOrderButton(index)
                                         : Container(),
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
@@ -588,6 +575,256 @@ class OrdersViewState extends State<OrdersView> {
     );
   }
 
+  void _showUnlockDialog({title = "إلغاء التعليق", int orderId}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(
+            "$title",
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          content: new Text(
+            "هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل",
+            // maxLines: 20,
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          scrollable: true,
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text(
+                "نعم",
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                submitSpending(orderId.toString(), isSpendingApi: false);
+              },
+            ),
+            new FlatButton(
+              child: new Text(
+                "إغلاق",
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  TextEditingController _spendingController = new TextEditingController();
+  TextEditingController _reasoneController = new TextEditingController();
+
+  void submitSpending(String orderId, {bool isSpendingApi = true}) async {
+    bool result;
+    if (!isSpendingApi) {
+      result = await OrderServices.unlouckOrder(orderId);
+    } else {
+      result = await OrderServices.addSpendingToOrder(
+          orderId, _spendingController.text, _reasoneController.text);
+    }
+
+    if (result) {
+      _spendingController.text = '';
+      _reasoneController.text = '';
+      Flushbar(
+        backgroundColor: Colors.green[900],
+        messageText: Text(
+          "تم إضافة المصروف بنجاح",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.green,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          )
+        ],
+        icon: Icon(
+          Icons.assignment_turned_in,
+          size: 28.0,
+          color: Colors.white,
+        ),
+        duration: Duration(seconds: 1),
+        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      )..show(context);
+      if (!isSpendingApi) _getOrder();
+    } else {
+      Flushbar(
+        backgroundColor: Colors.red[900],
+        messageText: Text(
+          "فشل بإضافة المصروف",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.red,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          )
+        ],
+        icon: Icon(
+          Icons.close,
+          size: 28.0,
+          color: Colors.white,
+        ),
+        duration: Duration(seconds: 1),
+        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      )..show(context);
+    }
+  }
+
+  void _showAddSpendingDialog({title = "إضافة مصروف", int index}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text(
+            "$title",
+            style: TextStyle(
+              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            ),
+          ),
+          content: Column(
+            // shrinkWrap: true,
+            children: [
+              TextFormField(
+                onChanged: (value) {
+                  setState(() {});
+                },
+                controller: _spendingController,
+                maxLines: 1,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "المبلغ المدفوع",
+                  hintStyle: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  ),
+                  fillColor: Colors.white,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                        width: 3.0,
+                      )),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4.0),
+                      borderSide: BorderSide(
+                        color: Color(0xFF999999),
+                        width: 1.0,
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                onChanged: (value) {
+                  setState(() {});
+                },
+                controller: _reasoneController,
+                maxLines: 1,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "سبب الدفع",
+                  hintStyle: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  ),
+                  fillColor: Colors.white,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                        width: 3.0,
+                      )),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4.0),
+                    borderSide: BorderSide(
+                      color: Color(0xFF999999),
+                      width: 1.0,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              KammunButton(
+                text: "إضافة مصروف",
+                onPress: () {
+                  Navigator.of(context).pop();
+                  submitSpending(orderDataList[index].id.toString());
+                },
+              ),
+            ],
+          ),
+          scrollable: true,
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text(
+                "إغلاق",
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _showUnlouckOrderButton(int index) {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () {
+        _showUnlockDialog(orderId: orderDataList[index].id);
+      },
+      child: new Container(
+        height: 40.0,
+        decoration: new BoxDecoration(
+            color: Colors.blue[800],
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: new Text(
+            "إلغاء التعليق",
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
+        child: showConfirmButtonWithGesture);
+  }
+
   Widget _showUserNoteButton(int index) {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
       onTap: () {
@@ -601,6 +838,68 @@ class OrdersViewState extends State<OrdersView> {
         child: new Center(
           child: new Text(
             "مشاهدة ملاحظة العميل ",
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
+        child: showConfirmButtonWithGesture);
+  }
+
+  Widget _showAddSpendingButton(int index) {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () {
+        _showAddSpendingDialog(index: index);
+      },
+      child: new Container(
+        height: 40.0,
+        width: MediaQuery.of(context).size.width / 2.5,
+        decoration: new BoxDecoration(
+            color: Colors.red,
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: AutoSizeText(
+            "إضافة مصروف",
+            maxLines: 2,
+            textAlign: TextAlign.center,
+            style: new TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
+        child: showConfirmButtonWithGesture);
+  }
+
+  Widget _showAddImageToOrderButton(int index) {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: () {
+        //  _showAddSpendingDialog(index: index);
+      },
+      child: new Container(
+        height: 40.0,
+        width: MediaQuery.of(context).size.width / 2.5,
+        decoration: new BoxDecoration(
+            color: Colors.cyan,
+            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        child: new Center(
+          child: AutoSizeText(
+            "إضافة صورة فاتورة",
+            textAlign: TextAlign.center,
+            maxLines: 1,
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -699,43 +998,6 @@ class OrdersViewState extends State<OrdersView> {
       CartServices.addProductToCart(product);
     }
 
-    // for (int i = 0;
-    //     i < LoadingScreenServices.myOrdersList[orderIndex].products.length;
-    //     i++) {
-    //   ProductData product = new ProductData();
-    //   // Warehouse warehouses = new Warehouse();
-    //   // List<Warehouse> listWarehouses = [];
-
-    //   //  WarehousePivot warehousePivot = new WarehousePivot();
-
-    //   product.id =
-    //       LoadingScreenServices.myOrdersList[orderIndex].products[i].id;
-    //   product.images =
-    //       LoadingScreenServices.myOrdersList[orderIndex].products[i].images;
-    //   // product.isActive = Services.myOrdersList[index].products[i].
-    //   product.name =
-    //       LoadingScreenServices.myOrdersList[orderIndex].products[i].name;
-
-    //   product.price = LoadingScreenServices
-    //       .myOrdersList[orderIndex].products[i].pivot.purchasePrice;
-
-    //   // warehouses.pivot = warehousePivot;
-    //   // listWarehouses.add(warehouses);
-    //   //  product.warehouses = listWarehouses;
-    //   // product. warehouses[0].pivot.price = LoadingScreenServices
-    //   //     .myOrdersList[orderIndex].products[i].pivot.purchasePrice;
-    //   product.productCount = int.parse(LoadingScreenServices
-    //       .myOrdersList[orderIndex].products[i].pivot.quantity);
-    //   product.unit =
-    //       LoadingScreenServices.myOrdersList[orderIndex].products[i].unit;
-    //   product.quantity =
-    //       LoadingScreenServices.myOrdersList[orderIndex].products[i].quantity;
-
-    //   CartServices.addProductToCart(product);
-    //   // products_Id += widget.products.id.toString();
-    //   // products_quantity += widget.products.quantity.toString();
-    // }
-
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
       products_Id += CartServices.cartProducts[i].id.toString() + ";";
       products_quantity +=
@@ -820,19 +1082,6 @@ class OrdersViewState extends State<OrdersView> {
                   "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
             });
           }
-          // } else {
-          //   setState(() {
-          //     orderDataList[index].orderStatusId = "3";
-
-          //     orderLoaded = true;
-          //     errorMessage = true;
-          //     errorMessageVlue =
-          //         "لا يمكنك تعديل الطلب حالياً لان الزبون يقوم بتعديله ";
-          //   });
-
-          //   // Toast.show("حدثت مشكلة أثناء إلغاء الطلب يرجى تحديث لصفحة", context,
-          //   //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-          // }
         } else {
           setState(() {
             orderLoaded = true;
@@ -844,6 +1093,7 @@ class OrdersViewState extends State<OrdersView> {
       },
       child: new Container(
         height: 40.0,
+        width: MediaQuery.of(context).size.width / 2.5,
         decoration: new BoxDecoration(
             color: Colors.green,
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),

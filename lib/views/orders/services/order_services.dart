@@ -247,4 +247,43 @@ class OrderServices {
       return false;
     }
   }
+
+  static Future<bool> addSpendingToOrder(
+      String orderId, String spendingValue, String description) async {
+    try {
+      var body = {
+        "spending_value": "$spendingValue",
+        "description": "$description"
+      };
+      var response = await ApiProvider.sendRequest(
+        url: ORDER + "/add_spending_to_order/$orderId",
+        method: httpMethods.post,
+        body: jsonEncode(body),
+      );
+      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static Future<bool> unlouckOrder(String orderId) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: UNLOUCK_ORDER + orderId,
+        method: httpMethods.put,
+      );
+      Tools.logToConsole(response);
+      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
 }
