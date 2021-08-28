@@ -58,7 +58,7 @@ class ProductDetailViewState extends State<ProductDetailView>
   }
 
   @override
-   dispose() {
+  dispose() {
     _controller.dispose();
     super.dispose();
   }
@@ -187,8 +187,9 @@ class ProductDetailViewState extends State<ProductDetailView>
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(20.0),
                         topLeft: Radius.circular(20.0))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                child: ListView(
+                  shrinkWrap: true,
+                  //    mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),

@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:cache_image/cache_image.dart';
+import 'package:adv_image_cache/adv_image_cache.dart';
+// import 'package:cache_image/cache_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
@@ -25,7 +26,7 @@ class LoadingScreenServices {
   static List<CategoryOriginalData> categoryList = List<CategoryOriginalData>();
   static String imagePrefixUrl = "";
   static List<AssetImage> bannerList = List<AssetImage>();
-  static List<FadeInImage> bannerListNetwork = List<FadeInImage>();
+  static List<Image> bannerListNetwork = List<Image>();
   // static List<DeliveryMethodOriginalData> deliveryMethodsList =
   //     new List<DeliveryMethodOriginalData>();
   // Mobile Configuration variables
@@ -284,18 +285,24 @@ class LoadingScreenServices {
       bannerListNetwork.clear();
       DateTime now = DateTime.now();
       if (startRequest.banner.original.data.length == 0) {
-        bannerListNetwork.add(
-          FadeInImage(
-            image:
-                CacheImage(LoadingScreenServices.imagePrefixUrl + "slide3.png"),
-            // width: MediaQuery.of(context).size.width,
-            fadeInDuration: const Duration(seconds: 1),
-            // fadeInCurve: Curves.fastOutSlowIn,
-            fadeInCurve: Curves.fastOutSlowIn,
-            placeholder: AssetImage("assets/kmlogoo.png"),
-            fit: BoxFit.cover,
+        bannerListNetwork.add(Image(
+          image: AdvImageCache(
+            LoadingScreenServices.imagePrefixUrl + "slide3.png",
+            useMemCache: true,
+            diskCacheExpire: Duration(seconds: 0),
           ),
-        );
+        )
+            // FadeInImage(
+            //   image:
+            //       CacheImage(LoadingScreenServices.imagePrefixUrl + "slide3.png"),
+            //   // width: MediaQuery.of(context).size.width,
+            //   fadeInDuration: const Duration(seconds: 1),
+            //   // fadeInCurve: Curves.fastOutSlowIn,
+            //   fadeInCurve: Curves.fastOutSlowIn,
+            //   placeholder: AssetImage("assets/kmlogoo.png"),
+            //   fit: BoxFit.cover,
+            // ),
+            );
       } else {
         for (int i = 0; i < startRequest.banner.original.data.length; i++) {
           if (!startRequest.banner.original.data[i].expirationDate
@@ -304,15 +311,21 @@ class LoadingScreenServices {
                 AssetImage(startRequest.banner.original.data[i].imageFileName));
 
             bannerListNetwork.add(
-              FadeInImage(
-                image: CacheImage(LoadingScreenServices.imagePrefixUrl +
-                    startRequest.banner.original.data[i].imageFileName),
-                // width: MediaQuery.of(context).size.width,
-                fadeInDuration: const Duration(seconds: 1),
+              Image(
+                image: AdvImageCache(
+                  LoadingScreenServices.imagePrefixUrl +
+                      startRequest.banner.original.data[i].imageFileName,
+                  useMemCache: true,
+                  diskCacheExpire: Duration(seconds: 0),
+                ),
+                // image:   CacheImage(LoadingScreenServices.imagePrefixUrl +
+                //     startRequest.banner.original.data[i].imageFileName),
+                // // width: MediaQuery.of(context).size.width,
+                // fadeInDuration: const Duration(seconds: 1),
+                // // fadeInCurve: Curves.fastOutSlowIn,
                 // fadeInCurve: Curves.fastOutSlowIn,
-                fadeInCurve: Curves.fastOutSlowIn,
-                placeholder: AssetImage("assets/kmlogoo.png"),
-                fit: BoxFit.cover,
+                // placeholder: AssetImage("assets/kmlogoo.png"),
+                // fit: BoxFit.cover,
               ),
             );
           }
