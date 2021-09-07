@@ -12,6 +12,7 @@ import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
@@ -213,6 +214,21 @@ class LoadingScreenServices {
           fullCategoryList.add(new DropdownMenuItem(
             child: Text(
               category[i].name,
+              style: TextStyle(
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  color: Colors.black,
+                  fontSize: 20),
+            ),
+            value: category[i].name + ";" + category[i].id.toString(),
+          ));
+        } else {
+          fullCategoryList.add(new DropdownMenuItem(
+            child: Text(
+              category[i].name + " من القائمة الرئيسية",
+              style: TextStyle(
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  color: UtilsImporter().colorUtils.primarycolor,
+                  fontSize: 18),
             ),
             value: category[i].name + ";" + category[i].id.toString(),
           ));

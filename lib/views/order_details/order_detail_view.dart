@@ -14,6 +14,8 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 
+import 'full_screen_image.dart';
+
 // ignore: must_be_immutable
 class OrderDetailView extends StatefulWidget {
   List<OrderProducts> ordersAry;
@@ -676,9 +678,16 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                     }),
                 InkWell(
                   onTap: () {
-                    ImageViewer.showImageSlider(
-                      images: [widget.img],
-                    );
+                    // ImageViewer.showImageSlider(
+                    //   images: [widget.img],
+                    // );
+
+                    Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      return FullScreenImage(
+                        imageUrl: widget.img,
+                        tag: "generate_a_unique_tag",
+                      );
+                    }));
                   },
                   child: new Container(
                     width: 100.0,
