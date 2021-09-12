@@ -242,21 +242,21 @@ class _SubCategoryState extends State<SubCategory> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
                               ),
-                              child: FadeInImage(
+                              child: Image(
                                 image: AdvImageCache(
                                   LoadingScreenServices.imagePrefixUrl +
                                       eachProduct.imageFileName,
                                   useMemCache: true,
-                                  diskCacheExpire: Duration(minutes: 1),
+                                  diskCacheExpire: Duration(days: 400),
                                 ),
                                 width: MediaQuery.of(context).size.width,
-                                fadeInDuration: const Duration(seconds: 1),
+                                //fadeInDuration: const Duration(microseconds: 1),
                                 height:
                                     MediaQuery.of(context).size.height * 0.25,
                                 // fadeInCurve: Curves.fastOutSlowIn,
-                                fadeInCurve: Curves.fastOutSlowIn,
+                                // fadeInCurve: Curves.fastOutSlowIn,
 
-                                placeholder: AssetImage("assets/kmlogoo.png"),
+                                // placeholder: AssetImage("assets/kmlogoo.png"),
                                 fit: BoxFit.cover,
                               ),
 

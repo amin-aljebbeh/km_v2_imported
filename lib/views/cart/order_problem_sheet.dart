@@ -1,3 +1,4 @@
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -301,19 +302,23 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                     borderRadius: BorderRadius.circular(8.0),
                     child: Hero(
                         tag: index + 100,
-                        child: FadeInImage(
+                        child: Image(
                             image: orderArray[index].images.length != 0
-                                ? NetworkImage(
+                                ? AdvImageCache(
                                     LoadingScreenServices.imagePrefixUrl +
                                         orderArray[index]
                                             .images[0]
                                             .imageFileName
-                                            .toString())
+                                            .toString(),
+                                    useMemCache: true,
+                                    diskCacheExpire: Duration(days: 400),
+                                  )
                                 : AssetImage("assets/kmIcon.png"),
                             width: MediaQuery.of(context).size.width,
                             height: 120,
-                            fadeInCurve: Curves.fastOutSlowIn,
-                            placeholder: AssetImage("assets/kmIcon.png"),
+                            // fadeInDuration: Duration(microseconds: 1),
+                            // fadeInCurve: Curves.fastOutSlowIn,
+                            // placeholder: AssetImage("assets/kmIcon.png"),
                             fit: BoxFit.contain))),
               ),
               //SizedBox(width: 10),
@@ -381,19 +386,22 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                     borderRadius: BorderRadius.circular(8.0),
                     child: Hero(
                         tag: index + 100,
-                        child: FadeInImage(
+                        child: Image(
                             image: orderArray[index].images.length != 0
-                                ? NetworkImage(
+                                ? AdvImageCache(
                                     LoadingScreenServices.imagePrefixUrl +
                                         orderArray[index]
                                             .images[0]
                                             .imageFileName
-                                            .toString())
+                                            .toString(),
+                                    useMemCache: true,
+                                    diskCacheExpire: Duration(days: 400),
+                                  )
                                 : AssetImage("assets/kmIcon.png"),
                             width: MediaQuery.of(context).size.width,
                             height: 120,
-                            fadeInCurve: Curves.fastOutSlowIn,
-                            placeholder: AssetImage("assets/kmIcon.png"),
+                            // fadeInCurve: Curves.fastOutSlowIn,
+                            // placeholder: AssetImage("assets/kmIcon.png"),
                             fit: BoxFit.contain))),
               ),
               //SizedBox(width: 10),
@@ -482,7 +490,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
               "تحديث الطلب",
               style: new TextStyle(
                   color: Colors.white,
-                //fontSize: 20.0,
+                  //fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                   fontFamily: UtilsImporter().stringUtils.HKGrotesk),
               maxLines: 1,

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -255,16 +256,31 @@ class ProductDetailViewState extends State<ProductDetailView>
                               child: FadeTransition(
                                 opacity: _animation,
                                 child: widget.products.images.length > 0
-                                    ? Image.network(
-                                        LoadingScreenServices.imagePrefixUrl +
-                                            widget.products.images[0]
-                                                .imageFileName,
+                                    ? Image(
+                                        image: AdvImageCache(
+                                          LoadingScreenServices.imagePrefixUrl +
+                                              widget.products.images[0]
+                                                  .imageFileName,
+                                          useMemCache: true,
+                                          diskCacheExpire: Duration(days: 400),
+                                        ),
                                         width:
                                             MediaQuery.of(context).size.width /
                                                 2,
                                         height: 120,
                                         fit: BoxFit.contain,
                                       )
+
+                                    //           Image.network(
+                                    //   LoadingScreenServices.imagePrefixUrl +
+                                    //       widget.products.images[0]
+                                    //           .imageFileName,
+                                    //   width:
+                                    //       MediaQuery.of(context).size.width /
+                                    //           2,
+                                    //   height: 120,
+                                    //   fit: BoxFit.contain,
+                                    // )
                                     : Image.asset(
                                         "assets/logobw.png",
                                       ),
@@ -274,16 +290,29 @@ class ProductDetailViewState extends State<ProductDetailView>
                         : widget.products.images.length > 0
                             ? FullScreenWidget(
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    LoadingScreenServices.imagePrefixUrl +
-                                        widget.products.images[0].imageFileName,
-                                    width:
-                                        MediaQuery.of(context).size.width / 2,
-                                    height: 120,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image(
+                                      image: AdvImageCache(
+                                        LoadingScreenServices.imagePrefixUrl +
+                                            widget.products.images[0]
+                                                .imageFileName,
+                                        useMemCache: true,
+                                        diskCacheExpire: Duration(days: 400),
+                                      ),
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      height: 120,
+                                      fit: BoxFit.contain,
+                                    )
+                                    //      Image.network(
+                                    //   LoadingScreenServices.imagePrefixUrl +
+                                    //       widget.products.images[0].imageFileName,
+                                    //   width:
+                                    //       MediaQuery.of(context).size.width / 2,
+                                    //   height: 120,
+                                    //   fit: BoxFit.contain,
+                                    // ),
+                                    ),
                               )
                             : Image.asset(
                                 "assets/logobw.png",

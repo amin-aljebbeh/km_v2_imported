@@ -1,3 +1,4 @@
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -261,20 +262,23 @@ class CartViewState extends State<CartView> {
                   borderRadius: BorderRadius.circular(8.0),
                   child: Hero(
                     tag: index + 100,
-                    child: FadeInImage(
+                    child: Image(
                         image: orderArray[index].images.length != 0
-                            ? NetworkImage(
+                            ? AdvImageCache(
                                 LoadingScreenServices.imagePrefixUrl +
                                     orderArray[index]
                                         .images[0]
                                         .imageFileName
                                         .toString(),
+                                useMemCache: true,
+                                diskCacheExpire: Duration(days: 400),
                               )
                             : AssetImage("assets/kmIcon.png"),
                         width: MediaQuery.of(context).size.width,
                         height: 120,
-                        fadeInCurve: Curves.fastOutSlowIn,
-                        placeholder: AssetImage("assets/kmIcon.png"),
+                        // fadeInCurve: Curves.fastOutSlowIn,
+                        // placeholder: AssetImage("assets/kmIcon.png"),
+                        // fadeInDuration: Duration(microseconds: 1),
                         fit: BoxFit.contain),
                   ),
                 ),

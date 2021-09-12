@@ -295,7 +295,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
     // TODO: implement build
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
-      body: SafeArea(
+      body:  SafeArea(
         child: Padding(
           padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
           child: isloading
@@ -699,15 +699,15 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                         borderRadius: BorderRadius.circular(8.0),
                         child: Hero(
                             tag: widget.index + 100,
-                            child: FadeInImage(
-                              fadeInCurve: Curves.fastOutSlowIn,
-                              placeholder: AssetImage("assets/kmIcon.png"),
+                            child: Image(
+                              // fadeInCurve: Curves.fastOutSlowIn,
+                              // placeholder: AssetImage("assets/kmIcon.png"),
                               fit: BoxFit.contain,
                               image: widget.img.length > 0
                                   ? AdvImageCache(
                                       widget.img,
                                       useMemCache: true,
-                                      diskCacheExpire: Duration(minutes: 1),
+                                      diskCacheExpire: Duration(days: 400),
                                     )
                                   : AssetImage("assets/kmIcon.png"),
                               width: MediaQuery.of(context).size.width,

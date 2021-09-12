@@ -209,15 +209,15 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                         borderRadius: BorderRadius.circular(8.0),
                         child: Hero(
                             tag: widget.productId,
-                            child: FadeInImage(
-                              fadeInCurve: Curves.fastOutSlowIn,
-                              placeholder: AssetImage("assets/kmIcon.png"),
+                            child: Image(
+                              // fadeInCurve: Curves.fastOutSlowIn,
+                              // placeholder: AssetImage("assets/kmIcon.png"),
                               fit: BoxFit.contain,
                               image: widget.img.length > 0
                                   ? AdvImageCache(
                                       widget.img,
                                       useMemCache: true,
-                                      diskCacheExpire: Duration(minutes: 1),
+                                      diskCacheExpire: Duration(days: 400),
                                     )
                                   : AssetImage("assets/kmIcon.png"),
                               width: MediaQuery.of(context).size.width,

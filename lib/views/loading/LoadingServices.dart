@@ -361,7 +361,7 @@ class LoadingScreenServices {
         image: AdvImageCache(
           LoadingScreenServices.imagePrefixUrl + "slide3.png",
           useMemCache: true,
-          diskCacheExpire: Duration(minutes: 1),
+          diskCacheExpire: Duration(days: 400),
         ),
         // width: MediaQuery.of(context).size.width,
         fadeInDuration: const Duration(seconds: 1),

@@ -16,17 +16,17 @@ class FullScreenImage extends StatelessWidget {
         child: Center(
           child: Hero(
               tag: tag,
-              child: FadeInImage(
-                fadeInCurve: Curves.fastOutSlowIn,
-                placeholder: AssetImage("assets/kmIcon.png"),
+              child: Image(
+                // fadeInCurve: Curves.fastOutSlowIn,
+                // placeholder: AssetImage("assets/kmIcon.png"),
                 // fit: BoxFit.fitWidth,
                 image: AdvImageCache(
                   imageUrl,
                   useMemCache: true,
-                  diskCacheExpire: Duration(minutes: 1),
+                  diskCacheExpire: Duration(days: 400),
                 ),
-             //   width: MediaQuery.of(context).size.width,
-              //  height: 120,
+                //   width: MediaQuery.of(context).size.width,
+                //  height: 120,
               )
               //  CachedNetworkImage(
               //   width: MediaQuery.of(context).size.width,

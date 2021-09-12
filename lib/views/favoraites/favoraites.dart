@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -642,14 +643,22 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                       borderRadius: BorderRadius.circular(8.0),
                       child: Hero(
                           tag: widget.index + 100,
-                          child: FadeInImage.assetNetwork(
-                            fadeInCurve: Curves.fastOutSlowIn,
-                            placeholder: "assets/kmIcon.png",
-                            fit: BoxFit.contain,
-                            image: widget.img,
-                            width: MediaQuery.of(context).size.width,
-                            height: 120,
-                          ))),
+                          child: Image(
+                            image: AdvImageCache(
+                              widget.img,
+                              useMemCache: true,
+                              diskCacheExpire: Duration(days: 400),
+                            ),
+                          )
+                          //           FadeInImage.assetNetwork(
+                          //   fadeInCurve: Curves.fastOutSlowIn,
+                          //   placeholder: "assets/kmIcon.png",
+                          //   fit: BoxFit.contain,
+                          //   image: widget.img,
+                          //   width: MediaQuery.of(context).size.width,
+                          //   height: 120,
+                          // ),
+                          )),
                 ),
                 SizedBox(width: 10),
                 Expanded(

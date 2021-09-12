@@ -156,18 +156,18 @@ class ShopByCategoryState extends State<ShopByCategory> {
         borderRadius: BorderRadius.circular(8.0),
         child: Stack(
           children: <Widget>[
-            FadeInImage(
+            Image(
               image: AdvImageCache(
                 LoadingScreenServices.imagePrefixUrl + widget.img,
                 useMemCache: true,
-                diskCacheExpire: Duration(minutes: 1),
+                diskCacheExpire: Duration(days: 400),
               ),
-              width: MediaQuery.of(context).size.width,
-              fadeInDuration: const Duration(seconds: 1),
+              width: MediaQuery.of(context).size.width / 2,
+              //fadeInDuration: const Duration(milliseconds: 0),
               // fadeInCurve: Curves.fastOutSlowIn,
-              fadeInCurve: Curves.fastOutSlowIn,
+              //  fadeInCurve: Curves.fastOutSlowIn,
 
-              placeholder: AssetImage("assets/kmlogoo.png"),
+              // placeholder: AssetImage("assets/kmlogoo.png"),
               fit: BoxFit.cover,
             ),
             // Image.network(
