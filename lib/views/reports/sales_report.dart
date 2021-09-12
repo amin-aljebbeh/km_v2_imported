@@ -26,6 +26,7 @@ class _SalesReportState extends State<SalesReport> {
   int library = 0;
   int seed = 0;
   int all = 0;
+
   List<Widget> totalSubWarehouses = [];
   _reportCard(GetDailyStatistics response) {
     totalSubWarehouses.clear();
