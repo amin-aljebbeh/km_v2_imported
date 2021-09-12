@@ -80,28 +80,9 @@ class _OrderAccountingState extends State<OrderAccounting> {
 
     return Scaffold(
         body: SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right:20.0),
-            child: IconButton(
-                icon: Icon(Icons.arrow_back_ios,
-                    color: Theme.of(context).primaryColorDark, size: 45),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                }),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 100.0),
-            child: Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: subWarehouseTotal,
-              ),
-            ),
-          ),
-        ],
+      child: ListView(
+        shrinkWrap: true,
+        children: subWarehouseTotal,
       ),
     ));
   }
