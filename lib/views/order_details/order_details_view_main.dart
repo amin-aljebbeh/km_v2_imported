@@ -15,6 +15,7 @@ import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 
 import 'full_screen_image.dart';
+import 'services/order_details_services.dart';
 
 // ignore: must_be_immutable
 class OrderDetailViewMain extends StatefulWidget {
@@ -362,6 +363,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             onTap: () => _onTileClicked(index),
                             child: OrderDetailViewMainCard(
                               subWarehouseId: orderDetail.subWarehouseId,
+                              orderId: widget.orderId,
                               onCheckbox: (a) {
                                 setState(() {
                                   productsAry.removeAt(a);
@@ -543,7 +545,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
 class OrderDetailViewMainCard extends StatefulWidget {
   final String img;
   final String product_name;
-  final String quantity;
+  String quantity;
   final int price;
   final int index;
   final String unit;
@@ -553,6 +555,7 @@ class OrderDetailViewMainCard extends StatefulWidget {
   final String supplierCode;
   final OrderProducts productsData;
   final int subWarehouseId;
+  final int orderId;
 
   Function(int) onCheckbox;
 
@@ -569,6 +572,7 @@ class OrderDetailViewMainCard extends StatefulWidget {
       this.productId,
       this.productsData,
       this.onCheckbox,
+      @required this.orderId,
       @required this.subWarehouseId});
 
   @override
@@ -582,6 +586,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
   int no_of_orders = 1;
   Color borderColor = Colors.transparent;
   Color checkboxColor = Colors.blue;
+  bool editProductQuantity = false;
+  TextEditingController _productsQuantityController = TextEditingController();
 
   void _showDialog() {
     showDialog(
@@ -736,15 +742,80 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                             ],
                           ),
                           SizedBox(height: 6),
-                          Text(
-                            widget.quantity + " " + widget.unit,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: UtilsImporter().colorUtils.greycolor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
-                                fontSize: 17),
+                          Wrap(
+                            children: [
+                              Text(
+                                widget.quantity + " " + widget.unit,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: UtilsImporter().colorUtils.greycolor,
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontSize: 17),
+                              ),
+                              !editProductQuantity
+                                  ? IconButton(
+                                      icon:
+                                          Icon(Icons.edit, color: Colors.green),
+                                      onPressed: () {
+                                        setState(() {
+                                          editProductQuantity =
+                                              !editProductQuantity;
+                                        });
+                                      })
+                                  : Container()
+                            ],
                           ),
+                          SizedBox(height: 8),
+                          editProductQuantity
+                              ? Wrap(
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Container(
+                                        height: 50,
+                                        width: 100,
+                                        child: TextFormField(
+                                          controller:
+                                              _productsQuantityController,
+                                          textAlign: TextAlign.center,
+                                          keyboardType: TextInputType.number,
+                                          decoration: new InputDecoration(
+                                            hintText: "الوزن",
+                                            fillColor: Colors.white,
+                                            border: new OutlineInputBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      10.0),
+                                              borderSide: new BorderSide(),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    IconButton(
+                                        icon: Icon(Icons.save,
+                                            color: Colors.green),
+                                        onPressed: () {
+                                          setState(() {
+                                            editProductQuantity =
+                                                !editProductQuantity;
+                                            OrderDetailsServices.updateOrder(
+                                                orderId:
+                                                    widget.orderId.toString(),
+                                                updateKey: "product_quantity",
+                                                updateValue:
+                                                    _productsQuantityController
+                                                        .text,
+                                                productId: widget.productId);
+                                            widget.quantity =
+                                                _productsQuantityController
+                                                    .text;
+                                          });
+                                        })
+                                  ],
+                                )
+                              : Container(),
                           SizedBox(height: 8),
                           Text(
                               UtilsImporter()
