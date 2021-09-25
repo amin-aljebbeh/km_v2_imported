@@ -994,6 +994,7 @@ class OrdersViewState extends State<OrdersView> {
       product.productCount = int.parse(orderProducts[i].pivot.quantity);
       product.unit = orderProducts[i].unit;
       product.quantity = orderProducts[i].quantity;
+      product.subWarehouseId = orderProducts[i].subWarehouseId;
 
       CartServices.addProductToCart(product);
     }

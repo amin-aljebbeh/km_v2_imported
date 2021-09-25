@@ -371,7 +371,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                               },
                               productsData: orderDetail,
                               supplierCode: orderDetail.supplierCode,
-                              active: 1,
+                              active: orderDetail.isActive,
                               productId: orderDetail.pivot.productId,
                               img: orderDetail.images.length != 0
                                   ? LoadingScreenServices.imagePrefixUrl +
@@ -652,6 +652,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
       borderColor = ColorUtils().meetColor;
     } else if (widget.subWarehouseId == 8) {
       borderColor = ColorUtils().pharmaColor;
+    } else if (widget.subWarehouseId == 9) {
+      borderColor = ColorUtils().amourColor;
     }
 
     return Container(
@@ -925,7 +927,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                             activeTrackColor:
                                 UtilsImporter().colorUtils.kmColors2,
                             activeColor: UtilsImporter().colorUtils.kmColors,
-                          )
+                          ),
+                          
                         ],
                       ),
                     ],

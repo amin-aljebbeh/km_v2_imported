@@ -728,6 +728,7 @@ class OrderProducts {
     this.supplierCode,
     this.productAvailable,
     this.subWarehouseId,
+    this.isActive,
   });
 
   int id;
@@ -741,6 +742,7 @@ class OrderProducts {
   bool productAvailable;
   int subWarehouseId;
   OrderProductPivot pivot;
+  int isActive;
 
   List<ProductImage> images;
 
@@ -752,6 +754,7 @@ class OrderProducts {
         isInFacebook: json["is_in_facebook"].toString(),
         categoryId: json["category_id"].toString(),
         supplierCode: json["supplier_code"].toString(),
+        isActive: json["is_active"],
         subWarehouseId:
             json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
         quantity: json["quantity"].toString(),
@@ -773,6 +776,7 @@ class OrderProducts {
         "supplier_code": supplierCode,
         "sub_warehouse_id": subWarehouseId,
         "product_available": productAvailable,
+        "is_active": isActive,
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }

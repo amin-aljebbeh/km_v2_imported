@@ -126,6 +126,26 @@ class CartViewState extends State<CartView> {
   void initState() {
     super.initState();
     orderArray = CartServices.cartProducts;
+
+    if (LoadingScreenServices.swbWarehouses.length == 1) {
+      orderArray.sort((a, b) {
+        if (a.subWarehouseId > b.subWarehouseId) {
+          return -1;
+        } else if (a.subWarehouseId < b.subWarehouseId) {
+          return 1;
+        } else
+          return 0;
+      });
+    } else {
+      orderArray.sort((a, b) {
+        if (a.subWarehouseId > b.subWarehouseId) {
+          return 1;
+        } else if (a.subWarehouseId < b.subWarehouseId) {
+          return -1;
+        } else
+          return 0;
+      });
+    }
     makeCards();
 
     for (int i = 0; i < orderArray.length; i++) {
@@ -362,10 +382,24 @@ class CartViewState extends State<CartView> {
                                         onPressed: () {
                                           setState(() {
                                             indexToEdit = -1;
+
+                                            double priceFactor = double.parse(
+                                                    orderArray[index]
+                                                        .quantity) /
+                                                double.parse(
+                                                    orderArray[index].price);
+
                                             if (_priceController.text.length >
                                                 0) {
                                               orderArray[index].price =
                                                   _priceController.text;
+
+                                              orderArray[index].quantity =
+                                                  (priceFactor *
+                                                          double.parse(
+                                                              _priceController
+                                                                  .text))
+                                                      .toStringAsFixed(2);
                                             }
                                           });
                                           _priceController.text = "";
@@ -380,8 +414,6 @@ class CartViewState extends State<CartView> {
                                         onPressed: () {
                                           setState(() {
                                             indexToEdit = index;
-
-                                            orderArray[index].price = "50";
                                           });
 
                                           _calculateTotal();

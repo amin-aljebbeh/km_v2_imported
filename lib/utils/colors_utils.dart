@@ -32,6 +32,8 @@ class ColorUtils {
   Color normalColor = Colors.transparent;
   Color meetColor = Colors.deepOrange;
   Color pharmaColor = Colors.blueAccent;
+
+  Color amourColor = Colors.red;
 }
 
 class HexColor extends Color {
