@@ -2,10 +2,10 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">kammun.app</domain>
-        <pin-set expiration="2021-09-29">
+        <pin-set expiration="2024-09-30">
             <pin digest="SHA-256">jQJTbIh0grw0/1TkHSumWb+Fs0Ggogr621gT3PvPKG0=</pin>
             <!-- backup pin -->
-            <pin digest="SHA-256">Kdyd8Cy2SB8HGRYkDwQQ9fcWUwNDPCRW9ICgliFhTBg=</pin>
+            <pin digest="SHA-256">C5+lpZ7tcVwmwQIMcRtPbsQtWLABXhQzejna0wHFr8M=</pin>
         </pin-set>
     </domain-config>
 </network-security-config>
