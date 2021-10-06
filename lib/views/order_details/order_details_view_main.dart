@@ -1,9 +1,7 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-// import 'package:cache_image/cache_image.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:image_viewer/image_viewer.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/colors_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -11,11 +9,10 @@ import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/order_details/services/order_details_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-
 import 'full_screen_image.dart';
-import 'services/order_details_services.dart';
 
 // ignore: must_be_immutable
 class OrderDetailViewMain extends StatefulWidget {
@@ -554,7 +551,7 @@ class OrderDetailViewMainCard extends StatefulWidget {
   final String productId;
   final String supplierCode;
   final OrderProducts productsData;
-  final int subWarehouseId;
+  int subWarehouseId;
   final int orderId;
 
   Function(int) onCheckbox;
@@ -588,6 +585,26 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
   Color checkboxColor = Colors.blue;
   bool editProductQuantity = false;
   TextEditingController _productsQuantityController = TextEditingController();
+  List<DropdownMenuItem> subWarehouseList = [];
+
+  @override
+  void initState() {
+    for (int i = 0; i < LoadingScreenServices.swbWarehouses.length; i++) {
+      subWarehouseList.add(DropdownMenuItem(
+        child: AutoSizeText(
+          LoadingScreenServices.swbWarehouses[i].name,
+          overflow: TextOverflow.fade,
+          maxLines: 1,
+          maxFontSize: 15,
+          style: TextStyle(
+            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+          ),
+        ),
+        value: LoadingScreenServices.swbWarehouses[i].id,
+      ));
+    }
+    super.initState();
+  }
 
   void _showDialog() {
     showDialog(
@@ -654,6 +671,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
       borderColor = ColorUtils().pharmaColor;
     } else if (widget.subWarehouseId == 9) {
       borderColor = ColorUtils().amourColor;
+    } else {
+      borderColor = Colors.transparent;
     }
 
     return Container(
@@ -685,10 +704,6 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     }),
                 InkWell(
                   onTap: () {
-                    // ImageViewer.showImageSlider(
-                    //   images: [widget.img],
-                    // );
-
                     Navigator.push(context, MaterialPageRoute(builder: (_) {
                       return FullScreenImage(
                         imageUrl: widget.img,
@@ -724,7 +739,6 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                 ),
                 SizedBox(width: 10),
                 Expanded(
-                    child: Container(
                   child: Wrap(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -755,69 +769,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                         UtilsImporter().stringUtils.HKGrotesk,
                                     fontSize: 17),
                               ),
-                              !editProductQuantity
-                                  ? IconButton(
-                                      icon:
-                                          Icon(Icons.edit, color: Colors.green),
-                                      onPressed: () {
-                                        setState(() {
-                                          editProductQuantity =
-                                              !editProductQuantity;
-                                        });
-                                      })
-                                  : Container()
                             ],
                           ),
                           SizedBox(height: 8),
-                          editProductQuantity
-                              ? Wrap(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: Container(
-                                        height: 50,
-                                        width: 100,
-                                        child: TextFormField(
-                                          controller:
-                                              _productsQuantityController,
-                                          textAlign: TextAlign.center,
-                                          keyboardType: TextInputType.number,
-                                          decoration: new InputDecoration(
-                                            hintText: "الوزن",
-                                            fillColor: Colors.white,
-                                            border: new OutlineInputBorder(
-                                              borderRadius:
-                                                  new BorderRadius.circular(
-                                                      10.0),
-                                              borderSide: new BorderSide(),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    IconButton(
-                                        icon: Icon(Icons.save,
-                                            color: Colors.green),
-                                        onPressed: () {
-                                          setState(() {
-                                            editProductQuantity =
-                                                !editProductQuantity;
-                                            OrderDetailsServices.updateOrder(
-                                                orderId:
-                                                    widget.orderId.toString(),
-                                                updateKey: "product_quantity",
-                                                updateValue:
-                                                    _productsQuantityController
-                                                        .text,
-                                                productId: widget.productId);
-                                            widget.quantity =
-                                                _productsQuantityController
-                                                    .text;
-                                          });
-                                        })
-                                  ],
-                                )
-                              : Container(),
                           SizedBox(height: 8),
                           Text(
                               UtilsImporter()
@@ -833,6 +787,30 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 18)),
+                          subWarehouseList.length > 0
+                              ? DropdownButton(
+                                  items: subWarehouseList,
+                                  onChanged: (a) {
+                                    OrderDetailsServices.updateOrder(
+                                        orderId: widget.orderId.toString(),
+                                        context: context,
+                                        updateKey: "sub_warehouse_id",
+                                        updateValue: a.toString(),
+                                        productId: widget.productId);
+                                    setState(() {
+                                      widget.subWarehouseId = a;
+                                    });
+                                  },
+                                  hint: subWarehouseList.firstWhere(
+                                      (element) =>
+                                          element.value ==
+                                          widget.subWarehouseId, orElse: () {
+                                    subWarehouseList.clear();
+                                    return DropdownMenuItem(
+                                        child: Text("No element"));
+                                  }).child,
+                                )
+                              : Container(),
                           Switch(
                             value: widget.active == 1 ? true : false,
                             onChanged: (value) async {
@@ -928,12 +906,11 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                 UtilsImporter().colorUtils.kmColors2,
                             activeColor: UtilsImporter().colorUtils.kmColors,
                           ),
-                          
                         ],
                       ),
                     ],
                   ),
-                )),
+                ),
                 Container(
                   margin: const EdgeInsets.all(15.0),
                   padding: const EdgeInsets.all(3.0),

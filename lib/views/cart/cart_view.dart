@@ -8,6 +8,7 @@ import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/order_details/services/order_details_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
@@ -400,8 +401,26 @@ class CartViewState extends State<CartView> {
                                                               _priceController
                                                                   .text))
                                                       .toStringAsFixed(2);
+
+                                              OrderDetailsServices.updateOrder(
+                                                  orderId: LoadingScreenServices
+                                                      .myOrdersList[OrderServices
+                                                          .orderUnderUpdateIndex]
+                                                      .id
+                                                      .toString(),
+                                                  context: context,
+                                                  updateKey: "product_quantity",
+                                                  updateValue: (priceFactor *
+                                                          double.parse(
+                                                              _priceController
+                                                                  .text))
+                                                      .toStringAsFixed(2),
+                                                  productId: orderArray[index]
+                                                      .id
+                                                      .toString());
                                             }
                                           });
+
                                           _priceController.text = "";
 
                                           _calculateTotal();
