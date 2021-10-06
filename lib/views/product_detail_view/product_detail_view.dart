@@ -523,6 +523,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   bodyKey: "price",
                                   productId: widget.products.id,
                                   productData: widget.products,
+                                  textHint: widget.products.price,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
@@ -540,6 +541,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   bodyKey: "price_factor",
                                   productId: widget.products.id,
                                   productData: widget.products,
+                                  textHint: widget.products.priceFactor,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
@@ -560,6 +562,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   productId: widget.products.id,
                                   isForSubWarehouse: false,
                                   productData: widget.products,
+                                  textHint: widget.products.unit,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
@@ -589,9 +592,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   inputType: TextInputType.text,
                                   bodyKey: "priority",
                                   productId: widget.products.id,
-                                  isForSubWarehouse: false,
+                                  isForSubWarehouse: true,
                                   productData: widget.products,
-                                  initialText: "",
+                                  initialText:
+                                      widget.products.priority.toString(),
                                 ),
                                 SizedBox(height: 30),
                                 widget.products.images.length > 0

@@ -59,10 +59,11 @@ class _UpdatePriceWidgetState extends State<UpdatePriceWidget> {
           ),
         ),
         Container(
-          height: 50,
+          //height: 50,
           width: 150,
-          child: TextFormField(
+          child: TextField(
             controller: _textController,
+            maxLines: null,
             textAlign: TextAlign.center,
             keyboardType: widget.inputType,
             decoration: new InputDecoration(
