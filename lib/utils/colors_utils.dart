@@ -17,14 +17,13 @@ class ColorUtils {
   Color searchgreycolor = HexColor("e6e6e6");
   Color darkcolor = HexColor("3D56F0");
   Color bluecolor = HexColor("5468FF");
-  Color violetcolor = HexColor("5120AE");
+  Color violetColor = HexColor("5120AE");
   Color lightVioletColor = HexColor("7085C3");
 
   Color kmColors = Color.fromARGB(255, 210, 178, 2);
   Color blueColor = HexColor("396b89");
 
   Color kmColors2 = HexColor("e5cb37");
-  Color blueColor2 = HexColor("396b89");
 
   Color khawajaColor = Colors.purple;
   Color vegtableColor = Colors.green[800];

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/models/louck_order.dart';
+import 'package:kammun_app/models/lock_order.dart';
 import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -17,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Services.dart';
 
 class OrderServices {
-  static String delivery_supported_City_id = "";
+  static String deliverySupportedCityId = "";
   static int orderUnderUpdateIndex = -1;
   static String updateOrderNote = "";
 
@@ -48,7 +48,7 @@ class OrderServices {
       "delivery_method_id": DeliveryMethodServices
           .deliveryMethodsList[(DeliveryMethodView.selectedDeliveryIndex)].id
           .toString(),
-      "supported_city_id": delivery_supported_City_id,
+      "supported_city_id": deliverySupportedCityId,
       "address_id":
           LoadingScreenServices.userAddress[DeliverToView.selectedIndex].id,
       "product_ids": productIds.substring(0, productIds.length - 1),
@@ -178,7 +178,7 @@ class OrderServices {
     }
   }
 
-  static Future<LouckOrder> lockOrder(String orderId) async {
+  static Future<LockOrder> lockOrder(String orderId) async {
     // Tools.logToConsole("------------------ CANCEL ORDER  --------------------");
     try {
       var response = await ApiProvider.sendRequest(
@@ -200,16 +200,16 @@ class OrderServices {
                 int.parse(LoadingScreenServices
                     .myOrdersList[orderUnderUpdateIndex].addressId));
 
-        Services.delivery_Price = int.parse(LoadingScreenServices
+        Services.deliveryPrice = int.parse(LoadingScreenServices
             .myOrdersList[orderUnderUpdateIndex].supportedCityCost
             .split(".")[0]);
 
         updateOrderNote =
             LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;
-        return louckOrderFromJson(json.encode(response.data));
+        return lockOrderFromJson(json.encode(response.data));
         // return "true";
       } else {
-        return louckOrderFromJson(json.encode(response.data));
+        return lockOrderFromJson(json.encode(response.data));
         // Tools.logToConsole("------------ ERROR Update ORDER --------------");
         // if (response.data["reason"].toString().contains("admin")) {
         //   return "admin";
@@ -270,10 +270,10 @@ class OrderServices {
     }
   }
 
-  static Future<bool> unlouckOrder(String orderId) async {
+  static Future<bool> unlockOrder(String orderId) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: UNLOUCK_ORDER + orderId,
+        url: UNLOCK_ORDER + orderId,
         method: httpMethods.put,
       );
       Tools.logToConsole(response);
@@ -284,6 +284,118 @@ class OrderServices {
       }
     } catch (e) {
       return false;
+    }
+  }
+
+  static Future<List<OrdersOriginalData>> getOrdersNotAssignedToDeliveries(
+      {int pageNumber = 1}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: ORDER + ORDERS_NOT_ASSIGNED_TO_DELIVERIES,
+        method: httpMethods.get,
+        queryParameters: {"page": pageNumber},
+      );
+      Tools.logToConsole("------- orders data -------");
+
+      if (response.statusCode == SUCCESS_CODE) {
+        LoadingScreenServices.notAssignedOrdersList =
+            ordersFromJson(jsonEncode(response.data)).data.data;
+
+        print('getOrdersNotAssignedToDeliveries');
+        print(LoadingScreenServices.notAssignedOrdersList.length);
+        return LoadingScreenServices.notAssignedOrdersList;
+      } else {
+        return LoadingScreenServices.notAssignedOrdersList;
+      }
+    } catch (e) {
+      Tools.logToConsole(
+          "------------ ERROR GET NotAssignedToDeliveries ORDER --------------");
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
+  static Future<List<OrdersOriginalData>> getDeliveryOrders(
+      {int pageNumber = 1}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: ORDER + DELIVERY_VIEWS_HIS_OWN_ORDERS,
+        method: httpMethods.get,
+        queryParameters: {"page": pageNumber},
+      );
+      Tools.logToConsole("------- orders data -------");
+
+      if (response.statusCode == SUCCESS_CODE) {
+        LoadingScreenServices.myOrdersList =
+            ordersFromJson(jsonEncode(response.data)).data.data;
+
+        print('getDeliveryOrders');
+        print(LoadingScreenServices.myOrdersList.length);
+        return LoadingScreenServices.myOrdersList;
+      } else {
+        return LoadingScreenServices.myOrdersList;
+      }
+    } catch (e) {
+      Tools.logToConsole(
+          "------------ ERROR GET getDeliveryOrders ORDER --------------");
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
+  static Future<List<OrdersOriginalData>> getOrdersNotAssignedToShoppers(
+      {int pageNumber = 1}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: ORDER + GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS,
+        method: httpMethods.get,
+        queryParameters: {"page": pageNumber},
+      );
+      Tools.logToConsole("------- orders data -------");
+
+      if (response.statusCode == SUCCESS_CODE) {
+        LoadingScreenServices.notAssignedOrdersList =
+            ordersFromJson(jsonEncode(response.data)).data.data;
+
+        print('getOrdersNotAssignedToShoppers');
+        print(LoadingScreenServices.notAssignedOrdersList.length);
+        return LoadingScreenServices.notAssignedOrdersList;
+      } else {
+        return LoadingScreenServices.notAssignedOrdersList;
+      }
+    } catch (e) {
+      Tools.logToConsole(
+          "------------ ERROR GET NotAssignedToShoppers ORDER --------------");
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
+  static Future<List<OrdersOriginalData>> getShopperOrders(
+      {int pageNumber = 1}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: ORDER + SHOPPER_VIEWS_HIS_OWN_ORDERS,
+        method: httpMethods.get,
+        queryParameters: {"page": pageNumber},
+      );
+      Tools.logToConsole("------- orders data -------");
+
+      if (response.statusCode == SUCCESS_CODE) {
+        LoadingScreenServices.myOrdersList =
+            ordersFromJson(jsonEncode(response.data)).data.data;
+
+        print('getShopperOrders');
+        print(LoadingScreenServices.myOrdersList.length);
+        return LoadingScreenServices.myOrdersList;
+      } else {
+        return LoadingScreenServices.myOrdersList;
+      }
+    } catch (e) {
+      Tools.logToConsole(
+          "------------ ERROR GET ShopperOrders ORDER --------------");
+      Tools.logToConsole(e.toString());
+      return null;
     }
   }
 }

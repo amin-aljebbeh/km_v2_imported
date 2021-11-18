@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/loading/user_services.dart';
 
 import '../../Services.dart';
 
@@ -43,70 +40,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         isError = true;
       });
     }
-  }
-
-  Widget _showDeleteButton({int index}) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () {
-        onrRemove(index);
-      },
-      child: new Container(
-        height: 35.0,
-        width: 125,
-        decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            UtilsImporter().stringUtils.delete.toUpperCase(),
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5),
-        child: showConfirmButtonWithGesture);
-  }
-
-  Widget _showEidte({int index}) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => new AddAddressView(
-                      isFromDeliveryScreen: false,
-                      addressIndex: index,
-                    )));
-      },
-      child: new Container(
-        height: 35.0,
-        width: 125,
-        decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            UtilsImporter().stringUtils.edit_address.toUpperCase(),
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5),
-        child: showConfirmButtonWithGesture);
   }
 
   @override
@@ -189,14 +122,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Colors.black),
                       ),
                     ),
-
-                    // subtitle: Text(
-                    //   "0957570213",
-                    //   style: TextStyle(
-                    //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                    //       fontWeight: FontWeight.bold,
-                    //       fontSize: 30),
-                    // ),
                     onTap: () {},
                   ),
                 ),
@@ -250,14 +175,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             color: Colors.black),
                       ),
                     ),
-
-                    // subtitle: Text(
-                    //   "0957570213",
-                    //   style: TextStyle(
-                    //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                    //       fontWeight: FontWeight.bold,
-                    //       fontSize: 30),
-                    // ),
                     onTap: () {},
                   ),
                 ),
@@ -378,8 +295,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   //    crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    _showDeleteButton(index: index),
-                    _showEidte(index: index),
+                    DecisionButton(
+                      text: UtilsImporter().stringUtils.delete.toUpperCase(),
+                      width: 125,
+                      height: 35,
+                      color: UtilsImporter().colorUtils.primarycolor,
+                      onTap: () {
+                        onrRemove(index);
+                      },
+                    ),
+                    // _showDeleteButton(index: index),
+                    DecisionButton(
+                      text: UtilsImporter()
+                          .stringUtils
+                          .edit_address
+                          .toUpperCase(),
+                      width: 125,
+                      height: 35,
+                      color: UtilsImporter().colorUtils.primarycolor,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new AddAddressView(
+                              isFromDeliveryScreen: false,
+                              addressIndex: index,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    // _showEdit(index: index),
                   ],
                 ),
               ],

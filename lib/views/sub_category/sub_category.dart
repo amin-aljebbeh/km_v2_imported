@@ -25,15 +25,6 @@ class _SubCategoryState extends State<SubCategory> {
   @override
   Widget build(BuildContext context) {
     void _onTileClicked(int index) {
-      // String category_name = categoriesListArray[index]['category_name'];
-
-      // Navigator.push(
-      //   context,
-      //   new MaterialPageRoute(
-      //     builder: (context) => new SubCategory(),
-      //   ),
-      // );
-
       List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
 
       for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
@@ -67,16 +58,6 @@ class _SubCategoryState extends State<SubCategory> {
           ),
         );
       }
-
-      // Navigator.push(
-      //   context,
-      //   new MaterialPageRoute(
-      //     builder: (context) => new ProductsView(
-      //       heroIndex: categoryId,
-      //       categoryId: categoryId.toString(),
-      //     ),
-      //   ),
-      // );
     }
 
     Widget _showSearchTxtFld() {
@@ -311,41 +292,3 @@ class _SubCategoryState extends State<SubCategory> {
     );
   }
 }
-
-// class SubCategoryCardView extends StatefulWidget {
-//   final String img;
-//   final String product_name;
-//   final int index;
-
-//   SubCategoryCardView({this.img, this.product_name, this.index});
-
-//   @override
-//   State<StatefulWidget> createState() {
-//     // TODO: implement createState
-//     return SubCategoryCardViewState();
-//   }
-// }
-
-// class SubCategoryCardViewState extends State<SubCategoryCardView> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       color: Theme.of(context).primaryColorLight,
-//       child: Padding(
-//         padding: EdgeInsets.only(left: 0, right: 0, top: 10),
-//         child: Card(
-//           child: Container(
-//             decoration: BoxDecoration(
-//               image: DecorationImage(
-//                 image: AssetImage(widget.img),
-//                 fit: BoxFit.fitWidth,
-//                 alignment: Alignment.topCenter,
-//               ),
-//             ),
-//             child: Text(widget.product_name),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

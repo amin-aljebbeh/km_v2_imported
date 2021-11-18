@@ -6,6 +6,7 @@ import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
 class OrderAccounting extends StatefulWidget {
   final List<OrderProducts> ordersAry;
+
   const OrderAccounting({Key key, @required this.ordersAry}) : super(key: key);
 
   @override
@@ -16,11 +17,11 @@ class _OrderAccountingState extends State<OrderAccounting> {
   List<SubWarehouse> _ls = LoadingScreenServices.swbWarehouses;
   List<Widget> subWarehouseTotal = [];
 
-  _sumSubWarehouse(int subwarehouseId) {
+  _sumSubWarehouse(int subWarehouseId) {
     int sum = 0;
 
     for (int i = 0; i < widget.ordersAry.length; i++) {
-      if (widget.ordersAry[i].subWarehouseId == subwarehouseId) {
+      if (widget.ordersAry[i].subWarehouseId == subWarehouseId) {
         sum = sum +
             (int.parse(widget.ordersAry[i].pivot.purchasePrice) *
                 int.parse(widget.ordersAry[i].pivot.quantity));
@@ -36,9 +37,10 @@ class _OrderAccountingState extends State<OrderAccounting> {
         subWarehouseTotal.add(
           Table(
             border: TableBorder.all(
-                color: Theme.of(context).primaryColor,
-                style: BorderStyle.solid,
-                width: 1),
+              color: Theme.of(context).primaryColor,
+              style: BorderStyle.solid,
+              width: 1,
+            ),
             children: [
               TableRow(children: [
                 Container(
@@ -79,11 +81,12 @@ class _OrderAccountingState extends State<OrderAccounting> {
     _calculate();
 
     return Scaffold(
-        body: SafeArea(
-      child: ListView(
-        shrinkWrap: true,
-        children: subWarehouseTotal,
+      body: SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: subWarehouseTotal,
+        ),
       ),
-    ));
+    );
   }
 }

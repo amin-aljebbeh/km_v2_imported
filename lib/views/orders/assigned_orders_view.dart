@@ -23,20 +23,16 @@ import 'package:intl/intl.dart';
 import '../../utils/Styles.dart';
 import 'services/order_services.dart';
 
-class OrdersView extends StatefulWidget {
-  final String orderType;
+class AssignedOrdersView extends StatefulWidget {
   final String role;
 
-  const OrdersView({Key key, @required this.orderType, @required this.role})
-      : super(key: key);
+  const AssignedOrdersView({Key key, @required this.role}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return OrdersViewState();
-  }
+  _AssignedOrdersViewState createState() => _AssignedOrdersViewState();
 }
 
-class OrdersViewState extends State<OrdersView> {
+class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   Future getOrders;
   int rateValue;
 
@@ -46,11 +42,16 @@ class OrdersViewState extends State<OrdersView> {
     filterOrders = 0;
 
     if (LoadingScreenServices.myOrdersList.length == 0) {
-      getOrders = _getOrder();
+      if (widget.role == UtilsImporter().stringUtils.deliveryRole) {
+        getOrders = OrderServices.getDeliveryOrders();
+      } else {
+        getOrders = OrderServices.getShopperOrders();
+      }
     } else {
       getOrders = _initialFunction();
       orderDataList = LoadingScreenServices.myOrdersList;
     }
+
     super.initState();
   }
 
@@ -104,12 +105,21 @@ class OrdersViewState extends State<OrdersView> {
       orderDataList.clear();
       LoadingScreenServices.myOrdersList.clear();
     });
-    final orderList = await Services.getMyOrders(pageNumber: page);
+    var orderList;
+    if (LoadingScreenServices.myOrdersList.length == 0) {
+      if (widget.role == UtilsImporter().stringUtils.deliveryRole) {
+        orderList = await OrderServices.getDeliveryOrders();
+      } else {
+        orderList = await OrderServices.getShopperOrders();
+      }
+    } else {
+      orderList = LoadingScreenServices.myOrdersList;
+    }
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
-          LoadingScreenServices.myOrdersList = orderDataList;
-          if (LoadingScreenServices.myOrdersList.length != 0)
+          LoadingScreenServices.notAssignedOrdersList = orderDataList;
+          if (LoadingScreenServices.notAssignedOrdersList.length != 0)
             theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
@@ -118,13 +128,13 @@ class OrdersViewState extends State<OrdersView> {
       } else {
         setState(() {
           orderDataList.addAll(orderList);
-          if (filterOrders == 0) {
-            orderDataList
-                .removeWhere((order) => int.parse(order.orderStatusId) > 4);
-          } else {
-            orderDataList.removeWhere(
-                (order) => int.parse(order.orderStatusId) != filterOrders);
-          }
+          // if (filterOrders == 0) {
+          //   orderDataList
+          //       .removeWhere((order) => int.parse(order.orderStatusId) > 4);
+          // } else {
+          //   orderDataList.removeWhere(
+          //       (order) => int.parse(order.orderStatusId) != filterOrders);
+          // }
           Tools.logToConsole("orderDataList before filltiting");
           Tools.logToConsole(orderDataList.length);
 
@@ -274,7 +284,7 @@ class OrdersViewState extends State<OrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
-                                  isAdmin: true,
+                                  isAdmin: false,
                                   orderId: orderDataList[index].id,
                                   entrance:
                                       orderDataList[index].address.entrance,

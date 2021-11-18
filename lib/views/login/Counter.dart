@@ -1,30 +1,23 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-
-// import 'package:sms_autofill/sms_autofill.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-
 import '../../Services.dart';
 import 'login_view.dart';
-// import 'package:quiver/async.dart';
-
-// import 'Loader.dart';
 
 class CounterOtp extends StatefulWidget {
   static const routeName = '/otp-counter';
 
-  int counterr;
+  int counter;
   int counterMinn;
   Function(bool success) onRequestSent;
 
-  CounterOtp(this.counterr, this.counterMinn, this.onRequestSent);
+  CounterOtp(this.counter, this.counterMinn, this.onRequestSent);
 
   @override
-  _CounterOtpState createState() => _CounterOtpState(counterr, counterMinn);
+  _CounterOtpState createState() => _CounterOtpState(counter, counterMinn);
 }
 
 class _CounterOtpState extends State<CounterOtp> {
@@ -40,7 +33,7 @@ class _CounterOtpState extends State<CounterOtp> {
   int counterMin;
   _CounterOtpState(this.counter, this.counterMin);
 
-  Future featchOtp() async {
+  Future fetchOtp() async {
     try {
       setState(() {
         loadingScreen = true;
@@ -173,7 +166,7 @@ class _CounterOtpState extends State<CounterOtp> {
                     ],
                   )
                 : InkWell(
-                    onTap: featchOtp,
+                    onTap: fetchOtp,
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(

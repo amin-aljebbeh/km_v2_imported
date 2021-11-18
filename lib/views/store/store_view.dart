@@ -1,9 +1,11 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/errors_screen/internet_error.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
@@ -26,9 +28,11 @@ class StoreViewState extends State<StoreView> {
   TextEditingController _searchController = TextEditingController();
 
   final FocusNode _searchNameFocus = FocusNode();
+
 // Color.fromARGB(255, 210, 178, 2) كموني
 //Color.fromARGB(255, 53, 99, 124) كجلي
   bool isDarkThemeMode = false;
+
   // Future getCategories;
 
   _updateApplication() async {
@@ -57,69 +61,14 @@ class StoreViewState extends State<StoreView> {
     //   }
     // }
     if (Services.updateOption)
-      WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog());
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showUpdateDialog();
+      });
 
     // if (isThereOrderUnderUbdate) {
     //   WidgetsBinding.instance.addPostFrameCallback(
     //       (_) => _showUpdateOrderInstruction(context: context));
     // }
-  }
-
-  Widget _updateButton() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
-      onTap: () => _updateApplication(),
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.kmColors,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            " التحديث الآن ",
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-        child: loginButtonWithGesture);
-  }
-
-  Widget _cancelButton() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
-      onTap: () {
-        setState(() {
-          Services.updateOption = false;
-        });
-        Navigator.of(context).pop(true);
-      },
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: Colors.grey[700],
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            " التحديث لاحقاً ",
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-        child: loginButtonWithGesture);
   }
 
   void showUpdateDialog() {
@@ -202,11 +151,26 @@ class StoreViewState extends State<StoreView> {
                   children: <Widget>[
                     Container(
                       width: MediaQuery.of(context).size.width / 2.8,
-                      child: _updateButton(),
+                      child: DecisionButton(
+                        text: " التحديث الآن ",
+                        height: 50,
+                        color: UtilsImporter().colorUtils.kmColors,
+                        onTap: _updateApplication,
+                      ),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 2.8,
-                      child: _cancelButton(),
+                      child: DecisionButton(
+                        text: " التحديث لاحقاً ",
+                        height: 50,
+                        color: Colors.grey[700],
+                        onTap: () {
+                          setState(() {
+                            Services.updateOption = false;
+                          });
+                          Navigator.of(context).pop(true);
+                        },
+                      ),
                     ),
                   ],
                 )
@@ -391,9 +355,7 @@ class StoreViewState extends State<StoreView> {
                       ),
                       title: Text(
                         "الإتصال بكمون",
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
+                        style: mainStyle,
                       ),
                       // subtitle: Text(
                       //   LoadingScreenServices
@@ -415,10 +377,10 @@ class StoreViewState extends State<StoreView> {
                             size: 30,
                           ),
                         ),
-                        title: Text("إرسال التطبيق للأصدقاء",
-                            style: TextStyle(
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk)),
+                        title: Text(
+                          "إرسال التطبيق للأصدقاء",
+                          style: mainStyle,
+                        ),
                         // subtitle: Text(
                         //   //'support@kammun.com',
                         //   "بدعمكم نستمر",
@@ -440,10 +402,10 @@ class StoreViewState extends State<StoreView> {
                                 size: 30,
                               ),
                             ),
-                            title: Text("المنتجات المضافة للمستودع",
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
+                            title: Text(
+                              "المنتجات المضافة للمستودع",
+                              style: mainStyle,
+                            ),
                             onTap: () {
                               Navigator.of(context)
                                   .pushNamed('/products_added_to_warehouse');
@@ -460,10 +422,10 @@ class StoreViewState extends State<StoreView> {
                                 size: 30,
                               ),
                             ),
-                            title: Text("المنتجات الغير مضافة للمستودع",
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
+                            title: Text(
+                              "المنتجات الغير مضافة للمستودع",
+                              style: mainStyle,
+                            ),
                             onTap: () {
                               Navigator.of(context).pushNamed(
                                   '/products_not_added_to_warehouse');
@@ -479,10 +441,10 @@ class StoreViewState extends State<StoreView> {
                           size: 30,
                         ),
                       ),
-                      title: Text("الملف الشخصي",
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk)),
+                      title: Text(
+                        "الملف الشخصي",
+                        style: mainStyle,
+                      ),
                       onTap: () {
                         Navigator.of(context).pushNamed('/profile');
                       },
@@ -497,10 +459,10 @@ class StoreViewState extends State<StoreView> {
                                 size: 30,
                               ),
                             ),
-                            title: Text("إحصائيات",
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
+                            title: Text(
+                              "إحصائيات",
+                              style: mainStyle,
+                            ),
                             onTap: () {
                               Navigator.of(context).pushNamed('/statistics');
                             },
@@ -515,10 +477,10 @@ class StoreViewState extends State<StoreView> {
                           size: 30,
                         ),
                       ),
-                      title: Text("إدارة المستودعات",
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk)),
+                      title: Text(
+                        "إدارة المستودعات",
+                        style: mainStyle,
+                      ),
                       onTap: () {
                         Navigator.of(context)
                             .pushNamed('/subWarehouseManagement');
@@ -664,7 +626,7 @@ class StoreViewState extends State<StoreView> {
                       ),
                       Text(
                         "  " +
-                            UtilsImporter().stringUtils.shopbycategory +
+                            UtilsImporter().stringUtils.shopByCategory +
                             "  ",
                         style: TextStyle(
                             color: UtilsImporter().colorUtils.primarycolor,
@@ -750,9 +712,7 @@ class StoreViewState extends State<StoreView> {
               prefixIcon: Icon(Icons.search),
               contentPadding: const EdgeInsets.only(bottom: 0.5),
               hintText: "بحث",
-              hintStyle: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-              ),
+              hintStyle: mainStyle,
             ),
           ),
         ),

@@ -6,13 +6,13 @@ import 'dart:convert';
 
 import 'package:kammun_app/models/start_model.dart';
 
-LouckOrder louckOrderFromJson(String str) =>
-    LouckOrder.fromJson(json.decode(str));
+LockOrder lockOrderFromJson(String str) =>
+    LockOrder.fromJson(json.decode(str));
 
-String louckOrderToJson(LouckOrder data) => json.encode(data.toJson());
+String lockOrderToJson(LockOrder data) => json.encode(data.toJson());
 
-class LouckOrder {
-  LouckOrder({
+class LockOrder {
+  LockOrder({
     this.success,
     this.data,
     this.products,
@@ -22,7 +22,7 @@ class LouckOrder {
   String data;
   List<OrderProducts> products;
 
-  factory LouckOrder.fromJson(Map<String, dynamic> json) => LouckOrder(
+  factory LockOrder.fromJson(Map<String, dynamic> json) => LockOrder(
         success: json["success"],
         data: json["data"],
         products: List<OrderProducts>.from(

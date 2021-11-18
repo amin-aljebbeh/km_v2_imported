@@ -4,9 +4,9 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/login/login_view.dart';
-import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'Counter.dart';
@@ -72,45 +72,6 @@ class _OTPVerificationState extends State<OTPVerification> {
   @override
   Widget build(BuildContext context) {
     ScrollController _scroll = new ScrollController();
-
-    Widget _showAddAddressButton() {
-      final GestureDetector loginButtonWithGesture = new GestureDetector(
-        onTap: () {
-          if (_textController.text.length == 6) {
-            checkOtpValidation(_textController.text);
-          } else {
-            setState(() {
-              errorCode = true;
-            });
-          }
-        },
-        child: new Container(
-          height: 50.0,
-          decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.primarycolor,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new Text(
-              "تأكيد الرمز",
-              style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-          ),
-        ),
-      );
-
-      return loadingScreen
-          ? Padding(
-              padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-              child: Loader(),
-            )
-          : Padding(
-              padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-              child: loginButtonWithGesture);
-    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -222,7 +183,26 @@ class _OTPVerificationState extends State<OTPVerification> {
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: _showAddAddressButton(),
+                child: loadingScreen
+                    ? Padding(
+                        padding:
+                            EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+                        child: Loader(),
+                      )
+                    : DecisionButton(
+                        text: "تأكيد الرمز",
+                        height: 50,
+                        color: UtilsImporter().colorUtils.primarycolor,
+                        onTap: () {
+                          if (_textController.text.length == 6) {
+                            checkOtpValidation(_textController.text);
+                          } else {
+                            setState(() {
+                              errorCode = true;
+                            });
+                          }
+                        },
+                      ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),

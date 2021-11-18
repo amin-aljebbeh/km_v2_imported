@@ -1,17 +1,15 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
-import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
-import 'package:kammun_app/views/deliver_to/delivery_method.dart';
-import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
@@ -34,7 +32,7 @@ class CartViewFinal extends StatefulWidget {
 class _CartViewFinalState extends State<CartViewFinal> {
   List<ProductData> orderArray;
   int subtotal = 0;
-  int delivaryCost = 10;
+  int deliveryCost = 10;
   List<int> cards = [];
   bool loadingScreen = false;
   bool errorCode = false;
@@ -79,7 +77,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
               orderArray[i].productCount);
     }
     total = subtotal +
-        Services.delivery_Price +
+        Services.deliveryPrice +
         int.parse(LoadingScreenServices
             .myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryCost
             .split(".")[0]);
@@ -130,321 +128,343 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   _cartChanged() async {
-    String products_Id = "";
-    String products_quantity = "";
+    String productsId = "";
+    String productsQuantity = "";
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      products_Id += CartServices.cartProducts[i].id.toString() + ";";
-      products_quantity +=
+      productsId += CartServices.cartProducts[i].id.toString() + ";";
+      productsQuantity +=
           CartServices.cartProducts[i].productCount.toString() + ";";
     }
-    // products_Id += widget.products.id.toString();
-    // products_quantity += widget.products.quantity.toString();
-    prefs.setString("userCart", products_Id + "@" + products_quantity);
+    // productsId += widget.products.id.toString();
+    // productsQuantity += widget.products.quantity.toString();
+    prefs.setString("userCart", productsId + "@" + productsQuantity);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        // backgroundColor: Theme.of(context).primaryColorLight,
-        body: Padding(
-          padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
-          child: SafeArea(
-            child: loadingScreen
-                ? Center(
-                    child: Loader(),
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      errorCode
-                          ? AlertMessages(
-                              text: " $errorMessage",
-                              messageType: "internetError",
-                              headerText: " حدث خطأ اثناء محاولة إرسال طلبك",
-                            )
-                          : Container(
-                              padding: EdgeInsets.zero,
-                            ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
-                              child: IconButton(
-                                  icon: Icon(Icons.arrow_back_ios,
-                                      color: Theme.of(context).primaryColorDark,
-                                      size: 45),
-                                  onPressed: () {
-                                    Navigator.of(context).pop("updatePrice");
-                                  }),
-                            ),
-                            InkWell(
-                              onTap: () {
+      backgroundColor: Colors.white,
+      // backgroundColor: Theme.of(context).primaryColorLight,
+      body: Padding(
+        padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
+        child: SafeArea(
+          child: loadingScreen
+              ? Center(
+                  child: Loader(),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    errorCode
+                        ? AlertMessages(
+                            text: " $errorMessage",
+                            messageType: "internetError",
+                            headerText: " حدث خطأ اثناء محاولة إرسال طلبك",
+                          )
+                        : Container(
+                            padding: EdgeInsets.zero,
+                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.arrow_back_ios,
+                                color: Theme.of(context).primaryColorDark,
+                                size: 45,
+                              ),
+                              onPressed: () {
                                 Navigator.of(context).pop("updatePrice");
                               },
-                              child: Text(
-                                UtilsImporter().stringUtils.shoppingcart,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 30),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop("updatePrice");
+                            },
+                            child: Text(
+                              UtilsImporter().stringUtils.shoppingCart,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily:
+                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontSize: 30),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        primary: false,
+                        shrinkWrap: true,
+                        itemCount: orderArray == null ? 0 : cards.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          Tools.logToConsole("Build Card Length : $index");
+                          return new GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () => _onTileClicked(index),
+                            child: Container(
+                              //  color: Theme.of(context).primaryColorLight,
+                              child: Padding(
+                                padding:
+                                    EdgeInsets.only(left: 0, right: 0, top: 0),
+                                child: cardBody(index, context),
                               ),
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                          primary: false,
-                          shrinkWrap: true,
-                          itemCount: orderArray == null ? 0 : cards.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Tools.logToConsole("Build Card Length : $index");
-                            return new GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () => _onTileClicked(index),
-                              child: Container(
-                                //  color: Theme.of(context).primaryColorLight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 0, right: 0, top: 0),
-                                  child: cardBody(index, context),
-                                ),
-                              ),
-                            );
-                          },
+                    ),
+                    SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          UtilsImporter().stringUtils.subtotal,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).primaryColorDark,
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontSize: 17.0,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            UtilsImporter().stringUtils.subtotal,
+                        Text(
+                          "${UtilsImporter().stringUtils.oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontSize: 17.0),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(UtilsImporter().stringUtils.delivery,
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).primaryColorDark,
                               fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                              fontSize: 17.0,
+                              fontSize: 16.0,
+                            )),
+                        Text(
+                          "${UtilsImporter().stringUtils.oCcy.format(int.parse(LoadingScreenServices.myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryCost.split(".")[0]) + int.parse(LoadingScreenServices.myOrdersList[OrderServices.orderUnderUpdateIndex].supportedCityCost.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontSize: 16),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(UtilsImporter().stringUtils.total,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontSize: 19.0,
+                            )),
+                        Text(
+                          "${UtilsImporter().stringUtils.oCcy.format(total)} ${LoadingScreenServices.companyInformation.currency}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontSize: 19),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    SafeArea(
+                      child: loadingScreen
+                          ? Loader()
+                          : Column(
+                              children: <Widget>[
+                                DecisionButton(
+                                  color:
+                                      UtilsImporter().colorUtils.primarycolor,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            alignment: Alignment.center,
+                                            padding: EdgeInsets.only(
+                                                top: 0, bottom: 0, right: 15),
+                                            child: Icon(
+                                              Icons.add_box_outlined,
+                                              color: Colors.white,
+                                              size: 32,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Expanded(
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Container(
+                                            child: Text(
+                                              'إضافة ملاحظة',
+                                              textAlign: TextAlign.start,
+                                              style: new TextStyle(
+                                                  color: Colors.white,
+                                                  // fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: UtilsImporter()
+                                                      .stringUtils
+                                                      .HKGrotesk),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        // padding: EdgeInsets.only(top: 7, bottom: 7, right: 5),
+                                        child: Icon(
+                                          Icons.add,
+                                          color: Colors.transparent,
+                                          size: 32,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    showMyDialog(
+                                      ' ',
+                                      ' ',
+                                      null,
+                                      Stack(
+                                        overflow: Overflow.visible,
+                                        children: <Widget>[
+                                          Positioned(
+                                            right: -40.0,
+                                            top: -40.0,
+                                            child: InkResponse(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: CircleAvatar(
+                                                child: Icon(Icons.close),
+                                                backgroundColor: Colors.red,
+                                              ),
+                                            ),
+                                          ),
+                                          Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  "ملاحظات على الطلب",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontFamily:
+                                                          UtilsImporter()
+                                                              .stringUtils
+                                                              .HKGrotesk,
+                                                      fontSize: 18),
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8, right: 8),
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.all(
+                                                        Radius.circular(
+                                                            5.0) //         <--- border radius here
+                                                        ),
+                                                    border: Border.all(
+                                                      width: 2,
+                                                      color: UtilsImporter()
+                                                          .colorUtils
+                                                          .kmColors,
+                                                    )),
+                                                child: new TextField(
+                                                  controller: _userNotes,
+                                                  textAlign: TextAlign.right,
+                                                  keyboardType:
+                                                      TextInputType.multiline,
+                                                  maxLines: 5,
+                                                  style: TextStyle(
+                                                    fontFamily: UtilsImporter()
+                                                        .stringUtils
+                                                        .HKGrotesk,
+                                                  ),
+                                                ),
+                                              ),
+                                              DecisionButton(
+                                                text: "حفظ الملاحظة",
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2.5,
+                                                height: 40,
+                                                color: UtilsImporter()
+                                                    .colorUtils
+                                                    .primarycolor,
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      context,
+                                    );
+                                  },
+                                ),
+                                // Row(
+                                //   mainAxisAlignment:
+                                //       MainAxisAlignment.spaceBetween,
+                                //   children: <Widget>[
+                                //     _addNotesButton(context: context),
+                                //     //    _addCopouns(),
+                                //   ],
+                                // ),
+                                DecisionButton(
+                                  width: MediaQuery.of(context).size.width,
+                                  color: CartServices.cartProducts.length > 0
+                                      ? UtilsImporter().colorUtils.primarycolor
+                                      : Colors.grey[400],
+                                  text: UtilsImporter()
+                                      .stringUtils
+                                      .confirmOrder
+                                      .toUpperCase(),
+                                  onTap: _showConfirmOrderBtnTapped,
+                                  height: 50,
+                                ),
+                                // _showConfirmOrderButton(),
+                              ],
                             ),
-                          ),
-                          Text(
-                            "${UtilsImporter().stringUtils.oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
-                                fontSize: 17.0),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(UtilsImporter().stringUtils.delivery,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
-                                fontSize: 16.0,
-                              )),
-                          Text(
-                            "${UtilsImporter().stringUtils.oCcy.format(int.parse(LoadingScreenServices.myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryCost.split(".")[0]) + int.parse(LoadingScreenServices.myOrdersList[OrderServices.orderUnderUpdateIndex].supportedCityCost.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
-                                fontSize: 16),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(UtilsImporter().stringUtils.total,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
-                                fontSize: 19.0,
-                              )),
-                          Text(
-                            "${UtilsImporter().stringUtils.oCcy.format(total)} ${LoadingScreenServices.companyInformation.currency}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
-                                fontSize: 19),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      SafeArea(
-                        child: loadingScreen
-                            ? Loader()
-                            : Column(
-                                children: [
-                                  _addNotesButton(context: context),
-
-                                  // Row(
-                                  //   mainAxisAlignment:
-                                  //       MainAxisAlignment.spaceBetween,
-                                  //   children: [
-                                  //     _addNotesButton(context: context),
-                                  //     //    _addCopouns(),
-                                  //   ],
-                                  // ),
-                                  _showConfirmOrderButton(),
-                                ],
-                              ),
-                        top: false,
-                      ),
-                    ],
-                  ),
-          ),
-        ));
-  }
-
-  _openAddNotesAlert({BuildContext context}) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                Positioned(
-                  right: -40.0,
-                  top: -40.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
+                      top: false,
                     ),
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "ملاحظات على الطلب",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 18),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 8, right: 8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(
-                                  5.0) //         <--- border radius here
-                              ),
-                          border: Border.all(
-                            width: 2,
-                            color: UtilsImporter().colorUtils.kmColors,
-                          )),
-                      child: new TextField(
-                        controller: _userNotes,
-                        textAlign: TextAlign.right,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 5,
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
-                      ),
-                    ),
-                    _saveNotes(context: context),
                   ],
                 ),
-              ],
-            ),
-          );
-        });
-  }
-
-  _openAddCouponsAlert({BuildContext context}) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                Positioned(
-                  right: -40.0,
-                  top: -40.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "يرجى كتابة كود الحسم",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 18),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 8, right: 8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(
-                                  5.0) //         <--- border radius here
-                              ),
-                          border: Border.all(
-                            width: 2,
-                            color: UtilsImporter().colorUtils.kmColors,
-                          )),
-                      child: new TextField(
-                        controller: _copouns,
-                        //  keyboardType: TextInputType.multiline,
-                        //  maxLength: 500,
-                        // maxLines: 5,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
-                      ),
-                    ),
-                    _submitCopoun(context: context),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
+        ),
+      ),
+    );
   }
 
   Widget cardBody(int index, BuildContext context) {
@@ -634,12 +654,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   _showBottomSheet({List<String> notActive, List<String> priceProblem}) {
-    List<int> notactiveId = [];
+    List<int> notActiveId = [];
     List<int> priceId = [];
 
     for (int i = 0; i < orderArray.length; i++) {
       if (notActive.contains(orderArray[i].id.toString())) {
-        notactiveId.add(orderArray[i].id);
+        notActiveId.add(orderArray[i].id);
       }
       if (priceProblem.contains(orderArray[i].id.toString())) {
         priceId.add(orderArray[i].id);
@@ -648,11 +668,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
     Tools.logToConsole("------ price array ---------");
     Tools.logToConsole(priceId);
     Tools.logToConsole("-------- inactive array --------");
-    Tools.logToConsole(notactiveId);
+    Tools.logToConsole(notActiveId);
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => OrderProblemBottomSheet(
-        notActiveProducts: notactiveId,
+        notActiveProducts: notActiveId,
         pricesChangesProducts: priceId,
         applyChanges: (submitOrder) {
           if (submitOrder) {
@@ -767,204 +787,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
           new MaterialPageRoute(
               builder: (context) =>
                   ThankYouView(orderMessage: orderResponse.data)));
-
-      // Navigator.pushNamedAndRemoveUntil(
-      //     context, '/thankyou', ModalRoute.withName('/home'),
-      //     arguments: {"message": message, 'orderMessage': message});
     }
-  }
-
-  Widget _showConfirmOrderButton() {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: _showConfirmOrderBtnTapped,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
-          padding: const EdgeInsets.all(10.0),
-          height: 50.0,
-          decoration: new BoxDecoration(
-              color: Colors.green,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new Text(
-              UtilsImporter().stringUtils.confirm_order.toUpperCase(),
-              style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
-  }
-
-  Widget _addNotesButton({BuildContext context}) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () => _openAddNotesAlert(context: context),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
-          //  padding: const EdgeInsets.all(10.0),
-          //  width: MediaQuery.of(context).size.width / 2.5,
-          height: 40.0,
-          decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.primarycolor,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(top: 0, bottom: 0, right: 15),
-                    child: Icon(
-                      Icons.add_box_outlined,
-                      color: Colors.white,
-                      size: 32,
-                    ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    child: Text(
-                      'إضافة ملاحظة',
-                      textAlign: TextAlign.start,
-                      style: new TextStyle(
-                          color: Colors.white,
-                          // fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                // padding: EdgeInsets.only(top: 7, bottom: 7, right: 5),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.transparent,
-                  size: 32,
-                ),
-              ),
-            ],
-          )),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
-  }
-
-  Widget _saveNotes({BuildContext context}) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () {
-        Navigator.of(context).pop();
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
-          padding: const EdgeInsets.all(10.0),
-          width: MediaQuery.of(context).size.width / 2.5,
-          height: 40.0,
-          decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.primarycolor,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new AutoSizeText(
-              "حفظ الملاحظة",
-              maxLines: 1,
-              style: new TextStyle(
-                  color: Colors.white,
-                  // fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
-  }
-
-  Widget _submitCopoun({BuildContext context}) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () => Navigator.of(context).pop(),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
-          padding: const EdgeInsets.all(10.0),
-          width: MediaQuery.of(context).size.width / 2.5,
-          height: 40.0,
-          decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.primarycolor,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new AutoSizeText(
-              "تطبيق الحسم",
-              maxLines: 1,
-              style: new TextStyle(
-                  color: Colors.white,
-                  // fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
-  }
-
-  Widget _addCopouns() {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () => _openAddCouponsAlert(context: context),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
-          padding: const EdgeInsets.all(10.0),
-          width: MediaQuery.of(context).size.width / 2.5,
-          height: 40.0,
-          decoration: new BoxDecoration(
-              color: Colors.teal,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new AutoSizeText(
-              "إضافة كود حسم",
-              maxLines: 1,
-              style: new TextStyle(
-                  color: Colors.white,
-                  // fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
   }
 }

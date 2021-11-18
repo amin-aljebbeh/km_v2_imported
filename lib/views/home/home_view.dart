@@ -1,19 +1,22 @@
-import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/string_utils.dart';
+import 'package:kammun_app/utils/string_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/dialog_button.dart';
+import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
-import 'package:kammun_app/views/favoraites/favoraites.dart';
 import 'package:kammun_app/views/inventory/inventory.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/orders/assigned_orders_view.dart';
+import 'package:kammun_app/views/orders/not_assigned_orders_view.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/prices_changes/prices.dart';
-import 'package:kammun_app/views/products_view/add_products.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../utils/Styles.dart';
 
 class HomeView extends StatefulWidget {
   final int routeIndex;
@@ -34,6 +37,7 @@ class HomeView extends StatefulWidget {
 class HomeViewState extends State<HomeView> {
   int _selectedIndex;
   bool _isFromUpdateOrder;
+
   HomeViewState(this._selectedIndex, this._isFromUpdateOrder);
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -42,16 +46,33 @@ class HomeViewState extends State<HomeView> {
   @override
   void initState() {
     widget.notificationValue != null
-        ? WidgetsBinding.instance
-            .addPostFrameCallback((_) => _showNotificationDialog(ctx: context))
+        ? WidgetsBinding.instance.addPostFrameCallback(
+            (_) {
+              List<DialogButton> decisionButtons = [
+                DialogButton(
+                  text: 'إغلاق',
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ];
+              showMyDialog(
+                  widget.notificationValue['title'],
+                  widget.notificationValue['body'],
+                  decisionButtons,
+                  null,
+                  context);
+              // _showNotificationDialog(ctx: context);
+            },
+          )
         : {};
 
     WidgetsBinding.instance
-        .addPostFrameCallback((_) => _initializeNotificaiton(ctx: context));
+        .addPostFrameCallback((_) => _initializeNotification(ctx: context));
     super.initState();
   }
 
-  _initializeNotificaiton({BuildContext ctx}) {
+  _initializeNotification({BuildContext ctx}) {
     Tools.logToConsole("====== Starting initializing Firebase ======");
     //checkUpdate = _checkAppVersion();
 
@@ -69,7 +90,17 @@ class HomeViewState extends State<HomeView> {
         if (message['data']['route_name'] != null)
           Navigator.pushNamed(context, message['data']['route_name']);
 
-        _showDialog(notification['title'], notification['body']);
+        List<DialogButton> decisionButtons = [
+          DialogButton(
+            text: 'إغلاق',
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ];
+        showMyDialog(notification['title'], notification['body'],
+            decisionButtons, null, context);
+        // _showDialog(notification['title'], notification['body']);
 
         // if (message['data']['route_name'] == "/productDetails") {
 
@@ -83,7 +114,17 @@ class HomeViewState extends State<HomeView> {
         if (message['data']['route_name'] != null)
           Navigator.pushNamed(context, message['data']['route_name']);
 
-        _showDialog(notification['title'], notification['body']);
+        List<DialogButton> decisionButtons = [
+          DialogButton(
+            text: 'إغلاق',
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ];
+        showMyDialog(notification['title'], notification['body'],
+            decisionButtons, null, context);
+        // _showDialog(notification['title'], notification['body']);
 
         widget.notificationValue = notification;
       },
@@ -96,16 +137,26 @@ class HomeViewState extends State<HomeView> {
         if (message['data']['route_name'] != null)
           Navigator.pushNamed(context, message['data']['route_name']);
 
-        _showDialog(notification['title'], notification['body']);
+        List<DialogButton> decisionButtons = [
+          DialogButton(
+            text: 'إغلاق',
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ];
+        showMyDialog(notification['title'], notification['body'],
+            decisionButtons, null, context);
+        // _showDialog(notification['title'], notification['body']);
       },
     );
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
-    getoken();
+    getToken();
     Tools.logToConsole("====== End initializing Firebase ======");
   }
 
-  Future getoken() async {
+  Future getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.get("firebase_token") == null) {
       firebaseToken = await _firebaseMessaging.getToken();
@@ -125,88 +176,13 @@ class HomeViewState extends State<HomeView> {
     // }
   }
 
-  void _showDialog(title, body) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text(
-            "$title",
-            style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-          ),
-          content: new Text(
-            "$body",
-            // maxLines: 20,
-            style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-          ),
-          scrollable: true,
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text(
-                "إغلاق",
-                style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  Widget _bottomNavBar({BuildContext context}) {
+    // return CupertinoNavigationBar(
+    //   heroTag: ,
+    // );
+    List<BottomNavigationBarItem> bottomList = [];
 
-  _showNotificationDialog({BuildContext ctx}) {
-    String title = widget.notificationValue["title"];
-    String body = widget.notificationValue["body"];
-    showDialog(
-      context: ctx,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text(
-            "$title",
-            style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-          ),
-          content: new Text(
-            "$body",
-            // maxLines: 20,
-            style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-          ),
-          scrollable: true,
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text(
-                "إغلاق",
-                style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buttomNavBar({BuildContext context}) {
-    List<BottomNavigationBarItem> buttomList = [];
-
-    buttomList.add(
+    bottomList.add(
       BottomNavigationBarItem(
           activeIcon: Icon(
             Icons.store,
@@ -216,93 +192,145 @@ class HomeViewState extends State<HomeView> {
           icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
           title: Text(
             UtilsImporter().stringUtils.store,
-            style: TextStyle(
-                color: Color.fromARGB(255, 53, 99, 124),
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                fontSize: 15),
+            style: naveBarStyle,
           )),
     );
-    buttomList.add(
+    bottomList.add(
+      BottomNavigationBarItem(
+        activeIcon: Icon(
+          Icons.shopping_cart,
+          // color: Theme.of(context).primaryColor,
+          color: Color.fromARGB(255, 210, 178, 2),
+        ),
+        icon:
+            Icon(Icons.shopping_cart, color: Color.fromARGB(255, 53, 99, 124)),
+        title: Text(
+          UtilsImporter().stringUtils.cart,
+          style: naveBarStyle,
+        ),
+      ),
+    );
+    bottomList.add(
       BottomNavigationBarItem(
           activeIcon: Icon(
-            Icons.shopping_cart,
-            // color: Theme.of(context).primaryColor,
+            Icons.reorder,
+            //color: Theme.of(context).primaryColor,
             color: Color.fromARGB(255, 210, 178, 2),
           ),
-          icon: Icon(Icons.shopping_cart,
-              color: Color.fromARGB(255, 53, 99, 124)),
+          icon: Icon(
+            Icons.reorder,
+            color: Color.fromARGB(255, 53, 99, 124),
+          ),
           title: Text(
-            UtilsImporter().stringUtils.cart,
-            style: TextStyle(
-                color: Color.fromARGB(255, 53, 99, 124),
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                fontSize: 15),
+            UtilsImporter().stringUtils.orders,
+            style: naveBarStyle,
           )),
     );
-    if (LoadingScreenServices.viewOrderPermission) {
-      buttomList.add(
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.reorder,
-              //color: Theme.of(context).primaryColor,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            icon: Icon(Icons.reorder, color: Color.fromARGB(255, 53, 99, 124)),
-            title: Text(
-              UtilsImporter().stringUtils.orders,
-              style: TextStyle(
-                  color: Color.fromARGB(255, 53, 99, 124),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  fontSize: 15),
-            )),
-      );
-    }
-    if (LoadingScreenServices.productsOperationPermission) {
-      buttomList.add(
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.category,
-              // color: Theme.of(context).primaryColor,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            icon: Icon(Icons.category, color: Color.fromARGB(255, 53, 99, 124)),
-            title: Text(
-              "جرد منتجات",
-              style: TextStyle(
-                  color: Color.fromARGB(255, 53, 99, 124),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  fontSize: 15),
-            )),
-      );
-    }
-    if (LoadingScreenServices.isSuperAdmin) {
-      buttomList.add(BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.money_off_csred_outlined,
-            // color: Theme.of(context).primaryColor,
-            color: Color.fromARGB(255, 210, 178, 2),
-          ),
-          icon: Icon(Icons.money_off_csred_outlined,
-              color: Color.fromARGB(255, 53, 99, 124)),
-          title: Text(
-            "الأسعار",
-            style: TextStyle(
-                color: Color.fromARGB(255, 53, 99, 124),
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                fontSize: 15),
-          )));
-    }
+    bottomList.add(
+      BottomNavigationBarItem(
+        activeIcon: Icon(
+          Icons.playlist_add_check_outlined,
+          // color: Theme.of(context).primaryColor,
+          color: Color.fromARGB(255, 210, 178, 2),
+        ),
+        icon: Icon(
+          Icons.playlist_add_check_outlined,
+          color: Color.fromARGB(255, 53, 99, 124),
+        ),
+        title: Text(
+          'طلباتي',
+          style: naveBarStyle,
+        ),
+      ),
+    );
+    // if (LoadingScreenServices.viewOrderPermission) {
+    //   bottomList.add(
+    //     BottomNavigationBarItem(
+    //         activeIcon: Icon(
+    //           Icons.reorder,
+    //           //color: Theme.of(context).primaryColor,
+    //           color: Color.fromARGB(255, 210, 178, 2),
+    //         ),
+    //         icon: Icon(
+    //           Icons.reorder,
+    //           color: Color.fromARGB(255, 53, 99, 124),
+    //         ),
+    //         title: Text(
+    //           UtilsImporter().stringUtils.orders,
+    //           style: naveBarStyle,
+    //         )),
+    //   );
+    //   bottomList.add(
+    //     BottomNavigationBarItem(
+    //       activeIcon: Icon(
+    //         Icons.playlist_add_check_outlined,
+    //         // color: Theme.of(context).primaryColor,
+    //         color: Color.fromARGB(255, 210, 178, 2),
+    //       ),
+    //       icon: Icon(
+    //         Icons.playlist_add_check_outlined,
+    //         color: Color.fromARGB(255, 53, 99, 124),
+    //       ),
+    //       title: Text(
+    //         'طلباتي',
+    //         style: naveBarStyle,
+    //       ),
+    //     ),
+    //   );
+    // }
+    // bottomList.add(
+    //   BottomNavigationBarItem(
+    //       activeIcon: Icon(
+    //         Icons.category,
+    //         // color: Theme.of(context).primaryColor,
+    //         color: Color.fromARGB(255, 210, 178, 2),
+    //       ),
+    //       icon: Icon(Icons.category, color: Color.fromARGB(255, 53, 99, 124)),
+    //       title: Text(
+    //         "جرد منتجات",
+    //         style: naveBarStyle,
+    //       )),
+    // );
+    // if (LoadingScreenServices.productsOperationPermission) {
+    //   bottomList.add(
+    //     BottomNavigationBarItem(
+    //         activeIcon: Icon(
+    //           Icons.category,
+    //           // color: Theme.of(context).primaryColor,
+    //           color: Color.fromARGB(255, 210, 178, 2),
+    //         ),
+    //         icon: Icon(Icons.category, color: Color.fromARGB(255, 53, 99, 124)),
+    //         title: Text(
+    //           "جرد منتجات",
+    //           style: naveBarStyle,
+    //         )),
+    //   );
+    // }
+    // if (LoadingScreenServices.isSuperAdmin) {
+    //   bottomList.add(
+    //     BottomNavigationBarItem(
+    //       activeIcon: Icon(
+    //         Icons.money_off_csred_outlined,
+    //         // color: Theme.of(context).primaryColor,
+    //         color: Color.fromARGB(255, 210, 178, 2),
+    //       ),
+    //       icon: Icon(
+    //         Icons.money_off_csred_outlined,
+    //         color: Color.fromARGB(255, 53, 99, 124),
+    //       ),
+    //       title: Text(
+    //         "الأسعار",
+    //         style: naveBarStyle,
+    //       ),
+    //     ),
+    //   );
+    // }
 
     return BottomNavigationBar(
       // backgroundColor: Color.fromARGB(255, 53, 99, 124),
       //backgroundColor: Color.fromARGB(255, 57, 107, 137),
       backgroundColor: Colors.white,
-      items: buttomList,
+      items: bottomList,
       currentIndex: _selectedIndex,
       type: BottomNavigationBarType.fixed,
       fixedColor: Colors.white,
@@ -317,21 +345,45 @@ class HomeViewState extends State<HomeView> {
     _tabs.add(CartView(
       isFromUpdateOrder: _isFromUpdateOrder,
     ));
+    _tabs.add(
+      new OrdersView(
+        orderType: UtilsImporter().stringUtils.myOrder,
+        role: UtilsImporter().stringUtils.shopperRole,
+      ),
+    );
+    // _tabs.add(
+    //   NotAssignedOrdersView(role: UtilsImporter().stringUtils.deliveryRole),
+    // );
+    _tabs.add(
+      AssignedOrdersView(role: UtilsImporter().stringUtils.deliveryRole),
+    );
+    //TODO: distinguishing the roles
+    // if (LoadingScreenServices.viewOrderPermission) {
+    //   _tabs.add(
+    //     new OrdersView(
+    //       orderType: UtilsImporter().stringUtils.notAssignedOrder,
+    //       role: UtilsImporter().stringUtils.shopperRole,
+    //     ),
+    //   );
+    //   _tabs.add(
+    //     new OrdersView(
+    //       orderType: UtilsImporter().stringUtils.myOrder,
+    //       role: UtilsImporter().stringUtils.shopperRole,
+    //     ),
+    //   );
+    // }
+    // _tabs.add(Inventory());
+    // if (LoadingScreenServices.productsOperationPermission) {
+    //   _tabs.add(Inventory());
+    // }
 
-    if (LoadingScreenServices.viewOrderPermission) {
-      _tabs.add(OrdersView());
-    }
-    if (LoadingScreenServices.productsOperationPermission) {
-      _tabs.add(Inventory());
-    }
-
-    if (LoadingScreenServices.isSuperAdmin) {
-      _tabs.add(Prices());
-    }
+    // if (LoadingScreenServices.isSuperAdmin) {
+    //   _tabs.add(Prices());
+    // }
 
     return Scaffold(
         body: _tabs[_selectedIndex],
-        bottomNavigationBar: _buttomNavBar(context: context));
+        bottomNavigationBar: _bottomNavBar(context: context));
   }
 
   void _onItemTapped(int index) {

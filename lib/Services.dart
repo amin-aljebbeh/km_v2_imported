@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -13,6 +14,7 @@ import 'core/api/api_provider.dart';
 import 'core/errors/error_types.dart';
 import 'models/addAddressResponse.dart';
 import 'models/start_model.dart';
+import 'utils/Styles.dart';
 
 class Services {
   static bool updateOption = false;
@@ -21,7 +23,7 @@ class Services {
   static String googlePlayUrl = "";
   static String appStoreUrl = "";
 
-  static int delivery_Price = 50;
+  static int deliveryPrice = 50;
 
   static Future<bool> addToFavorites(String productsId) async {
     // Tools.logToConsole("------------------ ADD TO FAVORITES  --------------------");
@@ -85,7 +87,7 @@ class Services {
           body: jsonEncode(addressData));
 
       if (response.statusCode == SUCCESS_CODE) {
-        final addNewAddress = addNewAddreFromJson(jsonEncode(response.data));
+        final addNewAddress = addNewAddressFromJson(jsonEncode(response.data));
         LoadingScreenServices.userAddress[0].id = addNewAddress.addressId.id;
 
         return true;
@@ -171,6 +173,8 @@ class Services {
       {int pageNumber = 1}) async {
     Tools.logToConsole(
         "------------------ Get My Orders  --------------------");
+
+    Tools.logToConsole("------------------ $pageNumber --------------------");
     try {
       var response = await ApiProvider.sendRequest(
         url: ORDER,
@@ -183,15 +187,6 @@ class Services {
         LoadingScreenServices.myOrdersList =
             ordersFromJson(jsonEncode(response.data)).data.data;
 
-        // LoadingScreenServices.myOrdersList.sort((a, b) {
-        //   if (a.id < b.id)
-        //     return 1;
-        //   else if (a.id > b.id)
-        //     return -1;
-        //   else
-        //     return 0;
-        // });
-
         return LoadingScreenServices.myOrdersList;
       } else {
         return LoadingScreenServices.myOrdersList;
@@ -203,55 +198,8 @@ class Services {
     }
   }
 
-  // static Future<List<OrdersOriginalData>> getMyOrders(
-  //     {int pageNumber = 1}) async {
-  //   Tools.logToConsole(
-  //       "------------------ Get My Orders  --------------------");
-  //   try {
-  //     var response = await ApiProvider.sendRequest(
-  //       url: GET_USER_ORDER,
-  //       method: httpMethods.get,
-  //       queryParameters: {"page": pageNumber},
-  //     );
-  //     Tools.logToConsole("------- orders data -------");
-
-  //     if (response.statusCode == SUCCESS_CODE) {
-  //       LoadingScreenServices.myOrdersList =
-  //           ordersFromJson(jsonEncode(response.data)).data.data;
-
-  //       // LoadingScreenServices.myOrdersList.sort((a, b) {
-  //       //   if (a.id < b.id)
-  //       //     return 1;
-  //       //   else if (a.id > b.id)
-  //       //     return -1;
-  //       //   else
-  //       //     return 0;
-  //       // });
-
-  //       return LoadingScreenServices.myOrdersList;
-  //     } else {
-  //       return LoadingScreenServices.myOrdersList;
-  //     }
-  //   } catch (e) {
-  //     Tools.logToConsole("------------ ERROR GET USER ORDER --------------");
-  //     Tools.logToConsole(e.toString());
-  //     return null;
-  //   }
-  // }
-
   static Future<bool> loginUser(
       {String phoneNumber, String signCode, String supportedCityId}) async {
-    //Tools.logToConsole("------------------ LOGIN USER   --------------------");
-
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // String firebaseToken = prefs.getString('firebase_token');
-    // Tools.logToConsole("--------------------");
-    // Tools.logToConsole(phoneNumber);
-    // Tools.logToConsole(supportedCityId);
-    // Tools.logToConsole(signCode.toString() == "null" ? "" : signCode);
-    // Tools.logToConsole(
-    //     firebaseToken.toString().length < 20 ? "" : firebaseToken);
-
     if (phoneNumber == "5000000001") {
       BaseUrl = APPLE_BASEURL;
     } else {
@@ -272,7 +220,7 @@ class Services {
           url: LOGIN_URL,
           method: httpMethods.post,
           body: jsonEncode(loginBody),
-          reponseType: ResponseType.json);
+          responseType: ResponseType.json);
       var theResponse = response.data;
 
       Tools.logToConsole("-------- Login Response -----------");
@@ -293,30 +241,6 @@ class Services {
     }
   }
 
-  // static Future<bool> verifyCode(String code) async {
-  //   //  Tools.logToConsole("------------------ Verify Code  --------------------");
-
-  //   final response = await http.post(
-  //     "$BaseUrl/api/verification_code/verify_account/$code",
-  //   );
-
-  //   var data = json.decode(response.body);
-  //   Tools.logToConsole("--------------------------------- API TOKEN ---------------------");
-  //   Tools.logToConsole(response.statusCode);
-  //   Tools.logToConsole(data["success"]);
-
-  //   if (response.statusCode == 200 && data["success"].toString() == "true") {
-  //     Tools.logToConsole(data["api_token"]);
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     prefs.setString("userToken", data["api_token"]);
-
-  //     return true;
-  //   } else {
-  //     Tools.logToConsole(response.body);
-  //     return false;
-  //   }
-  // }
-
   static Future<bool> verifyCode(String code) async {
     //Tools.logToConsole("------------------ LOGIN USER   --------------------");
 
@@ -330,7 +254,7 @@ class Services {
       Tools.logToConsole(data["success"].toString());
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("userToken", data["api_token"]);
-      LoadingScreen.user_token = "Bearer " + data["api_token"];
+      LoadingScreen.userToken = "Bearer " + data["api_token"];
       if (data["api_token"] == "APPLE_VERIFICATION") {
         BaseUrl = APPLE_BASEURL;
       } else {
@@ -343,23 +267,42 @@ class Services {
     }
   }
 
-  // static Future<void> userVisitProduct(String productId) async {
-  //   // Tools.logToConsole("------------- User  Visit Porudct $productId  ------------");
-  //   final response = await http.get("$BaseUrl/api/product/$productId");
-
-  //   Tools.logToConsole(response.body);
-  // }
-
-  // static Future<void> userVisitProduct(String productId) async {
-  //   //Tools.logToConsole("------------------ LOGIN USER   --------------------");
-
-  //   await ApiProvider.sendRequest(
-  //       url: GET_PRODUCT + productId, method: httpMethods.post);
-  // }
-
   static Future<void> logOutAdmin(BuildContext context) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
     KammunRestart.restartApp(context);
+  }
+
+  static List<DropdownMenuItem<int>> dropdownIntList(List<String> inputList) {
+    List<DropdownMenuItem<int>> list = List();
+    for (int i = 0; i < inputList.length; i++) {
+      list.add(
+        DropdownMenuItem<int>(
+          child: Text(
+            inputList[i],
+            style: dropdownItemStyle,
+          ),
+          value: i + 1,
+        ),
+      );
+    }
+    return list;
+  }
+
+  static List<DropdownMenuItem<int>> dropdownStringList(
+      List<String> inputList) {
+    List<DropdownMenuItem<int>> list = List();
+    for (int i = 0; i < inputList.length; i++) {
+      list.add(
+        DropdownMenuItem<int>(
+          child: Text(
+            inputList[i],
+            style: dropdownItemStyle,
+          ),
+          value: i,
+        ),
+      );
+    }
+    return list;
   }
 }

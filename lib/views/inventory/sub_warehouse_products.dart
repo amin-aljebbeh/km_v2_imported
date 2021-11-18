@@ -2,17 +2,19 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
+import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 
 class SubWarehouseProducts extends StatefulWidget {
   final String subWarehouseId;
+
   SubWarehouseProducts({this.subWarehouseId});
+
   @override
   _SubWarehouseProductsState createState() => _SubWarehouseProductsState();
 }
@@ -25,7 +27,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
   TextEditingController _controller = new TextEditingController();
   String filter;
   int filterProducts;
-  int isActiveFillter;
+  int isActiveFilter;
 
   Future<bool> _loadData() async {
     productsList.clear();
@@ -68,7 +70,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
     _loadData();
 
     filterProducts = 0;
-    isActiveFillter = 0;
+    isActiveFilter = 0;
 
     _controller.addListener(() {
       setState(() {
@@ -77,12 +79,12 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
     });
   }
 
-  int fillterIndex =
+  int filterIndex =
       0; // 1 soft by not active // 2 sort as newer // 0 active first;
 
   _filterProducts() {
-    Tools.logToConsole("FilterIndex : $fillterIndex");
-    if (fillterIndex == 0) {
+    Tools.logToConsole("FilterIndex : $filterIndex");
+    if (filterIndex == 0) {
       // sort not active first
       setState(() {
         productsList.sort((a, b) {
@@ -91,17 +93,14 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
           else
             return 1;
         });
-        fillterIndex = 1;
+        filterIndex = 1;
       });
       Flushbar(
         backgroundColor: Colors.green,
         // titleText: Text("تمت الإضافة بنجاح"),
         messageText: Text(
           "فرز حسب المواد الغير مفعلة",
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          style: flushBarStyle,
         ),
 
         boxShadows: [
@@ -114,7 +113,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
         duration: Duration(seconds: 3),
         leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
       )..show(context);
-    } else if (fillterIndex == 1) {
+    } else if (filterIndex == 1) {
       // Active first
       setState(() {
         productsList.sort((a, b) {
@@ -123,17 +122,14 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
           else
             return -1;
         });
-        fillterIndex = 2;
+        filterIndex = 2;
       });
       Flushbar(
         backgroundColor: Colors.green,
         // titleText: Text("تمت الإضافة بنجاح"),
         messageText: Text(
           "فرز حسب المواد  المفعلة",
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          style: flushBarStyle,
         ),
 
         boxShadows: [
@@ -146,7 +142,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
         duration: Duration(seconds: 3),
         leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
       )..show(context);
-    } else if (fillterIndex == 2) {
+    } else if (filterIndex == 2) {
       // Oldest First
       setState(() {
         productsList.sort((a, b) {
@@ -157,7 +153,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
           else
             return 0;
         });
-        fillterIndex = 0;
+        filterIndex = 0;
       });
 
       Flushbar(
@@ -165,10 +161,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
         // titleText: Text("تمت الإضافة بنجاح"),
         messageText: Text(
           "فرز حسب المواد المضافة حديثاً",
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          style: flushBarStyle,
         ),
 
         boxShadows: [
@@ -248,134 +241,137 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
           )
         ],
       ),
-      body: Column(children: <Widget>[
-        isLoading
-            ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: Loader(),
-                ),
-              )
-            : isError
-                ? Center(
-                    child: Expanded(
-                      child: Column(
-                        children: [
-                          AlertMessages(
-                            text: "حدث خطأ أثناء محاولة جلب البيانات",
-                            messageType: "internetError",
-                            headerText: "حدث خطأ",
-                          ),
-                          RaisedButton(
-                              child: Text("المحاولة من جديد",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: UtilsImporter()
-                                          .stringUtils
-                                          .HKGrotesk)),
-                              onPressed: () {
-                                _loadData();
-                              }),
-                        ],
+      body: Column(
+        children: <Widget>[
+          isLoading
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Loader(),
+                  ),
+                )
+              : isError
+                  ? Center(
+                      child: Expanded(
+                        child: Column(
+                          children: [
+                            AlertMessages(
+                              text: "حدث خطأ أثناء محاولة جلب البيانات",
+                              messageType: "internetError",
+                              headerText: "حدث خطأ",
+                            ),
+                            RaisedButton(
+                                child: Text("المحاولة من جديد",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk)),
+                                onPressed: () {
+                                  _loadData();
+                                }),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(
+                            parent: BouncingScrollPhysics()),
+                        primary: false,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount:
+                            productsList == null ? 0 : productsList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          var eachProduct = productsList[index];
+                          return filter == null || filter == ""
+                              ? GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () => () {},
+                                  child: ProductsViewCard(
+                                    onDelete: (result) {
+                                      if (result) {
+                                        setState(() {
+                                          productsList.removeAt(index);
+                                        });
+                                      }
+                                    },
+                                    productData: eachProduct,
+                                    onChangeStatus: (result) {
+                                      if (result) {
+                                        setState(() {
+                                          if (productsList[index].isActive ==
+                                              "1") {
+                                            productsList[index].isActive = "0";
+                                          } else {
+                                            productsList[index].isActive = "1";
+                                          }
+                                        });
+                                      }
+                                    },
+                                    supplierCode: eachProduct.supplierCode,
+                                    productId: eachProduct.id.toString(),
+                                    active: int.parse(eachProduct.isActive),
+                                    img: eachProduct.images.length > 0
+                                        ? LoadingScreenServices.imagePrefixUrl +
+                                            eachProduct.images[0].imageFileName
+                                        : "",
+                                    product_name: eachProduct.name,
+                                    quantity:
+                                        eachProduct.unit.toString() != "null"
+                                            ? eachProduct.quantity.toString() +
+                                                " " +
+                                                eachProduct.unit.toString()
+                                            : eachProduct.quantity.toString(),
+                                    price: int.parse(
+                                        eachProduct.price.split(".")[0]),
+                                    index: index,
+                                  ),
+                                )
+                              : eachProduct.name
+                                      .toLowerCase()
+                                      .contains(filter.toLowerCase())
+                                  ? GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () => () {},
+                                      child: ProductsViewCard(
+                                        onDelete: (result) {
+                                          if (result) {
+                                            setState(() {
+                                              productsList.removeAt(index);
+                                            });
+                                          }
+                                        },
+                                        productData: eachProduct,
+                                        supplierCode: eachProduct.supplierCode,
+                                        productId: eachProduct.id.toString(),
+                                        active: int.parse(eachProduct.isActive),
+                                        img: eachProduct.images.length > 0
+                                            ? LoadingScreenServices
+                                                    .imagePrefixUrl +
+                                                eachProduct
+                                                    .images[0].imageFileName
+                                            : "",
+                                        product_name: eachProduct.name,
+                                        quantity: eachProduct.unit.toString() !=
+                                                "null"
+                                            ? eachProduct.quantity.toString() +
+                                                " " +
+                                                eachProduct.unit.toString()
+                                            : eachProduct.quantity.toString(),
+                                        price: int.parse(
+                                            eachProduct.price.split(".")[0]),
+                                        index: index,
+                                      ),
+                                    )
+                                  : Container();
+                        },
                       ),
                     ),
-                  )
-                : Expanded(
-                    child: ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(
-                          parent: BouncingScrollPhysics()),
-                      primary: false,
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: productsList == null ? 0 : productsList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var eachProduct = productsList[index];
-                        return filter == null || filter == ""
-                            ? GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => () {},
-                                child: ProductsViewCard(
-                                  onDelete: (result) {
-                                    if (result) {
-                                      setState(() {
-                                        productsList.removeAt(index);
-                                      });
-                                    }
-                                  },
-                                  productData: eachProduct,
-                                  onChangeStatus: (result) {
-                                    if (result) {
-                                      setState(() {
-                                        if (productsList[index].isActive ==
-                                            "1") {
-                                          productsList[index].isActive = "0";
-                                        } else {
-                                          productsList[index].isActive = "1";
-                                        }
-                                      });
-                                    }
-                                  },
-                                  supplierCode: eachProduct.supplierCode,
-                                  productId: eachProduct.id.toString(),
-                                  active: int.parse(eachProduct.isActive),
-                                  img: eachProduct.images.length > 0
-                                      ? LoadingScreenServices.imagePrefixUrl +
-                                          eachProduct.images[0].imageFileName
-                                      : "",
-                                  product_name: eachProduct.name,
-                                  quantity:
-                                      eachProduct.unit.toString() != "null"
-                                          ? eachProduct.quantity.toString() +
-                                              " " +
-                                              eachProduct.unit.toString()
-                                          : eachProduct.quantity.toString(),
-                                  price: int.parse(
-                                      eachProduct.price.split(".")[0]),
-                                  index: index,
-                                ),
-                              )
-                            : eachProduct.name
-                                    .toLowerCase()
-                                    .contains(filter.toLowerCase())
-                                ? GestureDetector(
-                                    behavior: HitTestBehavior.translucent,
-                                    onTap: () => () {},
-                                    child: ProductsViewCard(
-                                      onDelete: (result) {
-                                        if (result) {
-                                          setState(() {
-                                            productsList.removeAt(index);
-                                          });
-                                        }
-                                      },
-                                      productData: eachProduct,
-                                      supplierCode: eachProduct.supplierCode,
-                                      productId: eachProduct.id.toString(),
-                                      active: int.parse(eachProduct.isActive),
-                                      img: eachProduct.images.length > 0
-                                          ? LoadingScreenServices
-                                                  .imagePrefixUrl +
-                                              eachProduct
-                                                  .images[0].imageFileName
-                                          : "",
-                                      product_name: eachProduct.name,
-                                      quantity: eachProduct.unit.toString() !=
-                                              "null"
-                                          ? eachProduct.quantity.toString() +
-                                              " " +
-                                              eachProduct.unit.toString()
-                                          : eachProduct.quantity.toString(),
-                                      price: int.parse(
-                                          eachProduct.price.split(".")[0]),
-                                      index: index,
-                                    ),
-                                  )
-                                : Container();
-                      },
-                    ),
-                  ),
-      ]),
+        ],
+      ),
     );
   }
 }

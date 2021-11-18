@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart'; 
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class AlertMessages extends StatelessWidget {
@@ -9,7 +8,7 @@ class AlertMessages extends StatelessWidget {
   String headerText = " ";
   Color textColor = Colors.black;
   Color outsideBorderColor = Color.fromRGBO(61, 49, 19, 1);
-  Color insideBordercolor = Color.fromARGB(
+  Color insideBorderColor = Color.fromARGB(
     255,
     246,
     233,
@@ -29,7 +28,7 @@ class AlertMessages extends StatelessWidget {
   void selectListItem(BuildContext ctx) {
     if (messageType == "invalidNumber") {
       this.outsideBorderColor = Color.fromRGBO(220, 53, 69, 1);
-      this.insideBordercolor = Colors.white;
+      this.insideBorderColor = Colors.white;
       this.textColor = Colors.black;
       this.textWeight = FontWeight.w600;
       this.headerText = headerText + "\n";
@@ -39,7 +38,7 @@ class AlertMessages extends StatelessWidget {
     }
     if (messageType == "internetError") {
       this.outsideBorderColor = Colors.red[800];
-      this.insideBordercolor = Colors.red[100];
+      this.insideBorderColor = Colors.red[100];
       this.textColor = Colors.grey[800];
       this.textWeight = FontWeight.w700;
       this.headerText = headerText + "\n";
@@ -50,7 +49,7 @@ class AlertMessages extends StatelessWidget {
 
     if (messageType == "green") {
       this.outsideBorderColor = Color.fromRGBO(191, 228, 193, 1);
-      this.insideBordercolor = Color.fromRGBO(225, 247, 228, 1);
+      this.insideBorderColor = Color.fromRGBO(225, 247, 228, 1);
       this.textColor = Colors.black;
       this.textWeight = FontWeight.w700;
       this.headerText = headerText + "\n";
@@ -58,7 +57,7 @@ class AlertMessages extends StatelessWidget {
 
     if (messageType.contains("Successfully")) {
       this.outsideBorderColor = Color.fromRGBO(191, 228, 193, 1);
-      this.insideBordercolor = Color.fromRGBO(225, 247, 228, 1);
+      this.insideBorderColor = Color.fromRGBO(225, 247, 228, 1);
       this.textWeight = FontWeight.w600;
       this.headerText = headerText + "\n";
       this.headerTextColor = Colors.green[800];
@@ -66,7 +65,7 @@ class AlertMessages extends StatelessWidget {
 
     if (messageType.contains("Feedback")) {
       this.outsideBorderColor = Color.fromRGBO(191, 228, 193, 1);
-      this.insideBordercolor = Color.fromRGBO(225, 247, 228, 1);
+      this.insideBorderColor = Color.fromRGBO(225, 247, 228, 1);
       this.textColor = Colors.green[900];
       this.textWeight = FontWeight.w700;
       if (headerText.isNotEmpty) {
@@ -90,7 +89,7 @@ class AlertMessages extends StatelessWidget {
       child: AlertTextView(
         text,
         textColor,
-        insideBordercolor,
+        insideBorderColor,
         textWeight,
         headerText,
         headerTextColor,
@@ -116,19 +115,19 @@ class AlertTextView extends StatelessWidget {
   final Color textColor;
   final double textSize = 15;
   final FontWeight textWeight;
-  final Color insideBordercolor;
-  final String sucsessText;
-  final Color headerTextColler;
+  final Color insideBorderColor;
+  final String successText;
+  final Color headerTextColor;
   final double headerTextSize;
   final double messageTextSize;
 
   AlertTextView(
       this.text,
       this.textColor,
-      this.insideBordercolor,
+      this.insideBorderColor,
       this.textWeight,
-      this.sucsessText,
-      this.headerTextColler,
+      this.successText,
+      this.headerTextColor,
       this.headerTextSize,
       this.messageTextSize);
 
@@ -138,7 +137,7 @@ class AlertTextView extends StatelessWidget {
       children: <Widget>[
         Container(
             decoration: BoxDecoration(
-              border: Border.all(color: insideBordercolor, width: 4),
+              border: Border.all(color: insideBorderColor, width: 4),
             ),
             padding: const EdgeInsets.all(8),
             alignment: Alignment.topRight,
@@ -146,9 +145,9 @@ class AlertTextView extends StatelessWidget {
               text: TextSpan(
                 children: <TextSpan>[
                   TextSpan(
-                    text: sucsessText,
+                    text: successText,
                     style: TextStyle(
-                        color: headerTextColler,
+                        color: headerTextColor,
                         fontSize: headerTextSize != null ? headerTextSize : 15,
                         fontWeight: FontWeight.w700,
                         height: 1.5,

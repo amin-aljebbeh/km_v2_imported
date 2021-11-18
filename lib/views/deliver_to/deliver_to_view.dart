@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
@@ -17,7 +18,6 @@ class DeliverToView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return DeliverToViewState();
   }
 }
@@ -25,6 +25,7 @@ class DeliverToView extends StatefulWidget {
 class DeliverToViewState extends State<DeliverToView> {
   bool isLoading = false;
   bool isError = false;
+
   void onrRemove(item) async {
     setState(() {
       isLoading = true;
@@ -55,10 +56,10 @@ class DeliverToViewState extends State<DeliverToView> {
   void changeSelectedAddress(item) {
     setState(() {
       DeliverToView.selectedIndex = item;
-      OrderServices.delivery_supported_City_id = LoadingScreenServices
+      OrderServices.deliverySupportedCityId = LoadingScreenServices
           .userAddress[DeliverToView.selectedIndex].supportedCityId
           .toString();
-      Services.delivery_Price = LoadingScreenServices
+      Services.deliveryPrice = LoadingScreenServices
                   .userAddress[DeliverToView.selectedIndex].deliveryPrice ==
               null
           ? 500
@@ -67,175 +68,171 @@ class DeliverToViewState extends State<DeliverToView> {
     });
   }
 
-  Column cardBody(int index, BuildContext context) {
-    return Column(children: <Widget>[
-      InkWell(
-        onTap: () {
-          changeSelectedAddress(index);
-        },
-        child: Padding(
-          padding: EdgeInsets.only(left: 20, top: 10),
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(5.0) //         <--- border radius here
+  Widget cardBody(int index, BuildContext context) {
+    return InkWell(
+      onTap: () {
+        changeSelectedAddress(index);
+      },
+      child: Padding(
+        padding: EdgeInsets.only(left: 20, top: 10),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+                Radius.circular(5.0) //         <--- border radius here
+                ),
+            border: Border.all(
+              width: 2,
+              color: UtilsImporter().colorUtils.kmColors,
+            ),
+          ),
+          child: Card(
+            elevation: 1.0,
+            color: Theme.of(context).primaryColorLight,
+            child: Column(
+              children: [
+                Row(
+                  children: <Widget>[
+                    SizedBox(width: 10),
+                    InkWell(
+                      onTap: () {
+                        changeSelectedAddress(index);
+                      },
+                      child: Icon(
+                          DeliverToView.selectedIndex == index
+                              ? Icons.radio_button_checked
+                              : Icons.radio_button_unchecked,
+                          color: DeliverToView.selectedIndex == index
+                              ? UtilsImporter().colorUtils.primarycolor
+                              : UtilsImporter().colorUtils.greycolor),
                     ),
-                border: Border.all(
-                  width: 2,
-                  color: UtilsImporter().colorUtils.kmColors,
-                )),
-            child: Card(
-              elevation: 1.0,
-              color: Theme.of(context).primaryColorLight,
-              child: Column(
-                children: [
-                  Row(
-                    children: <Widget>[
-                      SizedBox(width: 10),
-                      InkWell(
-                        onTap: () {
-                          changeSelectedAddress(index);
-                        },
-                        child: Icon(
-                            DeliverToView.selectedIndex == index
-                                ? Icons.radio_button_checked
-                                : Icons.radio_button_unchecked,
-                            color: DeliverToView.selectedIndex == index
-                                ? UtilsImporter().colorUtils.primarycolor
-                                : UtilsImporter().colorUtils.greycolor),
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Container(
-                          child: Wrap(
-                            direction: Axis.horizontal,
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      LoadingScreenServices
-                                          .userAddress[index].supportedCityName,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
-                                          fontSize: 20),
-                                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Container(
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    LoadingScreenServices
+                                        .userAddress[index].supportedCityName,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                        fontSize: 20),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      LoadingScreenServices
-                                          .userAddress[index].street,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greycolor,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
-                                          fontSize: 20),
-                                    ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    LoadingScreenServices
+                                        .userAddress[index].street,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        color: UtilsImporter()
+                                            .colorUtils
+                                            .greycolor,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                        fontSize: 20),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      LoadingScreenServices
-                                          .userAddress[index].building,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greycolor,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
-                                          fontSize: 20),
-                                    ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    LoadingScreenServices
+                                        .userAddress[index].building,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        color: UtilsImporter()
+                                            .colorUtils
+                                            .greycolor,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                        fontSize: 20),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      LoadingScreenServices
-                                          .userAddress[index].description,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greycolor,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
-                                          fontSize: 20),
-                                    ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    LoadingScreenServices
+                                        .userAddress[index].description,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        color: UtilsImporter()
+                                            .colorUtils
+                                            .greycolor,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                        fontSize: 20),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Divider(
-                      color: UtilsImporter().colorUtils.kmColors,
-                      thickness: 3,
                     ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Divider(
+                    color: UtilsImporter().colorUtils.kmColors,
+                    thickness: 3,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      _showDeleteButton(index: index),
-                      // RaisedButton(
-                      //     child: Text(UtilsImporter().stringUtils.delete,
-                      //         style: TextStyle(
-                      //             fontWeight: FontWeight.w400,
-                      //             color: UtilsImporter().colorUtils.greycolor,
-                      //             fontFamily:
-                      //                 UtilsImporter().stringUtils.HKGrotesk,
-                      //             fontSize: 15)),
-                      //     onPressed: () {
-                      //       onrRemove(index);
-                      //     }),
-
-                      _showEidte(index: index),
-                      // RaisedButton(
-                      //   child: Text(UtilsImporter().stringUtils.edit_address,
-                      //       style: TextStyle(
-                      //           fontWeight: FontWeight.w400,
-                      //           color: UtilsImporter().colorUtils.greycolor,
-                      //           fontFamily:
-                      //               UtilsImporter().stringUtils.HKGrotesk,
-                      //           fontSize: 15)),
-                      //   onPressed: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         new MaterialPageRoute(
-                      //             builder: (context) => new AddAddressView()));
-                      //   },
-                      // )
-                    ],
-                  ),
-                ],
-              ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //    crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    DecisionButton(
+                      text: UtilsImporter().stringUtils.delete.toUpperCase(),
+                      height: 35,
+                      width: 125,
+                      color: UtilsImporter().colorUtils.primarycolor,
+                      onTap: () => onrRemove(index),
+                    ),
+                    DecisionButton(
+                      text: UtilsImporter()
+                          .stringUtils
+                          .edit_address
+                          .toUpperCase(),
+                      height: 35,
+                      width: 125,
+                      color: UtilsImporter().colorUtils.primarycolor,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new AddAddressView(
+                              isFromDeliveryScreen: true,
+                              addressIndex: index,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
       ),
-    ]);
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
@@ -336,7 +333,17 @@ class DeliverToViewState extends State<DeliverToView> {
                         ],
                       ),
                     ),
-                    _showProceedToPayButton()
+                    DecisionButton(
+                      text: UtilsImporter()
+                          .stringUtils
+                          .proceed_to_pay
+                          .toUpperCase(),
+                      height: 50,
+                      color: DeliverToView.selectedIndex != null
+                          ? UtilsImporter().colorUtils.primarycolor
+                          : Colors.grey[400],
+                      onTap: _showProceedToPayBtnTapped,
+                    ),
                   ],
                 ),
               ),
@@ -351,36 +358,6 @@ class DeliverToViewState extends State<DeliverToView> {
     setState(() {
       DeliverToView.selectedIndex = index + 1;
     });
-  }
-
-  Widget _showProceedToPayButton() {
-    final GestureDetector showProceedToPayButtonWithGesture =
-        new GestureDetector(
-      onTap: _showProceedToPayBtnTapped,
-      child: new Container(
-        margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: DeliverToView.selectedIndex != null
-                ? UtilsImporter().colorUtils.primarycolor
-                : Colors.grey[400],
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            UtilsImporter().stringUtils.proceed_to_pay.toUpperCase(),
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showProceedToPayButtonWithGesture);
   }
 
   void _showProceedToPayBtnTapped() {
@@ -399,69 +376,5 @@ class DeliverToViewState extends State<DeliverToView> {
       Toast.show("يرجى إختيار أو إضافة عنوان للتوصيل", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     }
-  }
-
-  Widget _showDeleteButton({int index}) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () {
-        onrRemove(index);
-      },
-      child: new Container(
-        height: 35.0,
-        width: 125,
-        decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            UtilsImporter().stringUtils.delete.toUpperCase(),
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5),
-        child: showConfirmButtonWithGesture);
-  }
-
-  Widget _showEidte({int index}) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => new AddAddressView(
-                      isFromDeliveryScreen: true,
-                      addressIndex: index,
-                    )));
-      },
-      child: new Container(
-        height: 35.0,
-        width: 125,
-        decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            UtilsImporter().stringUtils.edit_address.toUpperCase(),
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5),
-        child: showConfirmButtonWithGesture);
   }
 }

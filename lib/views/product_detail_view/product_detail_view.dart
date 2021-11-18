@@ -6,18 +6,18 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
+import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/updatePriceWidget.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
-import 'package:kammun_app/views/prices_changes/services/prices_chamges_services.dart';
+import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
@@ -27,9 +27,9 @@ import 'package:full_screen_image/full_screen_image.dart';
 
 class ProductDetailView extends StatefulWidget {
   ProductData products;
-  bool isFromFavoraiteScreen;
+  bool isFromFavoriteScreen;
 
-  ProductDetailView({this.products, @required this.isFromFavoraiteScreen});
+  ProductDetailView({this.products, @required this.isFromFavoriteScreen});
 
   @override
   State<StatefulWidget> createState() {
@@ -46,9 +46,9 @@ class ProductDetailViewState extends State<ProductDetailView>
   final _controller = ScrollController(initialScrollOffset: 0.0);
   final _height = 100.0;
 
-  int no_of_orders = 1;
+  int numberOfOrders = 1;
   int price = 0;
-  bool productOnFavoraites = false;
+  bool productOnFavorites = false;
 
   @override
   void initState() {
@@ -93,6 +93,7 @@ class ProductDetailViewState extends State<ProductDetailView>
   // curve: Curves.linear, duration: Duration(milliseconds: 500));
 
   File _image;
+
   // File _uploadedFile;
 
   final picker = ImagePicker();
@@ -123,7 +124,7 @@ class ProductDetailViewState extends State<ProductDetailView>
     });
   }
 
-  Future getImageGalery() async {
+  Future getImageGallery() async {
     final pickedFile = await picker.getImage(
         source: ImageSource.gallery,
         imageQuality: 100,
@@ -165,7 +166,7 @@ class ProductDetailViewState extends State<ProductDetailView>
             color: UtilsImporter().colorUtils.kmColors,
           ),
           onPressed: () {
-            getImageGalery();
+            getImageGallery();
           },
         ),
       ],
@@ -238,9 +239,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                       ? AutoSizeText(
                           widget.products.name,
                           maxLines: 1,
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk),
+                          style: mainStyle,
                         )
                       : Container(),
                 ),
@@ -444,8 +443,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                             child: InkWell(
                               onTap: () {
                                 setState(() {
-                                  if (no_of_orders > 1) {
-                                    no_of_orders = no_of_orders - 1;
+                                  if (numberOfOrders > 1) {
+                                    numberOfOrders = numberOfOrders - 1;
                                   }
                                 });
                               },
@@ -458,7 +457,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(no_of_orders.toString(),
+                            child: Text(numberOfOrders.toString(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
                                     color: Colors.grey[700],
@@ -472,7 +471,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                             child: InkWell(
                               onTap: () {
                                 setState(() {
-                                  no_of_orders = no_of_orders + 1;
+                                  numberOfOrders = numberOfOrders + 1;
                                 });
                               },
                               child: Image.asset(
@@ -509,7 +508,69 @@ class ProductDetailViewState extends State<ProductDetailView>
                               )),
                             )
                           : Container(),
-                      _showAddToOrderButton(context),
+                      DecisionButton(
+                        text:
+                            'الإضافة لسلة المشتريات  ( ${UtilsImporter().stringUtils.oCcy.format(numberOfOrders * int.parse(widget.products.price.toString().split(".")[0]))})',
+                        height: 50,
+                        color: Theme.of(context).primaryColor,
+                        onTap: () async {
+                          String productsId = "";
+                          String productsQuantity = "";
+                          if (LoadingScreen.userToken.length > 5) {
+                            Navigator.of(context).pop(true);
+
+                            Tools.logToConsole(
+                                "========= product price ========");
+
+                            Tools.logToConsole(widget.products.price);
+                            widget.products.productCount = numberOfOrders;
+
+                            CartServices.addProductToCart(widget.products);
+                            Flushbar(
+                              backgroundColor: Colors.green,
+                              messageText: Text(
+                                "تم إضافة ${widget.products.name} لسلة المشتريات",
+                                style: flushBarStyle,
+                              ),
+                              boxShadows: [
+                                BoxShadow(
+                                  color:
+                                      UtilsImporter().colorUtils.primarycolor,
+                                  offset: Offset(0.0, 2.0),
+                                  blurRadius: 3.0,
+                                )
+                              ],
+                              icon: Icon(
+                                Icons.assignment_turned_in,
+                                size: 28.0,
+                                color: Colors.white,
+                              ),
+                              duration: Duration(seconds: 3),
+                              leftBarIndicatorColor:
+                                  UtilsImporter().colorUtils.kmColors,
+                            )..show(context);
+
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            for (int i = 0;
+                                i < CartServices.cartProducts.length;
+                                i++) {
+                              productsId +=
+                                  CartServices.cartProducts[i].id.toString() +
+                                      ";";
+                              productsQuantity += CartServices
+                                      .cartProducts[i].productCount
+                                      .toString() +
+                                  ";";
+                            }
+                            prefs.setString("userCart",
+                                productsId + "@" + productsQuantity);
+                          } else {
+                            Navigator.of(context)
+                                .pushNamed(LoginScreen.routeName);
+                          }
+                        },
+                      ),
                       (widget.products.supplierCode != null &&
                                   LoadingScreenServices.subSupplierCodeHint
                                       .hasMatch(
@@ -767,93 +828,10 @@ class ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  Widget _showAddToOrderButton(BuildContext ctx) {
-    final GestureDetector addAddToOrderButtonWithGesture = new GestureDetector(
-      onTap: () async {
-        String products_Id = "";
-        String products_quantity = "";
-        if (LoadingScreen.user_token.length > 5) {
-          Navigator.of(context).pop(true);
-
-          Tools.logToConsole("========= product price ========");
-
-          Tools.logToConsole(widget.products.price);
-          widget.products.productCount = no_of_orders;
-
-          CartServices.addProductToCart(widget.products);
-
-          // Toast.show("تم إضافة ${productToAdd.name} لسلة المشتريات", context,
-          //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-
-          Flushbar(
-            backgroundColor: Colors.green,
-            // titleText: Text("تمت الإضافة بنجاح"),
-            messageText: Text(
-              "تم إضافة ${widget.products.name} لسلة المشتريات",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-
-            boxShadows: [
-              BoxShadow(
-                color: UtilsImporter().colorUtils.primarycolor,
-                offset: Offset(0.0, 2.0),
-                blurRadius: 3.0,
-              )
-            ],
-            icon: Icon(
-              Icons.assignment_turned_in,
-              size: 28.0,
-              color: Colors.white,
-            ),
-            duration: Duration(seconds: 3),
-            leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-          )..show(context);
-
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          for (int i = 0; i < CartServices.cartProducts.length; i++) {
-            products_Id += CartServices.cartProducts[i].id.toString() + ";";
-            products_quantity +=
-                CartServices.cartProducts[i].productCount.toString() + ";";
-          }
-          // products_Id += widget.products.id.toString();
-          // products_quantity += widget.products.quantity.toString();
-          prefs.setString("userCart", products_Id + "@" + products_quantity);
-
-          // CartServices.save("cart", Services.cartProducts);
-        } else {
-          Navigator.of(context).pushNamed(LoginScreen.routeName);
-        }
-      },
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            'الإضافة لسلة المشتريات  ( ${UtilsImporter().stringUtils.oCcy.format(no_of_orders * int.parse(widget.products.price.toString().split(".")[0]))})',
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 17.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
-        child: addAddToOrderButtonWithGesture);
-  }
-
   Widget _showAddToFavorait(BuildContext ctx) {
     final GestureDetector addAddToOrderButtonWithGesture = new GestureDetector(
       onTap: () {
-        _addToFavoraitBtnTapped(ctx);
+        _addToFavoriteBtnTapped(ctx);
         if (LoadingScreenServices.userFavoriteProducts
             .any((productId) => productId.id == widget.products.id)) {
           Flushbar(
@@ -938,20 +916,20 @@ class ProductDetailViewState extends State<ProductDetailView>
         child: addAddToOrderButtonWithGesture);
   }
 
-  void _addToFavoraitBtnTapped(context) {
+  void _addToFavoriteBtnTapped(context) {
     // Scaffold.of(context).showSnackBar(SnackBar(
     //   content: Text("Item Addes"),
     // ));
-    if (LoadingScreen.user_token.length > 5) {
+    if (LoadingScreen.userToken.length > 5) {
       LoadingScreenServices.userFavoriteProducts
                   .where(
                     (productId) => productId.id == widget.products.id,
                   )
                   .length ==
               0
-          ? _addFavoraite(context, widget.products)
+          ? _addFavorite(context, widget.products)
           : _removeFavoraite();
-      if (widget.isFromFavoraiteScreen) {
+      if (widget.isFromFavoriteScreen) {
         Navigator.of(context).pushNamedAndRemoveUntil(
             '/favoraites', (Route<dynamic> route) => false);
       } else {
@@ -962,7 +940,7 @@ class ProductDetailViewState extends State<ProductDetailView>
     }
   }
 
-  void _addFavoraite(BuildContext ctx, ProductData product) {
+  void _addFavorite(BuildContext ctx, ProductData product) {
     Services.addToFavorites(widget.products.id.toString());
     LoadingScreenServices.userFavoriteProducts.add(product);
 
@@ -1006,10 +984,7 @@ _saveCategoryButton({BuildContext context, int productId, String categoryId}) {
                 // titleText: Text("تمت الإضافة بنجاح"),
                 messageText: Text(
                   "تم التعديل بنجاح",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                  style: flushBarStyle,
                 ),
 
                 boxShadows: [
@@ -1033,10 +1008,7 @@ _saveCategoryButton({BuildContext context, int productId, String categoryId}) {
                 // titleText: Text("تمت الإضافة بنجاح"),
                 messageText: Text(
                   "فشل بعملية التعديل",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                  style: flushBarStyle,
                 ),
 
                 boxShadows: [
@@ -1076,72 +1048,67 @@ _deleteImageButton({int imageId, BuildContext context}) {
         ),
       ),
       IconButton(
-          icon: Icon(
-            Icons.delete,
-            color: Colors.red,
-            size: 30,
-          ),
+        icon: Icon(
+          Icons.delete,
+          color: Colors.red,
+          size: 30,
+        ),
 
-          // widget.products.supplierCode != null &&
-          //                 LoadingScreenServices.subSupplierCodeHint
-          //                     .hasMatch(widget.products.supplierCode)
-          onPressed: () async {
-            bool resposne =
-                await PricesChangesSerives.deleteImage(imageId: imageId);
-            if (resposne) {
-              Flushbar(
-                backgroundColor: Colors.green,
-                // titleText: Text("تمت الإضافة بنجاح"),
-                messageText: Text(
-                  "تم حذف الصورة بنجاح",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                ),
+        // widget.products.supplierCode != null &&
+        //                 LoadingScreenServices.subSupplierCodeHint
+        //                     .hasMatch(widget.products.supplierCode)
+        onPressed: () async {
+          bool response =
+              await PricesChangesSerives.deleteImage(imageId: imageId);
+          if (response) {
+            Flushbar(
+              backgroundColor: Colors.green,
+              // titleText: Text("تمت الإضافة بنجاح"),
+              messageText: Text(
+                "تم حذف الصورة بنجاح",
+                style: flushBarStyle,
+              ),
 
-                boxShadows: [
-                  BoxShadow(
-                    color: UtilsImporter().colorUtils.primarycolor,
-                    offset: Offset(0.0, 2.0),
-                    blurRadius: 3.0,
-                  )
-                ],
-                icon: Icon(
-                  Icons.assignment_turned_in,
-                  size: 28.0,
-                  color: Colors.white,
-                ),
-                duration: Duration(seconds: 2),
-                leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-              )..show(context);
-            } else {
-              Flushbar(
-                backgroundColor: Colors.red[900],
-                messageText: Text(
-                  "فشل بعملية حذف الصورة",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                ),
-                boxShadows: [
-                  BoxShadow(
-                    color: Colors.red,
-                    offset: Offset(0.0, 2.0),
-                    blurRadius: 3.0,
-                  )
-                ],
-                icon: Icon(
-                  Icons.error,
-                  size: 28.0,
-                  color: Colors.white,
-                ),
-                duration: Duration(seconds: 3),
-                // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-              )..show(context);
-            }
-          }),
+              boxShadows: [
+                BoxShadow(
+                  color: UtilsImporter().colorUtils.primarycolor,
+                  offset: Offset(0.0, 2.0),
+                  blurRadius: 3.0,
+                )
+              ],
+              icon: Icon(
+                Icons.assignment_turned_in,
+                size: 28.0,
+                color: Colors.white,
+              ),
+              duration: Duration(seconds: 2),
+              leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+            )..show(context);
+          } else {
+            Flushbar(
+              backgroundColor: Colors.red[900],
+              messageText: Text(
+                "فشل بعملية حذف الصورة",
+                style: flushBarStyle,
+              ),
+              boxShadows: [
+                BoxShadow(
+                  color: Colors.red,
+                  offset: Offset(0.0, 2.0),
+                  blurRadius: 3.0,
+                )
+              ],
+              icon: Icon(
+                Icons.error,
+                size: 28.0,
+                color: Colors.white,
+              ),
+              duration: Duration(seconds: 3),
+              // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+            )..show(context);
+          }
+        },
+      ),
     ],
   );
 }

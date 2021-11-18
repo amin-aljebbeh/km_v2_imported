@@ -191,12 +191,12 @@ class StringUtils {
 
   String search = 'بحث';
   String home = 'الرئيسية';
-  String shopbycategory = 'الأصناف';
+  String shopByCategory = 'الأصناف';
 
   String addressTitle = "العناوين المضافة";
 
-  String shoppingcart = 'سلة  المشتريات';
-  String confirm_order = 'تأكيد الطلب';
+  String shoppingCart = 'سلة  المشتريات';
+  String confirmOrder = 'تأكيد الطلب';
   String repeat_order = 'إعادة نفس الطلب';
   String proceed_to_pay = 'الذهاب لصفحة الدفع';
   String your_orders = 'طلباتك السابقة';
@@ -226,7 +226,7 @@ class StringUtils {
   String thankyoudescrip =
       'تم إستلام طلبك بنجاح، يمكنك الآن العودة للقائمة الرئيسة و الذهاب لصفحة الطلبات لتفقد حالة الطلب';
 
-  String continue_shopping = 'متابعة التسوق';
+  String continueShopping = 'متابعة التسوق';
 
   String share = 'مشاركة';
 
@@ -248,6 +248,15 @@ class StringUtils {
   String onboarding_descrip2 =
       'We make ordering fast, simple and free-no matter if you order online or cash';
   String onboarding_descrip3 = 'Pay for order using credit or debit card';
+
+  //Roles:
+  String shopperRole = 'shopper';
+  String deliveryRole = 'delivery';
+  String adminRole = 'admin';
+
+  //Orders types:
+  String myOrder = 'assigned';
+  String notAssignedOrder = 'unassigned';
 
   final oCcy = new NumberFormat("#,##0", "en_US");
 }

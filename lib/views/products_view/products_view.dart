@@ -1,11 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:adv_image_cache/adv_image_cache.dart';
-import 'package:badges/badges.dart';
-// import 'package:cache_image/cache_image.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
@@ -14,11 +9,10 @@ import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/funny_images.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/facebook_loader.dart';
+import 'package:kammun_app/views/Wedgit/products_view_card.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
-import 'package:kammun_app/views/products_view/services/products_services.dart';
-import '../../Services.dart';
 
 class ProductsView extends StatefulWidget {
   final int heroIndex;
@@ -41,33 +35,33 @@ class ProductsViewState extends State<ProductsView> {
   int page = 1;
   List<ProductData> productsList = List<ProductData>();
   bool searchLoading = false;
-  bool theEndOfProducs = false;
+  bool theEndOfProducts = false;
   String errorMessage = "لم يتم العثور على المنتج";
 
   final _random = new Random();
 
-  bool badWordmatched = false;
+  bool badWordMatched = false;
 
   Future<bool> _loadData(String query, String type) async {
     Tools.logToConsole(
         "******************** => " + page.toString() + "the CatId : " + query);
     setState(() {
-      badWordmatched = false;
+      badWordMatched = false;
     });
     String url = "";
     if (badWord.contains(query)) {
       setState(() {
-        badWordmatched = true;
+        badWordMatched = true;
       });
     }
-    if (!badWordmatched) {
+    if (!badWordMatched) {
       if (type == "search") {
         url = "/api/product/search/$query?page=" + page.toString();
       } else {
         url = "/api/category/$query?page=$page";
       }
 
-      if (!theEndOfProducs) {
+      if (!theEndOfProducts) {
         try {
           var response = await ApiProvider.sendRequest(
             url: url,
@@ -83,7 +77,7 @@ class ProductsViewState extends State<ProductsView> {
                 if (firstLoading == true) firstLoading = false;
                 isLoading = false;
                 if (productsList.length != 0) {
-                  theEndOfProducs = true;
+                  theEndOfProducts = true;
                 }
               });
             } else {
@@ -98,7 +92,7 @@ class ProductsViewState extends State<ProductsView> {
               if (this.mounted) {
                 setState(() {
                   if (page - 1 == products.data.lastPage) {
-                    theEndOfProducs = true;
+                    theEndOfProducts = true;
                   }
                   searchLoading = false;
 
@@ -282,7 +276,7 @@ class ProductsViewState extends State<ProductsView> {
         ),
         backgroundColor: Theme.of(context).primaryColorLight,
         body: SafeArea(
-          child: badWordmatched
+          child: badWordMatched
               ? Container(
                   child: Center(
                   child: funnyImages[_random.nextInt(funnyImages.length)],
@@ -325,6 +319,7 @@ class ProductsViewState extends State<ProductsView> {
                                     // start loading data
 
                                   }
+                                  return;
                                 },
                                 child: ListView.builder(
                                   physics: const AlwaysScrollableScrollPhysics(
@@ -358,7 +353,7 @@ class ProductsViewState extends State<ProductsView> {
                                                 eachProduct
                                                     .images[0].imageFileName
                                             : "",
-                                        product_name: eachProduct.name,
+                                        productName: eachProduct.name,
                                         quantity: eachProduct.unit.toString() !=
                                                 "null"
                                             ? eachProduct.quantity.toString() +
@@ -378,7 +373,7 @@ class ProductsViewState extends State<ProductsView> {
                               height: isLoading ? 50.0 : 0,
                               color: Colors.transparent,
                               child: Center(
-                                child: theEndOfProducs
+                                child: theEndOfProducts
                                     ? Text("تم جلب جميع المنتجات",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -410,7 +405,7 @@ class ProductsViewState extends State<ProductsView> {
         new MaterialPageRoute(
             builder: (context) => new ProductDetailView(
                   products: productsDic,
-                  isFromFavoraiteScreen: false,
+                  isFromFavoriteScreen: false,
                 )));
 
     // Navigator.push(
@@ -418,284 +413,5 @@ class ProductsViewState extends State<ProductsView> {
     //     new MaterialPageRoute(
     //         builder: (context) => new ProductDetailView(
     //             heroIndex: index + 100, products: productsDic)));
-  }
-}
-
-class ProductsViewCard extends StatefulWidget {
-  final String img;
-  final String product_name;
-  final String quantity;
-  final int price;
-  final int index;
-  int active;
-  final String productId;
-  final String supplierCode;
-  final ProductData productData;
-  final int subWarehouseId;
-
-  ProductsViewCard({
-    this.img,
-    this.product_name,
-    this.quantity,
-    this.price,
-    this.index,
-    this.productId,
-    this.supplierCode,
-    this.productData,
-    this.active,
-    @required this.subWarehouseId,
-  });
-
-  @override
-  State<StatefulWidget> createState() {
-    return ProductsViewCardState();
-  }
-}
-
-class ProductsViewCardState extends State<ProductsViewCard> {
-  bool addedToCart = false;
-
-  Future<bool> updateStatus(String productId, String statusId) async {
-    var response = await ProductsServices.updateProductsDetails(
-        bodyKey: "is_active",
-        value: statusId,
-        subWarehouseId: widget.productData.subWarehouseId.toString(),
-        isForSubWarehouse: true,
-        productId: widget.productId);
-
-    if (response) {
-      Flushbar(
-        backgroundColor: Colors.green,
-        // titleText: Text("تمت الإضافة بنجاح"),
-        messageText: Text(
-          "تم التعديل بنجاح",
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-        ),
-
-        boxShadows: [
-          BoxShadow(
-            color: UtilsImporter().colorUtils.primarycolor,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: Icon(
-          Icons.assignment_turned_in,
-          size: 28.0,
-          color: Colors.white,
-        ),
-        duration: Duration(seconds: 1),
-        leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-      )..show(context);
-      return true;
-    } else {
-      Flushbar(
-        backgroundColor: Colors.red[900],
-        messageText: Text(
-          "فشل في العملية يرجى المحاولة من جديد",
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: Colors.red,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: Icon(
-          Icons.close,
-          size: 28.0,
-          color: Colors.white,
-        ),
-        duration: Duration(seconds: 1),
-        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-      )..show(context);
-      return false;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Tools.logToConsole(
-        "SUBWAREHOUSE ${LoadingScreenServices.swbWarehouses[0]}     ${widget.subWarehouseId}");
-    return Container(
-      color: Theme.of(context).primaryColorLight,
-      child: Padding(
-        padding: EdgeInsets.only(left: 0, right: 0, top: 10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  width: 100.0,
-                  height: 100.0,
-                  decoration: new BoxDecoration(
-                      borderRadius:
-                          new BorderRadius.all(Radius.circular(20.0))),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Hero(
-                        tag: widget.index + 100,
-                        child: Image(
-                          // fadeInCurve: Curves.fastOutSlowIn,
-                          // placeholder: AssetImage("assets/kmIcon.png"),
-                          fit: BoxFit.contain,
-                          image: widget.img.length > 0
-                              ? AdvImageCache(
-                                  widget.img,
-                                  useMemCache: true,
-                                      diskCacheExpire: Duration(days: 400),
-                                )
-                              : AssetImage("assets/kmIcon.png"),
-                          width: MediaQuery.of(context).size.width,
-                          height: 120,
-                        ),
-                      )),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                    child: Container(
-                  child: Wrap(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Wrap(
-                            children: <Widget>[
-                              Text(
-                                widget.product_name,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            widget.quantity,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: UtilsImporter().colorUtils.greycolor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
-                                fontSize: 17),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                              UtilsImporter()
-                                      .stringUtils
-                                      .oCcy
-                                      .format(widget.price)
-                                      .toString() +
-                                  " ${LoadingScreenServices.companyInformation.currency}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                  fontSize: 18)),
-                        ],
-                      ),
-                    ],
-                  ),
-                )),
-                LoadingScreenServices.swbWarehouses
-                        .any((element) => element.id == widget.subWarehouseId)
-                    ? Container(
-                        margin: const EdgeInsets.all(15.0),
-                        padding: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                    10.0) //                 <--- border radius here
-                                ),
-                            border: Border.all(
-                                color: UtilsImporter().colorUtils.primarycolor,
-                                width: 2)),
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Switch(
-                                value: widget.active == 1 ? true : false,
-                                onChanged: (value) {
-                                  if (widget.active == 1) {
-                                    updateStatus(widget.productId, "0");
-                                  } else {
-                                    updateStatus(widget.productId, "1");
-                                  }
-                                  setState(() {
-                                    if (widget.active == 1) {
-                                      widget.active = 0;
-                                    } else {
-                                      widget.active = 1;
-                                    }
-                                  });
-                                },
-                                activeTrackColor:
-                                    UtilsImporter().colorUtils.kmColors2,
-                                activeColor:
-                                    UtilsImporter().colorUtils.kmColors,
-                              )
-                            ],
-                          ),
-                        ),
-                      )
-                    : Container(),
-
-                // widget.active == 0
-                //     ? Badge(
-                //         borderRadius: BorderRadius.zero,
-                //         shape: BadgeShape.square,
-                //         badgeColor: UtilsImporter().colorUtils.primarycolor,
-                //         badgeContent: Padding(
-                //           padding: const EdgeInsets.only(
-                //             right: 10.0,
-                //           ),
-                //           child: Column(
-                //             children: [
-                //               Text(
-                //                 'نفذ من',
-                //                 style: TextStyle(
-                //                     color: Colors.white,
-                //                     fontSize: 15,
-
-                //                     //fontWeight: FontWeight.w500,
-                //                     fontFamily:
-                //                         UtilsImporter().stringUtils.HKGrotesk),
-                //               ),
-                //               Text(
-                //                 'المستودعات',
-                //                 style: TextStyle(
-                //                     color: Colors.white,
-                //                     fontSize: 15,
-                //                     //   fontWeight: FontWeight.w500,
-                //                     fontFamily:
-                //                         UtilsImporter().stringUtils.HKGrotesk),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       )
-                //     : Container(),
-              ],
-            ),
-          ],
-        ),
-        // SizedBox(height: 4),
-        //  Divider()
-      ),
-    );
   }
 }

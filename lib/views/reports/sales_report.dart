@@ -5,7 +5,7 @@ import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 
 import 'models/sailes_reports_model.dart';
 import 'services/reports_services.dart';
@@ -279,7 +279,7 @@ class _SalesReportState extends State<SalesReport> {
         "The end if for  and the length : ${totalSubWarehouses.length}");
   }
 
-  _getSailesReport() async {
+  _getSailsReport() async {
     setState(() {
       isError = false;
       isLoading = true;
@@ -375,7 +375,7 @@ class _SalesReportState extends State<SalesReport> {
                 KammunButton(
                   text: "إرسال",
                   onPress: () {
-                    _getSailesReport();
+                    _getSailsReport();
                   },
                 ),
                 SizedBox(
@@ -394,98 +394,6 @@ class _SalesReportState extends State<SalesReport> {
                             children: totalSubWarehouses,
                           )
                         : Container(),
-                // : Column(children: [
-                //     Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //       children: [
-                //         Text("البزورية:",
-                //             style: TextStyle(
-                //                 fontFamily:
-                //                     UtilsImporter().stringUtils.HKGrotesk)),
-                //         Text(
-                // UtilsImporter()
-                //     .stringUtils
-                //     .oCcy
-                //     .format(seed)
-                //                 .toString(),
-                //             style: TextStyle(
-                //                 fontFamily:
-                //                     UtilsImporter().stringUtils.HKGrotesk))
-                //       ],
-                //     ),
-                //     Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //       children: [
-                //         Text("المحمصة:",
-                //             style: TextStyle(
-                //                 fontFamily:
-                //                     UtilsImporter().stringUtils.HKGrotesk)),
-                //         Text(
-                //             UtilsImporter()
-                //                 .stringUtils
-                //                 .oCcy
-                //                 .format(toaster)
-                //                 .toString(),
-                //             style: TextStyle(
-                //                 fontFamily:
-                //                     UtilsImporter().stringUtils.HKGrotesk))
-                //       ],
-                //     ),
-                //     Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //       children: [
-                //         Text("الخضار:",
-                //             style: TextStyle(
-                //                 fontFamily:
-                //                     UtilsImporter().stringUtils.HKGrotesk)),
-                //         Text(
-                //             UtilsImporter()
-                //                 .stringUtils
-                //                 .oCcy
-                //                 .format(vegetables)
-                //                 .toString(),
-                //             style: TextStyle(
-                //                 fontFamily:
-                //                     UtilsImporter().stringUtils.HKGrotesk))
-                //       ],
-                //     ),
-                //     Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //       children: [
-                //         Text("المكتبة:",
-                //             style: TextStyle(
-                //                 fontFamily:
-                //                     UtilsImporter().stringUtils.HKGrotesk)),
-                //         Text(
-                //             UtilsImporter()
-                //                 .stringUtils
-                //                 .oCcy
-                //                 .format(library)
-                //                 .toString(),
-                //             style: TextStyle(
-                //                 fontFamily:
-                //                     UtilsImporter().stringUtils.HKGrotesk))
-                //       ],
-                //     ),
-                //     Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //       children: [
-                //         Text("المجموع:",
-                //             style: TextStyle(
-                //                 fontFamily:
-                //                     UtilsImporter().stringUtils.HKGrotesk)),
-                //         Text(
-                //             UtilsImporter()
-                //                 .stringUtils
-                //                 .oCcy
-                //                 .format(all)
-                //                 .toString(),
-                //             style: TextStyle(
-                //                 fontFamily:
-                //                     UtilsImporter().stringUtils.HKGrotesk))
-                //       ],
-                //     ),
-                //   ]),
               ],
             )),
       ),

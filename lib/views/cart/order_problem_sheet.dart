@@ -4,19 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/dialog_button.dart';
+import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
-import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 
 class OrderProblemBottomSheet extends StatefulWidget {
   final List<int> notActiveProducts;
   final List<int> pricesChangesProducts;
   final Function(bool updatePrice) applyChanges;
+
   OrderProblemBottomSheet(
       {@required this.notActiveProducts,
       @required this.pricesChangesProducts,
       @required this.applyChanges});
+
   @override
   _OrderProblemBottomSheetState createState() =>
       _OrderProblemBottomSheetState();
@@ -24,11 +28,12 @@ class OrderProblemBottomSheet extends StatefulWidget {
 
 class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
   List<ProductData> orderArray;
-  List<int> notActivecards = [];
+  List<int> notActiveCards = [];
   List<int> priceCards = [];
 
   bool loadingScreen = false;
   bool errorCode = false;
+
   // List<ProductsData> notActive;
   // List<ProductsData> priceChanged;
 
@@ -36,11 +41,11 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
 
   makeCards() {
     priceCards = [];
-    notActivecards = [];
+    notActiveCards = [];
 
     for (int i = 0; i < orderArray.length; i++) {
       if (widget.notActiveProducts.contains(orderArray[i].id)) {
-        notActivecards.add(i);
+        notActiveCards.add(i);
       }
       if (widget.pricesChangesProducts.contains(orderArray[i].id)) {
         priceCards.add(i);
@@ -48,21 +53,21 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
     }
     Tools.logToConsole("not active");
     Tools.logToConsole(widget.notActiveProducts);
-    Tools.logToConsole(notActivecards);
+    Tools.logToConsole(notActiveCards);
     Tools.logToConsole("price");
     Tools.logToConsole(widget.pricesChangesProducts);
     Tools.logToConsole(priceCards);
-    if (priceCards.length > 0 && notActivecards.length == 0) {
+    if (priceCards.length > 0 && notActiveCards.length == 0) {
       dialogText =
           "نأسف لحدوث ذلك ولكن أثناء قيامك بالتسوق تغير سعر  ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك مشاهدة تلك المنتجات و القيام بتحديث الطلب ليتم تحديث الأسعار او اختيار بدائل ";
     }
-    if (notActivecards.length > 0 && priceCards.length == 0) {
+    if (notActiveCards.length > 0 && priceCards.length == 0) {
       dialogText =
-          "نأسف لحدوث ذلك و لكن أثناء قيامك بالتسوق نفذ ${notActivecards.length} من المنتجات التي قمت بإضافتها يمكنك تحديث الطلب لحذف هذه المنتجات او اختيار بدائل عنها من داخل التطبيق";
+          "نأسف لحدوث ذلك و لكن أثناء قيامك بالتسوق نفذ ${notActiveCards.length} من المنتجات التي قمت بإضافتها يمكنك تحديث الطلب لحذف هذه المنتجات او اختيار بدائل عنها من داخل التطبيق";
     }
-    if (notActivecards.length > 0 && priceCards.length > 0) {
+    if (notActiveCards.length > 0 && priceCards.length > 0) {
       dialogText =
-          "نأسف لحدوث ذلك ولكن أثناء قيامك بعملية التسوق نفذ ${notActivecards.length} من المنتجات و تغير سعر ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك إختيار تحديث الطلب لمشاهدة الأسعار الجديدة و حذف المنتجات الغير متوفرة أو الضغط على إختيار بدائل لإضافتها من داخل التطبيق";
+          "نأسف لحدوث ذلك ولكن أثناء قيامك بعملية التسوق نفذ ${notActiveCards.length} من المنتجات و تغير سعر ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك إختيار تحديث الطلب لمشاهدة الأسعار الجديدة و حذف المنتجات الغير متوفرة أو الضغط على إختيار بدائل لإضافتها من داخل التطبيق";
     }
   }
 
@@ -93,52 +98,24 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
         child: loginButtonWithGesture);
   }
 
-  void showUpdateDialog({title, body}) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: new Text(
-            "حدث خطأ بالطلب",
-            style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-          ),
-          content: new Text(
-            "$dialogText",
-            // maxLines: 20,
-            style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-          ),
-          scrollable: true,
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text(
-                "إغلاق",
-                style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   void initState() {
     orderArray = CartServices.cartProducts;
     makeCards();
 
     OrderServices.updateOrderNote != null
-        ? WidgetsBinding.instance
-            .addPostFrameCallback((_) => showUpdateDialog())
+        ? WidgetsBinding.instance.addPostFrameCallback((_) {
+            List<DialogButton> dialogButtons = [
+              DialogButton(
+                text: "إغلاق",
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ];
+            showMyDialog(
+                "حدث خطأ بالطلب", "$dialogText", dialogButtons, null, context);
+          })
         : {};
 
     super.initState();
@@ -147,144 +124,159 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        // backgroundColor: Theme.of(context).primaryColorLight,
-        body: Padding(
-          padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(height: 10),
-                widget.notActiveProducts.length > 0
-                    ? Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: new BoxDecoration(
-                            color: UtilsImporter().colorUtils.primarycolor,
-                            borderRadius: new BorderRadius.only(
-                              topLeft: const Radius.circular(30.0),
-                              topRight: const Radius.circular(30.0),
-                            )),
-                        child: Center(
-                            child: Text(
-                          "منتجات نفذت أثناء التسوق",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk),
-                        )),
-                      )
-                    : Container(),
-                widget.notActiveProducts.length > 0
-                    ? Expanded(
-                        flex: 1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 5,
-                                  color: UtilsImporter().colorUtils.kmColors)),
-                          child: ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount:
-                                orderArray == null ? 0 : notActivecards.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return new GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => _onTileClicked(index),
-                                child: Container(
-                                  //  color: Theme.of(context).primaryColorLight,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 0, right: 0, top: 0),
-                                    child: cardBodyNotActive(
-                                        notActivecards[index], context),
-                                  ),
+      backgroundColor: Colors.white,
+      // backgroundColor: Theme.of(context).primaryColorLight,
+      body: Padding(
+        padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(height: 10),
+              widget.notActiveProducts.length > 0
+                  ? Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: new BoxDecoration(
+                          color: UtilsImporter().colorUtils.primarycolor,
+                          borderRadius: new BorderRadius.only(
+                            topLeft: const Radius.circular(30.0),
+                            topRight: const Radius.circular(30.0),
+                          )),
+                      child: Center(
+                          child: Text(
+                        "منتجات نفذت أثناء التسوق",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                      )),
+                    )
+                  : Container(),
+              widget.notActiveProducts.length > 0
+                  ? Expanded(
+                      flex: 1,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 5,
+                                color: UtilsImporter().colorUtils.kmColors)),
+                        child: ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount:
+                              orderArray == null ? 0 : notActiveCards.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return new GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => _onTileClicked(index),
+                              child: Container(
+                                //  color: Theme.of(context).primaryColorLight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 0, right: 0, top: 0),
+                                  child: cardBodyNotActive(
+                                      notActiveCards[index], context),
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
-                      )
-                    : Container(),
+                      ),
+                    )
+                  : Container(),
 
-                widget.notActiveProducts.length > 0
-                    ? SizedBox(height: 10)
-                    : Container(),
-                widget.pricesChangesProducts.length > 0
-                    ? Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: new BoxDecoration(
-                            color: UtilsImporter().colorUtils.kmColors,
-                            borderRadius: new BorderRadius.only(
-                              topLeft: const Radius.circular(30.0),
-                              topRight: const Radius.circular(30.0),
-                            )),
-                        child: Center(
-                            child: Text(
-                          "منتجات تغير سعرها أثناء التسوق",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk),
-                        )),
-                      )
-                    : Container(),
+              widget.notActiveProducts.length > 0
+                  ? SizedBox(height: 10)
+                  : Container(),
+              widget.pricesChangesProducts.length > 0
+                  ? Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: new BoxDecoration(
+                          color: UtilsImporter().colorUtils.kmColors,
+                          borderRadius: new BorderRadius.only(
+                            topLeft: const Radius.circular(30.0),
+                            topRight: const Radius.circular(30.0),
+                          )),
+                      child: Center(
+                          child: Text(
+                        "منتجات تغير سعرها أثناء التسوق",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                      )),
+                    )
+                  : Container(),
 
-                // SizedBox(height: 10),
-                widget.pricesChangesProducts.length > 0
-                    ? Expanded(
-                        flex: 1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 5,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor)),
-                          child: ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount:
-                                orderArray == null ? 0 : priceCards.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return new GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => _onTileClicked(index),
-                                child: Container(
-                                  //  color: Theme.of(context).primaryColorLight,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 0, right: 0, top: 0),
-                                    child: cardBodyPriceProblem(
-                                        priceCards[index], context),
-                                  ),
+              // SizedBox(height: 10),
+              widget.pricesChangesProducts.length > 0
+                  ? Expanded(
+                      flex: 1,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 5,
+                                color:
+                                    UtilsImporter().colorUtils.primarycolor)),
+                        child: ListView.builder(
+                          primary: false,
+                          shrinkWrap: true,
+                          itemCount: orderArray == null ? 0 : priceCards.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return new GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => _onTileClicked(index),
+                              child: Container(
+                                //  color: Theme.of(context).primaryColorLight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 0, right: 0, top: 0),
+                                  child: cardBodyPriceProblem(
+                                      priceCards[index], context),
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
-                      )
-                    : Container(),
-                SafeArea(
-                  child: Center(
-                    child: Wrap(
-                      spacing: 5,
-                      children: [
-                        _applyChanges(),
-                        _showEditOrder(),
-                      ],
-                    ),
+                      ),
+                    )
+                  : Container(),
+              SafeArea(
+                child: Center(
+                  child: Wrap(
+                    spacing: 5,
+                    children: [
+                      DecisionButton(
+                        text: "تحديث الطلب",
+                        height: 50,
+                        width: MediaQuery.of(context).size.width / 2.3,
+                        color: Colors.green,
+                        onTap: () => widget.applyChanges(false),
+                      ),
+                      DecisionButton(
+                        text: "!! إرسال الطلب !!",
+                        height: 50,
+                        width: MediaQuery.of(context).size.width / 2.3,
+                        color: Colors.red,
+                        onTap: () {
+                          // KammunRestart.restartApp(context);
+                          Navigator.of(context).pop();
+                          widget.applyChanges(true);
+                        },
+                      ),
+                    ],
                   ),
-                  top: false,
                 ),
-              ],
-            ),
+                top: false,
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
+  //TODO:check if it possible to make widget
   Widget cardBodyNotActive(int index, BuildContext context) {
     return Container(
       child: Column(
@@ -299,27 +291,29 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                 decoration: new BoxDecoration(
                     borderRadius: new BorderRadius.all(Radius.circular(20.0))),
                 child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Hero(
-                        tag: index + 100,
-                        child: Image(
-                            image: orderArray[index].images.length != 0
-                                ? AdvImageCache(
-                                    LoadingScreenServices.imagePrefixUrl +
-                                        orderArray[index]
-                                            .images[0]
-                                            .imageFileName
-                                            .toString(),
-                                    useMemCache: true,
-                                    diskCacheExpire: Duration(days: 400),
-                                  )
-                                : AssetImage("assets/kmIcon.png"),
-                            width: MediaQuery.of(context).size.width,
-                            height: 120,
-                            // fadeInDuration: Duration(microseconds: 1),
-                            // fadeInCurve: Curves.fastOutSlowIn,
-                            // placeholder: AssetImage("assets/kmIcon.png"),
-                            fit: BoxFit.contain))),
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Hero(
+                    tag: index + 100,
+                    child: Image(
+                        image: orderArray[index].images.length != 0
+                            ? AdvImageCache(
+                                LoadingScreenServices.imagePrefixUrl +
+                                    orderArray[index]
+                                        .images[0]
+                                        .imageFileName
+                                        .toString(),
+                                useMemCache: true,
+                                diskCacheExpire: Duration(days: 400),
+                              )
+                            : AssetImage("assets/kmIcon.png"),
+                        width: MediaQuery.of(context).size.width,
+                        height: 120,
+                        // fadeInDuration: Duration(microseconds: 1),
+                        // fadeInCurve: Curves.fastOutSlowIn,
+                        // placeholder: AssetImage("assets/kmIcon.png"),
+                        fit: BoxFit.contain),
+                  ),
+                ),
               ),
               //SizedBox(width: 10),
               SizedBox(width: 10),
@@ -471,75 +465,5 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
     //     new MaterialPageRoute(
     //         builder: (context) =>
     //             new ProductDetailView(heroIndex: index + 100)));
-  }
-
-  Widget _applyChanges() {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () => widget.applyChanges(false),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
-          padding: const EdgeInsets.all(10.0),
-          height: 50.0,
-          width: MediaQuery.of(context).size.width / 2.3,
-          decoration: new BoxDecoration(
-              color: Colors.green,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new AutoSizeText(
-              "تحديث الطلب",
-              style: new TextStyle(
-                  color: Colors.white,
-                  //fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-              maxLines: 1,
-              wrapWords: false,
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
-  }
-
-  Widget _showEditOrder() {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () {
-        // KammunRestart.restartApp(context);
-        Navigator.of(context).pop();
-        widget.applyChanges(true);
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
-          padding: const EdgeInsets.all(10.0),
-          height: 50.0,
-          width: MediaQuery.of(context).size.width / 2.3,
-          decoration: new BoxDecoration(
-              color: Colors.red,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new AutoSizeText(
-              "!! إرسال الطلب !!",
-              style: new TextStyle(
-                  color: Colors.white,
-                  // fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-              maxLines: 1,
-              wrapWords: false,
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
   }
 }

@@ -4,9 +4,9 @@ import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/prices_changes/services/prices_chamges_services.dart';
+import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 
 import 'model/prices_changes_model.dart';
 
@@ -110,137 +110,144 @@ class _PricesState extends State<Prices> {
           )
         ],
       ),
-      body: Column(children: <Widget>[
-        isLoading
-            ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 30.0),
-                  child: Loader(),
-                ),
-              )
-            : isError
-                ? Center(
-                    child: Expanded(
-                      child: Column(
-                        children: [
-                          AlertMessages(
-                            text: "حدث خطأ أثناء محاولة جلب البيانات",
-                            messageType: "internetError",
-                            headerText: "حدث خطأ",
-                          ),
-                          RaisedButton(
-                            child: Text("المحاولة من جديد",
+      body: Column(
+        children: <Widget>[
+          isLoading
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Loader(),
+                  ),
+                )
+              : isError
+                  ? Center(
+                      child: Expanded(
+                        child: Column(
+                          children: [
+                            AlertMessages(
+                              text: "حدث خطأ أثناء محاولة جلب البيانات",
+                              messageType: "internetError",
+                              headerText: "حدث خطأ",
+                            ),
+                            RaisedButton(
+                              child: Text("المحاولة من جديد",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: UtilsImporter()
+                                          .stringUtils
+                                          .HKGrotesk)),
+                              onPressed: () => _loadData(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : productsList.count == 0
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 30.0),
+                          child: Center(
+                            child: Text("لايجود منتجات تغير سعرها اليوم",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk)),
-                            onPressed: () => _loadData(),
                           ),
-                        ],
-                      ),
-                    ),
-                  )
-                : productsList.count == 0
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 30.0),
-                        child: Center(
-                          child: Text("لايجود منتجات تغير سعرها اليوم",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk)),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                            physics: const AlwaysScrollableScrollPhysics(
+                                parent: BouncingScrollPhysics()),
+                            primary: false,
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: productsList == null
+                                ? 0
+                                : productsList.prouctsPriceChange.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var eachProduct =
+                                  productsList.prouctsPriceChange[index];
+                              return filter == null || filter == ""
+                                  ? GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () => () {},
+                                      child: ProductsViewCard(
+                                        productData: eachProduct,
+                                        oldPrice: int.parse(eachProduct.price
+                                                .split(".")[0]) -
+                                            int.parse(eachProduct.priceChange
+                                                .toString()
+                                                .split(".")[0]),
+                                        supplierCode: eachProduct.supplierCode,
+                                        productId: eachProduct.id.toString(),
+                                        img: eachProduct.images.length > 0
+                                            ? LoadingScreenServices
+                                                    .imagePrefixUrl +
+                                                eachProduct
+                                                    .images[0].imageFileName
+                                            : "",
+                                        product_name: eachProduct.name,
+                                        active: int.parse(eachProduct.isActive),
+                                        quantity: eachProduct.unit.toString() !=
+                                                "null"
+                                            ? eachProduct.quantity.toString() +
+                                                " " +
+                                                eachProduct.unit.toString()
+                                            : eachProduct.quantity.toString(),
+                                        price: int.parse(
+                                            eachProduct.price.split(".")[0]),
+                                        index: index,
+                                      ),
+                                    )
+                                  : eachProduct.name
+                                          .toLowerCase()
+                                          .contains(filter.toLowerCase())
+                                      ? GestureDetector(
+                                          behavior: HitTestBehavior.translucent,
+                                          onTap: () => () {},
+                                          child: ProductsViewCard(
+                                            productData: eachProduct,
+                                            oldPrice: int.parse(eachProduct
+                                                    .price
+                                                    .split(".")[0]) -
+                                                int.parse(eachProduct
+                                                    .priceChange
+                                                    .toString()
+                                                    .split(".")[0]),
+                                            supplierCode:
+                                                eachProduct.supplierCode,
+                                            productId:
+                                                eachProduct.id.toString(),
+                                            img: eachProduct.images.length > 0
+                                                ? LoadingScreenServices
+                                                        .imagePrefixUrl +
+                                                    eachProduct
+                                                        .images[0].imageFileName
+                                                : "",
+                                            product_name: eachProduct.name,
+                                            active:
+                                                int.parse(eachProduct.isActive),
+                                            quantity: eachProduct.unit
+                                                        .toString() !=
+                                                    "null"
+                                                ? eachProduct.quantity
+                                                        .toString() +
+                                                    " " +
+                                                    eachProduct.unit.toString()
+                                                : eachProduct.quantity
+                                                    .toString(),
+                                            price: int.parse(eachProduct.price
+                                                .split(".")[0]),
+                                            index: index,
+                                          ),
+                                        )
+                                      : Container();
+                            },
+                          ),
                         ),
-                      )
-                    : Expanded(
-                        child: ListView.builder(
-                          physics: const AlwaysScrollableScrollPhysics(
-                              parent: BouncingScrollPhysics()),
-                          primary: false,
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: productsList == null
-                              ? 0
-                              : productsList.prouctsPriceChange.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            var eachProduct =
-                                productsList.prouctsPriceChange[index];
-                            return filter == null || filter == ""
-                                ? GestureDetector(
-                                    behavior: HitTestBehavior.translucent,
-                                    onTap: () => () {},
-                                    child: ProductsViewCard(
-                                      productData: eachProduct,
-                                      oldPrice: int.parse(
-                                              eachProduct.price.split(".")[0]) -
-                                          int.parse(eachProduct.priceChange
-                                              .toString()
-                                              .split(".")[0]),
-                                      supplierCode: eachProduct.supplierCode,
-                                      productId: eachProduct.id.toString(),
-                                      img: eachProduct.images.length > 0
-                                          ? LoadingScreenServices
-                                                  .imagePrefixUrl +
-                                              eachProduct
-                                                  .images[0].imageFileName
-                                          : "",
-                                      product_name: eachProduct.name,
-                                      active: int.parse(eachProduct.isActive),
-                                      quantity: eachProduct.unit.toString() !=
-                                              "null"
-                                          ? eachProduct.quantity.toString() +
-                                              " " +
-                                              eachProduct.unit.toString()
-                                          : eachProduct.quantity.toString(),
-                                      price: int.parse(
-                                          eachProduct.price.split(".")[0]),
-                                      index: index,
-                                    ),
-                                  )
-                                : eachProduct.name
-                                        .toLowerCase()
-                                        .contains(filter.toLowerCase())
-                                    ? GestureDetector(
-                                        behavior: HitTestBehavior.translucent,
-                                        onTap: () => () {},
-                                        child: ProductsViewCard(
-                                          productData: eachProduct,
-                                          oldPrice: int.parse(eachProduct.price
-                                                  .split(".")[0]) -
-                                              int.parse(eachProduct.priceChange
-                                                  .toString()
-                                                  .split(".")[0]),
-                                          supplierCode:
-                                              eachProduct.supplierCode,
-                                          productId: eachProduct.id.toString(),
-                                          img: eachProduct.images.length > 0
-                                              ? LoadingScreenServices
-                                                      .imagePrefixUrl +
-                                                  eachProduct
-                                                      .images[0].imageFileName
-                                              : "",
-                                          product_name: eachProduct.name,
-                                          active:
-                                              int.parse(eachProduct.isActive),
-                                          quantity: eachProduct.unit
-                                                      .toString() !=
-                                                  "null"
-                                              ? eachProduct.quantity
-                                                      .toString() +
-                                                  " " +
-                                                  eachProduct.unit.toString()
-                                              : eachProduct.quantity.toString(),
-                                          price: int.parse(
-                                              eachProduct.price.split(".")[0]),
-                                          index: index,
-                                        ),
-                                      )
-                                    : Container();
-                          },
-                        ),
-                      ),
-      ]),
+        ],
+      ),
     );
   }
 }

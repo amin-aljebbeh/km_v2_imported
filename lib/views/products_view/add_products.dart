@@ -46,7 +46,7 @@ class _AddProductsViewState extends State<AddProductsView> {
     });
   }
 
-  Future getImageGalery() async {
+  Future getImageGallery() async {
     final pickedFile = await picker.getImage(
         source: ImageSource.gallery,
         imageQuality: 100,
@@ -457,7 +457,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                             color: UtilsImporter().colorUtils.kmColors,
                           ),
                           onPressed: () {
-                            getImageGalery();
+                            getImageGallery();
                           },
                         ),
                         SizedBox(

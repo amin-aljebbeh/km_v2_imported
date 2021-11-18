@@ -129,7 +129,7 @@ class ProductsServices {
   static Future<bool> setImageToProducts({File image, int productId}) async {
     var headers = {
       'Authorization':
-          LoadingScreen.user_token.length > 10 ? LoadingScreen.user_token : ""
+          LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""
     };
     var request = http.MultipartRequest(
         'POST', Uri.parse(BaseUrl + ADD_IMAGE_TO_PRODUCTS));

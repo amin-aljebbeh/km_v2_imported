@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
-import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
-import 'package:kammun_app/views/deliver_to/delivery_method.dart';
-import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import '../../utils/Styles.dart';
 import 'services/cart_services.dart';
 
 class CartView extends StatefulWidget {
@@ -26,7 +25,7 @@ class CartView extends StatefulWidget {
 class CartViewState extends State<CartView> {
   List<ProductData> orderArray;
   int subtotal = 0;
-  int delivaryCost = 10;
+  int deliveryCost = 10;
   static List<int> cards = [];
   int indexToEdit = -1;
 
@@ -38,15 +37,15 @@ class CartViewState extends State<CartView> {
   }
 
   _cartChanged() async {
-    String products_Id = "";
-    String products_quantity = "";
+    String productsId = "";
+    String productsQuantity = "";
     SharedPreferences prefs = await SharedPreferences.getInstance();
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      products_Id += CartServices.cartProducts[i].id.toString() + ";";
-      products_quantity +=
+      productsId += CartServices.cartProducts[i].id.toString() + ";";
+      productsQuantity +=
           CartServices.cartProducts[i].productCount.toString() + ";";
     }
-    prefs.setString("userCart", products_Id + "@" + products_quantity);
+    prefs.setString("userCart", productsId + "@" + productsQuantity);
   }
 
   _showUpdateOrderInstruction({BuildContext context}) {
@@ -170,7 +169,7 @@ class CartViewState extends State<CartView> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHight = MediaQuery.of(context).size.height;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -185,7 +184,7 @@ class CartViewState extends State<CartView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        UtilsImporter().stringUtils.shoppingcart,
+                        UtilsImporter().stringUtils.shoppingCart,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
@@ -196,7 +195,7 @@ class CartViewState extends State<CartView> {
                 ),
                 CartServices.cartProducts.length == 0
                     ? Padding(
-                        padding: EdgeInsets.only(top: screenHight * 0.3),
+                        padding: EdgeInsets.only(top: screenHeight * 0.3),
                         child: Center(
                           child: Text(
                             "سلة المشتريات فارغة",
@@ -255,7 +254,17 @@ class CartViewState extends State<CartView> {
                 ),
                 SizedBox(height: 10),
                 SafeArea(
-                  child: _showConfirmOrderButton(),
+                  child: DecisionButton(
+                    width: MediaQuery.of(context).size.width,
+                    color: CartServices.cartProducts.length > 0
+                        ? UtilsImporter().colorUtils.primarycolor
+                        : Colors.grey[400],
+                    text:
+                        UtilsImporter().stringUtils.confirmOrder.toUpperCase(),
+                    onTap: _showConfirmOrderBtnTapped,
+                    height: 50,
+                  ),
+                  /*_showConfirmOrderButton()*/
                   top: false,
                 ),
               ],
@@ -266,6 +275,7 @@ class CartViewState extends State<CartView> {
 
   TextEditingController _priceController = new TextEditingController();
 
+  //TODO: make widget
   Widget cardBody(int index, BuildContext context) {
     return Container(
       child: Column(
@@ -419,7 +429,7 @@ class CartViewState extends State<CartView> {
                                                       .id
                                                       .toString());
 
-                                                      // asdsa ads das sda a
+                                              // asdsa ads das sda a
                                             }
                                           });
 
@@ -595,12 +605,8 @@ class CartViewState extends State<CartView> {
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.confirm_order.toUpperCase(),
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            UtilsImporter().stringUtils.confirmOrder.toUpperCase(),
+            style: decisionButtonStyle,
           ),
         ),
       ),

@@ -109,7 +109,7 @@ class LoginServices {
           url: LOGIN_ADMIN,
           method: httpMethods.post,
           body: jsonEncode(loginBody),
-          reponseType: ResponseType.json);
+          responseType: ResponseType.json);
       var theResponse = response.data;
 
       Tools.logToConsole("----- Login Response -----");
@@ -118,39 +118,42 @@ class LoginServices {
           (theResponse["success"].toString() == "true")) {
         Tools.logToConsole(theResponse["success"].toString());
 
-        final resposne = adminLoginResponseFromJson(jsonEncode(response.data));
+        final newResponse =
+            adminLoginResponseFromJson(jsonEncode(response.data));
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString("userToken", resposne.data.apiToken);
+        prefs.setString("userToken", newResponse.data.apiToken);
         prefs.setString("adminRoll", username);
-        prefs.setString("adminId", resposne.data.id.toString());
+        prefs.setString("adminId", newResponse.data.id.toString());
 
         prefs.setBool("product_operations_permission",
-            resposne.data.productOperationsPermission == 1 ? true : false);
+            newResponse.data.productOperationsPermission == 1 ? true : false);
         prefs.setBool(
             "product_warehouse_operations_permission",
-            resposne.data.productWarehouseOperationsPermission == 1
+            newResponse.data.productWarehouseOperationsPermission == 1
                 ? true
                 : false);
 
         prefs.setBool("add_category_permission",
-            resposne.data.addCategoryPermission == 1 ? true : false);
+            newResponse.data.addCategoryPermission == 1 ? true : false);
 
         prefs.setBool("view_orders_permission",
-            resposne.data.viewOrdersPermission == 1 ? true : false);
+            newResponse.data.viewOrdersPermission == 1 ? true : false);
         prefs.setBool("view_report_permission",
-            resposne.data.viewReportPermission == 1 ? true : false);
+            newResponse.data.viewReportPermission == 1 ? true : false);
         prefs.setBool("add_products_permission",
-            resposne.data.viewOrdersPermission == 1 ? true : false);
+            newResponse.data.viewOrdersPermission == 1 ? true : false);
         prefs.setBool(
-            "is_super_admin", resposne.data.isSuperUser == 1 ? true : false);
+            "is_super_admin", newResponse.data.isSuperUser == 1 ? true : false);
 
-        prefs.setString("warehouse_id", resposne.data.warehouseId.toString());
+        prefs.setString(
+            "warehouse_id", newResponse.data.warehouseId.toString());
 
-        LoadingScreen.user_token = resposne.data.apiToken;
+        LoadingScreen.userToken = newResponse.data.apiToken;
         LoadingScreen.isAdmin = true;
 
         return true;
       } else {
+        Tools.logToConsole("------- WE ARE HERE --------");
         Tools.logToConsole("------- ERROR LOGIN ADMIN --------");
         return false;
       }

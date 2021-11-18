@@ -1,0 +1,22 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'file:///D:/Kammun/km_v2/lib/utils/Styles.dart';
+
+class DialogButton extends StatelessWidget {
+  final String text;
+  final Function onTap;
+
+  const DialogButton({Key key, @required this.text, @required this.onTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      child: Text(
+        text,
+        style: dialogStyle,
+      ),
+      onPressed: onTap,
+    );
+  }
+}

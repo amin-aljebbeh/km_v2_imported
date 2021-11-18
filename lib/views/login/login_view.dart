@@ -5,7 +5,8 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -16,6 +17,7 @@ class LoginScreen extends StatefulWidget {
   static String routeName = "/login";
   static String phoneNumber = "";
   static String supportedCityId;
+
   // static String selectedValue;
 
   @override
@@ -27,8 +29,6 @@ class _LoginScreenState extends State<LoginScreen>
   String currentText = "";
   final myController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  ScrollController _scroll = new ScrollController();
 
   bool errorCode = false;
   bool loadingScreen = false;
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen>
     }
   }
 
-  Future featchOtp() async {
+  Future fetchOtp() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
 
     if (myController.text.length != 10) {
@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen>
     }
   }
 
-  Widget _ShowPasswordInpur() {
+  Widget _ShowPasswordInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: TextField(
@@ -210,47 +210,10 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  Widget _showSubmit() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
-      onTap: adminLogin,
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            "تسجيل الدخول",
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return loadingScreen
-        ? Padding(
-            padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-            child: Loader(),
-          )
-        : Padding(
-            padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-            child: loginButtonWithGesture);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: UtilsImporter().colorUtils.kmColors,
-      //backgroundColor: Colors.white,
-      // appBar: GradientAppBar(
-      //   title: Text('Kammun.com'),
-      //   backgroundColorStart: Colors.cyan,
-      //   backgroundColorEnd: Colors.indigo,
-      // ),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -308,54 +271,31 @@ class _LoginScreenState extends State<LoginScreen>
 
                   child: _ShowCountryInput(),
                 ),
-
                 Container(
                   padding: const EdgeInsets.only(
                       left: 20.0, right: 20, bottom: 0, top: 5),
                   //  color: Colors.white,
 
-                  child: _ShowPasswordInpur(),
+                  child: _ShowPasswordInput(),
                 ),
-
                 Container(
                   padding: const EdgeInsets.only(
                       left: 20.0, right: 20, bottom: 20, top: 5),
                   //  color: Colors.white,
 
-                  child: _showSubmit(),
-                )
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 50.0),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //     children: [
-                //       Container(
-                //         width: 60,
-                //         height: 60,
-                //         child: Icon(
-                //           Icons.panorama_fish_eye_outlined,
-                //           size: 20,
-                //           color: Colors.white,
-                //         ),
-                //         decoration: BoxDecoration(
-                //             shape: BoxShape.circle,
-                //             color: UtilsImporter().colorUtils.primarycolor),
-                //       ),
-                //       Container(
-                //         width: 60,
-                //         height: 60,
-                //         child: Icon(
-                //           Icons.panorama_fish_eye_outlined,
-                //           size: 20,
-                //           color: Colors.white,
-                //         ),
-                //         decoration: BoxDecoration(
-                //             shape: BoxShape.circle,
-                //             color: UtilsImporter().colorUtils.primarycolor),
-                //       ),
-                //     ],
-                //   ),
-                // )
+                  child: loadingScreen
+                      ? Padding(
+                          padding:
+                              EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+                          child: Loader(),
+                        )
+                      : DecisionButton(
+                          text: "تسجيل الدخول",
+                          height: 50,
+                          color: UtilsImporter().colorUtils.primarycolor,
+                          onTap: adminLogin,
+                        ),
+                ),
               ],
             ),
           ],

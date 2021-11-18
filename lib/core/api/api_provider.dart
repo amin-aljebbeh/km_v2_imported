@@ -10,7 +10,7 @@ class ApiProvider {
       dynamic body,
       Map<String, dynamic> queryParameters,
       httpMethods method,
-      ResponseType reponseType,
+      ResponseType responseType,
       bool mapService,
       bool isUrlEncodedFormat}) async {
     Tools.logToConsole("---------------------service url : ");
@@ -41,12 +41,12 @@ class ApiProvider {
     // --------------------------------------- //
 
     Tools.logToConsole("------- THE USER TOKEN IS ----------");
-    Tools.logToConsole(LoadingScreen.user_token);
+    Tools.logToConsole(LoadingScreen.userToken);
     Map<String, String> header = {
-      // 'Authorization': "Bearer user",
+      'Authorization': "Bearer rabie",
 
-      'Authorization':
-          LoadingScreen.user_token.length > 10 ? LoadingScreen.user_token : "",
+      // 'Authorization':
+      //     LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : "",
     };
 
     Response response;
@@ -58,7 +58,7 @@ class ApiProvider {
             response = await dio.get(
               url,
               queryParameters: queryParameters,
-              options: Options(headers: header, responseType: reponseType),
+              options: Options(headers: header, responseType: responseType),
             );
             break;
           }
@@ -68,7 +68,7 @@ class ApiProvider {
               url,
               data: body,
               queryParameters: queryParameters,
-              options: Options(headers: header, responseType: reponseType),
+              options: Options(headers: header, responseType: responseType),
             );
             break;
           }
@@ -77,7 +77,7 @@ class ApiProvider {
             response = await dio.put(
               url,
               queryParameters: queryParameters,
-              options: Options(headers: header, responseType: reponseType),
+              options: Options(headers: header, responseType: responseType),
               data: body,
             );
             break;

@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
@@ -26,34 +27,6 @@ class UpdateScreen extends StatelessWidget {
     } else {
       throw 'Could not launch $url';
     }
-  }
-
-  Widget _showAddAddressButton() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
-      onTap: Platform.isAndroid
-          ? () => _androidUpdateLink()
-          : () => _iosUpdateLink(),
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            " التحديث الآن ",
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-        child: loginButtonWithGesture);
   }
 
   @override
@@ -99,8 +72,16 @@ class UpdateScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: _showAddAddressButton()),
+                  padding: const EdgeInsets.all(8.0),
+                  child: DecisionButton(
+                    text: " التحديث الآن ",
+                    height: 50,
+                    color: UtilsImporter().colorUtils.primarycolor,
+                    onTap: Platform.isAndroid
+                        ? () => _androidUpdateLink()
+                        : () => _iosUpdateLink(),
+                  ),
+                ),
               ],
             ),
           ),

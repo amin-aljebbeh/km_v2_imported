@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart'; 
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 
 class BlockedUser extends StatelessWidget {
@@ -50,40 +51,18 @@ class BlockedUser extends StatelessWidget {
                 ),
                 Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: _showRestartButton(context)),
+                    child:DecisionButton(
+                      text: "المحاولة من جديد",
+                      height: 50,
+                      color: UtilsImporter().colorUtils.primarycolor,
+                      onTap: () => KammunRestart.restartApp(context),
+                    ), ),
               ],
             ),
           ),
           color: Colors.white,
-          // color: Color.fromARGB(255, 40, 51, 140),
         ),
       ),
     );
   }
-}
-
-Widget _showRestartButton(context) {
-  final GestureDetector loginButtonWithGesture = new GestureDetector(
-    onTap: () => KammunRestart.restartApp(context),
-    child: new Container(
-      height: 50.0,
-      decoration: new BoxDecoration(
-          color: UtilsImporter().colorUtils.primarycolor,
-          borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-      child: new Center(
-        child: new Text(
-          "المحاولة من جديد",
-          style: new TextStyle(
-              color: Colors.white,
-              fontSize: 20.0,
-              fontWeight: FontWeight.w500,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-        ),
-      ),
-    ),
-  );
-
-  return Padding(
-      padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-      child: loginButtonWithGesture);
 }

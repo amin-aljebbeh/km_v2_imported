@@ -23,20 +23,16 @@ import 'package:intl/intl.dart';
 import '../../utils/Styles.dart';
 import 'services/order_services.dart';
 
-class OrdersView extends StatefulWidget {
-  final String orderType;
+class NotAssignedOrdersView extends StatefulWidget {
   final String role;
 
-  const OrdersView({Key key, @required this.orderType, @required this.role})
-      : super(key: key);
+  const NotAssignedOrdersView({Key key, @required this.role}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return OrdersViewState();
-  }
+  _NotAssignedOrdersViewState createState() => _NotAssignedOrdersViewState();
 }
 
-class OrdersViewState extends State<OrdersView> {
+class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
   Future getOrders;
   int rateValue;
 
@@ -45,12 +41,17 @@ class OrdersViewState extends State<OrdersView> {
     rateValue = 0;
     filterOrders = 0;
 
-    if (LoadingScreenServices.myOrdersList.length == 0) {
-      getOrders = _getOrder();
+    if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
+      if (widget.role == UtilsImporter().stringUtils.deliveryRole) {
+        getOrders = OrderServices.getOrdersNotAssignedToDeliveries();
+      } else {
+        getOrders = OrderServices.getOrdersNotAssignedToShoppers();
+      }
     } else {
       getOrders = _initialFunction();
-      orderDataList = LoadingScreenServices.myOrdersList;
+      orderDataList = LoadingScreenServices.notAssignedOrdersList;
     }
+
     super.initState();
   }
 
@@ -104,12 +105,21 @@ class OrdersViewState extends State<OrdersView> {
       orderDataList.clear();
       LoadingScreenServices.myOrdersList.clear();
     });
-    final orderList = await Services.getMyOrders(pageNumber: page);
+    var orderList;
+    if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
+      if (widget.role == UtilsImporter().stringUtils.deliveryRole) {
+        orderList = OrderServices.getOrdersNotAssignedToDeliveries();
+      } else {
+        orderList = OrderServices.getOrdersNotAssignedToShoppers();
+      }
+    } else {
+      orderList = LoadingScreenServices.notAssignedOrdersList;
+    }
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
-          LoadingScreenServices.myOrdersList = orderDataList;
-          if (LoadingScreenServices.myOrdersList.length != 0)
+          LoadingScreenServices.notAssignedOrdersList = orderDataList;
+          if (LoadingScreenServices.notAssignedOrdersList.length != 0)
             theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
@@ -118,13 +128,13 @@ class OrdersViewState extends State<OrdersView> {
       } else {
         setState(() {
           orderDataList.addAll(orderList);
-          if (filterOrders == 0) {
-            orderDataList
-                .removeWhere((order) => int.parse(order.orderStatusId) > 4);
-          } else {
-            orderDataList.removeWhere(
-                (order) => int.parse(order.orderStatusId) != filterOrders);
-          }
+          // if (filterOrders == 0) {
+          //   orderDataList
+          //       .removeWhere((order) => int.parse(order.orderStatusId) > 4);
+          // } else {
+          //   orderDataList.removeWhere(
+          //       (order) => int.parse(order.orderStatusId) != filterOrders);
+          // }
           Tools.logToConsole("orderDataList before filltiting");
           Tools.logToConsole(orderDataList.length);
 
@@ -274,7 +284,7 @@ class OrdersViewState extends State<OrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
-                                  isAdmin: true,
+                                  isAdmin: false,
                                   orderId: orderDataList[index].id,
                                   entrance:
                                       orderDataList[index].address.entrance,
@@ -611,54 +621,54 @@ class OrdersViewState extends State<OrdersView> {
           orderId, _spendingController.text, _reasonController.text);
     }
 
-    if (result) {
-      _spendingController.text = '';
-      _reasonController.text = '';
-      Flushbar(
-        backgroundColor: Colors.green[900],
-        messageText: Text(
-          "تم إضافة المصروف بنجاح",
-          style: flushBarStyle,
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: Colors.green,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: Icon(
-          Icons.assignment_turned_in,
-          size: 28.0,
-          color: Colors.white,
-        ),
-        duration: Duration(seconds: 1),
-        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-      )..show(context);
-      if (!isSpendingApi) _getOrder();
-    } else {
-      Flushbar(
-        backgroundColor: Colors.red[900],
-        messageText: Text(
-          "فشل بإضافة المصروف",
-          style: flushBarStyle,
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: Colors.red,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: Icon(
-          Icons.close,
-          size: 28.0,
-          color: Colors.white,
-        ),
-        duration: Duration(seconds: 1),
-        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-      )..show(context);
-    }
+    // if (result) {
+    //   _spendingController.text = '';
+    //   _reasonController.text = '';
+    //   Flushbar(
+    //     backgroundColor: Colors.green[900],
+    //     messageText: Text(
+    //       "تم إضافة المصروف بنجاح",
+    //       style: flushBarStyle,
+    //     ),
+    //     boxShadows: [
+    //       BoxShadow(
+    //         color: Colors.green,
+    //         offset: Offset(0.0, 2.0),
+    //         blurRadius: 3.0,
+    //       )
+    //     ],
+    //     icon: Icon(
+    //       Icons.assignment_turned_in,
+    //       size: 28.0,
+    //       color: Colors.white,
+    //     ),
+    //     duration: Duration(seconds: 1),
+    //     // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+    //   )..show(context);
+    //   if (!isSpendingApi) _getOrder();
+    // } else {
+    //   Flushbar(
+    //     backgroundColor: Colors.red[900],
+    //     messageText: Text(
+    //       "فشل بإضافة المصروف",
+    //       style: flushBarStyle,
+    //     ),
+    //     boxShadows: [
+    //       BoxShadow(
+    //         color: Colors.red,
+    //         offset: Offset(0.0, 2.0),
+    //         blurRadius: 3.0,
+    //       )
+    //     ],
+    //     icon: Icon(
+    //       Icons.close,
+    //       size: 28.0,
+    //       color: Colors.white,
+    //     ),
+    //     duration: Duration(seconds: 1),
+    //     // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+    //   )..show(context);
+    // }
   }
 
   _moveOrderProductsToCart(

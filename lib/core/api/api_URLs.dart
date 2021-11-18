@@ -1,8 +1,8 @@
 // String BaseUrl = "https://kammunapp.com";
-String BaseUrl = "https://kammun.app";
+String BaseUrl = "http://test.kammun.com";
 
 const String APPLE_BASEURL = "https://kammun.app";
-const String PRODUCTION_BASE_URL = "https://kammun.app";
+const String PRODUCTION_BASE_URL = "http://test.kammun.com";
 
 const String GET_COMPANY = "/api/company";
 const String GET_MOBILE_VERSION = "/api/mob_v_config";
@@ -28,13 +28,29 @@ const String LOCK_ORDER = "/api/order/lock_order/";
 const String RATE_ORDER = "/api/order/rate_order/";
 
 const String OTP_VERIFICATION = "/api/verification_code/verify_account/";
+//Orders:
 const String ORDER = "/api/order";
 
+const String ORDERS_NOT_ASSIGNED_TO_DELIVERIES =
+    '/get_orders_not_assigned_to_deliveries';
 
-const String UNLOUCK_ORDER = "/api/order/unlock_order/";
+const String GET_ORDERS_ASSIGNED_TO_DELIVERIES =
+    '/get_orders_assigned_to_deliveries';
 
+const String DELIVERY_VIEWS_HIS_OWN_ORDERS =
+    '/delivery_views_his_own_orders?date_begin_show_order=2021-04-09 00:01:02';
 
-/// NEW Version ///
+const String GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS =
+    '/get_orders_not_assigned_to_shoppers';
+
+const String GET_ORDERS_ASSIGNED_TO_SHOPPERS =
+    '/get_orders_assigned_to_shoppers';
+
+const String SHOPPER_VIEWS_HIS_OWN_ORDERS = '/shopper_views_his_own_orders';
+
+const String UNLOCK_ORDER = "/api/order/unlock_order/";
+
+/// NEW Version ///orders_not_assigned_to_deliveries
 
 const String GET_START_REQUEST = "/api/mobile/startup";
 
