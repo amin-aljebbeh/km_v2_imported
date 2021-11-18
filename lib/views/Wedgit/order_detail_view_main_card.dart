@@ -2,7 +2,7 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'file:///D:/Kammun/km_v2/lib/utils/Styles.dart';
+import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/colors_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';

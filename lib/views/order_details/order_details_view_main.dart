@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'file:///D:/Kammun/km_v2/lib/utils/Styles.dart';
+import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
