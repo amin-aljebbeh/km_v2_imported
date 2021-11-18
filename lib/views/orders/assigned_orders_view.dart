@@ -42,11 +42,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     filterOrders = 0;
 
     if (LoadingScreenServices.myOrdersList.length == 0) {
-      if (widget.role == UtilsImporter().stringUtils.deliveryRole) {
-        getOrders = OrderServices.getDeliveryOrders();
-      } else {
-        getOrders = OrderServices.getShopperOrders();
-      }
+      getOrders = _getOrder();
     } else {
       getOrders = _initialFunction();
       orderDataList = LoadingScreenServices.myOrdersList;
@@ -108,9 +104,9 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     var orderList;
     if (LoadingScreenServices.myOrdersList.length == 0) {
       if (widget.role == UtilsImporter().stringUtils.deliveryRole) {
-        orderList = await OrderServices.getDeliveryOrders();
+        orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
       } else {
-        orderList = await OrderServices.getShopperOrders();
+        orderList = await OrderServices.getShopperOrders(pageNumber: page);
       }
     } else {
       orderList = LoadingScreenServices.myOrdersList;

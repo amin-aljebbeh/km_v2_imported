@@ -357,8 +357,8 @@ class OrderServices {
         LoadingScreenServices.notAssignedOrdersList =
             ordersFromJson(jsonEncode(response.data)).data.data;
 
-        print('getOrdersNotAssignedToShoppers');
-        print(LoadingScreenServices.notAssignedOrdersList.length);
+        Tools.logToConsole('getOrdersNotAssignedToShoppers');
+        Tools.logToConsole(LoadingScreenServices.notAssignedOrdersList.length);
         return LoadingScreenServices.notAssignedOrdersList;
       } else {
         return LoadingScreenServices.notAssignedOrdersList;

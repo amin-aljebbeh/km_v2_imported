@@ -42,11 +42,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
     filterOrders = 0;
 
     if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
-      if (widget.role == UtilsImporter().stringUtils.deliveryRole) {
-        getOrders = OrderServices.getOrdersNotAssignedToDeliveries();
-      } else {
-        getOrders = OrderServices.getOrdersNotAssignedToShoppers();
-      }
+      getOrders = _getOrder();
     } else {
       getOrders = _initialFunction();
       orderDataList = LoadingScreenServices.notAssignedOrdersList;
@@ -107,10 +103,11 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
     });
     var orderList;
     if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
+      Tools.logToConsole("#######");
       if (widget.role == UtilsImporter().stringUtils.deliveryRole) {
-        orderList = OrderServices.getOrdersNotAssignedToDeliveries();
+        orderList = await OrderServices.getOrdersNotAssignedToDeliveries(pageNumber: page);
       } else {
-        orderList = OrderServices.getOrdersNotAssignedToShoppers();
+        orderList = await OrderServices.getOrdersNotAssignedToShoppers(pageNumber: page);
       }
     } else {
       orderList = LoadingScreenServices.notAssignedOrdersList;
