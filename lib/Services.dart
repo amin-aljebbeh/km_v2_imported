@@ -184,12 +184,12 @@ class Services {
       Tools.logToConsole("------- orders data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.myOrdersList =
+        LoadingScreenServices.allOrdersList =
             ordersFromJson(jsonEncode(response.data)).data.data;
 
-        return LoadingScreenServices.myOrdersList;
+        return LoadingScreenServices.allOrdersList;
       } else {
-        return LoadingScreenServices.myOrdersList;
+        return LoadingScreenServices.allOrdersList;
       }
     } catch (e) {
       Tools.logToConsole("------------ ERROR GET USER ORDER --------------");

@@ -222,6 +222,22 @@ class HomeViewState extends State<HomeView> {
             color: Color.fromARGB(255, 53, 99, 124),
           ),
           title: Text(
+            'كل الطلبات',
+            style: naveBarStyle,
+          )),
+    );
+    bottomList.add(
+      BottomNavigationBarItem(
+          activeIcon: Icon(
+            Icons.reorder,
+            //color: Theme.of(context).primaryColor,
+            color: Color.fromARGB(255, 210, 178, 2),
+          ),
+          icon: Icon(
+            Icons.reorder,
+            color: Color.fromARGB(255, 53, 99, 124),
+          ),
+          title: Text(
             UtilsImporter().stringUtils.orders,
             style: naveBarStyle,
           )),
@@ -346,16 +362,13 @@ class HomeViewState extends State<HomeView> {
       isFromUpdateOrder: _isFromUpdateOrder,
     ));
     _tabs.add(
-      new OrdersView(
-        orderType: UtilsImporter().stringUtils.myOrder,
-        role: UtilsImporter().stringUtils.shopperRole,
-      ),
+      new OrdersView(),
     );
-    // _tabs.add(
-    //   NotAssignedOrdersView(role: UtilsImporter().stringUtils.deliveryRole),
-    // );
     _tabs.add(
-      AssignedOrdersView(role: UtilsImporter().stringUtils.deliveryRole),
+      NotAssignedOrdersView(role: UtilsImporter().stringUtils.shopperRole),
+    );
+    _tabs.add(
+      AssignedOrdersView(role: UtilsImporter().stringUtils.shopperRole),
     );
     //TODO: distinguishing the roles
     // if (LoadingScreenServices.viewOrderPermission) {

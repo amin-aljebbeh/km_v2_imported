@@ -70,6 +70,8 @@ class LoadingScreenServices {
   static List<Address> userAddress = List<Address>();
   static List<ProductData> userFavoriteProducts = List<ProductData>();
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> allOrdersList =
+      new List<OrdersOriginalData>();
   static List<OrdersOriginalData> notAssignedOrdersList =
       new List<OrdersOriginalData>();
   static String userNumber = "لم تقم بتسجيل رقم";

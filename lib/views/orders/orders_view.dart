@@ -24,12 +24,6 @@ import '../../utils/Styles.dart';
 import 'services/order_services.dart';
 
 class OrdersView extends StatefulWidget {
-  final String orderType;
-  final String role;
-
-  const OrdersView({Key key, @required this.orderType, @required this.role})
-      : super(key: key);
-
   @override
   State<StatefulWidget> createState() {
     return OrdersViewState();
@@ -45,11 +39,11 @@ class OrdersViewState extends State<OrdersView> {
     rateValue = 0;
     filterOrders = 0;
 
-    if (LoadingScreenServices.myOrdersList.length == 0) {
+    if (LoadingScreenServices.allOrdersList.length == 0) {
       getOrders = _getOrder();
     } else {
       getOrders = _initialFunction();
-      orderDataList = LoadingScreenServices.myOrdersList;
+      orderDataList = LoadingScreenServices.allOrdersList;
     }
     super.initState();
   }
@@ -102,14 +96,14 @@ class OrdersViewState extends State<OrdersView> {
       if (!theEndOfOrders) isLoading = true;
       errorMessage = false;
       orderDataList.clear();
-      LoadingScreenServices.myOrdersList.clear();
+      LoadingScreenServices.allOrdersList.clear();
     });
     final orderList = await Services.getMyOrders(pageNumber: page);
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
-          LoadingScreenServices.myOrdersList = orderDataList;
-          if (LoadingScreenServices.myOrdersList.length != 0)
+          LoadingScreenServices.allOrdersList = orderDataList;
+          if (LoadingScreenServices.allOrdersList.length != 0)
             theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
@@ -131,7 +125,7 @@ class OrdersViewState extends State<OrdersView> {
           orderDataList.removeWhere((order) => order.products.length == 0);
           Tools.logToConsole("orderDataList After filltiting");
           Tools.logToConsole(orderDataList.length);
-          LoadingScreenServices.myOrdersList = orderDataList;
+          LoadingScreenServices.allOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;

@@ -103,7 +103,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
       if (!theEndOfOrders) isLoading = true;
       errorMessage = false;
       orderDataList.clear();
-      LoadingScreenServices.myOrdersList.clear();
+      LoadingScreenServices.notAssignedOrdersList.clear();
     });
     var orderList;
     if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
@@ -128,20 +128,20 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
       } else {
         setState(() {
           orderDataList.addAll(orderList);
-          // if (filterOrders == 0) {
-          //   orderDataList
-          //       .removeWhere((order) => int.parse(order.orderStatusId) > 4);
-          // } else {
-          //   orderDataList.removeWhere(
-          //       (order) => int.parse(order.orderStatusId) != filterOrders);
-          // }
+          if (filterOrders == 0) {
+            orderDataList
+                .removeWhere((order) => int.parse(order.orderStatusId) > 4);
+          } else {
+            orderDataList.removeWhere(
+                (order) => int.parse(order.orderStatusId) != filterOrders);
+          }
           Tools.logToConsole("orderDataList before filltiting");
           Tools.logToConsole(orderDataList.length);
 
           orderDataList.removeWhere((order) => order.products.length == 0);
           Tools.logToConsole("orderDataList After filltiting");
           Tools.logToConsole(orderDataList.length);
-          LoadingScreenServices.myOrdersList = orderDataList;
+          LoadingScreenServices.notAssignedOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -621,54 +621,54 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
           orderId, _spendingController.text, _reasonController.text);
     }
 
-    // if (result) {
-    //   _spendingController.text = '';
-    //   _reasonController.text = '';
-    //   Flushbar(
-    //     backgroundColor: Colors.green[900],
-    //     messageText: Text(
-    //       "تم إضافة المصروف بنجاح",
-    //       style: flushBarStyle,
-    //     ),
-    //     boxShadows: [
-    //       BoxShadow(
-    //         color: Colors.green,
-    //         offset: Offset(0.0, 2.0),
-    //         blurRadius: 3.0,
-    //       )
-    //     ],
-    //     icon: Icon(
-    //       Icons.assignment_turned_in,
-    //       size: 28.0,
-    //       color: Colors.white,
-    //     ),
-    //     duration: Duration(seconds: 1),
-    //     // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-    //   )..show(context);
-    //   if (!isSpendingApi) _getOrder();
-    // } else {
-    //   Flushbar(
-    //     backgroundColor: Colors.red[900],
-    //     messageText: Text(
-    //       "فشل بإضافة المصروف",
-    //       style: flushBarStyle,
-    //     ),
-    //     boxShadows: [
-    //       BoxShadow(
-    //         color: Colors.red,
-    //         offset: Offset(0.0, 2.0),
-    //         blurRadius: 3.0,
-    //       )
-    //     ],
-    //     icon: Icon(
-    //       Icons.close,
-    //       size: 28.0,
-    //       color: Colors.white,
-    //     ),
-    //     duration: Duration(seconds: 1),
-    //     // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-    //   )..show(context);
-    // }
+    if (result) {
+      _spendingController.text = '';
+      _reasonController.text = '';
+      Flushbar(
+        backgroundColor: Colors.green[900],
+        messageText: Text(
+          "تم إضافة المصروف بنجاح",
+          style: flushBarStyle,
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.green,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          )
+        ],
+        icon: Icon(
+          Icons.assignment_turned_in,
+          size: 28.0,
+          color: Colors.white,
+        ),
+        duration: Duration(seconds: 1),
+        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      )..show(context);
+      if (!isSpendingApi) _getOrder();
+    } else {
+      Flushbar(
+        backgroundColor: Colors.red[900],
+        messageText: Text(
+          "فشل بإضافة المصروف",
+          style: flushBarStyle,
+        ),
+        boxShadows: [
+          BoxShadow(
+            color: Colors.red,
+            offset: Offset(0.0, 2.0),
+            blurRadius: 3.0,
+          )
+        ],
+        icon: Icon(
+          Icons.close,
+          size: 28.0,
+          color: Colors.white,
+        ),
+        duration: Duration(seconds: 1),
+        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      )..show(context);
+    }
   }
 
   _moveOrderProductsToCart(

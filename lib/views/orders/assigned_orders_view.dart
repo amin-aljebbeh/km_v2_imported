@@ -118,8 +118,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
-          LoadingScreenServices.notAssignedOrdersList = orderDataList;
-          if (LoadingScreenServices.notAssignedOrdersList.length != 0)
+          LoadingScreenServices.myOrdersList = orderDataList;
+          if (LoadingScreenServices.myOrdersList.length != 0)
             theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
@@ -128,13 +128,13 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       } else {
         setState(() {
           orderDataList.addAll(orderList);
-          // if (filterOrders == 0) {
-          //   orderDataList
-          //       .removeWhere((order) => int.parse(order.orderStatusId) > 4);
-          // } else {
-          //   orderDataList.removeWhere(
-          //       (order) => int.parse(order.orderStatusId) != filterOrders);
-          // }
+          if (filterOrders == 0) {
+            orderDataList
+                .removeWhere((order) => int.parse(order.orderStatusId) > 4);
+          } else {
+            orderDataList.removeWhere(
+                (order) => int.parse(order.orderStatusId) != filterOrders);
+          }
           Tools.logToConsole("orderDataList before filltiting");
           Tools.logToConsole(orderDataList.length);
 
