@@ -1,8 +1,5 @@
-import 'package:flushbar/flushbar.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/lock_order.dart';
-import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -20,7 +17,6 @@ import 'package:kammun_app/views/order_details/order_detail_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:intl/intl.dart';
-import '../../utils/Styles.dart';
 import 'services/order_services.dart';
 
 class NotAssignedOrdersView extends StatefulWidget {
@@ -105,9 +101,11 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
     if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
       Tools.logToConsole("#######");
       if (widget.role == UtilsImporter().stringUtils.deliveryRole) {
-        orderList = await OrderServices.getOrdersNotAssignedToDeliveries(pageNumber: page);
+        orderList = await OrderServices.getOrdersNotAssignedToDeliveries(
+            pageNumber: page);
       } else {
-        orderList = await OrderServices.getOrdersNotAssignedToShoppers(pageNumber: page);
+        orderList = await OrderServices.getOrdersNotAssignedToShoppers(
+            pageNumber: page);
       }
     } else {
       orderList = LoadingScreenServices.notAssignedOrdersList;
@@ -281,7 +279,8 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
-                                  isAdmin: false,
+                                  // deliveryName:orderDataList[index]. ,
+                                  // shopperName: orderDataList[index]. ,
                                   orderId: orderDataList[index].id,
                                   entrance:
                                       orderDataList[index].address.entrance,
@@ -320,193 +319,18 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                   orderCreatedDate: dateTime,
                                 ),
                               ),
-                              Wrap(
-                                children: [
-                                  (int.parse(orderDataList[index]
-                                                  .orderStatusId) <
-                                              5) &&
-                                          (orderDataList[index].underUpdate ==
-                                                  "0" ||
-                                              orderDataList[index]
-                                                      .underUpdate ==
-                                                  "2")
-                                      ? DecisionButton(
-                                          text: 'تعديل الطلب',
-                                          onTap: () async {
-                                            setState(
-                                              () {
-                                                orderLoaded = false;
-                                                errorMessage = false;
-                                              },
-                                            );
-                                            LockOrder response =
-                                                await OrderServices.lockOrder(
-                                                    orderDataList[index]
-                                                        .id
-                                                        .toString());
-                                            if (response != null) {
-                                              if (response.success) {
-                                                setState(() {
-                                                  orderLoaded = true;
-                                                  errorMessage = false;
-                                                });
-                                                _moveOrderProductsToCart(
-                                                    orderIndex: index,
-                                                    orderProducts:
-                                                        response.products);
-                                                orderDataList[index]
-                                                    .underUpdate = "1";
-                                              } else if (!response.success) {
-                                                setState(() {
-                                                  orderDataList[index]
-                                                      .underUpdate = "2";
-                                                  orderLoaded = true;
-                                                  errorMessage = true;
-                                                  errorMessageValue =
-                                                      "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
-                                                });
-                                              }
-                                            } else {
-                                              setState(() {
-                                                orderLoaded = true;
-                                                errorMessage = true;
-                                                errorMessageValue =
-                                                    "حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت";
-                                              });
-                                            }
-                                          },
-                                          color: Colors.green,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.5,
-                                        )
-                                      /*_showEditButton(index)*/
-                                      : Container(),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  DecisionButton(
-                                    text: "إضافة مصروف",
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.5,
-                                    color: Colors.red,
-                                    onTap: () {
-                                      List<DialogButton> decisionButtons = [
-                                        DialogButton(
-                                          text: 'إغلاق',
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        )
-                                      ];
-                                      showMyDialog(
-                                          "إضافة مصروف",
-                                          null,
-                                          decisionButtons,
-                                          Column(
-                                            // shrinkWrap: true,
-                                            children: [
-                                              TextFormField(
-                                                onChanged: (value) {
-                                                  setState(() {});
-                                                },
-                                                controller: _spendingController,
-                                                maxLines: 1,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  hintText: "المبلغ المدفوع",
-                                                  hintStyle: dialogStyle,
-                                                  fillColor: Colors.white,
-                                                  filled: true,
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      5.0),
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: Colors.white,
-                                                            width: 3.0,
-                                                          )),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      4.0),
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: Color(
-                                                                0xFF999999),
-                                                            width: 1.0,
-                                                          )),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              TextFormField(
-                                                onChanged: (value) {
-                                                  setState(() {});
-                                                },
-                                                controller: _reasonController,
-                                                maxLines: 1,
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  hintText: "سبب الدفع",
-                                                  hintStyle: dialogStyle,
-                                                  fillColor: Colors.white,
-                                                  filled: true,
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      5.0),
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: Colors.white,
-                                                            width: 3.0,
-                                                          )),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4.0),
-                                                    borderSide: BorderSide(
-                                                      color: Color(0xFF999999),
-                                                      width: 1.0,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              KammunButton(
-                                                text: "إضافة مصروف",
-                                                onPress: () {
-                                                  Navigator.of(context).pop();
-                                                  submitSpending(
-                                                      orderDataList[index]
-                                                          .id
-                                                          .toString());
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                          context);
-                                      // _showAddSpendingDialog(
-                                      //     index: index);
-                                    },
-                                  ),
-                                ],
+                              DecisionButton(
+                                text: UtilsImporter().stringUtils.getOrder,
+                                color: Colors.red,
+                                onTap: () {
+                                  OrderServices.assignOrder(
+                                      orderDataList[index].id.toString(),
+                                      widget.role);
+                                  setState(() {});
+                                },
+                              ),
+                              SizedBox(
+                                width: 10,
                               ),
                               orderDataList[index].userNotes.toString() !=
                                       "null"
@@ -541,7 +365,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                             text: 'نعم',
                                             onTap: () {
                                               Navigator.of(context).pop();
-                                              submitSpending(orderId.toString(),
+                                              unLockOrder(orderId.toString(),
                                                   isSpendingApi: false);
                                             },
                                           ),
@@ -606,66 +430,8 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
     );
   }
 
-  TextEditingController _spendingController = new TextEditingController();
-  TextEditingController _reasonController = new TextEditingController();
-
-  void submitSpending(String orderId, {bool isSpendingApi = true}) async {
-    bool result;
-    if (!isSpendingApi) {
-      result = await OrderServices.unlockOrder(orderId);
-    } else {
-      result = await OrderServices.addSpendingToOrder(
-          orderId, _spendingController.text, _reasonController.text);
-    }
-
-    if (result) {
-      _spendingController.text = '';
-      _reasonController.text = '';
-      Flushbar(
-        backgroundColor: Colors.green[900],
-        messageText: Text(
-          "تم إضافة المصروف بنجاح",
-          style: flushBarStyle,
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: Colors.green,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: Icon(
-          Icons.assignment_turned_in,
-          size: 28.0,
-          color: Colors.white,
-        ),
-        duration: Duration(seconds: 1),
-        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-      )..show(context);
-      if (!isSpendingApi) _getOrder();
-    } else {
-      Flushbar(
-        backgroundColor: Colors.red[900],
-        messageText: Text(
-          "فشل بإضافة المصروف",
-          style: flushBarStyle,
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: Colors.red,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: Icon(
-          Icons.close,
-          size: 28.0,
-          color: Colors.white,
-        ),
-        duration: Duration(seconds: 1),
-        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-      )..show(context);
-    }
+  void unLockOrder(String orderId, {bool isSpendingApi = true}) async {
+    await OrderServices.unlockOrder(orderId);
   }
 
   _moveOrderProductsToCart(

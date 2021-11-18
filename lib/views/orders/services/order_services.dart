@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
@@ -7,6 +8,7 @@ import 'package:kammun_app/models/lock_order.dart';
 import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
@@ -61,7 +63,10 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: ORDER, method: httpMethods.post, body: jsonEncode(orderData));
+        url: ORDER,
+        method: httpMethods.post,
+        body: jsonEncode(orderData),
+      );
 
       Tools.logToConsole(response.data["reason"]);
 
@@ -326,8 +331,8 @@ class OrderServices {
       Tools.logToConsole("------- orders data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.myOrdersList =
-            ordersFromJson(jsonEncode(response.data)).data.data;
+        LoadingScreenServices.myOrdersList
+            .addAll(ordersFromJson(jsonEncode(response.data)).data.data);
 
         print('getDeliveryOrders');
         print(LoadingScreenServices.myOrdersList.length);
@@ -382,8 +387,8 @@ class OrderServices {
       Tools.logToConsole("------- orders data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.myOrdersList =
-            ordersFromJson(jsonEncode(response.data)).data.data;
+        LoadingScreenServices.myOrdersList
+            .addAll(ordersFromJson(jsonEncode(response.data)).data.data);
 
         print('getShopperOrders');
         print(LoadingScreenServices.myOrdersList.length);
@@ -396,6 +401,66 @@ class OrderServices {
           "------------ ERROR GET ShopperOrders ORDER --------------");
       Tools.logToConsole(e.toString());
       return null;
+    }
+  }
+
+  static Future<bool> assignOrder(String orderId, String role) async {
+    String url;
+    if (role == UtilsImporter().stringUtils.deliveryRole)
+      url = ASSIGN_DELIVERY_ORDER_HIMSELF;
+    else
+      url = ASSIGN_SHOPPER_ORDER_HIMSELF;
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: ORDER + url + orderId,
+        method: httpMethods.put,
+      );
+      Tools.logToConsole("------- orders data -------");
+
+      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole(
+          "------------ ERROR GET ShopperOrders ORDER --------------");
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
+  static Future<bool> assignOrderTo(String assignedId, String orderId) async {
+    String url;
+    String assigned;
+    if (Services.roles.contains(UtilsImporter().stringUtils.deliveryRole)) {
+      url = ASSIGN_DELIVERY_ORDER_HIMSELF;
+      assigned = 'delivery_id';
+    } else if (Services.roles
+        .contains(UtilsImporter().stringUtils.shopperRole)) {
+      url = ASSIGN_SHOPPER_ORDER_HIMSELF;
+      assigned = 'shopper_id';
+    }
+    Map assignOrderBody = {
+      'order_id': orderId,
+      assigned: assignedId,
+    };
+
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: url,
+        method: httpMethods.post,
+        body: jsonEncode(assignOrderBody),
+      );
+      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+        return true;
+      } else {
+        Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+        await Services.getMyOrders();
+        return false;
+      }
+    } catch (e) {
+      return false;
     }
   }
 }

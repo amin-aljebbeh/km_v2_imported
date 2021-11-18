@@ -6,6 +6,7 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -124,6 +125,10 @@ class LoginServices {
         prefs.setString("userToken", newResponse.data.apiToken);
         prefs.setString("adminRoll", username);
         prefs.setString("adminId", newResponse.data.id.toString());
+        for (int i = 0; i < newResponse.data.roles.length; i++) {
+          prefs.setString(
+              newResponse.data.roles[i].slug, newResponse.data.roles[i].slug);
+        }
 
         prefs.setBool("product_operations_permission",
             newResponse.data.productOperationsPermission == 1 ? true : false);
@@ -147,18 +152,18 @@ class LoginServices {
 
         prefs.setString(
             "warehouse_id", newResponse.data.warehouseId.toString());
+        Tools.logToConsole("------- WE ARE HERE --------");
 
         LoadingScreen.userToken = newResponse.data.apiToken;
         LoadingScreen.isAdmin = true;
 
         return true;
       } else {
-        Tools.logToConsole("------- WE ARE HERE --------");
         Tools.logToConsole("------- ERROR LOGIN ADMIN --------");
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
+      Tools.logToConsole('e.toString()');
       return false;
     }
   }

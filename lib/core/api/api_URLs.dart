@@ -50,7 +50,15 @@ const String SHOPPER_VIEWS_HIS_OWN_ORDERS = '/shopper_views_his_own_orders';
 
 const String UNLOCK_ORDER = "/api/order/unlock_order/";
 
-/// NEW Version ///orders_not_assigned_to_deliveries
+const String ASSIGN_DELIVERY_ORDER_HIMSELF = '/assign_delivery_order_himself/';
+
+const String ASSIGN_SHOPPER_ORDER_HIMSELF = '/assign_shopper_order_himself/';
+
+const String ASSIGN_ORDER_TO_SHOPPER = '/assign_order_to_shopper';
+
+const String ASSIGN_ORDER_TO_DELIVERY = '/assign_order_to_delivery';
+
+/// NEW Version ///
 
 const String GET_START_REQUEST = "/api/mobile/startup";
 

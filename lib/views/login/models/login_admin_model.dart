@@ -36,6 +36,7 @@ class Data {
     this.id,
     this.username,
     this.name,
+    this.phone,
     this.apiToken,
     this.productOperationsPermission,
     this.addCategoryPermission,
@@ -50,12 +51,14 @@ class Data {
     this.updateCategoryWarehousePermission,
     this.productWarehouseOperationsPermission,
     this.updateOrderPermission,
-    this.subWarehouses,
+    this.roles,
+    this.shopper,
   });
 
   int id;
   String username;
   String name;
+  dynamic phone;
   String apiToken;
   int productOperationsPermission;
   int addCategoryPermission;
@@ -71,11 +74,14 @@ class Data {
   int productWarehouseOperationsPermission;
   int updateOrderPermission;
   List<SubWarehouse> subWarehouses;
+  List<Role> roles;
+  Shopper shopper;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         username: json["username"],
         name: json["name"],
+        phone: json["phone"],
         apiToken: json["api_token"],
         productOperationsPermission: json["product_operations_permission"],
         addCategoryPermission: json["add_category_permission"],
@@ -92,16 +98,15 @@ class Data {
         productWarehouseOperationsPermission:
             json["product_warehouse_operations_permission"],
         updateOrderPermission: json["update_order_permission"],
-        subWarehouses: json["sub_warehouses"] == null
-            ? null
-            : List<SubWarehouse>.from(
-                json["sub_warehouses"].map((x) => SubWarehouse.fromJson(x))),
+        roles: List<Role>.from(json["roles"].map((x) => Role.fromJson(x))),
+        shopper: Shopper.fromJson(json["shopper"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "username": username,
         "name": name,
+        "phone": phone,
         "api_token": apiToken,
         "product_operations_permission": productOperationsPermission,
         "add_category_permission": addCategoryPermission,
@@ -118,8 +123,8 @@ class Data {
         "product_warehouse_operations_permission":
             productWarehouseOperationsPermission,
         "update_order_permission": updateOrderPermission,
-        "sub_warehouses":
-            List<dynamic>.from(subWarehouses.map((x) => x.toJson())),
+        "roles": List<dynamic>.from(roles.map((x) => x.toJson())),
+        "shopper": shopper.toJson(),
       };
 }
 
@@ -167,23 +172,94 @@ class SubWarehouse {
       };
 }
 
-class Pivot {
-  Pivot({
-    this.adminId,
-    this.subWarehouseId,
+class Role {
+  Role({
+    this.id,
+    this.name,
+    this.slug,
+    this.pivot,
   });
 
-  int adminId;
-  int subWarehouseId;
+  int id;
+  String name;
+  String slug;
+  Pivot pivot;
 
-  factory Pivot.fromJson(Map<String, dynamic> json) => Pivot(
-        adminId: json["admin_id"] == null ? null : json["admin_id"],
-        subWarehouseId:
-            json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
+  factory Role.fromJson(Map<String, dynamic> json) => Role(
+        id: json["id"],
+        name: json["name"],
+        slug: json["slug"],
+        pivot: Pivot.fromJson(json["pivot"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "admin_id": adminId == null ? null : adminId,
-        "sub_warehouse_id": subWarehouseId == null ? null : subWarehouseId,
+        "id": id,
+        "name": name,
+        "slug": slug,
+        "pivot": pivot.toJson(),
+      };
+}
+
+class Pivot {
+  Pivot({
+    this.adminId,
+    this.roleId,
+  });
+
+  int adminId;
+  int roleId;
+
+  factory Pivot.fromJson(Map<String, dynamic> json) => Pivot(
+        adminId: json["admin_id"],
+        roleId: json["role_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "admin_id": adminId,
+        "role_id": roleId,
+      };
+}
+
+class Shopper {
+  Shopper({
+    this.id,
+    this.adminId,
+    this.name,
+    this.points,
+    this.status,
+    this.levelId,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  int id;
+  int adminId;
+  String name;
+  int points;
+  int status;
+  int levelId;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory Shopper.fromJson(Map<String, dynamic> json) => Shopper(
+        id: json["id"],
+        adminId: json["admin_id"],
+        name: json["name"],
+        points: json["points"],
+        status: json["status"],
+        levelId: json["level_id"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "admin_id": adminId,
+        "name": name,
+        "points": points,
+        "status": status,
+        "level_id": levelId,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
       };
 }

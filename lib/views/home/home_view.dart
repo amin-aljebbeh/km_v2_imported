@@ -16,6 +16,7 @@ import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/prices_changes/prices.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../Services.dart';
 import '../../utils/Styles.dart';
 
 class HomeView extends StatefulWidget {
@@ -176,7 +177,26 @@ class HomeViewState extends State<HomeView> {
     // }
   }
 
+  Future<List<String>> getRole() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> roles = [];
+    try {
+      roles.add(prefs.getString(UtilsImporter().stringUtils.superAdminRole));
+    } catch (e) {}
+    try {
+      roles.add(prefs.getString(UtilsImporter().stringUtils.adminRole));
+    } catch (e) {}
+    try {
+      roles.add(prefs.getString(UtilsImporter().stringUtils.deliveryRole));
+    } catch (e) {}
+    try {
+      roles.add(prefs.getString(UtilsImporter().stringUtils.shopperRole));
+    } catch (e) {}
+    return roles;
+  }
+
   Widget _bottomNavBar({BuildContext context}) {
+    Services.roles = getRole as List<String>;
     // return CupertinoNavigationBar(
     //   heroTag: ,
     // );
@@ -210,55 +230,60 @@ class HomeViewState extends State<HomeView> {
         ),
       ),
     );
-    bottomList.add(
-      BottomNavigationBarItem(
+    if (Services.roles.contains(UtilsImporter().stringUtils.superAdminRole))
+      bottomList.add(
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.reorder,
+              //color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon: Icon(
+              Icons.reorder,
+              color: Color.fromARGB(255, 53, 99, 124),
+            ),
+            title: Text(
+              'كل الطلبات',
+              style: naveBarStyle,
+            )),
+      );
+    if (Services.roles.contains(UtilsImporter().stringUtils.shopperRole) ||
+        Services.roles.contains(UtilsImporter().stringUtils.deliveryRole)) {
+      bottomList.add(
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.reorder,
+              //color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon: Icon(
+              Icons.reorder,
+              color: Color.fromARGB(255, 53, 99, 124),
+            ),
+            title: Text(
+              UtilsImporter().stringUtils.orders,
+              style: naveBarStyle,
+            )),
+      );
+      bottomList.add(
+        BottomNavigationBarItem(
           activeIcon: Icon(
-            Icons.reorder,
-            //color: Theme.of(context).primaryColor,
+            Icons.playlist_add_check_outlined,
+            // color: Theme.of(context).primaryColor,
             color: Color.fromARGB(255, 210, 178, 2),
           ),
           icon: Icon(
-            Icons.reorder,
+            Icons.playlist_add_check_outlined,
             color: Color.fromARGB(255, 53, 99, 124),
           ),
           title: Text(
-            'كل الطلبات',
+            'طلباتي',
             style: naveBarStyle,
-          )),
-    );
-    bottomList.add(
-      BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.reorder,
-            //color: Theme.of(context).primaryColor,
-            color: Color.fromARGB(255, 210, 178, 2),
           ),
-          icon: Icon(
-            Icons.reorder,
-            color: Color.fromARGB(255, 53, 99, 124),
-          ),
-          title: Text(
-            UtilsImporter().stringUtils.orders,
-            style: naveBarStyle,
-          )),
-    );
-    bottomList.add(
-      BottomNavigationBarItem(
-        activeIcon: Icon(
-          Icons.playlist_add_check_outlined,
-          // color: Theme.of(context).primaryColor,
-          color: Color.fromARGB(255, 210, 178, 2),
         ),
-        icon: Icon(
-          Icons.playlist_add_check_outlined,
-          color: Color.fromARGB(255, 53, 99, 124),
-        ),
-        title: Text(
-          'طلباتي',
-          style: naveBarStyle,
-        ),
-      ),
-    );
+      );
+    }
+
     // if (LoadingScreenServices.viewOrderPermission) {
     //   bottomList.add(
     //     BottomNavigationBarItem(
@@ -361,15 +386,20 @@ class HomeViewState extends State<HomeView> {
     _tabs.add(CartView(
       isFromUpdateOrder: _isFromUpdateOrder,
     ));
-    _tabs.add(
-      new OrdersView(),
-    );
-    _tabs.add(
-      NotAssignedOrdersView(role: UtilsImporter().stringUtils.shopperRole),
-    );
-    _tabs.add(
-      AssignedOrdersView(role: UtilsImporter().stringUtils.shopperRole),
-    );
+    if (Services.roles.contains(UtilsImporter().stringUtils.superAdminRole))
+      _tabs.add(
+        new OrdersView(),
+      );
+    if (Services.roles.contains(UtilsImporter().stringUtils.shopperRole) ||
+        Services.roles.contains(UtilsImporter().stringUtils.deliveryRole)) {
+      _tabs.add(
+        NotAssignedOrdersView(),
+      );
+      _tabs.add(
+        AssignedOrdersView(),
+      );
+    }
+
     //TODO: distinguishing the roles
     // if (LoadingScreenServices.viewOrderPermission) {
     //   _tabs.add(

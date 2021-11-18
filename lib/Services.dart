@@ -8,6 +8,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/api/api_URLs.dart';
 import 'core/api/api_provider.dart';
@@ -17,6 +18,7 @@ import 'models/start_model.dart';
 import 'utils/Styles.dart';
 
 class Services {
+  static List<String> roles = [];
   static bool updateOption = false;
   //static String imagePrefixUrl = "";
   static String prefixUrl = "http://kammun.com/lsapp/public/api/";
@@ -290,6 +292,23 @@ class Services {
   }
 
   static List<DropdownMenuItem<int>> dropdownStringList(
+      List<String> inputList) {
+    List<DropdownMenuItem<int>> list = List();
+    for (int i = 0; i < inputList.length; i++) {
+      list.add(
+        DropdownMenuItem<int>(
+          child: Text(
+            inputList[i],
+            style: dropdownItemStyle,
+          ),
+          value: i,
+        ),
+      );
+    }
+    return list;
+  }
+
+  static List<DropdownMenuItem<int>> searchableDropdownStringList(
       List<String> inputList) {
     List<DropdownMenuItem<int>> list = List();
     for (int i = 0; i < inputList.length; i++) {

@@ -253,10 +253,18 @@ class StringUtils {
   String shopperRole = 'shopper';
   String deliveryRole = 'delivery';
   String adminRole = 'admin';
+  String superAdminRole = 'super-admin';
 
   //Orders types:
   String myOrder = 'assigned';
   String notAssignedOrder = 'unassigned';
 
+  //Buttons text:
+
+  String getOrder = 'أخذ الطلب';
+  //Labels:
+  String deliveryName = 'الكابتن : ';
+
+  String shopperName = 'المتسوق : ';
   final oCcy = new NumberFormat("#,##0", "en_US");
 }

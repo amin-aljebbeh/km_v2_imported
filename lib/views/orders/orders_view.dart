@@ -268,7 +268,6 @@ class OrdersViewState extends State<OrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
-                                  isAdmin: true,
                                   orderId: orderDataList[index].id,
                                   entrance:
                                       orderDataList[index].address.entrance,
@@ -307,193 +306,47 @@ class OrdersViewState extends State<OrdersView> {
                                   orderCreatedDate: dateTime,
                                 ),
                               ),
-                              Wrap(
-                                children: [
-                                  (int.parse(orderDataList[index]
-                                                  .orderStatusId) <
-                                              5) &&
-                                          (orderDataList[index].underUpdate ==
-                                                  "0" ||
-                                              orderDataList[index]
-                                                      .underUpdate ==
-                                                  "2")
-                                      ? DecisionButton(
-                                          text: 'تعديل الطلب',
-                                          onTap: () async {
-                                            setState(
-                                              () {
-                                                orderLoaded = false;
-                                                errorMessage = false;
-                                              },
-                                            );
-                                            LockOrder response =
-                                                await OrderServices.lockOrder(
-                                                    orderDataList[index]
-                                                        .id
-                                                        .toString());
-                                            if (response != null) {
-                                              if (response.success) {
-                                                setState(() {
-                                                  orderLoaded = true;
-                                                  errorMessage = false;
-                                                });
-                                                _moveOrderProductsToCart(
-                                                    orderIndex: index,
-                                                    orderProducts:
-                                                        response.products);
-                                                orderDataList[index]
-                                                    .underUpdate = "1";
-                                              } else if (!response.success) {
-                                                setState(() {
-                                                  orderDataList[index]
-                                                      .underUpdate = "2";
-                                                  orderLoaded = true;
-                                                  errorMessage = true;
-                                                  errorMessageValue =
-                                                      "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
-                                                });
-                                              }
-                                            } else {
-                                              setState(() {
-                                                orderLoaded = true;
-                                                errorMessage = true;
-                                                errorMessageValue =
-                                                    "حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت";
-                                              });
-                                            }
-                                          },
-                                          color: Colors.green,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.5,
-                                        )
-                                      /*_showEditButton(index)*/
-                                      : Container(),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  DecisionButton(
-                                    text: "إضافة مصروف",
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.5,
-                                    color: Colors.red,
-                                    onTap: () {
-                                      List<DialogButton> decisionButtons = [
-                                        DialogButton(
-                                          text: 'إغلاق',
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        )
-                                      ];
-                                      showMyDialog(
-                                          "إضافة مصروف",
-                                          null,
-                                          decisionButtons,
-                                          Column(
-                                            // shrinkWrap: true,
-                                            children: [
-                                              TextFormField(
-                                                onChanged: (value) {
-                                                  setState(() {});
-                                                },
-                                                controller: _spendingController,
-                                                maxLines: 1,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  hintText: "المبلغ المدفوع",
-                                                  hintStyle: dialogStyle,
-                                                  fillColor: Colors.white,
-                                                  filled: true,
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      5.0),
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: Colors.white,
-                                                            width: 3.0,
-                                                          )),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      4.0),
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: Color(
-                                                                0xFF999999),
-                                                            width: 1.0,
-                                                          )),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              TextFormField(
-                                                onChanged: (value) {
-                                                  setState(() {});
-                                                },
-                                                controller: _reasonController,
-                                                maxLines: 1,
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(),
-                                                  hintText: "سبب الدفع",
-                                                  hintStyle: dialogStyle,
-                                                  fillColor: Colors.white,
-                                                  filled: true,
-                                                  enabledBorder:
-                                                      OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      5.0),
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: Colors.white,
-                                                            width: 3.0,
-                                                          )),
-                                                  focusedBorder:
-                                                      OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4.0),
-                                                    borderSide: BorderSide(
-                                                      color: Color(0xFF999999),
-                                                      width: 1.0,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 20,
-                                              ),
-                                              KammunButton(
-                                                text: "إضافة مصروف",
-                                                onPress: () {
-                                                  Navigator.of(context).pop();
-                                                  submitSpending(
-                                                      orderDataList[index]
-                                                          .id
-                                                          .toString());
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                          context);
-                                      // _showAddSpendingDialog(
-                                      //     index: index);
+                              DecisionButton(
+                                text: 'تعديل الطلب',
+                                onTap: () async {
+                                  setState(
+                                    () {
+                                      orderLoaded = false;
+                                      errorMessage = false;
                                     },
-                                  ),
-                                ],
+                                  );
+                                  LockOrder response =
+                                      await OrderServices.lockOrder(
+                                          orderDataList[index].id.toString());
+                                  if (response != null) {
+                                    if (response.success) {
+                                      setState(() {
+                                        orderLoaded = true;
+                                        errorMessage = false;
+                                      });
+                                      _moveOrderProductsToCart(
+                                          orderIndex: index,
+                                          orderProducts: response.products);
+                                      orderDataList[index].underUpdate = "1";
+                                    } else if (!response.success) {
+                                      setState(() {
+                                        orderDataList[index].underUpdate = "2";
+                                        orderLoaded = true;
+                                        errorMessage = true;
+                                        errorMessageValue =
+                                            "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
+                                      });
+                                    }
+                                  } else {
+                                    setState(() {
+                                      orderLoaded = true;
+                                      errorMessage = true;
+                                      errorMessageValue =
+                                          "حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت";
+                                    });
+                                  }
+                                },
+                                color: Colors.green,
                               ),
                               orderDataList[index].userNotes.toString() !=
                                       "null"
