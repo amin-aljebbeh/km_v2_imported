@@ -7,6 +7,8 @@ import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
+import '../../../Services.dart';
+
 class InventoryServices {
   static Future<bool> getInventoryProducts() async {
     var response = await ApiProvider.sendRequest(
@@ -31,6 +33,10 @@ class InventoryServices {
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
       final result = adminLoginResponseFromJson(jsonEncode(response.data));
+
+      if (result.data.roles.length > 0) {
+        Services.roles = result.data.roles;
+      }
 
       return result.data.subWarehouses;
     } else {

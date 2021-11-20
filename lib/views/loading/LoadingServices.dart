@@ -113,10 +113,16 @@ class LoadingScreenServices {
   Future<bool> getSubWarehouse() async {
     swbWarehouses.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    Tools.logToConsole(
+        "The Admin ID is ####: " + prefs.getString("adminId").toString());
+
     List<SubWarehouse> response = await InventoryServices.getSubWarehoused(
         adminId: prefs.getString("adminId"));
+    Tools.logToConsole("Admin response");
+    Tools.logToConsole(response);
     if (response != null) {
       swbWarehouses.addAll(response);
+
       return true;
     } else {
       return false;
@@ -264,6 +270,7 @@ class LoadingScreenServices {
   }
 
   Future<bool> fetchAdminInformation() async {
+    Tools.logToConsole("Featching admin information");
     String buildNumber = "100";
     int lastSupported;
     int currentVersion;
@@ -409,6 +416,9 @@ class LoadingScreenServices {
           }
           Tools.logToConsole("TTTTTTTTTTTTT : " + responses[0].toString());
           Tools.logToConsole("BBBBBBBBBBBBBB : " + responses[1].toString());
+          Tools.logToConsole("cccccccccccccc : " + responses[2].toString());
+          Tools.logToConsole("zzzzzzzzzzzzz : " + responses[3].toString());
+
           if (responses[1] == null) {
             fetchAdminInformation();
           } else {

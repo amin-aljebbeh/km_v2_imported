@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/login/models/login_admin_model.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +19,7 @@ import 'models/start_model.dart';
 import 'utils/Styles.dart';
 
 class Services {
-  static List<String> roles = [];
+  static List<Role> roles = [];
   static bool updateOption = false;
   //static String imagePrefixUrl = "";
   static String prefixUrl = "http://kammun.com/lsapp/public/api/";

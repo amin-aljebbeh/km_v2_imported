@@ -177,29 +177,25 @@ class HomeViewState extends State<HomeView> {
     // }
   }
 
-  Future<List<String>> getRole() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> roles = [];
-    try {
-      roles.add(prefs.getString(UtilsImporter().stringUtils.superAdminRole));
-    } catch (e) {}
-    try {
-      roles.add(prefs.getString(UtilsImporter().stringUtils.adminRole));
-    } catch (e) {}
-    try {
-      roles.add(prefs.getString(UtilsImporter().stringUtils.deliveryRole));
-    } catch (e) {}
-    try {
-      roles.add(prefs.getString(UtilsImporter().stringUtils.shopperRole));
-    } catch (e) {}
-    return roles;
-  }
+  // Future<List<String>> getRole() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   List<String> roles = [];
+  //   try {
+  //     roles.add(prefs.getString(UtilsImporter().stringUtils.superAdminRole));
+  //   } catch (e) {}
+  //   try {
+  //     roles.add(prefs.getString(UtilsImporter().stringUtils.adminRole));
+  //   } catch (e) {}
+  //   try {
+  //     roles.add(prefs.getString(UtilsImporter().stringUtils.deliveryRole));
+  //   } catch (e) {}
+  //   try {
+  //     roles.add(prefs.getString(UtilsImporter().stringUtils.shopperRole));
+  //   } catch (e) {}
+  //   return roles;
+  // }
 
   Widget _bottomNavBar({BuildContext context}) {
-    Services.roles = getRole as List<String>;
-    // return CupertinoNavigationBar(
-    //   heroTag: ,
-    // );
     List<BottomNavigationBarItem> bottomList = [];
 
     bottomList.add(
@@ -230,7 +226,10 @@ class HomeViewState extends State<HomeView> {
         ),
       ),
     );
-    if (Services.roles.contains(UtilsImporter().stringUtils.superAdminRole))
+
+    if (Services.roles.where((element) => element.name
+            .contains(UtilsImporter().stringUtils.superAdminRole)) !=
+        null)
       bottomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
@@ -247,8 +246,12 @@ class HomeViewState extends State<HomeView> {
               style: naveBarStyle,
             )),
       );
-    if (Services.roles.contains(UtilsImporter().stringUtils.shopperRole) ||
-        Services.roles.contains(UtilsImporter().stringUtils.deliveryRole)) {
+    if (Services.roles.where((element) => element.name
+                .contains(UtilsImporter().stringUtils.deliveryRole)) !=
+            null ||
+        Services.roles.where((element) => element.name
+                .contains(UtilsImporter().stringUtils.shopperRole)) !=
+            null) {
       bottomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
@@ -386,14 +389,22 @@ class HomeViewState extends State<HomeView> {
     _tabs.add(CartView(
       isFromUpdateOrder: _isFromUpdateOrder,
     ));
-    if (Services.roles.contains(UtilsImporter().stringUtils.superAdminRole))
+    if (Services.roles.where((element) => element.name
+            .contains(UtilsImporter().stringUtils.superAdminRole)) !=
+        null)
       _tabs.add(
         new OrdersView(),
       );
-    if (Services.roles.contains(UtilsImporter().stringUtils.shopperRole) ||
-        Services.roles.contains(UtilsImporter().stringUtils.deliveryRole)) {
+    if (Services.roles.where((element) => element.name
+                .contains(UtilsImporter().stringUtils.deliveryRole)) !=
+            null ||
+        Services.roles.where((element) => element.name
+                .contains(UtilsImporter().stringUtils.shopperRole)) !=
+            null) {
       _tabs.add(
-        NotAssignedOrdersView(),
+        NotAssignedOrdersView(
+          role: UtilsImporter().stringUtils.shopperRole,
+        ),
       );
       _tabs.add(
         AssignedOrdersView(),

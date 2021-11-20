@@ -11,6 +11,8 @@ import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../Services.dart';
+
 class LoginServices {
   // static String replaceFarsiNumber(String input) {
   //   const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -125,6 +127,7 @@ class LoginServices {
         prefs.setString("userToken", newResponse.data.apiToken);
         prefs.setString("adminRoll", username);
         prefs.setString("adminId", newResponse.data.id.toString());
+
         for (int i = 0; i < newResponse.data.roles.length; i++) {
           prefs.setString(
               newResponse.data.roles[i].slug, newResponse.data.roles[i].slug);

@@ -10,6 +10,7 @@ import 'package:kammun_app/views/order_details/services/order_details_services.d
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import '../../Services.dart';
 import '../../utils/Styles.dart';
 import 'services/cart_services.dart';
 
@@ -125,6 +126,8 @@ class CartViewState extends State<CartView> {
   @override
   void initState() {
     super.initState();
+    Tools.logToConsole("ADMINROLE");
+    Tools.logToConsole(Services.roles[0].name);
     orderArray = CartServices.cartProducts;
 
     if (LoadingScreenServices.swbWarehouses.length == 1) {
