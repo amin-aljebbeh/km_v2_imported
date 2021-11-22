@@ -4,6 +4,9 @@ import 'dart:convert';
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/admin_URLs.dart';
+import 'package:kammun_app/models/delivery_model.dart';
+import 'package:kammun_app/models/shopper_model.dart';
+import 'package:kammun_app/models/sub_warehouse_model.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
@@ -12,7 +15,6 @@ import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
-import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
@@ -72,7 +74,17 @@ class LoadingScreenServices {
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
   static List<OrdersOriginalData> allOrdersList =
       new List<OrdersOriginalData>();
+  static List<ShopperModel> allShoppers = List<ShopperModel>();
+  static List<DeliveryModel> allDeliveries = List<DeliveryModel>();
   static List<OrdersOriginalData> notAssignedOrdersList =
+      new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> shoppersAssignedOrdersList =
+      new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> deliveriesAssignedOrdersList =
+      new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> shoppersNotAssignedOrdersList =
+      new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> deliveriesNotAssignedOrdersList =
       new List<OrdersOriginalData>();
   static String userNumber = "لم تقم بتسجيل رقم";
 

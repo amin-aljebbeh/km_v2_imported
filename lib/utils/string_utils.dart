@@ -187,6 +187,7 @@ class StringUtils {
   String store = 'الرئيسية';
   String cart = 'السلة';
   String orders = 'الطلبات';
+  String allOrders = 'كل الطلبات';
   String profile = 'المفضلة';
 
   String search = 'بحث';
@@ -266,5 +267,9 @@ class StringUtils {
   String deliveryName = 'الكابتن : ';
 
   String shopperName = 'المتسوق : ';
+  //Hints:
+  String chooseDelivery = 'اختر كابتن';
+
+  String chooseShopper = 'اختر متسوق';
   final oCcy = new NumberFormat("#,##0", "en_US");
 }

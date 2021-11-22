@@ -177,39 +177,22 @@ class HomeViewState extends State<HomeView> {
     // }
   }
 
-  // Future<List<String>> getRole() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   List<String> roles = [];
-  //   try {
-  //     roles.add(prefs.getString(UtilsImporter().stringUtils.superAdminRole));
-  //   } catch (e) {}
-  //   try {
-  //     roles.add(prefs.getString(UtilsImporter().stringUtils.adminRole));
-  //   } catch (e) {}
-  //   try {
-  //     roles.add(prefs.getString(UtilsImporter().stringUtils.deliveryRole));
-  //   } catch (e) {}
-  //   try {
-  //     roles.add(prefs.getString(UtilsImporter().stringUtils.shopperRole));
-  //   } catch (e) {}
-  //   return roles;
-  // }
-
   Widget _bottomNavBar({BuildContext context}) {
     List<BottomNavigationBarItem> bottomList = [];
 
     bottomList.add(
       BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.store,
-            // color: Theme.of(context).primaryColor,
-            color: Color.fromARGB(255, 210, 178, 2),
-          ),
-          icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
-          title: Text(
-            UtilsImporter().stringUtils.store,
-            style: naveBarStyle,
-          )),
+        activeIcon: Icon(
+          Icons.store,
+          // color: Theme.of(context).primaryColor,
+          color: Color.fromARGB(255, 210, 178, 2),
+        ),
+        icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
+        title: Text(
+          UtilsImporter().stringUtils.store,
+          style: naveBarStyle,
+        ),
+      ),
     );
     bottomList.add(
       BottomNavigationBarItem(
@@ -227,9 +210,11 @@ class HomeViewState extends State<HomeView> {
       ),
     );
 
-    if (Services.roles.where((element) => element.name
-            .contains(UtilsImporter().stringUtils.superAdminRole)) !=
-        null)
+    if (Services.roles
+            .where((element) => element.slug
+                .contains(UtilsImporter().stringUtils.superAdminRole))
+            .length >
+        0) {
       bottomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
@@ -242,16 +227,22 @@ class HomeViewState extends State<HomeView> {
               color: Color.fromARGB(255, 53, 99, 124),
             ),
             title: Text(
-              'كل الطلبات',
+              UtilsImporter().stringUtils.allOrders,
               style: naveBarStyle,
             )),
       );
-    if (Services.roles.where((element) => element.name
-                .contains(UtilsImporter().stringUtils.deliveryRole)) !=
-            null ||
-        Services.roles.where((element) => element.name
-                .contains(UtilsImporter().stringUtils.shopperRole)) !=
-            null) {
+    }
+
+    if (Services.roles
+                .where((element) => element.slug
+                    .contains(UtilsImporter().stringUtils.deliveryRole))
+                .length >
+            0 ||
+        Services.roles
+                .where((element) => element.slug
+                    .contains(UtilsImporter().stringUtils.shopperRole))
+                .length >
+            0) {
       bottomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
@@ -389,22 +380,31 @@ class HomeViewState extends State<HomeView> {
     _tabs.add(CartView(
       isFromUpdateOrder: _isFromUpdateOrder,
     ));
-    if (Services.roles.where((element) => element.name
-            .contains(UtilsImporter().stringUtils.superAdminRole)) !=
-        null)
+    if ((Services.roles
+                .where((element) => element.slug
+                    .contains(UtilsImporter().stringUtils.superAdminRole))
+                .length >
+            0) ||
+        (Services.roles
+                .where((element) => element.slug
+                    .contains(UtilsImporter().stringUtils.adminRole))
+                .length >
+            0))
       _tabs.add(
         new OrdersView(),
       );
-    if (Services.roles.where((element) => element.name
-                .contains(UtilsImporter().stringUtils.deliveryRole)) !=
-            null ||
-        Services.roles.where((element) => element.name
-                .contains(UtilsImporter().stringUtils.shopperRole)) !=
-            null) {
+    if (Services.roles
+                .where((element) => element.slug
+                    .contains(UtilsImporter().stringUtils.deliveryRole))
+                .length >
+            0 ||
+        Services.roles
+                .where((element) => element.slug
+                    .contains(UtilsImporter().stringUtils.shopperRole))
+                .length >
+            0) {
       _tabs.add(
-        NotAssignedOrdersView(
-          role: UtilsImporter().stringUtils.shopperRole,
-        ),
+        NotAssignedOrdersView(),
       );
       _tabs.add(
         AssignedOrdersView(),

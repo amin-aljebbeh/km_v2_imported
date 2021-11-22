@@ -20,10 +20,6 @@ import 'package:intl/intl.dart';
 import 'services/order_services.dart';
 
 class NotAssignedOrdersView extends StatefulWidget {
-  final String role;
-
-  const NotAssignedOrdersView({Key key, @required this.role}) : super(key: key);
-
   @override
   _NotAssignedOrdersViewState createState() => _NotAssignedOrdersViewState();
 }
@@ -100,7 +96,11 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
     var orderList;
     if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
       Tools.logToConsole("#######");
-      if (widget.role == UtilsImporter().stringUtils.deliveryRole) {
+      if (Services.roles
+              .where((element) => element.slug
+                  .contains(UtilsImporter().stringUtils.deliveryRole))
+              .length >
+          0) {
         orderList = await OrderServices.getOrdersNotAssignedToDeliveries(
             pageNumber: page);
       } else {
@@ -279,8 +279,14 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
-                                  // deliveryName:orderDataList[index]. ,
-                                  // shopperName: orderDataList[index]. ,
+                                  deliveryName:
+                                      orderDataList[index].delivery != null
+                                          ? orderDataList[index].delivery.name
+                                          : null,
+                                  shopperName:
+                                      orderDataList[index].shopper != null
+                                          ? orderDataList[index].shopper.name
+                                          : null,
                                   orderId: orderDataList[index].id,
                                   entrance:
                                       orderDataList[index].address.entrance,
@@ -324,8 +330,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                 color: Colors.red,
                                 onTap: () {
                                   OrderServices.assignOrder(
-                                      orderDataList[index].id.toString(),
-                                      widget.role);
+                                      orderDataList[index].id.toString());
                                   setState(() {});
                                 },
                               ),

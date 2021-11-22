@@ -296,7 +296,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: ORDER + ORDERS_NOT_ASSIGNED_TO_DELIVERIES,
+        url: BaseUrl + ORDER + ORDERS_NOT_ASSIGNED_TO_DELIVERIES,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -311,6 +311,62 @@ class OrderServices {
         return LoadingScreenServices.notAssignedOrdersList;
       } else {
         return LoadingScreenServices.notAssignedOrdersList;
+      }
+    } catch (e) {
+      Tools.logToConsole(
+          "------------ ERROR GET NotAssignedToDeliveries ORDER --------------");
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
+  static Future<List<OrdersOriginalData>> getOrdersAssignedToDeliveries(
+      {int pageNumber = 1}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: BaseUrl + ORDER + GET_ORDERS_ASSIGNED_TO_DELIVERIES,
+        method: httpMethods.get,
+        queryParameters: {"page": pageNumber},
+      );
+      Tools.logToConsole("------- orders data -------");
+
+      if (response.statusCode == SUCCESS_CODE) {
+        LoadingScreenServices.deliveriesAssignedOrdersList =
+            ordersFromJson(jsonEncode(response.data)).data.data;
+
+        print('getOrdersAssignedToDeliveries');
+        print(LoadingScreenServices.deliveriesAssignedOrdersList.length);
+        return LoadingScreenServices.deliveriesAssignedOrdersList;
+      } else {
+        return LoadingScreenServices.deliveriesAssignedOrdersList;
+      }
+    } catch (e) {
+      Tools.logToConsole(
+          "------------ ERROR GET NotAssignedToDeliveries ORDER --------------");
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
+  static Future<List<OrdersOriginalData>> getOrdersAssignedToShoppers(
+      {int pageNumber = 1}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: BaseUrl + ORDER + GET_ORDERS_ASSIGNED_TO_SHOPPERS,
+        method: httpMethods.get,
+        queryParameters: {"page": pageNumber},
+      );
+      Tools.logToConsole("------- orders data -------");
+
+      if (response.statusCode == SUCCESS_CODE) {
+        LoadingScreenServices.shoppersAssignedOrdersList =
+            ordersFromJson(jsonEncode(response.data)).data.data;
+
+        print('getOrdersAssignedToShoppers');
+        print(LoadingScreenServices.shoppersAssignedOrdersList.length);
+        return LoadingScreenServices.shoppersAssignedOrdersList;
+      } else {
+        return LoadingScreenServices.shoppersAssignedOrdersList;
       }
     } catch (e) {
       Tools.logToConsole(
@@ -352,7 +408,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: ORDER + GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS,
+        url: BaseUrl + ORDER + GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -380,7 +436,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: ORDER + SHOPPER_VIEWS_HIS_OWN_ORDERS,
+        url: BaseUrl + ORDER + SHOPPER_VIEWS_HIS_OWN_ORDERS,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -404,15 +460,19 @@ class OrderServices {
     }
   }
 
-  static Future<bool> assignOrder(String orderId, String role) async {
+  static Future<bool> assignOrder(String orderId) async {
     String url;
-    if (role == UtilsImporter().stringUtils.deliveryRole)
+    if (Services.roles
+            .where((element) =>
+                element.slug.contains(UtilsImporter().stringUtils.deliveryRole))
+            .length >
+        0)
       url = ASSIGN_DELIVERY_ORDER_HIMSELF;
     else
       url = ASSIGN_SHOPPER_ORDER_HIMSELF;
     try {
       var response = await ApiProvider.sendRequest(
-        url: ORDER + url + orderId,
+        url: BaseUrl + ORDER + url + orderId,
         method: httpMethods.put,
       );
       Tools.logToConsole("------- orders data -------");
@@ -430,36 +490,56 @@ class OrderServices {
     }
   }
 
-  static Future<bool> assignOrderTo(String assignedId, String orderId) async {
-    String url;
-    String assigned;
-    if (Services.roles.contains(UtilsImporter().stringUtils.deliveryRole)) {
-      url = ASSIGN_DELIVERY_ORDER_HIMSELF;
-      assigned = 'delivery_id';
-    } else if (Services.roles
-        .contains(UtilsImporter().stringUtils.shopperRole)) {
-      url = ASSIGN_SHOPPER_ORDER_HIMSELF;
-      assigned = 'shopper_id';
-    }
+  static Future<bool> assignOrderToShopper(
+      String assignedId, String orderId) async {
     Map assignOrderBody = {
       'order_id': orderId,
-      assigned: assignedId,
+      'shopper_id': assignedId,
     };
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: url,
+        url: BaseUrl + ORDER + ASSIGN_ORDER_TO_SHOPPER,
         method: httpMethods.post,
         body: jsonEncode(assignOrderBody),
       );
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+        Tools.logToConsole("------------ ASSIGNED --------------");
         return true;
       } else {
-        Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+        Tools.logToConsole("------------NOT ASSIGNED --------------");
         await Services.getMyOrders();
         return false;
       }
     } catch (e) {
+      print('');
+      return false;
+    }
+  }
+
+  static Future<bool> assignOrderToDelivery(
+      String assignedId, String orderId) async {
+    Map assignOrderBody = {
+      'order_id': orderId,
+      'delivery_id': assignedId,
+    };
+
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: BaseUrl + ORDER + ASSIGN_ORDER_TO_DELIVERY,
+        method: httpMethods.post,
+        body: jsonEncode(assignOrderBody),
+      );
+      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+        Tools.logToConsole("------------ ASSIGNED --------------");
+        return true;
+      } else {
+        Tools.logToConsole("------------NOT ASSIGNED --------------");
+        await Services.getMyOrders();
+        return false;
+      }
+    } catch (e) {
+      print('');
       return false;
     }
   }

@@ -4,23 +4,28 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/get_shoppers_model.dart';
+import 'package:kammun_app/models/shopper_model.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/login/models/login_admin_model.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'core/api/admin_URLs.dart';
 import 'core/api/api_URLs.dart';
 import 'core/api/api_provider.dart';
 import 'core/errors/error_types.dart';
 import 'models/addAddressResponse.dart';
+import 'models/delivery_model.dart';
+import 'models/get_deliveries_model.dart';
+import 'models/role_model.dart';
 import 'models/start_model.dart';
 import 'utils/Styles.dart';
 
 class Services {
   static List<Role> roles = [];
   static bool updateOption = false;
+
   //static String imagePrefixUrl = "";
   static String prefixUrl = "http://kammun.com/lsapp/public/api/";
   static String googlePlayUrl = "";
@@ -276,6 +281,58 @@ class Services {
     KammunRestart.restartApp(context);
   }
 
+  static Future<List<ShopperModel>> getShoppers() async {
+    Tools.logToConsole(
+        "------------------ Get All Shoppers  --------------------");
+
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: BaseUrl + GET_SHOPPERS,
+        method: httpMethods.get,
+      );
+      Tools.logToConsole("------- shoppers data -------");
+
+      if (response.statusCode == SUCCESS_CODE) {
+        LoadingScreenServices.allShoppers =
+            shoppersFromJson(jsonEncode(response.data)).data;
+
+        return LoadingScreenServices.allShoppers;
+      } else {
+        return LoadingScreenServices.allShoppers;
+      }
+    } catch (e) {
+      Tools.logToConsole("------------ ERROR GET SHOPPERS --------------");
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
+  static Future<List<DeliveryModel>> getDeliveries() async {
+    Tools.logToConsole(
+        "------------------ Get All Deliveries  --------------------");
+
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: BaseUrl + GET_DELIVERIES,
+        method: httpMethods.get,
+      );
+      Tools.logToConsole("------- Deliveries data -------");
+
+      if (response.statusCode == SUCCESS_CODE) {
+        LoadingScreenServices.allDeliveries =
+            deliveriesFromJson(jsonEncode(response.data)).data;
+
+        return LoadingScreenServices.allDeliveries;
+      } else {
+        return LoadingScreenServices.allDeliveries;
+      }
+    } catch (e) {
+      Tools.logToConsole("------------ ERROR GET SHOPPERS --------------");
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
   static List<DropdownMenuItem<int>> dropdownIntList(List<String> inputList) {
     List<DropdownMenuItem<int>> list = List();
     for (int i = 0; i < inputList.length; i++) {
@@ -309,20 +366,31 @@ class Services {
     return list;
   }
 
-  static List<DropdownMenuItem<int>> searchableDropdownStringList(
-      List<String> inputList) {
-    List<DropdownMenuItem<int>> list = List();
+  static List<SearchableItem> shoppersNameList(List<ShopperModel> inputList) {
+    List<SearchableItem> list = List();
     for (int i = 0; i < inputList.length; i++) {
-      list.add(
-        DropdownMenuItem<int>(
-          child: Text(
-            inputList[i],
-            style: dropdownItemStyle,
-          ),
-          value: i,
-        ),
-      );
+      list.add(SearchableItem(value: inputList[i].name));
     }
     return list;
+  }
+
+  static List<SearchableItem> deliveriesNameList(
+      List<DeliveryModel> inputList) {
+    List<SearchableItem> itemList = List();
+    for (int i = 0; i < inputList.length; i++) {
+      itemList.add(SearchableItem(value: inputList[i].name));
+    }
+    return itemList;
+  }
+}
+
+class SearchableItem {
+  String value;
+
+  SearchableItem({@required this.value});
+
+  @override
+  String toString() {
+    return '$value'.toLowerCase() + ' $value'.toUpperCase();
   }
 }

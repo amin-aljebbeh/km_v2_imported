@@ -1,11 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/KSearchableDropdown.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Services.dart';
 import '../../utils/Styles.dart';
@@ -98,25 +99,16 @@ openMapsSheet(context, lat, lon) async {
 }
 
 class OrdersViewCardState extends State<OrdersViewCard> {
+  String shopperName, deliveryName;
+  SearchableItem deliverySearch, shopperSearch;
+
   void initState() {
-    shopper = 'المتسوق';
-    delivery = 'الكابتن';
+    shopperName = widget.shopperName != null ? widget.shopperName : null;
+    deliveryName = widget.deliveryName != null ? widget.deliveryName : null;
     super.initState();
   }
 
   String orderStatus = "طلبك قيد المعالجة ⌛️";
-
-  String shopper, delivery;
-  List<String> orderStatusList = [
-    "فلترة الطلبات",
-    "قيد المعالجة",
-    "تم قبولها",
-    "تم تجهيزها",
-    "مع التوصيل",
-    "تم توصيلها",
-    "تم إلغائها",
-    "تم رفضها"
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -344,13 +336,31 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                 orderStatus,
                                 style: paragraphStyle,
                               ),
-                              Text(
-                                UtilsImporter().stringUtils.deliveryName,
-                                style: paragraphStyle,
+                              Row(
+                                children: [
+                                  Text(
+                                    UtilsImporter().stringUtils.deliveryName +
+                                        " ",
+                                    style: paragraphStyle,
+                                  ),
+                                  Text(
+                                    deliveryName != null ? deliveryName : " ",
+                                    style: paragraphStyle,
+                                  ),
+                                ],
                               ),
-                              Text(
-                                UtilsImporter().stringUtils.shopperName,
-                                style: paragraphStyle,
+                              Row(
+                                children: [
+                                  Text(
+                                    UtilsImporter().stringUtils.shopperName +
+                                        " ",
+                                    style: paragraphStyle,
+                                  ),
+                                  Text(
+                                    shopperName != null ? shopperName : " ",
+                                    style: paragraphStyle,
+                                  ),
+                                ],
                               ),
                               //supportedCitiesResponse
                             ],
@@ -363,54 +373,68 @@ class OrdersViewCardState extends State<OrdersViewCard> {
               ],
             ),
             Container(
-              child: Services.roles
-                          .contains(UtilsImporter().stringUtils.adminRole) ||
-                      Services.roles
-                          .contains(UtilsImporter().stringUtils.superAdminRole)
+              width: MediaQuery.of(context).size.width * .6,
+              child: (Services.roles
+                              .where((element) => element.slug.contains(
+                                  UtilsImporter().stringUtils.superAdminRole))
+                              .length >
+                          0) ||
+                      (Services.roles
+                              .where((element) => element.slug.contains(
+                                  UtilsImporter().stringUtils.adminRole))
+                              .length >
+                          0)
                   ? Column(
                       children: [
-                        new SearchableDropdown(
-                          isCaseSensitiveSearch: false,
-                          underline: Container(),
-                          isExpanded: true,
-                          value: shopper,
-                          items: Services.searchableDropdownStringList(
-                              orderStatusList),
-                          onChanged: (value) {
-                            setState(
-                              () async {
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-
-                                OrderServices.assignOrderTo(
-                                    prefs.getString("adminId"),
-                                    widget.orderId.toString());
-                              },
-                            );
-                          },
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        SearchableDropdown(
-                          isCaseSensitiveSearch: false,
-                          underline: Container(),
-                          isExpanded: true,
-                          value: delivery,
-                          items: Services.searchableDropdownStringList(
-                              orderStatusList),
-                          onChanged: (value) {
-                            setState(
-                              () async {
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                OrderServices.assignOrderTo(
-                                    prefs.getString("adminId"),
-                                    widget.orderId.toString());
-                              },
-                            );
-                          },
-                        )
+                        shopperName == null
+                            ? KSearchableDropdown(
+                                // hint: UtilsImporter().stringUtils.chooseShopper,
+                                search: shopperSearch,
+                                items: Services.shoppersNameList(
+                                    LoadingScreenServices.allShoppers),
+                                onChange: (value) {
+                                  setState(() {
+                                    shopperSearch = value;
+                                    shopperName = value.value;
+                                  });
+                                  OrderServices.assignOrderToShopper(
+                                      LoadingScreenServices.allShoppers
+                                          .firstWhere((element) =>
+                                              element.name == value.value)
+                                          .id
+                                          .toString(),
+                                      widget.orderId.toString());
+                                },
+                              )
+                            : Container(
+                                height: 0.5,
+                                width: 0.5,
+                              ),
+                        deliveryName != null
+                            ? KSearchableDropdown(
+                                // hint:
+                                //     UtilsImporter().stringUtils.chooseDelivery,
+                                search: deliverySearch,
+                                items: Services.deliveriesNameList(
+                                    LoadingScreenServices.allDeliveries),
+                                onChange: (value) {
+                                  setState(() {
+                                    deliverySearch = value;
+                                    deliveryName = value.value;
+                                  });
+                                  OrderServices.assignOrderToDelivery(
+                                      LoadingScreenServices.allDeliveries
+                                          .firstWhere((element) =>
+                                              element.name == value.value)
+                                          .id
+                                          .toString(),
+                                      widget.orderId.toString());
+                                },
+                              )
+                            : Container(
+                                height: 0.5,
+                                width: 0.5,
+                              ),
                       ],
                     )
                   : null,

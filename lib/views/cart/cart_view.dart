@@ -127,7 +127,6 @@ class CartViewState extends State<CartView> {
   void initState() {
     super.initState();
     Tools.logToConsole("ADMINROLE");
-    Tools.logToConsole(Services.roles[0].name);
     orderArray = CartServices.cartProducts;
 
     if (LoadingScreenServices.swbWarehouses.length == 1) {

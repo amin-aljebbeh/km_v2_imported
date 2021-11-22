@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:kammun_app/models/shopper_model.dart';
+
+//OrdersOriginalData
 StartModel startModelFromJson(String str) =>
     StartModel.fromJson(json.decode(str));
 
@@ -609,30 +612,33 @@ class PageData {
 }
 
 class OrdersOriginalData {
-  OrdersOriginalData(
-      {this.id,
-      this.expectedTimeMinutes,
-      this.deliveryCost,
-      this.supportedCityCost,
-      this.orderStatusId,
-      this.paymentMethodId,
-      this.deliveryMethodId,
-      this.warehouseId,
-      this.addressId,
-      this.userId,
-      this.couponId,
-      this.userDeliveryRating,
-      this.userPriceRating,
-      this.userComment,
-      this.total,
-      this.userNotes,
-      this.supportedCityId,
-      this.underUpdate,
-      this.deliveryStaffId,
-      this.products,
-      this.address,
-      this.userData,
-      this.createdAt});
+  OrdersOriginalData({
+    this.id,
+    this.expectedTimeMinutes,
+    this.deliveryCost,
+    this.supportedCityCost,
+    this.orderStatusId,
+    this.paymentMethodId,
+    this.deliveryMethodId,
+    this.warehouseId,
+    this.addressId,
+    this.userId,
+    this.couponId,
+    this.userDeliveryRating,
+    this.userPriceRating,
+    this.userComment,
+    this.total,
+    this.userNotes,
+    this.supportedCityId,
+    this.underUpdate,
+    this.deliveryStaffId,
+    this.products,
+    this.address,
+    this.userData,
+    this.createdAt,
+    this.delivery,
+    this.shopper,
+  });
 
   int id;
   String expectedTimeMinutes;
@@ -658,6 +664,8 @@ class OrdersOriginalData {
   String underUpdate;
   dynamic deliveryStaffId;
   List<OrderProducts> products;
+  Assigned delivery;
+  Assigned shopper;
 
   factory OrdersOriginalData.fromJson(Map<String, dynamic> json) =>
       OrdersOriginalData(
@@ -685,6 +693,11 @@ class OrdersOriginalData {
         deliveryStaffId: json["delivery_staff_id"].toString(),
         products: List<OrderProducts>.from(
             json["products"].map((x) => OrderProducts.fromJson(x))),
+        shopper:
+            json["shopper"] == null ? null : Assigned.fromJson(json["shopper"]),
+        delivery: json["delivery"] == null
+            ? null
+            : Assigned.fromJson(json["delivery"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -711,6 +724,26 @@ class OrdersOriginalData {
         "under_update": underUpdate,
         "delivery_staff_id": deliveryStaffId,
         "products": List<dynamic>.from(products.map((x) => x.toJson())),
+      };
+}
+
+class Assigned {
+  Assigned({
+    this.id,
+    this.name,
+  });
+
+  int id;
+  String name;
+
+  factory Assigned.fromJson(Map<String, dynamic> json) => Assigned(
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null ? null : json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id == null ? null : id,
+        "name": name == null ? null : name,
       };
 }
 
@@ -1000,6 +1033,7 @@ class UserData {
 
   String warehouseId;
   dynamic supportedCityId;
+
   // List<Address> addresses;
   dynamic coupon;
 

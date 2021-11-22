@@ -2,7 +2,6 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/lock_order.dart';
-import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -273,6 +272,14 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
+                                  deliveryName:
+                                      orderDataList[index].delivery != null
+                                          ? orderDataList[index].delivery.name
+                                          : null,
+                                  shopperName:
+                                      orderDataList[index].shopper != null
+                                          ? orderDataList[index].shopper.name
+                                          : null,
                                   orderId: orderDataList[index].id,
                                   entrance:
                                       orderDataList[index].address.entrance,
@@ -312,7 +319,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 ),
                               ),
                               DecisionButton(
-                                text: 'تعديل الطلب',
+                                text: UtilsImporter().stringUtils.edit_order,
                                 onTap: () async {
                                   setState(
                                     () {
@@ -352,7 +359,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   }
                                 },
                                 color: Colors.green,
-                                width: MediaQuery.of(context).size.width / 2.5,
                               ),
                               orderDataList[index].userNotes.toString() !=
                                       "null"

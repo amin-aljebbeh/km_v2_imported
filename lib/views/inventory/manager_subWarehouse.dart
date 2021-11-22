@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/sub_warehouse_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/inventory/sub_warehouse_products.dart';
-import 'package:kammun_app/views/login/models/login_admin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'services/inventory_services.dart';
 

@@ -2,7 +2,6 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/lock_order.dart';
-import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -37,8 +36,27 @@ class OrdersViewState extends State<OrdersView> {
   @override
   void initState() {
     rateValue = 0;
-    filterOrders = 0;
+    ordersFilter = 0;
+    ordersTypeFilter = 0;
 
+    if (LoadingScreenServices.deliveriesAssignedOrdersList.length == 0) {
+      getOrders = OrderServices.getOrdersAssignedToDeliveries();
+    }
+    if (LoadingScreenServices.deliveriesNotAssignedOrdersList.length == 0) {
+      getOrders = OrderServices.getOrdersNotAssignedToDeliveries();
+    }
+    if (LoadingScreenServices.shoppersAssignedOrdersList.length == 0) {
+      getOrders = OrderServices.getOrdersAssignedToShoppers();
+    }
+    if (LoadingScreenServices.shoppersNotAssignedOrdersList.length == 0) {
+      getOrders = OrderServices.getOrdersNotAssignedToShoppers();
+    }
+    if (LoadingScreenServices.allShoppers.length == 0) {
+      getOrders = Services.getShoppers();
+    }
+    if (LoadingScreenServices.allDeliveries.length == 0) {
+      getOrders = Services.getDeliveries();
+    }
     if (LoadingScreenServices.allOrdersList.length == 0) {
       getOrders = _getOrder();
     } else {
@@ -51,13 +69,15 @@ class OrdersViewState extends State<OrdersView> {
   _initialFunction() {}
 
   bool orderLoaded = true;
+  bool generalLoaded = true;
   bool errorMessage = false;
   String errorMessageValue = "";
   bool isLoading = false;
   int page = 1;
   bool theEndOfOrders = false;
 
-  int filterOrders;
+  int ordersFilter;
+  int ordersTypeFilter;
 
   List<String> orderStatus = [
     "فلترة الطلبات",
@@ -68,6 +88,12 @@ class OrdersViewState extends State<OrdersView> {
     "تم توصيلها",
     "تم إلغائها",
     "تم رفضها"
+  ];
+  List<String> orderTypes = [
+    'مسند لكابتن',
+    'بحاجة لكابتن',
+    'مسند لمتسوق',
+    'بحاجة لمتسوق',
   ];
 
   List<String> dropdownValues = [
@@ -97,8 +123,34 @@ class OrdersViewState extends State<OrdersView> {
       errorMessage = false;
       orderDataList.clear();
       LoadingScreenServices.allOrdersList.clear();
+      LoadingScreenServices.shoppersNotAssignedOrdersList.clear();
+      LoadingScreenServices.shoppersAssignedOrdersList.clear();
+      LoadingScreenServices.deliveriesNotAssignedOrdersList.clear();
+      LoadingScreenServices.deliveriesAssignedOrdersList.clear();
     });
-    final orderList = await Services.getMyOrders(pageNumber: page);
+    var orderList;
+    if (generalLoaded)
+      orderList = await Services.getMyOrders(pageNumber: page);
+    else
+      switch (orderTypes[ordersTypeFilter]) {
+        case ('مسند لكابتن'):
+          orderList = await OrderServices.getOrdersAssignedToDeliveries(
+              pageNumber: page);
+          break;
+        case ('بحاجة لكابتن'):
+          orderList = await OrderServices.getOrdersNotAssignedToDeliveries(
+              pageNumber: page);
+          break;
+        case ('مسند لمتسوق'):
+          orderList =
+              await OrderServices.getOrdersAssignedToShoppers(pageNumber: page);
+          break;
+        case ('بحاجة لمتسوق'):
+          orderList = await OrderServices.getOrdersNotAssignedToShoppers(
+              pageNumber: page);
+          break;
+      }
+
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
@@ -112,12 +164,12 @@ class OrdersViewState extends State<OrdersView> {
       } else {
         setState(() {
           orderDataList.addAll(orderList);
-          if (filterOrders == 0) {
+          if (ordersFilter == 0) {
             orderDataList
                 .removeWhere((order) => int.parse(order.orderStatusId) > 4);
           } else {
             orderDataList.removeWhere(
-                (order) => int.parse(order.orderStatusId) != filterOrders);
+                (order) => int.parse(order.orderStatusId) != ordersFilter);
           }
           Tools.logToConsole("orderDataList before filltiting");
           Tools.logToConsole(orderDataList.length);
@@ -169,15 +221,33 @@ class OrdersViewState extends State<OrdersView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        DropdownButton(
-                          value: filterOrders,
-                          items: Services.dropdownStringList(orderStatus),
-                          onChanged: (value) {
-                            setState(() {
-                              filterOrders = value;
-                            });
-                            _getOrder();
-                          },
+                        Column(
+                          children: [
+                            DropdownButton(
+                              value: ordersFilter,
+                              items: Services.dropdownStringList(orderStatus),
+                              onChanged: (value) {
+                                setState(() {
+                                  generalLoaded = true;
+                                  ordersFilter = value;
+                                  page = 1;
+                                });
+                                _getOrder();
+                              },
+                            ),
+                            DropdownButton(
+                              value: ordersTypeFilter,
+                              items: Services.dropdownStringList(orderTypes),
+                              onChanged: (value) {
+                                setState(() {
+                                  generalLoaded = false;
+                                  ordersTypeFilter = value;
+                                  page = 1;
+                                });
+                                _getOrder();
+                              },
+                            ),
+                          ],
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15),
@@ -268,6 +338,14 @@ class OrdersViewState extends State<OrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
+                                  deliveryName:
+                                      orderDataList[index].delivery != null
+                                          ? orderDataList[index].delivery.name
+                                          : null,
+                                  shopperName:
+                                      orderDataList[index].shopper != null
+                                          ? orderDataList[index].shopper.name
+                                          : null,
                                   orderId: orderDataList[index].id,
                                   entrance:
                                       orderDataList[index].address.entrance,
@@ -307,7 +385,7 @@ class OrdersViewState extends State<OrdersView> {
                                 ),
                               ),
                               DecisionButton(
-                                text: 'تعديل الطلب',
+                                text: UtilsImporter().stringUtils.edit_order,
                                 onTap: () async {
                                   setState(
                                     () {

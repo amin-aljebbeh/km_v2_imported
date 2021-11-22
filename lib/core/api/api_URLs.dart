@@ -37,8 +37,7 @@ const String ORDERS_NOT_ASSIGNED_TO_DELIVERIES =
 const String GET_ORDERS_ASSIGNED_TO_DELIVERIES =
     '/get_orders_assigned_to_deliveries';
 
-const String DELIVERY_VIEWS_HIS_OWN_ORDERS =
-    '/delivery_views_his_own_orders?date_begin_show_order=2021-04-09 00:01:02';
+const String DELIVERY_VIEWS_HIS_OWN_ORDERS = '/delivery_views_his_own_orders';
 
 const String GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS =
     '/get_orders_not_assigned_to_shoppers';
