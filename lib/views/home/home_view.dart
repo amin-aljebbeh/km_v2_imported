@@ -211,8 +211,8 @@ class HomeViewState extends State<HomeView> {
     );
 
     if (Services.roles
-            .where((element) => element.slug
-                .contains(UtilsImporter().stringUtils.superAdminRole))
+            .where((element) =>
+                element.slug.contains(UtilsImporter().stringUtils.adminRole))
             .length >
         0) {
       bottomList.add(
@@ -230,6 +230,36 @@ class HomeViewState extends State<HomeView> {
               UtilsImporter().stringUtils.allOrders,
               style: naveBarStyle,
             )),
+      );
+      bottomList.add(
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.category,
+              // color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon: Icon(Icons.category, color: Color.fromARGB(255, 53, 99, 124)),
+            title: Text(
+              UtilsImporter().stringUtils.inventory,
+              style: naveBarStyle,
+            )),
+      );
+      bottomList.add(
+        BottomNavigationBarItem(
+          activeIcon: Icon(
+            Icons.money_off_csred_outlined,
+            // color: Theme.of(context).primaryColor,
+            color: Color.fromARGB(255, 210, 178, 2),
+          ),
+          icon: Icon(
+            Icons.money_off_csred_outlined,
+            color: Color.fromARGB(255, 53, 99, 124),
+          ),
+          title: Text(
+            UtilsImporter().stringUtils.prices,
+            style: naveBarStyle,
+          ),
+        ),
       );
     }
 
@@ -271,95 +301,12 @@ class HomeViewState extends State<HomeView> {
             color: Color.fromARGB(255, 53, 99, 124),
           ),
           title: Text(
-            'طلباتي',
+            UtilsImporter().stringUtils.myOrders,
             style: naveBarStyle,
           ),
         ),
       );
     }
-
-    // if (LoadingScreenServices.viewOrderPermission) {
-    //   bottomList.add(
-    //     BottomNavigationBarItem(
-    //         activeIcon: Icon(
-    //           Icons.reorder,
-    //           //color: Theme.of(context).primaryColor,
-    //           color: Color.fromARGB(255, 210, 178, 2),
-    //         ),
-    //         icon: Icon(
-    //           Icons.reorder,
-    //           color: Color.fromARGB(255, 53, 99, 124),
-    //         ),
-    //         title: Text(
-    //           UtilsImporter().stringUtils.orders,
-    //           style: naveBarStyle,
-    //         )),
-    //   );
-    //   bottomList.add(
-    //     BottomNavigationBarItem(
-    //       activeIcon: Icon(
-    //         Icons.playlist_add_check_outlined,
-    //         // color: Theme.of(context).primaryColor,
-    //         color: Color.fromARGB(255, 210, 178, 2),
-    //       ),
-    //       icon: Icon(
-    //         Icons.playlist_add_check_outlined,
-    //         color: Color.fromARGB(255, 53, 99, 124),
-    //       ),
-    //       title: Text(
-    //         'طلباتي',
-    //         style: naveBarStyle,
-    //       ),
-    //     ),
-    //   );
-    // }
-    // bottomList.add(
-    //   BottomNavigationBarItem(
-    //       activeIcon: Icon(
-    //         Icons.category,
-    //         // color: Theme.of(context).primaryColor,
-    //         color: Color.fromARGB(255, 210, 178, 2),
-    //       ),
-    //       icon: Icon(Icons.category, color: Color.fromARGB(255, 53, 99, 124)),
-    //       title: Text(
-    //         "جرد منتجات",
-    //         style: naveBarStyle,
-    //       )),
-    // );
-    // if (LoadingScreenServices.productsOperationPermission) {
-    //   bottomList.add(
-    //     BottomNavigationBarItem(
-    //         activeIcon: Icon(
-    //           Icons.category,
-    //           // color: Theme.of(context).primaryColor,
-    //           color: Color.fromARGB(255, 210, 178, 2),
-    //         ),
-    //         icon: Icon(Icons.category, color: Color.fromARGB(255, 53, 99, 124)),
-    //         title: Text(
-    //           "جرد منتجات",
-    //           style: naveBarStyle,
-    //         )),
-    //   );
-    // }
-    // if (LoadingScreenServices.isSuperAdmin) {
-    //   bottomList.add(
-    //     BottomNavigationBarItem(
-    //       activeIcon: Icon(
-    //         Icons.money_off_csred_outlined,
-    //         // color: Theme.of(context).primaryColor,
-    //         color: Color.fromARGB(255, 210, 178, 2),
-    //       ),
-    //       icon: Icon(
-    //         Icons.money_off_csred_outlined,
-    //         color: Color.fromARGB(255, 53, 99, 124),
-    //       ),
-    //       title: Text(
-    //         "الأسعار",
-    //         style: naveBarStyle,
-    //       ),
-    //     ),
-    //   );
-    // }
 
     return BottomNavigationBar(
       // backgroundColor: Color.fromARGB(255, 53, 99, 124),
@@ -381,18 +328,17 @@ class HomeViewState extends State<HomeView> {
       isFromUpdateOrder: _isFromUpdateOrder,
     ));
     if ((Services.roles
-                .where((element) => element.slug
-                    .contains(UtilsImporter().stringUtils.superAdminRole))
-                .length >
-            0) ||
-        (Services.roles
-                .where((element) => element.slug
-                    .contains(UtilsImporter().stringUtils.adminRole))
-                .length >
-            0))
+            .where((element) =>
+                element.slug.contains(UtilsImporter().stringUtils.adminRole))
+            .length >
+        0)) {
       _tabs.add(
-        new OrdersView(),
+        OrdersView(),
       );
+      _tabs.add(Inventory());
+      _tabs.add(Prices());
+    }
+
     if (Services.roles
                 .where((element) => element.slug
                     .contains(UtilsImporter().stringUtils.deliveryRole))
@@ -410,30 +356,6 @@ class HomeViewState extends State<HomeView> {
         AssignedOrdersView(),
       );
     }
-
-    //TODO: distinguishing the roles
-    // if (LoadingScreenServices.viewOrderPermission) {
-    //   _tabs.add(
-    //     new OrdersView(
-    //       orderType: UtilsImporter().stringUtils.notAssignedOrder,
-    //       role: UtilsImporter().stringUtils.shopperRole,
-    //     ),
-    //   );
-    //   _tabs.add(
-    //     new OrdersView(
-    //       orderType: UtilsImporter().stringUtils.myOrder,
-    //       role: UtilsImporter().stringUtils.shopperRole,
-    //     ),
-    //   );
-    // }
-    // _tabs.add(Inventory());
-    // if (LoadingScreenServices.productsOperationPermission) {
-    //   _tabs.add(Inventory());
-    // }
-
-    // if (LoadingScreenServices.isSuperAdmin) {
-    //   _tabs.add(Prices());
-    // }
 
     return Scaffold(
         body: _tabs[_selectedIndex],

@@ -260,6 +260,11 @@ class StringUtils {
   String myOrder = 'assigned';
   String notAssignedOrder = 'unassigned';
 
+  //Order icons:
+  String myOrders = 'طلباتي';
+  String inventory = 'جرد منتجات';
+  String prices = 'الأسعار';
+
   //Buttons text:
 
   String getOrder = 'أخذ الطلب';
