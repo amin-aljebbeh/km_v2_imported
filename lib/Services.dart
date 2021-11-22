@@ -21,6 +21,7 @@ import 'models/get_deliveries_model.dart';
 import 'models/role_model.dart';
 import 'models/start_model.dart';
 import 'utils/Styles.dart';
+import 'utils/utils_importer.dart';
 
 class Services {
   static List<Role> roles = [];
@@ -381,6 +382,30 @@ class Services {
       itemList.add(SearchableItem(value: inputList[i].name));
     }
     return itemList;
+  }
+
+  static bool isAdmin() {
+    return Services.roles
+            .where((element) =>
+                element.slug.contains(UtilsImporter().stringUtils.adminRole))
+            .length >
+        0;
+  }
+
+  static bool isDelivery() {
+    return Services.roles
+            .where((element) =>
+                element.slug.contains(UtilsImporter().stringUtils.deliveryRole))
+            .length >
+        0;
+  }
+
+  static bool isShopper() {
+    return Services.roles
+            .where((element) =>
+                element.slug.contains(UtilsImporter().stringUtils.shopperRole))
+            .length >
+        0;
   }
 }
 

@@ -462,11 +462,7 @@ class OrderServices {
 
   static Future<bool> assignOrder(String orderId) async {
     String url;
-    if (Services.roles
-            .where((element) =>
-                element.slug.contains(UtilsImporter().stringUtils.deliveryRole))
-            .length >
-        0)
+    if (Services.isDelivery())
       url = ASSIGN_DELIVERY_ORDER_HIMSELF;
     else
       url = ASSIGN_SHOPPER_ORDER_HIMSELF;

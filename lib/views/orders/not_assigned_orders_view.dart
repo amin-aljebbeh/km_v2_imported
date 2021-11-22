@@ -96,11 +96,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
     var orderList;
     if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
       Tools.logToConsole("#######");
-      if (Services.roles
-              .where((element) => element.slug
-                  .contains(UtilsImporter().stringUtils.deliveryRole))
-              .length >
-          0) {
+      if (Services.isDelivery()) {
         orderList = await OrderServices.getOrdersNotAssignedToDeliveries(
             pageNumber: page);
       } else {
@@ -325,33 +321,39 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                   orderCreatedDate: dateTime,
                                 ),
                               ),
-                              DecisionButton(
-                                text: UtilsImporter().stringUtils.getOrder,
-                                color: Colors.red,
-                                onTap: () {
-                                  OrderServices.assignOrder(
-                                      orderDataList[index].id.toString());
-                                  setState(() {});
-                                },
-                              ),
+                              if (Services.isDelivery() || Services.isShopper())
+                                DecisionButton(
+                                  text: UtilsImporter().stringUtils.getOrder,
+                                  color: Colors.red,
+                                  onTap: () {
+                                    OrderServices.assignOrder(
+                                        orderDataList[index].id.toString());
+                                    setState(() {});
+                                  },
+                                ),
                               SizedBox(
                                 width: 10,
                               ),
                               orderDataList[index].userNotes.toString() !=
                                       "null"
                                   ? DecisionButton(
-                                      text: 'مشاهدة ملاحظة العميل',
+                                      text:
+                                          UtilsImporter().stringUtils.watchNote,
                                       onTap: () {
                                         List<DialogButton> decisionButtons = [
                                           DialogButton(
-                                            text: 'إغلاق',
+                                            text: UtilsImporter()
+                                                .stringUtils
+                                                .close,
                                             onTap: () {
                                               Navigator.of(context).pop();
                                             },
                                           )
                                         ];
                                         showMyDialog(
-                                            'ملاحظة العميل',
+                                            UtilsImporter()
+                                                .stringUtils
+                                                .costumerNote,
                                             orderDataList[index].userNotes,
                                             decisionButtons,
                                             null,
@@ -362,12 +364,13 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                   : Container(),
                               orderDataList[index].underUpdate.toString() != "0"
                                   ? DecisionButton(
-                                      text: "إلغاء التعليق",
+                                      text: UtilsImporter().stringUtils.unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
                                         List<DialogButton> decisionButtons = [
                                           DialogButton(
-                                            text: 'نعم',
+                                            text:
+                                                UtilsImporter().stringUtils.yes,
                                             onTap: () {
                                               Navigator.of(context).pop();
                                               unLockOrder(orderId.toString(),
@@ -375,7 +378,9 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                             },
                                           ),
                                           DialogButton(
-                                            text: 'إغلاق',
+                                            text: UtilsImporter()
+                                                .stringUtils
+                                                .close,
                                             onTap: () {
                                               Navigator.of(context).pop();
                                             },
@@ -383,8 +388,10 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                         ];
 
                                         showMyDialog(
-                                            "إلغاء التعليق",
-                                            "هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل",
+                                            UtilsImporter().stringUtils.unLock,
+                                            UtilsImporter()
+                                                .stringUtils
+                                                .unLockConfirm,
                                             decisionButtons,
                                             null,
                                             context);

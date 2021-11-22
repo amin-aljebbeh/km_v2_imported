@@ -428,10 +428,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                               )
                             ],
                           );
-                          // return Container(
-                          //   height: 0.01,
-                          //   width: 0.01,
-                          // );
                         },
                       ),
                     ),

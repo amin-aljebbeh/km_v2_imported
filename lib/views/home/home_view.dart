@@ -210,11 +210,7 @@ class HomeViewState extends State<HomeView> {
       ),
     );
 
-    if (Services.roles
-            .where((element) =>
-                element.slug.contains(UtilsImporter().stringUtils.adminRole))
-            .length >
-        0) {
+    if (Services.isAdmin()) {
       bottomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
@@ -263,16 +259,7 @@ class HomeViewState extends State<HomeView> {
       );
     }
 
-    if (Services.roles
-                .where((element) => element.slug
-                    .contains(UtilsImporter().stringUtils.deliveryRole))
-                .length >
-            0 ||
-        Services.roles
-                .where((element) => element.slug
-                    .contains(UtilsImporter().stringUtils.shopperRole))
-                .length >
-            0) {
+    if (Services.isDelivery() || Services.isShopper()) {
       bottomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
@@ -327,11 +314,7 @@ class HomeViewState extends State<HomeView> {
     _tabs.add(CartView(
       isFromUpdateOrder: _isFromUpdateOrder,
     ));
-    if ((Services.roles
-            .where((element) =>
-                element.slug.contains(UtilsImporter().stringUtils.adminRole))
-            .length >
-        0)) {
+    if ((Services.isAdmin())) {
       _tabs.add(
         OrdersView(),
       );
@@ -339,16 +322,7 @@ class HomeViewState extends State<HomeView> {
       _tabs.add(Prices());
     }
 
-    if (Services.roles
-                .where((element) => element.slug
-                    .contains(UtilsImporter().stringUtils.deliveryRole))
-                .length >
-            0 ||
-        Services.roles
-                .where((element) => element.slug
-                    .contains(UtilsImporter().stringUtils.shopperRole))
-                .length >
-            0) {
+    if (Services.isDelivery() || Services.isShopper()) {
       _tabs.add(
         NotAssignedOrdersView(),
       );

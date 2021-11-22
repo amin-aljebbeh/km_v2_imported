@@ -147,7 +147,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           FocusScope.of(context).requestFocus(_cityFocus);
                         },
                         hintText: "مثال: بيت الجبه منزل الدكتور محمد",
-                        labelText: UtilsImporter().stringUtils.street,
+                        labelText: UtilsImporter().stringUtils.familyName,
                       ),
                       KTextField(
                         controller: cityController,
@@ -157,7 +157,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           FocusScope.of(context).requestFocus(_stateFocus);
                         },
                         hintText: "بناء رقم 15، بناء المهندسين",
-                        labelText: UtilsImporter().stringUtils.city,
+                        labelText: UtilsImporter().stringUtils.buildingName,
                       ),
                       KTextField(
                         controller: stateController,
@@ -167,7 +167,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           FocusScope.of(context).requestFocus(_countryFocus);
                         },
                         hintText: "الطابق الأرضي، الطابق الخامس",
-                        labelText: UtilsImporter().stringUtils.state,
+                        labelText: UtilsImporter().stringUtils.floor,
                       ),
                       KTextField(
                         controller: entranceController,
@@ -187,7 +187,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           _countryFocus.unfocus();
                         },
                         hintText: "مقابل جامع النعمان،",
-                        labelText: UtilsImporter().stringUtils.country,
+                        labelText: UtilsImporter().stringUtils.closeSign,
                       ),
                       DecisionButton(
                         text: "حفظ العنوان",
