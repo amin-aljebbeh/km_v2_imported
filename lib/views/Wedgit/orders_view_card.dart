@@ -388,7 +388,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       children: [
                         shopperName == null
                             ? KSearchableDropdown(
-                                // hint: UtilsImporter().stringUtils.chooseShopper,
+                                hint: UtilsImporter().stringUtils.chooseShopper,
                                 search: shopperSearch,
                                 items: Services.shoppersNameList(
                                     LoadingScreenServices.allShoppers),
@@ -410,10 +410,10 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                 height: 0.5,
                                 width: 0.5,
                               ),
-                        deliveryName != null
+                        deliveryName == null
                             ? KSearchableDropdown(
-                                // hint:
-                                //     UtilsImporter().stringUtils.chooseDelivery,
+                                hint:
+                                    UtilsImporter().stringUtils.chooseDelivery,
                                 search: deliverySearch,
                                 items: Services.deliveriesNameList(
                                     LoadingScreenServices.allDeliveries),
