@@ -47,8 +47,8 @@ class ProductsServices {
                 {"sub_warehouse_id": subWarehouseId, bodyKey: value}));
       }
       if (response.statusCode == SUCCESS_CODE &&
-          response.data["success"] == true) {
-        Tools.logToConsole(response.data);
+          response.shopper["success"] == true) {
+        Tools.logToConsole(response.shopper);
         return true;
       } else {
         return false;

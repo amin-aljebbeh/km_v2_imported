@@ -89,6 +89,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   List<OrdersOriginalData> orderDataList = new List<OrdersOriginalData>();
 
   _getOrder() async {
+    print('getAssignedOrder');
     setState(() {
       if (page == 1) orderLoaded = false;
       if (!theEndOfOrders) isLoading = true;
@@ -115,7 +116,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
         });
       } else {
         setState(() {
-          orderDataList.addAll(orderList);
+          orderDataList = orderList;
+          // orderDataList.addAll(orderList);
           if (filterOrders == 0) {
             orderDataList
                 .removeWhere((order) => int.parse(order.orderStatusId) > 4);
@@ -393,6 +395,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                             text: 'نعم',
                                             onTap: () {
                                               Navigator.of(context).pop();
+                                              setState(() {});
                                               submitSpending(orderId.toString(),
                                                   isSpendingApi: false);
                                             },
@@ -417,7 +420,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                       },
                                       color: Colors.blue[800],
                                     )
-                                  // _showUnlockOrderButton(index)
                                   : Container(),
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
@@ -562,6 +564,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
+          order: orderDataList[index],
           orderId: orderDataList[index].id,
           orderIndex: index,
           ordersAry: ordAry,

@@ -37,4 +37,8 @@ const String UPDATE_ORDER_PRODUCTS = "/api/order/update_order_product/";
 
 const String GET_SHOPPERS = '/api/shopper';
 
+const String GET_SHOPPER = '/api/shopper/';
+
+const String CHANGE_SHOPPER_STATUS = '/api/shopper/';
+
 const String GET_DELIVERIES = '/api/delivery';

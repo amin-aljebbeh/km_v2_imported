@@ -455,6 +455,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   onTap: _showConfirmOrderBtnTapped,
                                   height: 50,
                                 ),
+                                SizedBox(
+                                  height: 10,
+                                )
                                 // _showConfirmOrderButton(),
                               ],
                             ),

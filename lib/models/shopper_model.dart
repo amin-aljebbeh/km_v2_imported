@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:kammun_app/models/shopper_level_model.dart';
 
 class ShopperModel {
@@ -12,6 +13,19 @@ class ShopperModel {
     this.updatedAt,
     this.level,
   });
+
+  ShopperModel.copy(ShopperModel shopperModel) {
+    print('copyyyyyyyyy');
+    this.status = shopperModel.status;
+    this.name = shopperModel.name;
+    this.id = shopperModel.id;
+    this.updatedAt = shopperModel.updatedAt;
+    this.points = shopperModel.points;
+    this.levelId = shopperModel.levelId;
+    this.level = shopperModel.level;
+    this.createdAt = shopperModel.createdAt;
+    this.adminId = shopperModel.adminId;
+  }
 
   int id;
   int adminId;

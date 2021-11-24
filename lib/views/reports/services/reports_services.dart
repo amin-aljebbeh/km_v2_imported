@@ -22,9 +22,9 @@ class ReportsServcies {
     );
 
     if (response.statusCode == SUCCESS_CODE &&
-        response.data["success"] == true) {
-      Tools.logToConsole(response.data);
-      return getDailyStatisticsFromJson(jsonEncode(response.data));
+        response.shopper["success"] == true) {
+      Tools.logToConsole(response.shopper);
+      return getDailyStatisticsFromJson(jsonEncode(response.shopper));
     } else {
       return null;
     }
@@ -47,9 +47,9 @@ class ReportsServcies {
     );
 
     if (response.statusCode == SUCCESS_CODE &&
-        response.data["success"] == true) {
-      Tools.logToConsole(response.data);
-      return matchingProductsFromJson(jsonEncode(response.data));
+        response.shopper["success"] == true) {
+      Tools.logToConsole(response.shopper);
+      return matchingProductsFromJson(jsonEncode(response.shopper));
     } else {
       return null;
     }

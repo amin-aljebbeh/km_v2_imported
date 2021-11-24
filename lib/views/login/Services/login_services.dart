@@ -5,6 +5,7 @@ import 'package:kammun_app/core/api/admin_URLs.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/models/shopper_model.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
@@ -127,6 +128,10 @@ class LoginServices {
         prefs.setString("userToken", newResponse.data.apiToken);
         prefs.setString("adminRoll", username);
         prefs.setString("adminId", newResponse.data.id.toString());
+        if (newResponse.data.shopper != null) {
+          print('no problem');
+          prefs.setString("shopperId", newResponse.data.shopper.id.toString());
+        }
 
         for (int i = 0; i < newResponse.data.roles.length; i++) {
           prefs.setString(

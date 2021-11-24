@@ -4,6 +4,7 @@ import 'package:kammun_app/core/api/admin_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/shopper_model.dart';
 import 'package:kammun_app/models/sub_warehouse_model.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
@@ -37,6 +38,9 @@ class InventoryServices {
 
       if (result.data.roles.length > 0) {
         Services.roles = result.data.roles;
+        if (result.data.shopper != null) {
+          Services.shopper = ShopperModel.copy(result.data.shopper);
+        }
       }
 
       return result.data.subWarehouses;

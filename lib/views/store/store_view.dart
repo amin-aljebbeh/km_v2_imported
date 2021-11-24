@@ -8,6 +8,7 @@ import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/login/Services/login_services.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -541,10 +542,16 @@ class StoreViewState extends State<StoreView> {
       ),
       appBar: PreferredSize(
         child: AppBar(
+          actions: [],
           iconTheme: new IconThemeData(color: Colors.transparent),
 
-          backgroundColor: Color.fromARGB(255, 210, 178, 2),
-          automaticallyImplyLeading: false, // hides leading widget
+          backgroundColor: Services.isShopper()
+              ? Services.shopper.status == 1
+                  ? Color.fromARGB(255, 210, 178, 2)
+                  : UtilsImporter().colorUtils.searchgreycolor
+              : Color.fromARGB(255, 210, 178, 2),
+          automaticallyImplyLeading: false,
+          // hides leading widget
           flexibleSpace: SafeArea(
             top: true,
             left: false,
@@ -553,47 +560,60 @@ class StoreViewState extends State<StoreView> {
             child: Column(
               children: <Widget>[
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                          padding: const EdgeInsets.only(top: 12.0),
-                          child: InkWell(
-                            onTap: () {
-                              _scaffoldKey.currentState.openDrawer();
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: InkWell(
+                        onTap: () {
+                          _scaffoldKey.currentState.openDrawer();
+                        },
+                        child: Icon(
+                          Icons.menu,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Transform.scale(
+                        scale: 2,
+                        child: Image.asset(
+                          "assets/logobw.png",
+                          width: 150,
+                          height: 50,
+                        ),
+                      ),
+                    ),
+                    Services.isShopper()
+                        ? Switch(
+                            activeColor: Colors.white,
+                            value: Services.shopper.status == 1,
+                            onChanged: (value) async {
+                              await Services.changeShopperStatus();
+                              Services.shopper.status =
+                                  Services.shopper.status == 1 ? 0 : 1;
+                              setState(() {});
                             },
-                            child: Icon(
-                              Icons.menu,
-                              color: Colors.white,
-                              size: 40,
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.shopping_cart,
+                                size: 35,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    '/cart', (Route<dynamic> route) => false);
+                              },
                             ),
-                          )),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: Transform.scale(
-                          scale: 2,
-                          child: Image.asset(
-                            "assets/logobw.png",
-                            width: 150,
-                            height: 50,
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.shopping_cart,
-                            size: 35,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/cart', (Route<dynamic> route) => false);
-                          },
-                        ),
-                      ),
-                    ]),
+                  ],
+                ),
                 _showSearchTxtFld(),
               ],
             ),

@@ -22,6 +22,7 @@ class OrderDetailViewMain extends StatefulWidget {
   int orderIndex;
   int orderId;
   String addressName;
+  OrdersOriginalData order;
 
   OrderDetailViewMain(
       {this.ordersAry,
@@ -30,7 +31,8 @@ class OrderDetailViewMain extends StatefulWidget {
       this.deliveryPrice,
       this.orderId,
       this.addressName,
-      this.orderIndex});
+      this.orderIndex,
+      this.order});
 
   @override
   State<StatefulWidget> createState() {
@@ -260,48 +262,26 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                     ),
                     SizedBox(height: 5),
                     // _showReOrderButton(),
-                    int.parse(LoadingScreenServices
-                                    .myOrdersList[orderArrayIndex]
-                                    .orderStatusId) <=
-                                4 &&
-                            int.parse(LoadingScreenServices
-                                    .myOrdersList[orderArrayIndex]
-                                    .underUpdate) !=
-                                1
+                    int.parse(widget.order.orderStatusId) <= 4 &&
+                            int.parse(widget.order.underUpdate) != 1
                         ? Padding(
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 DecisionButton(
-                                  text: LoadingScreenServices
-                                              .myOrdersList[orderArrayIndex]
-                                              .orderStatusId ==
-                                          "1"
+                                  text: widget.order.orderStatusId == "1"
                                       ? "قبول الطلب"
-                                      : LoadingScreenServices
-                                                  .myOrdersList[orderArrayIndex]
-                                                  .orderStatusId ==
-                                              "2"
+                                      : widget.order.orderStatusId == "2"
                                           ? "الطلب جاهز"
-                                          : LoadingScreenServices
-                                                      .myOrdersList[
-                                                          orderArrayIndex]
-                                                      .orderStatusId ==
-                                                  "3"
+                                          : widget.order.orderStatusId == "3"
                                               ? "مع التوصيل"
                                               : "تم التوصيل",
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
-                                  color: LoadingScreenServices
-                                              .myOrdersList[orderArrayIndex]
-                                              .orderStatusId ==
-                                          "1"
+                                  color: widget.order.orderStatusId == "1"
                                       ? Colors.green[700]
-                                      : LoadingScreenServices
-                                                  .myOrdersList[orderArrayIndex]
-                                                  .orderStatusId ==
-                                              "2"
+                                      : widget.order.orderStatusId == "2"
                                           ? Colors.yellow[700]
                                           : Colors.cyan[700],
                                   onTap: () async {
@@ -310,25 +290,14 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                       isLoading = true;
                                       errorAlert = false;
                                     });
-                                    if (LoadingScreenServices
-                                            .myOrdersList[orderArrayIndex]
-                                            .orderStatusId ==
-                                        "1")
+                                    if (widget.order.orderStatusId == "1")
                                       changeStatus = 2;
-                                    else if (LoadingScreenServices
-                                            .myOrdersList[orderArrayIndex]
-                                            .orderStatusId ==
-                                        "2")
+                                    else if (widget.order.orderStatusId == "2")
                                       changeStatus = 3;
-                                    else if (LoadingScreenServices
-                                            .myOrdersList[orderArrayIndex]
-                                            .orderStatusId ==
-                                        "3")
+                                    else if (widget.order.orderStatusId == "3")
                                       changeStatus = 4;
-                                    else if (LoadingScreenServices
-                                            .myOrdersList[orderArrayIndex]
-                                            .orderStatusId ==
-                                        "4") changeStatus = 5;
+                                    else if (widget.order.orderStatusId == "4")
+                                      changeStatus = 5;
 
                                     bool x =
                                         await OrderServices.changeOrderStatus(
@@ -337,9 +306,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
 
                                     if (x) {
                                       setState(() {
-                                        LoadingScreenServices
-                                                .myOrdersList[orderArrayIndex]
-                                                .orderStatusId =
+                                        widget.order.orderStatusId =
                                             changeStatus.toString();
                                         isLoading = false;
                                       });
@@ -378,9 +345,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
 
                                           if (x) {
                                             setState(() {
-                                              LoadingScreenServices
-                                                      .myOrdersList[orderArrayIndex]
-                                                      .orderStatusId =
+                                              widget.order.orderStatusId =
                                                   changeStatus.toString();
                                               isLoading = false;
                                             });

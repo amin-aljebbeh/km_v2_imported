@@ -73,9 +73,9 @@ class OrderServices {
       if (response.data["reason"].toString().contains("discontinued")) {
         return new OrderResponse(success: false, reason: "discontinued");
       } else {
-        var barsedJson = orderResponseFromJson(jsonEncode(response.data));
+        var parsedJson = orderResponseFromJson(jsonEncode(response.data));
 
-        return barsedJson;
+        return parsedJson;
       }
     } catch (e) {
       Tools.logToConsole(e);
@@ -85,6 +85,7 @@ class OrderServices {
 
   static Future<OrderResponse> updateOrder(
       {String userNotes, bool checkPrices = true}) async {
+    print('updateOrder');
     String productIds = "";
     String quantities = "";
     String productPrices = "";
@@ -129,11 +130,12 @@ class OrderServices {
       if (response.data["reason"].toString().contains("discontinued")) {
         return new OrderResponse(success: false, reason: "discontinued");
       } else {
-        var barsedJson = orderResponseFromJson(jsonEncode(response.data));
+        var parsedJson = orderResponseFromJson(jsonEncode(response.data));
 
-        return barsedJson;
+        return parsedJson;
       }
     } catch (e) {
+      print('yaoo');
       Tools.logToConsole(e);
       return null;
     }
@@ -303,14 +305,14 @@ class OrderServices {
       Tools.logToConsole("------- orders data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.notAssignedOrdersList =
+        LoadingScreenServices.deliveriesNotAssignedOrdersList =
             ordersFromJson(jsonEncode(response.data)).data.data;
 
         print('getOrdersNotAssignedToDeliveries');
-        print(LoadingScreenServices.notAssignedOrdersList.length);
-        return LoadingScreenServices.notAssignedOrdersList;
+        print(LoadingScreenServices.deliveriesNotAssignedOrdersList.length);
+        return LoadingScreenServices.deliveriesNotAssignedOrdersList;
       } else {
-        return LoadingScreenServices.notAssignedOrdersList;
+        return LoadingScreenServices.deliveriesNotAssignedOrdersList;
       }
     } catch (e) {
       Tools.logToConsole(
@@ -415,14 +417,15 @@ class OrderServices {
       Tools.logToConsole("------- orders data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.notAssignedOrdersList =
+        LoadingScreenServices.shoppersNotAssignedOrdersList =
             ordersFromJson(jsonEncode(response.data)).data.data;
 
         Tools.logToConsole('getOrdersNotAssignedToShoppers');
-        Tools.logToConsole(LoadingScreenServices.notAssignedOrdersList.length);
-        return LoadingScreenServices.notAssignedOrdersList;
+        Tools.logToConsole(
+            LoadingScreenServices.shoppersNotAssignedOrdersList.length);
+        return LoadingScreenServices.shoppersNotAssignedOrdersList;
       } else {
-        return LoadingScreenServices.notAssignedOrdersList;
+        return LoadingScreenServices.shoppersNotAssignedOrdersList;
       }
     } catch (e) {
       Tools.logToConsole(

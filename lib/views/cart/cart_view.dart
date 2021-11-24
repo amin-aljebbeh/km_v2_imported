@@ -4,6 +4,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/screen_message.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
@@ -199,16 +200,8 @@ class CartViewState extends State<CartView> {
                     ? Padding(
                         padding: EdgeInsets.only(top: screenHeight * 0.3),
                         child: Center(
-                          child: Text(
-                            "سلة المشتريات فارغة",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: UtilsImporter().colorUtils.greycolor,
-                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                              fontSize: 20.0,
-                            ),
-                          ),
-                        ),
+                            child:
+                                ScreenMessage(message: 'سلة المشتريات فارغة')),
                       )
                     : Container(
                         padding: EdgeInsets.zero,
@@ -595,27 +588,4 @@ class CartViewState extends State<CartView> {
   //               ? UtilsImporter().colorUtils.primarycolor
   //               : Colors.grey[400]
 
-  Widget _showConfirmOrderButton() {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: _showConfirmOrderBtnTapped,
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: CartServices.cartProducts.length > 0
-                ? UtilsImporter().colorUtils.primarycolor
-                : Colors.grey[400],
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            UtilsImporter().stringUtils.confirmOrder.toUpperCase(),
-            style: decisionButtonStyle,
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
-  }
 }

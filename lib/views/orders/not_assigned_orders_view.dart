@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/lock_order.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -11,6 +10,7 @@ import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
+import 'package:kammun_app/views/Wedgit/screen_message.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
@@ -33,11 +33,22 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
     rateValue = 0;
     filterOrders = 0;
 
-    if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
-      getOrders = _getOrder();
+    if (Services.isShopper()) {
+      if (Services.shopper.status == 1) {
+        if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
+          getOrders = _getOrder();
+        } else {
+          getOrders = _initialFunction();
+          orderDataList = LoadingScreenServices.notAssignedOrdersList;
+        }
+      }
     } else {
-      getOrders = _initialFunction();
-      orderDataList = LoadingScreenServices.notAssignedOrdersList;
+      if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
+        getOrders = _getOrder();
+      } else {
+        getOrders = _initialFunction();
+        orderDataList = LoadingScreenServices.notAssignedOrdersList;
+      }
     }
 
     super.initState();
@@ -151,6 +162,10 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
+    if (Services.isShopper()) {
+      if (Services.shopper.status == 0)
+        return ScreenMessage(message: 'انت لا تستقبل الطلبات حالياً');
+    }
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
@@ -237,22 +252,10 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                       ],
                     ),
                     orderDataList.length == 0
-                        ? Container(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: screenHeight * 0.4),
-                              child: Center(
-                                child: Text(
-                                  "لا يوجد أي طلبات سابقة",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: UtilsImporter().colorUtils.greycolor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 20.0,
-                                  ),
-                                ),
-                              ),
-                            ),
+                        ? Padding(
+                            padding: EdgeInsets.only(top: screenHeight * 0.4),
+                            child: ScreenMessage(
+                                message: 'لا يوجد أي طلبات سابقة'),
                           )
                         : Container(
                             padding: EdgeInsets.zero,
@@ -420,19 +423,8 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                       ),
                     ),
                     theEndOfOrders
-                        ? Container(
-                            height: 50.0,
-                            color: Colors.transparent,
-                            child: Center(
-                              child: Text(
-                                "تم جلب جميع الطلبات",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                ),
-                              ),
-                            ),
+                        ? ScreenMessage(
+                            message: "تم جلب جميع الطلبات",
                           )
                         : Container(),
                   ],
@@ -492,6 +484,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
+          order: orderDataList[index],
           orderId: orderDataList[index].id,
           orderIndex: index,
           ordersAry: ordAry,

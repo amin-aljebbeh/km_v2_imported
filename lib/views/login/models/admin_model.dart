@@ -1,31 +1,32 @@
 import 'package:kammun_app/models/permission_model.dart';
 import 'package:kammun_app/models/role_model.dart';
+import 'package:kammun_app/models/shopper_model.dart';
 import 'package:kammun_app/models/sub_warehouse_model.dart';
 
 class AdminModel {
-  AdminModel({
-    this.id,
-    this.username,
-    this.name,
-    this.phone,
-    this.apiToken,
-    this.productOperationsPermission,
-    this.addCategoryPermission,
-    this.addSpecialOfferPermission,
-    this.viewOrdersPermission,
-    this.banUserPermission,
-    this.viewReportPermission,
-    this.addNotificationPermission,
-    this.isSuperUser,
-    this.warehouseId,
-    this.firebaseToken,
-    this.updateCategoryWarehousePermission,
-    this.productWarehouseOperationsPermission,
-    this.updateOrderPermission,
-    this.subWarehouses,
-    this.roles,
-    this.permissions,
-  });
+  AdminModel(
+      {this.id,
+      this.username,
+      this.name,
+      this.phone,
+      this.apiToken,
+      this.productOperationsPermission,
+      this.addCategoryPermission,
+      this.addSpecialOfferPermission,
+      this.viewOrdersPermission,
+      this.banUserPermission,
+      this.viewReportPermission,
+      this.addNotificationPermission,
+      this.isSuperUser,
+      this.warehouseId,
+      this.firebaseToken,
+      this.updateCategoryWarehousePermission,
+      this.productWarehouseOperationsPermission,
+      this.updateOrderPermission,
+      this.subWarehouses,
+      this.roles,
+      this.permissions,
+      this.shopper});
 
   int id;
   String username;
@@ -48,6 +49,7 @@ class AdminModel {
   List<SubWarehouse> subWarehouses;
   List<Role> roles;
   List<Permission> permissions;
+  ShopperModel shopper;
 
   factory AdminModel.fromJson(Map<String, dynamic> json) => AdminModel(
         id: json["id"] == null ? null : json["id"],
@@ -104,6 +106,9 @@ class AdminModel {
             ? null
             : List<Permission>.from(
                 json["permissions"].map((x) => Permission.fromJson(x))),
+        shopper: json["shopper"] == null
+            ? null
+            : ShopperModel.fromJson(json["shopper"]),
       );
 
   Map<String, dynamic> toJson() => {

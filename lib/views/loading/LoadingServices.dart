@@ -18,6 +18,7 @@ import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
+import '../../Services.dart';
 import 'Loading.dart';
 
 class LoadingScreenServices {
@@ -420,6 +421,7 @@ class LoadingScreenServices {
               getSubWarehouse(),
               getCategory(),
               fetchAdminInformation(),
+              if (Services.isShopper()) Services.getShopper(),
             ]);
           } catch (e) {
             Tools.logToConsole("--------- error call -----");

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/api_response.dart';
 import 'package:kammun_app/models/get_shoppers_model.dart';
 import 'package:kammun_app/models/shopper_model.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -22,9 +23,11 @@ import 'models/role_model.dart';
 import 'models/start_model.dart';
 import 'utils/Styles.dart';
 import 'utils/utils_importer.dart';
+import 'views/login/Services/login_services.dart';
 
 class Services {
   static List<Role> roles = [];
+  static ShopperModel shopper;
   static bool updateOption = false;
 
   //static String imagePrefixUrl = "";
@@ -296,10 +299,39 @@ class Services {
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.allShoppers =
             shoppersFromJson(jsonEncode(response.data)).data;
-
+        LoadingScreenServices.allShoppers
+            .removeWhere((element) => element.status == 0);
         return LoadingScreenServices.allShoppers;
       } else {
         return LoadingScreenServices.allShoppers;
+      }
+    } catch (e) {
+      Tools.logToConsole("------------ ERROR GET SHOPPERS --------------");
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
+  static Future<ShopperModel> getShopper() async {
+    Tools.logToConsole(
+        "------------------ Get All Shoppers  --------------------");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print('shopperId');
+    String shopperId = prefs.getString('shopperId');
+    print(shopperId);
+    if (shopperId == null) {}
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: BaseUrl + GET_SHOPPER + shopperId,
+        method: httpMethods.get,
+      );
+      Tools.logToConsole("------- shoppers data -------");
+
+      if (response.statusCode == SUCCESS_CODE) {
+        shopper = GetShopperResponse.fromJson(response.data).shopper;
+        return shopper;
+      } else {
+        return shopper;
       }
     } catch (e) {
       Tools.logToConsole("------------ ERROR GET SHOPPERS --------------");
@@ -331,6 +363,29 @@ class Services {
       Tools.logToConsole("------------ ERROR GET SHOPPERS --------------");
       Tools.logToConsole(e.toString());
       return null;
+    }
+  }
+
+  static Future<bool> changeShopperStatus() async {
+    String newStatus = Services.shopper.status == 1 ? '0' : '1';
+    Map changeStatus = {'status': newStatus};
+    try {
+      var response = await ApiProvider.sendRequest(
+          url: BaseUrl + CHANGE_SHOPPER_STATUS + Services.shopper.id.toString(),
+          method: httpMethods.put,
+          body: jsonEncode(changeStatus));
+
+      if (response.statusCode == SUCCESS_CODE) {
+        Tools.logToConsole(response.data);
+        return true;
+      } else {
+        Tools.logToConsole(response.data);
+        Tools.logToConsole("------------ ERROR UPDATE ADDRESS --------------");
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return false;
     }
   }
 
