@@ -349,7 +349,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                     showMyDialog(
                                       ' ',
                                       ' ',
-                                      null,
+                                      [],
                                       Stack(
                                         overflow: Overflow.visible,
                                         children: <Widget>[
