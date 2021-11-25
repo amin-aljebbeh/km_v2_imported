@@ -1,6 +1,7 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/colors_utils.dart';
@@ -212,7 +213,10 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                             children: <Widget>[
                               Text(
                                 widget.productName,
-                                style: darkBold,
+                                style: mainStyle.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),
@@ -221,12 +225,14 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                             children: [
                               Text(
                                 widget.quantity + " " + widget.unit,
-                                style: darkBold,
+                                style: mainStyle.copyWith(
+                                  color:
+                                      UtilsImporter().colorUtils.primarycolor,
+                                  fontSize: 17,
+                                ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 8),
-                          SizedBox(height: 8),
                           Text(
                             UtilsImporter()
                                     .stringUtils
@@ -234,9 +240,10 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                     .format(widget.price)
                                     .toString() +
                                 " ${LoadingScreenServices.companyInformation.currency}",
-                            style: darkBold.copyWith(
-                              color: UtilsImporter().colorUtils.primarycolor,
-                            ),
+                            style: mainStyle.copyWith(
+                                color: UtilsImporter().colorUtils.primarycolor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                           ),
                           subWarehouseList.length > 0
                               ? DropdownButton(

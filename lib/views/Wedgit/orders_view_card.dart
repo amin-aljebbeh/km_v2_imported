@@ -123,6 +123,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
     if (widget.orderStatus == 6) orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
     if (widget.orderStatus == 7) orderStatus = "😔 لم نستطع تأمين الطلب 😔";
 
+    print("THe ORDER ID");
+    print(widget.orderId.toString());
     return Container(
       decoration: widget.deliveryMethodId == 2
           ? BoxDecoration(border: Border.all(color: Colors.red, width: 5))
@@ -187,7 +189,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                       padding:
                                           const EdgeInsets.only(left: 20.0),
                                       child: Text(
-                                        "#${widget.orderId.toString().substring(3, widget.orderId.toString().length)}",
+                                        widget.orderId.toString().length >= 3
+                                            ? "#${widget.orderId.toString().substring(3, widget.orderId.toString().length)}"
+                                            : '#${widget.orderId.toString()}',
                                         style: TextStyle(
                                           color: Colors.purple,
                                           fontSize: 25,

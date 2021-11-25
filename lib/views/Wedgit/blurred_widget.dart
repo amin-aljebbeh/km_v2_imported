@@ -18,8 +18,8 @@ class BlurredWidget extends StatelessWidget {
                 decoration: new BoxDecoration(
                     color: Colors.grey.shade200.withOpacity(0.5)),
                 child: SizedBox(
-                  height: 215,
-                  width: 352,
+                  height: 200,
+                  width: 355,
                 ),
               ),
             ),
