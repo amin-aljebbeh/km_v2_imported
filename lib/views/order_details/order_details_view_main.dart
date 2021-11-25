@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/views/Wedgit/blurred_widget.dart';
 import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -224,39 +225,41 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                               ),
                             );
                           }
-                          return new GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () => _onTileClicked(index),
-                            child: BlurredWidget(
-                              child: OrderDetailViewMainCard(
-                                subWarehouseId: orderDetail.subWarehouseId,
-                                orderId: widget.orderId,
-                                onCheckbox: (a) {
-                                  setState(() {
-                                    productsAry.removeAt(a);
-                                  });
-                                },
-                                productsData: orderDetail,
-                                supplierCode: orderDetail.supplierCode,
-                                active: orderDetail.isActive,
-                                productId: orderDetail.pivot.productId,
-                                img: orderDetail.images.length != 0
-                                    ? LoadingScreenServices.imagePrefixUrl +
-                                        orderDetail.images[0].imageFileName
-                                    : "",
-                                productName: orderDetail.name,
-                                quantity: orderDetail.quantity,
-                                price:
-                                    int.parse(orderDetail.pivot.purchasePrice),
-                                unit: orderDetail.unit == null
-                                    ? ""
-                                    : orderDetail.unit,
-                                productCount:
-                                    orderDetail.pivot.quantity.toString(),
-                                index: index,
+                          if (Services.isAdmin())
+                            return new GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => _onTileClicked(index),
+                              child: BlurredWidget(
+                                child: OrderDetailViewMainCard(
+                                  subWarehouseId: orderDetail.subWarehouseId,
+                                  orderId: widget.orderId,
+                                  onCheckbox: (a) {
+                                    setState(() {
+                                      productsAry.removeAt(a);
+                                    });
+                                  },
+                                  productsData: orderDetail,
+                                  supplierCode: orderDetail.supplierCode,
+                                  active: orderDetail.isActive,
+                                  productId: orderDetail.pivot.productId,
+                                  img: orderDetail.images.length != 0
+                                      ? LoadingScreenServices.imagePrefixUrl +
+                                          orderDetail.images[0].imageFileName
+                                      : "",
+                                  productName: orderDetail.name,
+                                  quantity: orderDetail.quantity,
+                                  price: int.parse(
+                                      orderDetail.pivot.purchasePrice),
+                                  unit: orderDetail.unit == null
+                                      ? ""
+                                      : orderDetail.unit,
+                                  productCount:
+                                      orderDetail.pivot.quantity.toString(),
+                                  index: index,
+                                ),
                               ),
-                            ),
-                          );
+                            );
+                          return Container();
                         },
                       ),
                     ),

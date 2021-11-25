@@ -472,6 +472,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   Widget cardBody(int index, BuildContext context) {
+    // if (orderArray[index])
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

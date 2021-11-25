@@ -527,20 +527,22 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     String productsQuantity = "";
 
     for (int i = 0; i < orderProducts.length; i++) {
-      ProductData product = new ProductData();
+      if (orderProducts[i].pivot.deletedAt == null) {
+        ProductData product = new ProductData();
 
-      product.id = orderProducts[i].id;
-      product.images = orderProducts[i].images;
-      product.name = orderProducts[i].name;
+        product.id = orderProducts[i].id;
+        product.images = orderProducts[i].images;
+        product.name = orderProducts[i].name;
 
-      product.price = orderProducts[i].pivot.purchasePrice;
+        product.price = orderProducts[i].pivot.purchasePrice;
 
-      product.productCount = int.parse(orderProducts[i].pivot.quantity);
-      product.unit = orderProducts[i].unit;
-      product.quantity = orderProducts[i].quantity;
-      product.subWarehouseId = orderProducts[i].subWarehouseId;
+        product.productCount = int.parse(orderProducts[i].pivot.quantity);
+        product.unit = orderProducts[i].unit;
+        product.quantity = orderProducts[i].quantity;
+        product.subWarehouseId = orderProducts[i].subWarehouseId;
 
-      CartServices.addProductToCart(product);
+        CartServices.addProductToCart(product);
+      }
     }
 
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
