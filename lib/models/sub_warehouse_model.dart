@@ -4,9 +4,8 @@
 
 import 'dart:convert';
 
-import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
-import 'old_model/sub_warehouse_pivot.dart';
+import 'sub_warehouse_pivot.dart';
 
 List<SubWarehouse> subWarehouseFromJson(String str) => List<SubWarehouse>.from(
     json.decode(str).map((x) => SubWarehouse.fromJson(x)));

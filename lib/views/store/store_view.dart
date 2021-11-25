@@ -5,10 +5,8 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/decision_button.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/login/Services/login_services.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,8 +25,6 @@ class StoreViewState extends State<StoreView> {
   TextEditingController searchController = new TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _searchController = TextEditingController();
-
-  final FocusNode _searchNameFocus = FocusNode();
 
 // Color.fromARGB(255, 210, 178, 2) كموني
 //Color.fromARGB(255, 53, 99, 124) كجلي
@@ -181,59 +177,6 @@ class StoreViewState extends State<StoreView> {
         );
       },
     );
-  }
-
-  _showUpdateOrderInstruction({BuildContext context}) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                Positioned(
-                  right: -40.0,
-                  top: -40.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "لديك طلب قيد التعديل",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 18),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 8, right: 8),
-                      child: Text(
-                        "يرجى التأكد من تثبيت الطلب بعد الإنتهاء من تعديله، يمكنك مشاهدة محتويات الطلب ضمن سلة المشتريات أو مراجعة الطلب ضمن صفحة الطلبات",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 18),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
   }
 
   _openUrl(String selected) async {
@@ -628,7 +571,7 @@ class StoreViewState extends State<StoreView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _ImageCarousel(),
+                  _imageCarousel(),
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -676,36 +619,6 @@ class StoreViewState extends State<StoreView> {
     );
   }
 
-  Widget _ShowSearchInput() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-      child: new TextField(
-        controller: searchController,
-        maxLines: 1,
-        focusNode: _searchNameFocus,
-        textInputAction: TextInputAction.next,
-        autofocus: true,
-        onSubmitted: (term) {
-          _searchNameFocus.unfocus();
-        },
-        style: new TextStyle(
-            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            fontWeight: FontWeight.w500,
-            fontSize: 16.0,
-            color: Theme.of(context).primaryColorDark),
-        decoration: InputDecoration(
-            labelText: UtilsImporter().stringUtils.full_name,
-            labelStyle: TextStyle(
-              color: UtilsImporter().colorUtils.greycolor,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-            border: new UnderlineInputBorder(
-                borderSide: new BorderSide(
-                    color: UtilsImporter().colorUtils.primarycolor))),
-      ),
-    );
-  }
-
   // 1
   Widget _showSearchTxtFld() {
     final GestureDetector searchButtonWithGesture = new GestureDetector(
@@ -744,7 +657,7 @@ class StoreViewState extends State<StoreView> {
         child: searchButtonWithGesture);
   }
 
-  Widget _ImageCarousel() {
+  Widget _imageCarousel() {
     return new Container(
       // height: 200.0,
       height: MediaQuery.of(context).size.height * 0.30,

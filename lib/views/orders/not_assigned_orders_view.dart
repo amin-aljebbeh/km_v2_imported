@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
@@ -11,10 +10,8 @@ import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
 import 'package:kammun_app/views/Wedgit/screen_message.dart';
-import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:intl/intl.dart';
 import 'services/order_services.dart';
@@ -35,19 +32,19 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
 
     if (Services.isShopper()) {
       if (Services.shopper.status == 1) {
-        if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
+        if (LoadingScreenServices.shoppersNotAssignedOrdersList.length == 0) {
           getOrders = _getOrder();
         } else {
           getOrders = _initialFunction();
-          orderDataList = LoadingScreenServices.notAssignedOrdersList;
+          orderDataList = LoadingScreenServices.shoppersNotAssignedOrdersList;
         }
       }
     } else {
-      if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
+      if (LoadingScreenServices.deliveriesNotAssignedOrdersList.length == 0) {
         getOrders = _getOrder();
       } else {
         getOrders = _initialFunction();
-        orderDataList = LoadingScreenServices.notAssignedOrdersList;
+        orderDataList = LoadingScreenServices.deliveriesNotAssignedOrdersList;
       }
     }
 
@@ -102,34 +99,45 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
       if (!theEndOfOrders) isLoading = true;
       errorMessage = false;
       orderDataList.clear();
-      LoadingScreenServices.notAssignedOrdersList.clear();
+      LoadingScreenServices.shoppersNotAssignedOrdersList.clear();
+      LoadingScreenServices.deliveriesNotAssignedOrdersList.clear();
     });
     var orderList;
-    if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
-      Tools.logToConsole("#######");
-      if (Services.isDelivery()) {
+    if (Services.isShopper()) {
+      if (Services.shopper.status == 1) {
+        if (LoadingScreenServices.shoppersNotAssignedOrdersList.length == 0) {
+          orderList = await OrderServices.getOrdersNotAssignedToShoppers(
+              pageNumber: page);
+        } else {
+          orderList = LoadingScreenServices.shoppersNotAssignedOrdersList;
+        }
+      }
+    } else {
+      if (LoadingScreenServices.deliveriesNotAssignedOrdersList.length == 0) {
         orderList = await OrderServices.getOrdersNotAssignedToDeliveries(
             pageNumber: page);
       } else {
-        orderList = await OrderServices.getOrdersNotAssignedToShoppers(
-            pageNumber: page);
+        orderList = LoadingScreenServices.deliveriesNotAssignedOrdersList;
       }
-    } else {
-      orderList = LoadingScreenServices.notAssignedOrdersList;
     }
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
-          LoadingScreenServices.notAssignedOrdersList = orderDataList;
-          if (LoadingScreenServices.notAssignedOrdersList.length != 0)
-            theEndOfOrders = true;
+          if (Services.isShopper()) {
+            LoadingScreenServices.shoppersNotAssignedOrdersList = orderDataList;
+          } else {
+            LoadingScreenServices.deliveriesNotAssignedOrdersList =
+                orderDataList;
+          }
+          var tempList = orderDataList;
+          if (tempList.length != 0) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
         });
       } else {
         setState(() {
-          orderDataList.addAll(orderList);
+          orderDataList = orderList;
           if (filterOrders == 0) {
             orderDataList
                 .removeWhere((order) => int.parse(order.orderStatusId) > 4);
@@ -143,7 +151,12 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
           orderDataList.removeWhere((order) => order.products.length == 0);
           Tools.logToConsole("orderDataList After filltiting");
           Tools.logToConsole(orderDataList.length);
-          LoadingScreenServices.notAssignedOrdersList = orderDataList;
+          if (Services.isShopper()) {
+            LoadingScreenServices.shoppersNotAssignedOrdersList = orderDataList;
+          } else {
+            LoadingScreenServices.deliveriesNotAssignedOrdersList =
+                orderDataList;
+          }
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -197,6 +210,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                           onChanged: (value) {
                             setState(() {
                               filterOrders = value;
+                              page = 1;
                             });
                             _getOrder();
                           },
@@ -332,6 +346,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                     OrderServices.assignOrder(
                                         orderDataList[index].id.toString());
                                     setState(() {});
+                                    _getOrder();
                                   },
                                 ),
                               SizedBox(
@@ -436,43 +451,6 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
 
   void unLockOrder(String orderId, {bool isSpendingApi = true}) async {
     await OrderServices.unlockOrder(orderId);
-  }
-
-  _moveOrderProductsToCart(
-      {int orderIndex, List<OrderProducts> orderProducts}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    CartServices.cartProducts.clear();
-    String productsId = "";
-    String productsQuantity = "";
-
-    for (int i = 0; i < orderProducts.length; i++) {
-      ProductData product = new ProductData();
-
-      product.id = orderProducts[i].id;
-      product.images = orderProducts[i].images;
-      product.name = orderProducts[i].name;
-
-      product.price = orderProducts[i].pivot.purchasePrice;
-
-      product.productCount = int.parse(orderProducts[i].pivot.quantity);
-      product.unit = orderProducts[i].unit;
-      product.quantity = orderProducts[i].quantity;
-      product.subWarehouseId = orderProducts[i].subWarehouseId;
-
-      CartServices.addProductToCart(product);
-    }
-
-    for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productsId += CartServices.cartProducts[i].id.toString() + ";";
-      productsQuantity +=
-          CartServices.cartProducts[i].productCount.toString() + ";";
-    }
-    prefs.setString("userCart", productsId + "@" + productsQuantity);
-
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      '/cartFromUpdate',
-      (Route<dynamic> route) => false,
-    );
   }
 
   void _onTileClicked(int index) {

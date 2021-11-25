@@ -338,7 +338,7 @@ class _InventoryState extends State<Inventory> {
                                                 eachProduct
                                                     .images[0].imageFileName
                                             : "",
-                                        product_name: eachProduct.name,
+                                        productName: eachProduct.name,
                                         quantity: eachProduct.unit.toString() !=
                                                 "null"
                                             ? eachProduct.quantity.toString() +
@@ -380,7 +380,7 @@ class _InventoryState extends State<Inventory> {
                                                     eachProduct
                                                         .images[0].imageFileName
                                                 : "",
-                                            product_name: eachProduct.name,
+                                            productName: eachProduct.name,
                                             quantity: eachProduct.unit
                                                         .toString() !=
                                                     "null"

@@ -187,7 +187,7 @@ class _PricesState extends State<Prices> {
                                                 eachProduct
                                                     .images[0].imageFileName
                                             : "",
-                                        product_name: eachProduct.name,
+                                        productName: eachProduct.name,
                                         active: int.parse(eachProduct.isActive),
                                         quantity: eachProduct.unit.toString() !=
                                                 "null"
@@ -225,7 +225,7 @@ class _PricesState extends State<Prices> {
                                                     eachProduct
                                                         .images[0].imageFileName
                                                 : "",
-                                            product_name: eachProduct.name,
+                                            productName: eachProduct.name,
                                             active:
                                                 int.parse(eachProduct.isActive),
                                             quantity: eachProduct.unit

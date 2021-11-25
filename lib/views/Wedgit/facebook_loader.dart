@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'; 
-import 'package:kammun_app/utils/tools.dart';
+import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FacebookLoader extends StatelessWidget {
@@ -11,7 +10,6 @@ class FacebookLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      //  height: Meid,
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       child: Shimmer.fromColors(
         baseColor: Colors.grey[300],

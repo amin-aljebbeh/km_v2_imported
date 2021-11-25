@@ -38,7 +38,7 @@ class AddedProductsServices {
     String subWarehouse,
   }) async {
     var response = await ApiProvider.sendRequest(
-        url: UN_ATTCAHE_PRODUCTS_TO_SUB_WAREHOUSE + productsId,
+        url: UN_ATTACH_PRODUCTS_TO_SUB_WAREHOUSE + productsId,
         method: httpMethods.delete,
         body: jsonEncode({"sub_warehouse_id": int.parse(subWarehouse)}));
 
@@ -56,7 +56,7 @@ class AddedProductsServices {
     dynamic fullRequestBody,
   }) async {
     var response = await ApiProvider.sendRequest(
-        url: ATTCAHE_PRODUCTS_TO_SUB_WAREHOUSE,
+        url: ATTACH_PRODUCTS_TO_SUB_WAREHOUSE,
         method: httpMethods.post,
         body: jsonEncode(fullRequestBody));
 

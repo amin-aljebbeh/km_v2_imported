@@ -7,7 +7,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 
-import 'models/sailes_reports_model.dart';
+import 'models/sales_reports_model.dart';
 import 'services/reports_services.dart';
 
 class SalesReport extends StatefulWidget {
@@ -18,7 +18,7 @@ class SalesReport extends StatefulWidget {
 class _SalesReportState extends State<SalesReport> {
   String _fromDateTimeValue = "يرجى أختيار تاريخ البداية";
   String _toDateTimeValue = "يرجى إختيار تاريخ النهاية";
-  final DateFormat fullDateFormater = DateFormat('yyyy-MM-dd HH:mm:ss');
+  final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   bool isLoading = false;
   bool isError = false;
   int vegetables = 0;
@@ -337,7 +337,7 @@ class _SalesReportState extends State<SalesReport> {
                               onChanged: (date) {}, onConfirm: (date) {
                             setState(() {
                               _fromDateTimeValue =
-                                  fullDateFormater.format(date).toString();
+                                  fullDateFormatter.format(date).toString();
                             });
                           }, currentTime: DateTime.now(), locale: 'en');
                         },
@@ -362,7 +362,7 @@ class _SalesReportState extends State<SalesReport> {
                               onChanged: (date) {}, onConfirm: (date) {
                             setState(() {
                               _toDateTimeValue =
-                                  fullDateFormater.format(date).toString();
+                                  fullDateFormatter.format(date).toString();
                             });
                           }, currentTime: DateTime.now(), locale: 'en');
                         },

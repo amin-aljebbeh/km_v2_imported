@@ -218,7 +218,7 @@ class _NotAddedProductsToWarehouseState
                                         ? LoadingScreenServices.imagePrefixUrl +
                                             eachProduct.images[0].imageFileName
                                         : "",
-                                    product_name: eachProduct.name,
+                                    productName: eachProduct.name,
                                     quantity:
                                         eachProduct.unit.toString() != "null"
                                             ? eachProduct.quantity.toString() +
@@ -268,7 +268,7 @@ class _NotAddedProductsToWarehouseState
                                                 eachProduct
                                                     .images[0].imageFileName
                                             : "",
-                                        product_name: eachProduct.name,
+                                        productName: eachProduct.name,
                                         quantity: eachProduct.unit.toString() !=
                                                 "null"
                                             ? eachProduct.quantity.toString() +

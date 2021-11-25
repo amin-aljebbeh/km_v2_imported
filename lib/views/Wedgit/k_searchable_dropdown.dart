@@ -6,7 +6,6 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 class KSearchableDropdown extends StatefulWidget {
   final String hint;
   SearchableItem search;
-  String name;
   final List<SearchableItem> items;
   final Function onChange;
 
@@ -46,7 +45,9 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
       onChanged: (value) {
         try {
           widget.onChange(value);
-        } on NoSuchMethodError catch (e) {}
+        } on NoSuchMethodError catch (e) {
+          print(e);
+        }
       },
     );
   }

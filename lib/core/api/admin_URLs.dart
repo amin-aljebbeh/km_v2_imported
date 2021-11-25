@@ -18,10 +18,10 @@ const String GET_ADDED_PRODUCTS_TO_WAREHOUSE =
 const String GET_NOT_ADDED_PRODUCTS_TO_WAREHOUSE =
     "/api/product/show_products_not_added_to_warehouse";
 
-const String UN_ATTCAHE_PRODUCTS_TO_SUB_WAREHOUSE =
+const String UN_ATTACH_PRODUCTS_TO_SUB_WAREHOUSE =
     "/api/product/remove_product_from_sub_warehouse/";
 
-const String ATTCAHE_PRODUCTS_TO_SUB_WAREHOUSE =
+const String ATTACH_PRODUCTS_TO_SUB_WAREHOUSE =
     "/api/product/add_product_to_sub_warehouse";
 
 const String GET_SUB_WAREHOUSE = "/api/admin/get_sub_warehouses_admin";

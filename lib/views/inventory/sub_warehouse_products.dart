@@ -318,7 +318,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                                         ? LoadingScreenServices.imagePrefixUrl +
                                             eachProduct.images[0].imageFileName
                                         : "",
-                                    product_name: eachProduct.name,
+                                    productName: eachProduct.name,
                                     quantity:
                                         eachProduct.unit.toString() != "null"
                                             ? eachProduct.quantity.toString() +
@@ -354,7 +354,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                                                 eachProduct
                                                     .images[0].imageFileName
                                             : "",
-                                        product_name: eachProduct.name,
+                                        productName: eachProduct.name,
                                         quantity: eachProduct.unit.toString() !=
                                                 "null"
                                             ? eachProduct.quantity.toString() +

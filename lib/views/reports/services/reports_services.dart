@@ -5,7 +5,7 @@ import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/reports/models/matching_report_model.dart';
-import 'package:kammun_app/views/reports/models/sailes_reports_model.dart';
+import 'package:kammun_app/views/reports/models/sales_reports_model.dart';
 
 class ReportsServcies {
   static Future<GetDailyStatistics> getSailesReports(

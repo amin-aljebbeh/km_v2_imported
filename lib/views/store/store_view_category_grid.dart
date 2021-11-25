@@ -69,7 +69,7 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
                 onTap: () => _onTileClicked(eachCategory.id.toString()),
                 child: ShopByCategory(
                   img: eachCategory.imageFileName,
-                  category_name: eachCategory.name,
+                  categoryName: eachCategory.name,
                   index: index,
                 ),
               );

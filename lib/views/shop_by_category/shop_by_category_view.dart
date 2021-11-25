@@ -6,14 +6,14 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 
 class ShopByCategory extends StatefulWidget {
   final String img;
-  final String category_name;
+  final String categoryName;
   final int index;
 
   ShopByCategory(
       {Key,
       key,
       @required this.img,
-      @required this.category_name,
+      @required this.categoryName,
       @required this.index})
       : super(key: key);
 
@@ -81,7 +81,7 @@ class ShopByCategoryState extends State<ShopByCategory> {
                   child: Hero(
                     tag: widget.index,
                     child: Text(
-                      widget.category_name,
+                      widget.categoryName,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: ResponsiveFlutter.of(context).fontSize(3),

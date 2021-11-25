@@ -1,5 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -11,7 +9,6 @@ import 'package:kammun_app/views/Wedgit/k_text_field.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:location/location.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
-import 'package:toast/toast.dart';
 
 import '../../Services.dart';
 
@@ -138,7 +135,7 @@ class AddAddressViewState extends State<AddAddressView> {
                               headerText: " حدث خطأ اثناء محاولة إضافة عنوان ",
                             )
                           : Container(),
-                      _ShowStreetInput(),
+                      _showStreetInput(),
                       KTextField(
                         controller: streetController,
                         maxLine: 1,
@@ -203,7 +200,7 @@ class AddAddressViewState extends State<AddAddressView> {
     );
   }
 
-  Widget _ShowStreetInput() {
+  Widget _showStreetInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
       child: Column(

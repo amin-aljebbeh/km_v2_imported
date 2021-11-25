@@ -11,13 +11,13 @@ import 'package:kammun_app/views/order_details/services/order_details_services.d
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
-import '../../Services.dart';
-import '../../utils/Styles.dart';
 import 'services/cart_services.dart';
 
 class CartView extends StatefulWidget {
   final bool isFromUpdateOrder;
+
   CartView({this.isFromUpdateOrder = false});
+
   @override
   State<StatefulWidget> createState() {
     return CartViewState();
@@ -48,68 +48,6 @@ class CartViewState extends State<CartView> {
           CartServices.cartProducts[i].productCount.toString() + ";";
     }
     prefs.setString("userCart", productsId + "@" + productsQuantity);
-  }
-
-  _showUpdateOrderInstruction({BuildContext context}) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                Positioned(
-                  right: -40.0,
-                  top: -40.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "انت تقوم حالياً بتعديل طلبك",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 18),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 8, right: 8),
-                      // decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.all(Radius.circular(
-                      //             5.0) //         <--- border radius here
-                      //         ),
-                      //     border: Border.all(
-                      //       width: 2,
-                      //       color: UtilsImporter().colorUtils.kmColors,
-                      //     )),
-                      child: Text(
-                        "بإمكانك إضافة أو حذف او تعديل المنتجات الخاصة بك ضمن سلة المشتريات بالشكل الطبيعي الذي تقوم به عادة",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 18),
-                      ),
-                    ),
-                    //  _saveNotes(context: context),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
   }
 
   _calculateTotal() {
@@ -584,8 +522,8 @@ class CartViewState extends State<CartView> {
     }
   }
 
-  // DeliverToView.selectedIndex != null
-  //               ? UtilsImporter().colorUtils.primarycolor
-  //               : Colors.grey[400]
+// DeliverToView.selectedIndex != null
+//               ? UtilsImporter().colorUtils.primarycolor
+//               : Colors.grey[400]
 
 }

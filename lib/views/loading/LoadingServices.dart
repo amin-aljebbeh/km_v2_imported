@@ -77,8 +77,6 @@ class LoadingScreenServices {
       new List<OrdersOriginalData>();
   static List<ShopperModel> allShoppers = List<ShopperModel>();
   static List<DeliveryModel> allDeliveries = List<DeliveryModel>();
-  static List<OrdersOriginalData> notAssignedOrdersList =
-      new List<OrdersOriginalData>();
   static List<OrdersOriginalData> shoppersAssignedOrdersList =
       new List<OrdersOriginalData>();
   static List<OrdersOriginalData> deliveriesAssignedOrdersList =
@@ -198,7 +196,7 @@ class LoadingScreenServices {
             "supportedCitySelected :" + userSelectSupportedCity.toString());
         LoadingScreen.userToken = "Bearer " + userToken;
         if (userToken == "APPLE_VERIFICATION") {
-          BaseUrl = APPLE_BASEURL;
+          BaseUrl = APPLE_BASE_URL;
         } else {
           BaseUrl = PRODUCTION_BASE_URL;
         }

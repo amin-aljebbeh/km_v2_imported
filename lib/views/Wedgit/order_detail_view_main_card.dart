@@ -111,40 +111,60 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                IconButton(
-                    icon: Icon(
-                      Icons.library_add_check_outlined,
-                      color: Colors.green,
+                Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(3.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  10.0) //                 <--- border radius here
+                              ),
+                          border: Border.all(
+                              color: UtilsImporter().colorUtils.primarycolor,
+                              width: 2)),
+                      child: Center(
+                          child: Text(
+                        widget.productCount,
+                        style: mainStyle.copyWith(fontSize: 25),
+                      )),
                     ),
-                    onPressed: () {
-                      if (widget.productCount != "1") {
-                        List<DialogButton> decisionButtons = [
-                          DialogButton(
-                            text: 'نعم',
-                            onTap: () {
-                              Navigator.of(context).pop();
+                    IconButton(
+                        icon: Icon(
+                          Icons.library_add_check_outlined,
+                          color: Colors.green,
+                        ),
+                        onPressed: () {
+                          if (widget.productCount != "1") {
+                            List<DialogButton> decisionButtons = [
+                              DialogButton(
+                                text: 'نعم',
+                                onTap: () {
+                                  Navigator.of(context).pop();
 
-                              widget.onCheckbox(widget.index);
-                            },
-                          ),
-                          DialogButton(
-                            text: 'لا',
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ];
-                        showMyDialog(
-                            "تحقق من الكمية",
-                            "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
-                            decisionButtons,
-                            null,
-                            context);
-                        // _showDialog();
-                      } else {
-                        widget.onCheckbox(widget.index);
-                      }
-                    }),
+                                  widget.onCheckbox(widget.index);
+                                },
+                              ),
+                              DialogButton(
+                                text: 'لا',
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ];
+                            showMyDialog(
+                                "تحقق من الكمية",
+                                "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
+                                decisionButtons,
+                                null,
+                                context);
+                            // _showDialog();
+                          } else {
+                            widget.onCheckbox(widget.index);
+                          }
+                        }),
+                  ],
+                ),
                 InkWell(
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (_) {
@@ -332,22 +352,6 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     ],
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.all(15.0),
-                  padding: const EdgeInsets.all(3.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(
-                              10.0) //                 <--- border radius here
-                          ),
-                      border: Border.all(
-                          color: UtilsImporter().colorUtils.primarycolor,
-                          width: 2)),
-                  child: Center(
-                      child: Text(
-                    widget.productCount,
-                    style: mainStyle.copyWith(fontSize: 25),
-                  )),
-                )
               ],
             ),
             SizedBox(height: 4),

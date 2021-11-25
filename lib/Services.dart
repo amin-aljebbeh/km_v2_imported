@@ -23,7 +23,6 @@ import 'models/role_model.dart';
 import 'models/start_model.dart';
 import 'utils/Styles.dart';
 import 'utils/utils_importer.dart';
-import 'views/login/Services/login_services.dart';
 
 class Services {
   static List<Role> roles = [];
@@ -213,7 +212,7 @@ class Services {
   static Future<bool> loginUser(
       {String phoneNumber, String signCode, String supportedCityId}) async {
     if (phoneNumber == "5000000001") {
-      BaseUrl = APPLE_BASEURL;
+      BaseUrl = APPLE_BASE_URL;
     } else {
       BaseUrl = PRODUCTION_BASE_URL;
     }
@@ -268,7 +267,7 @@ class Services {
       prefs.setString("userToken", data["api_token"]);
       LoadingScreen.userToken = "Bearer " + data["api_token"];
       if (data["api_token"] == "APPLE_VERIFICATION") {
-        BaseUrl = APPLE_BASEURL;
+        BaseUrl = APPLE_BASE_URL;
       } else {
         BaseUrl = PRODUCTION_BASE_URL;
       }
@@ -422,19 +421,20 @@ class Services {
     return list;
   }
 
-  static List<SearchableItem> shoppersNameList(List<ShopperModel> inputList) {
+  static List<SearchableItem> shoppersNameList() {
     List<SearchableItem> list = List();
-    for (int i = 0; i < inputList.length; i++) {
-      list.add(SearchableItem(value: inputList[i].name));
+    for (int i = 0; i < LoadingScreenServices.allShoppers.length; i++) {
+      list.add(
+          SearchableItem(value: LoadingScreenServices.allShoppers[i].name));
     }
     return list;
   }
 
-  static List<SearchableItem> deliveriesNameList(
-      List<DeliveryModel> inputList) {
+  static List<SearchableItem> deliveriesNameList() {
     List<SearchableItem> itemList = List();
-    for (int i = 0; i < inputList.length; i++) {
-      itemList.add(SearchableItem(value: inputList[i].name));
+    for (int i = 0; i < LoadingScreenServices.allDeliveries.length; i++) {
+      itemList.add(
+          SearchableItem(value: LoadingScreenServices.allDeliveries[i].name));
     }
     return itemList;
   }
@@ -467,7 +467,7 @@ class Services {
 class SearchableItem {
   String value;
 
-  SearchableItem({@required this.value});
+  SearchableItem({this.value});
 
   @override
   String toString() {

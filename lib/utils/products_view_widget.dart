@@ -13,7 +13,7 @@ import 'package:kammun_app/views/products_view/services/products_services.dart';
 
 class ProductsViewCard extends StatefulWidget {
   final String img;
-  final String product_name;
+  final String productName;
   final String quantity;
   final int price;
   final int index;
@@ -29,7 +29,7 @@ class ProductsViewCard extends StatefulWidget {
 
   ProductsViewCard(
       {this.img,
-      this.product_name,
+      this.productName,
       this.quantity,
       this.price,
       this.index,
@@ -236,7 +236,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             Wrap(
                               children: <Widget>[
                                 Text(
-                                  widget.product_name,
+                                  widget.productName,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontFamily:
@@ -374,7 +374,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                   onPressed: () {
                                     _showDialogDeleteProducts(
                                         productsId: widget.productId,
-                                        productsName: widget.product_name);
+                                        productsName: widget.productName);
                                   })
                               : !widget.fromInventory
                                   ? IconButton(

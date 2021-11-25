@@ -87,7 +87,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     OrderServices.updateOrderNote != null
         ? WidgetsBinding.instance
             .addPostFrameCallback((_) => _userNotesInitial())
-        : {};
+        : print('');
 
     super.initState();
   }
@@ -730,6 +730,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
               errorCode = true;
             }
           } else {
+            LoadingScreenServices
+                .myOrdersList[OrderServices.orderUnderUpdateIndex]
+                .underUpdate = '0';
+            // OrderServices.unlockOrder(LoadingScreenServices
+            //     .myOrdersList[OrderServices.orderUnderUpdateIndex].id
+            //     .toString());
             loadingScreen = false;
             errorCode = true;
           }

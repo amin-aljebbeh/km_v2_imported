@@ -8,7 +8,6 @@ import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Services.dart';
 import '../../utils/Styles.dart';
-import 'decision_button.dart';
 
 class OrdersViewCard extends StatefulWidget {
   int orderId;
@@ -347,91 +346,34 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 ),
               ],
             ),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      UtilsImporter().stringUtils.deliveryName + " ",
-                      style: paragraphStyle,
-                    ),
-                    Text(
-                      deliveryName != null ? deliveryName : " ",
-                      style: paragraphStyle,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      UtilsImporter().stringUtils.shopperName + " ",
-                      style: paragraphStyle,
-                    ),
-                    Text(
-                      shopperName != null ? shopperName : " ",
-                      style: paragraphStyle,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            if (Services.isAdmin())
-              Container(
-                width: MediaQuery.of(context).size.width * .6,
-                child: Column(
-                  children: [
-                    widget.shopperName == null
-                        ? KSearchableDropdown(
-                            hint: UtilsImporter().stringUtils.chooseShopper,
-                            search: shopperSearch,
-                            items: Services.shoppersNameList(
-                                LoadingScreenServices.allShoppers),
-                            onChange: (value) {
-                              setState(() {
-                                shopperSearch = value;
-                                shopperName = value.value;
-                                widget.shopperName = value.value;
-                              });
-                              OrderServices.assignOrderToShopper(
-                                  LoadingScreenServices.allShoppers
-                                      .firstWhere((element) =>
-                                          element.name == value.value)
-                                      .id
-                                      .toString(),
-                                  widget.orderId.toString());
-                            },
-                          )
-                        : Container(
-                            height: 0.5,
-                            width: 0.5,
-                          ),
-                    widget.deliveryName == null
-                        ? KSearchableDropdown(
-                            hint: UtilsImporter().stringUtils.chooseDelivery,
-                            search: deliverySearch,
-                            items: Services.deliveriesNameList(
-                                LoadingScreenServices.allDeliveries),
-                            onChange: (value) {
-                              setState(() {
-                                deliverySearch = value;
-                                deliveryName = value.value;
-                                widget.deliveryName = value.value;
-                              });
-                              OrderServices.assignOrderToDelivery(
-                                  LoadingScreenServices.allDeliveries
-                                      .firstWhere((element) =>
-                                          element.name == value.value)
-                                      .id
-                                      .toString(),
-                                  widget.orderId.toString());
-                            },
-                          )
-                        : Container(
-                            height: 0.5,
-                            width: 0.5,
-                          ),
-                  ],
-                ),
+            if (Services.isShopper() || Services.isDelivery())
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        UtilsImporter().stringUtils.shopperName + " ",
+                        style: paragraphStyle,
+                      ),
+                      Text(
+                        shopperName != null ? shopperName : " ",
+                        style: paragraphStyle,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        UtilsImporter().stringUtils.deliveryName + " ",
+                        style: paragraphStyle,
+                      ),
+                      Text(
+                        deliveryName != null ? deliveryName : " ",
+                        style: paragraphStyle,
+                      ),
+                    ],
+                  ),
+                ],
               ),
           ],
         ),

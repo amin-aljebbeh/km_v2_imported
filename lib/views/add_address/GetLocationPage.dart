@@ -71,5 +71,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
     } else {
       Tools.logToConsole("not gareented");
     }
+    return userLocation;
   }
 }

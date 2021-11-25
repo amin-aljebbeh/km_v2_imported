@@ -2,6 +2,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/lock_order.dart';
+import 'package:kammun_app/models/shopper_model.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -11,6 +12,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
+import 'package:kammun_app/views/Wedgit/k_searchable_dropdown.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
@@ -62,6 +64,10 @@ class OrdersViewState extends State<OrdersView> {
     } else {
       getOrders = _initialFunction();
       orderDataList = LoadingScreenServices.allOrdersList;
+    }
+    for (int i = 0; i < orderDataList.length; i++) {
+      shopperSearch.add(SearchableItem());
+      deliverySearch.add(SearchableItem());
     }
     super.initState();
   }
@@ -115,6 +121,8 @@ class OrdersViewState extends State<OrdersView> {
   ];
 
   List<OrdersOriginalData> orderDataList = new List<OrdersOriginalData>();
+  List<SearchableItem> shopperSearch = List<SearchableItem>();
+  List<SearchableItem> deliverySearch = List<SearchableItem>();
 
   _getOrder() async {
     setState(() {
@@ -190,6 +198,10 @@ class OrdersViewState extends State<OrdersView> {
         isLoading = false;
         errorMessageValue = "حدث خطأ اثناء محاولة جلب الطلبات";
       });
+    }
+    for (int i = 0; i < orderDataList.length; i++) {
+      shopperSearch.add(SearchableItem());
+      deliverySearch.add(SearchableItem());
     }
   }
 
@@ -384,6 +396,76 @@ class OrdersViewState extends State<OrdersView> {
                                   orderCreatedDate: dateTime,
                                 ),
                               ),
+                              if (Services.isAdmin())
+                                Container(
+                                  width: MediaQuery.of(context).size.width * .6,
+                                  child: Column(
+                                    children: [
+                                      KSearchableDropdown(
+                                        hint: orderDataList[index].shopper !=
+                                                null
+                                            ? orderDataList[index].shopper.name
+                                            : UtilsImporter()
+                                                .stringUtils
+                                                .chooseShopper,
+                                        search: shopperSearch[index],
+                                        items: Services.shoppersNameList(),
+                                        onChange: (value) async {
+                                          int shopperId = LoadingScreenServices
+                                              .allShoppers
+                                              .firstWhere((element) =>
+                                                  element.name == value.value)
+                                              .id;
+                                          setState(() {
+                                            shopperSearch[index] = value;
+                                            orderDataList[index].shopper =
+                                                new Assigned(
+                                                    name: value.value,
+                                                    id: shopperId);
+                                          });
+                                          await OrderServices
+                                              .assignOrderToShopper(
+                                                  shopperId.toString(),
+                                                  orderDataList[index]
+                                                      .id
+                                                      .toString());
+                                          _getOrder();
+                                        },
+                                      ),
+                                      KSearchableDropdown(
+                                        hint: orderDataList[index].delivery !=
+                                                null
+                                            ? orderDataList[index].delivery.name
+                                            : UtilsImporter()
+                                                .stringUtils
+                                                .chooseDelivery,
+                                        search: deliverySearch[index],
+                                        items: Services.deliveriesNameList(),
+                                        onChange: (value) async {
+                                          int deliverId = LoadingScreenServices
+                                              .allDeliveries
+                                              .firstWhere((element) =>
+                                                  element.name == value.value)
+                                              .id;
+                                          setState(() {
+                                            deliverySearch[index] = value;
+                                            orderDataList[index].delivery =
+                                                Assigned(
+                                                    id: deliverId,
+                                                    name: value.value);
+                                          });
+                                          await OrderServices
+                                              .assignOrderToDelivery(
+                                                  deliverId.toString(),
+                                                  orderDataList[index]
+                                                      .id
+                                                      .toString());
+                                          _getOrder();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               DecisionButton(
                                 text: UtilsImporter().stringUtils.edit_order,
                                 onTap: () async {

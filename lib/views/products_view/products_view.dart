@@ -124,6 +124,7 @@ class ProductsViewState extends State<ProductsView> {
       }
       return false;
     } else {}
+    return false;
   }
 
   @override

@@ -181,6 +181,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                           onChanged: (value) {
                             setState(() {
                               filterOrders = value;
+                              page = 1;
                             });
                             _getOrder();
                           },

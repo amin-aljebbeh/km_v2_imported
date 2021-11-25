@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:kammun_app/models/shopper_model.dart';
-
 //OrdersOriginalData
 StartModel startModelFromJson(String str) =>
     StartModel.fromJson(json.decode(str));
