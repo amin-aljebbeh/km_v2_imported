@@ -7,6 +7,7 @@ import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
@@ -347,9 +348,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   ),
                                   onTap: () {
                                     showMyDialog(
-                                      ' ',
-                                      ' ',
-                                      [],
+                                      'إضافة ملاحظة',
+                                      null,
+                                      List<DialogButton>(),
                                       Stack(
                                         overflow: Overflow.visible,
                                         children: <Widget>[

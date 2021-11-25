@@ -46,9 +46,11 @@ class ProductsServices {
             body: jsonEncode(
                 {"sub_warehouse_id": subWarehouseId, bodyKey: value}));
       }
-      if (response.statusCode == SUCCESS_CODE &&
-          response.shopper["success"] == true) {
-        Tools.logToConsole(response.shopper);
+      if (response.statusCode == SUCCESS_CODE) {
+        print('response.statusCode');
+        print(response.statusCode);
+        print('update response');
+        print(response);
         return true;
       } else {
         return false;

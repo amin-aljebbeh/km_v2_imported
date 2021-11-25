@@ -30,7 +30,7 @@ class MyDialog extends StatelessWidget {
               style: dialogStyle,
             )
           : content,
-      actions: decisionButtons != null ? decisionButtons : Container(),
+      actions: decisionButtons,
       scrollable: true,
     );
   }

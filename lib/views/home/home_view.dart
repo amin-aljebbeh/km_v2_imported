@@ -262,22 +262,6 @@ class HomeViewState extends State<HomeView> {
     if (Services.isDelivery() || Services.isShopper()) {
       bottomList.add(
         BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.reorder,
-              //color: Theme.of(context).primaryColor,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            icon: Icon(
-              Icons.reorder,
-              color: Color.fromARGB(255, 53, 99, 124),
-            ),
-            title: Text(
-              UtilsImporter().stringUtils.orders,
-              style: naveBarStyle,
-            )),
-      );
-      bottomList.add(
-        BottomNavigationBarItem(
           activeIcon: Icon(
             Icons.playlist_add_check_outlined,
             // color: Theme.of(context).primaryColor,
@@ -292,6 +276,22 @@ class HomeViewState extends State<HomeView> {
             style: naveBarStyle,
           ),
         ),
+      );
+      bottomList.add(
+        BottomNavigationBarItem(
+            activeIcon: Icon(
+              Icons.reorder,
+              //color: Theme.of(context).primaryColor,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            icon: Icon(
+              Icons.reorder,
+              color: Color.fromARGB(255, 53, 99, 124),
+            ),
+            title: Text(
+              UtilsImporter().stringUtils.orders,
+              style: naveBarStyle,
+            )),
       );
     }
 
@@ -324,10 +324,10 @@ class HomeViewState extends State<HomeView> {
 
     if (Services.isDelivery() || Services.isShopper()) {
       _tabs.add(
-        NotAssignedOrdersView(),
+        AssignedOrdersView(),
       );
       _tabs.add(
-        AssignedOrdersView(),
+        NotAssignedOrdersView(),
       );
     }
 
