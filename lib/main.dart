@@ -15,6 +15,7 @@ import 'views/cart/CartViewFinal.dart';
 import 'views/inventory/manager_subWarehouse.dart';
 import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
+import 'views/prices_changes/prices.dart';
 import 'views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
 import 'views/products_attached_to_warehouse/views/view_added_products.dart';
 import 'views/products_attached_to_warehouse/views/view_not_added_products.dart';
@@ -127,6 +128,7 @@ class _MyAppState extends State<MyApp> {
                   AddProductsToSubWarehouse(),
               '/matching_report': (_) => MatchingReport(),
               '/subWarehouseManagement': (_) => GetSubWarehouse(),
+              '/priceChange': (_) => Prices(),
             },
             theme: CustomTheme.of(context),
             home: LoadingScreen()));

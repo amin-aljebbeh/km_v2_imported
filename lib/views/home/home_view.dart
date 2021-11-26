@@ -13,7 +13,6 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/assigned_orders_view.dart';
 import 'package:kammun_app/views/orders/not_assigned_orders_view.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
-import 'package:kammun_app/views/prices_changes/prices.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
@@ -240,23 +239,6 @@ class HomeViewState extends State<HomeView> {
               style: naveBarStyle,
             )),
       );
-      bottomList.add(
-        BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.money_off_csred_outlined,
-            // color: Theme.of(context).primaryColor,
-            color: Color.fromARGB(255, 210, 178, 2),
-          ),
-          icon: Icon(
-            Icons.money_off_csred_outlined,
-            color: Color.fromARGB(255, 53, 99, 124),
-          ),
-          title: Text(
-            UtilsImporter().stringUtils.prices,
-            style: naveBarStyle,
-          ),
-        ),
-      );
     }
 
     if (Services.isDelivery() || Services.isShopper()) {
@@ -319,7 +301,6 @@ class HomeViewState extends State<HomeView> {
         OrdersView(),
       );
       _tabs.add(Inventory());
-      _tabs.add(Prices());
     }
 
     if (Services.isDelivery() || Services.isShopper()) {

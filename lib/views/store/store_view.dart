@@ -430,6 +430,25 @@ class StoreViewState extends State<StoreView> {
                             .pushNamed('/subWarehouseManagement');
                       },
                     ),
+                    Services.isAdmin()
+                        ? ListTile(
+                            leading: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Icon(
+                                Icons.attach_money,
+                                color: UtilsImporter().colorUtils.primarycolor,
+                                size: 30,
+                              ),
+                            ),
+                            title: Text(
+                              "تغير الأسعار",
+                              style: mainStyle,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/priceChange');
+                            },
+                          )
+                        : Container(),
                     Divider(
                       color: UtilsImporter().colorUtils.kmColors,
                       height: 20,
