@@ -77,11 +77,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
           ((int.parse(orderArray[i].price.split(".")[0])) *
               orderArray[i].productCount);
     }
-    total = subtotal +
-        Services.deliveryPrice +
-        int.parse(LoadingScreenServices
-            .myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryCost
-            .split(".")[0]);
+    total = subtotal + Services.deliveryPrice;
 
     // total = subtotal + Services.delivery_Price;
 
@@ -113,19 +109,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
     if (CartServices.userCopoun != null) {
       _copouns.text = CartServices.userCopoun;
     }
-    // if (CartServices.userNote == null) {
-    //   _userNotes.text = OrderServices.updateOrderNote;
-    // }
-
-    // _userNotes.text = LoadingScreenServices
-    //     .myOrdersList[OrderServices.orderUnderUpdateIndex].userNotes;
-
-    // if (CartServices.userNote != null) {
-    //   _userNotes.text = CartServices.userNote;
-    // }
-    // if (CartServices.userCopoun != null) {
-    //   _copouns.text = CartServices.userCopoun;
-    // }
   }
 
   _cartChanged() async {
@@ -258,7 +241,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               fontSize: 16.0,
                             )),
                         Text(
-                          "${UtilsImporter().stringUtils.oCcy.format(int.parse(LoadingScreenServices.myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryCost.split(".")[0]) + int.parse(LoadingScreenServices.myOrdersList[OrderServices.orderUnderUpdateIndex].supportedCityCost.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                          "${UtilsImporter().stringUtils.oCcy.format(Services.deliveryPrice)} ${LoadingScreenServices.companyInformation.currency}",
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).primaryColorDark,
@@ -691,6 +674,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   void _showConfirmOrderBtnTapped({bool checkOrderPrice = true}) async {
+    Tools.logToConsole("updating Order");
+
     setState(() {
       loadingScreen = true;
       errorCode = false;
@@ -700,8 +685,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     OrderResponse orderResponse;
+
     if (OrderServices.orderUnderUpdateIndex != -1) {
-      Tools.logToConsole("updating Order");
       orderResponse = await OrderServices.updateOrder(
           userNotes: _userNotes.text, checkPrices: checkOrderPrice);
 
@@ -732,9 +717,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
               errorCode = true;
             }
           } else {
-            LoadingScreenServices
-                .myOrdersList[OrderServices.orderUnderUpdateIndex]
-                .underUpdate = '0';
+            // LoadingScreenServices
+            //     .myOrdersList[OrderServices.orderUnderUpdateIndex]
+            //     .underUpdate = '0';
             // OrderServices.unlockOrder(LoadingScreenServices
             //     .myOrdersList[OrderServices.orderUnderUpdateIndex].id
             //     .toString());

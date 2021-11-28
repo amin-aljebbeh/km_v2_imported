@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
@@ -19,6 +20,10 @@ class OrderServices {
   static String deliverySupportedCityId = "";
   static int orderUnderUpdateIndex = -1;
   static String updateOrderNote = "";
+
+  static String orderUnderUpdateId = "";
+
+  static String orderUnderAddressId = "";
 
   static Future<OrderResponse> submitNewOrder(
       {String userNotes, bool checkPrices = true}) async {
@@ -44,12 +49,15 @@ class OrderServices {
 
     Map orderData = {
       "payment_method_id": "1",
-      "delivery_method_id": DeliveryMethodServices
-          .deliveryMethodsList[(DeliveryMethodView.selectedDeliveryIndex)].id
-          .toString(),
+      // "delivery_method_id": DeliveryMethodServices
+      //     .deliveryMethodsList[(DeliveryMethodView.selectedDeliveryIndex)].id
+      //     .toString(),
+      "delivery_method_id": DeliverToView.selectedIndex.toString(),
+
       "supported_city_id": deliverySupportedCityId,
-      "address_id":
-          LoadingScreenServices.userAddress[DeliverToView.selectedIndex].id,
+      // "address_id":
+      //     LoadingScreenServices.userAddress[DeliverToView.selectedIndex].id,
+      "address_id": OrderServices.orderUnderAddressId,
       "product_ids": productIds.substring(0, productIds.length - 1),
       "quantities": quantities.substring(0, quantities.length - 1),
       "purchase_prices": purchasePrices.toString(),
@@ -105,8 +113,9 @@ class OrderServices {
     }
 
     Map orderData = {
-      "delivery_method_id": LoadingScreenServices
-          .myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryMethodId,
+      // "delivery_method_id": LoadingScreenServices
+      //     .myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryMethodId,
+      "delivery_method_id": DeliverToView.selectedIndex.toString(),
       "product_ids": productIds.substring(0, productIds.length - 1),
       "quantities": quantities.substring(0, quantities.length - 1),
       "purchase_prices": purchasePrices.toString(),
@@ -114,10 +123,13 @@ class OrderServices {
       "user_notes": "$userNotes",
       "check_changed_price_product": checkPrices ? "1" : "0"
     };
-    orderId = LoadingScreenServices
-        .myOrdersList[OrderServices.orderUnderUpdateIndex].id
-        .toString();
+    // orderId = LoadingScreenServices
+    //     .myOrdersList[OrderServices.orderUnderUpdateIndex].id
+    //     .toString();
 
+    orderId = orderUnderUpdateId;
+
+    Tools.logToConsole(ORDER + "/$orderId");
     try {
       var response = await ApiProvider.sendRequest(
           url: ORDER + "/$orderId",
@@ -182,7 +194,12 @@ class OrderServices {
     }
   }
 
-  static Future<LockOrder> lockOrder(String orderId) async {
+  static Future<LockOrder> lockOrder(
+      {@required String orderId,
+      @required int deliveryMethodId,
+      @required String supportedCityCost,
+      @required String deliveryMethodCost,
+      @required String userNote}) async {
     // Tools.logToConsole("------------------ CANCEL ORDER  --------------------");
     try {
       var response = await ApiProvider.sendRequest(
@@ -195,21 +212,41 @@ class OrderServices {
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         orderUnderUpdateIndex = LoadingScreenServices.myOrdersList
             .indexWhere((order) => order.id == int.parse(orderId));
+        if (orderUnderUpdateIndex == -1) {
+          orderUnderUpdateIndex = 0;
+        }
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("orderUnderUpdateId", orderId);
 
-        DeliverToView.selectedIndex = LoadingScreenServices.userAddress
-            .indexWhere((address) =>
-                address.id ==
-                int.parse(LoadingScreenServices
-                    .myOrdersList[orderUnderUpdateIndex].addressId));
+        //! Order Under Update ID !//
+        orderUnderUpdateId = orderId;
 
-        Services.deliveryPrice = int.parse(LoadingScreenServices
-            .myOrdersList[orderUnderUpdateIndex].supportedCityCost
-            .split(".")[0]);
+        //! Order Under Update delivery Method !//
+        DeliverToView.selectedIndex = deliveryMethodId;
 
-        updateOrderNote =
-            LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;
+        // DeliverToView.selectedIndex = LoadingScreenServices.userAddress
+        //     .indexWhere((address) =>
+        //         address.id ==
+        //         int.parse(LoadingScreenServices
+        //             .myOrdersList[orderUnderUpdateIndex].addressId));
+
+        //! Order Under Update Delivery Price !//
+
+        Services.deliveryPrice = int.parse(supportedCityCost.split(".")[0]) +
+            int.parse(deliveryMethodCost.split(".")[0]);
+
+        // Services.deliveryPrice = int.parse(LoadingScreenServices
+        //         .myOrdersList[orderUnderUpdateIndex].supportedCityCost
+        //         .split(".")[0]) +
+        //     int.parse(LoadingScreenServices
+        //         .myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryCost
+        //         .split(".")[0]);
+        //! Order Under Update Note !//
+
+        updateOrderNote = userNote;
+
+        // updateOrderNote =
+        //     LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;
         return lockOrderFromJson(json.encode(response.data));
         // return "true";
       } else {

@@ -347,11 +347,8 @@ class CartViewState extends State<CartView> {
                                                       .toStringAsFixed(2);
 
                                               OrderDetailsServices.updateOrder(
-                                                  orderId: LoadingScreenServices
-                                                      .myOrdersList[OrderServices
-                                                          .orderUnderUpdateIndex]
-                                                      .id
-                                                      .toString(),
+                                                  orderId: OrderServices
+                                                      .orderUnderUpdateId,
                                                   context: context,
                                                   updateKey: "product_quantity",
                                                   updateValue: (priceFactor *
@@ -500,23 +497,6 @@ class CartViewState extends State<CartView> {
           .then((onValue) {
         _calculateTotal();
       });
-
-      // Tools.logToConsole(
-      //     "the orderUnderUpdateIndex value is : ${OrderServices.orderUnderUpdateIndex}");
-      // if (OrderServices.orderUnderUpdateIndex == -1) {
-      //   Navigator.push(context,
-      //       new MaterialPageRoute(builder: (context) => new DeliverToView()));
-      // } else {
-      //   if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
-      //     Navigator.push(
-      //         context,
-      //         new MaterialPageRoute(
-      //             builder: (context) => new DeliveryMethodView()));
-      //   } else {
-      //     Navigator.push(context,
-      //         new MaterialPageRoute(builder: (context) => new CartViewFinal()));
-      //   }
-      // }
     } else {
       Toast.show("يرجى إضافة منتج واحد على الأقل", context,
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);

@@ -332,7 +332,20 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   );
                                   LockOrder response =
                                       await OrderServices.lockOrder(
-                                          orderDataList[index].id.toString());
+                                          orderId: orderDataList[index]
+                                              .id
+                                              .toString(),
+                                          userNote:
+                                              orderDataList[index].userNotes,
+                                          supportedCityCost:
+                                              orderDataList[index]
+                                                  .supportedCityCost,
+                                          deliveryMethodCost:
+                                              orderDataList[index].deliveryCost,
+                                          deliveryMethodId: int.parse(
+                                              orderDataList[index]
+                                                  .deliveryMethodId
+                                                  .toString()));
                                   if (response != null) {
                                     if (response.success) {
                                       setState(() {
