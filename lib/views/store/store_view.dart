@@ -9,6 +9,7 @@ import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
+import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
@@ -554,9 +555,15 @@ class StoreViewState extends State<StoreView> {
                             activeColor: Colors.white,
                             value: Services.shopper.status == 1,
                             onChanged: (value) async {
-                              await Services.changeShopperStatus();
-                              Services.shopper.status =
-                                  Services.shopper.status == 1 ? 0 : 1;
+                              bool success =
+                                  await Services.changeShopperStatus();
+                              if (success)
+                                Services.shopper.status =
+                                    Services.shopper.status == 1 ? 0 : 1;
+                              else
+                                Toast.show("يرجى الاتصال بالإنترنت", context,
+                                    duration: Toast.LENGTH_LONG,
+                                    gravity: Toast.CENTER);
                               setState(() {});
                             },
                           )

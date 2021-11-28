@@ -99,8 +99,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     });
     var orderList;
     if (LoadingScreenServices.myOrdersList.length == 0) {
-      orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
-      orderList = await OrderServices.getShopperOrders(pageNumber: page);
+      if (Services.isDelivery())
+        orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
+      else
+        orderList = await OrderServices.getShopperOrders(pageNumber: page);
     } else {
       orderList = LoadingScreenServices.myOrdersList;
     }
@@ -488,7 +490,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       Flushbar(
         backgroundColor: Colors.green[900],
         messageText: Text(
-          "تم إضافة المصروف بنجاح",
+          "تم إلغاء التعديل",
           style: flushBarStyle,
         ),
         boxShadows: [
@@ -511,7 +513,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       Flushbar(
         backgroundColor: Colors.red[900],
         messageText: Text(
-          "فشل بإضافة المصروف",
+          "فشل بإلغاء التعليق",
           style: flushBarStyle,
         ),
         boxShadows: [

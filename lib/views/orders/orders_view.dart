@@ -637,7 +637,7 @@ class OrdersViewState extends State<OrdersView> {
       Flushbar(
         backgroundColor: Colors.green[900],
         messageText: Text(
-          "تم إضافة المصروف بنجاح",
+          "تم إلغاء التعليق بنجاح",
           style: flushBarStyle,
         ),
         boxShadows: [
@@ -660,7 +660,7 @@ class OrdersViewState extends State<OrdersView> {
       Flushbar(
         backgroundColor: Colors.red[900],
         messageText: Text(
-          "فشل بإضافة المصروف",
+          "فشل بإلغاء التعليق",
           style: flushBarStyle,
         ),
         boxShadows: [

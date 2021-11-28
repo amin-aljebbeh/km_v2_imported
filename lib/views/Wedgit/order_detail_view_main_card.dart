@@ -168,12 +168,17 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_) {
-                      return FullScreenImage(
-                        imageUrl: widget.img,
-                        tag: "generate_a_unique_tag",
-                      );
-                    }));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) {
+                          return FullScreenImage(
+                            imageUrl: widget.img,
+                            tag: "generate_a_unique_tag",
+                          );
+                        },
+                      ),
+                    );
                   },
                   child: new Container(
                     width: 100.0,
@@ -182,23 +187,25 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                         borderRadius:
                             new BorderRadius.all(Radius.circular(20.0))),
                     child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Hero(
-                            tag: widget.index + 100,
-                            child: Image(
-                              // fadeInCurve: Curves.fastOutSlowIn,
-                              // placeholder: AssetImage("assets/kmIcon.png"),
-                              fit: BoxFit.contain,
-                              image: widget.img.length > 0
-                                  ? AdvImageCache(
-                                      widget.img,
-                                      useMemCache: true,
-                                      diskCacheExpire: Duration(days: 400),
-                                    )
-                                  : AssetImage("assets/kmIcon.png"),
-                              width: MediaQuery.of(context).size.width,
-                              height: 120,
-                            ))),
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Hero(
+                        tag: widget.index + 100,
+                        child: Image(
+                          // fadeInCurve: Curves.fastOutSlowIn,
+                          // placeholder: AssetImage("assets/kmIcon.png"),
+                          fit: BoxFit.contain,
+                          image: widget.img.length > 0
+                              ? AdvImageCache(
+                                  widget.img,
+                                  useMemCache: true,
+                                  diskCacheExpire: Duration(days: 400),
+                                )
+                              : AssetImage("assets/kmIcon.png"),
+                          width: MediaQuery.of(context).size.width,
+                          height: 120,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(width: 10),

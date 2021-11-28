@@ -770,19 +770,22 @@ class _CartViewFinalState extends State<CartViewFinal> {
         }
       });
     }
+    try {
+      if (orderResponse.success == true) {
+        await prefs.remove("userCart");
+        CartServices.cartProducts.clear();
 
-    if (orderResponse.success == true) {
-      await prefs.remove("userCart");
-      CartServices.cartProducts.clear();
+        CartServices.userNote = "";
+        CartServices.userCopoun = "";
 
-      CartServices.userNote = "";
-      CartServices.userCopoun = "";
-
-      Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (context) =>
-                  ThankYouView(orderMessage: orderResponse.data)));
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (context) =>
+                    ThankYouView(orderMessage: orderResponse.data)));
+      }
+    } on NoSuchMethodError catch (e) {
+      print(e);
     }
   }
 }
