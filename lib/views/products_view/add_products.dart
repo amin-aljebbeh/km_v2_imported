@@ -360,7 +360,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
-                        children: LoadingScreenServices.swbWarehouses
+                        children: LoadingScreenServices.subWarehouses
                             .map((data) => Container(
                                   decoration: BoxDecoration(
                                     color: Colors.white,

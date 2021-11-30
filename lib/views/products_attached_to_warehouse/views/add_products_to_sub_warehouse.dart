@@ -163,10 +163,10 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
     //           value: category[i].name + ";" + category[i].id.toString(),
     //         )
 
-    for (int i = 0; i < LoadingScreenServices.swbWarehouses.length; i++) {
+    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
       listSubWarehouses.add(DropdownMenuItem(
-        child: Text(LoadingScreenServices.swbWarehouses[i].name),
-        value: LoadingScreenServices.swbWarehouses[i].id,
+        child: Text(LoadingScreenServices.subWarehouses[i].name),
+        value: LoadingScreenServices.subWarehouses[i].id,
       ));
     }
 
@@ -255,7 +255,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
-                        children: LoadingScreenServices.swbWarehouses
+                        children: LoadingScreenServices.subWarehouses
                             .map((data) => Container(
                                   decoration: BoxDecoration(
                                     color: Colors.white,

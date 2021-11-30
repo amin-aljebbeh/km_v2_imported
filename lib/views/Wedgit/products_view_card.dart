@@ -104,7 +104,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
   @override
   Widget build(BuildContext context) {
     Tools.logToConsole(
-        "SUBWAREHOUSE ${LoadingScreenServices.swbWarehouses[0]}     ${widget.subWarehouseId}");
+        "SUBWAREHOUSE ${LoadingScreenServices.subWarehouses[0]}     ${widget.subWarehouseId}");
     return Container(
       color: Theme.of(context).primaryColorLight,
       child: Padding(
@@ -193,7 +193,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                     ],
                   ),
                 )),
-                LoadingScreenServices.swbWarehouses
+                LoadingScreenServices.subWarehouses
                         .any((element) => element.id == widget.subWarehouseId)
                     ? Container(
                         margin: const EdgeInsets.all(15.0),

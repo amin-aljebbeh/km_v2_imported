@@ -59,7 +59,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
         idOrder = widget.orderId;
         orderArrayIndex = widget.orderIndex;
 
-        if (LoadingScreenServices.swbWarehouses.length == 1) {
+        if (LoadingScreenServices.subWarehouses.length == 1) {
           productsAry.sort((a, b) {
             if (a.subWarehouseId > b.subWarehouseId) {
               return -1;
@@ -101,7 +101,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
       idOrder = widget.orderId;
       orderArrayIndex = widget.orderIndex;
 
-      if (LoadingScreenServices.swbWarehouses.length == 1) {
+      if (LoadingScreenServices.subWarehouses.length == 1) {
         productsAry.sort((a, b) {
           if (a.subWarehouseId > b.subWarehouseId) {
             return -1;
@@ -194,19 +194,53 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         shrinkWrap: true,
                         itemCount: productsAry == null ? 1 : productsAry.length,
                         itemBuilder: (BuildContext context, int index) {
-                          print(index);
-                          try {
-                            OrderProducts orderDetail = finalProductsAry[index];
-                            if (index < notDeletedProductsAry.length) {
-                              return new GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => _onTileClicked(index),
+                          OrderProducts orderDetail = finalProductsAry[index];
+                          if (index < notDeletedProductsAry.length) {
+                            return new GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => _onTileClicked(index),
+                              child: OrderDetailViewMainCard(
+                                subWarehouseId: orderDetail.subWarehouseId,
+                                orderId: widget.orderId,
+                                onCheckbox: (a) {
+                                  setState(() {
+                                    notDeletedProductsAry.removeAt(a);
+                                    finalProductsAry.removeAt(index);
+                                  });
+                                },
+                                productsData: orderDetail,
+                                supplierCode: orderDetail.supplierCode,
+                                active: orderDetail.isActive,
+                                productId: orderDetail.pivot.productId,
+                                img: orderDetail.images.length != 0
+                                    ? LoadingScreenServices.imagePrefixUrl +
+                                        orderDetail.images[0].imageFileName
+                                    : "",
+                                productName: orderDetail.name,
+                                quantity: orderDetail.quantity,
+                                price:
+                                    int.parse(orderDetail.pivot.purchasePrice),
+                                unit: orderDetail.unit == null
+                                    ? ""
+                                    : orderDetail.unit,
+                                productCount:
+                                    orderDetail.pivot.quantity.toString(),
+                                index: index,
+                              ),
+                            );
+                          }
+                          if (Services.isAdmin())
+                            return new GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () => _onTileClicked(index),
+                              child: BlurredWidget(
                                 child: OrderDetailViewMainCard(
                                   subWarehouseId: orderDetail.subWarehouseId,
                                   orderId: widget.orderId,
                                   onCheckbox: (a) {
                                     setState(() {
-                                      productsAry.removeAt(a);
+                                      deletedProductsAry.removeAt(a);
+                                      finalProductsAry.removeAt(index);
                                     });
                                   },
                                   productsData: orderDetail,
@@ -226,48 +260,12 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                       : orderDetail.unit,
                                   productCount:
                                       orderDetail.pivot.quantity.toString(),
-                                  index: index,
+                                  index:
+                                      index - (deletedProductsAry.length + 1),
                                 ),
-                              );
-                            }
-                            if (Services.isAdmin())
-                              return new GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => _onTileClicked(index),
-                                child: BlurredWidget(
-                                  child: OrderDetailViewMainCard(
-                                    subWarehouseId: orderDetail.subWarehouseId,
-                                    orderId: widget.orderId,
-                                    onCheckbox: (a) {
-                                      setState(() {
-                                        productsAry.removeAt(a);
-                                      });
-                                    },
-                                    productsData: orderDetail,
-                                    supplierCode: orderDetail.supplierCode,
-                                    active: orderDetail.isActive,
-                                    productId: orderDetail.pivot.productId,
-                                    img: orderDetail.images.length != 0
-                                        ? LoadingScreenServices.imagePrefixUrl +
-                                            orderDetail.images[0].imageFileName
-                                        : "",
-                                    productName: orderDetail.name,
-                                    quantity: orderDetail.quantity,
-                                    price: int.parse(
-                                        orderDetail.pivot.purchasePrice),
-                                    unit: orderDetail.unit == null
-                                        ? ""
-                                        : orderDetail.unit,
-                                    productCount:
-                                        orderDetail.pivot.quantity.toString(),
-                                    index: index,
-                                  ),
-                                ),
-                              );
-                            return Container();
-                          } on Exception catch (e) {
-                            // return Container();
-                          }
+                              ),
+                            );
+                          return Container();
                         },
                       ),
                     ),

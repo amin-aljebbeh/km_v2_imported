@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:kammun_app/models/start_model.dart';
+import 'package:kammun_app/utils/tools.dart';
 
 CategoryProduct categoryProductFromJson(String str) =>
     CategoryProduct.fromJson(json.decode(str));
@@ -107,7 +108,6 @@ class ProductData {
     this.name,
     this.description,
     this.unit,
-    this.categoryId,
     this.price,
     this.isActive,
     this.quantity,
@@ -124,19 +124,21 @@ class ProductData {
     this.priority,
     this.subWarehouseId,
     this.priceChange,
+    this.categories,
   });
 
   int id;
   String name;
   String description;
   String unit;
-  String categoryId;
   String price;
   String isActive;
   String quantity;
   int productCount;
   List<ProductImage> images;
   String supplierCode;
+  List<CategoryOriginalData> categories;
+
   //////
 
   int warehouseId;
@@ -154,13 +156,11 @@ class ProductData {
     if (json == null) {
       return null;
     }
-
-    return ProductData(
+    ProductData productData = ProductData(
       id: json["id"] == null ? json["product_id"] : json["id"],
       name: json["name"],
       description: json["description"],
       unit: json["unit"].toString(),
-      categoryId: json["category_id"].toString(),
       price: json["price"].toString(),
       priceChange:
           json["price_change"] == null ? null : json["price_change"].toString(),
@@ -190,7 +190,13 @@ class ProductData {
           ? new List<ProductImage>()
           : List<ProductImage>.from(
               json["images"].map((x) => ProductImage.fromJson(x))),
+      categories: json["categories"] == null
+          ? new List<CategoryOriginalData>()
+          : List<CategoryOriginalData>.from(
+              json["categories"].map((x) => CategoryOriginalData.fromJson(x))),
     );
+    Tools.logToConsole('message here map');
+    return productData;
   }
 
   Map<String, dynamic> toJson() => {
@@ -198,7 +204,6 @@ class ProductData {
         "name": name,
         "description": description,
         "unit": unit,
-        "category_id": categoryId,
         "price": price,
         "is_active": isActive,
         "quantity": quantity,

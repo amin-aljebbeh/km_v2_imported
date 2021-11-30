@@ -26,6 +26,8 @@ const String ATTACH_PRODUCTS_TO_SUB_WAREHOUSE =
 
 const String GET_SUB_WAREHOUSE = "/api/admin/get_sub_warehouses_admin";
 
+const String GET_WAREHOUSE = "/api/warehouse";
+
 const String UPDATE_SUB_WAREHOUSE_PRODUCTS =
     "/api/product/update_product_warehouse/";
 

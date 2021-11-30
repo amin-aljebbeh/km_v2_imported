@@ -388,6 +388,38 @@ class Services {
     }
   }
 
+  static Future<List<Warehouse>> getWarehouses() async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: BaseUrl + GET_WAREHOUSE,
+        method: httpMethods.get,
+      );
+      Tools.logToConsole("------- Warehouses data -------");
+
+      if (response.statusCode == SUCCESS_CODE) {
+        LoadingScreenServices.warehouses = List<Warehouse>.from(
+            response.data["data"].map((x) => Warehouse.fromJson(x)));
+
+        return LoadingScreenServices.warehouses;
+      } else {
+        return LoadingScreenServices.warehouses;
+      }
+    } catch (e) {
+      Tools.logToConsole("------------ ERROR GET WAREHOUSES --------------");
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
+  static List<DropdownMenuItem<int>> warehouseNames() {
+    List<String> names = [];
+    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
+      names.add(LoadingScreenServices.subWarehouses[i].name);
+    }
+    names.add('الجميع');
+    return dropdownStringList(names);
+  }
+
   static List<DropdownMenuItem<int>> dropdownIntList(List<String> inputList) {
     List<DropdownMenuItem<int>> list = List();
     for (int i = 0; i < inputList.length; i++) {

@@ -14,7 +14,7 @@ class OrderAccounting extends StatefulWidget {
 }
 
 class _OrderAccountingState extends State<OrderAccounting> {
-  List<SubWarehouse> _ls = LoadingScreenServices.swbWarehouses;
+  List<SubWarehouse> _ls = LoadingScreenServices.subWarehouses;
   List<Widget> subWarehouseTotal = [];
 
   _sumSubWarehouse(int subWarehouseId) {

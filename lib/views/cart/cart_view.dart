@@ -69,7 +69,7 @@ class CartViewState extends State<CartView> {
     Tools.logToConsole("ADMINROLE");
     orderArray = CartServices.cartProducts;
 
-    if (LoadingScreenServices.swbWarehouses.length == 1) {
+    if (LoadingScreenServices.subWarehouses.length == 1) {
       orderArray.sort((a, b) {
         if (a.subWarehouseId > b.subWarehouseId) {
           return -1;

@@ -30,7 +30,8 @@ class LoadingScreenServices {
   // static List<CategoryOriginalData> fullCategoryList =
   //     List<CategoryOriginalData>();
 
-  static List<SubWarehouse> swbWarehouses = new List<SubWarehouse>();
+  static List<SubWarehouse> subWarehouses = new List<SubWarehouse>();
+  static List<Warehouse> warehouses = new List<Warehouse>();
 
   static List<DropdownMenuItem> fullCategoryList = List<DropdownMenuItem>();
 
@@ -121,8 +122,8 @@ class LoadingScreenServices {
     return true;
   }
 
-  Future<bool> getSubWarehouse() async {
-    swbWarehouses.clear();
+  static Future<bool> getSubWarehouse() async {
+    subWarehouses.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     Tools.logToConsole(
         "The Admin ID is ####: " + prefs.getString("adminId").toString());
@@ -132,7 +133,7 @@ class LoadingScreenServices {
     Tools.logToConsole("Admin response");
     Tools.logToConsole(response);
     if (response != null) {
-      swbWarehouses.addAll(response);
+      subWarehouses.addAll(response);
 
       return true;
     } else {

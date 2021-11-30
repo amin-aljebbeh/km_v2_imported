@@ -63,16 +63,16 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
 
   @override
   void initState() {
-    for (int i = 0; i < LoadingScreenServices.swbWarehouses.length; i++) {
+    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
       subWarehouseList.add(DropdownMenuItem(
         child: AutoSizeText(
-          LoadingScreenServices.swbWarehouses[i].name,
+          LoadingScreenServices.subWarehouses[i].name,
           overflow: TextOverflow.fade,
           maxLines: 1,
           maxFontSize: 15,
           style: mainStyle,
         ),
-        value: LoadingScreenServices.swbWarehouses[i].id,
+        value: LoadingScreenServices.subWarehouses[i].id,
       ));
     }
     super.initState();
@@ -80,7 +80,6 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
 
   @override
   Widget build(BuildContext context) {
-    Tools.logToConsole(widget.supplierCode);
     if (widget.subWarehouseId == 2 || widget.subWarehouseId == 6) {
       borderColor = ColorUtils().khawajaColor;
     } else if (widget.subWarehouseId == 3) {
