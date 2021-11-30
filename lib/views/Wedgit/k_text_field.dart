@@ -45,7 +45,7 @@ class _KTextFieldState extends State<KTextField> {
         decoration: InputDecoration(
           hintText: widget.hintText,
           hintStyle: hintStyle,
-          labelText: UtilsImporter().stringUtils.floor,
+          labelText: widget.labelText,
           labelStyle: labelStyle,
           border: new UnderlineInputBorder(
             borderSide:

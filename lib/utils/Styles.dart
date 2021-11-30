@@ -42,9 +42,8 @@ TextStyle darkBold = mainStyle.copyWith(
   fontSize: 17.5,
 );
 
-TextStyle dropdownItemStyle = TextStyle(
+TextStyle dropdownItemStyle = mainStyle.copyWith(
   fontWeight: FontWeight.w700,
-  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
 );
 
 TextStyle textFieldStyle = mainStyle.copyWith(
@@ -59,7 +58,6 @@ TextStyle hintStyle = mainStyle.copyWith(
 );
 
 TextStyle labelStyle = mainStyle.copyWith(
-  fontSize: 25,
+  fontSize: 15,
   color: UtilsImporter().colorUtils.greycolor,
-  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
 );

@@ -1,10 +1,14 @@
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/k_text_field.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+
+import 'Styles.dart';
 
 class UpdatePriceWidget extends StatefulWidget {
   final Function(bool) onSavePressed;
@@ -47,158 +51,169 @@ class _UpdatePriceWidgetState extends State<UpdatePriceWidget> {
     //   children: [Text("hellow")],
     // );
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
           widget.title,
           overflow: TextOverflow.clip,
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 15,
-            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-          ),
+          style: paragraphStyle,
         ),
-        Container(
-          //height: 50,
-          width: 150,
-          child: TextField(
-            controller: _textController,
-            maxLines: null,
-            textAlign: TextAlign.center,
-            keyboardType: widget.inputType,
-            decoration: new InputDecoration(
-              hintText: widget.textHint,
-              fillColor: Colors.white,
-              border: new OutlineInputBorder(
-                borderRadius: new BorderRadius.circular(10.0),
-                borderSide: new BorderSide(),
+        Row(
+          children: [
+            Container(
+              // height: 40,
+              width: 150,
+              child: AutoSizeTextField(
+                controller: _textController,
+                maxLines: null,
+                textAlign: TextAlign.center,
+                keyboardType: widget.inputType,
+                decoration: new InputDecoration(
+                  hintText: widget.textHint,
+                  hintStyle: hintStyle,
+                  fillColor: Colors.white,
+                  border: new UnderlineInputBorder(
+                    borderSide: new BorderSide(
+                        color: UtilsImporter().colorUtils.primarycolor),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        IconButton(
-            icon: Icon(
-              Icons.save,
-              color: Colors.green,
-              size: 30,
+            SizedBox(
+              width: 18,
             ),
+            IconButton(
+                icon: Icon(
+                  Icons.save,
+                  color: Colors.green,
+                  size: 30,
+                ),
 
-            // widget.products.supplierCode != null &&
-            //                 LoadingScreenServices.subSupplierCodeHint
-            //                     .hasMatch(widget.products.supplierCode)
-            onPressed: () async {
-              Tools.logToConsole("button save clicked");
-              if (widget.bodyKey == "supplier_code" &&
-                  !LoadingScreenServices.subSupplierCodeHint
-                      .hasMatch(_textController.text)) {
-                Flushbar(
-                  backgroundColor: Colors.red,
-                  // titleText: Text("تمت الإضافة بنجاح"),
-                  messageText: Text(
-                    "فشل عملية التعديل يجب أن يحتوي رمز المادة على الرمز الخاص بك",
-                    style: TextStyle(
+                // widget.products.supplierCode != null &&
+                //                 LoadingScreenServices.subSupplierCodeHint
+                //                     .hasMatch(widget.products.supplierCode)
+                onPressed: () async {
+                  Tools.logToConsole("button save clicked");
+                  if (widget.bodyKey == "supplier_code" &&
+                      !LoadingScreenServices.subSupplierCodeHint
+                          .hasMatch(_textController.text)) {
+                    Flushbar(
+                      backgroundColor: Colors.red,
+                      // titleText: Text("تمت الإضافة بنجاح"),
+                      messageText: Text(
+                        "فشل عملية التعديل يجب أن يحتوي رمز المادة على الرمز الخاص بك",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                      ),
+
+                      boxShadows: [
+                        BoxShadow(
+                          color: UtilsImporter().colorUtils.primarycolor,
+                          offset: Offset(0.0, 2.0),
+                          blurRadius: 3.0,
+                        )
+                      ],
+                      icon: Icon(
+                        Icons.error,
+                        size: 28.0,
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                  ),
+                      ),
+                      duration: Duration(seconds: 3),
+                      leftBarIndicatorColor:
+                          UtilsImporter().colorUtils.kmColors,
+                    )..show(context);
+                  } else {
+                    Tools.logToConsole(
+                        "I'm in else on save cliked ${widget.bodyKey}");
 
-                  boxShadows: [
-                    BoxShadow(
-                      color: UtilsImporter().colorUtils.primarycolor,
-                      offset: Offset(0.0, 2.0),
-                      blurRadius: 3.0,
-                    )
-                  ],
-                  icon: Icon(
-                    Icons.error,
-                    size: 28.0,
-                    color: Colors.white,
-                  ),
-                  duration: Duration(seconds: 3),
-                  leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-                )..show(context);
-              } else {
-                Tools.logToConsole(
-                    "I'm in else on save cliked ${widget.bodyKey}");
+                    Tools.logToConsole(
+                        "I'm in else on save _textController ${_textController.text}");
+                    Tools.logToConsole(
+                        "I'm in else on save isForSubWarehouse ${widget.isForSubWarehouse}");
+                    Tools.logToConsole(
+                        "I'm in else on save subWarehouseId ${widget.productData.subWarehouseId != null}");
 
-                Tools.logToConsole(
-                    "I'm in else on save _textController ${_textController.text}");
-                Tools.logToConsole(
-                    "I'm in else on save isForSubWarehouse ${widget.isForSubWarehouse}");
-                Tools.logToConsole(
-                    "I'm in else on save subWarehouseId ${widget.productData.subWarehouseId != null}");
+                    Tools.logToConsole(
+                        "I'm in else on save productId ${widget.productId}");
+                    bool result = await ProductsServices.updateProductsDetails(
+                        bodyKey: widget.bodyKey,
+                        value: _textController.text,
+                        isForSubWarehouse: widget.isForSubWarehouse,
+                        subWarehouseId:
+                            widget.productData.subWarehouseId.toString(),
+                        productId: widget.productId.toString());
 
-                Tools.logToConsole(
-                    "I'm in else on save productId ${widget.productId}");
-                bool result = await ProductsServices.updateProductsDetails(
-                    bodyKey: widget.bodyKey,
-                    value: _textController.text,
-                    isForSubWarehouse: widget.isForSubWarehouse,
-                    subWarehouseId:
-                        widget.productData.subWarehouseId.toString(),
-                    productId: widget.productId.toString());
+                    Tools.logToConsole(
+                        "The Result issssss from onPresed $result");
 
-                Tools.logToConsole("The Result issssss from onPresed $result");
+                    if (result) {
+                      Flushbar(
+                        backgroundColor: Colors.green,
+                        // titleText: Text("تمت الإضافة بنجاح"),
+                        messageText: Text(
+                          "تم التعديل بنجاح",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily:
+                                  UtilsImporter().stringUtils.HKGrotesk),
+                        ),
 
-                if (result) {
-                  Flushbar(
-                    backgroundColor: Colors.green,
-                    // titleText: Text("تمت الإضافة بنجاح"),
-                    messageText: Text(
-                      "تم التعديل بنجاح",
-                      style: TextStyle(
+                        boxShadows: [
+                          BoxShadow(
+                            color: UtilsImporter().colorUtils.primarycolor,
+                            offset: Offset(0.0, 2.0),
+                            blurRadius: 3.0,
+                          )
+                        ],
+                        icon: Icon(
+                          Icons.assignment_turned_in,
+                          size: 28.0,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                    ),
+                        ),
+                        duration: Duration(seconds: 1),
+                        leftBarIndicatorColor:
+                            UtilsImporter().colorUtils.kmColors,
+                      )..show(context);
+                    } else {
+                      Flushbar(
+                        backgroundColor: Colors.red,
+                        // titleText: Text("تمت الإضافة بنجاح"),
+                        messageText: Text(
+                          "فشل بعملية التعديل",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily:
+                                  UtilsImporter().stringUtils.HKGrotesk),
+                        ),
 
-                    boxShadows: [
-                      BoxShadow(
-                        color: UtilsImporter().colorUtils.primarycolor,
-                        offset: Offset(0.0, 2.0),
-                        blurRadius: 3.0,
-                      )
-                    ],
-                    icon: Icon(
-                      Icons.assignment_turned_in,
-                      size: 28.0,
-                      color: Colors.white,
-                    ),
-                    duration: Duration(seconds: 1),
-                    leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-                  )..show(context);
-                } else {
-                  Flushbar(
-                    backgroundColor: Colors.red,
-                    // titleText: Text("تمت الإضافة بنجاح"),
-                    messageText: Text(
-                      "فشل بعملية التعديل",
-                      style: TextStyle(
+                        boxShadows: [
+                          BoxShadow(
+                            color: UtilsImporter().colorUtils.primarycolor,
+                            offset: Offset(0.0, 2.0),
+                            blurRadius: 3.0,
+                          )
+                        ],
+                        icon: Icon(
+                          Icons.error,
+                          size: 28.0,
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                    ),
+                        ),
+                        duration: Duration(seconds: 1),
+                        leftBarIndicatorColor:
+                            UtilsImporter().colorUtils.kmColors,
+                      )..show(context);
 
-                    boxShadows: [
-                      BoxShadow(
-                        color: UtilsImporter().colorUtils.primarycolor,
-                        offset: Offset(0.0, 2.0),
-                        blurRadius: 3.0,
-                      )
-                    ],
-                    icon: Icon(
-                      Icons.error,
-                      size: 28.0,
-                      color: Colors.white,
-                    ),
-                    duration: Duration(seconds: 1),
-                    leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-                  )..show(context);
-
-                  // return result;
-                }
-              }
-            }),
+                      // return result;
+                    }
+                  }
+                }),
+          ],
+        ),
       ],
     );
   }

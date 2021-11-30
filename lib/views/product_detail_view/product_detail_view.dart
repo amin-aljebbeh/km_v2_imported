@@ -155,6 +155,7 @@ class ProductDetailViewState extends State<ProductDetailView>
           child: Icon(
             Icons.camera,
             color: UtilsImporter().colorUtils.kmColors,
+            size: 40,
           ),
           onPressed: () {
             getImageCamera();
@@ -164,6 +165,7 @@ class ProductDetailViewState extends State<ProductDetailView>
           child: Icon(
             Icons.image,
             color: UtilsImporter().colorUtils.kmColors,
+            size: 40,
           ),
           onPressed: () {
             getImageGallery();
@@ -269,17 +271,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         height: 120,
                                         fit: BoxFit.contain,
                                       )
-
-                                    //           Image.network(
-                                    //   LoadingScreenServices.imagePrefixUrl +
-                                    //       widget.products.images[0]
-                                    //           .imageFileName,
-                                    //   width:
-                                    //       MediaQuery.of(context).size.width /
-                                    //           2,
-                                    //   height: 120,
-                                    //   fit: BoxFit.contain,
-                                    // )
                                     : Image.asset(
                                         "assets/logobw.png",
                                       ),
@@ -302,16 +293,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           MediaQuery.of(context).size.width / 2,
                                       height: 120,
                                       fit: BoxFit.contain,
-                                    )
-                                    //      Image.network(
-                                    //   LoadingScreenServices.imagePrefixUrl +
-                                    //       widget.products.images[0].imageFileName,
-                                    //   width:
-                                    //       MediaQuery.of(context).size.width / 2,
-                                    //   height: 120,
-                                    //   fit: BoxFit.contain,
-                                    // ),
-                                    ),
+                                    )),
                               )
                             : Image.asset(
                                 "assets/logobw.png",
@@ -335,104 +317,74 @@ class ProductDetailViewState extends State<ProductDetailView>
                     // mainAxisAlignment: MainAxisAlignment.start,
                     shrinkWrap: true,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(widget.products.name,
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            widget.products.name,
                             style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              color: UtilsImporter().colorUtils.primarycolor,
                               fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                              fontSize: 22,
-                            )),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text("الكمية",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color:
-                                        UtilsImporter().colorUtils.primarycolor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 20.0,
-                                  )),
-                              SizedBox(height: 10),
-                              Text(
-                                widget.products.unit.toString() != "null"
-                                    ? widget.products.quantity.toString() +
-                                        " " +
-                                        widget.products.unit.toString()
-                                    : widget.products.quantity.toString(),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color:
-                                        UtilsImporter().colorUtils.primarycolor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 20),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text("السعر",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: UtilsImporter().colorUtils.greycolor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 20.0,
-                                  )),
-                              SizedBox(height: 10),
-                              Text(
-                                  "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.products.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: UtilsImporter()
-                                          .colorUtils
-                                          .primarycolor,
-                                      fontFamily:
-                                          UtilsImporter().stringUtils.HKGrotesk,
-                                      fontSize: 20)),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "الوصف",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: UtilsImporter().colorUtils.greycolor,
-                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                              fontSize: 20.0,
+                              fontSize: 25,
                             ),
                           ),
-                        ],
+                        ),
                       ),
                       SizedBox(height: 10),
-                      widget.products.description != null
-                          ? Text(
-                              widget.products.description != null
-                                  ? widget.products.description.split("@")[0]
-                                  : "",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: Theme.of(context).primaryColorDark,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                  fontSize: 20),
-                            )
-                          : Container(),
+                      Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text("الكمية:", style: paragraphStyle),
+                                SizedBox(width: 5),
+                                Text(
+                                  widget.products.unit.toString() != "null"
+                                      ? widget.products.quantity.toString() +
+                                          " " +
+                                          widget.products.unit.toString()
+                                      : widget.products.quantity.toString(),
+                                  style: informationStyle,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 5),
+                            Row(
+                              // crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text("السعر: ", style: paragraphStyle),
+                                SizedBox(width: 5),
+                                Text(
+                                    "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.products.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                    style: informationStyle),
+                              ],
+                            ),
+                            SizedBox(height: 5),
+                            Row(
+                              children: [
+                                Text(
+                                  "الوصف:",
+                                  style: paragraphStyle,
+                                ),
+                                SizedBox(width: 5),
+                                widget.products.description != null
+                                    ? Text(
+                                        widget.products.description != null
+                                            ? widget.products.description
+                                                .split("@")[0]
+                                            : "",
+                                        style: informationStyle,
+                                      )
+                                    : Container(),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                       SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -455,15 +407,21 @@ class ProductDetailViewState extends State<ProductDetailView>
                               ),
                             ),
                           ),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Text(numberOfOrders.toString(),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w600,
-                                    color: Colors.grey[700],
+                                    color: Colors.black,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk,
-                                    fontSize: 30)),
+                                    fontSize: 35)),
+                          ),
+                          SizedBox(
+                            width: 10,
                           ),
                           Padding(
                             padding:
@@ -486,7 +444,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                       SizedBox(height: 30),
                       int.parse(widget.products.isActive) == 0
                           ? Container(
-                              margin: const EdgeInsets.all(10.0),
+                              height: 50,
+                              width: MediaQuery.of(context).size.width,
                               padding: const EdgeInsets.all(3.0),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(
@@ -503,6 +462,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 "المنتج نفذ من المستودعات",
                                 style: TextStyle(
                                     fontSize: 25,
+                                    fontWeight: FontWeight.bold,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk),
                               )),
@@ -575,22 +535,25 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   LoadingScreenServices.subSupplierCodeHint
                                       .hasMatch(
                                           widget.products.supplierCode)) ||
-                              LoadingScreenServices.viewOrderPermission
+                              Services.isAdmin()
                           ? Column(
                               children: [
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
-                                  title: "تعديل السعر:",
+                                  title: "تعديل السعر",
+                                  inputType: TextInputType.number,
                                   bodyKey: "price",
                                   productId: widget.products.id,
                                   productData: widget.products,
                                   textHint: widget.products.price,
+                                  initialText: widget.products.price,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
-                                  title: "تعديل رمز المادة:",
+                                  title: "تعديل رمز المادة",
                                   inputType: TextInputType.text,
                                   textHint: widget.products.supplierCode,
+                                  initialText: widget.products.supplierCode,
                                   bodyKey: "supplier_code",
                                   productId: widget.products.id,
                                   productData: widget.products,
@@ -603,10 +566,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   productId: widget.products.id,
                                   productData: widget.products,
                                   textHint: widget.products.priceFactor,
+                                  initialText: widget.products.priceFactor,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
-                                  title: "تعديل الإسم:",
+                                  title: "تعديل الاسم",
                                   textHint: widget.products.name,
                                   inputType: TextInputType.text,
                                   bodyKey: "name",
@@ -617,18 +581,20 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
-                                  title: "تعديل الوحدة:",
+                                  title: "تعديل الوحدة",
                                   inputType: TextInputType.text,
                                   bodyKey: "unit",
                                   productId: widget.products.id,
                                   isForSubWarehouse: false,
                                   productData: widget.products,
                                   textHint: widget.products.unit,
+                                  initialText: widget.products.unit,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
-                                  title: "تعديل الكمية:",
+                                  title: "تعديل الكمية",
                                   isForSubWarehouse: false,
+                                  inputType: TextInputType.text,
                                   productData: widget.products,
                                   textHint: widget.products.quantity,
                                   bodyKey: "quantity",
@@ -637,7 +603,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
-                                  title: "تعديل الوصف:",
+                                  title: "تعديل الوصف",
                                   textHint: "الوصف الجديد",
                                   inputType: TextInputType.text,
                                   bodyKey: "description",
@@ -648,7 +614,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
-                                  title: "تعديل الأولوية:",
+                                  title: "تعديل الأولوية",
                                   textHint: widget.products.priority.toString(),
                                   inputType: TextInputType.text,
                                   bodyKey: "priority",
@@ -659,69 +625,140 @@ class ProductDetailViewState extends State<ProductDetailView>
                                       widget.products.priority.toString(),
                                 ),
                                 SizedBox(height: 30),
-                                widget.products.images.length > 0
-                                    ? _deleteImageButton(
-                                        imageId: widget.products.images[0].id,
-                                        context: context)
-                                    : Container(),
-                                SizedBox(height: 30),
-                                Center(
-                                  child: Wrap(
-                                    children: [
-                                      Container(
-                                        padding:
-                                            EdgeInsets.only(left: 5, right: 5),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 5,
-                                              color: UtilsImporter()
-                                                  .colorUtils
-                                                  .kmColors),
-                                        ),
-                                        child: new SearchableDropdown(
-                                          isCaseSensitiveSearch: false,
-                                          underline: Container(),
-                                          isExpanded: false,
-                                          items: LoadingScreenServices
-                                              .fullCategoryList,
-                                          value: selectedValueCategoryValue,
-                                          hint: new Text(
-                                            'اختيار الصنف التابع له المنتج',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: UtilsImporter()
-                                                  .stringUtils
-                                                  .HKGrotesk,
-                                            ),
-                                          ),
-                                          searchHint: new Text(
-                                            'إختيار الصنف',
-                                            style: new TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: UtilsImporter()
-                                                    .stringUtils
-                                                    .HKGrotesk),
-                                          ),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              selectedValueCategoryValue = value
-                                                  .toString()
-                                                  .split(";")[1];
-                                              Tools.logToConsole(
-                                                  selectedValueCategoryValue);
-                                            });
-                                          },
-                                        ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.only(left: 5, right: 5),
+                                  decoration: BoxDecoration(
+                                    color: UtilsImporter().colorUtils.greycolor,
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                        width: 5,
+                                        color: UtilsImporter()
+                                            .colorUtils
+                                            .greycolor),
+                                  ),
+                                  child: Center(
+                                    child: new SearchableDropdown(
+                                      isCaseSensitiveSearch: false,
+                                      underline: Container(),
+                                      isExpanded: false,
+                                      items: LoadingScreenServices
+                                          .fullCategoryList,
+                                      iconEnabledColor: Colors.white,
+                                      value: selectedValueCategoryValue,
+                                      hint: new Text(
+                                        'اختيار الصنف التابع له المنتج',
+                                        style: decisionButtonStyle,
                                       ),
-                                      _saveCategoryButton(
-                                          categoryId:
-                                              selectedValueCategoryValue,
-                                          context: context,
-                                          productId: widget.products.id)
-                                    ],
+                                      searchHint: new Text(
+                                        'إختيار الصنف',
+                                        style: new TextStyle(
+                                            fontSize: 20,
+                                            fontFamily: UtilsImporter()
+                                                .stringUtils
+                                                .HKGrotesk),
+                                      ),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectedValueCategoryValue =
+                                              value.toString().split(";")[1];
+                                          Tools.logToConsole(
+                                              selectedValueCategoryValue);
+                                        });
+                                      },
+                                    ),
                                   ),
                                 ),
-                                SizedBox(height: 30),
+                                widget.products.images.length > 0
+                                    ? DecisionButton(
+                                        height: 50,
+                                        color: Theme.of(context).primaryColor,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Text(
+                                              "حذف الصورة",
+                                              overflow: TextOverflow.clip,
+                                              style: decisionButtonStyle,
+                                            ),
+                                            Icon(
+                                              Icons.delete,
+                                              color: Colors.white,
+                                              size: 30,
+                                            ),
+                                          ],
+                                        ),
+                                        onTap: () async {
+                                          bool response =
+                                              await PricesChangesSerives
+                                                  .deleteImage(
+                                                      imageId:
+                                                          widget.products.id);
+                                          if (response) {
+                                            Flushbar(
+                                              backgroundColor: Colors.green,
+                                              // titleText: Text("تمت الإضافة بنجاح"),
+                                              messageText: Text(
+                                                "تم حذف الصورة بنجاح",
+                                                style: flushBarStyle,
+                                              ),
+
+                                              boxShadows: [
+                                                BoxShadow(
+                                                  color: UtilsImporter()
+                                                      .colorUtils
+                                                      .primarycolor,
+                                                  offset: Offset(0.0, 2.0),
+                                                  blurRadius: 3.0,
+                                                )
+                                              ],
+                                              icon: Icon(
+                                                Icons.assignment_turned_in,
+                                                size: 28.0,
+                                                color: Colors.white,
+                                              ),
+                                              duration: Duration(seconds: 2),
+                                              leftBarIndicatorColor:
+                                                  UtilsImporter()
+                                                      .colorUtils
+                                                      .kmColors,
+                                            )..show(context);
+                                          } else {
+                                            Flushbar(
+                                              backgroundColor: Colors.red[900],
+                                              messageText: Text(
+                                                "فشل بعملية حذف الصورة",
+                                                style: flushBarStyle,
+                                              ),
+                                              boxShadows: [
+                                                BoxShadow(
+                                                  color: Colors.red,
+                                                  offset: Offset(0.0, 2.0),
+                                                  blurRadius: 3.0,
+                                                )
+                                              ],
+                                              icon: Icon(
+                                                Icons.error,
+                                                size: 28.0,
+                                                color: Colors.white,
+                                              ),
+                                              duration: Duration(seconds: 3),
+                                              // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+                                            )..show(context);
+                                          }
+                                        },
+                                      )
+                                    : Container(),
+                                DecisionButton(
+                                  height: 50,
+                                  text: "الإضافة لصنف جديد",
+                                  color: Theme.of(context).primaryColor,
+                                  onTap: () => _saveCategoryButton(
+                                      categoryId: selectedValueCategoryValue,
+                                      context: context,
+                                      productId: widget.products.id),
+                                ),
                                 _getImage(),
                                 _image != null ? imagesBody() : Container(),
                                 isLoading
@@ -961,77 +998,62 @@ class ProductDetailViewState extends State<ProductDetailView>
   }
 }
 
-_saveCategoryButton({BuildContext context, int productId, String categoryId}) {
-  return Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: KammunButton(
-        // icon: Icon(
-        //   Icons.save,
-        //   color: Colors.green,
-        //   size: 30,
-        // ),
-        text: "الإضافة لصنف جديد",
-        onPress: () async {
-          {
-            bool result = await ProductsServices.updateProductsDetails(
-                bodyKey: "category_id",
-                value: categoryId,
-                productId: productId.toString());
+_saveCategoryButton(
+    {BuildContext context, int productId, String categoryId}) async {
+  bool result = await ProductsServices.updateProductsDetails(
+      bodyKey: "category_id",
+      value: categoryId,
+      productId: productId.toString());
 
-            if (result) {
-              Flushbar(
-                backgroundColor: Colors.green,
-                // titleText: Text("تمت الإضافة بنجاح"),
-                messageText: Text(
-                  "تم التعديل بنجاح",
-                  style: flushBarStyle,
-                ),
+  if (result) {
+    Flushbar(
+      backgroundColor: Colors.green,
+      // titleText: Text("تمت الإضافة بنجاح"),
+      messageText: Text(
+        "تم التعديل بنجاح",
+        style: flushBarStyle,
+      ),
 
-                boxShadows: [
-                  BoxShadow(
-                    color: UtilsImporter().colorUtils.primarycolor,
-                    offset: Offset(0.0, 2.0),
-                    blurRadius: 3.0,
-                  )
-                ],
-                icon: Icon(
-                  Icons.assignment_turned_in,
-                  size: 28.0,
-                  color: Colors.white,
-                ),
-                duration: Duration(seconds: 1),
-                leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-              )..show(context);
-            } else {
-              Flushbar(
-                backgroundColor: Colors.red,
-                // titleText: Text("تمت الإضافة بنجاح"),
-                messageText: Text(
-                  "فشل بعملية التعديل",
-                  style: flushBarStyle,
-                ),
+      boxShadows: [
+        BoxShadow(
+          color: UtilsImporter().colorUtils.primarycolor,
+          offset: Offset(0.0, 2.0),
+          blurRadius: 3.0,
+        )
+      ],
+      icon: Icon(
+        Icons.assignment_turned_in,
+        size: 28.0,
+        color: Colors.white,
+      ),
+      duration: Duration(seconds: 1),
+      leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+    )..show(context);
+  } else {
+    Flushbar(
+      backgroundColor: Colors.red,
+      // titleText: Text("تمت الإضافة بنجاح"),
+      messageText: Text(
+        "فشل بعملية التعديل",
+        style: flushBarStyle,
+      ),
 
-                boxShadows: [
-                  BoxShadow(
-                    color: UtilsImporter().colorUtils.primarycolor,
-                    offset: Offset(0.0, 2.0),
-                    blurRadius: 3.0,
-                  )
-                ],
-                icon: Icon(
-                  Icons.error,
-                  size: 28.0,
-                  color: Colors.white,
-                ),
-                duration: Duration(seconds: 1),
-                leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-              )..show(context);
-
-              // return result;
-            }
-          }
-        }),
-  );
+      boxShadows: [
+        BoxShadow(
+          color: UtilsImporter().colorUtils.primarycolor,
+          offset: Offset(0.0, 2.0),
+          blurRadius: 3.0,
+        )
+      ],
+      icon: Icon(
+        Icons.error,
+        size: 28.0,
+        color: Colors.white,
+      ),
+      duration: Duration(seconds: 1),
+      leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+    )..show(context);
+  }
 }
 
 _deleteImageButton({int imageId, BuildContext context}) {
@@ -1112,3 +1134,11 @@ _deleteImageButton({int imageId, BuildContext context}) {
     ],
   );
 }
+// TextStyle(
+// fontWeight: FontWeight.w400,
+// color:
+// UtilsImporter().colorUtils.primarycolor,
+// fontFamily:
+// UtilsImporter().stringUtils.HKGrotesk,
+// fontSize: 20.0,
+// )
