@@ -232,39 +232,50 @@ class LoadingScreenServices {
       final category = categoryOriginalFromJson(jsonEncode(response.data)).data;
 
       for (int i = 0; i < category.length; i++) {
-        if (category[i].parentCategoryId != null) {
+        if (category[i].parentCategoryId == null) {
           fullCategoryList.add(new DropdownMenuItem(
-            child: Container(
-              width: 300,
-              child: Text(
-                category[i].name,
-                overflow: TextOverflow.visible,
-                maxLines: 2,
-                style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                    color: Colors.black,
-                    fontSize: 20),
-              ),
-            ),
-            value: category[i].name + ";" + category[i].id.toString(),
-          ));
-        } else {
-          fullCategoryList.add(new DropdownMenuItem(
-            child: Expanded(
-              child: Text(
-                category[i].name + " من القائمة الرئيسية",
-                overflow: TextOverflow.visible,
-                maxLines: 2,
-                style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            child: Column(
+              children: [
+                Container(
+                  width: 287,
+                  child: Text(
+                    category[i].name + " من القائمة الرئيسية",
+                    overflow: TextOverflow.visible,
+                    maxLines: 2,
+                    style: TextStyle(
+                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 20),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Divider(
+                    thickness: 1,
                     color: Colors.white,
-                    fontSize: 18),
-              ),
+                  ),
+                )
+              ],
             ),
             value: category[i].name + ";" + category[i].id.toString(),
           ));
         }
+      }
 
+      for (int i = 0; i < category.length; i++) {
+        if (category[i].parentCategoryId != null) {
+          fullCategoryList.add(new DropdownMenuItem(
+            child: Text(
+              category[i].name,
+              style: TextStyle(
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  color: Colors.white,
+                  fontSize: 18),
+            ),
+            value: category[i].name + ";" + category[i].id.toString(),
+          ));
+        }
         if (category[i].warehouses.length > 0 &&
             category[i].warehouses[0].pivot.isActive == "1") {
           categoryList.add(category[i]);

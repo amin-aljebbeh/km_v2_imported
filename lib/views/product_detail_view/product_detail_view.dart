@@ -643,36 +643,43 @@ class ProductDetailViewState extends State<ProductDetailView>
                                             .colorUtils
                                             .greycolor),
                                   ),
-                                  child: Center(
-                                    child: new SearchableDropdown(
-                                      menuBackgroundColor:
-                                          UtilsImporter().colorUtils.greycolor,
-                                      isCaseSensitiveSearch: false,
-                                      underline: Container(),
-                                      isExpanded: false,
-                                      items: LoadingScreenServices
-                                          .fullCategoryList,
-                                      iconEnabledColor: Colors.white,
-                                      value: selectedValueCategoryValue,
-                                      hint: new Text(
-                                        'اختيار الصنف التابع له المنتج',
+                                  child: new SearchableDropdown(
+                                    style: decisionButtonStyle,
+                                    closeButton: FlatButton(
+                                      child: Text(
+                                        'إغلاق',
                                         style: decisionButtonStyle,
                                       ),
-                                      searchHint: new Text('إختيار الصنف',
-                                          style: decisionButtonStyle),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          if (value != null) {
-                                            selectedValueCategoryValue =
-                                                value.toString().split(";")[1];
-                                            print('selectedValueCategoryValue');
-                                            print(MediaQuery.of(context)
-                                                .size
-                                                .width);
-                                          }
-                                        });
-                                      },
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
                                     ),
+                                    menuBackgroundColor:
+                                        UtilsImporter().colorUtils.greycolor,
+                                    isCaseSensitiveSearch: false,
+                                    underline: Container(),
+                                    isExpanded: false,
+                                    items:
+                                        LoadingScreenServices.fullCategoryList,
+                                    iconEnabledColor: Colors.white,
+                                    value: selectedValueCategoryValue,
+                                    hint: new Text(
+                                      'اختيار الصنف التابع له المنتج',
+                                      style: decisionButtonStyle,
+                                    ),
+                                    searchHint: new Text('إختيار الصنف',
+                                        style: decisionButtonStyle),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        if (value != null) {
+                                          selectedValueCategoryValue =
+                                              value.toString().split(";")[1];
+                                          print('selectedValueCategoryValue');
+                                          print(MediaQuery.of(context)
+                                              .size
+                                              .width);
+                                        }
+                                      });
+                                    },
                                   ),
                                 ),
                                 widget.product.images.length > 0
@@ -760,7 +767,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   height: 50,
                                   text: "الإضافة لصنف جديد",
                                   color: Theme.of(context).primaryColor,
-                                  onTap: () => _saveCategoryButton(
+                                  onTap: () => _saveCategory(
                                       categoryId: selectedValueCategoryValue,
                                       context: context,
                                       productId: widget.product.id),
@@ -1003,8 +1010,7 @@ class ProductDetailViewState extends State<ProductDetailView>
   }
 }
 
-_saveCategoryButton(
-    {BuildContext context, int productId, String categoryId}) async {
+_saveCategory({BuildContext context, int productId, String categoryId}) async {
   bool result = await ProductsServices.updateProductsDetails(
       bodyKey: "category_id",
       value: categoryId,

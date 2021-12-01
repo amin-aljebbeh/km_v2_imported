@@ -110,9 +110,10 @@ class OrdersViewCardState extends State<OrdersViewCard> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.orderStatus == 2) orderStatus = "تم قبول الطلب"; //✅
-    if (widget.orderStatus == 3) orderStatus = "تم تجهيز الطلب"; //😎
-    if (widget.orderStatus == 4) orderStatus = "تم إرسال الطلب";
+    if (widget.orderStatus == 2) orderStatus = "تم قبول الطلب ✅";
+    if (widget.orderStatus == 3) orderStatus = "تم تجهيز الطلب 😎";
+    if (widget.orderStatus == 4)
+      orderStatus = "تم إرسال الطلب مع كابتن التوصيل";
     if (widget.underUpdate == 1)
       orderStatus = "الطلب معلق حتى يأكد الزبون التعديل";
 
