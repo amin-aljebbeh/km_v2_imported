@@ -43,10 +43,9 @@ class ApiProvider {
     // Tools.logToConsole("------- THE USER TOKEN IS ----------");
     Tools.logToConsole(LoadingScreen.userToken);
     Map<String, String> header = {
-      'Authorization': "Bearer rabie",
-
-      // 'Authorization':
-      //     LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : "",
+      // 'Authorization': "Bearer rabie",
+      'Authorization':
+          LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : "",
     };
 
     Response response;
