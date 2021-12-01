@@ -245,7 +245,7 @@ class LoadingScreenServices {
                     style: TextStyle(
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: UtilsImporter().colorUtils.greycolor,
                         fontSize: 20),
                   ),
                 ),
@@ -270,7 +270,7 @@ class LoadingScreenServices {
               category[i].name,
               style: TextStyle(
                   fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  color: Colors.white,
+                  color: UtilsImporter().colorUtils.greycolor,
                   fontSize: 18),
             ),
             value: category[i].name + ";" + category[i].id.toString(),

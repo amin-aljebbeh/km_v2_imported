@@ -648,13 +648,15 @@ class ProductDetailViewState extends State<ProductDetailView>
                                     closeButton: FlatButton(
                                       child: Text(
                                         'إغلاق',
-                                        style: decisionButtonStyle,
+                                        style: decisionButtonStyle.copyWith(
+                                          color: UtilsImporter()
+                                              .colorUtils
+                                              .greycolor,
+                                        ),
                                       ),
                                       onPressed: () =>
                                           Navigator.of(context).pop(),
                                     ),
-                                    menuBackgroundColor:
-                                        UtilsImporter().colorUtils.greycolor,
                                     isCaseSensitiveSearch: false,
                                     underline: Container(),
                                     isExpanded: false,
@@ -667,7 +669,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                                       style: decisionButtonStyle,
                                     ),
                                     searchHint: new Text('إختيار الصنف',
-                                        style: decisionButtonStyle),
+                                        style: decisionButtonStyle.copyWith(
+                                          color: UtilsImporter()
+                                              .colorUtils
+                                              .greycolor,
+                                        )),
                                     onChanged: (value) {
                                       setState(() {
                                         if (value != null) {
