@@ -183,7 +183,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                   context,
                   new MaterialPageRoute(
                       builder: (context) => new ProductDetailView(
-                            products: widget.productData,
+                            product: widget.productData,
                             isFromFavoriteScreen: false,
                           )));
             Tools.logToConsole("Products Data is null");

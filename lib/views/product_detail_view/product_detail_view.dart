@@ -26,10 +26,10 @@ import '../../Services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 
 class ProductDetailView extends StatefulWidget {
-  ProductData products;
+  ProductData product;
   bool isFromFavoriteScreen;
 
-  ProductDetailView({this.products, @required this.isFromFavoriteScreen});
+  ProductDetailView({this.product, @required this.isFromFavoriteScreen});
 
   @override
   State<StatefulWidget> createState() {
@@ -54,6 +54,7 @@ class ProductDetailViewState extends State<ProductDetailView>
   void initState() {
     super.initState();
 
+    selectedValueCategoryValue = 'اختيار الصنف التابع له المنتج';
     // selectedValueCategoryValue = LoadingScreenServices.fullCategoryList.firstWhere((element) => element.value == widget.products.categoryId));
 
     // selectedValueCategoryValue = LoadingScreenServices.fullCategoryList
@@ -61,6 +62,10 @@ class ProductDetailViewState extends State<ProductDetailView>
     //         element.value.toString() == widget.products.categoryId.toString())
     //     .value
     //     .toString();
+    if (widget.product.images.length > 0) {
+      print('widget.product.images[0].id');
+      print(widget.product.images[0].id);
+    }
     Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));
 
     _animationController = new AnimationController(
@@ -181,7 +186,6 @@ class ProductDetailViewState extends State<ProductDetailView>
       padding: EdgeInsets.only(top: 10),
       child: SelectedFileToUpload(
         image: _image,
-        name: 'Product Image}',
         close: () {
           setState(() {
             _image = null;
@@ -239,7 +243,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                   //   width: MediaQuery.of(context).size.width * 0.65,
                   child: done
                       ? AutoSizeText(
-                          widget.products.name,
+                          widget.product.name,
                           maxLines: 1,
                           style: mainStyle,
                         )
@@ -256,11 +260,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                               borderRadius: BorderRadius.circular(16),
                               child: FadeTransition(
                                 opacity: _animation,
-                                child: widget.products.images.length > 0
+                                child: widget.product.images.length > 0
                                     ? Image(
                                         image: AdvImageCache(
                                           LoadingScreenServices.imagePrefixUrl +
-                                              widget.products.images[0]
+                                              widget.product.images[0]
                                                   .imageFileName,
                                           useMemCache: true,
                                           diskCacheExpire: Duration(days: 400),
@@ -277,14 +281,14 @@ class ProductDetailViewState extends State<ProductDetailView>
                               ),
                             ),
                           )
-                        : widget.products.images.length > 0
+                        : widget.product.images.length > 0
                             ? FullScreenWidget(
                                 child: ClipRRect(
                                     borderRadius: BorderRadius.circular(16),
                                     child: Image(
                                       image: AdvImageCache(
                                         LoadingScreenServices.imagePrefixUrl +
-                                            widget.products.images[0]
+                                            widget.product.images[0]
                                                 .imageFileName,
                                         useMemCache: true,
                                         diskCacheExpire: Duration(days: 400),
@@ -321,7 +325,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            widget.products.name,
+                            widget.product.name,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: UtilsImporter().colorUtils.primarycolor,
@@ -343,11 +347,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 Text("الكمية:", style: paragraphStyle),
                                 SizedBox(width: 5),
                                 Text(
-                                  widget.products.unit.toString() != "null"
-                                      ? widget.products.quantity.toString() +
+                                  widget.product.unit.toString() != "null"
+                                      ? widget.product.quantity.toString() +
                                           " " +
-                                          widget.products.unit.toString()
-                                      : widget.products.quantity.toString(),
+                                          widget.product.unit.toString()
+                                      : widget.product.quantity.toString(),
                                   style: informationStyle,
                                 ),
                               ],
@@ -359,25 +363,28 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 Text("السعر: ", style: paragraphStyle),
                                 SizedBox(width: 5),
                                 Text(
-                                    "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.products.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                    "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                     style: informationStyle),
                               ],
                             ),
                             SizedBox(height: 5),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "الوصف:",
                                   style: paragraphStyle,
                                 ),
                                 SizedBox(width: 5),
-                                widget.products.description != null
-                                    ? Text(
-                                        widget.products.description != null
-                                            ? widget.products.description
-                                                .split("@")[0]
-                                            : "",
-                                        style: informationStyle,
+                                widget.product.description != null
+                                    ? Expanded(
+                                        child: Text(
+                                          widget.product.description != null
+                                              ? widget.product.description
+                                                  .split("@")[0]
+                                              : "",
+                                          style: informationStyle,
+                                        ),
                                       )
                                     : Container(),
                               ],
@@ -442,7 +449,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                         ],
                       ),
                       SizedBox(height: 30),
-                      int.parse(widget.products.isActive) == 0
+                      int.parse(widget.product.isActive) == 0
                           ? Container(
                               height: 50,
                               width: MediaQuery.of(context).size.width,
@@ -470,7 +477,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           : Container(),
                       DecisionButton(
                         text:
-                            'الإضافة لسلة المشتريات  ( ${UtilsImporter().stringUtils.oCcy.format(numberOfOrders * int.parse(widget.products.price.toString().split(".")[0]))})',
+                            'الإضافة لسلة المشتريات  ( ${UtilsImporter().stringUtils.oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
                         height: 50,
                         color: Theme.of(context).primaryColor,
                         onTap: () async {
@@ -482,14 +489,14 @@ class ProductDetailViewState extends State<ProductDetailView>
                             Tools.logToConsole(
                                 "========= product price ========");
 
-                            Tools.logToConsole(widget.products.price);
-                            widget.products.productCount = numberOfOrders;
+                            Tools.logToConsole(widget.product.price);
+                            widget.product.productCount = numberOfOrders;
 
-                            CartServices.addProductToCart(widget.products);
+                            CartServices.addProductToCart(widget.product);
                             Flushbar(
                               backgroundColor: Colors.green,
                               messageText: Text(
-                                "تم إضافة ${widget.products.name} لسلة المشتريات",
+                                "تم إضافة ${widget.product.name} لسلة المشتريات",
                                 style: flushBarStyle,
                               ),
                               boxShadows: [
@@ -531,10 +538,9 @@ class ProductDetailViewState extends State<ProductDetailView>
                           }
                         },
                       ),
-                      (widget.products.supplierCode != null &&
+                      (widget.product.supplierCode != null &&
                                   LoadingScreenServices.subSupplierCodeHint
-                                      .hasMatch(
-                                          widget.products.supplierCode)) ||
+                                      .hasMatch(widget.product.supplierCode)) ||
                               Services.isAdmin()
                           ? Column(
                               children: [
@@ -543,63 +549,63 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   title: "تعديل السعر",
                                   inputType: TextInputType.number,
                                   bodyKey: "price",
-                                  productId: widget.products.id,
-                                  productData: widget.products,
-                                  textHint: widget.products.price,
-                                  initialText: widget.products.price,
+                                  productId: widget.product.id,
+                                  productData: widget.product,
+                                  textHint: widget.product.price,
+                                  initialText: widget.product.price,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
                                   title: "تعديل رمز المادة",
                                   inputType: TextInputType.text,
-                                  textHint: widget.products.supplierCode,
-                                  initialText: widget.products.supplierCode,
+                                  textHint: widget.product.supplierCode,
+                                  initialText: widget.product.supplierCode,
                                   bodyKey: "supplier_code",
-                                  productId: widget.products.id,
-                                  productData: widget.products,
+                                  productId: widget.product.id,
+                                  productData: widget.product,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
                                   title: "معدل الضرب",
                                   inputType: TextInputType.number,
                                   bodyKey: "price_factor",
-                                  productId: widget.products.id,
-                                  productData: widget.products,
-                                  textHint: widget.products.priceFactor,
-                                  initialText: widget.products.priceFactor,
+                                  productId: widget.product.id,
+                                  productData: widget.product,
+                                  textHint: widget.product.priceFactor,
+                                  initialText: widget.product.priceFactor,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
                                   title: "تعديل الاسم",
-                                  textHint: widget.products.name,
+                                  textHint: widget.product.name,
                                   inputType: TextInputType.text,
                                   bodyKey: "name",
-                                  productId: widget.products.id,
-                                  initialText: widget.products.name,
+                                  productId: widget.product.id,
+                                  initialText: widget.product.name,
                                   isForSubWarehouse: false,
-                                  productData: widget.products,
+                                  productData: widget.product,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
                                   title: "تعديل الوحدة",
                                   inputType: TextInputType.text,
                                   bodyKey: "unit",
-                                  productId: widget.products.id,
+                                  productId: widget.product.id,
                                   isForSubWarehouse: false,
-                                  productData: widget.products,
-                                  textHint: widget.products.unit,
-                                  initialText: widget.products.unit,
+                                  productData: widget.product,
+                                  textHint: widget.product.unit,
+                                  initialText: widget.product.unit,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
                                   title: "تعديل الكمية",
                                   isForSubWarehouse: false,
                                   inputType: TextInputType.text,
-                                  productData: widget.products,
-                                  textHint: widget.products.quantity,
+                                  productData: widget.product,
+                                  textHint: widget.product.quantity,
                                   bodyKey: "quantity",
-                                  productId: widget.products.id,
-                                  initialText: widget.products.quantity,
+                                  productId: widget.product.id,
+                                  initialText: widget.product.quantity,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
@@ -607,22 +613,22 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   textHint: "الوصف الجديد",
                                   inputType: TextInputType.text,
                                   bodyKey: "description",
-                                  productId: widget.products.id,
+                                  productId: widget.product.id,
                                   isForSubWarehouse: false,
-                                  productData: widget.products,
-                                  initialText: widget.products.description,
+                                  productData: widget.product,
+                                  initialText: widget.product.description,
                                 ),
                                 SizedBox(height: 30),
                                 UpdatePriceWidget(
                                   title: "تعديل الأولوية",
-                                  textHint: widget.products.priority.toString(),
+                                  textHint: widget.product.priority.toString(),
                                   inputType: TextInputType.text,
                                   bodyKey: "priority",
-                                  productId: widget.products.id,
+                                  productId: widget.product.id,
                                   isForSubWarehouse: true,
-                                  productData: widget.products,
+                                  productData: widget.product,
                                   initialText:
-                                      widget.products.priority.toString(),
+                                      widget.product.priority.toString(),
                                 ),
                                 SizedBox(height: 30),
                                 Container(
@@ -639,6 +645,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   ),
                                   child: Center(
                                     child: new SearchableDropdown(
+                                      menuBackgroundColor:
+                                          UtilsImporter().colorUtils.greycolor,
                                       isCaseSensitiveSearch: false,
                                       underline: Container(),
                                       isExpanded: false,
@@ -650,26 +658,24 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         'اختيار الصنف التابع له المنتج',
                                         style: decisionButtonStyle,
                                       ),
-                                      searchHint: new Text(
-                                        'إختيار الصنف',
-                                        style: new TextStyle(
-                                            fontSize: 20,
-                                            fontFamily: UtilsImporter()
-                                                .stringUtils
-                                                .HKGrotesk),
-                                      ),
+                                      searchHint: new Text('إختيار الصنف',
+                                          style: decisionButtonStyle),
                                       onChanged: (value) {
                                         setState(() {
-                                          selectedValueCategoryValue =
-                                              value.toString().split(";")[1];
-                                          Tools.logToConsole(
-                                              selectedValueCategoryValue);
+                                          if (value != null) {
+                                            selectedValueCategoryValue =
+                                                value.toString().split(";")[1];
+                                            print('selectedValueCategoryValue');
+                                            print(MediaQuery.of(context)
+                                                .size
+                                                .width);
+                                          }
                                         });
                                       },
                                     ),
                                   ),
                                 ),
-                                widget.products.images.length > 0
+                                widget.product.images.length > 0
                                     ? DecisionButton(
                                         height: 50,
                                         color: Theme.of(context).primaryColor,
@@ -691,10 +697,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         ),
                                         onTap: () async {
                                           bool response =
-                                              await PricesChangesSerives
+                                              await PricesChangesServices
                                                   .deleteImage(
-                                                      imageId:
-                                                          widget.products.id);
+                                                      imageId: widget.product
+                                                          .images[0].id);
                                           if (response) {
                                             Flushbar(
                                               backgroundColor: Colors.green,
@@ -757,7 +763,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   onTap: () => _saveCategoryButton(
                                       categoryId: selectedValueCategoryValue,
                                       context: context,
-                                      productId: widget.products.id),
+                                      productId: widget.product.id),
                                 ),
                                 _getImage(),
                                 _image != null ? imagesBody() : Container(),
@@ -773,8 +779,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                                               bool result =
                                                   await ProductsServices
                                                       .setImageToProducts(
-                                                          productId: widget
-                                                              .products.id,
+                                                          productId:
+                                                              widget.product.id,
                                                           image: _image);
                                               if (result) {
                                                 setState(() {
@@ -870,11 +876,11 @@ class ProductDetailViewState extends State<ProductDetailView>
       onTap: () {
         _addToFavoriteBtnTapped(ctx);
         if (LoadingScreenServices.userFavoriteProducts
-            .any((productId) => productId.id == widget.products.id)) {
+            .any((productId) => productId.id == widget.product.id)) {
           Flushbar(
             backgroundColor: Colors.red[900],
             messageText: Text(
-              " تم إضافة ${widget.products.name}  إلى المفضلة",
+              " تم إضافة ${widget.product.name}  إلى المفضلة",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -899,7 +905,7 @@ class ProductDetailViewState extends State<ProductDetailView>
           Flushbar(
             backgroundColor: Colors.red[900],
             messageText: Text(
-              "تم إزالة ${widget.products.name}  من المفضلة",
+              "تم إزالة ${widget.product.name}  من المفضلة",
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -931,7 +937,7 @@ class ProductDetailViewState extends State<ProductDetailView>
           child: Text(
             LoadingScreenServices.userFavoriteProducts
                         .where(
-                          (productId) => productId.id == widget.products.id,
+                          (productId) => productId.id == widget.product.id,
                         )
                         .length ==
                     1
@@ -960,11 +966,11 @@ class ProductDetailViewState extends State<ProductDetailView>
     if (LoadingScreen.userToken.length > 5) {
       LoadingScreenServices.userFavoriteProducts
                   .where(
-                    (productId) => productId.id == widget.products.id,
+                    (productId) => productId.id == widget.product.id,
                   )
                   .length ==
               0
-          ? _addFavorite(context, widget.products)
+          ? _addFavorite(context, widget.product)
           : _removeFavoraite();
       if (widget.isFromFavoriteScreen) {
         Navigator.of(context).pushNamedAndRemoveUntil(
@@ -978,7 +984,7 @@ class ProductDetailViewState extends State<ProductDetailView>
   }
 
   void _addFavorite(BuildContext ctx, ProductData product) {
-    Services.addToFavorites(widget.products.id.toString());
+    Services.addToFavorites(widget.product.id.toString());
     LoadingScreenServices.userFavoriteProducts.add(product);
 
     Tools.logToConsole("im in add to favoraitses");
@@ -987,11 +993,10 @@ class ProductDetailViewState extends State<ProductDetailView>
 
   void _removeFavoraite() {
     for (int i = 0; i < LoadingScreenServices.userFavoriteProducts.length; i++)
-      if (LoadingScreenServices.userFavoriteProducts[i].id ==
-          widget.products.id)
+      if (LoadingScreenServices.userFavoriteProducts[i].id == widget.product.id)
         LoadingScreenServices.userFavoriteProducts.removeAt(i);
 
-    Services.removeFromFavorites(widget.products.id.toString());
+    Services.removeFromFavorites(widget.product.id.toString());
 
     // Toast.show("تم إزالة ${widget.products.name}  من المفضلة", context,
     //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
@@ -1055,90 +1060,3 @@ _saveCategoryButton(
     )..show(context);
   }
 }
-
-_deleteImageButton({int imageId, BuildContext context}) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceAround,
-    children: [
-      Text(
-        "حذف الصورة",
-        overflow: TextOverflow.clip,
-        style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 15,
-          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-        ),
-      ),
-      IconButton(
-        icon: Icon(
-          Icons.delete,
-          color: Colors.red,
-          size: 30,
-        ),
-
-        // widget.products.supplierCode != null &&
-        //                 LoadingScreenServices.subSupplierCodeHint
-        //                     .hasMatch(widget.products.supplierCode)
-        onPressed: () async {
-          bool response =
-              await PricesChangesSerives.deleteImage(imageId: imageId);
-          if (response) {
-            Flushbar(
-              backgroundColor: Colors.green,
-              // titleText: Text("تمت الإضافة بنجاح"),
-              messageText: Text(
-                "تم حذف الصورة بنجاح",
-                style: flushBarStyle,
-              ),
-
-              boxShadows: [
-                BoxShadow(
-                  color: UtilsImporter().colorUtils.primarycolor,
-                  offset: Offset(0.0, 2.0),
-                  blurRadius: 3.0,
-                )
-              ],
-              icon: Icon(
-                Icons.assignment_turned_in,
-                size: 28.0,
-                color: Colors.white,
-              ),
-              duration: Duration(seconds: 2),
-              leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-            )..show(context);
-          } else {
-            Flushbar(
-              backgroundColor: Colors.red[900],
-              messageText: Text(
-                "فشل بعملية حذف الصورة",
-                style: flushBarStyle,
-              ),
-              boxShadows: [
-                BoxShadow(
-                  color: Colors.red,
-                  offset: Offset(0.0, 2.0),
-                  blurRadius: 3.0,
-                )
-              ],
-              icon: Icon(
-                Icons.error,
-                size: 28.0,
-                color: Colors.white,
-              ),
-              duration: Duration(seconds: 3),
-              // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-            )..show(context);
-          }
-        },
-      ),
-    ],
-  );
-}
-// TextStyle(
-// fontWeight: FontWeight.w400,
-// color:
-// UtilsImporter().colorUtils.primarycolor,
-// fontFamily:
-// UtilsImporter().stringUtils.HKGrotesk,
-// fontSize: 20.0,
-// )

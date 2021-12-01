@@ -6,7 +6,7 @@ import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/prices_changes/model/prices_changes_model.dart';
 
-class PricesChangesSerives {
+class PricesChangesServices {
   static Future<PricesChanges> loadData() async {
     var response = await ApiProvider.sendRequest(
       url: GET_PRICES_CHANGES,
@@ -24,15 +24,21 @@ class PricesChangesSerives {
   }
 
   static Future<bool> deleteImage({int imageId}) async {
-    var response = await ApiProvider.sendRequest(
-      url: PRODUCT_IMAGE + imageId.toString(),
-      method: httpMethods.delete,
-    );
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      return true;
-    } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
-      return null;
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: PRODUCT_IMAGE + imageId.toString(),
+        method: httpMethods.delete,
+      );
+      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+        return true;
+      } else {
+        Tools.logToConsole(
+            "------------ IMAGE IS DELETED ALREADY --------------");
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      return false;
     }
   }
 }

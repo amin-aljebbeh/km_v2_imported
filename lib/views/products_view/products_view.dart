@@ -405,7 +405,7 @@ class ProductsViewState extends State<ProductsView> {
         context,
         new MaterialPageRoute(
             builder: (context) => new ProductDetailView(
-                  products: productsDic,
+                  product: productsDic,
                   isFromFavoriteScreen: false,
                 )));
 

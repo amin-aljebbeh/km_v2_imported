@@ -27,9 +27,6 @@ class LoadingScreenServices {
 
   static List<CategoryOriginalData> categoryList = List<CategoryOriginalData>();
 
-  // static List<CategoryOriginalData> fullCategoryList =
-  //     List<CategoryOriginalData>();
-
   static List<SubWarehouse> subWarehouses = new List<SubWarehouse>();
   static List<Warehouse> warehouses = new List<Warehouse>();
 
@@ -237,23 +234,32 @@ class LoadingScreenServices {
       for (int i = 0; i < category.length; i++) {
         if (category[i].parentCategoryId != null) {
           fullCategoryList.add(new DropdownMenuItem(
-            child: Text(
-              category[i].name,
-              style: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  color: Colors.black,
-                  fontSize: 20),
+            child: Container(
+              width: 300,
+              child: Text(
+                category[i].name,
+                overflow: TextOverflow.visible,
+                maxLines: 2,
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                    color: Colors.black,
+                    fontSize: 20),
+              ),
             ),
             value: category[i].name + ";" + category[i].id.toString(),
           ));
         } else {
           fullCategoryList.add(new DropdownMenuItem(
-            child: Text(
-              category[i].name + " من القائمة الرئيسية",
-              style: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  color: UtilsImporter().colorUtils.primarycolor,
-                  fontSize: 18),
+            child: Expanded(
+              child: Text(
+                category[i].name + " من القائمة الرئيسية",
+                overflow: TextOverflow.visible,
+                maxLines: 2,
+                style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                    color: Colors.white,
+                    fontSize: 18),
+              ),
             ),
             value: category[i].name + ";" + category[i].id.toString(),
           ));

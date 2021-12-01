@@ -28,7 +28,7 @@ class _PricesState extends State<Prices> {
       isLoading = true;
       isError = false;
     });
-    productsList = await PricesChangesSerives.loadData();
+    productsList = await PricesChangesServices.loadData();
     Tools.logToConsole("Count if products List");
 
     Tools.logToConsole(productsList.count);
