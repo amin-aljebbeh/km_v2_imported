@@ -10,9 +10,9 @@ import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/updatePriceWidget.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/update_product_info_widget.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -540,7 +540,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           ? Column(
                               children: [
                                 SizedBox(height: 30),
-                                UpdatePriceWidget(
+                                UpdateProductInfoWidget(
                                   title: "تعديل السعر",
                                   inputType: TextInputType.number,
                                   bodyKey: "price",
@@ -550,7 +550,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   initialText: widget.product.price,
                                 ),
                                 SizedBox(height: 30),
-                                UpdatePriceWidget(
+                                UpdateProductInfoWidget(
                                   title: "تعديل رمز المادة",
                                   inputType: TextInputType.text,
                                   textHint: widget.product.supplierCode,
@@ -560,7 +560,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   productData: widget.product,
                                 ),
                                 SizedBox(height: 30),
-                                UpdatePriceWidget(
+                                UpdateProductInfoWidget(
                                   title: "معدل الضرب",
                                   inputType: TextInputType.number,
                                   bodyKey: "price_factor",
@@ -570,7 +570,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   initialText: widget.product.priceFactor,
                                 ),
                                 SizedBox(height: 30),
-                                UpdatePriceWidget(
+                                UpdateProductInfoWidget(
                                   title: "تعديل الاسم",
                                   textHint: widget.product.name,
                                   inputType: TextInputType.text,
@@ -581,7 +581,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   productData: widget.product,
                                 ),
                                 SizedBox(height: 30),
-                                UpdatePriceWidget(
+                                UpdateProductInfoWidget(
                                   title: "تعديل الوحدة",
                                   inputType: TextInputType.text,
                                   bodyKey: "unit",
@@ -592,7 +592,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   initialText: widget.product.unit,
                                 ),
                                 SizedBox(height: 30),
-                                UpdatePriceWidget(
+                                UpdateProductInfoWidget(
                                   title: "تعديل الكمية",
                                   isForSubWarehouse: false,
                                   inputType: TextInputType.text,
@@ -603,7 +603,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   initialText: widget.product.quantity,
                                 ),
                                 SizedBox(height: 30),
-                                UpdatePriceWidget(
+                                UpdateProductInfoWidget(
                                   title: "تعديل الوصف",
                                   textHint: "الوصف الجديد",
                                   inputType: TextInputType.text,
@@ -614,7 +614,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   initialText: widget.product.description,
                                 ),
                                 SizedBox(height: 30),
-                                UpdatePriceWidget(
+                                UpdateProductInfoWidget(
                                   title: "تعديل الأولوية",
                                   textHint: widget.product.priority.toString(),
                                   inputType: TextInputType.text,
@@ -712,63 +712,13 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           ],
                                         ),
                                         onTap: () async {
-                                          bool response =
+                                          bool result =
                                               await PricesChangesServices
                                                   .deleteImage(
                                                       imageId: widget.product
                                                           .images[0].id);
-                                          if (response) {
-                                            Flushbar(
-                                              backgroundColor: Colors.green,
-                                              // titleText: Text("تمت الإضافة بنجاح"),
-                                              messageText: Text(
-                                                "تم حذف الصورة بنجاح",
-                                                style: flushBarStyle,
-                                              ),
-
-                                              boxShadows: [
-                                                BoxShadow(
-                                                  color: UtilsImporter()
-                                                      .colorUtils
-                                                      .primarycolor,
-                                                  offset: Offset(0.0, 2.0),
-                                                  blurRadius: 3.0,
-                                                )
-                                              ],
-                                              icon: Icon(
-                                                Icons.assignment_turned_in,
-                                                size: 28.0,
-                                                color: Colors.white,
-                                              ),
-                                              duration: Duration(seconds: 2),
-                                              leftBarIndicatorColor:
-                                                  UtilsImporter()
-                                                      .colorUtils
-                                                      .kmColors,
-                                            )..show(context);
-                                          } else {
-                                            Flushbar(
-                                              backgroundColor: Colors.red[900],
-                                              messageText: Text(
-                                                "فشل بعملية حذف الصورة",
-                                                style: flushBarStyle,
-                                              ),
-                                              boxShadows: [
-                                                BoxShadow(
-                                                  color: Colors.red,
-                                                  offset: Offset(0.0, 2.0),
-                                                  blurRadius: 3.0,
-                                                )
-                                              ],
-                                              icon: Icon(
-                                                Icons.error,
-                                                size: 28.0,
-                                                color: Colors.white,
-                                              ),
-                                              duration: Duration(seconds: 3),
-                                              // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-                                            )..show(context);
-                                          }
+                                          Services.resultFlushBar(
+                                              context: context, result: result);
                                         },
                                       )
                                     : Container(),
@@ -798,74 +748,17 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                           productId:
                                                               widget.product.id,
                                                           image: _image);
+                                              Services.resultFlushBar(
+                                                  context: context,
+                                                  result: result);
                                               if (result) {
                                                 setState(() {
                                                   isLoading = false;
                                                 });
-                                                Flushbar(
-                                                  backgroundColor:
-                                                      Colors.green[900],
-                                                  messageText: Text(
-                                                    "تم إضافة صورة بنجاح",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            UtilsImporter()
-                                                                .stringUtils
-                                                                .HKGrotesk),
-                                                  ),
-                                                  boxShadows: [
-                                                    BoxShadow(
-                                                      color: Colors.green,
-                                                      offset: Offset(0.0, 2.0),
-                                                      blurRadius: 3.0,
-                                                    )
-                                                  ],
-                                                  icon: Icon(
-                                                    Icons.assignment_turned_in,
-                                                    size: 28.0,
-                                                    color: Colors.white,
-                                                  ),
-                                                  duration:
-                                                      Duration(seconds: 1),
-                                                  // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-                                                )..show(context);
                                               } else {
                                                 setState(() {
                                                   isLoading = false;
                                                 });
-                                                Flushbar(
-                                                  backgroundColor:
-                                                      Colors.red[900],
-                                                  messageText: Text(
-                                                    "فشل في إضافة المنتج",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            UtilsImporter()
-                                                                .stringUtils
-                                                                .HKGrotesk),
-                                                  ),
-                                                  boxShadows: [
-                                                    BoxShadow(
-                                                      color: Colors.red,
-                                                      offset: Offset(0.0, 2.0),
-                                                      blurRadius: 3.0,
-                                                    )
-                                                  ],
-                                                  icon: Icon(
-                                                    Icons.close,
-                                                    size: 28.0,
-                                                    color: Colors.white,
-                                                  ),
-                                                  duration:
-                                                      Duration(seconds: 1),
-                                                  // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-                                                )..show(context);
                                               }
                                             },
                                           )
@@ -1025,53 +918,5 @@ _saveCategory({BuildContext context, int productId, String categoryId}) async {
       value: categoryId,
       productId: productId.toString());
 
-  if (result) {
-    Flushbar(
-      backgroundColor: Colors.green,
-      // titleText: Text("تمت الإضافة بنجاح"),
-      messageText: Text(
-        "تم التعديل بنجاح",
-        style: flushBarStyle,
-      ),
-
-      boxShadows: [
-        BoxShadow(
-          color: UtilsImporter().colorUtils.primarycolor,
-          offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        )
-      ],
-      icon: Icon(
-        Icons.assignment_turned_in,
-        size: 28.0,
-        color: Colors.white,
-      ),
-      duration: Duration(seconds: 1),
-      leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-    )..show(context);
-  } else {
-    Flushbar(
-      backgroundColor: Colors.red,
-      // titleText: Text("تمت الإضافة بنجاح"),
-      messageText: Text(
-        "فشل بعملية التعديل",
-        style: flushBarStyle,
-      ),
-
-      boxShadows: [
-        BoxShadow(
-          color: UtilsImporter().colorUtils.primarycolor,
-          offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        )
-      ],
-      icon: Icon(
-        Icons.error,
-        size: 28.0,
-        color: Colors.white,
-      ),
-      duration: Duration(seconds: 1),
-      leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-    )..show(context);
-  }
+  Services.resultFlushBar(context: context, result: result);
 }

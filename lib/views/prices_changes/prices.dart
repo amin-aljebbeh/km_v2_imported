@@ -1,13 +1,10 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/products_view_widget.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
-
 import 'model/prices_changes_model.dart';
 
 class Prices extends StatefulWidget {
@@ -29,9 +26,7 @@ class _PricesState extends State<Prices> {
       isError = false;
     });
     productsList = await PricesChangesServices.loadData();
-    Tools.logToConsole("Count if products List");
 
-    Tools.logToConsole(productsList.count);
     if (productsList != null) {
       setState(() {
         isLoading = false;

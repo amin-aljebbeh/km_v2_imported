@@ -1,5 +1,3 @@
-import 'package:flushbar/flushbar.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/lock_order.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -20,7 +18,6 @@ import 'package:kammun_app/views/order_details/order_detail_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:intl/intl.dart';
-import '../../utils/Styles.dart';
 import 'services/order_services.dart';
 
 class AssignedOrdersView extends StatefulWidget {
@@ -476,53 +473,11 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
           orderId, _spendingController.text, _reasonController.text);
     }
 
+    Services.resultFlushBar(context: context, result: result);
     if (result) {
       _spendingController.text = '';
       _reasonController.text = '';
-      Flushbar(
-        backgroundColor: Colors.green[900],
-        messageText: Text(
-          "تم إلغاء التعديل",
-          style: flushBarStyle,
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: Colors.green,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: Icon(
-          Icons.assignment_turned_in,
-          size: 28.0,
-          color: Colors.white,
-        ),
-        duration: Duration(seconds: 1),
-        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-      )..show(context);
       if (!isSpendingApi) _getOrder();
-    } else {
-      Flushbar(
-        backgroundColor: Colors.red[900],
-        messageText: Text(
-          "فشل بإلغاء التعليق",
-          style: flushBarStyle,
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: Colors.red,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: Icon(
-          Icons.close,
-          size: 28.0,
-          color: Colors.white,
-        ),
-        duration: Duration(seconds: 1),
-        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-      )..show(context);
     }
   }
 

@@ -5,8 +5,11 @@ import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+
+import '../../Services.dart';
 
 class ProductsViewCard extends StatefulWidget {
   final String img;
@@ -41,65 +44,6 @@ class ProductsViewCard extends StatefulWidget {
 
 class ProductsViewCardState extends State<ProductsViewCard> {
   bool addedToCart = false;
-
-  Future<bool> updateStatus(String productId, String statusId) async {
-    var response = await ProductsServices.updateProductsDetails(
-        bodyKey: "is_active",
-        value: statusId,
-        subWarehouseId: widget.productData.subWarehouseId.toString(),
-        isForSubWarehouse: true,
-        productId: widget.productId);
-
-    if (response) {
-      Flushbar(
-        backgroundColor: Colors.green,
-        // titleText: Text("تمت الإضافة بنجاح"),
-        messageText: Text(
-          "تم التعديل بنجاح",
-          style: flushBarStyle,
-        ),
-
-        boxShadows: [
-          BoxShadow(
-            color: UtilsImporter().colorUtils.primarycolor,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: Icon(
-          Icons.assignment_turned_in,
-          size: 28.0,
-          color: Colors.white,
-        ),
-        duration: Duration(seconds: 1),
-        leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-      )..show(context);
-      return true;
-    } else {
-      Flushbar(
-        backgroundColor: Colors.red[900],
-        messageText: Text(
-          "فشل في العملية يرجى المحاولة من جديد",
-          style: flushBarStyle,
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: Colors.red,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: Icon(
-          Icons.close,
-          size: 28.0,
-          color: Colors.white,
-        ),
-        duration: Duration(seconds: 1),
-        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-      )..show(context);
-      return false;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -195,43 +139,17 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 )),
                 LoadingScreenServices.subWarehouses
                         .any((element) => element.id == widget.subWarehouseId)
-                    ? Container(
-                        margin: const EdgeInsets.all(15.0),
-                        padding: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                    10.0) //                 <--- border radius here
-                                ),
-                            border: Border.all(
-                                color: UtilsImporter().colorUtils.primarycolor,
-                                width: 2)),
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Switch(
-                                value: widget.active == 1 ? true : false,
-                                onChanged: (value) {
-                                  if (widget.active == 1) {
-                                    updateStatus(widget.productId, "0");
-                                  } else {
-                                    updateStatus(widget.productId, "1");
-                                  }
-                                  setState(() {
-                                    if (widget.active == 1) {
-                                      widget.active = 0;
-                                    } else {
-                                      widget.active = 1;
-                                    }
-                                  });
-                                },
-                                activeTrackColor:
-                                    UtilsImporter().colorUtils.kmColors2,
-                                activeColor:
-                                    UtilsImporter().colorUtils.kmColors,
-                              )
-                            ],
-                          ),
-                        ),
+                    ? SwitchProductStatusWidget(
+                        height: 58,
+                        width: 69,
+                        preState: widget.active,
+                        subWarehouseId: widget.productData.subWarehouseId,
+                        productId: widget.productId,
+                        onChange: (active) {
+                          setState(() {
+                            widget.active = active;
+                          });
+                        },
                       )
                     : Container(),
               ],

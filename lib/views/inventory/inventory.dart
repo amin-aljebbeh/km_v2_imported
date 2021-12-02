@@ -54,27 +54,6 @@ class _InventoryState extends State<Inventory> {
 
         if (LoadingScreenServices.subWarehouses.length == 0)
           await LoadingScreenServices.getSubWarehouse();
-        // for (int i = 0; i < productsListToActive.length; i++) {
-        //   Tools.logToConsole('productsListToActive[i].categoryId');
-        //   Tools.logToConsole(productsListToActive[i].categoryId);
-        // }
-        // Tools.logToConsole('message from past');
-        // productsListToActive.sort((a, b) {
-        //   if (a.categoryId > b.categoryId) {
-        //     return 1;
-        //   } else if (a.categoryId < b.categoryId) {
-        //     return -1;
-        //   } else
-        //     return 0;
-        // });
-        // productsListToInactive.sort((a, b) {
-        //   if (a.categoryId > b.categoryId) {
-        //     return 1;
-        //   } else if (a.categoryId < b.categoryId) {
-        //     return -1;
-        //   } else
-        //     return 0;
-        // });
         if (isActiveFilter == 0) {
           productsList = productsListToActive;
         } else if (isActiveFilter == 1) {
@@ -84,24 +63,8 @@ class _InventoryState extends State<Inventory> {
           // productsList.addAll(productsListToActive);
           productsList.addAll(productsListToInactive);
         }
-        List<ProductData> sortedProductsList = List<ProductData>();
-        int idIndex = 1;
-        int loop = productsList.length;
-        while (loop > 0) {
-          for (int i = 0; i < productsList.length; i++) {
-            if (productsList[i].categories != null)
-              for (int j = 0; j < productsList[i].categories.length; j++) {
-                if (productsList[i].categories[j].id == idIndex) {
-                  sortedProductsList.add(productsList[i]);
-                  productsList[i].categories = null;
-                  loop--;
-                  print('loop');
-                  break;
-                }
-              }
-          }
-          idIndex++;
-        }
+        List<ProductData> sortedProductsList =
+            Services.productListSort(productsList);
         productsList = sortedProductsList;
         productsList.removeWhere((data) =>
             !warehouseFilter[filterIndex].hasMatch(data.supplierCode ?? "0"));

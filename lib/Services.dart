@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/api_response.dart';
@@ -19,6 +20,7 @@ import 'core/errors/error_types.dart';
 import 'models/addAddressResponse.dart';
 import 'models/delivery_model.dart';
 import 'models/get_deliveries_model.dart';
+import 'models/productsCategoriesModel.dart';
 import 'models/role_model.dart';
 import 'models/start_model.dart';
 import 'utils/Styles.dart';
@@ -499,6 +501,86 @@ class Services {
                 element.slug.contains(UtilsImporter().stringUtils.shopperRole))
             .length >
         0;
+  }
+
+  static errorFlushBar(BuildContext context) {
+    return Flushbar(
+      backgroundColor: Colors.red[900],
+      messageText: Text(
+        "فشل في العملية يرجى المحاولة من جديد",
+        style: flushBarStyle,
+      ),
+      boxShadows: [
+        BoxShadow(
+          color: Colors.red,
+          offset: Offset(0.0, 2.0),
+          blurRadius: 3.0,
+        )
+      ],
+      icon: Icon(
+        Icons.close,
+        size: 28.0,
+        color: Colors.white,
+      ),
+      duration: Duration(seconds: 2),
+      // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+    )..show(context);
+  }
+
+  static successFlushBar(BuildContext context) {
+    return Flushbar(
+      backgroundColor: Colors.green,
+      // titleText: Text("تمت الإضافة بنجاح"),
+      messageText: Text(
+        "تمت العملية بنجاح",
+        style: flushBarStyle,
+      ),
+
+      boxShadows: [
+        BoxShadow(
+          color: UtilsImporter().colorUtils.primarycolor,
+          offset: Offset(0.0, 2.0),
+          blurRadius: 3.0,
+        )
+      ],
+      icon: Icon(
+        Icons.assignment_turned_in,
+        size: 28.0,
+        color: Colors.white,
+      ),
+      duration: Duration(seconds: 1),
+      leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+    )..show(context);
+  }
+
+  static resultFlushBar({BuildContext context, bool result}) {
+    if (result) {
+      Services.successFlushBar(context);
+    } else {
+      Services.errorFlushBar(context);
+    }
+  }
+
+  static List<ProductData> productListSort(List<ProductData> productsList) {
+    List<ProductData> sortedProductsList = List<ProductData>();
+    int idIndex = 1;
+    int loop = productsList.length;
+    while (loop > 0) {
+      for (int i = 0; i < productsList.length; i++) {
+        if (productsList[i].categories != null)
+          for (int j = 0; j < productsList[i].categories.length; j++) {
+            if (productsList[i].categories[j].id == idIndex) {
+              sortedProductsList.add(productsList[i]);
+              productsList[i].categories = null;
+              loop--;
+              print('loop');
+              break;
+            }
+          }
+      }
+      idIndex++;
+    }
+    return sortedProductsList;
   }
 }
 

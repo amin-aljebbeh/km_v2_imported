@@ -2,9 +2,11 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
@@ -50,72 +52,14 @@ class ProductsViewCard extends StatefulWidget {
 }
 
 class ProductsViewCardState extends State<ProductsViewCard> {
-  _unAttcahProduct() async {
-    bool response = await AddedProductsServices.unAttcahProductsToSubWarehouse(
+  _unAttachProduct() async {
+    bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
         productsId: widget.productId,
         subWarehouse: widget.productData.subWarehouseId.toString());
-    if (response) {
+    Services.resultFlushBar(context: context, result: result);
+    if (result) {
       widget.onDelete(true);
-      _successFlushBar();
-    } else {
-      _errorFlushBar();
     }
-  }
-
-  _errorFlushBar() {
-    return Flushbar(
-      backgroundColor: Colors.red[900],
-      messageText: Text(
-        "فشل في العملية يرجى المحاولة من جديد",
-        style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-      ),
-      boxShadows: [
-        BoxShadow(
-          color: Colors.red,
-          offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        )
-      ],
-      icon: Icon(
-        Icons.close,
-        size: 28.0,
-        color: Colors.white,
-      ),
-      duration: Duration(seconds: 2),
-      // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-    )..show(context);
-  }
-
-  _successFlushBar() {
-    return Flushbar(
-      backgroundColor: Colors.green,
-      // titleText: Text("تمت الإضافة بنجاح"),
-      messageText: Text(
-        "تمت العملية بنجاح",
-        style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-      ),
-
-      boxShadows: [
-        BoxShadow(
-          color: UtilsImporter().colorUtils.primarycolor,
-          offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        )
-      ],
-      icon: Icon(
-        Icons.assignment_turned_in,
-        size: 28.0,
-        color: Colors.white,
-      ),
-      duration: Duration(seconds: 1),
-      leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-    )..show(context);
   }
 
   void _showDialogDeleteProducts(
@@ -147,7 +91,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 ),
               ),
               onPressed: () {
-                _unAttcahProduct();
+                _unAttachProduct();
                 Tools.logToConsole("The Product ID: $productsId");
                 Navigator.of(context).pop();
               },
@@ -226,144 +170,118 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                   ),
                   SizedBox(width: 10),
                   Expanded(
-                      child: Container(
-                    child: Wrap(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Wrap(
-                              children: <Widget>[
-                                Text(
-                                  widget.productName,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily:
-                                          UtilsImporter().stringUtils.HKGrotesk,
-                                      fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 6),
-                            Text(
-                              widget.quantity,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                  fontSize: 17),
-                            ),
-                            SizedBox(height: 8),
-                            Wrap(
-                              children: [
-                                widget.price != null
-                                    ? Text(
-                                        UtilsImporter()
-                                                .stringUtils
-                                                .oCcy
-                                                .format(widget.price)
-                                                .toString() +
-                                            "  ",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            color: UtilsImporter()
-                                                .colorUtils
-                                                .primarycolor,
-                                            fontFamily: UtilsImporter()
-                                                .stringUtils
-                                                .HKGrotesk,
-                                            fontSize: 18))
-                                    : Container(),
-                                widget.oldPrice != null
-                                    ? RichText(
-                                        text: new TextSpan(
-                                          children: <TextSpan>[
-                                            new TextSpan(
-                                              text: UtilsImporter()
+                    child: Container(
+                      child: Wrap(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Wrap(
+                                children: <Widget>[
+                                  Text(
+                                    widget.productName,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: UtilsImporter()
+                                            .stringUtils
+                                            .HKGrotesk,
+                                        fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 6),
+                              Text(
+                                widget.quantity,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: UtilsImporter().colorUtils.greycolor,
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontSize: 17),
+                              ),
+                              SizedBox(height: 8),
+                              Wrap(
+                                children: [
+                                  widget.price != null
+                                      ? Text(
+                                          UtilsImporter()
                                                   .stringUtils
                                                   .oCcy
-                                                  .format(widget.oldPrice)
-                                                  .toString(),
-                                              style: new TextStyle(
-                                                color: Colors.grey,
-                                                decoration:
-                                                    TextDecoration.lineThrough,
+                                                  .format(widget.price)
+                                                  .toString() +
+                                              "  ",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              color: UtilsImporter()
+                                                  .colorUtils
+                                                  .primarycolor,
+                                              fontFamily: UtilsImporter()
+                                                  .stringUtils
+                                                  .HKGrotesk,
+                                              fontSize: 18))
+                                      : Container(),
+                                  widget.oldPrice != null
+                                      ? RichText(
+                                          text: new TextSpan(
+                                            children: <TextSpan>[
+                                              new TextSpan(
+                                                text: UtilsImporter()
+                                                    .stringUtils
+                                                    .oCcy
+                                                    .format(widget.oldPrice)
+                                                    .toString(),
+                                                style: new TextStyle(
+                                                  color: Colors.grey,
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : Container()
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
+                                            ],
+                                          ),
+                                        )
+                                      : Container()
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  )),
-                  Container(
-                    margin: const EdgeInsets.all(15.0),
-                    padding: const EdgeInsets.all(3.0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(
-                                10.0) //                 <--- border radius here
-                            ),
-                        border: Border.all(
-                            color: UtilsImporter().colorUtils.primarycolor,
-                            width: 2)),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          widget.supplierCode != null &&
-                                  LoadingScreenServices.subSupplierCodeHint
-                                      .hasMatch(widget.supplierCode) &&
-                                  widget.active != null
-                              ? Switch(
-                                  value: widget.active == 1 ? true : false,
-                                  onChanged: (value) async {
-                                    setState(() {
-                                      if (widget.active == 1) {
-                                        widget.active = 0;
-                                      } else {
-                                        widget.active = 1;
-                                      }
-                                    });
-                                    bool result;
-
-                                    result = await ProductsServices
-                                        .updateProductsDetails(
-                                            bodyKey: "is_active",
-                                            value: value ? "1" : "0",
-                                            subWarehouseId: widget
-                                                .productData.subWarehouseId
-                                                .toString(),
-                                            isForSubWarehouse: true,
-                                            productId: widget.productData.id
-                                                .toString());
-
-                                    if (result) {
-                                      widget.onChangeStatus(true);
-                                      _successFlushBar();
-                                    } else {
-                                      _errorFlushBar();
-                                      setState(() {
-                                        if (widget.active == 1) {
-                                          widget.active = 0;
-                                        } else {
-                                          widget.active = 1;
-                                        }
-                                      });
-                                    }
-                                  },
-                                  activeTrackColor:
-                                      UtilsImporter().colorUtils.kmColors2,
-                                  activeColor:
-                                      UtilsImporter().colorUtils.kmColors,
-                                )
-                              : Container(),
-                          widget.attached &&
+                  ),
+                  Center(
+                    child: Column(
+                      children: [
+                        widget.supplierCode != null &&
+                                LoadingScreenServices.subSupplierCodeHint
+                                    .hasMatch(widget.supplierCode) &&
+                                widget.active != null
+                            ? SwitchProductStatusWidget(
+                                preState: widget.active,
+                                subWarehouseId:
+                                    widget.productData.subWarehouseId,
+                                productId: widget.productData.id.toString(),
+                                onChange: (active) {
+                                  widget.active = active;
+                                },
+                                height: 58,
+                                width: 69,
+                              )
+                            : Container(),
+                        Container(
+                          height: 58,
+                          width: 69,
+                          margin: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(3.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(
+                                      10.0) //                 <--- border radius here
+                                  ),
+                              border: Border.all(
+                                  color:
+                                      UtilsImporter().colorUtils.primarycolor,
+                                  width: 2)),
+                          child: widget.attached &&
                                   widget.supplierCode != null &&
                                   !widget.fromInventory
                               ? IconButton(
@@ -409,16 +327,15 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                                     .toString(),
                                                 productId: widget.productData.id
                                                     .toString());
+                                        Services.resultFlushBar(
+                                            context: context, result: result);
 
                                         if (result) {
                                           widget.onChangeStatus(true);
-                                          _successFlushBar();
-                                        } else {
-                                          _errorFlushBar();
                                         }
-                                      })
-                        ],
-                      ),
+                                      }),
+                        ),
+                      ],
                     ),
                   )
                 ],

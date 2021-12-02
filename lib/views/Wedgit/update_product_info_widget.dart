@@ -1,16 +1,16 @@
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/k_text_field.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 
-import 'Styles.dart';
+import '../../utils/Styles.dart';
 
-class UpdatePriceWidget extends StatefulWidget {
+class UpdateProductInfoWidget extends StatefulWidget {
   final Function(bool) onSavePressed;
   final String title;
   final TextInputType inputType;
@@ -21,7 +21,7 @@ class UpdatePriceWidget extends StatefulWidget {
   final ProductData productData;
   final bool isForSubWarehouse;
 
-  UpdatePriceWidget(
+  UpdateProductInfoWidget(
       {this.onSavePressed,
       this.initialText = "",
       this.title,
@@ -33,10 +33,11 @@ class UpdatePriceWidget extends StatefulWidget {
       this.textHint = "."});
 
   @override
-  _UpdatePriceWidgetState createState() => _UpdatePriceWidgetState();
+  _UpdateProductInfoWidgetState createState() =>
+      _UpdateProductInfoWidgetState();
 }
 
-class _UpdatePriceWidgetState extends State<UpdatePriceWidget> {
+class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
   final _textController = TextEditingController();
 
   @override
@@ -148,68 +149,7 @@ class _UpdatePriceWidgetState extends State<UpdatePriceWidget> {
 
                     Tools.logToConsole(
                         "The Result issssss from onPresed $result");
-
-                    if (result) {
-                      Flushbar(
-                        backgroundColor: Colors.green,
-                        // titleText: Text("تمت الإضافة بنجاح"),
-                        messageText: Text(
-                          "تم التعديل بنجاح",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk),
-                        ),
-
-                        boxShadows: [
-                          BoxShadow(
-                            color: UtilsImporter().colorUtils.primarycolor,
-                            offset: Offset(0.0, 2.0),
-                            blurRadius: 3.0,
-                          )
-                        ],
-                        icon: Icon(
-                          Icons.assignment_turned_in,
-                          size: 28.0,
-                          color: Colors.white,
-                        ),
-                        duration: Duration(seconds: 1),
-                        leftBarIndicatorColor:
-                            UtilsImporter().colorUtils.kmColors,
-                      )..show(context);
-                    } else {
-                      Flushbar(
-                        backgroundColor: Colors.red,
-                        // titleText: Text("تمت الإضافة بنجاح"),
-                        messageText: Text(
-                          "فشل بعملية التعديل",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk),
-                        ),
-
-                        boxShadows: [
-                          BoxShadow(
-                            color: UtilsImporter().colorUtils.primarycolor,
-                            offset: Offset(0.0, 2.0),
-                            blurRadius: 3.0,
-                          )
-                        ],
-                        icon: Icon(
-                          Icons.error,
-                          size: 28.0,
-                          color: Colors.white,
-                        ),
-                        duration: Duration(seconds: 1),
-                        leftBarIndicatorColor:
-                            UtilsImporter().colorUtils.kmColors,
-                      )..show(context);
-
-                      // return result;
-                    }
+                    Services.resultFlushBar(context: context, result: result);
                   }
                 }),
           ],

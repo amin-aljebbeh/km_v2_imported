@@ -33,7 +33,7 @@ class AddedProductsServices {
     }
   }
 
-  static Future<bool> unAttcahProductsToSubWarehouse({
+  static Future<bool> unAttachProductsToSubWarehouse({
     String productsId,
     String subWarehouse,
   }) async {

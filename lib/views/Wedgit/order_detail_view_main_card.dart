@@ -1,11 +1,11 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/Services.dart';
+import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/colors_utils.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
@@ -275,90 +275,16 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                   }).child,
                                 )
                               : Container(),
-                          Switch(
-                            value: widget.active == 1 ? true : false,
-                            onChanged: (value) async {
-                              setState(() {
-                                if (widget.active == 1) {
-                                  widget.active = 0;
-                                } else {
-                                  widget.active = 1;
-                                }
-                              });
-                              bool result;
-
-                              result =
-                                  await ProductsServices.updateProductsDetails(
-                                bodyKey: "is_active",
-                                value: value ? "1" : "0",
-                                productId: widget.productId,
-                                isForSubWarehouse: true,
-                                subWarehouseId: widget
-                                    .productsData.subWarehouseId
-                                    .toString(),
-                              );
-
-                              if (result) {
-                                Flushbar(
-                                  backgroundColor: Colors.green,
-                                  // titleText: Text("تمت الإضافة بنجاح"),
-                                  messageText: Text(
-                                    "تم التعديل بنجاح",
-                                    style: flushBarStyle,
-                                  ),
-
-                                  boxShadows: [
-                                    BoxShadow(
-                                      color: UtilsImporter()
-                                          .colorUtils
-                                          .primarycolor,
-                                      offset: Offset(0.0, 2.0),
-                                      blurRadius: 3.0,
-                                    )
-                                  ],
-                                  icon: Icon(
-                                    Icons.assignment_turned_in,
-                                    size: 28.0,
-                                    color: Colors.white,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  leftBarIndicatorColor:
-                                      UtilsImporter().colorUtils.kmColors,
-                                )..show(context);
-                              } else {
-                                Flushbar(
-                                  backgroundColor: Colors.red[900],
-                                  messageText: Text(
-                                    "فشل في العملية يرجى المحاولة من جديد",
-                                    style: flushBarStyle,
-                                  ),
-                                  boxShadows: [
-                                    BoxShadow(
-                                      color: Colors.red,
-                                      offset: Offset(0.0, 2.0),
-                                      blurRadius: 3.0,
-                                    )
-                                  ],
-                                  icon: Icon(
-                                    Icons.close,
-                                    size: 28.0,
-                                    color: Colors.white,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-                                )..show(context);
-                                setState(() {
-                                  if (widget.active == 1) {
-                                    widget.active = 0;
-                                  } else {
-                                    widget.active = 1;
-                                  }
-                                });
-                              }
+                          SwitchProductStatusWidget(
+                            height: 48,
+                            width: 59,
+                            preState: widget.active,
+                            subWarehouseId: widget.productsData.subWarehouseId,
+                            productId: widget.productId,
+                            onChange: (active) {
+                              widget.active = active;
+                              setState(() {});
                             },
-                            activeTrackColor:
-                                UtilsImporter().colorUtils.kmColors2,
-                            activeColor: UtilsImporter().colorUtils.kmColors,
                           ),
                         ],
                       ),

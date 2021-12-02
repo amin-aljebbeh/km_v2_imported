@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/products_view/services/products_services.dart';
+
+import '../../Services.dart';
+
+class SwitchProductStatusWidget extends StatefulWidget {
+  final double height;
+  final double width;
+  final int preState;
+  final int subWarehouseId;
+  final String productId;
+  final Function resultFunction;
+  final Function onChange;
+
+  const SwitchProductStatusWidget({
+    Key key,
+    @required this.preState,
+    @required this.subWarehouseId,
+    @required this.productId,
+    this.resultFunction,
+    @required this.onChange,
+    @required this.height,
+    @required this.width,
+  }) : super(key: key);
+
+  @override
+  _SwitchProductStatusWidgetState createState() =>
+      _SwitchProductStatusWidgetState();
+}
+
+class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: widget.height,
+      width: widget.width,
+      margin: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(3.0),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+              Radius.circular(10.0) //                 <--- border radius here
+              ),
+          border: Border.all(
+              color: widget.preState == 1
+                  ? UtilsImporter().colorUtils.kmColors
+                  : UtilsImporter().colorUtils.searchgreycolor,
+              width: 2)),
+      child: Center(
+        child: Switch(
+          value: widget.preState == 1 ? true : false,
+          onChanged: (value) async {
+            var result;
+            result = await ProductsServices.updateProductsDetails(
+              bodyKey: "is_active",
+              value: value ? "1" : "0",
+              subWarehouseId: widget.subWarehouseId.toString(),
+              isForSubWarehouse: true,
+              productId: widget.productId,
+            );
+
+            Services.resultFlushBar(context: context, result: result);
+            if (result) {
+              widget.resultFunction != null ? widget.resultFunction() : () {};
+              setState(() {
+                int newStat;
+                if (widget.preState == 1) {
+                  newStat = 0;
+                } else {
+                  newStat = 1;
+                }
+                widget.onChange(newStat);
+              });
+            } else {}
+          },
+          activeTrackColor: UtilsImporter().colorUtils.kmColors2,
+          activeColor: UtilsImporter().colorUtils.kmColors,
+        ),
+      ),
+    );
+  }
+}
