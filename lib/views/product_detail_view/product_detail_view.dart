@@ -54,7 +54,6 @@ class ProductDetailViewState extends State<ProductDetailView>
   void initState() {
     super.initState();
 
-    selectedValueCategoryValue = 'اختيار الصنف التابع له المنتج';
     // selectedValueCategoryValue = LoadingScreenServices.fullCategoryList.firstWhere((element) => element.value == widget.products.categoryId));
 
     // selectedValueCategoryValue = LoadingScreenServices.fullCategoryList
@@ -336,61 +335,57 @@ class ProductDetailViewState extends State<ProductDetailView>
                         ),
                       ),
                       SizedBox(height: 10),
-                      Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text("الكمية:", style: paragraphStyle),
-                                SizedBox(width: 5),
-                                Text(
-                                  widget.product.unit.toString() != "null"
-                                      ? widget.product.quantity.toString() +
-                                          " " +
-                                          widget.product.unit.toString()
-                                      : widget.product.quantity.toString(),
-                                  style: informationStyle,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 5),
-                            Row(
-                              // crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text("السعر: ", style: paragraphStyle),
-                                SizedBox(width: 5),
-                                Text(
-                                    "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
-                                    style: informationStyle),
-                              ],
-                            ),
-                            SizedBox(height: 5),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "الوصف:",
-                                  style: paragraphStyle,
-                                ),
-                                SizedBox(width: 5),
-                                widget.product.description != null
-                                    ? Expanded(
-                                        child: Text(
-                                          widget.product.description != null
-                                              ? widget.product.description
-                                                  .split("@")[0]
-                                              : "",
-                                          style: informationStyle,
-                                        ),
-                                      )
-                                    : Container(),
-                              ],
-                            ),
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text("الكمية:", style: paragraphStyle),
+                              SizedBox(width: 5),
+                              Text(
+                                widget.product.unit.toString() != "null"
+                                    ? widget.product.quantity.toString() +
+                                        " " +
+                                        widget.product.unit.toString()
+                                    : widget.product.quantity.toString(),
+                                style: informationStyle,
+                              ),
+                            ],
+                          ),
+                          Column(
+                            // crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text("السعر: ", style: paragraphStyle),
+                              SizedBox(width: 5),
+                              Text(
+                                  "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                  style: informationStyle),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "الوصف:",
+                            style: paragraphStyle,
+                          ),
+                          SizedBox(width: 5),
+                          widget.product.description != null
+                              ? Expanded(
+                                  child: Text(
+                                    widget.product.description != null
+                                        ? widget.product.description
+                                            .split("@")[0]
+                                        : "",
+                                    style: informationStyle,
+                                  ),
+                                )
+                              : Container(),
+                        ],
                       ),
                       SizedBox(height: 10),
                       Row(
@@ -635,7 +630,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   width: MediaQuery.of(context).size.width,
                                   padding: EdgeInsets.only(left: 5, right: 5),
                                   decoration: BoxDecoration(
-                                    color: UtilsImporter().colorUtils.greycolor,
                                     borderRadius: BorderRadius.circular(6),
                                     border: Border.all(
                                         width: 5,
@@ -643,49 +637,58 @@ class ProductDetailViewState extends State<ProductDetailView>
                                             .colorUtils
                                             .greycolor),
                                   ),
-                                  child: new SearchableDropdown(
-                                    style: decisionButtonStyle,
-                                    closeButton: FlatButton(
-                                      child: Text(
-                                        'إغلاق',
-                                        style: decisionButtonStyle.copyWith(
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greycolor,
-                                        ),
-                                      ),
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                    ),
-                                    isCaseSensitiveSearch: false,
-                                    underline: Container(),
-                                    isExpanded: false,
-                                    items:
-                                        LoadingScreenServices.fullCategoryList,
-                                    iconEnabledColor: Colors.white,
-                                    value: selectedValueCategoryValue,
-                                    hint: new Text(
-                                      'اختيار الصنف التابع له المنتج',
+                                  child: Center(
+                                    child: new SearchableDropdown(
                                       style: decisionButtonStyle,
-                                    ),
-                                    searchHint: new Text('إختيار الصنف',
+                                      closeButton: FlatButton(
+                                        child: Text(
+                                          'إغلاق',
+                                          style: decisionButtonStyle.copyWith(
+                                            color: UtilsImporter()
+                                                .colorUtils
+                                                .greycolor,
+                                          ),
+                                        ),
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                      ),
+                                      isCaseSensitiveSearch: false,
+                                      underline: Container(),
+                                      isExpanded: false,
+                                      items: LoadingScreenServices
+                                          .fullCategoryList,
+                                      iconEnabledColor:
+                                          UtilsImporter().colorUtils.greycolor,
+                                      value: selectedValueCategoryValue,
+                                      hint: new Text(
+                                        'اختيار الصنف التابع له المنتج',
                                         style: decisionButtonStyle.copyWith(
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greycolor,
-                                        )),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value != null) {
-                                          selectedValueCategoryValue =
-                                              value.toString().split(";")[1];
-                                          print('selectedValueCategoryValue');
-                                          print(MediaQuery.of(context)
-                                              .size
-                                              .width);
-                                        }
-                                      });
-                                    },
+                                            color: UtilsImporter()
+                                                .colorUtils
+                                                .greycolor),
+                                      ),
+                                      searchHint: new Text('إختيار الصنف',
+                                          style: decisionButtonStyle.copyWith(
+                                            color: UtilsImporter()
+                                                .colorUtils
+                                                .greycolor,
+                                          )),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          if (value != null) {
+                                            Tools.logToConsole(value);
+                                            selectedValueCategoryValue =
+                                                value.toString().split(";")[1];
+                                            Tools.logToConsole(
+                                                selectedValueCategoryValue);
+                                            print('selectedValueCategoryValue');
+                                            print(MediaQuery.of(context)
+                                                .size
+                                                .width);
+                                          }
+                                        });
+                                      },
+                                    ),
                                   ),
                                 ),
                                 widget.product.images.length > 0

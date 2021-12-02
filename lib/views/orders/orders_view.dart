@@ -41,6 +41,7 @@ class OrdersViewState extends State<OrdersView> {
     ordersFilter = 0;
     ordersTypeFilter = 0;
 
+    if (LoadingScreenServices.allShoppers.length == 0) Services.getShoppers();
     if (LoadingScreenServices.deliveriesAssignedOrdersList.length == 0) {
       getOrders = OrderServices.getOrdersAssignedToDeliveries();
     }
@@ -131,14 +132,16 @@ class OrdersViewState extends State<OrdersView> {
       errorMessage = false;
       orderDataList.clear();
       LoadingScreenServices.allOrdersList.clear();
+      LoadingScreenServices.allShoppers.clear();
       LoadingScreenServices.shoppersNotAssignedOrdersList.clear();
       LoadingScreenServices.shoppersAssignedOrdersList.clear();
       LoadingScreenServices.deliveriesNotAssignedOrdersList.clear();
       LoadingScreenServices.deliveriesAssignedOrdersList.clear();
     });
+    Services.getShoppers();
     var orderList;
     if (generalLoaded)
-      orderList = await Services.getMyOrders(pageNumber: page);
+      orderList = await Services.getAllOrders(pageNumber: page);
     else
       switch (orderTypes[ordersTypeFilter]) {
         case ('مسند لكابتن'):
@@ -342,7 +345,7 @@ class OrdersViewState extends State<OrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          String dateTime = DateFormat('kk:mm - yyyy-MM-dd')
+                          String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
                           return Column(
                             children: <Widget>[
@@ -414,15 +417,28 @@ class OrdersViewState extends State<OrdersView> {
                                           int shopperId = LoadingScreenServices
                                               .allShoppers
                                               .firstWhere((element) =>
-                                                  element.name == value.value)
+                                                  element.name ==
+                                                  value.value
+                                                      .replaceAll(' ✅', '')
+                                                      .replaceAll(' ❌', ''))
                                               .id;
+                                          Tools.logToConsole('shopperId');
+                                          Tools.logToConsole(shopperId);
                                           setState(() {
-                                            shopperSearch[index] = value;
+                                            shopperSearch[index] =
+                                                SearchableItem(
+                                              value: value.value
+                                                  .replaceAll(' ✅', '')
+                                                  .replaceAll(' ❌', ''),
+                                            );
                                             orderDataList[index].shopper =
                                                 new Assigned(
-                                                    name: value.value,
+                                                    name: value.value
+                                                        .replaceAll(' ✅', '')
+                                                        .replaceAll(' ❌', ''),
                                                     id: shopperId);
                                           });
+
                                           await OrderServices
                                               .assignOrderToShopper(
                                                   shopperId.toString(),

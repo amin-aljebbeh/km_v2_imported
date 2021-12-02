@@ -31,13 +31,11 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
     filterOrders = 0;
 
     if (Services.isShopper()) {
-      if (Services.shopper.status == 1) {
-        if (LoadingScreenServices.shoppersNotAssignedOrdersList.length == 0) {
-          getOrders = _getOrder();
-        } else {
-          getOrders = _initialFunction();
-          orderDataList = LoadingScreenServices.shoppersNotAssignedOrdersList;
-        }
+      if (LoadingScreenServices.shoppersNotAssignedOrdersList.length == 0) {
+        getOrders = _getOrder();
+      } else {
+        getOrders = _initialFunction();
+        orderDataList = LoadingScreenServices.shoppersNotAssignedOrdersList;
       }
     } else {
       if (LoadingScreenServices.deliveriesNotAssignedOrdersList.length == 0) {
@@ -104,13 +102,11 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
     });
     var orderList;
     if (Services.isShopper()) {
-      if (Services.shopper.status == 1) {
-        if (LoadingScreenServices.shoppersNotAssignedOrdersList.length == 0) {
-          orderList = await OrderServices.getOrdersNotAssignedToShoppers(
-              pageNumber: page);
-        } else {
-          orderList = LoadingScreenServices.shoppersNotAssignedOrdersList;
-        }
+      if (LoadingScreenServices.shoppersNotAssignedOrdersList.length == 0) {
+        orderList = await OrderServices.getOrdersNotAssignedToShoppers(
+            pageNumber: page);
+      } else {
+        orderList = LoadingScreenServices.shoppersNotAssignedOrdersList;
       }
     } else {
       if (LoadingScreenServices.deliveriesNotAssignedOrdersList.length == 0) {
@@ -175,10 +171,6 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    if (Services.isShopper()) {
-      if (Services.shopper.status == 0)
-        return ScreenMessage(message: 'انت لا تستقبل الطلبات حالياً');
-    }
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
@@ -284,7 +276,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          String dateTime = DateFormat('kk:mm - yyyy-MM-dd')
+                          String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
                           return Column(
                             children: <Widget>[

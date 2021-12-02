@@ -180,7 +180,7 @@ class Services {
     }
   }
 
-  static Future<List<OrdersOriginalData>> getMyOrders(
+  static Future<List<OrdersOriginalData>> getAllOrders(
       {int pageNumber = 1}) async {
     Tools.logToConsole(
         "------------------ Get My Orders  --------------------");
@@ -298,8 +298,6 @@ class Services {
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.allShoppers =
             shoppersFromJson(jsonEncode(response.data)).data;
-        LoadingScreenServices.allShoppers
-            .removeWhere((element) => element.status == 0);
         return LoadingScreenServices.allShoppers;
       } else {
         return LoadingScreenServices.allShoppers;
@@ -456,8 +454,16 @@ class Services {
   static List<SearchableItem> shoppersNameList() {
     List<SearchableItem> list = List();
     for (int i = 0; i < LoadingScreenServices.allShoppers.length; i++) {
-      list.add(
-          SearchableItem(value: LoadingScreenServices.allShoppers[i].name));
+      if (LoadingScreenServices.allShoppers[i].status == 1) {
+        list.add(SearchableItem(
+            value: LoadingScreenServices.allShoppers[i].name + ' ✅'));
+      }
+    }
+    for (int i = 0; i < LoadingScreenServices.allShoppers.length; i++) {
+      if (LoadingScreenServices.allShoppers[i].status == 0) {
+        list.add(SearchableItem(
+            value: LoadingScreenServices.allShoppers[i].name + ' ❌'));
+      }
     }
     return list;
   }

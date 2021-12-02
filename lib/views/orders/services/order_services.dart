@@ -166,7 +166,7 @@ class OrderServices {
       return "true";
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
-      await Services.getMyOrders();
+      await Services.getAllOrders();
       return "تم قبول طلبك مسبقاً لايمكن إلغاء الطلب حاليا اذا كنت مصراً على إلغاء الطلب يرجى التواصل مع فريق الدعم";
     }
   }
@@ -483,8 +483,6 @@ class OrderServices {
         LoadingScreenServices.myOrdersList
             .addAll(ordersFromJson(jsonEncode(response.data)).data.data);
 
-        print('getShopperOrders');
-        print(LoadingScreenServices.myOrdersList.length);
         return LoadingScreenServices.myOrdersList;
       } else {
         return LoadingScreenServices.myOrdersList;
@@ -541,11 +539,11 @@ class OrderServices {
         return true;
       } else {
         Tools.logToConsole("------------NOT ASSIGNED --------------");
-        await Services.getMyOrders();
+        await Services.getAllOrders();
         return false;
       }
     } catch (e) {
-      print('');
+      Tools.logToConsole('here in the wanted null');
       return false;
     }
   }
@@ -568,7 +566,7 @@ class OrderServices {
         return true;
       } else {
         Tools.logToConsole("------------NOT ASSIGNED --------------");
-        await Services.getMyOrders();
+        await Services.getAllOrders();
         return false;
       }
     } catch (e) {

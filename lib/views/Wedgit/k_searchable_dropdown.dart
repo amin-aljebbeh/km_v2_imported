@@ -25,6 +25,7 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
   @override
   Widget build(BuildContext context) {
     return SearchableDropdown(
+      disabledHint: 'disabled',
       isCaseSensitiveSearch: false,
       underline: Container(),
       isExpanded: true,

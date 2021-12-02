@@ -13,6 +13,7 @@ import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
+import 'package:kammun_app/views/Wedgit/screen_message.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
@@ -269,7 +270,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          String dateTime = DateFormat('kk:mm - yyyy-MM-dd')
+                          String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
                           return Column(
                             children: <Widget>[
@@ -450,19 +451,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                       ),
                     ),
                     theEndOfOrders
-                        ? Container(
-                            height: 50.0,
-                            color: Colors.transparent,
-                            child: Center(
-                              child: Text(
-                                "تم جلب جميع الطلبات",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
-                                ),
-                              ),
-                            ),
+                        ? Padding(
+                            padding: EdgeInsets.only(top: screenHeight * 0.4),
+                            child: ScreenMessage(
+                                message: 'لا يوجد أي طلبات سابقة'),
                           )
                         : Container(),
                   ],

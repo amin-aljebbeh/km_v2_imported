@@ -253,7 +253,7 @@ class LoadingScreenServices {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Divider(
                     thickness: 1,
-                    color: Colors.white,
+                    color: UtilsImporter().colorUtils.greycolor,
                   ),
                 )
               ],
@@ -444,10 +444,6 @@ class LoadingScreenServices {
             Tools.logToConsole(e.toString());
             return false;
           }
-          Tools.logToConsole("TTTTTTTTTTTTT : " + responses[0].toString());
-          Tools.logToConsole("BBBBBBBBBBBBBB : " + responses[1].toString());
-          Tools.logToConsole("cccccccccccccc : " + responses[2].toString());
-          Tools.logToConsole("zzzzzzzzzzzzz : " + responses[3].toString());
 
           if (responses[1] == null) {
             fetchAdminInformation();
