@@ -41,6 +41,6 @@ const String GET_SHOPPERS = '/api/shopper';
 
 const String GET_SHOPPER = '/api/shopper/';
 
-const String CHANGE_SHOPPER_STATUS = '/api/shopper/';
+const String CHANGE_SHOPPER_STATUS = '/api/shopper/change_shopper_status/';
 
 const String GET_DELIVERIES = '/api/delivery';

@@ -111,59 +111,64 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(15.0),
-                      padding: const EdgeInsets.all(3.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(
-                                  10.0) //                 <--- border radius here
-                              ),
-                          border: Border.all(
-                              color: UtilsImporter().colorUtils.primarycolor,
-                              width: 2)),
-                      child: Center(
-                          child: Text(
-                        widget.productCount,
-                        style: mainStyle.copyWith(fontSize: 25),
-                      )),
-                    ),
-                    IconButton(
-                        icon: Icon(
-                          Icons.library_add_check_outlined,
-                          color: Colors.green,
-                        ),
-                        onPressed: () {
-                          if (widget.productCount != "1") {
-                            List<DialogButton> decisionButtons = [
-                              DialogButton(
-                                text: 'نعم',
-                                onTap: () {
-                                  Navigator.of(context).pop();
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(3.0),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                    10.0) //                 <--- border radius here
+                                ),
+                            border: Border.all(
+                                color: UtilsImporter().colorUtils.primarycolor,
+                                width: 2)),
+                        child: Center(
+                            child: Text(
+                          widget.productCount,
+                          style: mainStyle.copyWith(fontSize: 30),
+                        )),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      InkWell(
+                          child: Icon(
+                            Icons.library_add_check_outlined,
+                            color: Colors.green,
+                          ),
+                          onTap: () {
+                            if (widget.productCount != "1") {
+                              List<DialogButton> decisionButtons = [
+                                DialogButton(
+                                  text: 'نعم',
+                                  onTap: () {
+                                    Navigator.of(context).pop();
 
-                                  widget.onCheckbox(widget.index);
-                                },
-                              ),
-                              DialogButton(
-                                text: 'لا',
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ];
-                            showMyDialog(
-                                "تحقق من الكمية",
-                                "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
-                                decisionButtons,
-                                null,
-                                context);
-                            // _showDialog();
-                          } else {
-                            widget.onCheckbox(widget.index);
-                          }
-                        }),
-                  ],
+                                    widget.onCheckbox(widget.index);
+                                  },
+                                ),
+                                DialogButton(
+                                  text: 'لا',
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ];
+                              showMyDialog(
+                                  "تحقق من الكمية",
+                                  "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
+                                  decisionButtons,
+                                  null,
+                                  context);
+                              // _showDialog();
+                            } else {
+                              widget.onCheckbox(widget.index);
+                            }
+                          }),
+                    ],
+                  ),
                 ),
                 InkWell(
                   onTap: () {
@@ -180,7 +185,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     );
                   },
                   child: new Container(
-                    width: 100.0,
+                    width: 95.0,
                     height: 100.0,
                     decoration: new BoxDecoration(
                         borderRadius:
@@ -207,7 +212,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 3),
                 Expanded(
                   child: Wrap(
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -277,7 +282,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                               : Container(),
                           SwitchProductStatusWidget(
                             height: 48,
-                            width: 59,
+                            width: 75,
                             preState: widget.active,
                             subWarehouseId: widget.productsData.subWarehouseId,
                             productId: widget.productId,

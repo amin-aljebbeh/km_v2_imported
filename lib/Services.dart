@@ -195,10 +195,12 @@ class Services {
         queryParameters: {"page": pageNumber},
       );
       Tools.logToConsole("------- orders data -------");
+      Tools.logToConsole(response);
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.allOrdersList =
             ordersFromJson(jsonEncode(response.data)).data.data;
+        Tools.logToConsole("sucess orders from json");
 
         return LoadingScreenServices.allOrdersList;
       } else {

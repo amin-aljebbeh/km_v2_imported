@@ -13,11 +13,11 @@ class ApiProvider {
       ResponseType responseType,
       bool mapService,
       bool isUrlEncodedFormat}) async {
-    // Tools.logToConsole("---------------------service url : ");
-    // Tools.logToConsole(BaseUrl + url);
-    // Tools.logToConsole(body);
-    // Tools.logToConsole(method);
-    // Tools.logToConsole("-----------------------------------");
+    Tools.logToConsole("---------------------service url : ");
+    Tools.logToConsole(url);
+    Tools.logToConsole(body);
+    Tools.logToConsole(method);
+    Tools.logToConsole("-----------------------------------");
 
     if (mapService == null) mapService = false;
     if (isUrlEncodedFormat == null) isUrlEncodedFormat = false;
