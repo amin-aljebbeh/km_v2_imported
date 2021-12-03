@@ -281,8 +281,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                 )
                               : Container(),
                           SwitchProductStatusWidget(
-                            height: 48,
-                            width: 75,
+                            height: 20,
+                            width: 70,
                             preState: widget.active,
                             subWarehouseId: widget.productsData.subWarehouseId,
                             productId: widget.productId,

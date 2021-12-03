@@ -478,6 +478,7 @@ class OrderServices {
         queryParameters: {"page": pageNumber},
       );
       Tools.logToConsole("------- orders data -------");
+      Tools.logToConsole(response.data);
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.myOrdersList
