@@ -262,7 +262,10 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     widget.productData.subWarehouseId,
                                 productId: widget.productData.id.toString(),
                                 onChange: (active) {
-                                  widget.active = active;
+                                  setState(() {
+                                    widget.active = active;
+                                  });
+                                  widget.onChangeStatus(true);
                                 },
                                 height: 58,
                                 width: 69,

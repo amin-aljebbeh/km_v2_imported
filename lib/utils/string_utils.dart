@@ -112,6 +112,8 @@ class StringUtils {
   String deliveryRole = 'delivery';
   String adminRole = 'admin';
   String superAdminRole = 'super-admin';
+  String operationManager = 'operation-manager';
+  String productsControll = 'product-management';
 
   //Orders types:
   String myOrder = 'assigned';

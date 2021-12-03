@@ -489,6 +489,22 @@ class Services {
         0;
   }
 
+  static bool isOperationManager() {
+    return Services.roles
+            .where((element) => element.slug
+                .contains(UtilsImporter().stringUtils.operationManager))
+            .length >
+        0;
+  }
+
+  static bool isProductsControll() {
+    return Services.roles
+            .where((element) => element.slug
+                .contains(UtilsImporter().stringUtils.productsControll))
+            .length >
+        0;
+  }
+
   static bool isSuperAdmin() {
     return Services.roles
             .where((element) => element.slug

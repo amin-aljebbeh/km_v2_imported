@@ -323,6 +323,7 @@ class _InventoryState extends State<Inventory> {
                                     onTap: () => () {},
                                     child: ProductsViewCard(
                                       fromInventory: true,
+                                      
                                       productData: eachProduct,
                                       onChangeStatus: (result) {
                                         if (result) {

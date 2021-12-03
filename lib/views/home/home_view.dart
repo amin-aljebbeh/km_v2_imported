@@ -209,7 +209,7 @@ class HomeViewState extends State<HomeView> {
       ),
     );
 
-    if (Services.isAdmin()) {
+    if (Services.isOperationManager()) {
       bottomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
@@ -226,6 +226,8 @@ class HomeViewState extends State<HomeView> {
               style: naveBarStyle,
             )),
       );
+    }
+    if (Services.isProductsControll()) {
       bottomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
@@ -296,10 +298,12 @@ class HomeViewState extends State<HomeView> {
     _tabs.add(CartView(
       isFromUpdateOrder: _isFromUpdateOrder,
     ));
-    if ((Services.isAdmin())) {
+    if ((Services.isOperationManager())) {
       _tabs.add(
         OrdersView(),
       );
+    }
+    if ((Services.isProductsControll())) {
       _tabs.add(Inventory());
     }
 
