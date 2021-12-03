@@ -394,7 +394,7 @@ class StoreViewState extends State<StoreView> {
                         Navigator.of(context).pushNamed('/profile');
                       },
                     ),
-                    LoadingScreenServices.viewReportsPermission
+                    Services.isAdmin() || Services.isSuperAdmin()
                         ? ListTile(
                             leading: Padding(
                               padding: const EdgeInsets.only(top: 8.0),

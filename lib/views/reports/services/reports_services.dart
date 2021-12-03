@@ -21,10 +21,8 @@ class ReportsServcies {
       method: httpMethods.get,
     );
 
-    if (response.statusCode == SUCCESS_CODE &&
-        response.shopper["success"] == true) {
-      Tools.logToConsole(response.shopper);
-      return getDailyStatisticsFromJson(jsonEncode(response.shopper));
+    if (response.statusCode == SUCCESS_CODE) {
+      return getDailyStatisticsFromJson(jsonEncode(response.data));
     } else {
       return null;
     }

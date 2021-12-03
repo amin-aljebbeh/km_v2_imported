@@ -489,6 +489,14 @@ class Services {
         0;
   }
 
+  static bool isSuperAdmin() {
+    return Services.roles
+            .where((element) => element.slug
+                .contains(UtilsImporter().stringUtils.superAdminRole))
+            .length >
+        0;
+  }
+
   static bool isDelivery() {
     return Services.roles
             .where((element) =>
