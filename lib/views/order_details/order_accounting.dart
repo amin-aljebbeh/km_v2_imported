@@ -21,10 +21,13 @@ class _OrderAccountingState extends State<OrderAccounting> {
     int sum = 0;
 
     for (int i = 0; i < widget.ordersAry.length; i++) {
-      if (widget.ordersAry[i].subWarehouseId == subWarehouseId) {
-        sum = sum +
-            (int.parse(widget.ordersAry[i].pivot.purchasePrice) *
-                int.parse(widget.ordersAry[i].pivot.quantity));
+      if (widget.ordersAry[i].pivot.deletedAt != null) {
+      } else {
+        if (widget.ordersAry[i].subWarehouseId == subWarehouseId) {
+          sum = sum +
+              (int.parse(widget.ordersAry[i].pivot.purchasePrice) *
+                  int.parse(widget.ordersAry[i].pivot.quantity));
+        }
       }
     }
     return UtilsImporter().stringUtils.oCcy.format(sum);
@@ -69,11 +72,6 @@ class _OrderAccountingState extends State<OrderAccounting> {
         );
       }
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override

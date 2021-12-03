@@ -37,7 +37,6 @@ const String GET_SUB_WAREHOUSE_PRODUCTS = "/api/sub_warehouse/";
 
 const String UPDATE_ORDER_PRODUCTS = "/api/order/update_order_product/";
 
-const String GET_SHOPPERS = '/api/shopper';
 
 const String GET_SHOPPER = '/api/shopper/';
 

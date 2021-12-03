@@ -133,12 +133,12 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                       SizedBox(
                         height: 15,
                       ),
-                      InkWell(
-                          child: Icon(
+                      IconButton(
+                          icon: Icon(
                             Icons.library_add_check_outlined,
                             color: Colors.green,
                           ),
-                          onTap: () {
+                          onPressed: () {
                             if (widget.productCount != "1") {
                               List<DialogButton> decisionButtons = [
                                 DialogButton(

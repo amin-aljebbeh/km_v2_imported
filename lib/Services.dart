@@ -294,7 +294,7 @@ class Services {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_SHOPPERS,
+        url: BaseUrl + GET_SHOPPER,
         method: httpMethods.get,
       );
       Tools.logToConsole("------- shoppers data -------");
@@ -315,7 +315,7 @@ class Services {
 
   static Future<ShopperModel> getShopper() async {
     Tools.logToConsole(
-        "------------------ Get All Shoppers  --------------------");
+        "------------------ #Get All Shoppers#  --------------------");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print('shopperId');
     String shopperId = prefs.getString('shopperId');
@@ -330,6 +330,7 @@ class Services {
 
       if (response.statusCode == SUCCESS_CODE) {
         shopper = GetShopperResponse.fromJson(response.data).shopper;
+       
         return shopper;
       } else {
         return shopper;

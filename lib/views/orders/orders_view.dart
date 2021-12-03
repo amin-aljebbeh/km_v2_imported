@@ -38,6 +38,7 @@ class OrdersViewState extends State<OrdersView> {
     ordersTypeFilter = 0;
 
     if (LoadingScreenServices.allShoppers.length == 0) Services.getShoppers();
+
     if (LoadingScreenServices.deliveriesAssignedOrdersList.length == 0) {
       getOrders = OrderServices.getOrdersAssignedToDeliveries();
     }

@@ -49,7 +49,8 @@ class OrderDetailViewState extends State<OrderDetailView> {
         order: widget.order,
       ),
       OrderAccounting(
-        ordersAry: widget.ordersAry,
+        ordersAry: widget.ordersAry
+            ,
       ),
     ]);
     super.initState();
