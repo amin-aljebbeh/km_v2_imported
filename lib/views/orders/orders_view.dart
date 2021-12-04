@@ -396,7 +396,8 @@ class OrdersViewState extends State<OrdersView> {
                                   orderCreatedDate: dateTime,
                                 ),
                               ),
-                              if (Services.isAdmin())
+                              if (Services.isAdmin() ||
+                                  Services.isOperationManager())
                                 Container(
                                   width: MediaQuery.of(context).size.width * .6,
                                   child: Column(
