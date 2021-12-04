@@ -333,7 +333,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                               if (Services.isDelivery() || Services.isShopper())
                                 DecisionButton(
                                   text: UtilsImporter().stringUtils.getOrder,
-                                  color: Colors.red,
+                                  color: Colors.green[800],
                                   onTap: () {
                                     OrderServices.assignOrder(
                                         orderDataList[index].id.toString());
