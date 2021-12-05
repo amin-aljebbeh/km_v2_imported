@@ -203,10 +203,18 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                 subWarehouseId: orderDetail.subWarehouseId,
                                 orderId: widget.orderId,
                                 onCheckbox: (a) {
-                                  setState(() {
-                                    notDeletedProductsAry.removeAt(a);
-                                    finalProductsAry.removeAt(index);
-                                  });
+                                  if (Services.isShopper())
+                                    setState(() {
+                                      LoadingScreenServices.myOrdersList
+                                          .firstWhere((order) =>
+                                              order.id == widget.orderId)
+                                          .products
+                                          .removeWhere((product) =>
+                                              product.id ==
+                                              notDeletedProductsAry[a].id);
+                                      notDeletedProductsAry.removeAt(a);
+                                      finalProductsAry.removeAt(index);
+                                    });
                                 },
                                 productsData: orderDetail,
                                 supplierCode: orderDetail.supplierCode,
@@ -238,10 +246,18 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                   subWarehouseId: orderDetail.subWarehouseId,
                                   orderId: widget.orderId,
                                   onCheckbox: (a) {
-                                    setState(() {
-                                      deletedProductsAry.removeAt(a);
-                                      finalProductsAry.removeAt(index);
-                                    });
+                                    if (Services.isShopper())
+                                      setState(() {
+                                        LoadingScreenServices.myOrdersList
+                                            .firstWhere((order) =>
+                                                order.id == widget.orderId)
+                                            .products
+                                            .removeWhere((product) =>
+                                                product.id ==
+                                                deletedProductsAry[a].id);
+                                        deletedProductsAry.removeAt(a);
+                                        finalProductsAry.removeAt(index);
+                                      });
                                   },
                                   productsData: orderDetail,
                                   supplierCode: orderDetail.supplierCode,
