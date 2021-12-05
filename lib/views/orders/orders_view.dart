@@ -115,28 +115,7 @@ class OrdersViewState extends State<OrdersView> {
       LoadingScreenServices.deliveriesAssignedOrdersList.clear();
     });
     var orderList;
-    if (generalLoaded)
-      orderList = await Services.getAllOrders(pageNumber: page);
-    else
-      switch (ordersTypeFilter) {
-        case (0):
-          orderList = await OrderServices.getOrdersAssignedToDeliveries(
-              pageNumber: page);
-          break;
-        case (1):
-          orderList = await OrderServices.getOrdersNotAssignedToDeliveries(
-              pageNumber: page);
-          break;
-        case (2):
-          orderList =
-              await OrderServices.getOrdersAssignedToShoppers(pageNumber: page);
-          break;
-        case (3):
-          orderList = await OrderServices.getOrdersNotAssignedToShoppers(
-              pageNumber: page);
-          break;
-      }
-
+    orderList = await Services.getAllOrders(pageNumber: page);
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
@@ -150,13 +129,30 @@ class OrdersViewState extends State<OrdersView> {
       } else {
         setState(() {
           orderDataList.addAll(orderList);
-          if (ordersFilter == 0) {
-            orderDataList
-                .removeWhere((order) => int.parse(order.orderStatusId) > 4);
-          } else {
-            orderDataList.removeWhere(
-                (order) => int.parse(order.orderStatusId) != ordersFilter);
-          }
+          if (generalLoaded) {
+            if (ordersFilter == 0) {
+              orderDataList
+                  .removeWhere((order) => int.parse(order.orderStatusId) > 4);
+            } else {
+              orderDataList.removeWhere(
+                  (order) => int.parse(order.orderStatusId) != ordersFilter);
+            }
+          } else
+            switch (ordersTypeFilter) {
+              case (0):
+                orderDataList.removeWhere((order) => order.delivery == null);
+                break;
+              case (1):
+                orderDataList.removeWhere((order) => order.delivery != null);
+                break;
+              case (2):
+                orderDataList.removeWhere((order) => order.shopper == null);
+                break;
+              case (3):
+                orderDataList.removeWhere((order) => order.shopper != null);
+                break;
+            }
+
           Tools.logToConsole("orderDataList before filltiting");
           Tools.logToConsole(orderDataList.length);
 
