@@ -138,23 +138,6 @@ class LoginServices {
               newResponse.data.roles[i].slug, newResponse.data.roles[i].slug);
         }
 
-        prefs.setBool("product_operations_permission",
-            newResponse.data.productOperationsPermission == 1 ? true : false);
-        prefs.setBool(
-            "product_warehouse_operations_permission",
-            newResponse.data.productWarehouseOperationsPermission == 1
-                ? true
-                : false);
-
-        prefs.setBool("add_category_permission",
-            newResponse.data.addCategoryPermission == 1 ? true : false);
-
-        prefs.setBool("view_orders_permission",
-            newResponse.data.viewOrdersPermission == 1 ? true : false);
-        prefs.setBool("view_report_permission",
-            newResponse.data.viewReportPermission == 1 ? true : false);
-        prefs.setBool("add_products_permission",
-            newResponse.data.viewOrdersPermission == 1 ? true : false);
         prefs.setBool(
             "is_super_admin", newResponse.data.isSuperUser == 1 ? true : false);
 

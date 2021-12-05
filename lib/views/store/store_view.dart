@@ -337,7 +337,7 @@ class StoreViewState extends State<StoreView> {
                         onTap: () => _shareApp(),
                       ),
                     ),
-                    LoadingScreenServices.productsWarehouseOperationPermission
+                    Services.isProductsControll()
                         ? ListTile(
                             leading: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
@@ -357,7 +357,7 @@ class StoreViewState extends State<StoreView> {
                             },
                           )
                         : Container(),
-                    LoadingScreenServices.productsWarehouseOperationPermission
+                    Services.isProductsControll()
                         ? ListTile(
                             leading: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
