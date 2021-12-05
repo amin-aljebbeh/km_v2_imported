@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:location/location.dart';
 
@@ -51,8 +51,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
 
   Future<Map<String, double>> _getLocation() async {
     LocationData currentLocation;
-    // Tools.logToConsole(await location.requestPermission());
-    // Tools.logToConsole(await location.hasPermission());
 
     await location.requestPermission();
     if (await location.hasPermission() == PermissionStatus.granted) {

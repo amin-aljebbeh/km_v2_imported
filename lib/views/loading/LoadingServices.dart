@@ -99,14 +99,6 @@ class LoadingScreenServices {
   // static String subSupplierCodeHint = 'kh';
   static RegExp subSupplierCodeHint = RegExp(".*kh");
 
-  static bool viewOrderPermission = false;
-  static bool addProductsPermission = false;
-  static bool viewReportsPermission = false;
-  static bool productsWarehouseOperationPermission = false;
-  static bool isSuperAdmin = false;
-
-  static bool productsOperationPermission = false;
-
   Future<bool> updateFirebaseToken(String firebaseToken) async {
     Map body = {
       "firebase_token": firebaseToken,
@@ -330,46 +322,6 @@ class LoadingScreenServices {
           RegExp(".*${prefs.getString("adminRoll").split("@")[1]}");
     } else {
       subSupplierCodeHint = RegExp(".*");
-    }
-    if (prefs.getBool("view_orders_permission") != null &&
-        prefs.getBool("view_orders_permission")) {
-      viewOrderPermission = true;
-    } else {
-      viewOrderPermission = false;
-    }
-    if (prefs.getBool("add_products_permission") != null &&
-        prefs.getBool("add_products_permission")) {
-      addProductsPermission = true;
-    } else {
-      addProductsPermission = false;
-    }
-
-    if (prefs.getBool("view_report_permission") != null &&
-        prefs.getBool("view_report_permission")) {
-      viewReportsPermission = true;
-    } else {
-      viewReportsPermission = false;
-    }
-
-    if (prefs.getBool("product_warehouse_operations_permission") != null &&
-        prefs.getBool("product_warehouse_operations_permission")) {
-      productsWarehouseOperationPermission = true;
-    } else {
-      productsWarehouseOperationPermission = false;
-    }
-
-    if (prefs.getBool("is_super_admin") != null &&
-        prefs.getBool("is_super_admin")) {
-      isSuperAdmin = true;
-    } else {
-      isSuperAdmin = false;
-    }
-
-    if (prefs.getBool("product_operations_permission") != null &&
-        prefs.getBool("product_operations_permission")) {
-      productsOperationPermission = true;
-    } else {
-      productsOperationPermission = false;
     }
 
     androidShareUrl =
