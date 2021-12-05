@@ -330,7 +330,7 @@ class Services {
 
       if (response.statusCode == SUCCESS_CODE) {
         shopper = GetShopperResponse.fromJson(response.data).shopper;
-       
+
         return shopper;
       } else {
         return shopper;
@@ -589,25 +589,34 @@ class Services {
   }
 
   static List<ProductData> productListSort(List<ProductData> productsList) {
-    List<ProductData> sortedProductsList = List<ProductData>();
-    int idIndex = 1;
-    int loop = productsList.length;
-    while (loop > 0) {
-      for (int i = 0; i < productsList.length; i++) {
-        if (productsList[i].categories != null)
-          for (int j = 0; j < productsList[i].categories.length; j++) {
-            if (productsList[i].categories[j].id == idIndex) {
-              sortedProductsList.add(productsList[i]);
-              productsList[i].categories = null;
-              loop--;
-              print('loop');
-              break;
-            }
-          }
-      }
-      idIndex++;
-    }
-    return sortedProductsList;
+    productsList.sort((a, b) {
+      if (a.categories.length > 0 && b.categories.length > 0) {
+        if (a.categories[0].id > b.categories[0].id) {
+          return 1;
+        } else
+          return -1;
+      } else
+        return -1;
+    });
+    // List<ProductData> sortedProductsList = List<ProductData>();
+    // int idIndex = 1;
+    // int loop = productsList.length;
+    // while (loop > 0) {
+    //   for (int i = 0; i < productsList.length; i++) {
+    //     if (productsList[i].categories != null)
+    //       for (int j = 0; j < productsList[i].categories.length; j++) {
+    //         if (productsList[i].categories[j].id == idIndex) {
+    //           sortedProductsList.add(productsList[i]);
+    //           productsList[i].categories = null;
+    //           loop--;
+    //           // print('loop');
+    //           break;
+    //         }
+    //       }
+    //   }
+    //   idIndex++;
+    // }
+    return productsList;
   }
 }
 

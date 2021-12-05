@@ -195,7 +195,7 @@ class ProductData {
           : List<CategoryOriginalData>.from(
               json["categories"].map((x) => CategoryOriginalData.fromJson(x))),
     );
-    Tools.logToConsole('message here map');
+    // Tools.logToConsole('message here map');
     return productData;
   }
 
