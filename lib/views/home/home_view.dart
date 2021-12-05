@@ -227,7 +227,7 @@ class HomeViewState extends State<HomeView> {
             )),
       );
     }
-    if (Services.isProductsControll()) {
+    if (Services.isProductsControl()) {
       bottomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
@@ -303,7 +303,7 @@ class HomeViewState extends State<HomeView> {
         OrdersView(),
       );
     }
-    if ((Services.isProductsControll())) {
+    if ((Services.isProductsControl())) {
       _tabs.add(Inventory());
     }
 

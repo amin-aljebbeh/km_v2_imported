@@ -183,7 +183,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                               filterOrders = value;
                               page = 1;
                             });
-                            _getOrder();
                           },
                         ),
                         Padding(
@@ -409,9 +408,12 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                             text: 'نعم',
                                             onTap: () {
                                               Navigator.of(context).pop();
-                                              setState(() {});
                                               submitSpending(orderId.toString(),
                                                   isSpendingApi: false);
+                                              setState(() {
+                                                orderDataList[index]
+                                                    .underUpdate = '0';
+                                              });
                                             },
                                           ),
                                           DialogButton(
@@ -477,7 +479,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     if (result) {
       _spendingController.text = '';
       _reasonController.text = '';
-      if (!isSpendingApi) _getOrder();
     }
   }
 

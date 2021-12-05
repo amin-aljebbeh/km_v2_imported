@@ -498,7 +498,7 @@ class Services {
         0;
   }
 
-  static bool isProductsControll() {
+  static bool isProductsControl() {
     return Services.roles
             .where((element) => element.slug
                 .contains(UtilsImporter().stringUtils.productsControll))

@@ -37,26 +37,6 @@ class OrdersViewState extends State<OrdersView> {
     ordersFilter = 0;
     ordersTypeFilter = 0;
 
-    if (LoadingScreenServices.allShoppers.length == 0) Services.getShoppers();
-
-    if (LoadingScreenServices.deliveriesAssignedOrdersList.length == 0) {
-      getOrders = OrderServices.getOrdersAssignedToDeliveries();
-    }
-    if (LoadingScreenServices.deliveriesNotAssignedOrdersList.length == 0) {
-      getOrders = OrderServices.getOrdersNotAssignedToDeliveries();
-    }
-    if (LoadingScreenServices.shoppersAssignedOrdersList.length == 0) {
-      getOrders = OrderServices.getOrdersAssignedToShoppers();
-    }
-    if (LoadingScreenServices.shoppersNotAssignedOrdersList.length == 0) {
-      getOrders = OrderServices.getOrdersNotAssignedToShoppers();
-    }
-    if (LoadingScreenServices.allShoppers.length == 0) {
-      getOrders = Services.getShoppers();
-    }
-    if (LoadingScreenServices.allDeliveries.length == 0) {
-      getOrders = Services.getDeliveries();
-    }
     if (LoadingScreenServices.allOrdersList.length == 0) {
       getOrders = _getOrder();
     } else {
@@ -129,31 +109,29 @@ class OrdersViewState extends State<OrdersView> {
       errorMessage = false;
       orderDataList.clear();
       LoadingScreenServices.allOrdersList.clear();
-      LoadingScreenServices.allShoppers.clear();
       LoadingScreenServices.shoppersNotAssignedOrdersList.clear();
       LoadingScreenServices.shoppersAssignedOrdersList.clear();
       LoadingScreenServices.deliveriesNotAssignedOrdersList.clear();
       LoadingScreenServices.deliveriesAssignedOrdersList.clear();
     });
-    Services.getShoppers();
     var orderList;
     if (generalLoaded)
       orderList = await Services.getAllOrders(pageNumber: page);
     else
-      switch (orderTypes[ordersTypeFilter]) {
-        case ('مسند لكابتن'):
+      switch (ordersTypeFilter) {
+        case (0):
           orderList = await OrderServices.getOrdersAssignedToDeliveries(
               pageNumber: page);
           break;
-        case ('بحاجة لكابتن'):
+        case (1):
           orderList = await OrderServices.getOrdersNotAssignedToDeliveries(
               pageNumber: page);
           break;
-        case ('مسند لمتسوق'):
+        case (2):
           orderList =
               await OrderServices.getOrdersAssignedToShoppers(pageNumber: page);
           break;
-        case ('بحاجة لمتسوق'):
+        case (3):
           orderList = await OrderServices.getOrdersNotAssignedToShoppers(
               pageNumber: page);
           break;
@@ -244,7 +222,6 @@ class OrdersViewState extends State<OrdersView> {
                                   ordersFilter = value;
                                   page = 1;
                                 });
-                                _getOrder();
                               },
                             ),
                             DropdownButton(
@@ -420,8 +397,6 @@ class OrdersViewState extends State<OrdersView> {
                                                       .replaceAll(' ✅', '')
                                                       .replaceAll(' ❌', ''))
                                               .id;
-                                          Tools.logToConsole('shopperId');
-                                          Tools.logToConsole(shopperId);
                                           setState(() {
                                             shopperSearch[index] =
                                                 SearchableItem(
@@ -443,7 +418,6 @@ class OrdersViewState extends State<OrdersView> {
                                                   orderDataList[index]
                                                       .id
                                                       .toString());
-                                          _getOrder();
                                         },
                                       ),
                                       KSearchableDropdown(
@@ -474,7 +448,6 @@ class OrdersViewState extends State<OrdersView> {
                                                   orderDataList[index]
                                                       .id
                                                       .toString());
-                                          _getOrder();
                                         },
                                       ),
                                     ],
@@ -648,7 +621,6 @@ class OrdersViewState extends State<OrdersView> {
     if (result) {
       _spendingController.text = '';
       _reasonController.text = '';
-      if (!isSpendingApi) _getOrder();
     }
   }
 
