@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/utils/Styles.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 class KSearchableDropdown extends StatefulWidget {
@@ -25,6 +26,12 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
   @override
   Widget build(BuildContext context) {
     return SearchableDropdown(
+      closeButton: FlatButton(
+        child: Text(
+          'إغلاق',
+        ),
+        onPressed: () => Navigator.of(context).pop(),
+      ),
       disabledHint: 'disabled',
       isCaseSensitiveSearch: false,
       underline: Container(),
@@ -44,11 +51,7 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
         );
       }).toList(),
       onChanged: (value) {
-        try {
-          widget.onChange(value);
-        } on NoSuchMethodError catch (e) {
-          print(e);
-        }
+        if (value != null) widget.onChange(value);
       },
     );
   }

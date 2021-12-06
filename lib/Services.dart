@@ -362,7 +362,7 @@ class Services {
         return LoadingScreenServices.allDeliveries;
       }
     } catch (e) {
-      Tools.logToConsole("------------ ERROR GET SHOPPERS --------------");
+      Tools.logToConsole("------------ ERROR GET DELIVERIES --------------");
       Tools.logToConsole(e.toString());
       return null;
     }

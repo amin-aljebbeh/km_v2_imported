@@ -385,10 +385,10 @@ class LoadingScreenServices {
               getCategory(),
               fetchAdminInformation(),
             ]);
-            if (Services.isShopper()) Services.getShopper();
+            if (Services.isShopper()) await Services.getShopper();
             if (Services.isOperationManager()) {
-              Services.getShoppers();
-              Services.getDeliveries();
+              await Services.getShoppers();
+              await Services.getDeliveries();
             }
           } catch (e) {
             Tools.logToConsole("--------- error call -----");

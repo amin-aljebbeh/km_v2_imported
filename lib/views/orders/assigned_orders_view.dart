@@ -87,13 +87,11 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   List<OrdersOriginalData> orderDataList = new List<OrdersOriginalData>();
 
   _getOrder() async {
-    print('getAssignedOrder');
     setState(() {
       if (page == 1) orderLoaded = false;
       if (!theEndOfOrders) isLoading = true;
       errorMessage = false;
       orderDataList.clear();
-      LoadingScreenServices.myOrdersList.clear();
     });
     var orderList;
     if (LoadingScreenServices.myOrdersList.length == 0) {
@@ -183,6 +181,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                               filterOrders = value;
                               page = 1;
                             });
+                            _getOrder();
                           },
                         ),
                         Padding(

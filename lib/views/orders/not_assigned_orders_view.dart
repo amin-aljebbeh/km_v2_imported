@@ -32,8 +32,6 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
 
     getOrders = _initialFunction();
     _getOrder();
-    orderDataList = LoadingScreenServices.shoppersNotAssignedOrdersList;
-    orderDataList.addAll(LoadingScreenServices.deliveriesNotAssignedOrdersList);
 
     super.initState();
   }
@@ -86,8 +84,6 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
       if (!theEndOfOrders) isLoading = true;
       errorMessage = false;
       orderDataList.clear();
-      LoadingScreenServices.shoppersNotAssignedOrdersList.clear();
-      LoadingScreenServices.deliveriesNotAssignedOrdersList.clear();
     });
     List<OrdersOriginalData> orderList = new List<OrdersOriginalData>();
     if (Services.isShopper()) {
@@ -111,7 +107,8 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
         setState(() {
           if (Services.isShopper()) {
             LoadingScreenServices.shoppersNotAssignedOrdersList = orderDataList;
-          } else {
+          }
+          if (Services.isDelivery()) {
             LoadingScreenServices.deliveriesNotAssignedOrdersList =
                 orderDataList;
           }
@@ -194,6 +191,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                               filterOrders = value;
                               page = 1;
                             });
+                            _getOrder();
                           },
                         ),
                         Padding(
