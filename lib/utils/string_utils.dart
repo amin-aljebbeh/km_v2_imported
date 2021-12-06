@@ -130,6 +130,7 @@ class StringUtils {
   String close = 'إغلاق';
   String unLock = 'إلغاء التعليق';
   String yes = 'نعم';
+  String save = 'حفظ';
 
 //Labels:
   String deliveryName = 'الكابتن : ';

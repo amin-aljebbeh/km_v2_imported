@@ -197,6 +197,7 @@ class ProductsViewState extends State<ProductsView> {
     return Scaffold(
         floatingActionButton: widget.queryString == null
             ? FloatingActionButton(
+                backgroundColor: UtilsImporter().colorUtils.kmColors2,
                 onPressed: () {
                   Navigator.push(
                       context,

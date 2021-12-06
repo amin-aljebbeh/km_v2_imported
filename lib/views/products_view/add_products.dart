@@ -6,22 +6,38 @@ import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+import 'package:toast/toast.dart';
 
 class AddProductsView extends StatefulWidget {
   final String categoryId;
+
   AddProductsView({@required this.categoryId});
+
   @override
   _AddProductsViewState createState() => _AddProductsViewState();
 }
 
 class _AddProductsViewState extends State<AddProductsView> {
   File _image;
+
   // File _uploadedFile;
   int _selectedSubWarehouseValue = -1;
   final picker = ImagePicker();
+  List<String> productData = [
+    'المستودع',
+    'اسم المنتج',
+    'الكمية',
+    'الوحدة',
+    'معدل الضرب',
+    'الوصف',
+    'رمز المادة',
+    'السعر',
+    'الصورة'
+  ];
 
   Future getImageCamera() async {
     final pickedFile = await picker.getImage(
@@ -179,6 +195,7 @@ class _AddProductsViewState extends State<AddProductsView> {
 
   bool isLoading = false;
   bool isError = false;
+
   void _addNewProduct() async {
     setState(() {
       isLoading = true;
@@ -279,7 +296,22 @@ class _AddProductsViewState extends State<AddProductsView> {
   bool autoActivationController = true;
 
   @override
+  void initState() {
+    nameController.text = null;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    Tools.logToConsole('product controller');
+    Tools.logToConsole(nameController.text.isEmpty);
+    Tools.logToConsole(quantityController.text.isEmpty);
+    Tools.logToConsole(unitController.text.isEmpty);
+    Tools.logToConsole(priceFactorController.text.isEmpty);
+    Tools.logToConsole(descriptionController.text.isEmpty);
+    Tools.logToConsole(supplierCodeController.text.isEmpty);
+    Tools.logToConsole(priceController.text.isEmpty);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 210, 178, 2),
@@ -471,8 +503,11 @@ class _AddProductsViewState extends State<AddProductsView> {
                                         10.0) //                 <--- border radius here
                                     ),
                                 border: Border.all(
-                                    color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                    color: switchController
+                                        ? UtilsImporter().colorUtils.kmColors2
+                                        : UtilsImporter()
+                                            .colorUtils
+                                            .searchgreycolor,
                                     width: 2)),
                             child: Switch(
                               value: switchController,
@@ -511,9 +546,11 @@ class _AddProductsViewState extends State<AddProductsView> {
                                           10.0) //                 <--- border radius here
                                       ),
                                   border: Border.all(
-                                      color: UtilsImporter()
-                                          .colorUtils
-                                          .primarycolor,
+                                      color: autoActivationController
+                                          ? UtilsImporter().colorUtils.kmColors2
+                                          : UtilsImporter()
+                                              .colorUtils
+                                              .searchgreycolor,
                                       width: 2)),
                               child: Switch(
                                 value: autoActivationController,
@@ -531,16 +568,86 @@ class _AddProductsViewState extends State<AddProductsView> {
                           ),
                         ]),
                     _image != null ? imagesBody() : Container(),
-                    KammunButton(
-                      text: "حفظ",
-                      onPress: () {
-                        _addNewProduct();
+                    DecisionButton(
+                      height: 50,
+                      text: UtilsImporter().stringUtils.save,
+                      color: toastList() == 0
+                          ? UtilsImporter().colorUtils.kmColors2
+                          : UtilsImporter().colorUtils.searchgreycolor,
+                      onTap: () {
+                        if (toastList() == 0) {
+                          _addNewProduct();
+                        } else {
+                          Toast.show(
+                              "يرجى ادخال البيانات التالية:\n" +
+                                  productData
+                                      .toString()
+                                      .replaceAll(',', '\n')
+                                      .replaceAll('[', '')
+                                      .replaceAll(']', ''),
+                              context,
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.CENTER);
+                        }
                       },
-                    )
+                    ),
                   ],
                 ),
         ),
       ),
     );
+  }
+
+  int toastList() {
+    if (_selectedSubWarehouseValue != -1) {
+      if (productData.contains('المستودع')) productData.remove('المستودع');
+    } else {
+      if (!productData.contains('المستودع')) productData.add('المستودع');
+    }
+    if (nameController.text.isNotEmpty) {
+      if (productData.contains('اسم المنتج')) productData.remove('اسم المنتج');
+    } else {
+      if (!productData.contains('اسم المنتج')) productData.add('اسم المنتج');
+    }
+    if (quantityController.text.isNotEmpty) {
+      if (productData.contains('الكمية')) productData.remove('الكمية');
+    } else {
+      if (!productData.contains('الكمية')) productData.add('الكمية');
+    }
+    if (unitController.text.isNotEmpty) {
+      if (productData.contains('الوحدة')) productData.remove('الوحدة');
+    } else {
+      if (!productData.contains('الوحدة')) productData.add('الوحدة');
+    }
+    if (priceFactorController.text.isNotEmpty) {
+      if (productData.contains('معدل الضرب')) productData.remove('معدل الضرب');
+    } else {
+      if (!productData.contains('معدل الضرب')) productData.add('معدل الضرب');
+    }
+    if (descriptionController.text.isNotEmpty) {
+      if (productData.contains('الوصف')) productData.remove('الوصف');
+    } else {
+      if (!productData.contains('الوصف')) productData.add('الوصف');
+    }
+    if (supplierCodeController.text.isNotEmpty) {
+      if (productData.contains('رمز المادة')) productData.remove('رمز المادة');
+    } else {
+      if (!productData.contains('رمز المادة')) productData.add('رمز المادة');
+    }
+    if (priceController.text.isNotEmpty) {
+      if (productData.contains('السعر')) productData.remove('السعر');
+    } else {
+      if (!productData.contains('السعر')) productData.add('السعر');
+    }
+    if (_image != null) {
+      if (productData.contains('الصورة')) productData.remove('الصورة');
+    } else {
+      if (!productData.contains('الصورة')) productData.add('الصورة');
+    }
+    return productData.length;
+  }
+
+  bool controller() {
+    return priceController.text.isEmpty;
   }
 }
