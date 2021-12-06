@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/decision_button.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Services.dart';
 
@@ -178,6 +180,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onTap: () {},
                   ),
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    "الجهة المفضلة لاستخدام الهاتف",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontSize: 20),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.library_add_check_outlined,
+                      color: LoadingScreenServices.preferLeftSide
+                          ? UtilsImporter().colorUtils.searchgreycolor
+                          : UtilsImporter().colorUtils.kmColors2,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        LoadingScreenServices.preferLeftSide
+                            ? LoadingScreenServices.setPreferLeftSide(false)
+                            : Tools.logToConsole('');
+                      });
+                    },
+                  ), //right side
+                  IconButton(
+                    icon: Icon(
+                      Icons.library_add_check_outlined,
+                      color: LoadingScreenServices.preferLeftSide
+                          ? UtilsImporter().colorUtils.kmColors2
+                          : UtilsImporter().colorUtils.searchgreycolor,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        LoadingScreenServices.preferLeftSide
+                            ? Tools.logToConsole('')
+                            : LoadingScreenServices.setPreferLeftSide(true);
+                      });
+                    },
+                  ), //left side
+                ],
               ),
             ],
           ),

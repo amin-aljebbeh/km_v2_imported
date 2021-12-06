@@ -84,6 +84,7 @@ class LoadingScreenServices {
   static List<OrdersOriginalData> deliveriesNotAssignedOrdersList =
       new List<OrdersOriginalData>();
   static String userNumber = "لم تقم بتسجيل رقم";
+  static bool preferLeftSide = true;
 
   // -------------------------------------------------------//
 
@@ -111,6 +112,12 @@ class LoadingScreenServices {
     return true;
   }
 
+  static setPreferLeftSide(bool side) async {
+    preferLeftSide = side;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('preferLeftSide', side);
+  }
+
   static Future<bool> getSubWarehouse() async {
     subWarehouses.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -128,21 +135,8 @@ class LoadingScreenServices {
     } else {
       return false;
     }
-
-    // var response = await ApiProvider.sendRequest(
-    //   url: GET_SUB_WAREHOUSE,
-    //   method: httpMethods.get,
-    // );
-    // if (response.statusCode == SUCCESS_CODE) {
-    //   swbWarehouses.addAll(subWarehouseFromJson(jsonEncode(response.data)));
-    //   Tools.logToConsole("=== DONE getting Warehouses  ====");
-    //   return true;
-    // } else {
-    //   return false;
-    // }
   }
 
-//
   Future<bool> getSupportedCity() async {
     var response = await ApiProvider.sendRequest(
       url: GET_SUPPORTED_CITIES,
@@ -173,6 +167,7 @@ class LoadingScreenServices {
     Tools.logToConsole("--------- Checking User Token ---------- ");
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      preferLeftSide = prefs.getBool('preferLeftSide');
       String userToken = prefs.getString('userToken');
       String userSelectSupportedCity = prefs.getString('supportedCitySelected');
       Tools.logToConsole(
@@ -389,10 +384,12 @@ class LoadingScreenServices {
               getSubWarehouse(),
               getCategory(),
               fetchAdminInformation(),
-              if (Services.isShopper()) Services.getShopper(),
-              if (Services.isOperationManager()) Services.getShoppers(),
-              if (Services.isOperationManager()) Services.getDeliveries(),
             ]);
+            if (Services.isShopper()) Services.getShopper();
+            if (Services.isOperationManager()) {
+              Services.getShoppers();
+              Services.getDeliveries();
+            }
           } catch (e) {
             Tools.logToConsole("--------- error call -----");
             Tools.logToConsole(e.toString());

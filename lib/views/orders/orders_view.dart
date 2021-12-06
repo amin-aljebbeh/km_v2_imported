@@ -108,14 +108,13 @@ class OrdersViewState extends State<OrdersView> {
       if (!theEndOfOrders) isLoading = true;
       errorMessage = false;
       orderDataList.clear();
-      LoadingScreenServices.allOrdersList.clear();
-      LoadingScreenServices.shoppersNotAssignedOrdersList.clear();
-      LoadingScreenServices.shoppersAssignedOrdersList.clear();
-      LoadingScreenServices.deliveriesNotAssignedOrdersList.clear();
-      LoadingScreenServices.deliveriesAssignedOrdersList.clear();
     });
     var orderList;
-    orderList = await Services.getAllOrders(pageNumber: page);
+    if (LoadingScreenServices.allOrdersList.length == 0)
+      orderList = await Services.getAllOrders(pageNumber: page);
+    else
+      orderList = LoadingScreenServices.allOrdersList;
+
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
@@ -218,6 +217,7 @@ class OrdersViewState extends State<OrdersView> {
                                   ordersFilter = value;
                                   page = 1;
                                 });
+                                _getOrder();
                               },
                             ),
                             DropdownButton(

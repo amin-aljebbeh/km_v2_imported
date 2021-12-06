@@ -128,6 +128,7 @@ class LoginServices {
         prefs.setString("userToken", newResponse.data.apiToken);
         prefs.setString("adminRoll", username);
         prefs.setString("adminId", newResponse.data.id.toString());
+        prefs.setBool('preferLeftSide', true);
         if (newResponse.data.shopper != null) {
           print('no problem');
           prefs.setString("shopperId", newResponse.data.shopper.id.toString());

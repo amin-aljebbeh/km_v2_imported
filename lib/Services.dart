@@ -315,7 +315,7 @@ class Services {
 
   static Future<ShopperModel> getShopper() async {
     Tools.logToConsole(
-        "------------------ #Get All Shoppers#  --------------------");
+        "------------------ #Get The Shopper#  --------------------");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print('shopperId');
     String shopperId = prefs.getString('shopperId');
@@ -598,24 +598,6 @@ class Services {
       } else
         return -1;
     });
-    // List<ProductData> sortedProductsList = List<ProductData>();
-    // int idIndex = 1;
-    // int loop = productsList.length;
-    // while (loop > 0) {
-    //   for (int i = 0; i < productsList.length; i++) {
-    //     if (productsList[i].categories != null)
-    //       for (int j = 0; j < productsList[i].categories.length; j++) {
-    //         if (productsList[i].categories[j].id == idIndex) {
-    //           sortedProductsList.add(productsList[i]);
-    //           productsList[i].categories = null;
-    //           loop--;
-    //           // print('loop');
-    //           break;
-    //         }
-    //       }
-    //   }
-    //   idIndex++;
-    // }
     return productsList;
   }
 }
