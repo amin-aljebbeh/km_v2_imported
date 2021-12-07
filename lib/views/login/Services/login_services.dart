@@ -129,21 +129,6 @@ class LoginServices {
         prefs.setString("adminRoll", username);
         prefs.setString("adminId", newResponse.data.id.toString());
         prefs.setBool('preferLeftSide', true);
-        if (newResponse.data.shopper != null) {
-          print('no problem');
-          prefs.setString("shopperId", newResponse.data.shopper.id.toString());
-        }
-
-        for (int i = 0; i < newResponse.data.roles.length; i++) {
-          prefs.setString(
-              newResponse.data.roles[i].slug, newResponse.data.roles[i].slug);
-        }
-
-        prefs.setBool(
-            "is_super_admin", newResponse.data.isSuperUser == 1 ? true : false);
-
-        prefs.setString(
-            "warehouse_id", newResponse.data.warehouseId.toString());
         Tools.logToConsole("------- WE ARE HERE --------");
 
         LoadingScreen.userToken = newResponse.data.apiToken;

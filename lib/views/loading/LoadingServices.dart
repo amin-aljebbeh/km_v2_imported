@@ -83,7 +83,9 @@ class LoadingScreenServices {
       new List<OrdersOriginalData>();
   static List<OrdersOriginalData> deliveriesNotAssignedOrdersList =
       new List<OrdersOriginalData>();
-  static String userNumber = "لم تقم بتسجيل رقم";
+  static String PhoneNumber = "لم تقم بتسجيل رقم";
+  static String name;
+  static String userName;
   static bool preferLeftSide = true;
 
   // -------------------------------------------------------//
@@ -362,7 +364,7 @@ class LoadingScreenServices {
       ),
     );
 
-    userNumber = "0000000000";
+    PhoneNumber = "0000000000";
 
     userBlocked = false;
 
@@ -385,7 +387,6 @@ class LoadingScreenServices {
               getCategory(),
               fetchAdminInformation(),
             ]);
-            if (Services.isShopper()) await Services.getShopper();
             if (Services.isOperationManager()) {
               await Services.getShoppers();
               await Services.getDeliveries();

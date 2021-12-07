@@ -313,17 +313,12 @@ class Services {
     }
   }
 
-  static Future<ShopperModel> getShopper() async {
+  static Future<ShopperModel> getShopper(String id) async {
     Tools.logToConsole(
         "------------------ #Get The Shopper#  --------------------");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    print('shopperId');
-    String shopperId = prefs.getString('shopperId');
-    print(shopperId);
-    if (shopperId == null) {}
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_SHOPPER + shopperId,
+        url: BaseUrl + GET_SHOPPER + id,
         method: httpMethods.get,
       );
       Tools.logToConsole("------- shoppers data -------");
@@ -336,7 +331,7 @@ class Services {
         return shopper;
       }
     } catch (e) {
-      Tools.logToConsole("------------ ERROR GET SHOPPERS --------------");
+      Tools.logToConsole("------------ ERROR GET THE SHOPPER --------------");
       Tools.logToConsole(e.toString());
       return null;
     }

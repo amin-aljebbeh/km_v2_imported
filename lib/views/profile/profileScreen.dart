@@ -19,6 +19,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isLoading = false;
   bool isError = false;
 
+  List<String> shopperLevels = ['مبتدئ', 'متوسط', 'متقدم', 'خبير', 'معلم'];
+
   void onrRemove(item) async {
     setState(() {
       isLoading = true;
@@ -51,12 +53,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+          child: ListView(
+            children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   IconButton(
@@ -69,12 +69,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text(
-                        UtilsImporter().stringUtils.profile_info,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 30),
+                      child: Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              SizedBox(height: 5),
+                              Text(
+                                LoadingScreenServices.name,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontSize: 30),
+                              ),
+                              Text(
+                                LoadingScreenServices.userName,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontSize: 15),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 35,
+                          ),
+                        ],
                       )),
                 ],
               ),
@@ -117,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     title: Padding(
                       padding: const EdgeInsets.only(top: 5.0),
                       child: Text(
-                        LoadingScreenServices.userNumber,
+                        LoadingScreenServices.PhoneNumber,
                         style: TextStyle(
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                             fontSize: 25,
@@ -128,6 +150,185 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
+              Services.roles.isNotEmpty
+                  ? Column(
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: Center(
+                              child: Text(
+                                "المستودع",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily:
+                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontSize: 20),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30.0, right: 0, bottom: 30, top: 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color:
+                                        UtilsImporter().colorUtils.primarycolor,
+                                    spreadRadius: 3),
+                              ],
+                            ),
+                            child: Center(
+                              child: Column(
+                                children: LoadingScreenServices.subWarehouses
+                                    .map((data) => Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: Text(
+                                            "${data.name}",
+                                            style: TextStyle(
+                                                fontFamily: UtilsImporter()
+                                                    .stringUtils
+                                                    .HKGrotesk,
+                                                fontSize: 25,
+                                                color: Colors.black),
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text(
+                              "الجهة المفضلة لاستخدام الهاتف",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily:
+                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontSize: 20),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30.0, right: 0, bottom: 30, top: 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color:
+                                        UtilsImporter().colorUtils.primarycolor,
+                                    spreadRadius: 3),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.library_add_check_outlined,
+                                    color: LoadingScreenServices.preferLeftSide
+                                        ? UtilsImporter()
+                                            .colorUtils
+                                            .searchgreycolor
+                                        : UtilsImporter().colorUtils.kmColors2,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      LoadingScreenServices.preferLeftSide
+                                          ? LoadingScreenServices
+                                              .setPreferLeftSide(false)
+                                          : Tools.logToConsole('');
+                                    });
+                                  },
+                                ), //right side
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.library_add_check_outlined,
+                                    color: LoadingScreenServices.preferLeftSide
+                                        ? UtilsImporter().colorUtils.kmColors2
+                                        : UtilsImporter()
+                                            .colorUtils
+                                            .searchgreycolor,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      LoadingScreenServices.preferLeftSide
+                                          ? Tools.logToConsole('')
+                                          : LoadingScreenServices
+                                              .setPreferLeftSide(true);
+                                    });
+                                  },
+                                ), //left side
+                              ],
+                            ),
+                          ),
+                        ),
+                        Services.shopper != null
+                            ? Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Center(
+                                      child: Text(
+                                        "المستوى",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontFamily: UtilsImporter()
+                                                .stringUtils
+                                                .HKGrotesk,
+                                            fontSize: 20),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 30.0,
+                                        right: 0,
+                                        bottom: 30,
+                                        top: 10),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: UtilsImporter()
+                                                  .colorUtils
+                                                  .primarycolor,
+                                              spreadRadius: 3),
+                                        ],
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          shopperLevels[
+                                              Services.shopper.level.id - 1],
+                                          style: TextStyle(
+                                              fontFamily: UtilsImporter()
+                                                  .stringUtils
+                                                  .HKGrotesk,
+                                              fontSize: 25,
+                                              color: Colors.black),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
+                      ],
+                    )
+                  : Container(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
@@ -180,53 +381,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     onTap: () {},
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(
-                    "الجهة المفضلة لاستخدام الهاتف",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        fontSize: 20),
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.library_add_check_outlined,
-                      color: LoadingScreenServices.preferLeftSide
-                          ? UtilsImporter().colorUtils.searchgreycolor
-                          : UtilsImporter().colorUtils.kmColors2,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        LoadingScreenServices.preferLeftSide
-                            ? LoadingScreenServices.setPreferLeftSide(false)
-                            : Tools.logToConsole('');
-                      });
-                    },
-                  ), //right side
-                  IconButton(
-                    icon: Icon(
-                      Icons.library_add_check_outlined,
-                      color: LoadingScreenServices.preferLeftSide
-                          ? UtilsImporter().colorUtils.kmColors2
-                          : UtilsImporter().colorUtils.searchgreycolor,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        LoadingScreenServices.preferLeftSide
-                            ? Tools.logToConsole('')
-                            : LoadingScreenServices.setPreferLeftSide(true);
-                      });
-                    },
-                  ), //left side
-                ],
               ),
             ],
           ),

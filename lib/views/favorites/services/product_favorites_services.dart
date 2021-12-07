@@ -10,7 +10,7 @@ class FavoraitesProductsServices {
   static bool theEndOfFavoraites = false;
   static Future<ProductResponse> getUserFavoraites({int pageNumber}) async {
     var response = await ApiProvider.sendRequest(
-      url: FAVORAITES_PRODUCTS,
+      url: FAVORITES_PRODUCTS,
       method: httpMethods.get,
       queryParameters: {"page": pageNumber},
     );

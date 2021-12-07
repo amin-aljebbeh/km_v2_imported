@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/views/Wedgit/blurred_widget.dart';
-import 'package:kammun_app/views/Wedgit/screen_message.dart';
 import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';

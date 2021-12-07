@@ -539,6 +539,10 @@ class OrdersViewState extends State<OrdersView> {
                                               Navigator.of(context).pop();
                                               submitSpending(orderId.toString(),
                                                   isSpendingApi: false);
+                                              setState(() {
+                                                orderDataList[index]
+                                                    .underUpdate = '0';
+                                              });
                                             },
                                           ),
                                           DialogButton(

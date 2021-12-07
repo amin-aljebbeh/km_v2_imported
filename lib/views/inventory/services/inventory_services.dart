@@ -7,6 +7,7 @@ import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/shopper_model.dart';
 import 'package:kammun_app/models/sub_warehouse_model.dart';
 import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
 import '../../../Services.dart';
@@ -39,10 +40,13 @@ class InventoryServices {
       if (result.data.roles.length > 0) {
         Services.roles = result.data.roles;
         if (result.data.shopper != null) {
-          Services.shopper = ShopperModel.copy(result.data.shopper);
+          Services.shopper =
+              await Services.getShopper(result.data.shopper.id.toString());
         }
       }
-
+      LoadingScreenServices.name = result.data.name;
+      LoadingScreenServices.userName = result.data.username;
+      LoadingScreenServices.PhoneNumber = result.data.phone;
       return result.data.subWarehouses;
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");

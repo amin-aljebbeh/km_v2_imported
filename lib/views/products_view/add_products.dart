@@ -3,7 +3,6 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/decision_button.dart';
@@ -303,15 +302,6 @@ class _AddProductsViewState extends State<AddProductsView> {
 
   @override
   Widget build(BuildContext context) {
-    Tools.logToConsole('product controller');
-    Tools.logToConsole(nameController.text.isEmpty);
-    Tools.logToConsole(quantityController.text.isEmpty);
-    Tools.logToConsole(unitController.text.isEmpty);
-    Tools.logToConsole(priceFactorController.text.isEmpty);
-    Tools.logToConsole(descriptionController.text.isEmpty);
-    Tools.logToConsole(supplierCodeController.text.isEmpty);
-    Tools.logToConsole(priceController.text.isEmpty);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 210, 178, 2),
