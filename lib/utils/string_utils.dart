@@ -1,6 +1,8 @@
 import 'package:intl/intl.dart';
 
 class StringUtils {
+  String Kammun = 'كمّون';
+
   //Font
   String HKGrotesk = 'Tajawal';
 
@@ -11,7 +13,7 @@ class StringUtils {
   String get_started = 'البداية';
 
   String cancel_order = 'إلغاء الطلب';
-  String edit_address = 'تعديل';
+  String edit = 'تعديل';
 
   String edit_order = 'تعديل الطلب';
   String submit_feedback = 'تقييم الطلب';
@@ -33,6 +35,7 @@ class StringUtils {
 
   String change_settings = 'Change Settings';
   String share_link = 'Facebook.com/amin.aljebbeh';
+
   //Images
   String right_arrow = 'assets/right_arrow.png';
   String logo = 'assets/logo.jpg';
@@ -75,6 +78,7 @@ class StringUtils {
       "ملاحظة: هذا الإجراء لمرة واحدة واختياري ولايقوم تطبيق كمّون بتتبع موقعك او طلبه خارج هذه المرحلة";
 
   String delete = 'حذف';
+  String note = 'ملاحظة';
 
   String add_new_address = '+ إضافة عنوان جديد';
 
@@ -86,7 +90,7 @@ class StringUtils {
 
   String share = 'مشاركة';
 
-  String address = 'العنوان : ';
+  String address = 'العنوان';
   String city = 'المدينة: ';
   String familyName = 'منزل - مكتب السيد/ة';
   String buildingName = 'اسم / رقم البناء';
@@ -113,7 +117,7 @@ class StringUtils {
   String adminRole = 'admin';
   String superAdminRole = 'super-admin';
   String operationManager = 'operation-manager';
-  String productsControll = 'product-management';
+  String productsController = 'product-management';
 
   //Orders types:
   String myOrder = 'assigned';
@@ -131,12 +135,25 @@ class StringUtils {
   String unLock = 'إلغاء التعليق';
   String yes = 'نعم';
   String save = 'حفظ';
+  String tryAgain = 'إعادة المحاولة';
+  String next = 'التالي';
+  String addToCart = 'الإضافة لسلة المشتريات';
+  String send = 'إرسال';
 
 //Labels:
   String deliveryName = 'الكابتن : ';
-  String orderDate = 'تاريخ الطلب : ';
-
   String shopperName = 'المتسوق : ';
+  String orderDate = 'تاريخ الطلب : ';
+  String quantity = "الكمية";
+  String price = "السعر ";
+  String description = "الوصف ";
+  String outOfStock = "المنتج نفذ من المستودعات";
+  String supplierCode = 'رمز المادة:';
+  String priceFactor = 'معدل الضرب';
+  String name = 'الاسم';
+  String unit = 'الوحدة';
+  String priority = 'الأولوية';
+
   //Hints:
   String chooseDelivery = 'اختر كابتن';
 
@@ -145,6 +162,10 @@ class StringUtils {
   String unLockConfirm =
       'هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل';
 
+  //Messages:
+  String noInternetConnection = 'لايوجد إتصال بالإنترنت';
   String chooseShopper = 'اختر متسوق';
   final oCcy = new NumberFormat("#,##0", "en_US");
+
+  List<String> shopperLevels = ['مبتدئ', 'متوسط', 'متقدم', 'خبير', 'معلم'];
 }

@@ -375,7 +375,7 @@ class _SalesReportState extends State<SalesReport> {
                                   UtilsImporter().stringUtils.HKGrotesk))
                     ]),
                 KammunButton(
-                  text: "إرسال",
+                  text: UtilsImporter().stringUtils.send,
                   color: validDates()
                       ? Theme.of(context).primaryColor
                       : UtilsImporter().colorUtils.searchgreycolor,

@@ -123,7 +123,7 @@ class _MatchingReportState extends State<MatchingReport> {
                   ),
                 ),
                 KammunButton(
-                  text: "إرسال",
+                  text: UtilsImporter().stringUtils.send,
                   color: validDates()
                       ? Theme.of(context).primaryColor
                       : UtilsImporter().colorUtils.searchgreycolor,

@@ -159,13 +159,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
 
   @override
   void initState() {
-    // fullCategoryList.add(new DropdownMenuItem(
-    //           child: Text(
-    //             category[i].name,
-    //           ),
-    //           value: category[i].name + ";" + category[i].id.toString(),
-    //         )
-
     for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
       listSubWarehouses.add(DropdownMenuItem(
         child: Text(LoadingScreenServices.subWarehouses[i].name),
@@ -292,13 +285,13 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       children: [
                         _entryField(
                             controller: supplierCodeController,
-                            title: "رمز المادة ",
+                            title: UtilsImporter().stringUtils.supplierCode,
                             fieldType: TextInputType.name,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
                         _entryField(
                             controller: priceController,
-                            title: "السعر",
+                            title: UtilsImporter().stringUtils.price,
                             fieldType: TextInputType.number,
                             hint: "5000",
                             width: MediaQuery.of(context).size.width / 3),
@@ -309,7 +302,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       children: [
                         _entryField(
                             controller: priceFactorController,
-                            title: "معدل الضرب",
+                            title: UtilsImporter().stringUtils.priceFactor,
                             fieldType: TextInputType.number,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
@@ -343,7 +336,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       ],
                     ),
                     KammunButton(
-                        text: "حفظ",
+                        text: UtilsImporter().stringUtils.save,
                         height: 50,
                         color: Theme.of(context).primaryColor,
                         onTap: () {

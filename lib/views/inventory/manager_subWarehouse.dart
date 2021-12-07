@@ -60,7 +60,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          "كمّون",
+          UtilsImporter().stringUtils.Kammun,
           style: TextStyle(
             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
             fontWeight: FontWeight.bold,
@@ -120,7 +120,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                     ),
                     KammunButton(
                       height: 50,
-                      text: "التالي",
+                      text: UtilsImporter().stringUtils.next,
                       color: selected
                           ? Theme.of(context).primaryColor
                           : UtilsImporter().colorUtils.searchgreycolor,

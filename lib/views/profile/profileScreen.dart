@@ -19,8 +19,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isLoading = false;
   bool isError = false;
 
-  List<String> shopperLevels = ['مبتدئ', 'متوسط', 'متقدم', 'خبير', 'معلم'];
-
   void onrRemove(item) async {
     setState(() {
       isLoading = true;
@@ -311,7 +309,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          shopperLevels[
+                                          UtilsImporter()
+                                                  .stringUtils
+                                                  .shopperLevels[
                                               Services.shopper.level.id - 1],
                                           style: TextStyle(
                                               fontFamily: UtilsImporter()
@@ -509,10 +509,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     // _showDeleteButton(index: index),
                     KammunButton(
-                      text: UtilsImporter()
-                          .stringUtils
-                          .edit_address
-                          .toUpperCase(),
+                      text: UtilsImporter().stringUtils.edit.toUpperCase(),
                       width: 125,
                       height: 35,
                       color: UtilsImporter().colorUtils.primarycolor,

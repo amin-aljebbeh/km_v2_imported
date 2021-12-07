@@ -244,8 +244,10 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                   text: TextSpan(
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text:
-                                            UtilsImporter().stringUtils.address,
+                                        text: UtilsImporter()
+                                                .stringUtils
+                                                .address +
+                                            " : ",
                                         style: paragraphStyle,
                                       ),
                                       TextSpan(

@@ -47,26 +47,10 @@ class StoreViewState extends State<StoreView> {
   void initState() {
     super.initState();
 
-    // if (LoadingScreenServices.bannerListNetwork.length == 0 ||
-    //     LoadingScreenServices.categoryList.length == 0) {
-    //   Navigator.push(context,
-    //       new MaterialPageRoute(builder: (context) => new InternetError()));
-    // }
-    // bool isThereOrderUnderUbdate = false;
-    // for (int i = 0; i < LoadingScreenServices.myOrdersList.length; i++) {
-    //   if (LoadingScreenServices.myOrdersList[i].underUpdate == "1") {
-    //     isThereOrderUnderUbdate = true;
-    //   }
-    // }
     if (Services.updateOption)
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showUpdateDialog();
       });
-
-    // if (isThereOrderUnderUbdate) {
-    //   WidgetsBinding.instance.addPostFrameCallback(
-    //       (_) => _showUpdateOrderInstruction(context: context));
-    // }
   }
 
   void showUpdateDialog() {
@@ -337,7 +321,7 @@ class StoreViewState extends State<StoreView> {
                         onTap: () => _shareApp(),
                       ),
                     ),
-                    Services.isProductsControl()
+                    Services.isProductsController()
                         ? ListTile(
                             leading: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
@@ -374,7 +358,7 @@ class StoreViewState extends State<StoreView> {
                         Navigator.of(context).pushNamed('/profile');
                       },
                     ),
-                    Services.isProductsControl()
+                    Services.isProductsController()
                         ? ListTile(
                             leading: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
@@ -670,7 +654,7 @@ class StoreViewState extends State<StoreView> {
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
               contentPadding: const EdgeInsets.only(bottom: 0.5),
-              hintText: "بحث",
+              hintText: UtilsImporter().stringUtils.search,
               hintStyle: mainStyle,
             ),
           ),

@@ -77,7 +77,7 @@ class InternetError extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: KammunButton(
                 height: 50,
-                text: "إعادة المحاولة",
+                text: UtilsImporter().stringUtils.tryAgain,
                 color: Theme.of(context).primaryColor,
                 onTap: () => KammunRestart.restartApp(context),
               ),

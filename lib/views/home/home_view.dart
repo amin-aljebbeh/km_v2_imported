@@ -50,7 +50,7 @@ class HomeViewState extends State<HomeView> {
             (_) {
               List<DialogButton> decisionButtons = [
                 DialogButton(
-                  text: 'إغلاق',
+                  text: UtilsImporter().stringUtils.close,
                   onTap: () {
                     Navigator.of(context).pop();
                   },
@@ -92,7 +92,7 @@ class HomeViewState extends State<HomeView> {
 
         List<DialogButton> decisionButtons = [
           DialogButton(
-            text: 'إغلاق',
+            text: UtilsImporter().stringUtils.close,
             onTap: () {
               Navigator.of(context).pop();
             },
@@ -116,7 +116,7 @@ class HomeViewState extends State<HomeView> {
 
         List<DialogButton> decisionButtons = [
           DialogButton(
-            text: 'إغلاق',
+            text: UtilsImporter().stringUtils.close,
             onTap: () {
               Navigator.of(context).pop();
             },
@@ -139,7 +139,7 @@ class HomeViewState extends State<HomeView> {
 
         List<DialogButton> decisionButtons = [
           DialogButton(
-            text: 'إغلاق',
+            text: UtilsImporter().stringUtils.close,
             onTap: () {
               Navigator.of(context).pop();
             },
@@ -227,7 +227,7 @@ class HomeViewState extends State<HomeView> {
             )),
       );
     }
-    if (Services.isProductsControl()) {
+    if (Services.isProductsController()) {
       bottomList.add(
         BottomNavigationBarItem(
             activeIcon: Icon(
@@ -303,7 +303,7 @@ class HomeViewState extends State<HomeView> {
         OrdersView(),
       );
     }
-    if ((Services.isProductsControl())) {
+    if ((Services.isProductsController())) {
       _tabs.add(Inventory());
     }
 

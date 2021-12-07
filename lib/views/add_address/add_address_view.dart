@@ -187,7 +187,9 @@ class AddAddressViewState extends State<AddAddressView> {
                         labelText: UtilsImporter().stringUtils.closeSign,
                       ),
                       KammunButton(
-                        text: "حفظ العنوان",
+                        text: UtilsImporter().stringUtils.save +
+                            ' ' +
+                            UtilsImporter().stringUtils.address,
                         height: 50,
                         color: UtilsImporter().colorUtils.primarycolor,
                         onTap: _addAddressBtnTapped,
@@ -318,7 +320,9 @@ class AddAddressViewState extends State<AddAddressView> {
                     padding: const EdgeInsets.only(
                         top: 0.0, left: 8, right: 8, bottom: 40),
                     child: KammunButton(
-                      text: "حفظ العنوان",
+                      text: UtilsImporter().stringUtils.save +
+                          ' ' +
+                          UtilsImporter().stringUtils.address,
                       height: 50,
                       color: UtilsImporter().colorUtils.primarycolor,
                       onTap: () {

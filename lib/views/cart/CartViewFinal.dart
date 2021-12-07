@@ -398,7 +398,13 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                 ),
                                               ),
                                               KammunButton(
-                                                text: "حفظ الملاحظة",
+                                                text: UtilsImporter()
+                                                        .stringUtils
+                                                        .save +
+                                                    ' ' +
+                                                    UtilsImporter()
+                                                        .stringUtils
+                                                        .note,
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width /

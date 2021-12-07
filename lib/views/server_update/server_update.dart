@@ -53,7 +53,7 @@ class ServerUpdate extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: KammunButton(
-                    text: "المحاولة من جديد",
+                    text: UtilsImporter().stringUtils.tryAgain,
                     height: 50,
                     color: UtilsImporter().colorUtils.primarycolor,
                     onTap: () => KammunRestart.restartApp(context),

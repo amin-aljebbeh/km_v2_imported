@@ -493,10 +493,10 @@ class Services {
         0;
   }
 
-  static bool isProductsControl() {
+  static bool isProductsController() {
     return Services.roles
             .where((element) => element.slug
-                .contains(UtilsImporter().stringUtils.productsControll))
+                .contains(UtilsImporter().stringUtils.productsController))
             .length >
         0;
   }

@@ -202,10 +202,7 @@ class DeliverToViewState extends State<DeliverToView> {
                       onTap: () => onrRemove(index),
                     ),
                     KammunButton(
-                      text: UtilsImporter()
-                          .stringUtils
-                          .edit_address
-                          .toUpperCase(),
+                      text: UtilsImporter().stringUtils.edit.toUpperCase(),
                       height: 35,
                       width: 125,
                       color: UtilsImporter().colorUtils.primarycolor,

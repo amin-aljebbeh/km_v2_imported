@@ -53,17 +53,6 @@ class ProductDetailViewState extends State<ProductDetailView>
   void initState() {
     super.initState();
 
-    // selectedValueCategoryValue = LoadingScreenServices.fullCategoryList.firstWhere((element) => element.value == widget.products.categoryId));
-
-    // selectedValueCategoryValue = LoadingScreenServices.fullCategoryList
-    //     .firstWhere((element) =>
-    //         element.value.toString() == widget.products.categoryId.toString())
-    //     .value
-    //     .toString();
-    if (widget.product.images.length > 0) {
-      print('widget.product.images[0].id');
-      print(widget.product.images[0].id);
-    }
     Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));
 
     _animationController = new AnimationController(
@@ -112,10 +101,6 @@ class ProductDetailViewState extends State<ProductDetailView>
         maxWidth: 500);
     // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
     Tools.logToConsole("Image Path");
-    // Tools.logToConsole(File(pickedFile.path));
-    // Tools.logToConsole("Compressed Image Path");
-    // Tools.logToConsole(uploadedFile);
-    // Tools.logToConsole(uploadedFile.path);
 
     setState(() {
       if (pickedFile != null) {
@@ -135,10 +120,6 @@ class ProductDetailViewState extends State<ProductDetailView>
         maxWidth: 500);
     // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
     Tools.logToConsole("Image Path");
-    // Tools.logToConsole(File(pickedFile.path));
-    // Tools.logToConsole("Compressed Image Path");
-    // Tools.logToConsole(uploadedFile);
-    // Tools.logToConsole(uploadedFile.path);
 
     setState(() {
       if (pickedFile != null) {
@@ -184,6 +165,7 @@ class ProductDetailViewState extends State<ProductDetailView>
       padding: EdgeInsets.only(top: 10),
       child: SelectedFileToUpload(
         image: _image,
+        name: 'Product Image}',
         close: () {
           setState(() {
             _image = null;
@@ -198,8 +180,6 @@ class ProductDetailViewState extends State<ProductDetailView>
 
   @override
   Widget build(BuildContext context) {
-    // Tools.logToConsole("------ the image length --------");
-    // Tools.logToConsole(widget.products.images.length);
     return SafeArea(
       top: true,
       left: false,
@@ -340,7 +320,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Text("الكمية:", style: paragraphStyle),
+                              Text(UtilsImporter().stringUtils.quantity + ' :',
+                                  style: paragraphStyle),
                               SizedBox(width: 5),
                               Text(
                                 widget.product.unit.toString() != "null"
@@ -355,7 +336,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                           Column(
                             // crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Text("السعر: ", style: paragraphStyle),
+                              Text(UtilsImporter().stringUtils.price + ' :',
+                                  style: paragraphStyle),
                               SizedBox(width: 5),
                               Text(
                                   "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
@@ -369,7 +351,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "الوصف:",
+                            UtilsImporter().stringUtils.description + ' :',
                             style: paragraphStyle,
                           ),
                           SizedBox(width: 5),
@@ -460,7 +442,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                       width: 4)),
                               child: Center(
                                   child: Text(
-                                "المنتج نفذ من المستودعات",
+                                UtilsImporter().stringUtils.outOfStock,
                                 style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.bold,
@@ -471,7 +453,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           : Container(),
                       KammunButton(
                         text:
-                            'الإضافة لسلة المشتريات  ( ${UtilsImporter().stringUtils.oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
+                            '${UtilsImporter().stringUtils.addToCart}  (${UtilsImporter().stringUtils.oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
                         height: 50,
                         color: Theme.of(context).primaryColor,
                         onTap: () async {
@@ -480,10 +462,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                           if (LoadingScreen.userToken.length > 5) {
                             Navigator.of(context).pop(true);
 
-                            Tools.logToConsole(
-                                "========= product price ========");
-
-                            Tools.logToConsole(widget.product.price);
                             widget.product.productCount = numberOfOrders;
 
                             CartServices.addProductToCart(widget.product);
@@ -540,7 +518,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                               children: [
                                 SizedBox(height: 30),
                                 UpdateProductInfoWidget(
-                                  title: "تعديل السعر",
+                                  title: UtilsImporter().stringUtils.edit +
+                                      ' ' +
+                                      UtilsImporter().stringUtils.price +
+                                      ' :',
                                   inputType: TextInputType.number,
                                   bodyKey: "price",
                                   productId: widget.product.id,
@@ -550,7 +531,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 ),
                                 SizedBox(height: 30),
                                 UpdateProductInfoWidget(
-                                  title: "تعديل رمز المادة",
+                                  title: UtilsImporter().stringUtils.edit +
+                                      ' ' +
+                                      UtilsImporter().stringUtils.supplierCode +
+                                      ' :',
                                   inputType: TextInputType.text,
                                   textHint: widget.product.supplierCode,
                                   initialText: widget.product.supplierCode,
@@ -560,7 +544,9 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 ),
                                 SizedBox(height: 30),
                                 UpdateProductInfoWidget(
-                                  title: "معدل الضرب",
+                                  title:
+                                      UtilsImporter().stringUtils.priceFactor +
+                                          ' :',
                                   inputType: TextInputType.number,
                                   bodyKey: "price_factor",
                                   productId: widget.product.id,
@@ -570,7 +556,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 ),
                                 SizedBox(height: 30),
                                 UpdateProductInfoWidget(
-                                  title: "تعديل الاسم",
+                                  title: UtilsImporter().stringUtils.edit +
+                                      ' ' +
+                                      UtilsImporter().stringUtils.name +
+                                      ' :',
                                   textHint: widget.product.name,
                                   inputType: TextInputType.text,
                                   bodyKey: "name",
@@ -581,7 +570,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 ),
                                 SizedBox(height: 30),
                                 UpdateProductInfoWidget(
-                                  title: "تعديل الوحدة",
+                                  title: UtilsImporter().stringUtils.edit +
+                                      ' ' +
+                                      UtilsImporter().stringUtils.unit +
+                                      ' :',
                                   inputType: TextInputType.text,
                                   bodyKey: "unit",
                                   productId: widget.product.id,
@@ -592,7 +584,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 ),
                                 SizedBox(height: 30),
                                 UpdateProductInfoWidget(
-                                  title: "تعديل الكمية",
+                                  title: UtilsImporter().stringUtils.edit +
+                                      ' ' +
+                                      UtilsImporter().stringUtils.quantity +
+                                      ' :',
                                   isForSubWarehouse: false,
                                   inputType: TextInputType.text,
                                   productData: widget.product,
@@ -603,7 +598,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 ),
                                 SizedBox(height: 30),
                                 UpdateProductInfoWidget(
-                                  title: "تعديل الوصف",
+                                  title: UtilsImporter().stringUtils.edit +
+                                      ' ' +
+                                      UtilsImporter().stringUtils.description +
+                                      ' :',
                                   textHint: "الوصف الجديد",
                                   inputType: TextInputType.text,
                                   bodyKey: "description",
@@ -614,7 +612,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 ),
                                 SizedBox(height: 30),
                                 UpdateProductInfoWidget(
-                                  title: "تعديل الأولوية",
+                                  title: UtilsImporter().stringUtils.edit +
+                                      ' ' +
+                                      UtilsImporter().stringUtils.priority +
+                                      ' :',
                                   textHint: widget.product.priority.toString(),
                                   inputType: TextInputType.text,
                                   bodyKey: "priority",
@@ -641,7 +642,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                       style: decisionButtonStyle,
                                       closeButton: FlatButton(
                                         child: Text(
-                                          'إغلاق',
+                                          UtilsImporter().stringUtils.close,
                                           style: decisionButtonStyle.copyWith(
                                             color: UtilsImporter()
                                                 .colorUtils

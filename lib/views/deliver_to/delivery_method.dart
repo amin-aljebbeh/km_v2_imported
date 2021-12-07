@@ -226,7 +226,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                           ),
                     error
                         ? KammunButton(
-                            text: "المحاولة مرة أخرى",
+                            text: UtilsImporter().stringUtils.tryAgain,
                             height: 50,
                             color: Colors.green,
                             onTap: _getDeliveryMethods,

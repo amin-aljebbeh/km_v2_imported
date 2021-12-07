@@ -507,7 +507,8 @@ class OrdersViewState extends State<OrdersView> {
                               orderDataList[index].userNotes.toString() !=
                                       "null"
                                   ? KammunButton(
-                                      text: 'مشاهدة ملاحظة العميل',
+                                      text:
+                                          UtilsImporter().stringUtils.watchNote,
                                       onTap: () {
                                         List<DialogButton> decisionButtons = [
                                           DialogButton(
@@ -529,7 +530,7 @@ class OrdersViewState extends State<OrdersView> {
                                   : Container(),
                               orderDataList[index].underUpdate.toString() != "0"
                                   ? KammunButton(
-                                      text: "إلغاء التعليق",
+                                      text: UtilsImporter().stringUtils.unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
                                         List<DialogButton> decisionButtons = [
