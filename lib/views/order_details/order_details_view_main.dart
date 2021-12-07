@@ -8,7 +8,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/order_detail_view_main_card.dart';
@@ -345,7 +345,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                DecisionButton(
+                                KammunButton(
                                   text: widget.order.orderStatusId == "1"
                                       ? "قبول الطلب"
                                       : widget.order.orderStatusId == "2"
@@ -395,7 +395,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                   },
                                 ),
                                 // _showCancelButton(idOrder),
-                                DecisionButton(
+                                KammunButton(
                                   text: "إلغاء الطلب",
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,

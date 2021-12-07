@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
@@ -72,7 +72,7 @@ class UpdateScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: DecisionButton(
+                  child: KammunButton(
                     text: " التحديث الآن ",
                     height: 50,
                     color: UtilsImporter().colorUtils.primarycolor,

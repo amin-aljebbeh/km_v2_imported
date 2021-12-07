@@ -3,7 +3,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
@@ -194,14 +194,14 @@ class DeliverToViewState extends State<DeliverToView> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   //    crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    DecisionButton(
+                    KammunButton(
                       text: UtilsImporter().stringUtils.delete.toUpperCase(),
                       height: 35,
                       width: 125,
                       color: UtilsImporter().colorUtils.primarycolor,
                       onTap: () => onrRemove(index),
                     ),
-                    DecisionButton(
+                    KammunButton(
                       text: UtilsImporter()
                           .stringUtils
                           .edit_address
@@ -333,7 +333,7 @@ class DeliverToViewState extends State<DeliverToView> {
                         ],
                       ),
                     ),
-                    DecisionButton(
+                    KammunButton(
                       text: UtilsImporter()
                           .stringUtils
                           .proceed_to_pay

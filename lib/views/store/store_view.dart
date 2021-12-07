@@ -4,7 +4,7 @@ import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
@@ -149,7 +149,7 @@ class StoreViewState extends State<StoreView> {
                   children: <Widget>[
                     Container(
                       width: MediaQuery.of(context).size.width / 2.8,
-                      child: DecisionButton(
+                      child: KammunButton(
                         text: " التحديث الآن ",
                         height: 50,
                         color: UtilsImporter().colorUtils.kmColors,
@@ -158,7 +158,7 @@ class StoreViewState extends State<StoreView> {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 2.8,
-                      child: DecisionButton(
+                      child: KammunButton(
                         text: " التحديث لاحقاً ",
                         height: 50,
                         color: Colors.grey[700],

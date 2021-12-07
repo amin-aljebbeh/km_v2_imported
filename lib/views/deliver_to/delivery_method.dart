@@ -3,7 +3,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -225,13 +225,13 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                             ),
                           ),
                     error
-                        ? DecisionButton(
+                        ? KammunButton(
                             text: "المحاولة مرة أخرى",
                             height: 50,
                             color: Colors.green,
                             onTap: _getDeliveryMethods,
                           )
-                        : DecisionButton(
+                        : KammunButton(
                             text: UtilsImporter()
                                 .stringUtils
                                 .proceed_to_pay

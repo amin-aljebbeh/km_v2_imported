@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 
@@ -52,7 +52,7 @@ class ServerUpdate extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: DecisionButton(
+                  child: KammunButton(
                     text: "المحاولة من جديد",
                     height: 50,
                     color: UtilsImporter().colorUtils.primarycolor,

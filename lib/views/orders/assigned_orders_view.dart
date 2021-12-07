@@ -7,7 +7,7 @@ import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
@@ -319,7 +319,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   orderCreatedDate: dateTime,
                                 ),
                               ),
-                              DecisionButton(
+                              KammunButton(
                                 text: UtilsImporter().stringUtils.edit_order,
                                 onTap: () async {
                                   setState(
@@ -376,7 +376,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                               ),
                               orderDataList[index].userNotes.toString() !=
                                       "null"
-                                  ? DecisionButton(
+                                  ? KammunButton(
                                       text: 'مشاهدة ملاحظة العميل',
                                       onTap: () {
                                         List<DialogButton> decisionButtons = [
@@ -398,7 +398,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                     )
                                   : Container(),
                               orderDataList[index].underUpdate.toString() != "0"
-                                  ? DecisionButton(
+                                  ? KammunButton(
                                       text: "إلغاء التعليق",
                                       onTap: () {
                                         int orderId = orderDataList[index].id;

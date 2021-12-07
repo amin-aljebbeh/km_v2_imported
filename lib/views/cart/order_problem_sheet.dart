@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
@@ -246,14 +246,14 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   child: Wrap(
                     spacing: 5,
                     children: [
-                      DecisionButton(
+                      KammunButton(
                         text: "تحديث الطلب",
                         height: 50,
                         width: MediaQuery.of(context).size.width / 2.3,
                         color: Colors.green,
                         onTap: () => widget.applyChanges(false),
                       ),
-                      DecisionButton(
+                      KammunButton(
                         text: "!! إرسال الطلب !!",
                         height: 50,
                         width: MediaQuery.of(context).size.width / 2.3,

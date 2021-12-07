@@ -4,7 +4,7 @@ import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/k_text_field.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:location/location.dart';
@@ -186,7 +186,7 @@ class AddAddressViewState extends State<AddAddressView> {
                         hintText: "مقابل جامع النعمان،",
                         labelText: UtilsImporter().stringUtils.closeSign,
                       ),
-                      DecisionButton(
+                      KammunButton(
                         text: "حفظ العنوان",
                         height: 50,
                         color: UtilsImporter().colorUtils.primarycolor,
@@ -304,7 +304,7 @@ class AddAddressViewState extends State<AddAddressView> {
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 8.0, left: 8, right: 8, bottom: 3),
-                    child: DecisionButton(
+                    child: KammunButton(
                       text: "مشاركة الموقع",
                       height: 50,
                       color: Colors.green,
@@ -317,7 +317,7 @@ class AddAddressViewState extends State<AddAddressView> {
                   Padding(
                     padding: const EdgeInsets.only(
                         top: 0.0, left: 8, right: 8, bottom: 40),
-                    child: DecisionButton(
+                    child: KammunButton(
                       text: "حفظ العنوان",
                       height: 50,
                       color: UtilsImporter().colorUtils.primarycolor,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
@@ -100,7 +100,7 @@ class ThankYouViewState extends State<ThankYouView> {
                     ),
                   ),
                   SizedBox(height: 40),
-                  DecisionButton(
+                  KammunButton(
                     text: UtilsImporter().stringUtils.continueShopping,
                     color: Theme.of(context).primaryColor,
                     height: 50,

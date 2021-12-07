@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -289,7 +289,7 @@ class _LoginScreenState extends State<LoginScreen>
                               EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
                           child: Loader(),
                         )
-                      : DecisionButton(
+                      : KammunButton(
                           text: "تسجيل الدخول",
                           height: 50,
                           color: UtilsImporter().colorUtils.primarycolor,

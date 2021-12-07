@@ -5,7 +5,7 @@ import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
@@ -318,7 +318,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                 ),
                               ),
                               if (Services.isDelivery() || Services.isShopper())
-                                DecisionButton(
+                                KammunButton(
                                   text: UtilsImporter().stringUtils.getOrder,
                                   color: Colors.green[800],
                                   onTap: () {
@@ -334,7 +334,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                               ),
                               orderDataList[index].userNotes.toString() !=
                                       "null"
-                                  ? DecisionButton(
+                                  ? KammunButton(
                                       text:
                                           UtilsImporter().stringUtils.watchNote,
                                       onTap: () {
@@ -361,7 +361,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                     )
                                   : Container(),
                               orderDataList[index].underUpdate.toString() != "0"
-                                  ? DecisionButton(
+                                  ? KammunButton(
                                       text: UtilsImporter().stringUtils.unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;

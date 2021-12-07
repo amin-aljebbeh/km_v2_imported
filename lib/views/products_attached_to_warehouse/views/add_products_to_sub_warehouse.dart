@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
   final ProductData productData;
+
   AddProductsToSubWarehouse({this.productData});
+
   @override
   _AddProductsToSubWarehouseState createState() =>
       _AddProductsToSubWarehouseState();
@@ -112,6 +114,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
 
   bool isLoading = false;
   bool isError = false;
+
   void _addNewProduct() async {
     setState(() {
       isLoading = true;
@@ -340,15 +343,14 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       ],
                     ),
                     KammunButton(
-                      text: "حفظ",
-                      onPress: priceFactorController.text != null &&
+                        text: "حفظ",
+                        height: 50,
+                        color: Theme.of(context).primaryColor,
+                        onTap: () {
+                          if (priceFactorController.text != null &&
                               supplierCodeController.text != null &&
-                              priceController.text != null
-                          ? () {
-                              _addNewProduct();
-                            }
-                          : null,
-                    )
+                              priceController.text != null) _addNewProduct();
+                        }),
                   ],
                 ),
         ),

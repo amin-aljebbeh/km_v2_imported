@@ -6,7 +6,7 @@ import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
@@ -277,7 +277,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           ? Loader()
                           : Column(
                               children: <Widget>[
-                                DecisionButton(
+                                KammunButton(
                                   color:
                                       UtilsImporter().colorUtils.primarycolor,
                                   child: Row(
@@ -397,7 +397,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                   ),
                                                 ),
                                               ),
-                                              DecisionButton(
+                                              KammunButton(
                                                 text: "حفظ الملاحظة",
                                                 width: MediaQuery.of(context)
                                                         .size
@@ -427,7 +427,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 //     //    _addCopouns(),
                                 //   ],
                                 // ),
-                                DecisionButton(
+                                KammunButton(
                                   width: MediaQuery.of(context).size.width,
                                   color: CartServices.cartProducts.length > 0
                                       ? UtilsImporter().colorUtils.primarycolor

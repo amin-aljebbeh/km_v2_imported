@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Styles.dart';
 
-class DecisionButton extends StatelessWidget {
+class KammunButton extends StatelessWidget {
   final String text;
   final double width;
   final double height;
@@ -10,7 +10,7 @@ class DecisionButton extends StatelessWidget {
   final Function onTap;
   final Widget child;
 
-  const DecisionButton({
+  const KammunButton({
     Key key,
     this.text,
     this.width,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class AddSpending extends StatefulWidget {
   final OrdersOriginalData orderDetails;
+
   const AddSpending({Key key, this.orderDetails}) : super(key: key);
 
   @override
@@ -87,7 +87,6 @@ class _AddSpendingState extends State<AddSpending> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    KammunButton(text: "حفظ", onPress: () {})
                   ],
                 ),
         ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -498,7 +498,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   //    crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    DecisionButton(
+                    KammunButton(
                       text: UtilsImporter().stringUtils.delete.toUpperCase(),
                       width: 125,
                       height: 35,
@@ -508,7 +508,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       },
                     ),
                     // _showDeleteButton(index: index),
-                    DecisionButton(
+                    KammunButton(
                       text: UtilsImporter()
                           .stringUtils
                           .edit_address

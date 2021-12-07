@@ -7,11 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/Styles.dart';
-import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/update_product_info_widget.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
@@ -470,7 +469,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                               )),
                             )
                           : Container(),
-                      DecisionButton(
+                      KammunButton(
                         text:
                             'الإضافة لسلة المشتريات  ( ${UtilsImporter().stringUtils.oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
                         height: 50,
@@ -692,7 +691,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   ),
                                 ),
                                 widget.product.images.length > 0
-                                    ? DecisionButton(
+                                    ? KammunButton(
                                         height: 50,
                                         color: Theme.of(context).primaryColor,
                                         child: Row(
@@ -722,7 +721,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         },
                                       )
                                     : Container(),
-                                DecisionButton(
+                                KammunButton(
                                   height: 50,
                                   text: "الإضافة لصنف جديد",
                                   color: Theme.of(context).primaryColor,
@@ -738,7 +737,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                     : _image != null
                                         ? KammunButton(
                                             text: "حفظ الصورة",
-                                            onPress: () async {
+                                            height: 50,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            onTap: () async {
                                               setState(() {
                                                 isLoading = true;
                                               });

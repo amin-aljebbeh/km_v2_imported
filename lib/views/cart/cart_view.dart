@@ -4,7 +4,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/blurred_widget.dart';
-import 'package:kammun_app/views/Wedgit/decision_button.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/screen_message.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -188,7 +188,7 @@ class CartViewState extends State<CartView> {
                 ),
                 SizedBox(height: 10),
                 SafeArea(
-                  child: DecisionButton(
+                  child: KammunButton(
                     width: MediaQuery.of(context).size.width,
                     color: CartServices.cartProducts.length > 0
                         ? UtilsImporter().colorUtils.primarycolor

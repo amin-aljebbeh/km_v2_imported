@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/sub_warehouse_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/inventory/sub_warehouse_products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
@@ -119,8 +119,12 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                       height: 10,
                     ),
                     KammunButton(
+                      height: 50,
                       text: "التالي",
-                      onPress: () {
+                      color: selected
+                          ? Theme.of(context).primaryColor
+                          : UtilsImporter().colorUtils.searchgreycolor,
+                      onTap: () {
                         if (selected)
                           Navigator.push(
                             context,
