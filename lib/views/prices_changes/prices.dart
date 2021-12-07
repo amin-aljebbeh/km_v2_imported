@@ -12,14 +12,13 @@ class Prices extends StatefulWidget {
   _PricesState createState() => _PricesState();
 }
 
-TextEditingController _controller = new TextEditingController();
-bool isLoading;
-bool isError;
-String filter;
-PricesChanges productsList;
-int numberOfProducts;
-
 class _PricesState extends State<Prices> {
+  TextEditingController _controller = new TextEditingController();
+  bool isLoading;
+  bool isError;
+  String filter;
+  PricesChanges productsList;
+  int numberOfProducts;
   _loadData() async {
     setState(() {
       isLoading = true;
@@ -44,6 +43,11 @@ class _PricesState extends State<Prices> {
   @override
   void initState() {
     numberOfProducts = 0;
+    _controller.addListener(() {
+      setState(() {
+        filter = _controller.text;
+      });
+    });
     _loadData();
     super.initState();
   }

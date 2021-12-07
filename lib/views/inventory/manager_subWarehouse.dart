@@ -5,6 +5,7 @@ import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/inventory/sub_warehouse_products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'services/inventory_services.dart';
 
 class GetSubWarehouse extends StatefulWidget {
@@ -51,6 +52,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
   }
 
   int _selectedSubWarehouseValue = -1;
+  bool selected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +106,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                                     value: data.id,
                                     onChanged: (val) {
                                       setState(() {
+                                        selected = true;
                                         _selectedSubWarehouseValue = data.id;
                                       });
                                     },
@@ -118,13 +121,20 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                     KammunButton(
                       text: "التالي",
                       onPress: () {
-                        Navigator.push(
+                        if (selected)
+                          Navigator.push(
                             context,
                             new MaterialPageRoute(
-                                builder: (context) => new SubWarehouseProducts(
-                                      subWarehouseId:
-                                          _selectedSubWarehouseValue.toString(),
-                                    )));
+                              builder: (context) => new SubWarehouseProducts(
+                                subWarehouseId:
+                                    _selectedSubWarehouseValue.toString(),
+                              ),
+                            ),
+                          );
+                        else
+                          Toast.show('يرجى اختيار المستودع', context,
+                              duration: Toast.LENGTH_LONG,
+                              gravity: Toast.CENTER);
                       },
                     ),
                   ],

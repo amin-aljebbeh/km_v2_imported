@@ -7,6 +7,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:toast/toast.dart';
 
 import 'models/matching_report_model.dart';
 import 'services/reports_services.dart';
@@ -19,7 +20,7 @@ class MatchingReport extends StatefulWidget {
 class _MatchingReportState extends State<MatchingReport> {
   String _reportDate = "يرجى أختيار تاريخ التقرير ";
 
-  final DateFormat fullDateFormater = DateFormat('yyyy-MM-dd');
+  final DateFormat fullDateFormat = DateFormat('yyyy-MM-dd');
   bool isLoading = false;
   bool isError = false;
   int _selectedValue = -1;
@@ -124,7 +125,11 @@ class _MatchingReportState extends State<MatchingReport> {
                 KammunButton(
                   text: "إرسال",
                   onPress: () {
-                    _getMatchingReport();
+                    if (validDates())
+                      _getMatchingReport();
+                    else
+                      Toast.show('الرجاء إدخال كافة البيانات', context,
+                          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                   },
                 ),
                 SizedBox(
@@ -153,5 +158,9 @@ class _MatchingReportState extends State<MatchingReport> {
             )),
       ),
     );
+  }
+
+  bool validDates() {
+    return _reportDate != "يرجى أختيار تاريخ التقرير " && _selectedValue != -1;
   }
 }

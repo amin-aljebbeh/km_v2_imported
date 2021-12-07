@@ -357,6 +357,23 @@ class StoreViewState extends State<StoreView> {
                             },
                           )
                         : Container(),
+                    ListTile(
+                      leading: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Icon(
+                          Icons.person,
+                          color: UtilsImporter().colorUtils.primarycolor,
+                          size: 30,
+                        ),
+                      ),
+                      title: Text(
+                        "الملف الشخصي",
+                        style: mainStyle,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/profile');
+                      },
+                    ),
                     Services.isProductsControl()
                         ? ListTile(
                             leading: Padding(
@@ -377,23 +394,6 @@ class StoreViewState extends State<StoreView> {
                             },
                           )
                         : Container(),
-                    ListTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Icon(
-                          Icons.info_outline,
-                          color: UtilsImporter().colorUtils.primarycolor,
-                          size: 30,
-                        ),
-                      ),
-                      title: Text(
-                        "الملف الشخصي",
-                        style: mainStyle,
-                      ),
-                      onTap: () {
-                        Navigator.of(context).pushNamed('/profile');
-                      },
-                    ),
                     Services.isAdmin() || Services.isSuperAdmin()
                         ? ListTile(
                             leading: Padding(

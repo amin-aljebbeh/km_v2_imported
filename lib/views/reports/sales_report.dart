@@ -6,6 +6,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:toast/toast.dart';
 
 import 'models/sales_reports_model.dart';
 import 'services/reports_services.dart';
@@ -28,6 +29,7 @@ class _SalesReportState extends State<SalesReport> {
   int all = 0;
 
   List<Widget> totalSubWarehouses = [];
+
   _reportCard(GetDailyStatistics response) {
     totalSubWarehouses.clear();
     Tools.logToConsole("Response Data Length: ${response.data.length}");
@@ -285,7 +287,7 @@ class _SalesReportState extends State<SalesReport> {
       isLoading = true;
     });
 
-    var response = await ReportsServcies.getSailesReports(
+    var response = await ReportsServcies.getSalesReports(
       fromDate: _fromDateTimeValue,
       toDate: _toDateTimeValue,
     );
@@ -375,7 +377,11 @@ class _SalesReportState extends State<SalesReport> {
                 KammunButton(
                   text: "إرسال",
                   onPress: () {
-                    _getSailsReport();
+                    if (validDates())
+                      _getSailsReport();
+                    else
+                      Toast.show('الرجاء إدخال كافة البيانات', context,
+                          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                   },
                 ),
                 SizedBox(
@@ -398,5 +404,10 @@ class _SalesReportState extends State<SalesReport> {
             )),
       ),
     );
+  }
+
+  bool validDates() {
+    return _fromDateTimeValue != "يرجى أختيار تاريخ البداية" &&
+        _toDateTimeValue != "يرجى إختيار تاريخ النهاية";
   }
 }
