@@ -331,10 +331,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   ),
                                   onTap: () {
                                     showMyDialog(
-                                      'إضافة ملاحظة',
-                                      null,
-                                      List<DialogButton>(),
-                                      Stack(
+                                      title: 'إضافة ملاحظة',
+                                      dialogButtons: List<DialogButton>(),
+                                      content: Stack(
                                         overflow: Overflow.visible,
                                         children: <Widget>[
                                           Positioned(
@@ -421,7 +420,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                           ),
                                         ],
                                       ),
-                                      context,
+                                      context: context,
                                     );
                                   },
                                 ),

@@ -162,11 +162,11 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                       ),
                                     ];
                                     showMyDialog(
-                                        "تحقق من الكمية",
-                                        "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
-                                        decisionButtons,
-                                        null,
-                                        context);
+                                        title: "تحقق من الكمية",
+                                        text:
+                                            "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
+                                        dialogButtons: decisionButtons,
+                                        context: context);
                                     // _showDialog();
                                   } else {
                                     widget.onCheckbox(widget.index);
@@ -351,11 +351,11 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                       ),
                                     ];
                                     showMyDialog(
-                                        "تحقق من الكمية",
-                                        "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
-                                        decisionButtons,
-                                        null,
-                                        context);
+                                        title: "تحقق من الكمية",
+                                        text:
+                                            "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
+                                        dialogButtons: decisionButtons,
+                                        context: context);
                                     // _showDialog();
                                   } else {
                                     widget.onCheckbox(widget.index);

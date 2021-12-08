@@ -114,7 +114,10 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
               )
             ];
             showMyDialog(
-                "حدث خطأ بالطلب", "$dialogText", dialogButtons, null, context);
+                title: "حدث خطأ بالطلب",
+                text: "$dialogText",
+                dialogButtons: dialogButtons,
+                context: context);
           })
         : {};
 

@@ -11,6 +11,8 @@ import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:toast/toast.dart';
 
+import '../../Services.dart';
+
 class AddProductsView extends StatefulWidget {
   final String categoryId;
 
@@ -108,7 +110,6 @@ class _AddProductsViewState extends State<AddProductsView> {
       @required String title,
       String subTitle,
       @required TextInputType fieldType,
-      double height,
       bool isAddress = false,
       double width,
       bool isPhoneNumber = false}) {
@@ -213,6 +214,8 @@ class _AddProductsViewState extends State<AddProductsView> {
         minThreshold: "0",
         autoActivation: autoActivationController,
         isActive: switchController ? "1" : "0");
+    Services.resultFlushBar(
+        context: context, result: productIds != null && productIds != 0);
 
     if (productIds != null && productIds != 0) {
       bool result = await ProductsServices.setImageToProducts(

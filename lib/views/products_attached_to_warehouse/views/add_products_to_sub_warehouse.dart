@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -28,7 +29,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       @required String title,
       String subTitle,
       @required TextInputType fieldType,
-      double height,
       bool isAddress = false,
       double width,
       bool isPhoneNumber = false}) {
@@ -135,8 +135,9 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       "automatic_activation": "0",
     };
 
-    bool response = await AddedProductsServices.attcahProductsToSubWarehouse(
+    bool response = await AddedProductsServices.attachProductsToSubWarehouse(
         fullRequestBody: body);
+    Services.resultFlushBar(context: context, result: response);
     if (response) {
       setState(() {
         isLoading = false;

@@ -519,11 +519,13 @@ class OrdersViewState extends State<OrdersView> {
                                           )
                                         ];
                                         showMyDialog(
-                                            'ملاحظة العميل',
-                                            orderDataList[index].userNotes,
-                                            decisionButtons,
-                                            null,
-                                            context);
+                                            title: UtilsImporter()
+                                                .stringUtils
+                                                .costumerNote,
+                                            text:
+                                                orderDataList[index].userNotes,
+                                            dialogButtons: decisionButtons,
+                                            context: context);
                                       },
                                       color: Colors.indigoAccent,
                                     )
@@ -555,11 +557,14 @@ class OrdersViewState extends State<OrdersView> {
                                         ];
 
                                         showMyDialog(
-                                            "إلغاء التعليق",
-                                            "هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل",
-                                            decisionButtons,
-                                            null,
-                                            context);
+                                            title: UtilsImporter()
+                                                .stringUtils
+                                                .unLock,
+                                            text: UtilsImporter()
+                                                .stringUtils
+                                                .unLockConfirm,
+                                            dialogButtons: decisionButtons,
+                                            context: context);
                                         // _showDialog(
                                         //     body: orderDataList[index]
                                         //         .userNotes);

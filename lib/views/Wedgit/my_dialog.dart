@@ -36,8 +36,12 @@ class MyDialog extends StatelessWidget {
   }
 }
 
-void showMyDialog(String title, String text, List<DialogButton> dialogButtons,
-    Widget content, BuildContext context) {
+void showMyDialog(
+    {@required String title,
+    String text,
+    List<DialogButton> dialogButtons,
+    Widget content,
+    @required BuildContext context}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {

@@ -1,8 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/string_utils.dart';
-import 'package:kammun_app/utils/string_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
@@ -57,15 +55,14 @@ class HomeViewState extends State<HomeView> {
                 )
               ];
               showMyDialog(
-                  widget.notificationValue['title'],
-                  widget.notificationValue['body'],
-                  decisionButtons,
-                  null,
-                  context);
+                  title: widget.notificationValue['title'],
+                  text: widget.notificationValue['body'],
+                  dialogButtons: decisionButtons,
+                  context: context);
               // _showNotificationDialog(ctx: context);
             },
           )
-        : {};
+        : Tools.logToConsole('do no thing');
 
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _initializeNotification(ctx: context));
@@ -98,8 +95,11 @@ class HomeViewState extends State<HomeView> {
             },
           )
         ];
-        showMyDialog(notification['title'], notification['body'],
-            decisionButtons, null, context);
+        showMyDialog(
+            title: notification['title'],
+            text: notification['body'],
+            dialogButtons: decisionButtons,
+            context: context);
         // _showDialog(notification['title'], notification['body']);
 
         // if (message['data']['route_name'] == "/productDetails") {
@@ -122,8 +122,11 @@ class HomeViewState extends State<HomeView> {
             },
           )
         ];
-        showMyDialog(notification['title'], notification['body'],
-            decisionButtons, null, context);
+        showMyDialog(
+            title: notification['title'],
+            text: notification['body'],
+            dialogButtons: decisionButtons,
+            context: context);
         // _showDialog(notification['title'], notification['body']);
 
         widget.notificationValue = notification;
@@ -145,8 +148,11 @@ class HomeViewState extends State<HomeView> {
             },
           )
         ];
-        showMyDialog(notification['title'], notification['body'],
-            decisionButtons, null, context);
+        showMyDialog(
+            title: notification['title'],
+            text: notification['body'],
+            dialogButtons: decisionButtons,
+            context: context);
         // _showDialog(notification['title'], notification['body']);
       },
     );

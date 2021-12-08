@@ -389,11 +389,11 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                           )
                                         ];
                                         showMyDialog(
-                                            'ملاحظة العميل',
-                                            orderDataList[index].userNotes,
-                                            decisionButtons,
-                                            null,
-                                            context);
+                                            title: 'ملاحظة العميل',
+                                            text:
+                                                orderDataList[index].userNotes,
+                                            dialogButtons: decisionButtons,
+                                            context: context);
                                       },
                                       color: Colors.indigoAccent,
                                     )
@@ -425,11 +425,11 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                         ];
 
                                         showMyDialog(
-                                            "إلغاء التعليق",
-                                            "هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل",
-                                            decisionButtons,
-                                            null,
-                                            context);
+                                            title: "إلغاء التعليق",
+                                            text:
+                                                "هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل",
+                                            dialogButtons: decisionButtons,
+                                            context: context);
                                         // _showDialog(
                                         //     body: orderDataList[index]
                                         //         .userNotes);

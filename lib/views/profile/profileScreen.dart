@@ -6,7 +6,6 @@ import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Services.dart';
 

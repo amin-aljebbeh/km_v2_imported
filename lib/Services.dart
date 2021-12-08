@@ -575,7 +575,8 @@ class Services {
     )..show(context);
   }
 
-  static resultFlushBar({BuildContext context, bool result}) {
+  static resultFlushBar(
+      {@required BuildContext context, @required bool result}) {
     if (result) {
       Services.successFlushBar(context);
     } else {

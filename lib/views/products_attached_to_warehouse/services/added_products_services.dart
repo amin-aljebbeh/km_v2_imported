@@ -52,7 +52,7 @@ class AddedProductsServices {
     }
   }
 
-  static Future<bool> attcahProductsToSubWarehouse({
+  static Future<bool> attachProductsToSubWarehouse({
     dynamic fullRequestBody,
   }) async {
     var response = await ApiProvider.sendRequest(
@@ -61,7 +61,7 @@ class AddedProductsServices {
         body: jsonEncode(fullRequestBody));
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      Tools.logToConsole("Product Attached to ptoducts successully");
+      Tools.logToConsole("Product Attached to products successfully");
       return true;
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");

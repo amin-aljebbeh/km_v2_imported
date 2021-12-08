@@ -28,8 +28,11 @@ class ThankYouViewState extends State<ThankYouView> {
           },
         )
       ];
-      showMyDialog('ملاحظة على الطلب', widget.orderMessage, dialogButtons, null,
-          context);
+      showMyDialog(
+          title: UtilsImporter().stringUtils.costumerNote,
+          text: widget.orderMessage,
+          dialogButtons: dialogButtons,
+          context: context);
     });
 
     super.initState();

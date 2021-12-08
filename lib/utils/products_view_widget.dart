@@ -6,6 +6,8 @@ import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/dialog_button.dart';
+import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
@@ -63,7 +65,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
   }
 
   void _showDialogDeleteProducts(
-      {@required String productsId, @required String productsName}) {
+      {/*@required String productsId,*/ @required String productsName}) {
     // flutter defined function
     showDialog(
       context: context,
@@ -85,24 +87,23 @@ class ProductsViewCardState extends State<ProductsViewCard> {
           actions: <Widget>[
             FlatButton(
               child: Text(
-                "نعم",
+                UtilsImporter().stringUtils.yes,
                 style: TextStyle(
                   fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                 ),
               ),
               onPressed: () {
                 _unAttachProduct();
-                Tools.logToConsole("The Product ID: $productsId");
                 Navigator.of(context).pop();
               },
             ),
             FlatButton(
               child: Text(
-                "إلغاء",
+                UtilsImporter().stringUtils.close,
                 style: TextStyle(
                   fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                 ),
-              ),
+              ), //cancel
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -293,8 +294,30 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     color: Colors.red,
                                   ),
                                   onPressed: () {
+                                    List<DialogButton> dialogButtons = [
+                                      DialogButton(
+                                        text: UtilsImporter().stringUtils.yes,
+                                        onTap: () {
+                                          _unAttachProduct();
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      DialogButton(
+                                        text: UtilsImporter().stringUtils.close,
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ];
+                                    showMyDialog(
+                                      title: "حذف منتج من المستودع",
+                                      text:
+                                          "هل أنت متأكد أنك تريد إزالة $widget.productName من المستودع",
+                                      dialogButtons: dialogButtons,
+                                      context: context,
+                                    );
                                     _showDialogDeleteProducts(
-                                        productsId: widget.productId,
+                                        /* productsId: widget.productId,*/
                                         productsName: widget.productName);
                                   })
                               : !widget.fromInventory

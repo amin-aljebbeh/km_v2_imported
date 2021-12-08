@@ -441,11 +441,11 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                       ),
                                     ];
                                     showMyDialog(
-                                        "إلغاء الطلب",
-                                        "هل أنت متأكد انك تريد إلغاء الطلب ؟",
-                                        decisionButton,
-                                        null,
-                                        context);
+                                        title: "إلغاء الطلب",
+                                        text:
+                                            "هل أنت متأكد انك تريد إلغاء الطلب ؟",
+                                        dialogButtons: decisionButton,
+                                        context: context);
                                   },
                                 ),
                                 // _showCancelOrderButton(idOrder),

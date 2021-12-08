@@ -349,13 +349,13 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                           )
                                         ];
                                         showMyDialog(
-                                            UtilsImporter()
+                                            title: UtilsImporter()
                                                 .stringUtils
                                                 .costumerNote,
-                                            orderDataList[index].userNotes,
-                                            decisionButtons,
-                                            null,
-                                            context);
+                                            text:
+                                                orderDataList[index].userNotes,
+                                            dialogButtons: decisionButtons,
+                                            context: context);
                                       },
                                       color: Colors.indigoAccent,
                                     )
@@ -386,13 +386,14 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                         ];
 
                                         showMyDialog(
-                                            UtilsImporter().stringUtils.unLock,
-                                            UtilsImporter()
+                                            title: UtilsImporter()
+                                                .stringUtils
+                                                .unLock,
+                                            text: UtilsImporter()
                                                 .stringUtils
                                                 .unLockConfirm,
-                                            decisionButtons,
-                                            null,
-                                            context);
+                                            dialogButtons: decisionButtons,
+                                            context: context);
                                         // _showDialog(
                                         //     body: orderDataList[index]
                                         //         .userNotes);

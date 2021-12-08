@@ -106,16 +106,11 @@ class ProductsServices {
           "price_factor": priceFactor,
           "automatic_activation": autoActivation,
         };
-        bool result = await AddedProductsServices.attcahProductsToSubWarehouse(
+        bool result = await AddedProductsServices.attachProductsToSubWarehouse(
             fullRequestBody: subWarehouseBody);
         if (result) {
-          Tools.logToConsole("Product Added");
-          Tools.logToConsole(response.data);
-          Tools.logToConsole(response.data["data"]["id"].toString());
-
           return int.parse(response.data["data"]["id"].toString());
         } else {
-          Tools.logToConsole(result);
           return null;
         }
       } else {
