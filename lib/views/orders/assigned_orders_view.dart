@@ -55,35 +55,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
 
   int filterOrders;
 
-  List<String> orderStatus = [
-    "فلترة الطلبات",
-    "قيد المعالجة",
-    "تم قبولها",
-    "تم تجهيزها",
-    "مع التوصيل",
-    "تم توصيلها",
-    "تم إلغائها",
-    "تم رفضها"
-  ];
-
-  List<String> dropdownValues = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15"
-  ];
-
   List<OrdersOriginalData> orderDataList = new List<OrdersOriginalData>();
 
   _getOrder() async {
@@ -175,7 +146,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                       children: <Widget>[
                         DropdownButton(
                           value: filterOrders,
-                          items: Services.dropdownStringList(orderStatus),
+                          items: Services.dropdownStringList(
+                              UtilsImporter().stringUtils.orderStatus),
                           onChanged: (value) {
                             setState(() {
                               filterOrders = value;
@@ -204,7 +176,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         ),
                         DropdownButton(
                           value: page,
-                          items: Services.dropdownIntList(dropdownValues),
+                          items: Services.dropdownIntList(
+                              UtilsImporter().stringUtils.dropdownValues),
                           onChanged: (value) {
                             setState(() {
                               page = value;

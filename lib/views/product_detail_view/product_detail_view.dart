@@ -534,7 +534,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   title: UtilsImporter().stringUtils.edit +
                                       ' ' +
                                       UtilsImporter().stringUtils.supplierCode +
-                                      ' :',
+                                      ':',
                                   inputType: TextInputType.text,
                                   textHint: widget.product.supplierCode,
                                   initialText: widget.product.supplierCode,

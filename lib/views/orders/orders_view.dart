@@ -63,41 +63,6 @@ class OrdersViewState extends State<OrdersView> {
   int ordersFilter;
   int ordersTypeFilter;
 
-  List<String> orderStatus = [
-    "فلترة الطلبات",
-    "قيد المعالجة",
-    "تم قبولها",
-    "تم تجهيزها",
-    "مع التوصيل",
-    "تم توصيلها",
-    "تم إلغائها",
-    "تم رفضها"
-  ];
-  List<String> orderTypes = [
-    'مسند لكابتن',
-    'بحاجة لكابتن',
-    'مسند لمتسوق',
-    'بحاجة لمتسوق',
-  ];
-
-  List<String> dropdownValues = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15"
-  ];
-
   List<OrdersOriginalData> orderDataList = new List<OrdersOriginalData>();
   List<SearchableItem> shopperSearch = List<SearchableItem>();
   List<SearchableItem> deliverySearch = List<SearchableItem>();
@@ -118,7 +83,6 @@ class OrdersViewState extends State<OrdersView> {
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
-          LoadingScreenServices.allOrdersList = orderDataList;
           if (LoadingScreenServices.allOrdersList.length != 0)
             theEndOfOrders = true;
           orderLoaded = true;
@@ -210,7 +174,8 @@ class OrdersViewState extends State<OrdersView> {
                           children: [
                             DropdownButton(
                               value: ordersFilter,
-                              items: Services.dropdownStringList(orderStatus),
+                              items: Services.dropdownStringList(
+                                  UtilsImporter().stringUtils.orderStatus),
                               onChanged: (value) {
                                 setState(() {
                                   generalLoaded = true;
@@ -222,7 +187,8 @@ class OrdersViewState extends State<OrdersView> {
                             ),
                             DropdownButton(
                               value: ordersTypeFilter,
-                              items: Services.dropdownStringList(orderTypes),
+                              items: Services.dropdownStringList(
+                                  UtilsImporter().stringUtils.orderTypes),
                               onChanged: (value) {
                                 setState(() {
                                   generalLoaded = false;
@@ -254,7 +220,8 @@ class OrdersViewState extends State<OrdersView> {
                         ),
                         DropdownButton(
                           value: page,
-                          items: Services.dropdownIntList(dropdownValues),
+                          items: Services.dropdownIntList(
+                              UtilsImporter().stringUtils.dropdownValues),
                           onChanged: (value) {
                             setState(() {
                               page = value;

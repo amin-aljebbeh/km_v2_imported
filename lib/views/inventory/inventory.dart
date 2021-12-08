@@ -60,12 +60,15 @@ class _InventoryState extends State<Inventory> {
           productsList = productsListToInactive;
         } else {
           productsList = productsListToActive;
-          // productsList.addAll(productsListToActive);
           productsList.addAll(productsListToInactive);
         }
         List<ProductData> sortedProductsList =
             Services.productListSort(productsList);
+        Tools.logToConsole('before');
+        Tools.logToConsole(productsList.length);
         productsList = sortedProductsList;
+        Tools.logToConsole('after');
+        Tools.logToConsole(productsList.length);
         productsList.removeWhere((data) =>
             !warehouseFilter[filterIndex].hasMatch(data.supplierCode ?? "0"));
 
@@ -323,7 +326,6 @@ class _InventoryState extends State<Inventory> {
                                     onTap: () => () {},
                                     child: ProductsViewCard(
                                       fromInventory: true,
-                                      
                                       productData: eachProduct,
                                       onChangeStatus: (result) {
                                         if (result) {

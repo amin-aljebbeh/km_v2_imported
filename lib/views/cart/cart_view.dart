@@ -65,8 +65,8 @@ class CartViewState extends State<CartView> {
 
   @override
   void initState() {
+    printCart();
     super.initState();
-    Tools.logToConsole("ADMINROLE");
     orderArray = CartServices.cartProducts;
 
     if (LoadingScreenServices.subWarehouses.length == 1) {
@@ -198,7 +198,6 @@ class CartViewState extends State<CartView> {
                     onTap: _showConfirmOrderBtnTapped,
                     height: 50,
                   ),
-                  /*_showConfirmOrderButton()*/
                   top: false,
                 ),
               ],
@@ -490,6 +489,19 @@ class CartViewState extends State<CartView> {
     //             new ProductDetailView(heroIndex: index + 100)));
   }
 
+  void printCart() {
+    Tools.logToConsole('cart');
+    Tools.logToConsole(CartServices.cartProducts.length);
+    for (int i = 0; i < CartServices.cartProducts.length; i++) {
+      printProducts(CartServices.cartProducts[i]);
+    }
+  }
+
+  void printProducts(ProductData product) {
+    Tools.logToConsole(product.name);
+    Tools.logToConsole(product.productCount);
+  }
+
   void _showConfirmOrderBtnTapped() {
     if (CartServices.cartProducts.length > 0) {
       Navigator.push(context,
@@ -502,9 +514,4 @@ class CartViewState extends State<CartView> {
           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     }
   }
-
-// DeliverToView.selectedIndex != null
-//               ? UtilsImporter().colorUtils.primarycolor
-//               : Colors.grey[400]
-
 }

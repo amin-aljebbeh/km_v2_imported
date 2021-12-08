@@ -148,7 +148,7 @@ class StringUtils {
   String price = "السعر ";
   String description = "الوصف ";
   String outOfStock = "المنتج نفذ من المستودعات";
-  String supplierCode = 'رمز المادة:';
+  String supplierCode = 'رمز المادة';
   String priceFactor = 'معدل الضرب';
   String name = 'الاسم';
   String unit = 'الوحدة';
@@ -168,4 +168,40 @@ class StringUtils {
   final oCcy = new NumberFormat("#,##0", "en_US");
 
   List<String> shopperLevels = ['مبتدئ', 'متوسط', 'متقدم', 'خبير', 'معلم'];
+
+  List<String> orderTypes = [
+    'مسند لكابتن',
+    'بحاجة لكابتن',
+    'مسند لمتسوق',
+    'بحاجة لمتسوق',
+  ];
+
+  List<String> orderStatus = [
+    "فلترة الطلبات",
+    "قيد المعالجة",
+    "تم قبولها",
+    "تم تجهيزها",
+    "مع التوصيل",
+    "تم توصيلها",
+    "تم إلغائها",
+    "تم رفضها"
+  ];
+
+  List<String> dropdownValues = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15"
+  ];
 }

@@ -69,6 +69,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
   @override
   void initState() {
+    printCart();
     orderArray = CartServices.cartProducts;
     makeCards();
 
@@ -792,5 +793,18 @@ class _CartViewFinalState extends State<CartViewFinal> {
     } on NoSuchMethodError catch (e) {
       print(e);
     }
+  }
+
+  void printCart() {
+    Tools.logToConsole('cart final');
+    Tools.logToConsole(CartServices.cartProducts.length);
+    for (int i = 0; i < CartServices.cartProducts.length; i++) {
+      printProducts(CartServices.cartProducts[i]);
+    }
+  }
+
+  void printProducts(ProductData product) {
+    Tools.logToConsole(product.name);
+    Tools.logToConsole(product.productCount);
   }
 }
