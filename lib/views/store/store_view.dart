@@ -286,17 +286,9 @@ class StoreViewState extends State<StoreView> {
                         "الإتصال بكمون",
                         style: mainStyle,
                       ),
-                      // subtitle: Text(
-                      //   LoadingScreenServices
-                      //       .companyInformation.supportNumber,
-                      //   style: TextStyle(
-                      //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                      //       fontWeight: FontWeight.bold),
-                      // ),
                       onTap: () => _openUrl("number"),
                     ),
                     InkWell(
-                      // onTap: _sendEmailToKammun,
                       child: ListTile(
                         leading: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
@@ -310,37 +302,9 @@ class StoreViewState extends State<StoreView> {
                           "إرسال التطبيق للأصدقاء",
                           style: mainStyle,
                         ),
-                        // subtitle: Text(
-                        //   //'support@kammun.com',
-                        //   "بدعمكم نستمر",
-
-                        //   style: TextStyle(
-                        //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        //       fontWeight: FontWeight.bold),
-                        // ),
                         onTap: () => _shareApp(),
                       ),
                     ),
-                    Services.isProductsController()
-                        ? ListTile(
-                            leading: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Icon(
-                                Icons.category,
-                                color: UtilsImporter().colorUtils.primarycolor,
-                                size: 30,
-                              ),
-                            ),
-                            title: Text(
-                              "المنتجات المضافة للمستودع",
-                              style: mainStyle,
-                            ),
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushNamed('/products_added_to_warehouse');
-                            },
-                          )
-                        : Container(),
                     ListTile(
                       leading: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
@@ -359,23 +323,65 @@ class StoreViewState extends State<StoreView> {
                       },
                     ),
                     Services.isProductsController()
-                        ? ListTile(
-                            leading: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Icon(
-                                Icons.category,
-                                color: UtilsImporter().colorUtils.primarycolor,
-                                size: 30,
+                        ? Column(
+                            children: [
+                              ListTile(
+                                leading: Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Icon(
+                                    Icons.category,
+                                    color:
+                                        UtilsImporter().colorUtils.primarycolor,
+                                    size: 30,
+                                  ),
+                                ),
+                                title: Text(
+                                  "المنتجات المضافة للمستودع",
+                                  style: mainStyle,
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                      '/products_added_to_warehouse');
+                                },
                               ),
-                            ),
-                            title: Text(
-                              "المنتجات الغير مضافة للمستودع",
-                              style: mainStyle,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                  '/products_not_added_to_warehouse');
-                            },
+                              ListTile(
+                                leading: Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Icon(
+                                    Icons.category_outlined,
+                                    color:
+                                        UtilsImporter().colorUtils.primarycolor,
+                                    size: 30,
+                                  ),
+                                ),
+                                title: Text(
+                                  "المنتجات الغير مضافة للمستودع",
+                                  style: mainStyle,
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                      '/products_not_added_to_warehouse');
+                                },
+                              ),
+                              ListTile(
+                                leading: Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Icon(
+                                    Icons.fact_check,
+                                    color:
+                                        UtilsImporter().colorUtils.primarycolor,
+                                    size: 30,
+                                  ),
+                                ),
+                                title: Text(
+                                  UtilsImporter().stringUtils.inventory,
+                                  style: mainStyle,
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).pushNamed('/Inventory');
+                                },
+                              ),
+                            ],
                           )
                         : Container(),
                     Services.isAdmin() || Services.isSuperAdmin()

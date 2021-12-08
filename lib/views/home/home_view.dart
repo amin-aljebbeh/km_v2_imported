@@ -233,21 +233,6 @@ class HomeViewState extends State<HomeView> {
             )),
       );
     }
-    if (Services.isProductsController()) {
-      bottomList.add(
-        BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.category,
-              // color: Theme.of(context).primaryColor,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            icon: Icon(Icons.category, color: Color.fromARGB(255, 53, 99, 124)),
-            title: Text(
-              UtilsImporter().stringUtils.inventory,
-              style: naveBarStyle,
-            )),
-      );
-    }
 
     if (Services.isDelivery() || Services.isShopper()) {
       bottomList.add(
@@ -308,9 +293,6 @@ class HomeViewState extends State<HomeView> {
       _tabs.add(
         OrdersView(),
       );
-    }
-    if ((Services.isProductsController())) {
-      _tabs.add(Inventory());
     }
 
     if (Services.isDelivery() || Services.isShopper()) {
