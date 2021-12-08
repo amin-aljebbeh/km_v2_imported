@@ -336,29 +336,28 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                       onTap: () {
                                         Navigator.of(context).pop();
 
-                                          widget.onCheckbox(widget.index);
-                                        },
-                                      ),
-                                      DialogButton(
-                                        text: 'لا',
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ];
-                                    showMyDialog(
-                                        title: "تحقق من الكمية",
-                                        text:
-                                            "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
-                                        dialogButtons: decisionButtons,
-                                        context: context);
-                                    // _showDialog();
-                                  } else {
-                                    widget.onCheckbox(widget.index);
-                                  }
-                                }),
-                          ],
-                        ),
+                                        widget.onCheckbox(widget.index);
+                                      },
+                                    ),
+                                    DialogButton(
+                                      text: 'لا',
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ];
+                                  showMyDialog(
+                                      title: "تحقق من الكمية",
+                                      text:
+                                          "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
+                                      dialogButtons: decisionButtons,
+                                      context: context);
+                                  // _showDialog();
+                                } else {
+                                  widget.onCheckbox(widget.index);
+                                }
+                              }),
+                        ],
                       )
                     : Container(),
               ],
