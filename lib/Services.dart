@@ -451,28 +451,49 @@ class Services {
     return list;
   }
 
-  static List<SearchableItem> shoppersNameList() {
-    List<SearchableItem> list = List();
+  static List<DropdownMenuItem> shoppersNameList() {
+    List<DropdownMenuItem> list = List();
     for (int i = 0; i < LoadingScreenServices.allShoppers.length; i++) {
       if (LoadingScreenServices.allShoppers[i].status == 1) {
-        list.add(SearchableItem(
-            value: LoadingScreenServices.allShoppers[i].name + ' ✅'));
+        list.add(DropdownMenuItem<String>(
+          child: Center(
+            child: Text(
+              LoadingScreenServices.allShoppers[i].name + ' ✅',
+              style: dropdownItemStyle,
+            ),
+          ),
+          value: LoadingScreenServices.allShoppers[i].name,
+        ));
       }
     }
     for (int i = 0; i < LoadingScreenServices.allShoppers.length; i++) {
       if (LoadingScreenServices.allShoppers[i].status == 0) {
-        list.add(SearchableItem(
-            value: LoadingScreenServices.allShoppers[i].name + ' ❌'));
+        list.add(DropdownMenuItem<String>(
+          child: Center(
+            child: Text(
+              LoadingScreenServices.allShoppers[i].name + ' ❌',
+              style: dropdownItemStyle,
+            ),
+          ),
+          value: LoadingScreenServices.allShoppers[i].name,
+        ));
       }
     }
     return list;
   }
 
-  static List<SearchableItem> deliveriesNameList() {
-    List<SearchableItem> itemList = List();
+  static List<DropdownMenuItem> deliveriesNameList() {
+    List<DropdownMenuItem> itemList = List();
     for (int i = 0; i < LoadingScreenServices.allDeliveries.length; i++) {
-      itemList.add(
-          SearchableItem(value: LoadingScreenServices.allDeliveries[i].name));
+      itemList.add(DropdownMenuItem<String>(
+        child: Center(
+          child: Text(
+            LoadingScreenServices.allDeliveries[i].name,
+            style: dropdownItemStyle,
+          ),
+        ),
+        value: LoadingScreenServices.allDeliveries[i].name,
+      ));
     }
     return itemList;
   }
@@ -600,8 +621,9 @@ class Services {
 
 class SearchableItem {
   String value;
+  int id;
 
-  SearchableItem({this.value});
+  SearchableItem({this.value, this.id = 3333});
 
   @override
   String toString() {

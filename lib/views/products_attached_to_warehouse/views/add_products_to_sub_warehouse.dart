@@ -6,6 +6,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
+import 'package:toast/toast.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
   final ProductData productData;
@@ -115,7 +116,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
   bool isLoading = false;
   bool isError = false;
 
-  void _addNewProduct() async {
+  Future<bool> _addNewProduct() async {
     setState(() {
       isLoading = true;
       isError = false;
@@ -150,6 +151,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
         isError = true;
       });
     }
+    return response;
   }
 
   final TextEditingController priceFactorController = TextEditingController();
@@ -339,16 +341,31 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                     KammunButton(
                         text: UtilsImporter().stringUtils.save,
                         height: 50,
-                        color: Theme.of(context).primaryColor,
-                        onTap: () {
-                          if (priceFactorController.text != null &&
-                              supplierCodeController.text != null &&
-                              priceController.text != null) _addNewProduct();
+                        color: completeData()
+                            ? UtilsImporter().colorUtils.kmColors
+                            : UtilsImporter().colorUtils.searchgreycolor,
+                        onTap: () async {
+                          if (completeData()) {
+                            bool result = await _addNewProduct();
+                            Services.resultFlushBar(
+                                context: context, result: result);
+                          } else {
+                            Toast.show("يرجى إدخال كافة البيانات", context,
+                                duration: Toast.LENGTH_LONG,
+                                gravity: Toast.CENTER);
+                          }
                         }),
                   ],
                 ),
         ),
       ),
     );
+  }
+
+  bool completeData() {
+    return _selectedValue != -1 &&
+        priceFactorController.text.isNotEmpty &&
+        supplierCodeController.text.isNotEmpty &&
+        priceController.text.isNotEmpty;
   }
 }

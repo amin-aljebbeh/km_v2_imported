@@ -43,6 +43,7 @@ TextStyle darkBold = mainStyle.copyWith(
 );
 
 TextStyle dropdownItemStyle = mainStyle.copyWith(
+  color: Colors.black,
   fontWeight: FontWeight.w700,
 );
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/lock_order.dart';
+import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -15,6 +16,7 @@ import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
+import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:intl/intl.dart';
@@ -282,6 +284,7 @@ class OrdersViewState extends State<OrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
+                          String shopper, delivery;
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
                           return Column(
@@ -342,75 +345,114 @@ class OrdersViewState extends State<OrdersView> {
                                   width: MediaQuery.of(context).size.width * .6,
                                   child: Column(
                                     children: [
-                                      KSearchableDropdown(
+                                      SearchableDropdown(
+                                        underline: Container(),
+                                        style: dropdownItemStyle,
+                                        isExpanded: true,
+                                        disabledHint: 'disabled',
+                                        isCaseSensitiveSearch: false,
+                                        closeButton: FlatButton(
+                                          child: Text(
+                                            UtilsImporter().stringUtils.close,
+                                            style: decisionButtonStyle.copyWith(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                        ),
                                         hint: orderDataList[index].shopper !=
                                                 null
                                             ? orderDataList[index].shopper.name
                                             : UtilsImporter()
                                                 .stringUtils
                                                 .chooseShopper,
-                                        search: shopperSearch[index],
+                                        value: shopper,
                                         items: Services.shoppersNameList(),
-                                        onChange: (value) async {
-                                          int shopperId = LoadingScreenServices
-                                              .allShoppers
-                                              .firstWhere((element) =>
-                                                  element.name ==
-                                                  value.value
-                                                      .replaceAll(' ✅', '')
-                                                      .replaceAll(' ❌', ''))
-                                              .id;
-                                          setState(() {
-                                            shopperSearch[index] =
-                                                SearchableItem(
-                                              value: value.value
-                                                  .replaceAll(' ✅', '')
-                                                  .replaceAll(' ❌', ''),
-                                            );
-                                            orderDataList[index].shopper =
-                                                new Assigned(
-                                                    name: value.value
-                                                        .replaceAll(' ✅', '')
-                                                        .replaceAll(' ❌', ''),
-                                                    id: shopperId);
-                                          });
-
-                                          await OrderServices
-                                              .assignOrderToShopper(
-                                                  shopperId.toString(),
-                                                  orderDataList[index]
-                                                      .id
-                                                      .toString());
+                                        onChanged: (value) async {
+                                          Tools.logToConsole(
+                                              'id  ' + value.toString());
+                                          if (value != null) {
+                                            int shopperId =
+                                                LoadingScreenServices
+                                                    .allShoppers
+                                                    .firstWhere((element) =>
+                                                        element.name ==
+                                                        value
+                                                            .replaceAll(
+                                                                ' ✅', '')
+                                                            .replaceAll(
+                                                                ' ❌', ''))
+                                                    .id;
+                                            setState(() {
+                                              shopper = value;
+                                              orderDataList[index].shopper =
+                                                  new Assigned(
+                                                      name: value
+                                                          .replaceAll(' ✅', '')
+                                                          .replaceAll(' ❌', ''),
+                                                      id: shopperId);
+                                            });
+                                            bool result = await OrderServices
+                                                .assignOrderToShopper(
+                                                    shopperId.toString(),
+                                                    orderDataList[index]
+                                                        .id
+                                                        .toString());
+                                            Services.resultFlushBar(
+                                                context: context,
+                                                result: result);
+                                          }
                                         },
                                       ),
-                                      KSearchableDropdown(
+                                      SearchableDropdown(
+                                        closeButton: FlatButton(
+                                          child: Text(
+                                            UtilsImporter().stringUtils.close,
+                                            style: decisionButtonStyle.copyWith(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                        ),
+                                        isExpanded: true,
+                                        style: dropdownItemStyle,
+                                        isCaseSensitiveSearch: false,
+                                        underline: Container(),
+                                        disabledHint: 'disabled',
                                         hint: orderDataList[index].delivery !=
                                                 null
                                             ? orderDataList[index].delivery.name
                                             : UtilsImporter()
                                                 .stringUtils
                                                 .chooseDelivery,
-                                        search: deliverySearch[index],
+                                        value: delivery,
                                         items: Services.deliveriesNameList(),
-                                        onChange: (value) async {
-                                          int deliverId = LoadingScreenServices
-                                              .allDeliveries
-                                              .firstWhere((element) =>
-                                                  element.name == value.value)
-                                              .id;
-                                          setState(() {
-                                            deliverySearch[index] = value;
-                                            orderDataList[index].delivery =
-                                                Assigned(
-                                                    id: deliverId,
-                                                    name: value.value);
-                                          });
-                                          await OrderServices
-                                              .assignOrderToDelivery(
-                                                  deliverId.toString(),
-                                                  orderDataList[index]
-                                                      .id
-                                                      .toString());
+                                        onChanged: (value) async {
+                                          if (value != null) {
+                                            int deliverId =
+                                                LoadingScreenServices
+                                                    .allDeliveries
+                                                    .firstWhere((element) =>
+                                                        element.name == value)
+                                                    .id;
+                                            setState(() {
+                                              orderDataList[index].delivery =
+                                                  Assigned(
+                                                      id: deliverId,
+                                                      name: value);
+                                            });
+                                            bool result = await OrderServices
+                                                .assignOrderToDelivery(
+                                                    deliverId.toString(),
+                                                    orderDataList[index]
+                                                        .id
+                                                        .toString());
+                                            Services.resultFlushBar(
+                                                context: context,
+                                                result: result);
+                                          }
                                         },
                                       ),
                                     ],

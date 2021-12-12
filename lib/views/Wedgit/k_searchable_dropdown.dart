@@ -6,9 +6,9 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 class KSearchableDropdown extends StatefulWidget {
   final String hint;
-  SearchableItem search;
-  final List<SearchableItem> items;
-  final Function onChange;
+  String search;
+  final List<String> items;
+  final Function(String) onChange;
 
   KSearchableDropdown({
     Key key,
@@ -40,17 +40,17 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
       style: dropdownItemStyle,
       value: widget.search,
       items: widget.items.map((item) {
-        return new DropdownMenuItem<SearchableItem>(
+        return new DropdownMenuItem<String>(
           child: Center(
             child: Text(
-              item.value,
+              item,
               style: dropdownItemStyle,
             ),
           ),
           value: item,
         );
       }).toList(),
-      onChanged: (value) {
+      onChanged: (String value) {
         if (value != null) widget.onChange(value);
       },
     );
