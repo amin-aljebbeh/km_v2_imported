@@ -4,7 +4,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/k_searchable_dropdown.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
-import 'package:map_launcher/map_launcher.dart';
+// import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Services.dart';
 import '../../utils/Styles.dart';
@@ -63,34 +63,34 @@ _makePhoneCall(String number) async {
 
 openMapsSheet(context, lat, lon) async {
   try {
-    final coords = Coords(lat, lon);
-    final title = "Ocean Beach";
-    final availableMaps = await MapLauncher.installedMaps;
+    // final coords = Coords(lat, lon);
+    // final title = "Ocean Beach";
+    // final availableMaps = await MapLauncher.installedMaps;
 
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              child: Wrap(
-                children: <Widget>[
-                  for (var map in availableMaps)
-                    ListTile(
-                      onTap: () => map.showMarker(
-                        coords: coords,
-                        title: title,
-                      ),
-                      title: Text(map.mapName),
-                      leading: Icon(Icons.map),
-                    ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
+    // showModalBottomSheet(
+    //   context: context,
+    //   builder: (BuildContext context) {
+    //     return SafeArea(
+    //       child: SingleChildScrollView(
+    //         child: Container(
+    //           child: Wrap(
+    //             children: <Widget>[
+    //               for (var map in availableMaps)
+    //                 ListTile(
+    //                   onTap: () => map.showMarker(
+    //                     coords: coords,
+    //                     title: title,
+    //                   ),
+    //                   title: Text(map.mapName),
+    //                   leading: Icon(Icons.map),
+    //                 ),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     );
+      // },
+    // );
   } catch (e) {
     print(e);
   }
