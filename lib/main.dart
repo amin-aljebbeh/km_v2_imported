@@ -18,6 +18,7 @@ import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
 import 'views/prices_changes/prices.dart';
 import 'views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
+import 'views/products_attached_to_warehouse/views/all_products_view.dart';
 import 'views/products_attached_to_warehouse/views/view_added_products.dart';
 import 'views/products_attached_to_warehouse/views/view_not_added_products.dart';
 import 'views/profile/profileScreen.dart';
@@ -125,6 +126,7 @@ class _MyAppState extends State<MyApp> {
               '/products_added_to_warehouse': (_) => AddedProductsToWarehouse(),
               '/products_not_added_to_warehouse': (_) =>
                   NotAddedProductsToWarehouse(),
+              '/all_products': (_) => AllProducts(),
               '/attach_product_to_sub_warehouse': (_) =>
                   AddProductsToSubWarehouse(),
               '/matching_report': (_) => MatchingReport(),

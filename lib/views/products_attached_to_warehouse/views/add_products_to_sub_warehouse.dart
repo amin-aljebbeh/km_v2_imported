@@ -3,6 +3,7 @@ import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/entry_field.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
@@ -48,66 +49,15 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                 subTitle,
               ),
         SizedBox(height: 8),
-        Container(
-            alignment: Alignment.centerLeft,
-            width: width ?? MediaQuery.of(context).size.width,
-            //height: height ?? 54.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0),
-              color: Colors.white,
-              border: Border.all(width: 1.0, color: Colors.green[700]),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.16),
-                    offset: Offset(0, 3.0),
-                    blurRadius: 6.0),
-              ],
-            ),
-            child: TextFormField(
-              onChanged: (value) {
-                setState(() {});
-              },
-              validator: (value) {
-                RegExp regExp = new RegExp("^(?:9)?[0-9]{3}(?:-)[0-9]{9}\$");
-
-                if (value.isEmpty && !canBeEmpty)
-                  return "This field can not be empty";
-                if (isPhoneNumber && !regExp.hasMatch(controller.text))
-                  return "Please make sure you enter a 9-digit number (e.g. 5503394244)";
-                else
-                  return null;
-              },
-              controller: controller,
-              keyboardType: fieldType,
-              maxLines: isAddress ? null : 1,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: hint,
-                hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                ),
-                fillColor: Colors.white,
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                    borderSide: BorderSide(
-                      color: Colors.white,
-                      width: 3.0,
-                    )),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                    borderSide: BorderSide(
-                      color: Color(0xFF999999),
-                      width: 1.0,
-                    )),
-                /*errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                      width: 1.0,
-                    )),*/
-              ),
-            )),
+        EntryField(
+          width: width ?? MediaQuery.of(context).size.width,
+          isPhoneNumber: isPhoneNumber,
+          isAddress: isAddress,
+          canBeEmpty: canBeEmpty,
+          hint: hint,
+          fieldType: fieldType,
+          controller: controller,
+        ),
         SizedBox(height: 20),
       ],
     );
@@ -347,6 +297,12 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         onTap: () async {
                           if (completeData()) {
                             bool result = await _addNewProduct();
+
+                            if (result) {
+                              int count = 0;
+                              Navigator.of(context)
+                                  .popUntil((_) => count++ >= 1);
+                            }
                             Services.resultFlushBar(
                                 context: context, result: result);
                           } else {

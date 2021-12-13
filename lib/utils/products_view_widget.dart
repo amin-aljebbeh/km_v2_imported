@@ -1,6 +1,4 @@
-// import 'package:cache_image/cache_image.dart';
 import 'package:adv_image_cache/adv_image_cache.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -15,6 +13,7 @@ import 'package:kammun_app/views/products_attached_to_warehouse/services/added_p
 import 'package:kammun_app/views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 
+// ignore: must_be_immutable
 class ProductsViewCard extends StatefulWidget {
   final String img;
   final String productName;
@@ -62,56 +61,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
     if (result) {
       widget.onDelete(true);
     }
-  }
-
-  void _showDialogDeleteProducts(
-      {/*@required String productsId,*/ @required String productsName}) {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: Text(
-            "حذف منتج من المستودع",
-            style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-          ),
-          content: Text(
-            "هل أنت متأكد أنك تريد إزالة $productsName من المستودع",
-            style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                UtilsImporter().stringUtils.yes,
-                style: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                ),
-              ),
-              onPressed: () {
-                _unAttachProduct();
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text(
-                UtilsImporter().stringUtils.close,
-                style: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                ),
-              ), //cancel
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -316,9 +265,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                       dialogButtons: dialogButtons,
                                       context: context,
                                     );
-                                    _showDialogDeleteProducts(
-                                        /* productsId: widget.productId,*/
-                                        productsName: widget.productName);
                                   })
                               : !widget.fromInventory
                                   ? IconButton(

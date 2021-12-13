@@ -305,6 +305,7 @@ class WarehousePivot {
     this.priority,
     this.numberOfVisits,
     this.price,
+    this.supplierCode,
   });
 
   String categoryId;
@@ -313,7 +314,7 @@ class WarehousePivot {
   String isFeatured;
   String priority;
   String numberOfVisits;
-
+  String supplierCode;
   String price;
 
   factory WarehousePivot.fromJson(Map<String, dynamic> json) => WarehousePivot(
@@ -324,6 +325,7 @@ class WarehousePivot {
         isFeatured: json["is_featured"].toString(),
         priority: json["priority"].toString(),
         numberOfVisits: json["number_of_visits"].toString(),
+        supplierCode: json['supplier_code'].toString(),
       );
 
   Map<String, dynamic> toJson() => {

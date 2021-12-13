@@ -83,7 +83,8 @@ class ProductsViewState extends State<ProductsView> {
             } else {
               final products =
                   categoryProductFromJson(jsonEncode(response.data));
-              Tools.logToConsole("----- LENGTH : ${products.data.data.length}");
+              Tools.logToConsole(
+                  "----- LENGTH : ${products.data.data[0].categories.length}");
               //productsList.addAll(products.data.data);
               Tools.logToConsole("---------- warehouse -----------");
               productsList.addAll(products.data.data);

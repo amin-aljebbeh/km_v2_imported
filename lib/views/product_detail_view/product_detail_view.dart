@@ -5,12 +5,15 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/update_product_info_widget.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
@@ -19,11 +22,13 @@ import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+import 'package:kammun_app/views/shop_by_category/shop_by_category_view.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 
+// ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
   ProductData product;
   bool isFromFavoriteScreen;
@@ -368,7 +373,114 @@ class ProductDetailViewState extends State<ProductDetailView>
                               : Container(),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      SizedBox(height: 15),
+                      Container(
+                        height: 74,
+                        child: ListView.builder(
+                            itemCount: widget.product.categories.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width * 0.45,
+                                child: GestureDetector(
+                                  onLongPress: () {
+                                    List<DialogButton> dialogButtons = [
+                                      DialogButton(
+                                        text: UtilsImporter().stringUtils.yes,
+                                        onTap: () async {
+                                          Navigator.of(context).pop();
+                                          bool result = await ProductsServices
+                                              .removeProductFromCategory(
+                                                  productId: widget.product.id
+                                                      .toString(),
+                                                  categoryId: widget.product
+                                                      .categories[index].id
+                                                      .toString());
+                                          Services.resultFlushBar(
+                                              context: context, result: result);
+                                          if (result) {
+                                            setState(() {
+                                              widget.product.categories
+                                                  .removeAt(index);
+                                            });
+                                          }
+                                        },
+                                      ),
+                                      DialogButton(
+                                        text: UtilsImporter().stringUtils.no,
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ];
+                                    showMyDialog(
+                                        title: '',
+                                        context: context,
+                                        text: 'هل تريد إزالة المنتج من الصنف ؟',
+                                        dialogButtons: dialogButtons);
+                                  },
+                                  child: ShopByCategory(
+                                    img: widget.product.categories[index]
+                                        .imageFileName,
+                                    categoryName:
+                                        widget.product.categories[index].name,
+                                    index: index,
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
+                      SizedBox(height: 30),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.only(left: 5, right: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                              width: 5,
+                              color: UtilsImporter().colorUtils.greycolor),
+                        ),
+                        child: Center(
+                          child: new SearchableDropdown(
+                            style: decisionButtonStyle,
+                            closeButton: FlatButton(
+                              child: Text(
+                                UtilsImporter().stringUtils.close,
+                                style: decisionButtonStyle.copyWith(
+                                  color: UtilsImporter().colorUtils.greycolor,
+                                ),
+                              ),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                            isCaseSensitiveSearch: false,
+                            underline: Container(),
+                            isExpanded: false,
+                            items: LoadingScreenServices.fullCategoryList,
+                            iconEnabledColor:
+                                UtilsImporter().colorUtils.greycolor,
+                            value: selectedValueCategoryValue,
+                            hint: new Text(
+                              'اختيار الصنف التابع له المنتج',
+                              style: decisionButtonStyle.copyWith(
+                                  color: UtilsImporter().colorUtils.greycolor),
+                            ),
+                            searchHint: new Text('إختيار الصنف',
+                                style: decisionButtonStyle.copyWith(
+                                  color: UtilsImporter().colorUtils.greycolor,
+                                )),
+                            onChanged: (value) {
+                              setState(() {
+                                if (value != null) {
+                                  selectedValueCategoryValue =
+                                      value.toString().split(";")[1];
+                                  print(MediaQuery.of(context).size.width);
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -424,7 +536,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           ),
                         ],
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: 15),
                       int.parse(widget.product.isActive) == 0
                           ? Container(
                               height: 50,
@@ -520,6 +632,62 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 UpdateProductInfoWidget(
                                   title: UtilsImporter().stringUtils.edit +
                                       ' ' +
+                                      UtilsImporter().stringUtils.name +
+                                      ' :',
+                                  textHint: widget.product.name,
+                                  inputType: TextInputType.multiline,
+                                  bodyKey: "name",
+                                  productId: widget.product.id,
+                                  initialText: widget.product.name,
+                                  isForSubWarehouse: false,
+                                  productData: widget.product,
+                                ),
+                                SizedBox(height: 30),
+                                UpdateProductInfoWidget(
+                                  title: UtilsImporter().stringUtils.edit +
+                                      ' ' +
+                                      UtilsImporter().stringUtils.unit +
+                                      ' :',
+                                  inputType: TextInputType.multiline,
+                                  bodyKey: "unit",
+                                  productId: widget.product.id,
+                                  isForSubWarehouse: false,
+                                  productData: widget.product,
+                                  textHint: widget.product.unit,
+                                  initialText: widget.product.unit,
+                                ),
+                                SizedBox(height: 30),
+                                UpdateProductInfoWidget(
+                                  title: UtilsImporter().stringUtils.edit +
+                                      ' ' +
+                                      UtilsImporter().stringUtils.quantity +
+                                      ' :',
+                                  isForSubWarehouse: false,
+                                  inputType: TextInputType.text,
+                                  productData: widget.product,
+                                  textHint: widget.product.quantity,
+                                  bodyKey: "quantity",
+                                  productId: widget.product.id,
+                                  initialText: widget.product.quantity,
+                                ),
+                                SizedBox(height: 30),
+                                UpdateProductInfoWidget(
+                                  title: UtilsImporter().stringUtils.edit +
+                                      ' ' +
+                                      UtilsImporter().stringUtils.description +
+                                      ' :',
+                                  textHint: "الوصف الجديد",
+                                  inputType: TextInputType.multiline,
+                                  bodyKey: "description",
+                                  productId: widget.product.id,
+                                  isForSubWarehouse: false,
+                                  productData: widget.product,
+                                  initialText: widget.product.description,
+                                ),
+                                SizedBox(height: 30),
+                                UpdateProductInfoWidget(
+                                  title: UtilsImporter().stringUtils.edit +
+                                      ' ' +
                                       UtilsImporter().stringUtils.price +
                                       ' :',
                                   inputType: TextInputType.number,
@@ -558,62 +726,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 UpdateProductInfoWidget(
                                   title: UtilsImporter().stringUtils.edit +
                                       ' ' +
-                                      UtilsImporter().stringUtils.name +
-                                      ' :',
-                                  textHint: widget.product.name,
-                                  inputType: TextInputType.text,
-                                  bodyKey: "name",
-                                  productId: widget.product.id,
-                                  initialText: widget.product.name,
-                                  isForSubWarehouse: false,
-                                  productData: widget.product,
-                                ),
-                                SizedBox(height: 30),
-                                UpdateProductInfoWidget(
-                                  title: UtilsImporter().stringUtils.edit +
-                                      ' ' +
-                                      UtilsImporter().stringUtils.unit +
-                                      ' :',
-                                  inputType: TextInputType.text,
-                                  bodyKey: "unit",
-                                  productId: widget.product.id,
-                                  isForSubWarehouse: false,
-                                  productData: widget.product,
-                                  textHint: widget.product.unit,
-                                  initialText: widget.product.unit,
-                                ),
-                                SizedBox(height: 30),
-                                UpdateProductInfoWidget(
-                                  title: UtilsImporter().stringUtils.edit +
-                                      ' ' +
-                                      UtilsImporter().stringUtils.quantity +
-                                      ' :',
-                                  isForSubWarehouse: false,
-                                  inputType: TextInputType.text,
-                                  productData: widget.product,
-                                  textHint: widget.product.quantity,
-                                  bodyKey: "quantity",
-                                  productId: widget.product.id,
-                                  initialText: widget.product.quantity,
-                                ),
-                                SizedBox(height: 30),
-                                UpdateProductInfoWidget(
-                                  title: UtilsImporter().stringUtils.edit +
-                                      ' ' +
-                                      UtilsImporter().stringUtils.description +
-                                      ' :',
-                                  textHint: "الوصف الجديد",
-                                  inputType: TextInputType.text,
-                                  bodyKey: "description",
-                                  productId: widget.product.id,
-                                  isForSubWarehouse: false,
-                                  productData: widget.product,
-                                  initialText: widget.product.description,
-                                ),
-                                SizedBox(height: 30),
-                                UpdateProductInfoWidget(
-                                  title: UtilsImporter().stringUtils.edit +
-                                      ' ' +
                                       UtilsImporter().stringUtils.priority +
                                       ' :',
                                   textHint: widget.product.priority.toString(),
@@ -624,72 +736,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   productData: widget.product,
                                   initialText:
                                       widget.product.priority.toString(),
-                                ),
-                                SizedBox(height: 30),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  padding: EdgeInsets.only(left: 5, right: 5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(6),
-                                    border: Border.all(
-                                        width: 5,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greycolor),
-                                  ),
-                                  child: Center(
-                                    child: new SearchableDropdown(
-                                      style: decisionButtonStyle,
-                                      closeButton: FlatButton(
-                                        child: Text(
-                                          UtilsImporter().stringUtils.close,
-                                          style: decisionButtonStyle.copyWith(
-                                            color: UtilsImporter()
-                                                .colorUtils
-                                                .greycolor,
-                                          ),
-                                        ),
-                                        onPressed: () =>
-                                            Navigator.of(context).pop(),
-                                      ),
-                                      isCaseSensitiveSearch: false,
-                                      underline: Container(),
-                                      isExpanded: false,
-                                      items: LoadingScreenServices
-                                          .fullCategoryList,
-                                      iconEnabledColor:
-                                          UtilsImporter().colorUtils.greycolor,
-                                      value: selectedValueCategoryValue,
-                                      hint: new Text(
-                                        'اختيار الصنف التابع له المنتج',
-                                        style: decisionButtonStyle.copyWith(
-                                            color: UtilsImporter()
-                                                .colorUtils
-                                                .greycolor),
-                                      ),
-                                      searchHint: new Text('إختيار الصنف',
-                                          style: decisionButtonStyle.copyWith(
-                                            color: UtilsImporter()
-                                                .colorUtils
-                                                .greycolor,
-                                          )),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          if (value != null) {
-                                            Tools.logToConsole(value);
-                                            selectedValueCategoryValue =
-                                                value.toString().split(";")[1];
-                                            Tools.logToConsole(
-                                                selectedValueCategoryValue);
-                                            print('selectedValueCategoryValue');
-                                            print(MediaQuery.of(context)
-                                                .size
-                                                .width);
-                                          }
-                                        });
-                                      },
-                                    ),
-                                  ),
                                 ),
                                 widget.product.images.length > 0
                                     ? KammunButton(
@@ -726,10 +772,31 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   height: 50,
                                   text: "الإضافة لصنف جديد",
                                   color: Theme.of(context).primaryColor,
-                                  onTap: () => _saveCategory(
-                                      categoryId: selectedValueCategoryValue,
-                                      context: context,
-                                      productId: widget.product.id),
+                                  onTap: () async {
+                                    bool result = await _saveCategory(
+                                        categoryId: selectedValueCategoryValue,
+                                        context: context,
+                                        productId: widget.product.id);
+                                    if (result) {
+                                      setState(() {
+                                        widget.product.categories.add(CategoryOriginalData(
+                                            id: int.parse(
+                                                selectedValueCategoryValue),
+                                            name: LoadingScreenServices
+                                                .categoryList
+                                                .firstWhere((category) =>
+                                                    category.id.toString() ==
+                                                    selectedValueCategoryValue)
+                                                .name,
+                                            imageFileName: LoadingScreenServices
+                                                .categoryList
+                                                .firstWhere((category) =>
+                                                    category.id.toString() ==
+                                                    selectedValueCategoryValue)
+                                                .imageFileName));
+                                      });
+                                    }
+                                  },
                                 ),
                                 _getImage(),
                                 _image != null ? imagesBody() : Container(),
@@ -766,6 +833,52 @@ class ProductDetailViewState extends State<ProductDetailView>
                                             },
                                           )
                                         : Container(),
+                                Services.isAdmin()
+                                    ? KammunButton(
+                                        height: 50,
+                                        text: "حذف المنتج",
+                                        color: Colors.red,
+                                        onTap: () {
+                                          List<DialogButton> dialogButtons = [
+                                            DialogButton(
+                                              text: UtilsImporter()
+                                                  .stringUtils
+                                                  .yes,
+                                              onTap: () async {
+                                                bool result =
+                                                    await ProductsServices
+                                                        .deleteProduct(widget
+                                                            .product.id
+                                                            .toString());
+                                                if (result) {
+                                                  int count = 0;
+                                                  Navigator.of(context)
+                                                      .popUntil(
+                                                          (_) => count++ >= 3);
+                                                }
+                                                Services.resultFlushBar(
+                                                    context: context,
+                                                    result: result);
+                                              },
+                                            ),
+                                            DialogButton(
+                                              text: UtilsImporter()
+                                                  .stringUtils
+                                                  .no,
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ];
+                                          showMyDialog(
+                                              title: '',
+                                              context: context,
+                                              text:
+                                                  'هل تريد حذف المنتج نهائياً ؟',
+                                              dialogButtons: dialogButtons);
+                                        },
+                                      )
+                                    : Container(),
                                 SizedBox(height: 30),
                               ],
                             )
@@ -783,7 +896,7 @@ class ProductDetailViewState extends State<ProductDetailView>
     );
   }
 
-  Widget _showAddToFavorait(BuildContext ctx) {
+  Widget _showAddToFavorite(BuildContext ctx) {
     final GestureDetector addAddToOrderButtonWithGesture = new GestureDetector(
       onTap: () {
         _addToFavoriteBtnTapped(ctx);
@@ -915,11 +1028,13 @@ class ProductDetailViewState extends State<ProductDetailView>
   }
 }
 
-_saveCategory({BuildContext context, int productId, String categoryId}) async {
+Future<bool> _saveCategory(
+    {BuildContext context, int productId, String categoryId}) async {
   bool result = await ProductsServices.updateProductsDetails(
       bodyKey: "category_id",
       value: categoryId,
       productId: productId.toString());
 
   Services.resultFlushBar(context: context, result: result);
+  return result;
 }

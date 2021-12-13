@@ -61,6 +61,24 @@ class ProductsServices {
     }
   }
 
+  static Future<bool> removeProductFromCategory(
+      {@required String productId, @required String categoryId}) async {
+    var body = {'category_id': categoryId};
+    try {
+      var response = await ApiProvider.sendRequest(
+          url: REMOVE_PRODUCT_FROM_CATEGORY + productId,
+          method: httpMethods.delete,
+          body: jsonEncode(body));
+      if (response.statusCode == SUCCESS_CODE) {
+        return true;
+      } else
+        return false;
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return false;
+    }
+  }
+
   static Future<int> addNewProducts(
       {String name,
       String quantity,
@@ -140,6 +158,22 @@ class ProductsServices {
       return true;
     } else {
       print(response.reasonPhrase);
+      return false;
+    }
+  }
+
+  static Future<bool> deleteProduct(String productId) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: DELETE_PRODUCT + productId,
+        method: httpMethods.delete,
+      );
+      if (response.statusCode == SUCCESS_CODE) {
+        return true;
+      } else
+        return false;
+    } catch (e) {
+      Tools.logToConsole(e.toString());
       return false;
     }
   }

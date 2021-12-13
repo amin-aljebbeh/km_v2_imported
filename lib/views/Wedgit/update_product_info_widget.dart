@@ -9,6 +9,7 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 
 import '../../utils/Styles.dart';
+import 'entry_field.dart';
 
 class UpdateProductInfoWidget extends StatefulWidget {
   final Function(bool) onSavePressed;
@@ -53,7 +54,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
     // );
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           widget.title,
@@ -61,26 +62,31 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
           style: paragraphStyle,
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              // height: 40,
+            EntryField(
+              controller: _textController,
+              fieldType: widget.inputType,
+              hint: widget.textHint,
               width: 150,
-              child: AutoSizeTextField(
-                controller: _textController,
-                maxLines: null,
-                textAlign: TextAlign.center,
-                keyboardType: widget.inputType,
-                decoration: new InputDecoration(
-                  hintText: widget.textHint,
-                  hintStyle: hintStyle,
-                  fillColor: Colors.white,
-                  border: new UnderlineInputBorder(
-                    borderSide: new BorderSide(
-                        color: UtilsImporter().colorUtils.primarycolor),
-                  ),
-                ),
-              ),
+              canBeEmpty: false,
+              isAddress: false,
+              isPhoneNumber: false,
             ),
+            // Container(
+            //   child: AutoSizeTextField(
+            //     maxLines: null,
+            //     textAlign: TextAlign.center,
+            //     decoration: new InputDecoration(
+            //       hintStyle: hintStyle,
+            //       fillColor: Colors.white,
+            //       border: new UnderlineInputBorder(
+            //         borderSide: new BorderSide(
+            //             color: UtilsImporter().colorUtils.primarycolor),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             SizedBox(
               width: 18,
             ),

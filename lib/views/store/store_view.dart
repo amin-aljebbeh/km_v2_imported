@@ -363,6 +363,29 @@ class StoreViewState extends State<StoreView> {
                                       '/products_not_added_to_warehouse');
                                 },
                               ),
+                              Services.isAdmin()
+                                  ? ListTile(
+                                      leading: Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: Icon(
+                                          Icons.category_rounded,
+                                          color: UtilsImporter()
+                                              .colorUtils
+                                              .primarycolor,
+                                          size: 30,
+                                        ),
+                                      ),
+                                      title: Text(
+                                        "جميع المنتجات",
+                                        style: mainStyle,
+                                      ),
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .pushNamed('/all_products');
+                                      },
+                                    )
+                                  : Container(),
                               ListTile(
                                 leading: Padding(
                                   padding: const EdgeInsets.only(top: 8.0),

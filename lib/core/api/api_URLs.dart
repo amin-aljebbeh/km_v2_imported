@@ -1,8 +1,8 @@
 // String BaseUrl = "https://kammunapp.com";
-String BaseUrl = "http://test.kammun.com";
+String BaseUrl = "https://kammun.app";
 
 const String APPLE_BASE_URL = "https://kammun.app";
-const String PRODUCTION_BASE_URL = "http://test.kammun.com";
+const String PRODUCTION_BASE_URL = "https://kammun.app";
 
 const String GET_COMPANY = "/api/company";
 const String GET_MOBILE_VERSION = "/api/mob_v_config";
@@ -21,7 +21,8 @@ const String DELIVERY_METHODS = "/api/supported_city/get_delivery_methods/";
 const String UPDATE_USER_SUPPORTED_CITY = "/api/user/update_supported_city";
 
 const String ADD_TO_FAVORITE = "/api/user/add_product_to_favorites/";
-const String REMOVE_FROM_FAVORITE = "/api/user/remove_product_from_favorites/";
+const String REMOVE_FROM_FAVORITE =
+    "/api/user/remove_`product`_from_favorites/";
 const String USER_ADDRESS = "/api/address";
 const String ORDER_URL = "/api/order/";
 const String LOCK_ORDER = "/api/order/lock_order/";

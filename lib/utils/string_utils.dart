@@ -134,6 +134,7 @@ class StringUtils {
   String close = 'إغلاق';
   String unLock = 'إلغاء التعليق';
   String yes = 'نعم';
+  String no = 'لا';
   String save = 'حفظ';
   String tryAgain = 'إعادة المحاولة';
   String next = 'التالي';

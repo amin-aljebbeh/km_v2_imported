@@ -125,6 +125,7 @@ class ProductData {
     this.subWarehouseId,
     this.priceChange,
     this.categories,
+    this.warehouses,
   });
 
   int id;
@@ -138,6 +139,7 @@ class ProductData {
   List<ProductImage> images;
   String supplierCode;
   List<CategoryOriginalData> categories;
+  List<Warehouse> warehouses;
 
   //////
 
@@ -194,6 +196,10 @@ class ProductData {
           ? new List<CategoryOriginalData>()
           : List<CategoryOriginalData>.from(
               json["categories"].map((x) => CategoryOriginalData.fromJson(x))),
+      warehouses: json["warehouses"] == null
+          ? new List<Warehouse>()
+          : List<Warehouse>.from(
+              json["warehouses"].map((x) => Warehouse.fromJson(x))),
     );
     // Tools.logToConsole('message here map');
     return productData;

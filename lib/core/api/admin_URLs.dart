@@ -9,8 +9,13 @@ const String PRODUCT_IMAGE = "/api/product_image/";
 
 const String ADD_PRODUCTS_TO_CATEGORY = "/api/product/add_product_to_category/";
 
+const String REMOVE_PRODUCT_FROM_CATEGORY =
+    "/api/product/delete_product_to_category/";
+
 const String GET_DAILY_STATISTICS = "/api/get_daily_statistics";
 const String GET_MATCHING_REPORT = "/api/matching_deliveried_products";
+
+const String DELETE_PRODUCT = '/api/product/';
 
 const String GET_ADDED_PRODUCTS_TO_WAREHOUSE =
     "/api/product/show_Additional_Products_For_Warehouse";
@@ -36,7 +41,6 @@ const String GET_ADMIN_INFO = "/api/admin/";
 const String GET_SUB_WAREHOUSE_PRODUCTS = "/api/sub_warehouse/";
 
 const String UPDATE_ORDER_PRODUCTS = "/api/order/update_order_product/";
-
 
 const String GET_SHOPPER = '/api/shopper/';
 

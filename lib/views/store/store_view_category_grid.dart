@@ -36,14 +36,6 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
 
   @override
   Widget build(BuildContext context) {
-    // for (int i = 0; i < categoryListHome.length; i++) {
-    //   Tools.logToConsole(categoryListHome[i].warehouses[0].pivot.priority);
-    // }
-    // double screenWidth = MediaQuery.of(context).size.width;
-
-    // // var width = (screenWidth - ((_crossAxisCount - 1) * _crossAxisSpacing)) /
-    // //     _crossAxisCount;
-    // // //var height = (width / _aspectRatio) * categoryListHome.length / 1.75;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[

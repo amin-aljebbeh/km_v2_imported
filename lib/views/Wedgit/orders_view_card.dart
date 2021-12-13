@@ -1,14 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/k_searchable_dropdown.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Services.dart';
 import '../../utils/Styles.dart';
 
+// ignore: must_be_immutable
 class OrdersViewCard extends StatefulWidget {
   int orderId;
   final String userNumber;
@@ -191,7 +190,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                           const EdgeInsets.only(left: 20.0),
                                       child: Text(
                                         widget.orderId.toString().length >= 3
-                                            ? "#${widget.orderId.toString().substring(3, widget.orderId.toString().length)}"
+                                            ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
                                             : '#${widget.orderId.toString()}',
                                         style: TextStyle(
                                           color: Colors.purple,

@@ -36,7 +36,7 @@ class MyDialog extends StatelessWidget {
   }
 }
 
-void showMyDialog(
+showMyDialog(
     {@required String title,
     String text,
     List<DialogButton> dialogButtons,
