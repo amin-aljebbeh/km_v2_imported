@@ -25,6 +25,7 @@ class OrderDetailViewMain extends StatefulWidget {
   int orderId;
   String addressName;
   OrdersOriginalData order;
+  bool fromMyOrders;
 
   OrderDetailViewMain(
       {this.ordersAry,
@@ -34,7 +35,8 @@ class OrderDetailViewMain extends StatefulWidget {
       this.orderId,
       this.addressName,
       this.orderIndex,
-      this.order});
+      this.order,
+      this.fromMyOrders});
 
   @override
   State<StatefulWidget> createState() {
@@ -202,7 +204,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                 subWarehouseId: orderDetail.subWarehouseId,
                                 orderId: widget.orderId,
                                 onCheckbox: (a) {
-                                  if (Services.isShopper())
+                                  if (Services.isShopper() &&
+                                      widget.fromMyOrders)
                                     setState(() {
                                       LoadingScreenServices.myOrdersList
                                           .firstWhere((order) =>

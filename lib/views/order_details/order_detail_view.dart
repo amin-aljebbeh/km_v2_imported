@@ -14,6 +14,7 @@ class OrderDetailView extends StatefulWidget {
   int orderId;
   String addressName;
   OrdersOriginalData order;
+  bool fromMyOrders;
 
   OrderDetailView(
       {this.ordersAry,
@@ -23,7 +24,8 @@ class OrderDetailView extends StatefulWidget {
       this.orderId,
       this.addressName,
       this.orderIndex,
-      this.order});
+      this.order,
+      this.fromMyOrders});
 
   @override
   State<StatefulWidget> createState() {
@@ -47,10 +49,10 @@ class OrderDetailViewState extends State<OrderDetailView> {
         total: widget.total,
         deliveryPrice: widget.deliveryPrice,
         order: widget.order,
+        fromMyOrders: widget.fromMyOrders,
       ),
       OrderAccounting(
-        ordersAry: widget.ordersAry
-            ,
+        ordersAry: widget.ordersAry,
       ),
     ]);
     super.initState();

@@ -416,6 +416,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
+          fromMyOrders: false,
           order: orderDataList[index],
           orderId: orderDataList[index].id,
           orderIndex: index,

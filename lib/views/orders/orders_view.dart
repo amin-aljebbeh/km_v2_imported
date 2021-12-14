@@ -656,6 +656,7 @@ class OrdersViewState extends State<OrdersView> {
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
+          fromMyOrders: false,
           order: orderDataList[index],
           orderId: orderDataList[index].id,
           orderIndex: index,
