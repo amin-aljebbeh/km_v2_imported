@@ -345,29 +345,14 @@ class OrdersViewState extends State<OrdersView> {
                                   width: MediaQuery.of(context).size.width * .6,
                                   child: Column(
                                     children: [
-                                      SearchableDropdown(
-                                        underline: Container(),
-                                        style: dropdownItemStyle,
-                                        isExpanded: true,
-                                        disabledHint: 'disabled',
-                                        isCaseSensitiveSearch: false,
-                                        closeButton: FlatButton(
-                                          child: Text(
-                                            UtilsImporter().stringUtils.close,
-                                            style: decisionButtonStyle.copyWith(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                        ),
+                                      KSearchableDropdown(
                                         hint: orderDataList[index].shopper !=
                                                 null
                                             ? orderDataList[index].shopper.name
                                             : UtilsImporter()
                                                 .stringUtils
                                                 .chooseShopper,
-                                        value: shopper,
+                                        search: shopper,
                                         items: Services.shoppersNameList(),
                                         onChanged: (value) async {
                                           Tools.logToConsole(
@@ -405,29 +390,13 @@ class OrdersViewState extends State<OrdersView> {
                                           }
                                         },
                                       ),
-                                      SearchableDropdown(
-                                        closeButton: FlatButton(
-                                          child: Text(
-                                            UtilsImporter().stringUtils.close,
-                                            style: decisionButtonStyle.copyWith(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                        ),
-                                        isExpanded: true,
-                                        style: dropdownItemStyle,
-                                        isCaseSensitiveSearch: false,
-                                        underline: Container(),
-                                        disabledHint: 'disabled',
+                                      KSearchableDropdown(
                                         hint: orderDataList[index].delivery !=
                                                 null
                                             ? orderDataList[index].delivery.name
                                             : UtilsImporter()
                                                 .stringUtils
                                                 .chooseDelivery,
-                                        value: delivery,
                                         items: Services.deliveriesNameList(),
                                         onChanged: (value) async {
                                           if (value != null) {

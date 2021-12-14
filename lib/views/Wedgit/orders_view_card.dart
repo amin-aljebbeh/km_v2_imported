@@ -324,14 +324,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                     ),
                                     TextSpan(
                                       text: widget.orderCreatedDate,
-                                      style: TextStyle(
-                                        color: Colors.black38,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
-                                      ),
+                                      style: disableStyle,
                                     ),
                                   ],
                                 ),

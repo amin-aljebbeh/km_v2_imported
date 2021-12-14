@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
+// ignore: must_be_immutable
 class KSearchableDropdown extends StatefulWidget {
   final String hint;
   String search;
-  final List<String> items;
-  final Function(String) onChange;
+  final List<DropdownMenuItem> items;
+  final Function(String) onChanged;
 
   KSearchableDropdown({
     Key key,
     @required this.hint,
     @required this.search,
     @required this.items,
-    @required this.onChange,
+    @required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -28,30 +28,31 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
     return SearchableDropdown(
       closeButton: FlatButton(
         child: Text(
-          'إغلاق',
+          UtilsImporter().stringUtils.close,
+          style: dropdownItemStyle,
         ),
         onPressed: () => Navigator.of(context).pop(),
       ),
-      disabledHint: 'disabled',
+      disabledHint: Center(
+        child: Text(
+          'disabled',
+          style: disableStyle,
+        ),
+      ),
       isCaseSensitiveSearch: false,
       underline: Container(),
       isExpanded: true,
-      hint: widget.hint,
+      hint: Center(
+        child: Text(
+          widget.hint,
+          style: dropdownItemStyle,
+        ),
+      ),
       style: dropdownItemStyle,
       value: widget.search,
-      items: widget.items.map((item) {
-        return new DropdownMenuItem<String>(
-          child: Center(
-            child: Text(
-              item,
-              style: dropdownItemStyle,
-            ),
-          ),
-          value: item,
-        );
-      }).toList(),
+      items: widget.items,
       onChanged: (String value) {
-        if (value != null) widget.onChange(value);
+        if (value != null) widget.onChanged(value);
       },
     );
   }

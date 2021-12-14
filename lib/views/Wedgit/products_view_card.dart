@@ -11,6 +11,7 @@ import 'package:kammun_app/views/products_view/services/products_services.dart';
 
 import '../../Services.dart';
 
+// ignore: must_be_immutable
 class ProductsViewCard extends StatefulWidget {
   final String img;
   final String productName;
@@ -47,8 +48,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
 
   @override
   Widget build(BuildContext context) {
-    Tools.logToConsole(
-        "SUBWAREHOUSE ${LoadingScreenServices.subWarehouses[0]}     ${widget.subWarehouseId}");
+    Tools.logToConsole('product image');
+    Tools.logToConsole(widget.img);
     return Container(
       color: Theme.of(context).primaryColorLight,
       child: Padding(
