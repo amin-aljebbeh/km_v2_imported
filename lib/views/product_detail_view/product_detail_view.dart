@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -59,6 +58,8 @@ class ProductDetailViewState extends State<ProductDetailView>
   void initState() {
     super.initState();
 
+    Tools.logToConsole('category length');
+    Tools.logToConsole(widget.product.categories.length);
     Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));
 
     _animationController = new AnimationController(

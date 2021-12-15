@@ -96,7 +96,6 @@ openMapsSheet(context, lat, lon) async {
 
 class OrdersViewCardState extends State<OrdersViewCard> {
   String shopperName, deliveryName;
-  SearchableItem deliverySearch, shopperSearch;
 
   void initState() {
     shopperName = widget.shopperName != null ? widget.shopperName : null;

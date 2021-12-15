@@ -2,10 +2,11 @@
 const String TEST_URL = "http://test.kammun.com";
 const String APP_URL = "https://kammun.app";
 
-String BaseUrl = TEST_URL;
+// ignore: non_constant_identifier_names
+String BaseUrl = APP_URL;
 
 const String APPLE_BASE_URL = "https://kammun.app";
-const String PRODUCTION_BASE_URL = TEST_URL;
+const String PRODUCTION_BASE_URL = APP_URL;
 
 const String GET_COMPANY = "/api/company";
 const String GET_MOBILE_VERSION = "/api/mob_v_config";

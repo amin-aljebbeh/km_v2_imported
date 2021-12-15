@@ -7,8 +7,6 @@ import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
 
-import '../../../Services.dart';
-
 class AddedProductsServices {
   static Future<List<ProductData>> getAddedProductsToWarehouse() async {
     var response = await ApiProvider.sendRequest(

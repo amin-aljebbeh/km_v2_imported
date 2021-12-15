@@ -286,21 +286,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            alignment: Alignment.center,
-                                            padding: EdgeInsets.only(
-                                                top: 0, bottom: 0, right: 15),
-                                            child: Icon(
-                                              Icons.add_box_outlined,
-                                              color: Colors.white,
-                                              size: 32,
-                                            ),
-                                          ),
-                                        ],
+                                      Container(
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.only(
+                                            top: 0, bottom: 0, right: 15),
+                                        child: Icon(
+                                          Icons.add_box_outlined,
+                                          color: Colors.white,
+                                          size: 32,
+                                        ),
                                       ),
                                       Expanded(
                                         child: Align(
