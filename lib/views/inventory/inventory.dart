@@ -64,11 +64,7 @@ class _InventoryState extends State<Inventory> {
         }
         List<ProductData> sortedProductsList =
             Services.productListSort(productsList);
-        Tools.logToConsole('before');
-        Tools.logToConsole(productsList.length);
         productsList = sortedProductsList;
-        Tools.logToConsole('after');
-        Tools.logToConsole(productsList.length);
         productsList.removeWhere((data) =>
             !warehouseFilter[filterIndex].hasMatch(data.supplierCode ?? "0"));
 

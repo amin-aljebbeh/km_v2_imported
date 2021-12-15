@@ -381,6 +381,9 @@ class ProductDetailViewState extends State<ProductDetailView>
                           itemCount: widget.product.categories.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) {
+                            Tools.logToConsole('category image');
+                            Tools.logToConsole(
+                                widget.product.categories.length);
                             return Container(
                               width: MediaQuery.of(context).size.width * 0.45,
                               child: GestureDetector(

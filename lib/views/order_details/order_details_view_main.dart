@@ -158,7 +158,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                           },
                           child: AutoSizeText(
                             widget.addressName.length > 40
-                                ? widget.addressName.substring(0, 40)
+                                ? widget.addressName.substring(0, 39)
                                 : widget.addressName,
                             maxLines: 1,
 
