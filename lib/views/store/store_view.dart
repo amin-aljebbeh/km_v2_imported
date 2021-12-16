@@ -473,6 +473,23 @@ class StoreViewState extends State<StoreView> {
                                 },
                               )
                             : Container(),
+                        ListTile(
+                          leading: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Icon(
+                              Icons.logout,
+                              color: UtilsImporter().colorUtils.primarycolor,
+                              size: 30,
+                            ),
+                          ),
+                          title: Text(
+                            "تسجيل الخروج",
+                            style: mainStyle,
+                          ),
+                          onTap: () {
+                            Services.logOutAdmin(context);
+                          },
+                        ),
                         Divider(
                           color: UtilsImporter().colorUtils.kmColors,
                           height: 20,

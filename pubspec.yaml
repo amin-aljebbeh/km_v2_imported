@@ -51,7 +51,7 @@ dependencies:
   flushbar: ^1.10.4   
   shimmer: ^1.1.2
   flutter_bloc: ^6.1.0
-  location: ^3.0.2
+  # location: ^3.0.2
   responsive_flutter: ^0.0.4
   modal_bottom_sheet: ^1.0.0+1
   flutter_rating_bar: ^3.2.0+1
@@ -65,6 +65,11 @@ dependencies:
   flutter_uploader: ^1.2.0
   flutter_datetime_picker: ^0.1.9
   image_viewer: ^1.0.0
+  # location:
+  #   git:
+  #     url: git://github.com/dreambitio/flutterlocation.git
+  #     ref: release/3.2.4
+  #     path: location/
 
 flutter_icons:
   image_path: 'assets/kmIcon.png'

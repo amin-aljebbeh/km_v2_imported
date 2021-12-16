@@ -7,7 +7,7 @@ import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/k_text_field.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 import '../../Services.dart';
@@ -349,15 +349,15 @@ class AddAddressViewState extends State<AddAddressView> {
   Future<void> _getUserLocation() async {
     Tools.logToConsole("---- _getUserLocation function ----");
 
-    var location = new Location();
+    // var location = new Location();
+    var location;
 
     setState(() {
       isLoading = true;
     });
 
     try {
-      if (await location.hasPermission() == PermissionStatus.granted &&
-          await location.requestService() == true) {
+      if (true && await location.requestService() == true) {
         try {
           Tools.logToConsole("---- Location Garented ----");
           Tools.logToConsole(await location.hasPermission());
@@ -382,8 +382,8 @@ class AddAddressViewState extends State<AddAddressView> {
         }
       } else {
         Tools.logToConsole("---- address no granted ----");
-        await location.requestPermission().then((onValue) =>
-            onValue == PermissionStatus.granted ? _getUserLocation() : {});
+        // await location.requestPermission().then((onValue) =>
+        //     onValue == PermissionStatus.granted ? _getUserLocation() : {});
       }
     } catch (e) {
       Tools.logToConsole("----- error before if --------");
