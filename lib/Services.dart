@@ -546,6 +546,14 @@ class Services {
         0;
   }
 
+  static bool isSupplierManager() {
+    return Services.roles
+            .where((element) =>
+                element.slug.contains(UtilsImporter().stringUtils.supplierRol))
+            .length >
+        0;
+  }
+
   static errorFlushBar(BuildContext context) {
     return Flushbar(
       backgroundColor: Colors.red[900],
