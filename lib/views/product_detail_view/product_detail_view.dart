@@ -20,6 +20,7 @@ import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
+import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/views/shop_by_category/shop_by_category_view.dart';
@@ -184,6 +185,7 @@ class ProductDetailViewState extends State<ProductDetailView>
   }
 
   String selectedValueCategoryValue;
+  String productSubWarehouseId;
 
   @override
   Widget build(BuildContext context) {
@@ -720,6 +722,77 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                     .greycolor),
                                           ),
                                           child: Center(
+                                            child: new DropdownButton(
+                                              style: decisionButtonStyle,
+                                              underline: Container(),
+                                              isExpanded: false,
+                                              items: Services
+                                                  .productSubWarehouseNames(
+                                                      context),
+                                              iconEnabledColor: UtilsImporter()
+                                                  .colorUtils
+                                                  .greycolor,
+                                              value: productSubWarehouseId,
+                                              hint: new Text(
+                                                LoadingScreenServices
+                                                    .subWarehouses
+                                                    .firstWhere(
+                                                        (subWarehouse) =>
+                                                            subWarehouse
+                                                                .id ==
+                                                            widget.product
+                                                                .subWarehouseId)
+                                                    .name,
+                                                style: decisionButtonStyle
+                                                    .copyWith(
+                                                  color: UtilsImporter()
+                                                      .colorUtils
+                                                      .greycolor,
+                                                ),
+                                              ),
+                                              onChanged: (value) async {
+                                                bool result =
+                                                    await AddedProductsServices
+                                                        .changeProductSubWarehouse(
+                                                            widget.product,
+                                                            value);
+
+                                                Services.resultFlushBar(
+                                                    context: context,
+                                                    result: result);
+                                                setState(() {
+                                                  if (value != null) {
+                                                    if (result)
+                                                      productSubWarehouseId =
+                                                          value;
+                                                    widget.product
+                                                            .subWarehouseId =
+                                                        int.parse(value);
+                                                  }
+                                                });
+                                                // bool result = await ;
+                                                // Services.resultFlushBar(
+                                                //     context: context, result: result);
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 15),
+                                        Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          padding: EdgeInsets.only(
+                                              left: 5, right: 5),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                            border: Border.all(
+                                                width: 5,
+                                                color: UtilsImporter()
+                                                    .colorUtils
+                                                    .greycolor),
+                                          ),
+                                          child: Center(
                                             child: new SearchableDropdown(
                                               style: decisionButtonStyle,
                                               closeButton: FlatButton(
@@ -945,363 +1018,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                       ],
                                     )
                                   : Container(),
-                                    UtilsImporter().stringUtils.name +
-                                    ' :',
-                                textHint: widget.product.name,
-                                inputType: TextInputType.multiline,
-                                bodyKey: "name",
-                                productId: widget.product.id,
-                                initialText: widget.product.name,
-                                isForSubWarehouse: false,
-                                productData: widget.product,
-                              ),
-                              SizedBox(height: 30),
-                              UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.edit +
-                                    ' ' +
-                                    UtilsImporter().stringUtils.unit +
-                                    ' :',
-                                inputType: TextInputType.multiline,
-                                bodyKey: "unit",
-                                productId: widget.product.id,
-                                isForSubWarehouse: false,
-                                productData: widget.product,
-                                textHint: widget.product.unit,
-                                initialText: widget.product.unit,
-                              ),
-                              SizedBox(height: 30),
-                              UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.edit +
-                                    ' ' +
-                                    UtilsImporter().stringUtils.quantity +
-                                    ' :',
-                                isForSubWarehouse: false,
-                                inputType: TextInputType.text,
-                                productData: widget.product,
-                                textHint: widget.product.quantity,
-                                bodyKey: "quantity",
-                                productId: widget.product.id,
-                                initialText: widget.product.quantity,
-                              ),
-                              SizedBox(height: 30),
-                              UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.edit +
-                                    ' ' +
-                                    UtilsImporter().stringUtils.description +
-                                    ' :',
-                                textHint: "الوصف الجديد",
-                                inputType: TextInputType.multiline,
-                                bodyKey: "description",
-                                productId: widget.product.id,
-                                isForSubWarehouse: false,
-                                productData: widget.product,
-                                initialText: widget.product.description,
-                              ),
-                              SizedBox(height: 30),
-                              UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.edit +
-                                    ' ' +
-                                    UtilsImporter().stringUtils.price +
-                                    ' :',
-                                inputType: TextInputType.number,
-                                bodyKey: "price",
-                                productId: widget.product.id,
-                                productData: widget.product,
-                                textHint: widget.product.price,
-                                initialText: widget.product.price,
-                              ),
-                              SizedBox(height: 30),
-                              UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.edit +
-                                    ' ' +
-                                    UtilsImporter().stringUtils.supplierCode +
-                                    ':',
-                                inputType: TextInputType.text,
-                                textHint: widget.product.supplierCode,
-                                initialText: widget.product.supplierCode,
-                                bodyKey: "supplier_code",
-                                productId: widget.product.id,
-                                productData: widget.product,
-                              ),
-                              SizedBox(height: 30),
-                              UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.priceFactor +
-                                    ' :',
-                                inputType: TextInputType.number,
-                                bodyKey: "price_factor",
-                                productId: widget.product.id,
-                                productData: widget.product,
-                                textHint: widget.product.priceFactor,
-                                initialText: widget.product.priceFactor,
-                              ),
-                              SizedBox(height: 30),
-                              UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.edit +
-                                    ' ' +
-                                    UtilsImporter().stringUtils.priority +
-                                    ' :',
-                                textHint: widget.product.priority.toString(),
-                                inputType: TextInputType.text,
-                                bodyKey: "priority",
-                                productId: widget.product.id,
-                                isForSubWarehouse: true,
-                                productData: widget.product,
-                                initialText: widget.product.priority.toString(),
-                              ),
-                              SizedBox(height: 30),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.only(left: 5, right: 5),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6),
-                                  border: Border.all(
-                                      width: 5,
-                                      color:
-                                          UtilsImporter().colorUtils.greycolor),
-                                ),
-                                child: Center(
-                                  child: new DropdownButton(
-                                    style: decisionButtonStyle,
-                                    underline: Container(),
-                                    isExpanded: false,
-                                    items: Services.productSubWarehouseNames(
-                                        context),
-                                    iconEnabledColor:
-                                        UtilsImporter().colorUtils.greycolor,
-                                    value: productSubWarehouseId,
-                                    hint: new Text(
-                                      LoadingScreenServices.subWarehouses
-                                          .firstWhere((subWarehouse) =>
-                                              subWarehouse.id ==
-                                              widget.product.subWarehouseId)
-                                          .name,
-                                      style: decisionButtonStyle.copyWith(
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greycolor,
-                                      ),
-                                    ),
-                                    onChanged: (value) async {
-                                      bool result = await AddedProductsServices
-                                          .changeProductSubWarehouse(
-                                              widget.product, value);
-
-                                      Services.resultFlushBar(
-                                          context: context, result: result);
-                                      setState(() {
-                                        if (value != null) {
-                                          if (result)
-                                            productSubWarehouseId = value;
-                                        }
-                                      });
-                                      // bool result = await ;
-                                      // Services.resultFlushBar(
-                                      //     context: context, result: result);
-                                    },
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 30),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.only(left: 5, right: 5),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6),
-                                  border: Border.all(
-                                      width: 5,
-                                      color:
-                                          UtilsImporter().colorUtils.greycolor),
-                                ),
-                                child: Center(
-                                  child: new SearchableDropdown(
-                                    style: decisionButtonStyle,
-                                    closeButton: FlatButton(
-                                      child: Text(
-                                        UtilsImporter().stringUtils.close,
-                                        style: decisionButtonStyle.copyWith(
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greycolor,
-                                        ),
-                                      ),
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                    ),
-                                    isCaseSensitiveSearch: false,
-                                    underline: Container(),
-                                    isExpanded: false,
-                                    items:
-                                        LoadingScreenServices.fullCategoryList,
-                                    iconEnabledColor:
-                                        UtilsImporter().colorUtils.greycolor,
-                                    value: selectedValueCategoryValue,
-                                    hint: new Text(
-                                      'اختيار الصنف التابع له المنتج',
-                                      style: decisionButtonStyle.copyWith(
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greycolor),
-                                    ),
-                                    searchHint: new Text('إختيار الصنف',
-                                        style: decisionButtonStyle.copyWith(
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greycolor,
-                                        )),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (value != null) {
-                                          selectedValueCategoryValue =
-                                              value.toString().split(";")[1];
-                                          print(MediaQuery.of(context)
-                                              .size
-                                              .width);
-                                        }
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ),
-                              widget.product.images.length > 0
-                                  ? KammunButton(
-                                      height: 50,
-                                      color: Theme.of(context).primaryColor,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Text(
-                                            "حذف الصورة",
-                                            overflow: TextOverflow.clip,
-                                            style: decisionButtonStyle,
-                                          ),
-                                          Icon(
-                                            Icons.delete,
-                                            color: Colors.white,
-                                            size: 30,
-                                          ),
-                                        ],
-                                      ),
-                                      onTap: () async {
-                                        bool result =
-                                            await PricesChangesServices
-                                                .deleteImage(
-                                                    imageId: widget
-                                                        .product.images[0].id);
-                                        Services.resultFlushBar(
-                                            context: context, result: result);
-                                      },
-                                    )
-                                  : Container(),
-                              KammunButton(
-                                height: 50,
-                                text: "الإضافة لصنف جديد",
-                                color: Theme.of(context).primaryColor,
-                                onTap: () async {
-                                  bool result = await _saveCategory(
-                                      categoryId: selectedValueCategoryValue,
-                                      context: context,
-                                      productId: widget.product.id);
-                                  if (result) {
-                                    setState(() {
-                                      widget.product.categories.add(
-                                          CategoryOriginalData(
-                                              id: int.parse(
-                                                  selectedValueCategoryValue),
-                                              name: LoadingScreenServices
-                                                  .categoryList
-                                                  .firstWhere((category) =>
-                                                      category.id.toString() ==
-                                                      selectedValueCategoryValue)
-                                                  .name,
-                                              imageFileName: LoadingScreenServices
-                                                  .categoryList
-                                                  .firstWhere((category) =>
-                                                      category.id.toString() ==
-                                                      selectedValueCategoryValue)
-                                                  .imageFileName));
-                                    });
-                                  }
-                                },
-                              ),
-                              _getImage(),
-                              _image != null ? imagesBody() : Container(),
-                              isLoading
-                                  ? Loader()
-                                  : _image != null
-                                      ? KammunButton(
-                                          text: "حفظ الصورة",
-                                          height: 50,
-                                          color: Theme.of(context).primaryColor,
-                                          onTap: () async {
-                                            setState(() {
-                                              isLoading = true;
-                                            });
-                                            bool result = await ProductsServices
-                                                .setImageToProducts(
-                                                    productId:
-                                                        widget.product.id,
-                                                    image: _image);
-                                            Services.resultFlushBar(
-                                                context: context,
-                                                result: result);
-                                            if (result) {
-                                              setState(() {
-                                                isLoading = false;
-                                              });
-                                            } else {
-                                              setState(() {
-                                                isLoading = false;
-                                              });
-                                            }
-                                          },
-                                        )
-                                      : Container(),
-                              Services.isAdmin() ||
-                                      Services.isProductsController()
-                                  ? KammunButton(
-                                      height: 50,
-                                      text: "حذف المنتج",
-                                      color: Colors.red,
-                                      onTap: () {
-                                        List<DialogButton> dialogButtons = [
-                                          DialogButton(
-                                            text:
-                                                UtilsImporter().stringUtils.yes,
-                                            onTap: () async {
-                                              bool result =
-                                                  await ProductsServices
-                                                      .deleteProduct(widget
-                                                          .product.id
-                                                          .toString());
-                                              if (result) {
-                                                int count = 0;
-                                                Navigator.of(context).popUntil(
-                                                    (_) => count++ >= 3);
-                                              }
-                                              Services.resultFlushBar(
-                                                  context: context,
-                                                  result: result);
-                                            },
-                                          ),
-                                          DialogButton(
-                                            text:
-                                                UtilsImporter().stringUtils.no,
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ];
-                                        showMyDialog(
-                                            title: '',
-                                            context: context,
-                                            text:
-                                                'هل تريد حذف المنتج نهائياً ؟',
-                                            dialogButtons: dialogButtons);
-                                      },
-                                    )
-                                  : Container(),
-                              SizedBox(height: 30),
                             ],
                           )
                         : Container(),
@@ -1415,7 +1131,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                   .length ==
               0
           ? _addFavorite(context, widget.product)
-          : _removeFavoraite();
+          : _removeFavorite();
       if (widget.isFromFavoriteScreen) {
         Navigator.of(context).pushNamedAndRemoveUntil(
             '/favoraites', (Route<dynamic> route) => false);
@@ -1435,7 +1151,7 @@ class ProductDetailViewState extends State<ProductDetailView>
     // Navigator.of(context).pop();
   }
 
-  void _removeFavoraite() {
+  void _removeFavorite() {
     for (int i = 0; i < LoadingScreenServices.userFavoriteProducts.length; i++)
       if (LoadingScreenServices.userFavoriteProducts[i].id == widget.product.id)
         LoadingScreenServices.userFavoriteProducts.removeAt(i);

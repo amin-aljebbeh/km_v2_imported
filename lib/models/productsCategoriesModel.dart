@@ -125,6 +125,7 @@ class ProductData {
     this.priceChange,
     this.categories,
     this.warehouses,
+    this.automaticActivation,
   });
 
   int id;
@@ -152,6 +153,7 @@ class ProductData {
   int underCheckAvailability;
   int subWarehouseId;
   String priceChange;
+  int automaticActivation;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -184,6 +186,9 @@ class ProductData {
           ? null
           : json["increase_percentage"],
       priceFactor: json["price_factor"] == null ? null : json["price_factor"],
+      automaticActivation: json["automatic_activation"] == null
+          ? null
+          : json["automatic_activation"],
       underCheckAvailability: json["under_check_availability"] == null
           ? null
           : json["under_check_availability"],

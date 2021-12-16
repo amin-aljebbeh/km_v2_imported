@@ -98,14 +98,12 @@ class AddedProductsServices {
       "min_threshold": product.minThreshold.toString(),
       "increase_percentage": product.increasePercentage,
       "price_factor": product.priceFactor,
-      "automatic_activation": '1',
+      "automatic_activation": product.automaticActivation,
     };
-    Tools.logToConsole('init');
     try {
       bool remove = await AddedProductsServices.unAttachProductsToSubWarehouse(
           productsId: product.id.toString(),
           subWarehouse: product.subWarehouseId.toString());
-      Tools.logToConsole('removed');
       bool add = false;
       if (remove)
         add = await AddedProductsServices.attachProductsToSubWarehouse(
@@ -122,12 +120,11 @@ class AddedProductsServices {
           "min_threshold": product.minThreshold.toString(),
           "increase_percentage": product.increasePercentage,
           "price_factor": product.priceFactor,
-          "automatic_activation": '1',
+          "automatic_activation": product.automaticActivation.toString(),
         };
         await AddedProductsServices.attachProductsToSubWarehouse(
             fullRequestBody: subWarehouseBody);
       }
-      Tools.logToConsole('one');
       return remove && add;
     } catch (e) {
       Tools.logToConsole(e.toString());
