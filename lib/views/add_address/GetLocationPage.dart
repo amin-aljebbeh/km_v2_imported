@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 
 class GetLocationPage extends StatefulWidget {
   @override
@@ -8,7 +8,7 @@ class GetLocationPage extends StatefulWidget {
 }
 
 class _GetLocationPageState extends State<GetLocationPage> {
-  var location = new Location();
+  var location;
 
   Map<String, double> userLocation;
 
@@ -50,21 +50,21 @@ class _GetLocationPageState extends State<GetLocationPage> {
   }
 
   Future<Map<String, double>> _getLocation() async {
-    LocationData currentLocation;
+    // LocationData currentLocation;
 
     await location.requestPermission();
-    if (await location.hasPermission() == PermissionStatus.granted) {
+    if (true) {
       try {
-        currentLocation = await location.getLocation();
+        // currentLocation = await location.getLocation();
       } catch (e) {
-        currentLocation = null;
+        // currentLocation = null;
       }
       Map<String, double> userLocation = {
-        "latitude": currentLocation.latitude,
-        "longitude": currentLocation.longitude
+        // "latitude": currentLocation.latitude,
+        // "longitude": currentLocation.longitude
       };
-      Tools.logToConsole(currentLocation.latitude);
-      Tools.logToConsole(currentLocation.longitude);
+      // Tools.logToConsole(currentLocation.latitude);
+      // Tools.logToConsole(currentLocation.longitude);
       return userLocation;
     } else {
       Tools.logToConsole("not gareented");
