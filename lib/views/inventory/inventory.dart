@@ -223,7 +223,7 @@ class _InventoryState extends State<Inventory> {
               children: [
                 DropdownButton(
                   value: filterProducts,
-                  items: Services.warehouseNames(),
+                  items: Services.inventorySubWarehouseNames(),
                   onChanged: (value) {
                     setState(() {
                       filterProducts = value;

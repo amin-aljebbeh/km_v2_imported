@@ -20,6 +20,7 @@ import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
+import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/views/shop_by_category/shop_by_category_view.dart';
@@ -184,6 +185,7 @@ class ProductDetailViewState extends State<ProductDetailView>
   }
 
   String selectedValueCategoryValue;
+  String productSubWarehouseId;
 
   @override
   Widget build(BuildContext context) {
@@ -683,6 +685,59 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 isForSubWarehouse: true,
                                 productData: widget.product,
                                 initialText: widget.product.priority.toString(),
+                              ),
+                              SizedBox(height: 30),
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.only(left: 5, right: 5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                      width: 5,
+                                      color:
+                                          UtilsImporter().colorUtils.greycolor),
+                                ),
+                                child: Center(
+                                  child: new DropdownButton(
+                                    style: decisionButtonStyle,
+                                    underline: Container(),
+                                    isExpanded: false,
+                                    items: Services.productSubWarehouseNames(
+                                        context),
+                                    iconEnabledColor:
+                                        UtilsImporter().colorUtils.greycolor,
+                                    value: productSubWarehouseId,
+                                    hint: new Text(
+                                      LoadingScreenServices.subWarehouses
+                                          .firstWhere((subWarehouse) =>
+                                              subWarehouse.id ==
+                                              widget.product.subWarehouseId)
+                                          .name,
+                                      style: decisionButtonStyle.copyWith(
+                                        color: UtilsImporter()
+                                            .colorUtils
+                                            .greycolor,
+                                      ),
+                                    ),
+                                    onChanged: (value) async {
+                                      bool result = await AddedProductsServices
+                                          .changeProductSubWarehouse(
+                                              widget.product, value);
+
+                                      Services.resultFlushBar(
+                                          context: context, result: result);
+                                      setState(() {
+                                        if (value != null) {
+                                          if (result)
+                                            productSubWarehouseId = value;
+                                        }
+                                      });
+                                      // bool result = await ;
+                                      // Services.resultFlushBar(
+                                      //     context: context, result: result);
+                                    },
+                                  ),
+                                ),
                               ),
                               SizedBox(height: 30),
                               Container(

@@ -84,4 +84,54 @@ class AddedProductsServices {
       return null;
     }
   }
+
+  static Future<bool> changeProductSubWarehouse(
+      ProductData product, String productSubWarehouseId) async {
+    var subWarehouseBody = {
+      "product_id": product.id.toString(),
+      "sub_warehouse_id": productSubWarehouseId,
+      "price": product.price,
+      "is_featured": product.isFeatured,
+      "is_active": product.isActive,
+      "priority": product.priority.toString(),
+      "supplier_code": product.supplierCode,
+      "min_threshold": product.minThreshold.toString(),
+      "increase_percentage": product.increasePercentage,
+      "price_factor": product.priceFactor,
+      "automatic_activation": '1',
+    };
+    Tools.logToConsole('init');
+    try {
+      bool remove = await AddedProductsServices.unAttachProductsToSubWarehouse(
+          productsId: product.id.toString(),
+          subWarehouse: product.subWarehouseId.toString());
+      Tools.logToConsole('removed');
+      bool add = false;
+      if (remove)
+        add = await AddedProductsServices.attachProductsToSubWarehouse(
+            fullRequestBody: subWarehouseBody);
+      if (!add && remove) {
+        var subWarehouseBody = {
+          "product_id": product.id.toString(),
+          "sub_warehouse_id": product.subWarehouseId.toString(),
+          "price": product.price,
+          "is_featured": product.isFeatured,
+          "is_active": product.isActive,
+          "priority": product.priority.toString(),
+          "supplier_code": product.supplierCode,
+          "min_threshold": product.minThreshold.toString(),
+          "increase_percentage": product.increasePercentage,
+          "price_factor": product.priceFactor,
+          "automatic_activation": '1',
+        };
+        await AddedProductsServices.attachProductsToSubWarehouse(
+            fullRequestBody: subWarehouseBody);
+      }
+      Tools.logToConsole('one');
+      return remove && add;
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return false;
+    }
+  }
 }

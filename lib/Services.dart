@@ -409,13 +409,33 @@ class Services {
     }
   }
 
-  static List<DropdownMenuItem<int>> warehouseNames() {
+  static List<DropdownMenuItem<int>> inventorySubWarehouseNames() {
     List<String> names = [];
     for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
       names.add(LoadingScreenServices.subWarehouses[i].name);
     }
     names.add('الجميع');
     return dropdownStringList(names);
+  }
+
+  static List<DropdownMenuItem<String>> productSubWarehouseNames(
+      BuildContext context) {
+    List<DropdownMenuItem<String>> names = [];
+    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
+      names.add(
+        DropdownMenuItem<String>(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.68,
+            child: Text(
+              LoadingScreenServices.subWarehouses[i].name,
+              style: warehouseStyle,
+            ),
+          ),
+          value: LoadingScreenServices.subWarehouses[i].id.toString(),
+        ),
+      );
+    }
+    return names;
   }
 
   static List<DropdownMenuItem<int>> dropdownIntList(List<String> inputList) {

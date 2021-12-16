@@ -7,6 +7,7 @@ import 'package:kammun_app/core/api/admin_URLs.dart';
 import 'package:kammun_app/models/delivery_model.dart';
 import 'package:kammun_app/models/shopper_model.dart';
 import 'package:kammun_app/models/sub_warehouse_model.dart';
+import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
@@ -231,11 +232,7 @@ class LoadingScreenServices {
                     category[i].name + " من القائمة الرئيسية",
                     overflow: TextOverflow.visible,
                     maxLines: 2,
-                    style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        fontWeight: FontWeight.bold,
-                        color: UtilsImporter().colorUtils.greycolor,
-                        fontSize: 20),
+                    style: warehouseStyle,
                   ),
                 ),
                 Padding(
@@ -257,10 +254,7 @@ class LoadingScreenServices {
           fullCategoryList.add(new DropdownMenuItem(
             child: Text(
               category[i].name,
-              style: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  color: UtilsImporter().colorUtils.greycolor,
-                  fontSize: 18),
+              style: warehouseStyle.copyWith(fontSize: 18),
             ),
             value: category[i].name + ";" + category[i].id.toString(),
           ));
