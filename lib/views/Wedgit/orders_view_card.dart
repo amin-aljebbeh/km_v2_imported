@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -96,7 +97,6 @@ openMapsSheet(context, lat, lon) async {
 
 class OrdersViewCardState extends State<OrdersViewCard> {
   String shopperName, deliveryName;
-  SearchableItem deliverySearch, shopperSearch;
 
   void initState() {
     shopperName = widget.shopperName != null ? widget.shopperName : null;
@@ -324,14 +324,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                     ),
                                     TextSpan(
                                       text: widget.orderCreatedDate,
-                                      style: TextStyle(
-                                        color: Colors.black38,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
-                                      ),
+                                      style: disableStyle,
                                     ),
                                   ],
                                 ),

@@ -2,19 +2,17 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/Services.dart';
+import 'package:kammun_app/views/Wedgit/proruct_check_widget.dart';
 import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/colors_utils.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/dialog_button.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/full_screen_image.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
-import 'package:kammun_app/views/products_view/services/products_services.dart';
 
+// ignore: must_be_immutable
 class OrderDetailViewMainCard extends StatefulWidget {
   final String img;
   final String productName;
@@ -111,70 +109,13 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                LoadingScreenServices.preferLeftSide
-                    ? Container()
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(3.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          10.0) //                 <--- border radius here
-                                      ),
-                                  border: Border.all(
-                                      color: UtilsImporter()
-                                          .colorUtils
-                                          .primarycolor,
-                                      width: 2)),
-                              child: Center(
-                                  child: Text(
-                                widget.productCount,
-                                style: mainStyle.copyWith(fontSize: 30),
-                              )),
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            IconButton(
-                                icon: Icon(
-                                  Icons.library_add_check_outlined,
-                                  color: Colors.green,
-                                ),
-                                onPressed: () {
-                                  if (widget.productCount != "1") {
-                                    List<DialogButton> decisionButtons = [
-                                      DialogButton(
-                                        text: 'نعم',
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-
-                                          widget.onCheckbox(widget.index);
-                                        },
-                                      ),
-                                      DialogButton(
-                                        text: 'لا',
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ];
-                                    showMyDialog(
-                                        title: "تحقق من الكمية",
-                                        text:
-                                            "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
-                                        dialogButtons: decisionButtons,
-                                        context: context);
-                                    // _showDialog();
-                                  } else {
-                                    widget.onCheckbox(widget.index);
-                                  }
-                                }),
-                          ],
-                        ),
-                      ),
+                ProductCheckWidget(
+                  preferLeftSide: !LoadingScreenServices.preferLeftSide,
+                  productCount: widget.productCount,
+                  productName: widget.productName,
+                  index: widget.index,
+                  onCheckbox: (index) => widget.onCheckbox(index),
+                ), //right side
                 InkWell(
                   onTap: () {
                     Navigator.push(
@@ -301,65 +242,13 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     ],
                   ),
                 ),
-                LoadingScreenServices.preferLeftSide
-                    ? Column(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(5.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                        10.0) //                 <--- border radius here
-                                    ),
-                                border: Border.all(
-                                    color:
-                                        UtilsImporter().colorUtils.primarycolor,
-                                    width: 2)),
-                            child: Center(
-                                child: Text(
-                              widget.productCount,
-                              style: mainStyle.copyWith(fontSize: 30),
-                            )),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          IconButton(
-                              icon: Icon(
-                                Icons.library_add_check_outlined,
-                                color: Colors.green,
-                              ),
-                              onPressed: () {
-                                if (widget.productCount != "1") {
-                                  List<DialogButton> decisionButtons = [
-                                    DialogButton(
-                                      text: 'نعم',
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-
-                                        widget.onCheckbox(widget.index);
-                                      },
-                                    ),
-                                    DialogButton(
-                                      text: 'لا',
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ];
-                                  showMyDialog(
-                                      title: "تحقق من الكمية",
-                                      text:
-                                          "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
-                                      dialogButtons: decisionButtons,
-                                      context: context);
-                                  // _showDialog();
-                                } else {
-                                  widget.onCheckbox(widget.index);
-                                }
-                              }),
-                        ],
-                      )
-                    : Container(),
+                ProductCheckWidget(
+                  preferLeftSide: LoadingScreenServices.preferLeftSide,
+                  productCount: widget.productCount,
+                  productName: widget.productName,
+                  index: widget.index,
+                  onCheckbox: (index) => widget.onCheckbox(index),
+                ),
               ],
             ),
             SizedBox(height: 4),

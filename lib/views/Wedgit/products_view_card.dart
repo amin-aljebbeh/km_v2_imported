@@ -1,16 +1,12 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/products_view/services/products_services.dart';
 
-import '../../Services.dart';
-
+// ignore: must_be_immutable
 class ProductsViewCard extends StatefulWidget {
   final String img;
   final String productName;
@@ -47,8 +43,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
 
   @override
   Widget build(BuildContext context) {
-    Tools.logToConsole(
-        "SUBWAREHOUSE ${LoadingScreenServices.subWarehouses[0]}     ${widget.subWarehouseId}");
+    Tools.logToConsole('product image');
+    Tools.logToConsole(widget.productData.categories.length);
     return Container(
       color: Theme.of(context).primaryColorLight,
       child: Padding(

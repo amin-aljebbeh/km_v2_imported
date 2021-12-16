@@ -104,8 +104,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                         child: Hero(
                             tag: widget.productId,
                             child: Image(
-                              // fadeInCurve: Curves.fastOutSlowIn,
-                              // placeholder: AssetImage("assets/kmIcon.png"),
                               fit: BoxFit.contain,
                               image: widget.img.length > 0
                                   ? AdvImageCache(

@@ -503,6 +503,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
+          fromMyOrders: true,
           order: orderDataList[index],
           orderId: orderDataList[index].id,
           orderIndex: index,

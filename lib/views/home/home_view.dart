@@ -6,7 +6,6 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
-import 'package:kammun_app/views/inventory/inventory.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/assigned_orders_view.dart';
 import 'package:kammun_app/views/orders/not_assigned_orders_view.dart';

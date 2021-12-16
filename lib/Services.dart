@@ -618,15 +618,3 @@ class Services {
     return productsList;
   }
 }
-
-class SearchableItem {
-  String value;
-  int id;
-
-  SearchableItem({this.value, this.id = 3333});
-
-  @override
-  String toString() {
-    return '$value'.toLowerCase() + ' $value'.toUpperCase();
-  }
-}

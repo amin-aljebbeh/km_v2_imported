@@ -62,3 +62,7 @@ TextStyle labelStyle = mainStyle.copyWith(
   fontSize: 15,
   color: UtilsImporter().colorUtils.greycolor,
 );
+
+TextStyle disableStyle = paragraphStyle.copyWith(
+  color: Colors.black38,
+);

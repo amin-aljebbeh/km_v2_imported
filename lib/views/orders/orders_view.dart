@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/lock_order.dart';
-import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -16,7 +15,6 @@ import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:intl/intl.dart';
@@ -45,10 +43,6 @@ class OrdersViewState extends State<OrdersView> {
       getOrders = _initialFunction();
       orderDataList = LoadingScreenServices.allOrdersList;
     }
-    for (int i = 0; i < orderDataList.length; i++) {
-      shopperSearch.add(SearchableItem());
-      deliverySearch.add(SearchableItem());
-    }
     super.initState();
   }
 
@@ -66,8 +60,6 @@ class OrdersViewState extends State<OrdersView> {
   int ordersTypeFilter;
 
   List<OrdersOriginalData> orderDataList = new List<OrdersOriginalData>();
-  List<SearchableItem> shopperSearch = List<SearchableItem>();
-  List<SearchableItem> deliverySearch = List<SearchableItem>();
 
   _getOrder() async {
     setState(() {
@@ -137,10 +129,6 @@ class OrdersViewState extends State<OrdersView> {
         isLoading = false;
         errorMessageValue = "حدث خطأ اثناء محاولة جلب الطلبات";
       });
-    }
-    for (int i = 0; i < orderDataList.length; i++) {
-      shopperSearch.add(SearchableItem());
-      deliverySearch.add(SearchableItem());
     }
   }
 
@@ -345,29 +333,14 @@ class OrdersViewState extends State<OrdersView> {
                                   width: MediaQuery.of(context).size.width * .6,
                                   child: Column(
                                     children: [
-                                      SearchableDropdown(
-                                        underline: Container(),
-                                        style: dropdownItemStyle,
-                                        isExpanded: true,
-                                        disabledHint: 'disabled',
-                                        isCaseSensitiveSearch: false,
-                                        closeButton: FlatButton(
-                                          child: Text(
-                                            UtilsImporter().stringUtils.close,
-                                            style: decisionButtonStyle.copyWith(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                        ),
+                                      KSearchableDropdown(
                                         hint: orderDataList[index].shopper !=
                                                 null
                                             ? orderDataList[index].shopper.name
                                             : UtilsImporter()
                                                 .stringUtils
                                                 .chooseShopper,
-                                        value: shopper,
+                                        search: shopper,
                                         items: Services.shoppersNameList(),
                                         onChanged: (value) async {
                                           Tools.logToConsole(
@@ -405,29 +378,14 @@ class OrdersViewState extends State<OrdersView> {
                                           }
                                         },
                                       ),
-                                      SearchableDropdown(
-                                        closeButton: FlatButton(
-                                          child: Text(
-                                            UtilsImporter().stringUtils.close,
-                                            style: decisionButtonStyle.copyWith(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                        ),
-                                        isExpanded: true,
-                                        style: dropdownItemStyle,
-                                        isCaseSensitiveSearch: false,
-                                        underline: Container(),
-                                        disabledHint: 'disabled',
+                                      KSearchableDropdown(
+                                        search: delivery,
                                         hint: orderDataList[index].delivery !=
                                                 null
                                             ? orderDataList[index].delivery.name
                                             : UtilsImporter()
                                                 .stringUtils
                                                 .chooseDelivery,
-                                        value: delivery,
                                         items: Services.deliveriesNameList(),
                                         onChanged: (value) async {
                                           if (value != null) {
@@ -687,6 +645,7 @@ class OrdersViewState extends State<OrdersView> {
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
+          fromMyOrders: false,
           order: orderDataList[index],
           orderId: orderDataList[index].id,
           orderIndex: index,

@@ -36,21 +36,15 @@ class _AllProductsState extends State<AllProducts> {
         setState(() {
           isLoading = false;
         });
-        Tools.logToConsole('productsList.length');
-        Tools.logToConsole(productsList.length);
         return true;
       } else {
         setState(() {
           isLoading = false;
           isError = true;
         });
-        Tools.logToConsole('productsList.length');
-        Tools.logToConsole(productsList.length);
         return false;
       }
     } catch (e) {
-      Tools.logToConsole('productsList.length');
-      Tools.logToConsole(productsList.length);
       Tools.logToConsole("Error While getting Inventory Products");
       Tools.logToConsole(e.toString());
       setState(() {
@@ -191,6 +185,13 @@ class _AllProductsState extends State<AllProducts> {
                                   behavior: HitTestBehavior.translucent,
                                   onTap: () => () {},
                                   child: ProductsViewCard(
+                                    attached: eachProduct.warehouses.isNotEmpty
+                                        ? eachProduct.warehouses[0].pivot
+                                                    .supplierCode !=
+                                                null
+                                            ? true
+                                            : false
+                                        : false,
                                     fromInventory: false,
                                     active: int.parse(productsList[index]
                                             .warehouses
@@ -220,7 +221,11 @@ class _AllProductsState extends State<AllProducts> {
                                         });
                                       }
                                     },
-                                    supplierCode: eachProduct.supplierCode,
+                                    supplierCode:
+                                        eachProduct.warehouses.isNotEmpty
+                                            ? eachProduct.warehouses[0].pivot
+                                                .supplierCode
+                                            : null,
                                     productId: eachProduct.id.toString(),
                                     img: eachProduct.images.length > 0
                                         ? LoadingScreenServices.imagePrefixUrl +
