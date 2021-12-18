@@ -313,29 +313,29 @@ class Services {
     }
   }
 
-  static Future<ShopperModel> getShopper(String id) async {
-    Tools.logToConsole(
-        "------------------ #Get The Shopper#  --------------------");
-    try {
-      var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_SHOPPER + id,
-        method: httpMethods.get,
-      );
-      Tools.logToConsole("------- shoppers data -------");
+  // static Future<ShopperModel> getShopper(String id) async {
+  //   Tools.logToConsole(
+  //       "------------------ #Get The Shopper#  --------------------");
+  //   try {
+  //     var response = await ApiProvider.sendRequest(
+  //       url: BaseUrl + GET_SHOPPER + id,
+  //       method: httpMethods.get,
+  //     );
+  //     Tools.logToConsole("------- shoppers data -------");
 
-      if (response.statusCode == SUCCESS_CODE) {
-        shopper = GetShopperResponse.fromJson(response.data).shopper;
+  //     if (response.statusCode == SUCCESS_CODE) {
+  //       shopper = GetShopperResponse.fromJson(response.data).shopper;
 
-        return shopper;
-      } else {
-        return shopper;
-      }
-    } catch (e) {
-      Tools.logToConsole("------------ ERROR GET THE SHOPPER --------------");
-      Tools.logToConsole(e.toString());
-      return null;
-    }
-  }
+  //       return shopper;
+  //     } else {
+  //       return shopper;
+  //     }
+  //   } catch (e) {
+  //     Tools.logToConsole("------------ ERROR GET THE SHOPPER --------------");
+  //     Tools.logToConsole(e.toString());
+  //     return null;
+  //   }
+  // }
 
   static Future<List<DeliveryModel>> getDeliveries() async {
     Tools.logToConsole(

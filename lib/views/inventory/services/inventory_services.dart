@@ -39,8 +39,8 @@ class InventoryServices {
       if (result.data.roles.length > 0) {
         Services.roles = result.data.roles;
         if (result.data.shopper != null) {
-          Services.shopper =
-              await Services.getShopper(result.data.shopper.id.toString());
+          Services.shopper = result.data.shopper;
+          // await Services.getShopper(result.data.shopper.id.toString());
         }
       }
       LoadingScreenServices.name = result.data.name;
