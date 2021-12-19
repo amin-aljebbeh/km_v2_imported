@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Styles.dart';
+import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -58,31 +58,21 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
       orderDataList.clear();
     });
     List<OrdersOriginalData> orderList = new List<OrdersOriginalData>();
-    if (Services.isShopper()) {
-      if (LoadingScreenServices.shoppersNotAssignedOrdersList.length == 0) {
+    if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
+      if (Services.isShopper())
         orderList = await OrderServices.getOrdersNotAssignedToShoppers(
             pageNumber: page);
-      } else {
-        orderList = LoadingScreenServices.shoppersNotAssignedOrdersList;
-      }
-    }
-    if (Services.isDelivery()) {
-      if (LoadingScreenServices.deliveriesNotAssignedOrdersList.length == 0) {
-        orderList.addAll(await OrderServices.getOrdersNotAssignedToDeliveries(
-            pageNumber: page));
-      } else {
-        orderList.addAll(LoadingScreenServices.deliveriesNotAssignedOrdersList);
-      }
+      if (Services.isDelivery())
+        orderList = await OrderServices.getOrdersNotAssignedToDeliveries(
+            pageNumber: page);
+    } else {
+      orderList = LoadingScreenServices.notAssignedOrdersList;
     }
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
           if (Services.isShopper()) {
-            LoadingScreenServices.shoppersNotAssignedOrdersList = orderDataList;
-          }
-          if (Services.isDelivery()) {
-            LoadingScreenServices.deliveriesNotAssignedOrdersList =
-                orderDataList;
+            LoadingScreenServices.notAssignedOrdersList = orderDataList;
           }
           var tempList = orderDataList;
           if (tempList.length != 0) theEndOfOrders = true;
@@ -100,18 +90,13 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
             orderDataList.removeWhere(
                 (order) => int.parse(order.orderStatusId) != filterOrders);
           }
-          Tools.logToConsole("orderDataList before filltiting");
+          Tools.logToConsole("orderDataList before filtering");
           Tools.logToConsole(orderDataList.length);
 
           orderDataList.removeWhere((order) => order.products.length == 0);
-          Tools.logToConsole("orderDataList After filltiting");
+          Tools.logToConsole("orderDataList After filtering");
           Tools.logToConsole(orderDataList.length);
-          if (Services.isShopper()) {
-            LoadingScreenServices.shoppersNotAssignedOrdersList = orderDataList;
-          } else {
-            LoadingScreenServices.deliveriesNotAssignedOrdersList =
-                orderDataList;
-          }
+          LoadingScreenServices.notAssignedOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -417,7 +402,6 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
-          fromMyOrders: false,
           order: orderDataList[index],
           orderId: orderDataList[index].id,
           orderIndex: index,
@@ -435,6 +419,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                       orderDataList[index].supportedCityCost.split(".")[0]) +
                   int.parse(orderDataList[index].deliveryCost.split(".")[0]))
               .toString(),
+          orderType: OrderType.orders,
         ),
       ),
     );

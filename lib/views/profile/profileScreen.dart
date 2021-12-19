@@ -136,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     title: Padding(
                       padding: const EdgeInsets.only(top: 5.0),
                       child: Text(
-                        LoadingScreenServices.PhoneNumber ?? "لا يوجد",
+                        LoadingScreenServices.phoneNumber ?? "لا يوجد",
                         style: TextStyle(
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                             fontSize: 25,

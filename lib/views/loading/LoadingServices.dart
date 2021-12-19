@@ -80,18 +80,16 @@ class LoadingScreenServices {
       new List<OrdersOriginalData>();
   static List<OrdersOriginalData> deliveriesAssignedOrdersList =
       new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> shoppersNotAssignedOrdersList =
+  static List<OrdersOriginalData> notAssignedOrdersList =
       new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> deliveriesNotAssignedOrdersList =
-      new List<OrdersOriginalData>();
-  static String PhoneNumber = "لم تقم بتسجيل رقم";
+  static String phoneNumber = "لم تقم بتسجيل رقم";
   static String name;
   static String userName;
   static bool preferLeftSide = true;
 
   // -------------------------------------------------------//
 
-  /// -------- selecrted supported city information ------- ///
+  /// -------- selected supported city information ------- ///
 
   static String selectedSupportedCityName;
   static String selectedSupportedCityPrice;
@@ -358,7 +356,7 @@ class LoadingScreenServices {
       ),
     );
 
-    PhoneNumber = "0000000000";
+    phoneNumber = "0000000000";
 
     userBlocked = false;
 

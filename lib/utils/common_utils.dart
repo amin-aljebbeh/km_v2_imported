@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class CommonUtils {
@@ -16,6 +16,8 @@ class CommonUtils {
 }
 
 enum MyThemeKeys { LIGHT, DARK, DARKER }
+
+enum OrderType { myOrder, allOrder, orders }
 
 class MyThemes {
   static final ThemeData lightTheme = ThemeData(

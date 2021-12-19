@@ -45,7 +45,7 @@ class InventoryServices {
       }
       LoadingScreenServices.name = result.data.name;
       LoadingScreenServices.userName = result.data.username;
-      LoadingScreenServices.PhoneNumber = result.data.phone;
+      LoadingScreenServices.phoneNumber = result.data.phone;
       return result.data.subWarehouses;
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/lock_order.dart';
 import 'package:kammun_app/utils/Styles.dart';
+import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
@@ -69,7 +70,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     if (LoadingScreenServices.myOrdersList.length == 0) {
       if (Services.isDelivery())
         orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
-      else
+      if (Services.isShopper())
         orderList = await OrderServices.getShopperOrders(pageNumber: page);
     } else {
       orderList = LoadingScreenServices.myOrdersList;
@@ -504,7 +505,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
-          fromMyOrders: true,
           order: orderDataList[index],
           orderId: orderDataList[index].id,
           orderIndex: index,
@@ -522,6 +522,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                       orderDataList[index].supportedCityCost.split(".")[0]) +
                   int.parse(orderDataList[index].deliveryCost.split(".")[0]))
               .toString(),
+          orderType: OrderType.myOrder,
         ),
       ),
     );

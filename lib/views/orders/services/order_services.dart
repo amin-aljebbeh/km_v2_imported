@@ -6,6 +6,7 @@ import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/lock_order.dart';
 import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/models/start_model.dart';
+import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
@@ -336,14 +337,13 @@ class OrderServices {
       Tools.logToConsole("------- orders data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.deliveriesNotAssignedOrdersList =
-            ordersFromJson(jsonEncode(response.data)).data.data;
+        LoadingScreenServices.notAssignedOrdersList.addAll(
+            ordersFromJson(jsonEncode(response.data)).data.data.where((order) =>
+                !LoadingScreenServices.notAssignedOrdersList.contains(order)));
 
-        print('getOrdersNotAssignedToDeliveries');
-        print(LoadingScreenServices.deliveriesNotAssignedOrdersList.length);
-        return LoadingScreenServices.deliveriesNotAssignedOrdersList;
+        return LoadingScreenServices.notAssignedOrdersList;
       } else {
-        return LoadingScreenServices.deliveriesNotAssignedOrdersList;
+        return LoadingScreenServices.notAssignedOrdersList;
       }
     } catch (e) {
       Tools.logToConsole(
@@ -420,11 +420,9 @@ class OrderServices {
       Tools.logToConsole("------- orders data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.myOrdersList
-            .addAll(ordersFromJson(jsonEncode(response.data)).data.data);
+        LoadingScreenServices.myOrdersList =
+            ordersFromJson(jsonEncode(response.data)).data.data;
 
-        print('getDeliveryOrders');
-        print(LoadingScreenServices.myOrdersList.length);
         return LoadingScreenServices.myOrdersList;
       } else {
         return LoadingScreenServices.myOrdersList;
@@ -448,15 +446,14 @@ class OrderServices {
       Tools.logToConsole("------- orders data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.shoppersNotAssignedOrdersList =
+        LoadingScreenServices.notAssignedOrdersList =
             ordersFromJson(jsonEncode(response.data)).data.data;
 
         Tools.logToConsole('getOrdersNotAssignedToShoppers');
-        Tools.logToConsole(
-            LoadingScreenServices.shoppersNotAssignedOrdersList.length);
-        return LoadingScreenServices.shoppersNotAssignedOrdersList;
+        Tools.logToConsole(LoadingScreenServices.notAssignedOrdersList.length);
+        return LoadingScreenServices.notAssignedOrdersList;
       } else {
-        return LoadingScreenServices.shoppersNotAssignedOrdersList;
+        return LoadingScreenServices.notAssignedOrdersList;
       }
     } catch (e) {
       Tools.logToConsole(
@@ -475,11 +472,11 @@ class OrderServices {
         queryParameters: {"page": pageNumber},
       );
       Tools.logToConsole("------- orders data -------");
-      Tools.logToConsole(response.data);
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.myOrdersList
-            .addAll(ordersFromJson(jsonEncode(response.data)).data.data);
+        LoadingScreenServices.myOrdersList.addAll(
+            ordersFromJson(jsonEncode(response.data)).data.data.where((order) =>
+                !LoadingScreenServices.myOrdersList.contains(order)));
 
         return LoadingScreenServices.myOrdersList;
       } else {

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
+import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/views/Wedgit/blurred_widget.dart';
 import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -25,7 +26,7 @@ class OrderDetailViewMain extends StatefulWidget {
   int orderId;
   String addressName;
   OrdersOriginalData order;
-  bool fromMyOrders;
+  final OrderType orderType;
 
   OrderDetailViewMain(
       {this.ordersAry,
@@ -36,7 +37,7 @@ class OrderDetailViewMain extends StatefulWidget {
       this.addressName,
       this.orderIndex,
       this.order,
-      this.fromMyOrders});
+      @required this.orderType});
 
   @override
   State<StatefulWidget> createState() {
@@ -204,19 +205,40 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                 subWarehouseId: orderDetail.subWarehouseId,
                                 orderId: widget.orderId,
                                 onCheckbox: (a) {
-                                  if (Services.isShopper() &&
-                                      widget.fromMyOrders)
-                                    setState(() {
-                                      LoadingScreenServices.myOrdersList
-                                          .firstWhere((order) =>
-                                              order.id == widget.orderId)
-                                          .products
-                                          .removeWhere((product) =>
-                                              product.id ==
-                                              notDeletedProductsAry[a].id);
-                                      notDeletedProductsAry.removeAt(a);
-                                      finalProductsAry.removeAt(index);
-                                    });
+                                  setState(() {
+                                    switch (widget.orderType) {
+                                      case OrderType.myOrder:
+                                        LoadingScreenServices.myOrdersList
+                                            .firstWhere((order) =>
+                                                order.id == widget.orderId)
+                                            .products
+                                            .removeWhere((product) =>
+                                                product.id ==
+                                                notDeletedProductsAry[a].id);
+                                        break;
+                                      case OrderType.allOrder:
+                                        LoadingScreenServices.allOrdersList
+                                            .firstWhere((order) =>
+                                                order.id == widget.orderId)
+                                            .products
+                                            .removeWhere((product) =>
+                                                product.id ==
+                                                notDeletedProductsAry[a].id);
+                                        break;
+                                      case OrderType.orders:
+                                        LoadingScreenServices
+                                            .notAssignedOrdersList
+                                            .firstWhere((order) =>
+                                                order.id == widget.orderId)
+                                            .products
+                                            .removeWhere((product) =>
+                                                product.id ==
+                                                notDeletedProductsAry[a].id);
+                                        break;
+                                    }
+                                    notDeletedProductsAry.removeAt(a);
+                                    finalProductsAry.removeAt(index);
+                                  });
                                 },
                                 productsData: orderDetail,
                                 supplierCode: orderDetail.supplierCode,

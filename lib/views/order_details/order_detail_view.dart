@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/start_model.dart';
+import 'package:kammun_app/utils/common_utils.dart';
 import '../../utils/Styles.dart';
 import 'order_accounting.dart';
 import 'order_details_view_main.dart';
@@ -14,18 +15,19 @@ class OrderDetailView extends StatefulWidget {
   int orderId;
   String addressName;
   OrdersOriginalData order;
-  bool fromMyOrders;
+  final OrderType orderType;
 
-  OrderDetailView(
-      {this.ordersAry,
-      this.subTotal,
-      this.total,
-      this.deliveryPrice,
-      this.orderId,
-      this.addressName,
-      this.orderIndex,
-      this.order,
-      this.fromMyOrders});
+  OrderDetailView({
+    this.ordersAry,
+    this.subTotal,
+    this.total,
+    this.deliveryPrice,
+    this.orderId,
+    this.addressName,
+    this.orderIndex,
+    this.order,
+    @required this.orderType,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -49,7 +51,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
         total: widget.total,
         deliveryPrice: widget.deliveryPrice,
         order: widget.order,
-        fromMyOrders: widget.fromMyOrders,
+        orderType: widget.orderType,
       ),
       OrderAccounting(
         ordersAry: widget.ordersAry,
