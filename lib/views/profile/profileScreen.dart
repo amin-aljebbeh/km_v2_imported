@@ -111,10 +111,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 30.0, right: 0, bottom: 30, top: 10),
+              Center(
                 child: Container(
+                  margin: EdgeInsets.all(15),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
@@ -165,10 +164,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 30.0, right: 0, bottom: 30, top: 10),
+                        Center(
                           child: Container(
+                            margin: EdgeInsets.all(15),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.white,
@@ -214,10 +212,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 30.0, right: 0, bottom: 30, top: 10),
+                        Center(
                           child: Container(
+                            margin: EdgeInsets.all(15),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.white,
@@ -288,13 +285,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 30.0,
-                                        right: 0,
-                                        bottom: 30,
-                                        top: 10),
+                                  Center(
                                     child: Container(
+                                      margin: EdgeInsets.all(15),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: Colors.white,
@@ -311,7 +304,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           UtilsImporter()
                                                   .stringUtils
                                                   .shopperLevels[
-                                              Services.shopper.level.id - 1],
+                                              Services.shopper.levelId - 1],
                                           style: TextStyle(
                                               fontFamily: UtilsImporter()
                                                   .stringUtils
@@ -340,10 +333,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 30.0, right: 0, bottom: 30, top: 10),
+              Center(
                 child: Container(
+                  margin: EdgeInsets.all(15),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,

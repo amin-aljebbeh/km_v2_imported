@@ -169,32 +169,10 @@ class _InventoryState extends State<Inventory> {
           padding: const EdgeInsets.only(right: 8.0),
           child: IconButton(
             onPressed: () {
-              Flushbar(
-                backgroundColor: Colors.red[800],
-                // titleText: Text("تمت الإضافة بنجاح"),
-                messageText: Text(
-                  "ونحنا كمان منحبك",
-                  style: flushBarStyle,
-                ),
-
-                boxShadows: [
-                  BoxShadow(
-                    color: UtilsImporter().colorUtils.primarycolor,
-                    offset: Offset(0.0, 2.0),
-                    blurRadius: 3.0,
-                  )
-                ],
-                icon: Icon(
-                  Icons.favorite,
-                  size: 28.0,
-                  color: Colors.white,
-                ),
-                duration: Duration(seconds: 3),
-                leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-              )..show(context);
+              Navigator.of(context).pop();
             },
             icon: Icon(
-              Icons.favorite,
+              Icons.arrow_back,
               size: 35,
             ),
           ),
