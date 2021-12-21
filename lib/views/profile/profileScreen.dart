@@ -179,8 +179,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             child: Center(
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: LoadingScreenServices.subWarehouses
                                     .map((data) => Container(
+                                      padding: EdgeInsets.all(5),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                           ),
@@ -268,56 +270,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-                        Services.shopper != null
-                            ? Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: Text(
-                                        "المستوى",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: UtilsImporter()
-                                                .stringUtils
-                                                .HKGrotesk,
-                                            fontSize: 20),
-                                      ),
-                                    ),
-                                  ),
-                                  Center(
-                                    child: Container(
-                                      margin: EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: UtilsImporter()
-                                                  .colorUtils
-                                                  .primaryColor,
-                                              spreadRadius: 3),
-                                        ],
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          UtilsImporter()
-                                                  .stringUtils
-                                                  .shopperLevels[
-                                              Services.shopper.levelId - 1],
-                                          style: TextStyle(
-                                              fontFamily: UtilsImporter()
-                                                  .stringUtils
-                                                  .HKGrotesk,
-                                              fontSize: 25,
-                                              color: Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Container(),
+                        // Services.shopper != null
+                        //     ? Column(
+                        //         children: [
+                        //           Padding(
+                        //             padding: const EdgeInsets.all(8.0),
+                        //             child: Center(
+                        //               child: Text(
+                        //                 "المستوى",
+                        //                 style: TextStyle(
+                        //                     fontWeight: FontWeight.w700,
+                        //                     fontFamily: UtilsImporter()
+                        //                         .stringUtils
+                        //                         .HKGrotesk,
+                        //                     fontSize: 20),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //           Center(
+                        //             child: Container(
+                        //               margin: EdgeInsets.all(15),
+                        //               decoration: BoxDecoration(
+                        //                 borderRadius: BorderRadius.circular(10),
+                        //                 color: Colors.white,
+                        //                 boxShadow: [
+                        //                   BoxShadow(
+                        //                       color: UtilsImporter()
+                        //                           .colorUtils
+                        //                           .primarycolor,
+                        //                       spreadRadius: 3),
+                        //                 ],
+                        //               ),
+                        //               child: Center(
+                        //                 child: Text(
+                        //                   UtilsImporter()
+                        //                           .stringUtils
+                        //                           .shopperLevels[
+                        //                       Services.shopper.levelId - 1],
+                        //                   style: TextStyle(
+                        //                       fontFamily: UtilsImporter()
+                        //                           .stringUtils
+                        //                           .HKGrotesk,
+                        //                       fontSize: 25,
+                        //                       color: Colors.black),
+                        //                 ),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       )
+                        //     : Container(),
                       ],
                     )
                   : Container(),

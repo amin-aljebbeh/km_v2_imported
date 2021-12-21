@@ -46,8 +46,8 @@ android {
         applicationId "com.kammunShopper.app"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 65
-        versionName "1.65"
+        versionCode 67
+        versionName "1.67"
     }
 //    signingConfigs {
 //  release {
