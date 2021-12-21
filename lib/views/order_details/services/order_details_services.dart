@@ -82,7 +82,7 @@ class OrderDetailsServices {
     }
   }
 
-  static Future<bool> createOrderImage({String orderId, File image}) async {
+  static Future<bool> addImageToOrder({String orderId, File image}) async {
     var headers = {
       'Authorization':
           LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""
@@ -99,6 +99,25 @@ class OrderDetailsServices {
       return true;
     } else {
       print(response.reasonPhrase);
+      return false;
+    }
+  }
+
+  static Future<bool> deleteImageFromOrder({String imageId}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: DELETE_IMAGE_FROM_ORDER + "/$imageId",
+        method: httpMethods.delete,
+      );
+
+      if (response.statusCode == SUCCESS_CODE) {
+        return true;
+      } else {
+        Tools.logToConsole("------------ ERROR REMOVE ADDRESS --------------");
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
       return false;
     }
   }

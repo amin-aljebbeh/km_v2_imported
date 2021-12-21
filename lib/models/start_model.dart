@@ -721,7 +721,7 @@ class OrdersOriginalData {
         images: json["images"] == null
             ? new List<OrderImage>()
             : List<OrderImage>.from(
-                json["images"].map((x) => ProductImage.fromJson(x))),
+                json["images"].map((x) => OrderImage.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

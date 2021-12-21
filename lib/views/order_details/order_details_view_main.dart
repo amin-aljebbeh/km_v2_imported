@@ -137,37 +137,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton:
-          Services.isOperationManager() || Services.isShopper()
-              ? Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 50),
-                  child: FlatButton(
-                    child: Icon(
-                      Icons.remove_red_eye,
-                      color: UtilsImporter().colorUtils.kmColors,
-                      size: 40,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) {
-                            return FullScreenImage(
-                              imageUrl: widget.order.images.isNotEmpty
-                                  ? LoadingScreenServices.imagePrefixUrl +
-                                      widget.order.images[0].imageFileName
-                                  : LoadingScreenServices.imagePrefixUrl +
-                                      "productImage_12079.jpg",
-                              tag: "generate_a_unique_tag",
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                )
-              : Container(),
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
         child: Padding(
@@ -215,18 +184,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             }),
                       ],
                     ),
-                    if (Services.isShopper())
-                      AddImageWidget(
-                        hasImage: widget.order.images.isNotEmpty,
-                        onSubmit: (image) async {
-                          bool result =
-                              await OrderDetailsServices.createOrderImage(
-                                  image: image,
-                                  orderId: widget.orderId.toString());
-                          Services.resultFlushBar(
-                              context: context, result: result);
-                        },
-                      ),
                     errorAlert
                         ? AlertMessages(
                             text: "خطأ اثناء محاولة تغيير حالة الطلب",

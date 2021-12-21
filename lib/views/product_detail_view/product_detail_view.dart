@@ -840,54 +840,119 @@ class ProductDetailViewState extends State<ProductDetailView>
                                             }),
                                         Services.isAdmin() ||
                                                 Services.isProductsController()
-                                            ? KammunButton(
-                                                height: 50,
-                                                text: "حذف المنتج",
-                                                color: Colors.red,
-                                                onTap: () {
-                                                  List<DialogButton>
-                                                      dialogButtons = [
-                                                    DialogButton(
-                                                      text: UtilsImporter()
-                                                          .stringUtils
-                                                          .yes,
-                                                      onTap: () async {
-                                                        bool result =
-                                                            await ProductsServices
-                                                                .deleteProduct(
-                                                                    widget
+                                            ? Column(
+                                                children: [
+                                                  KammunButton(
+                                                    height: 50,
+                                                    text: "إزالة من المستودع",
+                                                    color: Colors.red,
+                                                    onTap: () {
+                                                      List<DialogButton>
+                                                          dialogButtons = [
+                                                        DialogButton(
+                                                          text: UtilsImporter()
+                                                              .stringUtils
+                                                              .yes,
+                                                          onTap: () async {
+                                                            bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
+                                                                productsId: widget
+                                                                    .product.id
+                                                                    .toString(),
+                                                                subWarehouse: widget
+                                                                    .product
+                                                                    .subWarehouseId
+                                                                    .toString());
+                                                            if (result) {
+                                                              int count = 0;
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .popUntil((_) =>
+                                                                      count++ >=
+                                                                      1);
+                                                            }
+                                                            Services
+                                                                .resultFlushBar(
+                                                                    context:
+                                                                        context,
+                                                                    result:
+                                                                        result);
+                                                          },
+                                                        ),
+                                                        DialogButton(
+                                                          text: UtilsImporter()
+                                                              .stringUtils
+                                                              .no,
+                                                          onTap: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                      ];
+                                                      showMyDialog(
+                                                          title: '',
+                                                          context: context,
+                                                          text:
+                                                              'هل تريد إزالة المنتج من المستودع ؟',
+                                                          dialogButtons:
+                                                              dialogButtons);
+                                                    },
+                                                  ),
+                                                  KammunButton(
+                                                    height: 50,
+                                                    text: "حذف المنتج",
+                                                    color: Colors.red,
+                                                    onTap: () {
+                                                      List<DialogButton>
+                                                          dialogButtons = [
+                                                        DialogButton(
+                                                          text: UtilsImporter()
+                                                              .stringUtils
+                                                              .yes,
+                                                          onTap: () async {
+                                                            bool result =
+                                                                await ProductsServices
+                                                                    .deleteProduct(widget
                                                                         .product
                                                                         .id
                                                                         .toString());
-                                                        if (result) {
-                                                          int count = 0;
-                                                          Navigator.of(context)
-                                                              .popUntil((_) =>
-                                                                  count++ >= 2);
-                                                        }
-                                                        Services.resultFlushBar(
-                                                            context: context,
-                                                            result: result);
-                                                      },
-                                                    ),
-                                                    DialogButton(
-                                                      text: UtilsImporter()
-                                                          .stringUtils
-                                                          .no,
-                                                      onTap: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                    ),
-                                                  ];
-                                                  showMyDialog(
-                                                      title: '',
-                                                      context: context,
-                                                      text:
-                                                          'هل تريد حذف المنتج نهائياً ؟',
-                                                      dialogButtons:
-                                                          dialogButtons);
-                                                },
+                                                            if (result) {
+                                                              int count = 0;
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .popUntil((_) =>
+                                                                      count++ >=
+                                                                      2);
+                                                            }
+                                                            Services
+                                                                .resultFlushBar(
+                                                                    context:
+                                                                        context,
+                                                                    result:
+                                                                        result);
+                                                          },
+                                                        ),
+                                                        DialogButton(
+                                                          text: UtilsImporter()
+                                                              .stringUtils
+                                                              .no,
+                                                          onTap: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                      ];
+                                                      showMyDialog(
+                                                          title: '',
+                                                          context: context,
+                                                          text:
+                                                              'هل تريد حذف المنتج نهائياً ؟',
+                                                          dialogButtons:
+                                                              dialogButtons);
+                                                    },
+                                                  ),
+                                                ],
                                               )
                                             : Container(),
                                         SizedBox(height: 30),

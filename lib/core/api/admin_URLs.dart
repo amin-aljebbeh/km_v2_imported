@@ -44,6 +44,8 @@ const String UPDATE_ORDER_PRODUCTS = "/api/order/update_order_product/";
 
 const String ADD_IMAGE_TO_ORDER = "/api/order_image";
 
+const String DELETE_IMAGE_FROM_ORDER = "/api/order_image";
+
 const String GET_SHOPPER = '/api/shopper/';
 
 const String CHANGE_SHOPPER_STATUS = '/api/shopper/change_shopper_status/';
