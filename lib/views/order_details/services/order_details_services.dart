@@ -1,11 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/admin_URLs.dart';
+import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/Loading.dart';
+import 'package:http/http.dart' as http;
 
 class OrderDetailsServices {
   static Future<bool> updateOrder(
@@ -34,7 +38,7 @@ class OrderDetailsServices {
 
         boxShadows: [
           BoxShadow(
-            color: UtilsImporter().colorUtils.primarycolor,
+            color: UtilsImporter().colorUtils.primaryColor,
             offset: Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
@@ -74,6 +78,27 @@ class OrderDetailsServices {
         duration: Duration(seconds: 3),
         // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
       )..show(context);
+      return false;
+    }
+  }
+
+  static Future<bool> createOrderImage({String orderId, File image}) async {
+    var headers = {
+      'Authorization':
+          LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""
+    };
+    var request =
+        http.MultipartRequest('POST', Uri.parse(BaseUrl + ADD_IMAGE_TO_ORDER));
+    request.fields.addAll({'order_id': '$orderId'});
+    request.files
+        .add(await http.MultipartFile.fromPath('image', '${image.path}'));
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      return true;
+    } else {
+      print(response.reasonPhrase);
       return false;
     }
   }

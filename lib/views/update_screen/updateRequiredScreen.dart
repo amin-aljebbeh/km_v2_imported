@@ -75,7 +75,7 @@ class UpdateScreen extends StatelessWidget {
                   child: KammunButton(
                     text: " التحديث الآن ",
                     height: 50,
-                    color: UtilsImporter().colorUtils.primarycolor,
+                    color: UtilsImporter().colorUtils.primaryColor,
                     onTap: Platform.isAndroid
                         ? () => _androidUpdateLink()
                         : () => _iosUpdateLink(),

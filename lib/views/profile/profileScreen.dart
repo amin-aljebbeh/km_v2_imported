@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                          color: UtilsImporter().colorUtils.primarycolor,
+                          color: UtilsImporter().colorUtils.primaryColor,
                           spreadRadius: 3),
                     ],
                   ),
@@ -173,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               boxShadow: [
                                 BoxShadow(
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     spreadRadius: 3),
                               ],
                             ),
@@ -221,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               boxShadow: [
                                 BoxShadow(
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     spreadRadius: 3),
                               ],
                             ),
@@ -234,7 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: LoadingScreenServices.preferLeftSide
                                         ? UtilsImporter()
                                             .colorUtils
-                                            .searchgreycolor
+                                            .searchGreyColor
                                         : UtilsImporter().colorUtils.kmColors2,
                                   ),
                                   onPressed: () {
@@ -253,7 +253,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ? UtilsImporter().colorUtils.kmColors2
                                         : UtilsImporter()
                                             .colorUtils
-                                            .searchgreycolor,
+                                            .searchGreyColor,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -295,7 +295,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           BoxShadow(
                                               color: UtilsImporter()
                                                   .colorUtils
-                                                  .primarycolor,
+                                                  .primaryColor,
                                               spreadRadius: 3),
                                         ],
                                       ),
@@ -341,7 +341,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                          color: UtilsImporter().colorUtils.primarycolor,
+                          color: UtilsImporter().colorUtils.primaryColor,
                           spreadRadius: 3),
                     ],
                   ),
@@ -431,7 +431,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         fontWeight: FontWeight.w400,
                                         color: UtilsImporter()
                                             .colorUtils
-                                            .greycolor,
+                                            .greyColor,
                                         fontFamily: UtilsImporter()
                                             .stringUtils
                                             .HKGrotesk,
@@ -447,7 +447,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         fontWeight: FontWeight.w400,
                                         color: UtilsImporter()
                                             .colorUtils
-                                            .greycolor,
+                                            .greyColor,
                                         fontFamily: UtilsImporter()
                                             .stringUtils
                                             .HKGrotesk,
@@ -463,7 +463,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         fontWeight: FontWeight.w400,
                                         color: UtilsImporter()
                                             .colorUtils
-                                            .greycolor,
+                                            .greyColor,
                                         fontFamily: UtilsImporter()
                                             .stringUtils
                                             .HKGrotesk,
@@ -493,7 +493,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       text: UtilsImporter().stringUtils.delete.toUpperCase(),
                       width: 125,
                       height: 35,
-                      color: UtilsImporter().colorUtils.primarycolor,
+                      color: UtilsImporter().colorUtils.primaryColor,
                       onTap: () {
                         onrRemove(index);
                       },
@@ -503,7 +503,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       text: UtilsImporter().stringUtils.edit.toUpperCase(),
                       width: 125,
                       height: 35,
-                      color: UtilsImporter().colorUtils.primarycolor,
+                      color: UtilsImporter().colorUtils.primaryColor,
                       onTap: () {
                         Navigator.push(
                           context,

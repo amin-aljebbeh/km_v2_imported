@@ -7,6 +7,7 @@ import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'login_view.dart';
 
+// ignore: must_be_immutable
 class CounterOtp extends StatefulWidget {
   static const routeName = '/otp-counter';
 

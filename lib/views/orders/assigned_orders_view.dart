@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/lock_order.dart';
-import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -218,7 +217,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   "لا يوجد أي طلبات سابقة",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: UtilsImporter().colorUtils.greycolor,
+                                    color: UtilsImporter().colorUtils.greyColor,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk,
                                     fontSize: 20.0,

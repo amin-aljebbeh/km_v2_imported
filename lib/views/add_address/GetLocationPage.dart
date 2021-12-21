@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
-// import 'package:location/location.dart';
 
 class GetLocationPage extends StatefulWidget {
   @override
@@ -66,9 +64,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
       // Tools.logToConsole(currentLocation.latitude);
       // Tools.logToConsole(currentLocation.longitude);
       return userLocation;
-    } else {
-      Tools.logToConsole("not gareented");
     }
-    return userLocation;
   }
 }

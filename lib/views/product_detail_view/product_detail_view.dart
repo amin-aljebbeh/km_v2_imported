@@ -1,16 +1,14 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/models/start_model.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/add_image_widget.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
@@ -21,7 +19,6 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
-import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/views/shop_by_category/shop_by_category_view.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
@@ -59,8 +56,6 @@ class ProductDetailViewState extends State<ProductDetailView>
   void initState() {
     super.initState();
 
-    Tools.logToConsole('category length');
-    Tools.logToConsole(widget.product.categories.length);
     Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));
 
     _animationController = new AnimationController(
@@ -92,97 +87,8 @@ class ProductDetailViewState extends State<ProductDetailView>
 
   // curve: Curves.linear, duration: Duration(milliseconds: 500));
 
-  File _image;
-
-  // File _uploadedFile;
-
-  final picker = ImagePicker();
-
   bool isLoading = false;
   bool isError = false;
-
-  Future getImageCamera() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.camera,
-        imageQuality: 100,
-        maxHeight: 600,
-        maxWidth: 500);
-    // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
-    Tools.logToConsole("Image Path");
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        // _uploadedFile = uploadedFile;
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  Future getImageGallery() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.gallery,
-        imageQuality: 100,
-        maxHeight: 600,
-        maxWidth: 500);
-    // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
-    Tools.logToConsole("Image Path");
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        // _uploadedFile = uploadedFile;
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  _getImage() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        FlatButton(
-          child: Icon(
-            Icons.camera,
-            color: UtilsImporter().colorUtils.kmColors,
-            size: 40,
-          ),
-          onPressed: () {
-            getImageCamera();
-          },
-        ),
-        FlatButton(
-          child: Icon(
-            Icons.image,
-            color: UtilsImporter().colorUtils.kmColors,
-            size: 40,
-          ),
-          onPressed: () {
-            getImageGallery();
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget imagesBody() {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.only(top: 10),
-      child: SelectedFileToUpload(
-        image: _image,
-        name: 'Product Image}',
-        close: () {
-          setState(() {
-            _image = null;
-            // _uploadedFile = null;
-          });
-        },
-      ),
-    );
-  }
 
   String selectedValueCategoryValue;
   String productSubWarehouseId;
@@ -220,7 +126,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                     ),
                   ),
                 ],
-                backgroundColor: UtilsImporter().colorUtils.primarycolor,
+                backgroundColor: UtilsImporter().colorUtils.primaryColor,
                 expandedHeight: 300.0,
                 floating: false,
                 pinned: true,
@@ -315,7 +221,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           widget.product.name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: UtilsImporter().colorUtils.primarycolor,
+                            color: UtilsImporter().colorUtils.primaryColor,
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                             fontSize: 25,
                           ),
@@ -383,9 +289,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                           itemCount: widget.product.categories.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) {
-                            Tools.logToConsole('category image');
-                            Tools.logToConsole(
-                                widget.product.categories.length);
                             return Container(
                               width: MediaQuery.of(context).size.width * 0.45,
                               child: GestureDetector(
@@ -502,7 +405,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                     ),
                                 border: Border.all(
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     width: 4)),
                             child: Center(
                                 child: Text(
@@ -537,7 +440,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                             ),
                             boxShadows: [
                               BoxShadow(
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: UtilsImporter().colorUtils.primaryColor,
                                 offset: Offset(0.0, 2.0),
                                 blurRadius: 3.0,
                               )
@@ -719,7 +622,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                 width: 5,
                                                 color: UtilsImporter()
                                                     .colorUtils
-                                                    .greycolor),
+                                                    .greyColor),
                                           ),
                                           child: Center(
                                             child: new DropdownButton(
@@ -731,7 +634,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                       context),
                                               iconEnabledColor: UtilsImporter()
                                                   .colorUtils
-                                                  .greycolor,
+                                                  .greyColor,
                                               value: productSubWarehouseId,
                                               hint: new Text(
                                                 LoadingScreenServices
@@ -747,7 +650,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                     .copyWith(
                                                   color: UtilsImporter()
                                                       .colorUtils
-                                                      .greycolor,
+                                                      .greyColor,
                                                 ),
                                               ),
                                               onChanged: (value) async {
@@ -790,7 +693,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                 width: 5,
                                                 color: UtilsImporter()
                                                     .colorUtils
-                                                    .greycolor),
+                                                    .greyColor),
                                           ),
                                           child: Center(
                                             child: new SearchableDropdown(
@@ -804,7 +707,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                       .copyWith(
                                                     color: UtilsImporter()
                                                         .colorUtils
-                                                        .greycolor,
+                                                        .greyColor,
                                                   ),
                                                 ),
                                                 onPressed: () =>
@@ -817,7 +720,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                   .fullCategoryList,
                                               iconEnabledColor: UtilsImporter()
                                                   .colorUtils
-                                                  .greycolor,
+                                                  .greyColor,
                                               value: selectedValueCategoryValue,
                                               hint: new Text(
                                                 'اختيار الصنف التابع له المنتج',
@@ -825,7 +728,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                     .copyWith(
                                                         color: UtilsImporter()
                                                             .colorUtils
-                                                            .greycolor),
+                                                            .greyColor),
                                               ),
                                               searchHint: new Text(
                                                   'إختيار الصنف',
@@ -833,7 +736,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                       .copyWith(
                                                     color: UtilsImporter()
                                                         .colorUtils
-                                                        .greycolor,
+                                                        .greyColor,
                                                   )),
                                               onChanged: (value) {
                                                 setState(() {
@@ -922,46 +825,19 @@ class ProductDetailViewState extends State<ProductDetailView>
                                             }
                                           },
                                         ),
-                                        _getImage(),
-                                        _image != null
-                                            ? imagesBody()
-                                            : Container(),
-                                        isLoading
-                                            ? Loader()
-                                            : _image != null
-                                                ? KammunButton(
-                                                    text: "حفظ الصورة",
-                                                    height: 50,
-                                                    color: Theme.of(context)
-                                                        .primaryColor,
-                                                    onTap: () async {
-                                                      setState(() {
-                                                        isLoading = true;
-                                                      });
-                                                      bool result =
-                                                          await ProductsServices
-                                                              .setImageToProducts(
-                                                                  productId:
-                                                                      widget
-                                                                          .product
-                                                                          .id,
-                                                                  image:
-                                                                      _image);
-                                                      Services.resultFlushBar(
-                                                          context: context,
-                                                          result: result);
-                                                      if (result) {
-                                                        setState(() {
-                                                          isLoading = false;
-                                                        });
-                                                      } else {
-                                                        setState(() {
-                                                          isLoading = false;
-                                                        });
-                                                      }
-                                                    },
-                                                  )
-                                                : Container(),
+                                        AddImageWidget(
+                                            hasImage: false,
+                                            onSubmit: (image) async {
+                                              bool result =
+                                                  await ProductsServices
+                                                      .setImageToProducts(
+                                                          productId:
+                                                              widget.product.id,
+                                                          image: image);
+                                              Services.resultFlushBar(
+                                                  context: context,
+                                                  result: result);
+                                            }),
                                         Services.isAdmin() ||
                                                 Services.isProductsController()
                                             ? KammunButton(
@@ -987,7 +863,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                           int count = 0;
                                                           Navigator.of(context)
                                                               .popUntil((_) =>
-                                                                  count++ >= 3);
+                                                                  count++ >= 2);
                                                         }
                                                         Services.resultFlushBar(
                                                             context: context,

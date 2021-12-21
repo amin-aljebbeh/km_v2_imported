@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
+// ignore: must_be_immutable
 class AlertMessages extends StatelessWidget {
   String text;
   final String messageType;

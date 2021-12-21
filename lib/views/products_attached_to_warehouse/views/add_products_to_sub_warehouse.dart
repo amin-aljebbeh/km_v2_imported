@@ -271,7 +271,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                     ),
                                 border: Border.all(
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     width: 2)),
                             child: Switch(
                               value: switchController,
@@ -293,7 +293,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         height: 50,
                         color: completeData()
                             ? UtilsImporter().colorUtils.kmColors
-                            : UtilsImporter().colorUtils.searchgreycolor,
+                            : UtilsImporter().colorUtils.searchGreyColor,
                         onTap: () async {
                           if (completeData()) {
                             bool result = await _addNewProduct();

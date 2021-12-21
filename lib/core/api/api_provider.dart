@@ -96,7 +96,9 @@ class ApiProvider {
           "------------------------ API Exception --------------------------------------");
 
       return ErrorHandler.handleDioError(e);
-    } on NoSuchMethodError catch (e) {}
+    } on NoSuchMethodError catch (e) {
+      Tools.logToConsole(e.toString());
+    }
 
     return response;
   }

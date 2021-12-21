@@ -280,7 +280,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               children: <Widget>[
                                 KammunButton(
                                   color:
-                                      UtilsImporter().colorUtils.primarycolor,
+                                      UtilsImporter().colorUtils.primaryColor,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
@@ -406,7 +406,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                 height: 40,
                                                 color: UtilsImporter()
                                                     .colorUtils
-                                                    .primarycolor,
+                                                    .primaryColor,
                                                 onTap: () {
                                                   Navigator.of(context).pop();
                                                 },
@@ -430,7 +430,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 KammunButton(
                                   width: MediaQuery.of(context).size.width,
                                   color: CartServices.cartProducts.length > 0
-                                      ? UtilsImporter().colorUtils.primarycolor
+                                      ? UtilsImporter().colorUtils.primaryColor
                                       : Colors.grey[400],
                                   text: UtilsImporter()
                                       .stringUtils
@@ -516,7 +516,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greycolor,
+                                  color: UtilsImporter().colorUtils.greyColor,
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 17),
@@ -527,7 +527,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk,
                                     fontSize: 18)),
@@ -550,7 +550,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         shape: BoxShape.circle,
                         color: UtilsImporter()
                             .colorUtils
-                            .greycolor
+                            .greyColor
                             .withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
@@ -586,7 +586,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         shape: BoxShape.circle,
                         color: UtilsImporter()
                             .colorUtils
-                            .greycolor
+                            .greyColor
                             .withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {

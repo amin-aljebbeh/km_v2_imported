@@ -95,7 +95,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                             widget.quantity,
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                color: UtilsImporter().colorUtils.greycolor,
+                                color: UtilsImporter().colorUtils.greyColor,
                                 fontFamily:
                                     UtilsImporter().stringUtils.HKGrotesk,
                                 fontSize: 17),
@@ -111,7 +111,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color:
-                                      UtilsImporter().colorUtils.primarycolor,
+                                      UtilsImporter().colorUtils.primaryColor,
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 18)),
@@ -124,7 +124,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                     ? Badge(
                         borderRadius: BorderRadius.zero,
                         shape: BadgeShape.square,
-                        badgeColor: UtilsImporter().colorUtils.primarycolor,
+                        badgeColor: UtilsImporter().colorUtils.primaryColor,
                         badgeContent: Padding(
                           padding: const EdgeInsets.only(
                             right: 10.0,

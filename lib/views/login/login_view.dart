@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen>
     }
   }
 
-  Widget _ShowPasswordInput() {
+  Widget _showPasswordInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: TextField(
@@ -159,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen>
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: UtilsImporter().colorUtils.primarycolor,
+              color: UtilsImporter().colorUtils.primaryColor,
             ),
             borderRadius: BorderRadius.circular(5.0),
           ),
@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  Widget _ShowCountryInput() {
+  Widget _showCountryInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: TextField(
@@ -195,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen>
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: UtilsImporter().colorUtils.primarycolor,
+              color: UtilsImporter().colorUtils.primaryColor,
             ),
             borderRadius: BorderRadius.circular(5.0),
           ),
@@ -269,14 +269,14 @@ class _LoginScreenState extends State<LoginScreen>
                       left: 20.0, right: 20, bottom: 0, top: 5),
                   //  color: Colors.white,
 
-                  child: _ShowCountryInput(),
+                  child: _showCountryInput(),
                 ),
                 Container(
                   padding: const EdgeInsets.only(
                       left: 20.0, right: 20, bottom: 0, top: 5),
                   //  color: Colors.white,
 
-                  child: _ShowPasswordInput(),
+                  child: _showPasswordInput(),
                 ),
                 Container(
                   padding: const EdgeInsets.only(
@@ -292,7 +292,7 @@ class _LoginScreenState extends State<LoginScreen>
                       : KammunButton(
                           text: "تسجيل الدخول",
                           height: 50,
-                          color: UtilsImporter().colorUtils.primarycolor,
+                          color: UtilsImporter().colorUtils.primaryColor,
                           onTap: adminLogin,
                         ),
                 ),

@@ -119,7 +119,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                 dialogButtons: dialogButtons,
                 context: context);
           })
-        : {};
+        : Tools.logToConsole('');
 
     super.initState();
   }
@@ -140,7 +140,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   ? Container(
                       padding: EdgeInsets.all(10),
                       decoration: new BoxDecoration(
-                          color: UtilsImporter().colorUtils.primarycolor,
+                          color: UtilsImporter().colorUtils.primaryColor,
                           borderRadius: new BorderRadius.only(
                             topLeft: const Radius.circular(30.0),
                             topRight: const Radius.circular(30.0),
@@ -220,7 +220,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                             border: Border.all(
                                 width: 5,
                                 color:
-                                    UtilsImporter().colorUtils.primarycolor)),
+                                    UtilsImporter().colorUtils.primaryColor)),
                         child: ListView.builder(
                           primary: false,
                           shrinkWrap: true,
@@ -344,7 +344,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                                   orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greycolor,
+                                  color: UtilsImporter().colorUtils.greyColor,
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 17),
@@ -427,7 +427,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                                   orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greycolor,
+                                  color: UtilsImporter().colorUtils.greyColor,
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 17),
@@ -438,7 +438,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk,
                                     fontSize: 18)),

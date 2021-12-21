@@ -194,7 +194,7 @@ class FavoritesViewState extends State<Favorites> {
                               categoryId: "0",
                             )));
               },
-              cursorColor: UtilsImporter().colorUtils.primarycolor,
+              cursorColor: UtilsImporter().colorUtils.primaryColor,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
@@ -351,7 +351,7 @@ class FavoritesViewState extends State<Favorites> {
                               onTap: () => _openUrl("facebook"),
                               child: Icon(
                                 FontAwesomeIcons.facebookF,
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: UtilsImporter().colorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -359,7 +359,7 @@ class FavoritesViewState extends State<Favorites> {
                               onTap: () => _openUrl("instagram"),
                               child: Icon(
                                 FontAwesomeIcons.instagram,
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: UtilsImporter().colorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -367,7 +367,7 @@ class FavoritesViewState extends State<Favorites> {
                               onTap: () => _openUrl("messenger"),
                               child: Icon(
                                 FontAwesomeIcons.facebookMessenger,
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: UtilsImporter().colorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -375,7 +375,7 @@ class FavoritesViewState extends State<Favorites> {
                               onTap: () => _openUrl("whatsapp"),
                               child: Icon(
                                 FontAwesomeIcons.whatsapp,
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: UtilsImporter().colorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -479,7 +479,9 @@ class FavoritesViewState extends State<Favorites> {
                             setState(() {
                               page++;
                             });
-                            !theEndOfFavorites ? _getFavorites() : {};
+                            !theEndOfFavorites
+                                ? _getFavorites()
+                                : Tools.logToConsole('');
                           }
                           return;
                         },
@@ -527,7 +529,7 @@ class FavoritesViewState extends State<Favorites> {
                             !isLoading ? "لم تقم بإضافة أي عنصر للمفضلة" : "",
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              color: UtilsImporter().colorUtils.greycolor,
+                              color: UtilsImporter().colorUtils.greyColor,
                               fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                               fontSize: 20.0,
                             ),

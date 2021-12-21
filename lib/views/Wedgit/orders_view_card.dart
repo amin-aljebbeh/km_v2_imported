@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -175,7 +174,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                         border: Border.all(
                                             color: UtilsImporter()
                                                 .colorUtils
-                                                .greycolor
+                                                .greyColor
                                                 .withOpacity(0.2)),
                                       ),
                                       child: Text(

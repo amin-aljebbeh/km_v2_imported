@@ -119,7 +119,7 @@ class _RatingViewState extends State<RatingView> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                              color: UtilsImporter().colorUtils.primarycolor,
+                              color: UtilsImporter().colorUtils.primaryColor,
                               fontSize: 25)), //font color is different
                     ),
                     error

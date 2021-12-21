@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/core/api/admin_URLs.dart';
@@ -7,7 +6,6 @@ import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -142,7 +140,7 @@ class _InventoryState extends State<Inventory> {
                       10.0) //                 <--- border radius here
                   ),
               border: Border.all(
-                  color: UtilsImporter().colorUtils.primarycolor, width: 2)),
+                  color: UtilsImporter().colorUtils.primaryColor, width: 2)),
           child: TextField(
             style: TextStyle(
                 color: Colors.white,

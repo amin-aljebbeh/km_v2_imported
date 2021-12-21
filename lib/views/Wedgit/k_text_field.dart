@@ -49,7 +49,7 @@ class _KTextFieldState extends State<KTextField> {
           labelStyle: labelStyle,
           border: new UnderlineInputBorder(
             borderSide:
-                new BorderSide(color: UtilsImporter().colorUtils.primarycolor),
+                new BorderSide(color: UtilsImporter().colorUtils.primaryColor),
           ),
         ),
       ),

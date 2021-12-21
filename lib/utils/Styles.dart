@@ -16,7 +16,7 @@ TextStyle decisionButtonStyle = mainStyle.copyWith(
 );
 
 TextStyle paragraphStyle = mainStyle.copyWith(
-  color: UtilsImporter().colorUtils.primarycolor,
+  color: UtilsImporter().colorUtils.primaryColor,
   fontSize: 18,
   fontWeight: FontWeight.bold,
 );
@@ -38,7 +38,7 @@ TextStyle naveBarStyle = mainStyle.copyWith(
 
 TextStyle darkBold = mainStyle.copyWith(
   fontWeight: FontWeight.w600,
-  color: UtilsImporter().colorUtils.greycolor,
+  color: UtilsImporter().colorUtils.greyColor,
   fontSize: 17.5,
 );
 
@@ -60,7 +60,7 @@ TextStyle hintStyle = mainStyle.copyWith(
 
 TextStyle labelStyle = mainStyle.copyWith(
   fontSize: 15,
-  color: UtilsImporter().colorUtils.greycolor,
+  color: UtilsImporter().colorUtils.greyColor,
 );
 
 TextStyle disableStyle = paragraphStyle.copyWith(
@@ -68,6 +68,6 @@ TextStyle disableStyle = paragraphStyle.copyWith(
 );
 TextStyle warehouseStyle = mainStyle.copyWith(
   fontWeight: FontWeight.bold,
-  color: UtilsImporter().colorUtils.greycolor,
+  color: UtilsImporter().colorUtils.greyColor,
   fontSize: 20,
 );

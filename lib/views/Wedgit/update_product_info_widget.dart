@@ -117,7 +117,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
 
                       boxShadows: [
                         BoxShadow(
-                          color: UtilsImporter().colorUtils.primarycolor,
+                          color: UtilsImporter().colorUtils.primaryColor,
                           offset: Offset(0.0, 2.0),
                           blurRadius: 3.0,
                         )

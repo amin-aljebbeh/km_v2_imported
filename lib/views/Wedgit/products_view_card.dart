@@ -108,7 +108,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             widget.quantity,
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                color: UtilsImporter().colorUtils.greycolor,
+                                color: UtilsImporter().colorUtils.greyColor,
                                 fontFamily:
                                     UtilsImporter().stringUtils.HKGrotesk,
                                 fontSize: 17),
@@ -124,7 +124,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color:
-                                      UtilsImporter().colorUtils.primarycolor,
+                                      UtilsImporter().colorUtils.primaryColor,
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 18)),

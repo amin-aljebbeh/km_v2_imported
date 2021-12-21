@@ -15,6 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import '../../utils/Styles.dart';
 
+// ignore: must_be_immutable
 class HomeView extends StatefulWidget {
   final int routeIndex;
   final bool isFromUpdateOrder;

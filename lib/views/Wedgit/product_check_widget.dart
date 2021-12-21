@@ -40,7 +40,7 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                               10.0) //                 <--- border radius here
                           ),
                       border: Border.all(
-                          color: UtilsImporter().colorUtils.primarycolor,
+                          color: UtilsImporter().colorUtils.primaryColor,
                           width: 2)),
                   child: Center(
                       child: Text(

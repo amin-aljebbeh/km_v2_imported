@@ -94,7 +94,7 @@ class _NotAddedProductsToWarehouseState
                       10.0) //                 <--- border radius here
                   ),
               border: Border.all(
-                  color: UtilsImporter().colorUtils.primarycolor, width: 2)),
+                  color: UtilsImporter().colorUtils.primaryColor, width: 2)),
           child: TextField(
             style: TextStyle(
                 color: Colors.white,

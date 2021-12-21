@@ -55,6 +55,7 @@ class OrdersViewState extends State<OrdersView> {
   String errorMessageValue = "";
   bool isLoading = false;
   int page = 1;
+  int indexPage = 1;
   bool theEndOfOrders = false;
 
   int ordersFilter;
@@ -64,14 +65,14 @@ class OrdersViewState extends State<OrdersView> {
 
   _getOrder() async {
     setState(() {
-      if (page == 1) orderLoaded = false;
+      if (indexPage == 1) orderLoaded = false;
       if (!theEndOfOrders) isLoading = true;
       errorMessage = false;
       orderDataList.clear();
     });
     var orderList;
     if (LoadingScreenServices.allOrdersList.length == 0)
-      orderList = await Services.getAllOrders(pageNumber: page);
+      orderList = await Services.getAllOrders(pageNumber: indexPage);
     else
       orderList = LoadingScreenServices.allOrdersList;
 
@@ -172,6 +173,7 @@ class OrdersViewState extends State<OrdersView> {
                                   generalLoaded = true;
                                   ordersFilter = value;
                                   page = 1;
+                                  indexPage = 1;
                                 });
                                 _getOrder();
                               },
@@ -185,6 +187,7 @@ class OrdersViewState extends State<OrdersView> {
                                   generalLoaded = false;
                                   ordersTypeFilter = value;
                                   page = 1;
+                                  indexPage = 1;
                                 });
                                 _getOrder();
                               },
@@ -195,11 +198,10 @@ class OrdersViewState extends State<OrdersView> {
                           padding: const EdgeInsets.only(bottom: 15),
                           child: IconButton(
                             onPressed: () {
-                              if (page < 14)
-                                setState(() {
-                                  page++;
-                                });
-
+                              setState(() {
+                                indexPage++;
+                                if (page < 15) page++;
+                              });
                               _getOrder();
                             },
                             icon: Icon(
@@ -216,20 +218,20 @@ class OrdersViewState extends State<OrdersView> {
                           onChanged: (value) {
                             setState(() {
                               page = value;
+                              indexPage = value;
                             });
                             _getOrder();
                           },
                         ),
-                        //Text("$pageNumber"),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15),
                           child: IconButton(
                             onPressed: () {
                               setState(() {
-                                if (page > 1) {
+                                if (indexPage > 1 && indexPage < 15) {
                                   page--;
                                 }
-
+                                if (indexPage > 1) indexPage--;
                                 _getOrder();
                               });
                             },
@@ -251,7 +253,7 @@ class OrdersViewState extends State<OrdersView> {
                                   "لا يوجد أي طلبات سابقة",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: UtilsImporter().colorUtils.greycolor,
+                                    color: UtilsImporter().colorUtils.greyColor,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk,
                                     fontSize: 20.0,

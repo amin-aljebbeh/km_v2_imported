@@ -69,7 +69,7 @@ class ThankYouViewState extends State<ThankYouView> {
                   Text(
                     UtilsImporter().stringUtils.thankyou,
                     style: TextStyle(
-                        color: UtilsImporter().colorUtils.primarycolor,
+                        color: UtilsImporter().colorUtils.primaryColor,
                         fontWeight: FontWeight.w700,
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                         fontSize: 30),
@@ -82,7 +82,7 @@ class ThankYouViewState extends State<ThankYouView> {
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: UtilsImporter().colorUtils.primarycolor,
+                        color: UtilsImporter().colorUtils.primaryColor,
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                         fontSize: 16.0,
                       ),

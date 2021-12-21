@@ -126,7 +126,7 @@ class _MatchingReportState extends State<MatchingReport> {
                   text: UtilsImporter().stringUtils.send,
                   color: validDates()
                       ? Theme.of(context).primaryColor
-                      : UtilsImporter().colorUtils.searchgreycolor,
+                      : UtilsImporter().colorUtils.searchGreyColor,
                   onTap: () {
                     if (validDates())
                       _getMatchingReport();

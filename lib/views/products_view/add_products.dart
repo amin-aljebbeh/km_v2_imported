@@ -500,7 +500,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                                         ? UtilsImporter().colorUtils.kmColors2
                                         : UtilsImporter()
                                             .colorUtils
-                                            .searchgreycolor,
+                                            .searchGreyColor,
                                     width: 2)),
                             child: Switch(
                               value: switchController,
@@ -543,7 +543,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                                           ? UtilsImporter().colorUtils.kmColors2
                                           : UtilsImporter()
                                               .colorUtils
-                                              .searchgreycolor,
+                                              .searchGreyColor,
                                       width: 2)),
                               child: Switch(
                                 value: autoActivationController,
@@ -566,7 +566,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                       text: UtilsImporter().stringUtils.save,
                       color: toastList() == 0
                           ? UtilsImporter().colorUtils.kmColors2
-                          : UtilsImporter().colorUtils.searchgreycolor,
+                          : UtilsImporter().colorUtils.searchGreyColor,
                       onTap: () {
                         if (toastList() == 0) {
                           _addNewProduct();

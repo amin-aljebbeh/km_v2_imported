@@ -237,7 +237,7 @@ class LoadingScreenServices {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Divider(
                     thickness: 1,
-                    color: UtilsImporter().colorUtils.greycolor,
+                    color: UtilsImporter().colorUtils.greyColor,
                   ),
                 )
               ],

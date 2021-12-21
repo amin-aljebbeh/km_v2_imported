@@ -174,7 +174,7 @@ class ProductsViewState extends State<ProductsView> {
                               )));
                 });
               },
-              cursorColor: UtilsImporter().colorUtils.primarycolor,
+              cursorColor: UtilsImporter().colorUtils.primaryColor,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 contentPadding: const EdgeInsets.only(bottom: 0.5),

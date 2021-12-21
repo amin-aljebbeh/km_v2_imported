@@ -126,7 +126,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                             TextSpan(
                               text: " ${LoginScreen.phoneNumber} ",
                               style: TextStyle(
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: UtilsImporter().colorUtils.primaryColor,
                                 fontFamily:
                                     UtilsImporter().stringUtils.HKGrotesk,
                                 fontSize: 20,
@@ -175,7 +175,7 @@ class _OTPVerificationState extends State<OTPVerification> {
 
                     finalCode.length == 6 && errorCode != true
                         ? checkOtpValidation(_textController.text)
-                        : {};
+                        : Tools.logToConsole('');
                   },
                   onCodeSubmitted: (finalCode) =>
                       _textController.text = finalCode,
@@ -192,7 +192,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                     : KammunButton(
                         text: "تأكيد الرمز",
                         height: 50,
-                        color: UtilsImporter().colorUtils.primarycolor,
+                        color: UtilsImporter().colorUtils.primaryColor,
                         onTap: () {
                           if (_textController.text.length == 6) {
                             checkOtpValidation(_textController.text);

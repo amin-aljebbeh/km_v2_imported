@@ -102,8 +102,8 @@ class DeliverToViewState extends State<DeliverToView> {
                               ? Icons.radio_button_checked
                               : Icons.radio_button_unchecked,
                           color: DeliverToView.selectedIndex == index
-                              ? UtilsImporter().colorUtils.primarycolor
-                              : UtilsImporter().colorUtils.greycolor),
+                              ? UtilsImporter().colorUtils.primaryColor
+                              : UtilsImporter().colorUtils.greyColor),
                     ),
                     SizedBox(width: 10),
                     Expanded(
@@ -136,7 +136,7 @@ class DeliverToViewState extends State<DeliverToView> {
                                         fontWeight: FontWeight.w400,
                                         color: UtilsImporter()
                                             .colorUtils
-                                            .greycolor,
+                                            .greyColor,
                                         fontFamily: UtilsImporter()
                                             .stringUtils
                                             .HKGrotesk,
@@ -152,7 +152,7 @@ class DeliverToViewState extends State<DeliverToView> {
                                         fontWeight: FontWeight.w400,
                                         color: UtilsImporter()
                                             .colorUtils
-                                            .greycolor,
+                                            .greyColor,
                                         fontFamily: UtilsImporter()
                                             .stringUtils
                                             .HKGrotesk,
@@ -168,7 +168,7 @@ class DeliverToViewState extends State<DeliverToView> {
                                         fontWeight: FontWeight.w400,
                                         color: UtilsImporter()
                                             .colorUtils
-                                            .greycolor,
+                                            .greyColor,
                                         fontFamily: UtilsImporter()
                                             .stringUtils
                                             .HKGrotesk,
@@ -198,14 +198,14 @@ class DeliverToViewState extends State<DeliverToView> {
                       text: UtilsImporter().stringUtils.delete.toUpperCase(),
                       height: 35,
                       width: 125,
-                      color: UtilsImporter().colorUtils.primarycolor,
+                      color: UtilsImporter().colorUtils.primaryColor,
                       onTap: () => onrRemove(index),
                     ),
                     KammunButton(
                       text: UtilsImporter().stringUtils.edit.toUpperCase(),
                       height: 35,
                       width: 125,
-                      color: UtilsImporter().colorUtils.primarycolor,
+                      color: UtilsImporter().colorUtils.primaryColor,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -312,7 +312,7 @@ class DeliverToViewState extends State<DeliverToView> {
                                         fontWeight: FontWeight.w600,
                                         color: UtilsImporter()
                                             .colorUtils
-                                            .greycolor,
+                                            .greyColor,
                                         fontFamily: UtilsImporter()
                                             .stringUtils
                                             .HKGrotesk,
@@ -337,7 +337,7 @@ class DeliverToViewState extends State<DeliverToView> {
                           .toUpperCase(),
                       height: 50,
                       color: DeliverToView.selectedIndex != null
-                          ? UtilsImporter().colorUtils.primarycolor
+                          ? UtilsImporter().colorUtils.primaryColor
                           : Colors.grey[400],
                       onTap: _showProceedToPayBtnTapped,
                     ),

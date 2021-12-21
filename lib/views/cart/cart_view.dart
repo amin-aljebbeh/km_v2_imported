@@ -190,7 +190,7 @@ class CartViewState extends State<CartView> {
                   child: KammunButton(
                     width: MediaQuery.of(context).size.width,
                     color: CartServices.cartProducts.length > 0
-                        ? UtilsImporter().colorUtils.primarycolor
+                        ? UtilsImporter().colorUtils.primaryColor
                         : Colors.grey[400],
                     text:
                         UtilsImporter().stringUtils.confirmOrder.toUpperCase(),
@@ -276,7 +276,7 @@ class CartViewState extends State<CartView> {
                                   orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greycolor,
+                                  color: UtilsImporter().colorUtils.greyColor,
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 17),
@@ -313,7 +313,7 @@ class CartViewState extends State<CartView> {
                                             fontWeight: FontWeight.w700,
                                             color: UtilsImporter()
                                                 .colorUtils
-                                                .primarycolor,
+                                                .primaryColor,
                                             fontFamily: UtilsImporter()
                                                 .stringUtils
                                                 .HKGrotesk,
@@ -400,7 +400,7 @@ class CartViewState extends State<CartView> {
                         shape: BoxShape.circle,
                         color: UtilsImporter()
                             .colorUtils
-                            .greycolor
+                            .greyColor
                             .withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
@@ -433,7 +433,7 @@ class CartViewState extends State<CartView> {
                         shape: BoxShape.circle,
                         color: UtilsImporter()
                             .colorUtils
-                            .greycolor
+                            .greyColor
                             .withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {

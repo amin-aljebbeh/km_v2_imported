@@ -2,7 +2,7 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/Wedgit/proruct_check_widget.dart';
+import 'package:kammun_app/views/Wedgit/product_check_widget.dart';
 import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/colors_utils.dart';
@@ -81,7 +81,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
     if (widget.subWarehouseId == 2 || widget.subWarehouseId == 6) {
       borderColor = ColorUtils().khawajaColor;
     } else if (widget.subWarehouseId == 3) {
-      borderColor = ColorUtils().vegtableColor;
+      borderColor = ColorUtils().vegetableColor;
     } else if (widget.subWarehouseId == 4) {
       borderColor = ColorUtils().libraryColor;
     } else if (widget.subWarehouseId == 7) {
@@ -184,7 +184,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                 widget.quantity + " " + widget.unit,
                                 style: mainStyle.copyWith(
                                   color:
-                                      UtilsImporter().colorUtils.primarycolor,
+                                      UtilsImporter().colorUtils.primaryColor,
                                   fontSize: 17,
                                 ),
                               ),
@@ -198,7 +198,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                     .toString() +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: mainStyle.copyWith(
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: UtilsImporter().colorUtils.primaryColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),

@@ -378,7 +378,7 @@ class _SalesReportState extends State<SalesReport> {
                   text: UtilsImporter().stringUtils.send,
                   color: validDates()
                       ? Theme.of(context).primaryColor
-                      : UtilsImporter().colorUtils.searchgreycolor,
+                      : UtilsImporter().colorUtils.searchGreyColor,
                   onTap: () {
                     if (validDates())
                       _getSailsReport();

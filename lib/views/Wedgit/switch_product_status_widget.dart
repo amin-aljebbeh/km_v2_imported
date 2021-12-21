@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 
@@ -44,7 +45,7 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
           border: Border.all(
               color: widget.preState == 1
                   ? UtilsImporter().colorUtils.kmColors
-                  : UtilsImporter().colorUtils.searchgreycolor,
+                  : UtilsImporter().colorUtils.searchGreyColor,
               width: 2)),
       child: Center(
         child: Switch(
@@ -61,7 +62,9 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
 
             Services.resultFlushBar(context: context, result: result);
             if (result) {
-              widget.resultFunction != null ? widget.resultFunction() : () {};
+              widget.resultFunction != null
+                  ? widget.resultFunction()
+                  : Tools.logToConsole('');
               setState(() {
                 int newStat;
                 if (widget.preState == 1) {

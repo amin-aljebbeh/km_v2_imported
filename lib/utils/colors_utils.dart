@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ColorUtils {
-  // Color.fromARGB(255, 210, 178, 2) كموني
-//Color.fromARGB(255, 53, 99, 124) كجلي
-
-  // Color primarycolor = HexColor("f74269");
-  // Color greycolor = HexColor("929794");
-  // Color searchgreycolor = HexColor("e6e6e6");
-  // Color darkcolor = HexColor("3D56F0");
-  // Color bluecolor = HexColor("5468FF");
-  // Color violetcolor = HexColor("5120AE");
-  // Color lightVioletColor = HexColor("7085C3");
-
-  Color primarycolor = HexColor("35637c"); // كحلي
-  Color greycolor = HexColor("35637c"); //
-  Color searchgreycolor = HexColor("e6e6e6");
-  Color darkcolor = HexColor("3D56F0");
-  Color bluecolor = HexColor("5468FF");
+  Color primaryColor = HexColor("35637c"); // كحلي
+  Color greyColor = HexColor("35637c"); //
+  Color searchGreyColor = HexColor("e6e6e6");
+  Color darkColor = HexColor("3D56F0");
   Color violetColor = HexColor("5120AE");
   Color lightVioletColor = HexColor("7085C3");
 
@@ -26,12 +14,11 @@ class ColorUtils {
   Color kmColors2 = HexColor("e5cb37");
 
   Color khawajaColor = Colors.purple;
-  Color vegtableColor = Colors.green[800];
+  Color vegetableColor = Colors.green[800];
   Color libraryColor = Colors.indigo;
   Color normalColor = Colors.transparent;
   Color meetColor = Colors.deepOrange;
   Color pharmaColor = Colors.blueAccent;
-
   Color amourColor = Colors.red;
 }
 

@@ -105,7 +105,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
 
         boxShadows: [
           BoxShadow(
-            color: UtilsImporter().colorUtils.primarycolor,
+            color: UtilsImporter().colorUtils.primaryColor,
             offset: Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
@@ -134,7 +134,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
 
         boxShadows: [
           BoxShadow(
-            color: UtilsImporter().colorUtils.primarycolor,
+            color: UtilsImporter().colorUtils.primaryColor,
             offset: Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
@@ -166,7 +166,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
 
         boxShadows: [
           BoxShadow(
-            color: UtilsImporter().colorUtils.primarycolor,
+            color: UtilsImporter().colorUtils.primaryColor,
             offset: Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
@@ -190,7 +190,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                       10.0) //                 <--- border radius here
                   ),
               border: Border.all(
-                  color: UtilsImporter().colorUtils.primarycolor, width: 2)),
+                  color: UtilsImporter().colorUtils.primaryColor, width: 2)),
           child: TextField(
             style: TextStyle(
                 color: Colors.white,

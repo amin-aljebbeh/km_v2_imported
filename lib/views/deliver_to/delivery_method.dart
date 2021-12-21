@@ -187,7 +187,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                       style: TextStyle(
                                           color: UtilsImporter()
                                               .colorUtils
-                                              .primarycolor,
+                                              .primaryColor,
                                           fontSize: 25.0,
                                           fontWeight: FontWeight.w500,
                                           fontFamily: UtilsImporter()
@@ -201,7 +201,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                       style: TextStyle(
                                           color: UtilsImporter()
                                               .colorUtils
-                                              .primarycolor,
+                                              .primaryColor,
                                           fontSize: 25.0,
                                           fontWeight: FontWeight.w500,
                                           fontFamily: UtilsImporter()
@@ -238,7 +238,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                 .toUpperCase(),
                             height: 50,
                             color: selectedIndex != null
-                                ? UtilsImporter().colorUtils.primarycolor
+                                ? UtilsImporter().colorUtils.primaryColor
                                 : Colors.grey[400],
                             onTap: _showGoToReviewPage,
                           ),

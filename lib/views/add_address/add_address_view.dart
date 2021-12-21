@@ -12,6 +12,7 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 import '../../Services.dart';
 
+// ignore: must_be_immutable
 class AddAddressView extends StatefulWidget {
   int addressIndex;
   bool isFromDeliveryScreen;
@@ -191,7 +192,7 @@ class AddAddressViewState extends State<AddAddressView> {
                             ' ' +
                             UtilsImporter().stringUtils.address,
                         height: 50,
-                        color: UtilsImporter().colorUtils.primarycolor,
+                        color: UtilsImporter().colorUtils.primaryColor,
                         onTap: _addAddressBtnTapped,
                       ),
                     ],
@@ -214,7 +215,7 @@ class AddAddressViewState extends State<AddAddressView> {
                 style: TextStyle(
                     fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                     fontSize: 20,
-                    color: UtilsImporter().colorUtils.primarycolor,
+                    color: UtilsImporter().colorUtils.primaryColor,
                     fontWeight: FontWeight.w500),
               )),
           Container(
@@ -287,7 +288,7 @@ class AddAddressViewState extends State<AddAddressView> {
                       UtilsImporter().stringUtils.loaction_request_info,
                       style: TextStyle(
                           fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                          color: UtilsImporter().colorUtils.primarycolor,
+                          color: UtilsImporter().colorUtils.primaryColor,
                           fontSize: 18),
                     ), //font color is diffrent
                   ),
@@ -324,7 +325,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           ' ' +
                           UtilsImporter().stringUtils.address,
                       height: 50,
-                      color: UtilsImporter().colorUtils.primarycolor,
+                      color: UtilsImporter().colorUtils.primaryColor,
                       onTap: () {
                         setState(() {
                           userIgnorShareLocation = true;

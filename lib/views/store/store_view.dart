@@ -9,6 +9,7 @@ import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
+import 'package:kammun_app/views/test_view.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
@@ -84,7 +85,7 @@ class StoreViewState extends State<StoreView> {
                         "تحديث متوفر",
                         style: TextStyle(
                             fontSize: 17,
-                            color: UtilsImporter().colorUtils.primarycolor,
+                            color: UtilsImporter().colorUtils.primaryColor,
                             fontWeight: FontWeight.bold,
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk),
                       ),
@@ -280,7 +281,7 @@ class StoreViewState extends State<StoreView> {
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Icon(
                               Icons.phone,
-                              color: UtilsImporter().colorUtils.primarycolor,
+                              color: UtilsImporter().colorUtils.primaryColor,
                               size: 30,
                             ),
                           ),
@@ -296,7 +297,7 @@ class StoreViewState extends State<StoreView> {
                               padding: const EdgeInsets.only(top: 8.0),
                               child: Icon(
                                 Icons.share,
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: UtilsImporter().colorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -312,7 +313,7 @@ class StoreViewState extends State<StoreView> {
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Icon(
                               Icons.person,
-                              color: UtilsImporter().colorUtils.primarycolor,
+                              color: UtilsImporter().colorUtils.primaryColor,
                               size: 30,
                             ),
                           ),
@@ -334,7 +335,7 @@ class StoreViewState extends State<StoreView> {
                                         Icons.category,
                                         color: UtilsImporter()
                                             .colorUtils
-                                            .primarycolor,
+                                            .primaryColor,
                                         size: 30,
                                       ),
                                     ),
@@ -354,7 +355,7 @@ class StoreViewState extends State<StoreView> {
                                         Icons.category_outlined,
                                         color: UtilsImporter()
                                             .colorUtils
-                                            .primarycolor,
+                                            .primaryColor,
                                         size: 30,
                                       ),
                                     ),
@@ -376,7 +377,7 @@ class StoreViewState extends State<StoreView> {
                                               Icons.category_rounded,
                                               color: UtilsImporter()
                                                   .colorUtils
-                                                  .primarycolor,
+                                                  .primaryColor,
                                               size: 30,
                                             ),
                                           ),
@@ -397,7 +398,7 @@ class StoreViewState extends State<StoreView> {
                                         Icons.fact_check,
                                         color: UtilsImporter()
                                             .colorUtils
-                                            .primarycolor,
+                                            .primaryColor,
                                         size: 30,
                                       ),
                                     ),
@@ -420,7 +421,7 @@ class StoreViewState extends State<StoreView> {
                                   child: Icon(
                                     Icons.report_sharp,
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -439,7 +440,7 @@ class StoreViewState extends State<StoreView> {
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Icon(
                               Icons.inventory,
-                              color: UtilsImporter().colorUtils.primarycolor,
+                              color: UtilsImporter().colorUtils.primaryColor,
                               size: 30,
                             ),
                           ),
@@ -459,7 +460,7 @@ class StoreViewState extends State<StoreView> {
                                   child: Icon(
                                     Icons.attach_money,
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -478,7 +479,7 @@ class StoreViewState extends State<StoreView> {
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Icon(
                               Icons.logout,
-                              color: UtilsImporter().colorUtils.primarycolor,
+                              color: UtilsImporter().colorUtils.primaryColor,
                               size: 30,
                             ),
                           ),
@@ -505,7 +506,7 @@ class StoreViewState extends State<StoreView> {
                                   child: Icon(
                                     FontAwesomeIcons.facebookF,
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -514,7 +515,7 @@ class StoreViewState extends State<StoreView> {
                                   child: Icon(
                                     FontAwesomeIcons.instagram,
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -523,7 +524,7 @@ class StoreViewState extends State<StoreView> {
                                   child: Icon(
                                     FontAwesomeIcons.facebookMessenger,
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -532,7 +533,7 @@ class StoreViewState extends State<StoreView> {
                                   child: Icon(
                                     FontAwesomeIcons.whatsapp,
                                     color:
-                                        UtilsImporter().colorUtils.primarycolor,
+                                        UtilsImporter().colorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -560,7 +561,7 @@ class StoreViewState extends State<StoreView> {
           backgroundColor: Services.isShopper()
               ? Services.shopper.status == 1
                   ? Color.fromARGB(255, 210, 178, 2)
-                  : UtilsImporter().colorUtils.searchgreycolor
+                  : UtilsImporter().colorUtils.searchGreyColor
               : Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false,
           // hides leading widget
@@ -667,7 +668,7 @@ class StoreViewState extends State<StoreView> {
                             UtilsImporter().stringUtils.shopByCategory +
                             "  ",
                         style: TextStyle(
-                            color: UtilsImporter().colorUtils.primarycolor,
+                            color: UtilsImporter().colorUtils.primaryColor,
                             fontWeight: FontWeight.w900,
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                             fontSize: 22),
@@ -715,7 +716,7 @@ class StoreViewState extends State<StoreView> {
                             categoryId: "0",
                           )));
             },
-            cursorColor: UtilsImporter().colorUtils.primarycolor,
+            cursorColor: UtilsImporter().colorUtils.primaryColor,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
               contentPadding: const EdgeInsets.only(bottom: 0.5),
@@ -738,7 +739,7 @@ class StoreViewState extends State<StoreView> {
       height: MediaQuery.of(context).size.height * 0.30,
 
       decoration: new BoxDecoration(
-          color: UtilsImporter().colorUtils.searchgreycolor,
+          color: UtilsImporter().colorUtils.searchGreyColor,
           borderRadius: new BorderRadius.all(Radius.circular(20.0))),
       child: new Carousel(
         borderRadius: true,

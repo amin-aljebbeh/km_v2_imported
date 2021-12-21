@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/api_response.dart';
 import 'package:kammun_app/models/get_shoppers_model.dart';
 import 'package:kammun_app/models/shopper_model.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -609,7 +608,7 @@ class Services {
 
       boxShadows: [
         BoxShadow(
-          color: UtilsImporter().colorUtils.primarycolor,
+          color: UtilsImporter().colorUtils.primaryColor,
           offset: Offset(0.0, 2.0),
           blurRadius: 3.0,
         )

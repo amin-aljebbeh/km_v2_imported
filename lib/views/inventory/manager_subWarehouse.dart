@@ -123,7 +123,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                       text: UtilsImporter().stringUtils.next,
                       color: selected
                           ? Theme.of(context).primaryColor
-                          : UtilsImporter().colorUtils.searchgreycolor,
+                          : UtilsImporter().colorUtils.searchGreyColor,
                       onTap: () {
                         if (selected)
                           Navigator.push(

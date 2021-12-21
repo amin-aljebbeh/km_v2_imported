@@ -55,7 +55,7 @@ class ServerUpdate extends StatelessWidget {
                   child: KammunButton(
                     text: UtilsImporter().stringUtils.tryAgain,
                     height: 50,
-                    color: UtilsImporter().colorUtils.primarycolor,
+                    color: UtilsImporter().colorUtils.primaryColor,
                     onTap: () => KammunRestart.restartApp(context),
                   ),
                 ),

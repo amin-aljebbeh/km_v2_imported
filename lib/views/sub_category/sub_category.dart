@@ -7,6 +7,7 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 
+// ignore: must_be_immutable
 class SubCategory extends StatefulWidget {
   int heroIndex;
   static int cartCount = 0;
@@ -80,7 +81,7 @@ class _SubCategoryState extends State<SubCategory> {
                               categoryId: "0",
                             )));
               },
-              cursorColor: UtilsImporter().colorUtils.primarycolor,
+              cursorColor: UtilsImporter().colorUtils.primaryColor,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
@@ -186,7 +187,7 @@ class _SubCategoryState extends State<SubCategory> {
                   child: Text(
                       "لا يوجد اصناف متوفرة حالياً، سيتم إضافة اصناف في المستقبل",
                       style: TextStyle(
-                          color: UtilsImporter().colorUtils.primarycolor,
+                          color: UtilsImporter().colorUtils.primaryColor,
                           fontSize: ResponsiveFlutter.of(context).fontSize(3),
                           fontWeight: FontWeight.bold,
                           fontFamily: UtilsImporter().stringUtils.HKGrotesk)),

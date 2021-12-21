@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:kammun_app/views/login/models/admin_model.dart';
 
+import 'order_image.dart';
+
 //OrdersOriginalData
 StartModel startModelFromJson(String str) =>
     StartModel.fromJson(json.decode(str));
@@ -654,6 +656,7 @@ class OrdersOriginalData {
     this.createdAt,
     this.delivery,
     this.shopper,
+    this.images,
   });
 
   int id;
@@ -680,6 +683,7 @@ class OrdersOriginalData {
   String underUpdate;
   dynamic deliveryStaffId;
   List<OrderProducts> products;
+  List<OrderImage> images;
   Assigned delivery;
   Assigned shopper;
 
@@ -714,6 +718,10 @@ class OrdersOriginalData {
         delivery: json["delivery"] == null
             ? null
             : Assigned.fromJson(json["delivery"]),
+        images: json["images"] == null
+            ? new List<OrderImage>()
+            : List<OrderImage>.from(
+                json["images"].map((x) => ProductImage.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
