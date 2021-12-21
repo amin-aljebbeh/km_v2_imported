@@ -179,10 +179,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             child: Center(
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: LoadingScreenServices.subWarehouses
                                     .map((data) => Container(
-                                      padding: EdgeInsets.all(5),
+                                          padding: EdgeInsets.all(5),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
                                           ),

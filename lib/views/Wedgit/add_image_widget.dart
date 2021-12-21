@@ -5,7 +5,6 @@ import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
-import '../../Services.dart';
 import 'kammun_button.dart';
 
 class AddImageWidget extends StatefulWidget {
