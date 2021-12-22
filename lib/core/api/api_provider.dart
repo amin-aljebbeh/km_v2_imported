@@ -32,18 +32,8 @@ class ApiProvider {
 
     var dio = new Dio(options);
 
-    // Master Version //
-    // --------------------------------------- //
-    // Map<String, String> header = {
-    //   'Authorization':
-    //       LoadingScreen.user_token.length > 5 ? LoadingScreen.user_token : "",
-    // };
-    // --------------------------------------- //
-
-    // Tools.logToConsole("------- THE USER TOKEN IS ----------");
     Tools.logToConsole(LoadingScreen.userToken);
     Map<String, String> header = {
-      // 'Authorization': "Bearer rabie",
       'Authorization':
           LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : "",
     };

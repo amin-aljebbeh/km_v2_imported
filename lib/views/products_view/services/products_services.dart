@@ -63,12 +63,12 @@ class ProductsServices {
 
   static Future<bool> removeProductFromCategory(
       {@required String productId, @required String categoryId}) async {
-    var body = {'category_id': categoryId};
     try {
       var response = await ApiProvider.sendRequest(
-          url: REMOVE_PRODUCT_FROM_CATEGORY + productId,
-          method: httpMethods.delete,
-          body: jsonEncode(body));
+        queryParameters: {'category_id': categoryId},
+        url: REMOVE_PRODUCT_FROM_CATEGORY + productId,
+        method: httpMethods.delete,
+      );
       if (response.statusCode == SUCCESS_CODE) {
         return true;
       } else
