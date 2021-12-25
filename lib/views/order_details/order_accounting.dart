@@ -182,10 +182,12 @@ class _OrderAccountingState extends State<OrderAccounting> {
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.2,
-              child: ListView(
-                children: subWarehouseTotal,
+            Expanded(
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.2,
+                child: ListView(
+                  children: subWarehouseTotal,
+                ),
               ),
             ),
             Container(
