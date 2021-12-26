@@ -148,45 +148,45 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            text: UtilsImporter()
-                                                .stringUtils
-                                                .bill,
-                                            style: paragraphStyle,
-                                          ),
-                                          TextSpan(
-                                            text: "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
-                                                " ${LoadingScreenServices.companyInformation.currency.toString()}",
-                                            style: informationStyle,
-                                          ),
-                                        ],
-                                      ),
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  RichText(
+                                    text: TextSpan(
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text:
+                                              UtilsImporter().stringUtils.bill,
+                                          style: paragraphStyle,
+                                        ),
+                                        TextSpan(
+                                          text: "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
+                                              " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                                          style: informationStyle,
+                                        ),
+                                      ],
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.all(6),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: UtilsImporter()
-                                                .colorUtils
-                                                .greyColor
-                                                .withOpacity(0.2)),
-                                      ),
-                                      child: Text(
-                                        widget.orderQuantity.toString(),
-                                        style: paragraphStyle,
-                                        textAlign: TextAlign.center,
-                                      ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(6),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: UtilsImporter()
+                                              .colorUtils
+                                              .greyColor
+                                              .withOpacity(0.2)),
                                     ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 20.0),
-                                      child: Text(
+                                    child: Text(
+                                      widget.orderQuantity.toString(),
+                                      style: paragraphStyle,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
                                         widget.orderId.toString().length >= 3
                                             ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
                                             : '#${widget.orderId.toString()}',
@@ -199,8 +199,17 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                               .HKGrotesk,
                                         ),
                                       ),
-                                    )
-                                  ]),
+                                      RichText(
+                                        text: TextSpan(
+                                          text:
+                                              "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.orderTotalPrice)).toString()}",
+                                          style: profitStyle,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                               SizedBox(height: 10),
                               Row(
                                   mainAxisAlignment:
@@ -311,7 +320,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                   ],
                                 ),
                               ),
-
                               SizedBox(height: 10),
                               RichText(
                                 text: TextSpan(
@@ -328,7 +336,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                   ],
                                 ),
                               ),
-
                               Text(
                                 orderStatus,
                                 style: paragraphStyle,

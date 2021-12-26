@@ -136,6 +136,49 @@ class _OrderAccountingState extends State<OrderAccounting> {
   _calculate() {
     setState(() {
       subWarehouseTotal.clear();
+      subWarehouseTotal.add(Table(
+        border: TableBorder.all(
+          color: Theme.of(context).primaryColor,
+          style: BorderStyle.solid,
+          width: 1,
+        ),
+        children: [
+          TableRow(
+            children: [
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Text(
+                  'المورد',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Text(
+                  'القبض من الزبون',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Text(
+                  'الدفع للمورد',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ));
       for (int i = 0; i < _ls.length; i++) {
         subWarehouseTotal.add(
           Table(
@@ -145,28 +188,40 @@ class _OrderAccountingState extends State<OrderAccounting> {
               width: 1,
             ),
             children: [
-              TableRow(children: [
-                Container(
-                  margin: EdgeInsets.all(10),
-                  child: Text(
-                    _ls[i].name,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              TableRow(
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      _ls[i].name,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(10),
-                  child: Text(
-                    _sumSubWarehouse(_ls[i].id).toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      _sumSubWarehouse(_ls[i].id).toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                      ),
                     ),
                   ),
-                )
-              ]),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      _sumSubWarehouse(_ls[i].id).toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         );
@@ -183,10 +238,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
         child: ListView(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: Column(
-                children: subWarehouseTotal,
-              ),
+            Column(
+              children: subWarehouseTotal,
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.35,

@@ -71,3 +71,7 @@ TextStyle warehouseStyle = mainStyle.copyWith(
   color: UtilsImporter().colorUtils.greyColor,
   fontSize: 20,
 );
+TextStyle profitStyle = warehouseStyle.copyWith(
+  color: Colors.green,
+  fontSize: 25,
+);
