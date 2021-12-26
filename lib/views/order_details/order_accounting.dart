@@ -66,7 +66,9 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   Services.resultFlushBar(context: context, result: result);
                   if (result)
                     setState(() {
-                      widget.images.removeAt(i);
+                      widget.images.removeWhere(
+                          (image) => image.id == widget.images[i].id);
+                      imageWidgets.clear();
                     });
                 },
               ),
@@ -181,8 +183,10 @@ class _OrderAccountingState extends State<OrderAccounting> {
         child: ListView(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: subWarehouseTotal,
+            Expanded(
+              child: Column(
+                children: subWarehouseTotal,
+              ),
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.35,
@@ -190,11 +194,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 scrollDirection: Axis.vertical,
                 primary: false,
                 shrinkWrap: true,
-                // use it
-
                 padding: EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
-
-                // itemCount: categoriesListArray.length,
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 8,
