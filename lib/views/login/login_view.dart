@@ -27,7 +27,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen>
     with TickerProviderStateMixin {
   String currentText = "";
-  final myController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   bool errorCode = false;
@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen>
     setState(() {
       loadingScreen = true;
     });
-    if (myController.text.length == 0) {
+    if (_usernameController.text.length == 0) {
       setState(() {
         errorCode = true;
         loadingScreen = false;
@@ -64,8 +64,10 @@ class _LoginScreenState extends State<LoginScreen>
       });
     } else {
       bool response = await LoginServices.loginAdmin(
-          username: myController.text, password: _passwordController.text);
+          username: _usernameController.text, password: _passwordController.text);
       if (response) {
+        //dima
+        TextInput.finishAutofillContext();
         KammunRestart.restartApp(context);
       } else {
         setState(() {
@@ -81,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen>
   Future fetchOtp() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
 
-    if (myController.text.length != 10) {
+    if (_usernameController.text.length != 10) {
       setState(() {
         errorCode = true;
         errorMessage = "يرجى إدخال رقم يتألف من عشرة خانات";
@@ -104,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen>
         }
         bool response = await Services.loginUser(
             phoneNumber:
-                LoginServices.replaceFarsiNumber(myController.text.toString()),
+                LoginServices.replaceFarsiNumber(_usernameController.text.toString()),
             signCode: signature,
             supportedCityId: "1");
 
@@ -113,12 +115,12 @@ class _LoginScreenState extends State<LoginScreen>
           setState(() {
             loadingScreen = false;
             LoginScreen.phoneNumber =
-                LoginServices.replaceFarsiNumber(myController.text.toString());
+                LoginServices.replaceFarsiNumber(_usernameController.text.toString());
           });
           Navigator.of(context)
               .pushReplacementNamed(OTPVerification.routeName, arguments: {
             "phone":
-                LoginServices.replaceFarsiNumber(myController.text.toString())
+                LoginServices.replaceFarsiNumber(_usernameController.text.toString())
           });
         } else {
           setState(() {
@@ -140,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen>
   Widget _showPasswordInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-      child: TextField(
+      child: TextFormField(
         textDirection: TextDirection.ltr,
         // maxLengthEnforced: true,
         // maxLength: 20,
@@ -149,6 +151,9 @@ class _LoginScreenState extends State<LoginScreen>
         maxLines: 1,
         controller: _passwordController,
         keyboardType: TextInputType.text,
+        //dima
+        onEditingComplete: () => TextInput.finishAutofillContext(),
+        autofillHints: [AutofillHints.password],
         enableSuggestions: false,
         autocorrect: false,
         obscureText: true,
@@ -174,10 +179,10 @@ class _LoginScreenState extends State<LoginScreen>
     );
   }
 
-  Widget _showCountryInput() {
+  Widget _showUsernameInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-      child: TextField(
+      child: TextFormField(
         textDirection: TextDirection.ltr,
 
         // maxLengthEnforced: true,
@@ -185,9 +190,11 @@ class _LoginScreenState extends State<LoginScreen>
 
         // keyboardType: TextInputType.multiline,
         maxLines: 1,
-        controller: myController,
+        controller: _usernameController,
         keyboardType: TextInputType.text,
-
+        //dima
+        onEditingComplete: () => TextInput.finishAutofillContext(),
+        autofillHints: [AutofillHints.username],
         decoration: InputDecoration(
           labelText: "اسم المستخدم",
           labelStyle: TextStyle(
@@ -264,19 +271,27 @@ class _LoginScreenState extends State<LoginScreen>
                     ),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(
-                      left: 20.0, right: 20, bottom: 0, top: 5),
-                  //  color: Colors.white,
+                //dima3
+                AutofillGroup(
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, bottom: 0, top: 5),
+                        //  color: Colors.white,
 
-                  child: _showCountryInput(),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(
-                      left: 20.0, right: 20, bottom: 0, top: 5),
-                  //  color: Colors.white,
+                        child: _showUsernameInput(),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, bottom: 0, top: 5),
+                        //  color: Colors.white,
 
-                  child: _showPasswordInput(),
+                        child: _showPasswordInput(),
+                        //dima3
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
                   padding: const EdgeInsets.only(
