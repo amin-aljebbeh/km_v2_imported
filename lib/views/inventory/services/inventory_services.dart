@@ -48,7 +48,7 @@ class InventoryServices {
       LoadingScreenServices.phoneNumber = result.data.phone;
       return result.data.subWarehouses;
     } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+      Tools.logToConsole("------------ ERROR Get Sup warehouse --------------");
       return null;
     }
   }
