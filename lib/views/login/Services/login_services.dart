@@ -124,7 +124,6 @@ class LoginServices {
         prefs.setString("adminRoll", username);
         prefs.setString("adminId", newResponse.data.id.toString());
         prefs.setBool('preferLeftSide', true);
-        Tools.logToConsole("------- WE ARE HERE --------");
 
         LoadingScreen.userToken = newResponse.data.apiToken;
         LoadingScreen.isAdmin = true;

@@ -111,16 +111,15 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   // fadeInCurve: Curves.fastOutSlowIn,
                   // placeholder: AssetImage("assets/kmIcon.png"),
                   fit: BoxFit.contain,
-                  image: /*widget.images!=null&& widget.images.length > 0*/
-                      true
-                          ? AdvImageCache(
-                              LoadingScreenServices.imagePrefixUrl +
-                                  'orders/' +
-                                  widget.images[i].imageFileName,
-                              useMemCache: true,
-                              diskCacheExpire: Duration(days: 400),
-                            )
-                          : AssetImage("assets/kmIcon.png"),
+                  image: widget.images != null && widget.images.length > 0
+                      ? AdvImageCache(
+                          LoadingScreenServices.imagePrefixUrl +
+                              'orders/' +
+                              widget.images[i].imageFileName,
+                          useMemCache: true,
+                          diskCacheExpire: Duration(days: 400),
+                        )
+                      : AssetImage("assets/kmIcon.png"),
                   width: MediaQuery.of(context).size.width,
                   height: 120,
                 ),
@@ -179,14 +178,11 @@ class _OrderAccountingState extends State<OrderAccounting> {
     if (widget.images != null) getImages();
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.2,
-              child: ListView(
-                children: subWarehouseTotal,
-              ),
+            Column(
+              children: subWarehouseTotal,
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.35,
