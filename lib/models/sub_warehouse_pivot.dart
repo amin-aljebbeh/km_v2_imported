@@ -1,5 +1,5 @@
-class SubWarehousePivot {
-  SubWarehousePivot({
+class SubWarehouseAdminPivot {
+  SubWarehouseAdminPivot({
     this.adminId,
     this.subWarehouseId,
   });
@@ -7,8 +7,8 @@ class SubWarehousePivot {
   int adminId;
   int subWarehouseId;
 
-  factory SubWarehousePivot.fromJson(Map<String, dynamic> json) =>
-      SubWarehousePivot(
+  factory SubWarehouseAdminPivot.fromJson(Map<String, dynamic> json) =>
+      SubWarehouseAdminPivot(
         adminId: json["admin_id"] == null ? null : json["admin_id"],
         subWarehouseId:
             json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],

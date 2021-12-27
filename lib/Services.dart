@@ -21,6 +21,7 @@ import 'models/delivery_model.dart';
 import 'models/get_deliveries_model.dart';
 import 'models/productsCategoriesModel.dart';
 import 'models/role_model.dart';
+import 'models/shopper_level_model.dart';
 import 'models/start_model.dart';
 import 'utils/Styles.dart';
 import 'utils/utils_importer.dart';
@@ -312,29 +313,25 @@ class Services {
     }
   }
 
-  // static Future<ShopperModel> getShopper(String id) async {
-  //   Tools.logToConsole(
-  //       "------------------ #Get The Shopper#  --------------------");
-  //   try {
-  //     var response = await ApiProvider.sendRequest(
-  //       url: BaseUrl + GET_SHOPPER + id,
-  //       method: httpMethods.get,
-  //     );
-  //     Tools.logToConsole("------- shoppers data -------");
+  static Future<Level> getLevel(String levelId) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: BaseUrl + GET_LEVEL + levelId,
+        method: httpMethods.get,
+      );
 
-  //     if (response.statusCode == SUCCESS_CODE) {
-  //       shopper = GetShopperResponse.fromJson(response.data).shopper;
-
-  //       return shopper;
-  //     } else {
-  //       return shopper;
-  //     }
-  //   } catch (e) {
-  //     Tools.logToConsole("------------ ERROR GET THE SHOPPER --------------");
-  //     Tools.logToConsole(e.toString());
-  //     return null;
-  //   }
-  // }
+      if (response.statusCode == SUCCESS_CODE) {
+        Tools.logToConsole("message from get level and decode");
+        Tools.logToConsole(response.data);
+        return levelFromJson(jsonEncode(response.data));
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
 
   static Future<List<DeliveryModel>> getDeliveries() async {
     Tools.logToConsole(
@@ -640,6 +637,17 @@ class Services {
         } else
           return -1;
       } else
+        return -1;
+    });
+    return productsList;
+  }
+
+  static List<OrderProducts> orderProductsSort(
+      List<OrderProducts> productsList) {
+    productsList.sort((a, b) {
+      if (a.subWarehouseId > b.subWarehouseId)
+        return 1;
+      else
         return -1;
     });
     return productsList;

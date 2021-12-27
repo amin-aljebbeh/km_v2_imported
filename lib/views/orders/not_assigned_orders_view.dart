@@ -33,7 +33,8 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
 
     getOrders = _initialFunction();
     _getOrder();
-
+    for (int i = 0; i < orderDataList.length; i++)
+      orderDataList[i].accountOrderRows();
     super.initState();
   }
 
@@ -230,6 +231,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
+                                  order: orderDataList[index],
                                   deliveryName:
                                       orderDataList[index].delivery != null
                                           ? orderDataList[index].delivery.name

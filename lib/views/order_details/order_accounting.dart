@@ -18,12 +18,14 @@ class OrderAccounting extends StatefulWidget {
   final int orderId;
   final List<OrderProducts> ordersAry;
   final List<OrderImage> images;
+  final OrdersOriginalData order;
 
   const OrderAccounting({
     Key key,
     @required this.ordersAry,
     @required this.images,
     @required this.orderId,
+    @required this.order,
   }) : super(key: key);
 
   @override
@@ -179,7 +181,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
           ),
         ],
       ));
-      for (int i = 0; i < _ls.length; i++) {
+      for (int i = 0; i < widget.order.orderAccountingRows.length; i++) {
         subWarehouseTotal.add(
           Table(
             border: TableBorder.all(
@@ -193,7 +195,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   Container(
                     margin: EdgeInsets.all(10),
                     child: Text(
-                      _ls[i].name,
+                      widget.order.orderAccountingRows[i].subWarehouseName,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
@@ -203,7 +205,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   Container(
                     margin: EdgeInsets.all(10),
                     child: Text(
-                      _sumSubWarehouse(_ls[i].id).toString(),
+                      widget.order.orderAccountingRows[i].customerPay
+                          .toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
@@ -213,7 +216,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   Container(
                     margin: EdgeInsets.all(10),
                     child: Text(
-                      _sumSubWarehouse(_ls[i].id).toString(),
+                      widget.order.orderAccountingRows[i].payToSubWarehouse
+                          .toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,

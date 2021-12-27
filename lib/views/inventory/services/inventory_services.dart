@@ -27,7 +27,6 @@ class InventoryServices {
   }
 
   static Future<List<SubWarehouse>> getSubWarehoused({String adminId}) async {
-    Tools.logToConsole("ADMINIDIS: $adminId");
     var response = await ApiProvider.sendRequest(
       url: GET_ADMIN_INFO + adminId,
       method: httpMethods.get,
@@ -40,7 +39,8 @@ class InventoryServices {
         Services.roles = result.data.roles;
         if (result.data.shopper != null) {
           Services.shopper = result.data.shopper;
-          // await Services.getShopper(result.data.shopper.id.toString());
+          Services.shopper.level =
+              await Services.getLevel(result.data.shopper.levelId.toString());
         }
       }
       LoadingScreenServices.name = result.data.name;

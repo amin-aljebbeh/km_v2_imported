@@ -41,7 +41,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       getOrders = _initialFunction();
       orderDataList = LoadingScreenServices.myOrdersList;
     }
-
+    for (int i = 0; i < orderDataList.length; i++)
+      orderDataList[i].accountOrderRows();
     super.initState();
   }
 
@@ -247,6 +248,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
+                                  order: orderDataList[index],
                                   deliveryName:
                                       orderDataList[index].delivery != null
                                           ? orderDataList[index].delivery.name

@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -24,6 +25,7 @@ class OrdersViewCard extends StatefulWidget {
   final double lat;
   final double lon;
   final String entrance;
+  final OrdersOriginalData order;
 
   OrdersViewCard({
     @required this.orderId,
@@ -42,6 +44,7 @@ class OrdersViewCard extends StatefulWidget {
     this.underUpdate,
     this.shopperName,
     this.deliveryName,
+    @required this.order,
   });
 
   @override
@@ -202,7 +205,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                       RichText(
                                         text: TextSpan(
                                           text:
-                                              "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.orderTotalPrice)).toString()}",
+                                              "${UtilsImporter().stringUtils.oCcy.format(widget.order.shopperProfit).toString()}",
                                           style: profitStyle,
                                         ),
                                       ),
