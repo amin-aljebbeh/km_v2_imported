@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:kammun_app/models/start_model.dart';
-import 'package:kammun_app/utils/tools.dart';
 
 CategoryProduct categoryProductFromJson(String str) =>
     CategoryProduct.fromJson(json.decode(str));

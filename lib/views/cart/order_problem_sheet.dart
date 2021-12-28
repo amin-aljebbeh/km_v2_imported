@@ -1,5 +1,4 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -69,33 +68,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
       dialogText =
           "نأسف لحدوث ذلك ولكن أثناء قيامك بعملية التسوق نفذ ${notActiveCards.length} من المنتجات و تغير سعر ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك إختيار تحديث الطلب لمشاهدة الأسعار الجديدة و حذف المنتجات الغير متوفرة أو الضغط على إختيار بدائل لإضافتها من داخل التطبيق";
     }
-  }
-
-  Widget _okButton() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
-      onTap: () => Navigator.of(context).pop(),
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: Colors.green,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: AutoSizeText(
-            "موافق",
-            maxLines: 1,
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-        child: loginButtonWithGesture);
   }
 
   @override

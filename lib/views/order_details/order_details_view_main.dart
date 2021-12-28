@@ -487,35 +487,4 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
   void _onTileClicked(int index) {
     Tools.logToConsole("You tapped on item $index");
   }
-
-  Widget _showReOrderButton() {
-    final GestureDetector showRepeatButtonWithGesture = new GestureDetector(
-      onTap: _showRepeatOrderBtnTapped,
-      child: new Container(
-        margin: EdgeInsets.only(left: 20),
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            UtilsImporter().stringUtils.repeat_order.toUpperCase(),
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showRepeatButtonWithGesture);
-  }
-
-  void _showRepeatOrderBtnTapped() {
-    Navigator.pop(context);
-  }
 }
