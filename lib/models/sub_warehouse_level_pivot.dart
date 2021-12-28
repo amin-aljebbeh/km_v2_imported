@@ -6,8 +6,8 @@ class SubWarehouseLevelPivot {
     this.valueAddedPercentage,
   });
 
-  String levelId;
-  String subWarehouseId;
+  int levelId;
+  int subWarehouseId;
   double shoppingProfitPercentage;
   double valueAddedPercentage;
 

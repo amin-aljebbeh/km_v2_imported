@@ -5,8 +5,8 @@ class SupportedCityLevelPivot {
     this.deliveryProfitPercentage,
   });
 
-  String levelId;
-  String supportedCityId;
+  int levelId;
+  int supportedCityId;
   double deliveryProfitPercentage;
 
   factory SupportedCityLevelPivot.fromJson(Map<String, dynamic> json) =>

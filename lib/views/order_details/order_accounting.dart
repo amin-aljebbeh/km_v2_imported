@@ -1,9 +1,7 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:kammun_app/models/order_image.dart';
 import 'package:kammun_app/models/start_model.dart';
-import 'package:kammun_app/models/sub_warehouse_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/add_image_widget.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
@@ -17,15 +15,13 @@ import 'services/order_details_services.dart';
 class OrderAccounting extends StatefulWidget {
   final int orderId;
   final List<OrderProducts> ordersAry;
-  final List<OrderImage> images;
-  final OrdersOriginalData order;
+  final OrdersOriginalData orderData;
 
   const OrderAccounting({
     Key key,
     @required this.ordersAry,
-    @required this.images,
     @required this.orderId,
-    @required this.order,
+    @required this.orderData,
   }) : super(key: key);
 
   @override
@@ -33,28 +29,11 @@ class OrderAccounting extends StatefulWidget {
 }
 
 class _OrderAccountingState extends State<OrderAccounting> {
-  List<SubWarehouse> _ls = LoadingScreenServices.subWarehouses;
   List<Widget> subWarehouseTotal = [];
   List<Widget> imageWidgets = [];
 
-  _sumSubWarehouse(int subWarehouseId) {
-    int sum = 0;
-
-    for (int i = 0; i < widget.ordersAry.length; i++) {
-      if (widget.ordersAry[i].pivot.deletedAt != null) {
-      } else {
-        if (widget.ordersAry[i].subWarehouseId == subWarehouseId) {
-          sum = sum +
-              (int.parse(widget.ordersAry[i].pivot.purchasePrice) *
-                  int.parse(widget.ordersAry[i].pivot.quantity));
-        }
-      }
-    }
-    return UtilsImporter().stringUtils.oCcy.format(sum);
-  }
-
   getImages() {
-    for (int i = 0; i < widget.images.length; i++) {
+    for (int i = 0; i < widget.orderData.images.length; i++) {
       imageWidgets.add(
         InkWell(
           onLongPress: () async {
@@ -64,12 +43,12 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 onTap: () async {
                   Navigator.of(context).pop();
                   bool result = await OrderDetailsServices.deleteImageFromOrder(
-                      imageId: widget.images[i].id.toString());
+                      imageId: widget.orderData.images[i].id.toString());
                   Services.resultFlushBar(context: context, result: result);
                   if (result)
                     setState(() {
-                      widget.images.removeWhere(
-                          (image) => image.id == widget.images[i].id);
+                      widget.orderData.images.removeWhere(
+                          (image) => image.id == widget.orderData.images[i].id);
                       imageWidgets.clear();
                     });
                 },
@@ -95,7 +74,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   return FullScreenImage(
                     imageUrl: LoadingScreenServices.imagePrefixUrl +
                         'orders/' +
-                        widget.images[i].imageFileName,
+                        widget.orderData.images[i].imageFileName,
                     tag: "generate_a_unique_tag",
                   );
                 },
@@ -115,11 +94,12 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   // fadeInCurve: Curves.fastOutSlowIn,
                   // placeholder: AssetImage("assets/kmIcon.png"),
                   fit: BoxFit.contain,
-                  image: widget.images != null && widget.images.length > 0
+                  image: widget.orderData.images != null &&
+                          widget.orderData.images.length > 0
                       ? AdvImageCache(
                           LoadingScreenServices.imagePrefixUrl +
                               'orders/' +
-                              widget.images[i].imageFileName,
+                              widget.orderData.images[i].imageFileName,
                           useMemCache: true,
                           diskCacheExpire: Duration(days: 400),
                         )
@@ -181,7 +161,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
           ),
         ],
       ));
-      for (int i = 0; i < widget.order.orderAccountingRows.length; i++) {
+      for (int i = 0; i < widget.orderData.orderAccountingRows.length; i++) {
         subWarehouseTotal.add(
           Table(
             border: TableBorder.all(
@@ -195,7 +175,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   Container(
                     margin: EdgeInsets.all(10),
                     child: Text(
-                      widget.order.orderAccountingRows[i].subWarehouseName,
+                      widget.orderData.orderAccountingRows[i].subWarehouseName,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
@@ -205,7 +185,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   Container(
                     margin: EdgeInsets.all(10),
                     child: Text(
-                      widget.order.orderAccountingRows[i].customerPay
+                      widget.orderData.orderAccountingRows[i].customerPay
                           .toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -216,7 +196,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   Container(
                     margin: EdgeInsets.all(10),
                     child: Text(
-                      widget.order.orderAccountingRows[i].payToSubWarehouse
+                      widget.orderData.orderAccountingRows[i].payToSubWarehouse
                           .toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -236,7 +216,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
   @override
   Widget build(BuildContext context) {
     _calculate();
-    if (widget.images != null) getImages();
+    if (widget.orderData.images != null) getImages();
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -263,7 +243,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
             ),
             if (Services.isShopper())
               AddImageWidget(
-                hasImage: widget.images != null,
+                hasImage: widget.orderData.images != null,
                 onSubmit: (image) async {
                   bool result = await OrderDetailsServices.addImageToOrder(
                       image: image, orderId: widget.orderId.toString());

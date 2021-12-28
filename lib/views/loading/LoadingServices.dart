@@ -280,7 +280,6 @@ class LoadingScreenServices {
   }
 
   Future<bool> fetchAdminInformation() async {
-    Tools.logToConsole("Featching admin information");
     String buildNumber = "100";
     int lastSupported;
     int currentVersion;
@@ -336,8 +335,6 @@ class LoadingScreenServices {
     } else if (int.parse(buildNumber) < currentVersion) {
       updateOptional = true;
     }
-
-    Tools.logToConsole("======= DONE Mobile Compaiesion =======");
 
     bannerListNetwork.clear();
     bannerListNetwork.add(
@@ -398,14 +395,7 @@ class LoadingScreenServices {
               return false;
             }
           }
-
-          // bool everyThingGood = await getStartScreenInformation(
-          //     streamController: streamController);
-          // if (everyThingGood) {
-          //   return true;
-          // } else {
-          //   return false;
-          // }
+          return true;
         } catch (e) {
           Tools.logToConsole(e.toString());
           return false;

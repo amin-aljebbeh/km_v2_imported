@@ -44,8 +44,6 @@ class OrdersViewState extends State<OrdersView> {
       getOrders = _initialFunction();
       orderDataList = LoadingScreenServices.allOrdersList;
     }
-    for (int i = 0; i < orderDataList.length; i++)
-      orderDataList[i].accountOrderRows();
     super.initState();
   }
 
@@ -114,12 +112,7 @@ class OrdersViewState extends State<OrdersView> {
                 break;
             }
 
-          Tools.logToConsole("orderDataList before filltiting");
-          Tools.logToConsole(orderDataList.length);
-
           orderDataList.removeWhere((order) => order.products.length == 0);
-          Tools.logToConsole("orderDataList After filltiting");
-          Tools.logToConsole(orderDataList.length);
           LoadingScreenServices.allOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
@@ -277,6 +270,7 @@ class OrdersViewState extends State<OrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
+                          // orderDataList[index].accountOrderRows();
                           String shopper, delivery;
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
@@ -286,7 +280,7 @@ class OrdersViewState extends State<OrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
-                                  order: orderDataList[index],
+                                  orderData: orderDataList[index],
                                   deliveryName:
                                       orderDataList[index].delivery != null
                                           ? orderDataList[index].delivery.name
@@ -651,7 +645,7 @@ class OrdersViewState extends State<OrdersView> {
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
-          order: orderDataList[index],
+          orderData: orderDataList[index],
           orderId: orderDataList[index].id,
           orderIndex: index,
           ordersAry: ordAry,

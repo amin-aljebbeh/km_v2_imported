@@ -419,14 +419,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                     );
                                   },
                                 ),
-                                // Row(
-                                //   mainAxisAlignment:
-                                //       MainAxisAlignment.spaceBetween,
-                                //   children: <Widget>[
-                                //     _addNotesButton(context: context),
-                                //     //    _addCopouns(),
-                                //   ],
-                                // ),
                                 KammunButton(
                                   width: MediaQuery.of(context).size.width,
                                   color: CartServices.cartProducts.length > 0

@@ -19,6 +19,7 @@ import 'core/errors/error_types.dart';
 import 'models/addAddressResponse.dart';
 import 'models/delivery_model.dart';
 import 'models/get_deliveries_model.dart';
+import 'models/level_response_model.dart';
 import 'models/productsCategoriesModel.dart';
 import 'models/role_model.dart';
 import 'models/shopper_level_model.dart';
@@ -322,13 +323,16 @@ class Services {
 
       if (response.statusCode == SUCCESS_CODE) {
         Tools.logToConsole("message from get level and decode");
-        Tools.logToConsole(response.data);
-        return levelFromJson(jsonEncode(response.data));
+        Tools.logToConsole(
+            ModelResponse.fromJson(response.data).data.id.toString());
+        Level level = ModelResponse.fromJson(response.data).data;
+        return level;
       } else {
         return null;
       }
     } catch (e) {
       Tools.logToConsole(e.toString());
+      Tools.logToConsole('e.toString()');
       return null;
     }
   }

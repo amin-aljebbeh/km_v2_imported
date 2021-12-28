@@ -765,6 +765,8 @@ class OrdersOriginalData {
       };
 
   initOrderRow() {
+    kammunProfit = 0;
+    shopperProfit = 0;
     orderAccountingRows = new List<OrderAccountingRow>();
     for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
       orderAccountingRows.add(
@@ -783,25 +785,30 @@ class OrdersOriginalData {
     initOrderRow();
     double shopperIncreaseProfit = 0;
     double kammunIncreaseProfit = 0;
-    for (int i = 0; i < products.length; i++) {
-      double netPrice = double.parse(products[i].pivot.purchasePrice);
-      orderAccountingRows
-          .firstWhere((row) => row.subWarehouseId == products[i].subWarehouseId)
-          .customerPay += netPrice;
-      double shopperSubWarehouseProfit = Services.shopper.level.subWarehouses
-              .firstWhere((subWarehouse) => subWarehouse.id == products[i].id)
-              .levelPivot
-              .shoppingProfitPercentage /
-          100;
-      double discountPercentage = LoadingScreenServices.subWarehouses
-              .firstWhere((subWarehouse) =>
-                  subWarehouse.id == products[i].subWarehouseId)
-              .discountPercentage /
-          100;
-      int increaseValue = products[i].pivot.increaseValue;
-      if (increaseValue != 0) {
+    for (int i = 0; i < products.length; i++)
+      if (products[i].pivot.deletedAt == null) {
+        double netPrice = double.parse(products[i].pivot.purchasePrice) *
+            int.parse(products[i].pivot.quantity);
+        orderAccountingRows
+            .firstWhere(
+                (row) => row.subWarehouseId == products[i].subWarehouseId)
+            .customerPay += netPrice;
+        double shopperSubWarehouseProfit = Services.shopper.level.subWarehouses
+                .firstWhere((subWarehouse) =>
+                    subWarehouse.id == products[i].subWarehouseId)
+                .levelPivot
+                .shoppingProfitPercentage /
+            100;
+        double discountPercentage = LoadingScreenServices.subWarehouses
+                .firstWhere((subWarehouse) =>
+                    subWarehouse.id == products[i].subWarehouseId)
+                .discountPercentage /
+            100;
+        int increaseValue = products[i].pivot.increaseValue *
+            int.parse(products[i].pivot.quantity);
         double increaseProfit = Services.shopper.level.subWarehouses
-                .firstWhere((subWarehouse) => subWarehouse.id == products[i].id)
+                .firstWhere((subWarehouse) =>
+                    subWarehouse.id == products[i].subWarehouseId)
                 .levelPivot
                 .valueAddedPercentage /
             100;
@@ -809,16 +816,16 @@ class OrdersOriginalData {
         shopperIncreaseProfit += increaseValue * increaseProfit;
         kammunIncreaseProfit +=
             increaseValue - (increaseValue * increaseProfit);
+        double productKammunProfit = netPrice * discountPercentage;
+        kammunProfit += productKammunProfit;
+        double productShopperProfit =
+            productKammunProfit * shopperSubWarehouseProfit;
+        shopperProfit += productShopperProfit;
+        orderAccountingRows
+            .firstWhere(
+                (row) => row.subWarehouseId == products[i].subWarehouseId)
+            .payToSubWarehouse += netPrice - productKammunProfit;
       }
-      double productKammunProfit = netPrice * discountPercentage;
-      kammunProfit += productKammunProfit;
-      double productShopperProfit =
-          productKammunProfit * shopperSubWarehouseProfit;
-      shopperProfit += productShopperProfit;
-      orderAccountingRows
-          .firstWhere((row) => row.subWarehouseId == products[i].subWarehouseId)
-          .payToSubWarehouse += netPrice - productKammunProfit;
-    }
     kammunProfit -= shopperProfit;
     kammunProfit += kammunIncreaseProfit;
     shopperProfit += shopperIncreaseProfit;
@@ -827,9 +834,10 @@ class OrdersOriginalData {
             .levelPivot
             .deliveryProfitPercentage /
         100;
-    double shopperDeliverProfit = double.parse(deliveryCost) * deliverProfit;
+    double shopperDeliverProfit =
+        double.parse(supportedCityCost) * deliverProfit;
     shopperProfit += shopperDeliverProfit;
-    kammunProfit += double.parse(deliveryCost) - shopperDeliverProfit;
+    kammunProfit += double.parse(supportedCityCost) - shopperDeliverProfit;
   }
 }
 
@@ -1042,7 +1050,7 @@ class IndigoDatum {
     this.warehouse,
   });
 
-  int id;
+  String id;
   String name;
   String deliveryPrice;
   String warehouseId;
@@ -1053,7 +1061,7 @@ class IndigoDatum {
   String maintenanceMessages;
 
   factory IndigoDatum.fromJson(Map<String, dynamic> json) => IndigoDatum(
-        id: json["id"],
+        id: json["id"].toString(),
         name: json["name"],
         deliveryPrice: json["delivery_price"].toString(),
         warehouseId: json["warehouse_id"].toString(),

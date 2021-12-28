@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:kammun_app/models/start_model.dart';
+import 'package:kammun_app/utils/tools.dart';
 
 CategoryProduct categoryProductFromJson(String str) =>
     CategoryProduct.fromJson(json.decode(str));
@@ -148,7 +149,7 @@ class ProductData {
   int priority;
   int numberOfVisits;
   double minThreshold;
-  String increasePercentage;
+  int increasePercentage;
   String priceFactor;
   int underCheckAvailability;
   int subWarehouseId;
@@ -168,7 +169,7 @@ class ProductData {
       priceChange:
           json["price_change"] == null ? null : json["price_change"].toString(),
       isActive: json["is_active"].toString(),
-      quantity: json["quantity"].toString(),
+      quantity: json["quantity"],
       productCount: json["productCount"],
       supplierCode:
           json["supplier_code"] == null ? null : json["supplier_code"],
@@ -205,7 +206,6 @@ class ProductData {
           : List<Warehouse>.from(
               json["warehouses"].map((x) => Warehouse.fromJson(x))),
     );
-    // Tools.logToConsole('message here map');
     return productData;
   }
 

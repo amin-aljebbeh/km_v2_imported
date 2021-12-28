@@ -41,8 +41,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       getOrders = _initialFunction();
       orderDataList = LoadingScreenServices.myOrdersList;
     }
-    for (int i = 0; i < orderDataList.length; i++)
-      orderDataList[i].accountOrderRows();
     super.initState();
   }
 
@@ -240,6 +238,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
+                          orderDataList[index].accountOrderRows();
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
                           return Column(
@@ -248,7 +247,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
-                                  order: orderDataList[index],
+                                  orderData: orderDataList[index],
                                   deliveryName:
                                       orderDataList[index].delivery != null
                                           ? orderDataList[index].delivery.name
@@ -506,7 +505,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
-          order: orderDataList[index],
+          orderData: orderDataList[index],
           orderId: orderDataList[index].id,
           orderIndex: index,
           ordersAry: ordAry,

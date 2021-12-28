@@ -25,7 +25,7 @@ class OrdersViewCard extends StatefulWidget {
   final double lat;
   final double lon;
   final String entrance;
-  final OrdersOriginalData order;
+  final OrdersOriginalData orderData;
 
   OrdersViewCard({
     @required this.orderId,
@@ -44,7 +44,7 @@ class OrdersViewCard extends StatefulWidget {
     this.underUpdate,
     this.shopperName,
     this.deliveryName,
-    @required this.order,
+    @required this.orderData,
   });
 
   @override
@@ -205,7 +205,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                       RichText(
                                         text: TextSpan(
                                           text:
-                                              "${UtilsImporter().stringUtils.oCcy.format(widget.order.shopperProfit).toString()}",
+                                              "${UtilsImporter().stringUtils.oCcy.format(widget.orderData.shopperProfit).toString()}",
                                           style: profitStyle,
                                         ),
                                       ),
@@ -282,8 +282,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                           text: LoadingScreenServices
                                                   .supportedCitiesListIntro
                                                   .where((supportedCity) =>
-                                                      supportedCity.id
-                                                          .toString() ==
+                                                      supportedCity.id ==
                                                       widget.supportedCityId)
                                                   .first
                                                   .name +

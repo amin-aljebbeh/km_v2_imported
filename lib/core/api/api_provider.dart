@@ -32,7 +32,6 @@ class ApiProvider {
 
     var dio = new Dio(options);
 
-    Tools.logToConsole(LoadingScreen.userToken);
     Map<String, String> header = {
       'Authorization':
           LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : "",

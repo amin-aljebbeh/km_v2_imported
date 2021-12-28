@@ -52,7 +52,7 @@ class Level {
             : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"],
         subWarehouses: json["sub_warehouses"] == null
-            ? null
+            ? new List<SubWarehouse>()
             : List<SubWarehouse>.from(
                 json["sub_warehouses"].map((x) => SubWarehouse.fromJson(x))),
         supportedCities: json["supported_cities"] == null
