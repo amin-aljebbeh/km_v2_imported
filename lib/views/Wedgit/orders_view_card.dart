@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/order_information_row.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../Services.dart';
@@ -139,245 +140,117 @@ class OrdersViewCardState extends State<OrdersViewCard> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Expanded(
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  RichText(
-                                    text: TextSpan(
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text:
-                                              UtilsImporter().stringUtils.bill,
-                                          style: paragraphStyle,
-                                        ),
-                                        TextSpan(
-                                          text: "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
-                                              " ${LoadingScreenServices.companyInformation.currency.toString()}",
-                                          style: informationStyle,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(6),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greyColor
-                                              .withOpacity(0.2)),
-                                    ),
-                                    child: Text(
-                                      widget.orderQuantity.toString(),
-                                      style: paragraphStyle,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        widget.orderId.toString().length >= 3
-                                            ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
-                                            : '#${widget.orderId.toString()}',
-                                        style: TextStyle(
-                                          color: Colors.purple,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
-                                        ),
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          text:
-                                              "${UtilsImporter().stringUtils.oCcy.format(widget.orderData.shopperProfit).toString()}",
-                                          style: profitStyle,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            text: UtilsImporter()
-                                                .stringUtils
-                                                .phoneNumber,
-                                            style: paragraphStyle,
-                                          ),
-                                          TextSpan(
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () => _makePhoneCall(
-                                                  widget.userNumber),
-                                            text: widget.userNumber,
-                                            style: TextStyle(
-                                              color: UtilsImporter()
-                                                  .colorUtils
-                                                  .kmColors,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: UtilsImporter()
-                                                  .stringUtils
-                                                  .HKGrotesk,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ]),
-                              SizedBox(height: 10),
-                              Wrap(children: <Widget>[
-                                RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: UtilsImporter()
-                                                .stringUtils
-                                                .address +
-                                            " : ",
-                                        style: paragraphStyle,
-                                      ),
-                                      TextSpan(
-                                        text: widget.address,
-                                        style: informationStyle,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ]),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text:
-                                              UtilsImporter().stringUtils.city,
-                                          style: paragraphStyle,
-                                        ),
-                                        TextSpan(
-                                          text: LoadingScreenServices
-                                                  .supportedCitiesListIntro
-                                                  .where((supportedCity) =>
-                                                      supportedCity.id ==
-                                                      widget.supportedCityId)
-                                                  .first
-                                                  .name +
-                                              "   ",
-                                          style: informationStyle,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  widget.lat != null && widget.lon != null
-                                      ? InkWell(
-                                          child: Icon(
-                                            Icons.delivery_dining,
-                                            color: Colors.blue,
-                                            size: 30,
-                                          ),
-                                          onTap: () {
-                                            openMapsSheet(context, widget.lat,
-                                                widget.lon);
-                                          },
-                                        )
-                                      : Container(),
-                                ],
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text:
-                                          UtilsImporter().stringUtils.entrance,
-                                      style: paragraphStyle,
-                                    ),
-                                    TextSpan(
-                                      text: widget.entrance,
-                                      style: informationStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              RichText(
-                                text: TextSpan(
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text:
-                                          UtilsImporter().stringUtils.orderDate,
-                                      style: paragraphStyle,
-                                    ),
-                                    TextSpan(
-                                      text: widget.orderCreatedDate,
-                                      style: disableStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Text(
-                                orderStatus,
-                                style: paragraphStyle,
-                              ),
-                              //supportedCitiesResponse
-                            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    OrderInformationRow(
+                      rightSideText: UtilsImporter().stringUtils.bill,
+                      leftSideText:
+                          "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
+                              " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                      leftSideStyle: informationStyle,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: UtilsImporter()
+                                .colorUtils
+                                .greyColor
+                                .withOpacity(0.2)),
+                      ),
+                      child: Text(
+                        widget.orderQuantity.toString(),
+                        style: paragraphStyle,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.orderId.toString().length >= 3
+                              ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
+                              : '#${widget.orderId.toString()}',
+                          style: TextStyle(
+                            color: Colors.purple,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            text:
+                                "${UtilsImporter().stringUtils.oCcy.format(widget.orderData.shopperProfit).toString()}",
+                            style: profitStyle,
                           ),
                         ),
                       ],
-                    ),
+                    )
+                  ],
+                ),
+                OrderInformationRow(
+                  rightSideText: UtilsImporter().stringUtils.phoneNumber,
+                  leftSideText: widget.userNumber,
+                  leftSideStyle: paragraphStyle.copyWith(
+                    color: UtilsImporter().colorUtils.kmColors,
                   ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => _makePhoneCall(widget.userNumber),
+                ),
+                OrderInformationRow(
+                  rightSideText: UtilsImporter().stringUtils.address + " : ",
+                  leftSideText: widget.address,
+                  leftSideStyle: informationStyle,
+                ),
+                OrderInformationRow(
+                  rightSideText: UtilsImporter().stringUtils.city,
+                  leftSideText: LoadingScreenServices.supportedCitiesListIntro
+                          .where((supportedCity) =>
+                              supportedCity.id == widget.supportedCityId)
+                          .first
+                          .name +
+                      "   ",
+                  leftSideStyle: informationStyle,
+                ),
+                OrderInformationRow(
+                  rightSideText: UtilsImporter().stringUtils.entrance,
+                  leftSideText: widget.entrance,
+                  leftSideStyle: informationStyle,
+                ),
+                OrderInformationRow(
+                  rightSideText: UtilsImporter().stringUtils.orderDate,
+                  leftSideText: widget.orderCreatedDate,
+                  leftSideStyle: disableStyle,
+                ),
+                OrderInformationRow(
+                  rightSideText: orderStatus,
+                  leftSideText: '',
+                  leftSideStyle: informationStyle,
                 ),
               ],
             ),
-            if (Services.isShopper() || Services.isDelivery())
+            if (Services.isShopper() ||
+                Services.isDelivery() ||
+                Services.isOperationManager() ||
+                Services.isAdmin())
               Column(
                 children: [
-                  Row(
-                    children: [
-                      Text(
+                  OrderInformationRow(
+                    rightSideText:
                         UtilsImporter().stringUtils.shopperName + " ",
-                        style: paragraphStyle,
-                      ),
-                      Text(
-                        shopperName != null ? shopperName : " ",
-                        style: paragraphStyle,
-                      ),
-                    ],
+                    leftSideText: shopperName != null ? shopperName : " ",
+                    leftSideStyle: paragraphStyle,
                   ),
-                  Row(
-                    children: [
-                      Text(
+                  OrderInformationRow(
+                    rightSideText:
                         UtilsImporter().stringUtils.deliveryName + " ",
-                        style: paragraphStyle,
-                      ),
-                      Text(
-                        deliveryName != null ? deliveryName : " ",
-                        style: paragraphStyle,
-                      ),
-                    ],
+                    leftSideText: deliveryName != null ? deliveryName : " ",
+                    leftSideStyle: paragraphStyle,
                   ),
                 ],
               ),

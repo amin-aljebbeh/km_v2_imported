@@ -11,6 +11,7 @@ import 'package:kammun_app/views/Wedgit/add_image_widget.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
+import 'package:kammun_app/views/Wedgit/order_information_row.dart';
 import 'package:kammun_app/views/Wedgit/update_product_info_widget.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
@@ -210,7 +211,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                         topRight: Radius.circular(20.0),
                         topLeft: Radius.circular(20.0))),
                 child: ListView(
-                  // mainAxisAlignment: MainAxisAlignment.start,
                   shrinkWrap: true,
                   children: <Widget>[
                     Center(
@@ -261,27 +261,19 @@ class ProductDetailViewState extends State<ProductDetailView>
                       ],
                     ),
                     SizedBox(height: 20),
-                    Row(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          UtilsImporter().stringUtils.description + ' :',
-                          style: paragraphStyle,
+                        OrderInformationRow(
+                          rightSideText:
+                              UtilsImporter().stringUtils.description + ' :',
+                          leftSideText: widget.product.description != null
+                              ? widget.product.description.split("@")[0]
+                              : "",
+                          leftSideStyle: informationStyle,
                         ),
-                        SizedBox(width: 5),
-                        widget.product.description != null
-                            ? Expanded(
-                                child: Text(
-                                  widget.product.description != null
-                                      ? widget.product.description.split("@")[0]
-                                      : "",
-                                  style: informationStyle,
-                                ),
-                              )
-                            : Container(),
                       ],
                     ),
-                    SizedBox(height: 15),
                     Container(
                       height: 74,
                       child: ListView.builder(
