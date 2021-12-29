@@ -461,26 +461,27 @@ class _CartViewFinalState extends State<CartViewFinal> {
                 decoration: new BoxDecoration(
                     borderRadius: new BorderRadius.all(Radius.circular(20.0))),
                 child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Hero(
-                        tag: index + 100,
-                        child: Image(
-                            image: orderArray[index].images.length != 0
-                                ? AdvImageCache(
-                                    LoadingScreenServices.imagePrefixUrl +
-                                        orderArray[index]
-                                            .images[0]
-                                            .imageFileName
-                                            .toString(),
-                                    useMemCache: true,
-                                    diskCacheExpire: Duration(days: 400),
-                                  )
-                                : AssetImage("assets/kmIcon.png"),
-                            width: MediaQuery.of(context).size.width,
-                            height: 120,
-                            // fadeInCurve: Curves.fastOutSlowIn,
-                            // placeholder: AssetImage("assets/kmIcon.png"),
-                            fit: BoxFit.contain))),
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Hero(
+                    tag: index + 100,
+                    child: Image(
+                      image: orderArray[index].images.length != 0
+                          ? AdvImageCache(
+                              LoadingScreenServices.imagePrefixUrl +
+                                  orderArray[index]
+                                      .images[0]
+                                      .imageFileName
+                                      .toString(),
+                              useMemCache: true,
+                              diskCacheExpire: Duration(days: 400),
+                            )
+                          : AssetImage("assets/kmIcon.png"),
+                      width: MediaQuery.of(context).size.width,
+                      height: 120,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
               ),
               //SizedBox(width: 10),
               SizedBox(width: 10),

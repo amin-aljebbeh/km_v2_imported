@@ -226,23 +226,21 @@ class CartViewState extends State<CartView> {
                   child: Hero(
                     tag: index + 100,
                     child: Image(
-                        image: orderArray[index].images.length != 0
-                            ? AdvImageCache(
-                                LoadingScreenServices.imagePrefixUrl +
-                                    orderArray[index]
-                                        .images[0]
-                                        .imageFileName
-                                        .toString(),
-                                useMemCache: true,
-                                diskCacheExpire: Duration(days: 400),
-                              )
-                            : AssetImage("assets/kmIcon.png"),
-                        width: MediaQuery.of(context).size.width,
-                        height: 120,
-                        // fadeInCurve: Curves.fastOutSlowIn,
-                        // placeholder: AssetImage("assets/kmIcon.png"),
-                        // fadeInDuration: Duration(microseconds: 1),
-                        fit: BoxFit.contain),
+                      image: orderArray[index].images.length != 0
+                          ? AdvImageCache(
+                              LoadingScreenServices.imagePrefixUrl +
+                                  orderArray[index]
+                                      .images[0]
+                                      .imageFileName
+                                      .toString(),
+                              useMemCache: true,
+                              diskCacheExpire: Duration(days: 400),
+                            )
+                          : AssetImage("assets/kmIcon.png"),
+                      width: MediaQuery.of(context).size.width,
+                      height: 120,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),

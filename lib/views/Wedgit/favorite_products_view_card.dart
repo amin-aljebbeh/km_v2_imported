@@ -49,25 +49,18 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                       borderRadius:
                           new BorderRadius.all(Radius.circular(20.0))),
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Hero(
-                          tag: widget.index + 100,
-                          child: Image(
-                            image: AdvImageCache(
-                              widget.img,
-                              useMemCache: true,
-                              diskCacheExpire: Duration(days: 400),
-                            ),
-                          )
-                          //           FadeInImage.assetNetwork(
-                          //   fadeInCurve: Curves.fastOutSlowIn,
-                          //   placeholder: "assets/kmIcon.png",
-                          //   fit: BoxFit.contain,
-                          //   image: widget.img,
-                          //   width: MediaQuery.of(context).size.width,
-                          //   height: 120,
-                          // ),
-                          )),
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Hero(
+                      tag: widget.index + 100,
+                      child: Image(
+                        image: AdvImageCache(
+                          widget.img,
+                          useMemCache: true,
+                          diskCacheExpire: Duration(days: 400),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(width: 10),
                 Expanded(

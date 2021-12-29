@@ -99,22 +99,24 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                     decoration: new BoxDecoration(
                         borderRadius:
                             new BorderRadius.all(Radius.circular(20.0))),
-                    child: ClipRRect(
+                    child: Hero(
+                      tag: widget.productId,
+                      child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
-                        child: Hero(
-                            tag: widget.productId,
-                            child: Image(
-                              fit: BoxFit.contain,
-                              image: widget.img.length > 0
-                                  ? AdvImageCache(
-                                      widget.img,
-                                      useMemCache: true,
-                                      diskCacheExpire: Duration(days: 400),
-                                    )
-                                  : AssetImage("assets/kmIcon.png"),
-                              width: MediaQuery.of(context).size.width,
-                              height: 120,
-                            ))),
+                        child: Image(
+                          fit: BoxFit.contain,
+                          image: widget.img.length > 0
+                              ? AdvImageCache(
+                                  widget.img,
+                                  useMemCache: true,
+                                  diskCacheExpire: Duration(days: 400),
+                                )
+                              : AssetImage("assets/kmIcon.png"),
+                          width: MediaQuery.of(context).size.width,
+                          height: 120,
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(width: 10),
                   Expanded(

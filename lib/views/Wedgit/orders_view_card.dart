@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/order_information_row.dart';
@@ -124,8 +125,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
     if (widget.orderStatus == 6) orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
     if (widget.orderStatus == 7) orderStatus = "😔 لم نستطع تأمين الطلب 😔";
 
-    print("THe ORDER ID");
-    print(widget.orderId.toString());
     return Container(
       decoration: widget.deliveryMethodId == 2
           ? BoxDecoration(border: Border.all(color: Colors.red, width: 5))
@@ -178,13 +177,14 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                             color: Colors.purple,
                           ),
                         ),
-                        RichText(
-                          text: TextSpan(
-                            text:
-                                "${UtilsImporter().stringUtils.oCcy.format(widget.orderData.shopperProfit).toString()}",
-                            style: profitStyle,
+                        if (Services.isShopper())
+                          RichText(
+                            text: TextSpan(
+                              text:
+                                  "${UtilsImporter().stringUtils.oCcy.format(widget.orderData.shopperProfit).toString()}",
+                              style: profitStyle,
+                            ),
                           ),
-                        ),
                       ],
                     )
                   ],

@@ -50,12 +50,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
         priceCards.add(i);
       }
     }
-    Tools.logToConsole("not active");
-    Tools.logToConsole(widget.notActiveProducts);
-    Tools.logToConsole(notActiveCards);
-    Tools.logToConsole("price");
-    Tools.logToConsole(widget.pricesChangesProducts);
-    Tools.logToConsole(priceCards);
     if (priceCards.length > 0 && notActiveCards.length == 0) {
       dialogText =
           "نأسف لحدوث ذلك ولكن أثناء قيامك بالتسوق تغير سعر  ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك مشاهدة تلك المنتجات و القيام بتحديث الطلب ليتم تحديث الأسعار او اختيار بدائل ";
@@ -261,8 +255,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
           Row(
             children: <Widget>[
               new Container(
-                width: 75.0,
-                height: 75.0,
+                width: 100.0,
+                height: 100.0,
                 decoration: new BoxDecoration(
                     borderRadius: new BorderRadius.all(Radius.circular(20.0))),
                 child: ClipRRect(
@@ -270,27 +264,24 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   child: Hero(
                     tag: index + 100,
                     child: Image(
-                        image: orderArray[index].images.length != 0
-                            ? AdvImageCache(
-                                LoadingScreenServices.imagePrefixUrl +
-                                    orderArray[index]
-                                        .images[0]
-                                        .imageFileName
-                                        .toString(),
-                                useMemCache: true,
-                                diskCacheExpire: Duration(days: 400),
-                              )
-                            : AssetImage("assets/kmIcon.png"),
-                        width: MediaQuery.of(context).size.width,
-                        height: 120,
-                        // fadeInDuration: Duration(microseconds: 1),
-                        // fadeInCurve: Curves.fastOutSlowIn,
-                        // placeholder: AssetImage("assets/kmIcon.png"),
-                        fit: BoxFit.contain),
+                      image: orderArray[index].images.length != 0
+                          ? AdvImageCache(
+                              LoadingScreenServices.imagePrefixUrl +
+                                  orderArray[index]
+                                      .images[0]
+                                      .imageFileName
+                                      .toString(),
+                              useMemCache: true,
+                              diskCacheExpire: Duration(days: 400),
+                            )
+                          : AssetImage("assets/kmIcon.png"),
+                      width: MediaQuery.of(context).size.width,
+                      height: 120,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
-              //SizedBox(width: 10),
               SizedBox(width: 10),
               Expanded(
                 child: Container(
@@ -352,26 +343,27 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                 decoration: new BoxDecoration(
                     borderRadius: new BorderRadius.all(Radius.circular(20.0))),
                 child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Hero(
-                        tag: index + 100,
-                        child: Image(
-                            image: orderArray[index].images.length != 0
-                                ? AdvImageCache(
-                                    LoadingScreenServices.imagePrefixUrl +
-                                        orderArray[index]
-                                            .images[0]
-                                            .imageFileName
-                                            .toString(),
-                                    useMemCache: true,
-                                    diskCacheExpire: Duration(days: 400),
-                                  )
-                                : AssetImage("assets/kmIcon.png"),
-                            width: MediaQuery.of(context).size.width,
-                            height: 120,
-                            // fadeInCurve: Curves.fastOutSlowIn,
-                            // placeholder: AssetImage("assets/kmIcon.png"),
-                            fit: BoxFit.contain))),
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Hero(
+                    tag: index + 100,
+                    child: Image(
+                      image: orderArray[index].images.length != 0
+                          ? AdvImageCache(
+                              LoadingScreenServices.imagePrefixUrl +
+                                  orderArray[index]
+                                      .images[0]
+                                      .imageFileName
+                                      .toString(),
+                              useMemCache: true,
+                              diskCacheExpire: Duration(days: 400),
+                            )
+                          : AssetImage("assets/kmIcon.png"),
+                      width: MediaQuery.of(context).size.width,
+                      height: 120,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
               ),
               //SizedBox(width: 10),
               SizedBox(width: 10),

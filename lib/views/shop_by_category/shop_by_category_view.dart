@@ -39,24 +39,8 @@ class ShopByCategoryState extends State<ShopByCategory> {
                 diskCacheExpire: Duration(days: 400),
               ),
               width: MediaQuery.of(context).size.width / 2,
-              //fadeInDuration: const Duration(milliseconds: 0),
-              // fadeInCurve: Curves.fastOutSlowIn,
-              //  fadeInCurve: Curves.fastOutSlowIn,
-
-              // placeholder: AssetImage("assets/kmlogoo.png"),
               fit: BoxFit.cover,
             ),
-            // Image.network(
-            //   widget.img,
-            //   width: MediaQuery.of(context).size.width / 2,
-            //   fit: BoxFit.cover,
-            // ),
-            // Image.asset(
-            //   widget.img,
-            //   width: MediaQuery.of(context).size.width / 2,
-            //   height: 120,
-            //   fit: BoxFit.cover,
-            // ),
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(

@@ -177,20 +177,21 @@ class ProductDetailViewState extends State<ProductDetailView>
                         : widget.product.images.length > 0
                             ? FullScreenWidget(
                                 child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(16),
-                                    child: Image(
-                                      image: AdvImageCache(
-                                        LoadingScreenServices.imagePrefixUrl +
-                                            widget.product.images[0]
-                                                .imageFileName,
-                                        useMemCache: true,
-                                        diskCacheExpire: Duration(days: 400),
-                                      ),
-                                      width:
-                                          MediaQuery.of(context).size.width / 2,
-                                      height: 120,
-                                      fit: BoxFit.contain,
-                                    )),
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Image(
+                                    image: AdvImageCache(
+                                      LoadingScreenServices.imagePrefixUrl +
+                                          widget
+                                              .product.images[0].imageFileName,
+                                      useMemCache: true,
+                                      diskCacheExpire: Duration(days: 400),
+                                    ),
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    height: 120,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
                               )
                             : Image.asset(
                                 "assets/logobw.png",

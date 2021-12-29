@@ -1,10 +1,10 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/add_image_widget.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
+import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
 import 'package:kammun_app/views/Wedgit/k_table_row.dart';
 import 'package:kammun_app/views/Wedgit/k_table_element.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
@@ -45,14 +45,21 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 onTap: () async {
                   Navigator.of(context).pop();
                   bool result = await OrderDetailsServices.deleteImageFromOrder(
-                      imageId: widget.orderData.images[i].id.toString());
-                  Services.resultFlushBar(context: context, result: result);
+                    imageId: widget.orderData.images[i].id.toString(),
+                  );
+                  Services.resultFlushBar(
+                    context: context,
+                    result: result,
+                  );
                   if (result)
-                    setState(() {
-                      widget.orderData.images.removeWhere(
-                          (image) => image.id == widget.orderData.images[i].id);
-                      imageWidgets.clear();
-                    });
+                    setState(
+                      () {
+                        widget.orderData.images.removeWhere(
+                          (image) => image.id == widget.orderData.images[i].id,
+                        );
+                        imageWidgets.clear();
+                      },
+                    );
                 },
               ),
               DialogButton(
@@ -83,35 +90,14 @@ class _OrderAccountingState extends State<OrderAccounting> {
               ),
             );
           },
-          child: new Container(
-            width: 100.0,
-            height: 100.0,
-            decoration: new BoxDecoration(
-                borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Hero(
-                tag: i + 100,
-                child: Image(
-                  // fadeInCurve: Curves.fastOutSlowIn,
-                  // placeholder: AssetImage("assets/kmIcon.png"),
-                  fit: BoxFit.contain,
-                  image: widget.orderData.images != null &&
-                          widget.orderData.images.length > 0
-                      ? AdvImageCache(
-                          LoadingScreenServices.imagePrefixUrl +
-                              'orders/' +
-                              widget.orderData.images[i].imageFileName,
-                          useMemCache: true,
-                          diskCacheExpire: Duration(days: 400),
-                        )
-                      : AssetImage("assets/kmIcon.png"),
-                  width: MediaQuery.of(context).size.width,
-                  height: 120,
-                ),
-              ),
-            ),
-          ),
+          child: widget.orderData.images != null &&
+                  widget.orderData.images.length > 0
+              ? KCacheImage(
+                  tag: i + 100,
+                  image: LoadingScreenServices.imagePrefixUrl +
+                      'orders/' +
+                      widget.orderData.images[i].imageFileName)
+              : AssetImage("assets/kmIcon.png"),
         ),
       );
     }

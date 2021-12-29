@@ -238,7 +238,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          orderDataList[index].accountOrderRows();
+                          if (Services.isShopper())
+                            orderDataList[index].accountOrderRows();
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
                           return Column(
