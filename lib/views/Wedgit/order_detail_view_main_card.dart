@@ -136,13 +136,11 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     decoration: new BoxDecoration(
                         borderRadius:
                             new BorderRadius.all(Radius.circular(20.0))),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Hero(
-                        tag: widget.index + 100,
+                    child: Hero(
+                      tag: widget.index + 100,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
                         child: Image(
-                          // fadeInCurve: Curves.fastOutSlowIn,
-                          // placeholder: AssetImage("assets/kmIcon.png"),
                           fit: BoxFit.contain,
                           image: widget.img.length > 0
                               ? AdvImageCache(
