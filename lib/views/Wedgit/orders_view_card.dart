@@ -5,7 +5,6 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/order_information_row.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../Services.dart';
 import '../../utils/Styles.dart';
 
 // ignore: must_be_immutable
@@ -175,11 +174,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           widget.orderId.toString().length >= 3
                               ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
                               : '#${widget.orderId.toString()}',
-                          style: TextStyle(
+                          style: profitStyle.copyWith(
                             color: Colors.purple,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                           ),
                         ),
                         RichText(
@@ -234,26 +230,20 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 ),
               ],
             ),
-            if (Services.isShopper() ||
-                Services.isDelivery() ||
-                Services.isOperationManager() ||
-                Services.isAdmin())
-              Column(
-                children: [
-                  OrderInformationRow(
-                    rightSideText:
-                        UtilsImporter().stringUtils.shopperName + " ",
-                    leftSideText: shopperName != null ? shopperName : " ",
-                    leftSideStyle: paragraphStyle,
-                  ),
-                  OrderInformationRow(
-                    rightSideText:
-                        UtilsImporter().stringUtils.deliveryName + " ",
-                    leftSideText: deliveryName != null ? deliveryName : " ",
-                    leftSideStyle: paragraphStyle,
-                  ),
-                ],
-              ),
+            Column(
+              children: [
+                OrderInformationRow(
+                  rightSideText: UtilsImporter().stringUtils.shopperName + " ",
+                  leftSideText: shopperName != null ? shopperName : " ",
+                  leftSideStyle: paragraphStyle,
+                ),
+                OrderInformationRow(
+                  rightSideText: UtilsImporter().stringUtils.deliveryName + " ",
+                  leftSideText: deliveryName != null ? deliveryName : " ",
+                  leftSideStyle: paragraphStyle,
+                ),
+              ],
+            ),
           ],
         ),
       ),

@@ -343,20 +343,10 @@ class OrdersViewState extends State<OrdersView> {
                                         search: shopper,
                                         items: Services.shoppersNameList(),
                                         onChanged: (value) async {
-                                          Tools.logToConsole(
-                                              'id  ' + value.toString());
                                           if (value != null) {
-                                            int shopperId =
-                                                LoadingScreenServices
-                                                    .allShoppers
-                                                    .firstWhere((element) =>
-                                                        element.name ==
-                                                        value
-                                                            .replaceAll(
-                                                                ' ✅', '')
-                                                            .replaceAll(
-                                                                ' ❌', ''))
-                                                    .id;
+                                            String shopperId =
+                                                Services.selectedShopperId(
+                                                    value);
                                             setState(() {
                                               shopper = value;
                                               orderDataList[index].shopper =
@@ -364,11 +354,11 @@ class OrdersViewState extends State<OrdersView> {
                                                       name: value
                                                           .replaceAll(' ✅', '')
                                                           .replaceAll(' ❌', ''),
-                                                      id: shopperId);
+                                                      id: int.parse(shopperId));
                                             });
                                             bool result = await OrderServices
                                                 .assignOrderToShopper(
-                                                    shopperId.toString(),
+                                                    shopperId,
                                                     orderDataList[index]
                                                         .id
                                                         .toString());
@@ -549,10 +539,6 @@ class OrdersViewState extends State<OrdersView> {
                               )
                             ],
                           );
-                          // return Container(
-                          //   height: 0.01,
-                          //   width: 0.01,
-                          // );
                         },
                       ),
                     ),

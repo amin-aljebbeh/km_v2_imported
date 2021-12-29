@@ -5,6 +5,8 @@ import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/add_image_widget.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
+import 'package:kammun_app/views/Wedgit/k_table_row.dart';
+import 'package:kammun_app/views/Wedgit/k_table_element.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 
@@ -116,101 +118,38 @@ class _OrderAccountingState extends State<OrderAccounting> {
   }
 
   _calculate() {
-    setState(() {
-      subWarehouseTotal.clear();
-      subWarehouseTotal.add(Table(
-        border: TableBorder.all(
-          color: Theme.of(context).primaryColor,
-          style: BorderStyle.solid,
-          width: 1,
-        ),
-        children: [
-          TableRow(
-            children: [
-              Container(
-                margin: EdgeInsets.all(10),
-                child: Text(
-                  'المورد',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(10),
-                child: Text(
-                  'القبض من الزبون',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(10),
-                child: Text(
-                  'الدفع للمورد',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ));
-      for (int i = 0; i < widget.orderData.orderAccountingRows.length; i++) {
+    setState(
+      () {
+        subWarehouseTotal.clear();
         subWarehouseTotal.add(
-          Table(
-            border: TableBorder.all(
-              color: Theme.of(context).primaryColor,
-              style: BorderStyle.solid,
-              width: 1,
-            ),
+          KTableRow(
             children: [
-              TableRow(
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Text(
-                      widget.orderData.orderAccountingRows[i].subWarehouseName,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Text(
-                      widget.orderData.orderAccountingRows[i].customerPay
-                          .toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Text(
-                      widget.orderData.orderAccountingRows[i].payToSubWarehouse
-                          .toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              KTableElement(text: 'المورد'),
+              KTableElement(text: 'القبض من الزبون'),
+              KTableElement(text: 'الدفع للمورد'),
             ],
           ),
         );
-      }
-    });
+        for (int i = 0; i < widget.orderData.orderAccountingRows.length; i++) {
+          subWarehouseTotal.add(
+            KTableRow(
+              children: [
+                KTableElement(
+                    text: widget
+                        .orderData.orderAccountingRows[i].subWarehouseName),
+                KTableElement(
+                    text: widget.orderData.orderAccountingRows[i].customerPay
+                        .toString()),
+                KTableElement(
+                    text: widget
+                        .orderData.orderAccountingRows[i].payToSubWarehouse
+                        .toString()),
+              ],
+            ),
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -241,15 +180,14 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 children: imageWidgets,
               ),
             ),
-            if (Services.isShopper())
-              AddImageWidget(
-                hasImage: widget.orderData.images != null,
-                onSubmit: (image) async {
-                  bool result = await OrderDetailsServices.addImageToOrder(
-                      image: image, orderId: widget.orderId.toString());
-                  Services.resultFlushBar(context: context, result: result);
-                },
-              ),
+            AddImageWidget(
+              hasImage: widget.orderData.images != null,
+              onSubmit: (image) async {
+                bool result = await OrderDetailsServices.addImageToOrder(
+                    image: image, orderId: widget.orderId.toString());
+                Services.resultFlushBar(context: context, result: result);
+              },
+            ),
           ],
         ),
       ),

@@ -484,7 +484,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 textHint: widget.product.price,
                                 initialText: widget.product.price,
                               ),
-                              SizedBox(height: 30),
                               UpdateProductInfoWidget(
                                 title: UtilsImporter().stringUtils.edit +
                                     ' ' +
@@ -497,7 +496,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 productId: widget.product.id,
                                 productData: widget.product,
                               ),
-                              SizedBox(height: 30),
                               UpdateProductInfoWidget(
                                 title: UtilsImporter().stringUtils.priceFactor +
                                     ' :',
@@ -508,32 +506,29 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 textHint: widget.product.priceFactor,
                                 initialText: widget.product.priceFactor,
                               ),
-                              SizedBox(height: 30),
-                              Services.isProductsController() ||
-                                      Services.isAdmin() ||
-                                      Services.isSuperAdmin()
-                                  ? UpdateProductInfoWidget(
-                                      title: UtilsImporter().stringUtils.edit +
-                                          ' ' +
-                                          UtilsImporter().stringUtils.priority +
-                                          ' :',
-                                      textHint:
-                                          widget.product.priority.toString(),
-                                      inputType: TextInputType.text,
-                                      bodyKey: "priority",
-                                      productId: widget.product.id,
-                                      isForSubWarehouse: true,
-                                      productData: widget.product,
-                                      initialText:
-                                          widget.product.priority.toString(),
-                                    )
-                                  : Container(),
-                              SizedBox(height: 30),
                               Services.isProductsController() ||
                                       Services.isAdmin() ||
                                       Services.isSuperAdmin()
                                   ? Column(
                                       children: [
+                                        UpdateProductInfoWidget(
+                                          title:
+                                              UtilsImporter().stringUtils.edit +
+                                                  ' ' +
+                                                  UtilsImporter()
+                                                      .stringUtils
+                                                      .priority +
+                                                  ' :',
+                                          textHint: widget.product.priority
+                                              .toString(),
+                                          inputType: TextInputType.text,
+                                          bodyKey: "priority",
+                                          productId: widget.product.id,
+                                          isForSubWarehouse: true,
+                                          productData: widget.product,
+                                          initialText: widget.product.priority
+                                              .toString(),
+                                        ),
                                         UpdateProductInfoWidget(
                                           title: UtilsImporter()
                                                   .stringUtils
@@ -549,7 +544,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           isForSubWarehouse: false,
                                           productData: widget.product,
                                         ),
-                                        SizedBox(height: 30),
                                         UpdateProductInfoWidget(
                                           title: UtilsImporter()
                                                   .stringUtils
@@ -565,7 +559,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           textHint: widget.product.unit,
                                           initialText: widget.product.unit,
                                         ),
-                                        SizedBox(height: 30),
                                         UpdateProductInfoWidget(
                                           title:
                                               UtilsImporter().stringUtils.edit +
@@ -582,7 +575,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           productId: widget.product.id,
                                           initialText: widget.product.quantity,
                                         ),
-                                        SizedBox(height: 30),
                                         UpdateProductInfoWidget(
                                           title:
                                               UtilsImporter().stringUtils.edit +
@@ -600,7 +592,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           initialText:
                                               widget.product.description,
                                         ),
-                                        SizedBox(height: 30),
                                         Container(
                                           width:
                                               MediaQuery.of(context).size.width,

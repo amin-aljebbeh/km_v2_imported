@@ -5,6 +5,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/side_bar_row.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
@@ -275,136 +276,63 @@ class StoreViewState extends State<StoreView> {
                     child: ListView(
                       primary: false,
                       children: <Widget>[
-                        ListTile(
-                          leading: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Icon(
-                              Icons.phone,
-                              color: UtilsImporter().colorUtils.primaryColor,
-                              size: 30,
-                            ),
-                          ),
-                          title: Text(
-                            "الإتصال بكمون",
-                            style: mainStyle,
-                          ),
+                        SideBarRow(
+                          icon: Icons.phone,
+                          text: "الإتصال بكمون",
                           onTap: () => _openUrl("number"),
                         ),
-                        InkWell(
-                          child: ListTile(
-                            leading: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Icon(
-                                Icons.share,
-                                color: UtilsImporter().colorUtils.primaryColor,
-                                size: 30,
-                              ),
-                            ),
-                            title: Text(
-                              "إرسال التطبيق للأصدقاء",
-                              style: mainStyle,
-                            ),
-                            onTap: () => _shareApp(),
-                          ),
+                        SideBarRow(
+                          icon: Icons.share,
+                          text: "إرسال التطبيق للأصدقاء",
+                          onTap: () => _shareApp(),
                         ),
-                        ListTile(
-                          leading: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Icon(
-                              Icons.person,
-                              color: UtilsImporter().colorUtils.primaryColor,
-                              size: 30,
-                            ),
-                          ),
-                          title: Text(
-                            "الملف الشخصي",
-                            style: mainStyle,
-                          ),
+                        SideBarRow(
+                          icon: Icons.person,
+                          text: "الملف الشخصي",
                           onTap: () {
                             Navigator.of(context).pushNamed('/profile');
+                          },
+                        ),
+                        SideBarRow(
+                          icon: Icons.featured_play_list,
+                          text: "كشف حساب المتسوق",
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed('/ShopperAccountStatement');
                           },
                         ),
                         Services.isProductsController()
                             ? Column(
                                 children: [
-                                  ListTile(
-                                    leading: Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Icon(
-                                        Icons.category,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .primaryColor,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      "المنتجات المضافة للمستودع",
-                                      style: mainStyle,
-                                    ),
+                                  SideBarRow(
+                                    icon: Icons.category,
+                                    text: "المنتجات المضافة للمستودع",
                                     onTap: () {
                                       Navigator.of(context).pushNamed(
                                           '/products_added_to_warehouse');
                                     },
                                   ),
-                                  ListTile(
-                                    leading: Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Icon(
-                                        Icons.category_outlined,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .primaryColor,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      "المنتجات الغير مضافة للمستودع",
-                                      style: mainStyle,
-                                    ),
+                                  SideBarRow(
+                                    icon: Icons.category_outlined,
+                                    text: "المنتجات الغير مضافة للمستودع",
                                     onTap: () {
                                       Navigator.of(context).pushNamed(
                                           '/products_not_added_to_warehouse');
                                     },
                                   ),
                                   Services.isAdmin()
-                                      ? ListTile(
-                                          leading: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 8.0),
-                                            child: Icon(
-                                              Icons.category_rounded,
-                                              color: UtilsImporter()
-                                                  .colorUtils
-                                                  .primaryColor,
-                                              size: 30,
-                                            ),
-                                          ),
-                                          title: Text(
-                                            "جميع المنتجات",
-                                            style: mainStyle,
-                                          ),
+                                      ? SideBarRow(
+                                          icon: Icons.category_rounded,
+                                          text: "جميع المنتجات",
                                           onTap: () {
                                             Navigator.of(context)
                                                 .pushNamed('/all_products');
                                           },
                                         )
                                       : Container(),
-                                  ListTile(
-                                    leading: Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Icon(
-                                        Icons.fact_check,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .primaryColor,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      UtilsImporter().stringUtils.inventory,
-                                      style: mainStyle,
-                                    ),
+                                  SideBarRow(
+                                    icon: Icons.fact_check,
+                                    text: UtilsImporter().stringUtils.inventory,
                                     onTap: () {
                                       Navigator.of(context)
                                           .pushNamed('/Inventory');
@@ -414,80 +342,38 @@ class StoreViewState extends State<StoreView> {
                               )
                             : Container(),
                         Services.isAdmin() || Services.isSuperAdmin()
-                            ? ListTile(
-                                leading: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Icon(
-                                    Icons.report_sharp,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
-                                    size: 30,
-                                  ),
-                                ),
-                                title: Text(
-                                  "إحصائيات",
-                                  style: mainStyle,
-                                ),
+                            ? SideBarRow(
+                                icon: Icons.report_sharp,
+                                text: "إحصائيات",
                                 onTap: () {
                                   Navigator.of(context)
                                       .pushNamed('/statistics');
                                 },
                               )
                             : Container(),
-                        ListTile(
-                          leading: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Icon(
-                              Icons.inventory,
-                              color: UtilsImporter().colorUtils.primaryColor,
-                              size: 30,
-                            ),
-                          ),
-                          title: Text(
-                            "إدارة المستودعات",
-                            style: mainStyle,
-                          ),
+                        SideBarRow(
+                          icon: Icons.inventory,
+                          text: "إدارة المستودعات",
                           onTap: () {
                             Navigator.of(context)
                                 .pushNamed('/subWarehouseManagement');
                           },
                         ),
                         Services.isAdmin()
-                            ? ListTile(
-                                leading: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Icon(
-                                    Icons.attach_money,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
-                                    size: 30,
-                                  ),
-                                ),
-                                title: Text(
-                                  "تغير الأسعار",
-                                  style: mainStyle,
-                                ),
+                            ? SideBarRow(
+                                icon: Icons.attach_money,
+                                text: "تغير الأسعار",
                                 onTap: () {
                                   Navigator.of(context)
                                       .pushNamed('/priceChange');
                                 },
                               )
                             : Container(),
-                        ListTile(
-                          leading: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Icon(
-                              Icons.logout,
-                              color: UtilsImporter().colorUtils.primaryColor,
-                              size: 30,
-                            ),
-                          ),
-                          title: Text(
-                            "تسجيل الخروج",
-                            style: mainStyle,
-                          ),
-                          onTap: () {
-                            Services.logOutAdmin(context);
+                        SideBarRow(
+                          icon: Icons.logout,
+                          text: "تسجيل الخروج",
+                          onTap: () async {
+                            await Services.logOutAdmin(context);
                           },
                         ),
                         Divider(

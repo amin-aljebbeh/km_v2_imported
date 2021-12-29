@@ -24,6 +24,7 @@ import 'views/products_attached_to_warehouse/views/view_not_added_products.dart'
 import 'views/profile/profileScreen.dart';
 import 'views/reports/matching_report.dart';
 import 'views/reports/sales_report.dart';
+import 'views/reports/shopper_account_statement.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
 
@@ -133,6 +134,7 @@ class _MyAppState extends State<MyApp> {
               '/subWarehouseManagement': (_) => GetSubWarehouse(),
               '/priceChange': (_) => Prices(),
               '/Inventory': (_) => Inventory(),
+              '/ShopperAccountStatement': (_) => ShopperAccountStatement(),
             },
             theme: CustomTheme.of(context),
             home: LoadingScreen()));

@@ -656,4 +656,12 @@ class Services {
     });
     return productsList;
   }
+
+  static String selectedShopperId(String name) {
+    return LoadingScreenServices.allShoppers
+        .firstWhere((shopper) =>
+            shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
+        .id
+        .toString();
+  }
 }
