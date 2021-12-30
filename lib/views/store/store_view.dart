@@ -341,6 +341,14 @@ class StoreViewState extends State<StoreView> {
                                           .pushNamed('/Inventory');
                                     },
                                   ),
+                                  SideBarRow(
+                                    icon: Icons.inventory,
+                                    text: "إدارة المستودعات",
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .pushNamed('/subWarehouseManagement');
+                                    },
+                                  ),
                                 ],
                               )
                             : Container(),
@@ -354,14 +362,6 @@ class StoreViewState extends State<StoreView> {
                                 },
                               )
                             : Container(),
-                        SideBarRow(
-                          icon: Icons.inventory,
-                          text: "إدارة المستودعات",
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed('/subWarehouseManagement');
-                          },
-                        ),
                         Services.isAdmin()
                             ? SideBarRow(
                                 icon: Icons.attach_money,

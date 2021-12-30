@@ -777,13 +777,6 @@ class OrdersOriginalData {
         ),
       );
     }
-    return orderAccountingRows;
-  }
-
-  accountOrderRows() {
-    initOrderRow();
-    double shopperIncreaseProfit = 0;
-    double kammunIncreaseProfit = 0;
     for (int i = 0; i < products.length; i++)
       if (products[i].pivot.deletedAt == null) {
         double netPrice = double.parse(products[i].pivot.purchasePrice) *
@@ -792,6 +785,27 @@ class OrdersOriginalData {
             .firstWhere(
                 (row) => row.subWarehouseId == products[i].subWarehouseId)
             .customerPay += netPrice;
+        int increaseValue = products[i].pivot.increaseValue *
+            int.parse(products[i].pivot.quantity);
+        netPrice -= increaseValue;
+        orderAccountingRows
+            .firstWhere(
+                (row) => row.subWarehouseId == products[i].subWarehouseId)
+            .payToSubWarehouse += netPrice;
+      }
+    return orderAccountingRows;
+  }
+
+  accountOrderRows() {
+    double shopperIncreaseProfit = 0;
+    double kammunIncreaseProfit = 0;
+    for (int i = 0; i < products.length; i++)
+      if (products[i].pivot.deletedAt == null) {
+        double netPrice = double.parse(products[i].pivot.purchasePrice) *
+            int.parse(products[i].pivot.quantity);
+        int increaseValue = products[i].pivot.increaseValue *
+            int.parse(products[i].pivot.quantity);
+        netPrice -= increaseValue;
         double shopperSubWarehouseProfit = Services.shopper.level.subWarehouses
                 .firstWhere((subWarehouse) =>
                     subWarehouse.id == products[i].subWarehouseId)
@@ -803,15 +817,12 @@ class OrdersOriginalData {
                     subWarehouse.id == products[i].subWarehouseId)
                 .discountPercentage /
             100;
-        int increaseValue = products[i].pivot.increaseValue *
-            int.parse(products[i].pivot.quantity);
         double increaseProfit = Services.shopper.level.subWarehouses
                 .firstWhere((subWarehouse) =>
                     subWarehouse.id == products[i].subWarehouseId)
                 .levelPivot
                 .valueAddedPercentage /
             100;
-        netPrice -= increaseValue;
         shopperIncreaseProfit += increaseValue * increaseProfit;
         kammunIncreaseProfit +=
             increaseValue - (increaseValue * increaseProfit);
@@ -823,7 +834,7 @@ class OrdersOriginalData {
         orderAccountingRows
             .firstWhere(
                 (row) => row.subWarehouseId == products[i].subWarehouseId)
-            .payToSubWarehouse += netPrice - productKammunProfit;
+            .payToSubWarehouse -= productKammunProfit;
       }
     kammunProfit -= shopperProfit;
     kammunProfit += kammunIncreaseProfit;
