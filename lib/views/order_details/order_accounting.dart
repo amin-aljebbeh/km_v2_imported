@@ -111,8 +111,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
           KTableRow(
             children: [
               KTableElement(text: 'المورد'),
-              KTableElement(text: 'القبض من الزبون'),
               KTableElement(text: 'الدفع للمورد'),
+              KTableElement(text: 'القبض من الزبون'),
             ],
           ),
         );
@@ -121,21 +121,42 @@ class _OrderAccountingState extends State<OrderAccounting> {
             KTableRow(
               children: [
                 KTableElement(
-                    text: widget
-                        .orderData.orderAccountingRows[i].subWarehouseName),
+                  text:
+                      widget.orderData.orderAccountingRows[i].subWarehouseName,
+                ),
                 KTableElement(
-                    text: widget.orderData.orderAccountingRows[i].customerPay
-                        .toString()),
+                  text: _sumSubWarehouse(
+                    widget.orderData.orderAccountingRows[i].subWarehouseId,
+                  ),
+                ),
                 KTableElement(
-                    text: widget
-                        .orderData.orderAccountingRows[i].payToSubWarehouse
-                        .toString()),
+                  text: UtilsImporter().stringUtils.oCcy.format(
+                        widget.orderData.orderAccountingRows[i].customerPay,
+                      ),
+                ),
               ],
             ),
           );
         }
       },
     );
+  }
+
+  String _sumSubWarehouse(int subWarehouseId) {
+    int sum = 0;
+
+    for (int i = 0; i < widget.ordersAry.length; i++) {
+      if (widget.ordersAry[i].pivot.deletedAt != null) {
+      } else {
+        if (widget.ordersAry[i].subWarehouseId == subWarehouseId) {
+          sum = sum +
+              ((int.parse(widget.ordersAry[i].pivot.purchasePrice) -
+                      widget.ordersAry[i].pivot.increaseValue) *
+                  int.parse(widget.ordersAry[i].pivot.quantity));
+        }
+      }
+    }
+    return UtilsImporter().stringUtils.oCcy.format(sum);
   }
 
   @override

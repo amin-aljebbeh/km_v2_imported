@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Styles.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/k_table_row.dart';
 import 'package:kammun_app/views/Wedgit/k_table_element.dart';
 import 'package:kammun_app/views/reports/models/transaction_model.dart';
+import 'package:intl/intl.dart';
 
 class Transaction extends StatelessWidget {
   final TransactionModel transaction;
   final bool newTransaction;
-  final bool des;
 
   const Transaction({
     Key key,
-    this.transaction,
-    this.newTransaction,
-    this.des,
+    @required this.transaction,
+    @required this.newTransaction,
   }) : super(key: key);
 
   @override
@@ -28,28 +28,80 @@ class Transaction extends StatelessWidget {
                       height: 25,
                     ),
                     Text(
-                      '2021-11-17T05:10:19.000000Z',
+                      DateFormat('EEEE dd-MM-yyyy').format(transaction.date),
                       style: disableStyle,
+                    ),
+                    KTableRow(
+                      children: [
+                        // KTableElement(text: 'الوقت'),
+                        KTableElement(text: 'متسوق'),
+                        KTableElement(text: 'كمُّون'),
+                        KTableElement(text: 'النوع'),
+                        KTableElement(text: 'الطلب'),
+                        KTableElement(text: 'المناقلة'),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                   ],
                 )
               : Container(),
           KTableRow(
             children: [
-              KTableElement(text: 'متسوق'),
-              KTableElement(text: 'كمُّون'),
-              KTableElement(text: 'النوع'),
-              KTableElement(text: 'الطلب'),
-              KTableElement(text: 'المناقلة'),
+              // KTableElement(
+              //   text: DateFormat('h:mm a').format(transaction.date),
+              //   style: mainStyle,
+              // ),
+              KTableElement(
+                text: UtilsImporter()
+                    .stringUtils
+                    .oCcy
+                    .format(transaction.shopperValue.abs())
+                    .toString(),
+                style: transaction.shopperValue >= 0
+                    ? mainStyle.copyWith(color: Colors.green)
+                    : mainStyle.copyWith(color: Colors.red),
+              ),
+              KTableElement(
+                text: UtilsImporter()
+                    .stringUtils
+                    .oCcy
+                    .format(transaction.kammunValue.abs())
+                    .toString(),
+                style: transaction.kammunValue >= 0
+                    ? mainStyle.copyWith(color: Colors.green)
+                    : mainStyle.copyWith(color: Colors.red),
+              ),
+              KTableElement(text: transaction.type),
+              KTableElement(
+                text: transaction.orderId != null
+                    ? transaction.orderId.toString().length >= 3
+                        ? "#${transaction.orderId.toString().substring(2, transaction.orderId.toString().length)}"
+                        : '#${transaction.orderId.toString()}'
+                    : 'null',
+                style: mainStyle.copyWith(
+                  color: Colors.purple,
+                ),
+              ),
+              KTableElement(
+                text: transaction.transactionId.toString().length >= 3
+                    ? "#${transaction.transactionId.toString().substring(2, transaction.transactionId.toString().length)}"
+                    : '#${transaction.transactionId.toString()}',
+                style: mainStyle,
+              ),
             ],
           ),
-          des
+          transaction.description != null
               ? KTableRow(
                   children: [
-                    KTableElement(text: 'الوصف: شرح سبب الخصم.'),
+                    KTableElement(text: transaction.description),
                   ],
                 )
               : Container(),
+          SizedBox(
+            height: 10,
+          ),
         ],
       ),
     );

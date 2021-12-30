@@ -293,14 +293,17 @@ class StoreViewState extends State<StoreView> {
                             Navigator.of(context).pushNamed('/profile');
                           },
                         ),
-                        SideBarRow(
-                          icon: Icons.featured_play_list,
-                          text: "كشف حساب المتسوق",
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed('/ShopperAccountStatement');
-                          },
-                        ),
+                        //TODO: uncomment when apis are ready
+                        // Services.isOperationManager() || Services.isShopper()
+                        //     ? SideBarRow(
+                        //         icon: Icons.featured_play_list,
+                        //         text: "كشف حساب المتسوق",
+                        //         onTap: () {
+                        //           Navigator.of(context)
+                        //               .pushNamed('/ShopperAccountStatement');
+                        //         },
+                        //       )
+                        //     : Container(),
                         Services.isProductsController()
                             ? Column(
                                 children: [

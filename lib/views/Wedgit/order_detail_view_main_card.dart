@@ -137,7 +137,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                         borderRadius:
                             new BorderRadius.all(Radius.circular(20.0))),
                     child: Hero(
-                      tag: widget.index + 100,
+                      tag: widget.index + widget.orderId + 100,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image(
