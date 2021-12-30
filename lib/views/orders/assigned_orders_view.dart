@@ -94,12 +94,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
             orderDataList.removeWhere(
                 (order) => int.parse(order.orderStatusId) != filterOrders);
           }
-          Tools.logToConsole("orderDataList before filltiting");
-          Tools.logToConsole(orderDataList.length);
 
           orderDataList.removeWhere((order) => order.products.length == 0);
-          Tools.logToConsole("orderDataList After filltiting");
-          Tools.logToConsole(orderDataList.length);
           LoadingScreenServices.myOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
@@ -238,6 +234,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
+                          orderDataList[index].initOrderRow();
                           if (Services.isShopper())
                             orderDataList[index].accountOrderRows();
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
