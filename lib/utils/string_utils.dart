@@ -144,7 +144,7 @@ class StringUtils {
 
 //Labels:
   String deliveryName = 'الكابتن : ';
-  String shopperName = 'المتسوق : ';
+  String shopperName = 'مسؤول الطلب : ';
   String orderDate = 'تاريخ الطلب : ';
   String quantity = "الكمية";
   String price = "السعر ";

@@ -782,6 +782,7 @@ class OrdersOriginalData {
       if (products[i].pivot.deletedAt == null) {
         double netPrice = double.parse(products[i].pivot.purchasePrice) *
             int.parse(products[i].pivot.quantity);
+
         orderAccountingRows
             .firstWhere(
                 (row) => row.subWarehouseId == products[i].subWarehouseId)
@@ -807,23 +808,28 @@ class OrdersOriginalData {
         int increaseValue = products[i].pivot.increaseValue *
             int.parse(products[i].pivot.quantity);
         netPrice -= increaseValue;
-        double shopperSubWarehouseProfit = Services.shopper.level.subWarehouses
+        double shopperSubWarehouseProfit = 0.0;
+        double discountPercentage = 0.0;
+        double increaseProfit = 0.0;
+
+        shopperSubWarehouseProfit = Services.shopper.level.subWarehouses
                 .firstWhere((subWarehouse) =>
                     subWarehouse.id == products[i].subWarehouseId)
                 .levelPivot
                 .shoppingProfitPercentage /
             100;
-        double discountPercentage = LoadingScreenServices.subWarehouses
+        discountPercentage = LoadingScreenServices.subWarehouses
                 .firstWhere((subWarehouse) =>
                     subWarehouse.id == products[i].subWarehouseId)
                 .discountPercentage /
             100;
-        double increaseProfit = Services.shopper.level.subWarehouses
+        increaseProfit = Services.shopper.level.subWarehouses
                 .firstWhere((subWarehouse) =>
                     subWarehouse.id == products[i].subWarehouseId)
                 .levelPivot
                 .valueAddedPercentage /
             100;
+
         shopperIncreaseProfit += increaseValue * increaseProfit;
         kammunIncreaseProfit +=
             increaseValue - (increaseValue * increaseProfit);

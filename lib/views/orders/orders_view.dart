@@ -270,7 +270,13 @@ class OrdersViewState extends State<OrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          orderDataList[index].initOrderRow();
+                          if (LoadingScreenServices.subWarehouses[0].warehouseId
+                              .toString()
+                              .contains(orderDataList[index].warehouseId)) {
+                            orderDataList[index].initOrderRow();
+                            orderDataList[index].accountOrderRows();
+                          }
+
                           String shopper, delivery;
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
@@ -368,41 +374,41 @@ class OrdersViewState extends State<OrdersView> {
                                           }
                                         },
                                       ),
-                                      KSearchableDropdown(
-                                        search: delivery,
-                                        hint: orderDataList[index].delivery !=
-                                                null
-                                            ? orderDataList[index].delivery.name
-                                            : UtilsImporter()
-                                                .stringUtils
-                                                .chooseDelivery,
-                                        items: Services.deliveriesNameList(),
-                                        onChanged: (value) async {
-                                          if (value != null) {
-                                            int deliverId =
-                                                LoadingScreenServices
-                                                    .allDeliveries
-                                                    .firstWhere((element) =>
-                                                        element.name == value)
-                                                    .id;
-                                            setState(() {
-                                              orderDataList[index].delivery =
-                                                  Assigned(
-                                                      id: deliverId,
-                                                      name: value);
-                                            });
-                                            bool result = await OrderServices
-                                                .assignOrderToDelivery(
-                                                    deliverId.toString(),
-                                                    orderDataList[index]
-                                                        .id
-                                                        .toString());
-                                            Services.resultFlushBar(
-                                                context: context,
-                                                result: result);
-                                          }
-                                        },
-                                      ),
+                                      // KSearchableDropdown(
+                                      //   search: delivery,
+                                      //   hint: orderDataList[index].delivery !=
+                                      //           null
+                                      //       ? orderDataList[index].delivery.name
+                                      //       : UtilsImporter()
+                                      //           .stringUtils
+                                      //           .chooseDelivery,
+                                      //   items: Services.deliveriesNameList(),
+                                      //   onChanged: (value) async {
+                                      //     if (value != null) {
+                                      //       int deliverId =
+                                      //           LoadingScreenServices
+                                      //               .allDeliveries
+                                      //               .firstWhere((element) =>
+                                      //                   element.name == value)
+                                      //               .id;
+                                      //       setState(() {
+                                      //         orderDataList[index].delivery =
+                                      //             Assigned(
+                                      //                 id: deliverId,
+                                      //                 name: value);
+                                      //       });
+                                      //       bool result = await OrderServices
+                                      //           .assignOrderToDelivery(
+                                      //               deliverId.toString(),
+                                      //               orderDataList[index]
+                                      //                   .id
+                                      //                   .toString());
+                                      //       Services.resultFlushBar(
+                                      //           context: context,
+                                      //           result: result);
+                                      //     }
+                                      //   },
+                                      // ),
                                     ],
                                   ),
                                 ),

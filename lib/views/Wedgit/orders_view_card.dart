@@ -237,11 +237,11 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   leftSideText: shopperName != null ? shopperName : " ",
                   leftSideStyle: paragraphStyle,
                 ),
-                OrderInformationRow(
-                  rightSideText: UtilsImporter().stringUtils.deliveryName + " ",
-                  leftSideText: deliveryName != null ? deliveryName : " ",
-                  leftSideStyle: paragraphStyle,
-                ),
+                // OrderInformationRow(
+                //   rightSideText: UtilsImporter().stringUtils.deliveryName + " ",
+                //   leftSideText: deliveryName != null ? deliveryName : " ",
+                //   leftSideStyle: paragraphStyle,
+                // ),
               ],
             ),
           ],
