@@ -1,7 +1,7 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/start_models/order_product_model.dart';
 import 'package:kammun_app/views/Wedgit/product_check_widget.dart';
 import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import '../../utils/Styles.dart';
@@ -11,6 +11,8 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/full_screen_image.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
+
+import 'k_cache_image.dart';
 
 // ignore: must_be_immutable
 class OrderDetailViewMainCard extends StatefulWidget {
@@ -130,30 +132,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                       ),
                     );
                   },
-                  child: new Container(
-                    width: 100.0,
-                    height: 100.0,
-                    decoration: new BoxDecoration(
-                        borderRadius:
-                            new BorderRadius.all(Radius.circular(20.0))),
-                    child: Hero(
-                      tag: widget.index + widget.orderId + 100,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image(
-                          fit: BoxFit.contain,
-                          image: widget.img.length > 0
-                              ? AdvImageCache(
-                                  widget.img,
-                                  useMemCache: true,
-                                  diskCacheExpire: Duration(days: 400),
-                                )
-                              : AssetImage("assets/kmIcon.png"),
-                          width: MediaQuery.of(context).size.width,
-                          height: 120,
-                        ),
-                      ),
-                    ),
+                  child: KCacheImage(
+                    tag: widget.index + widget.orderId,
+                    image: widget.img,
                   ),
                 ),
                 SizedBox(width: 3),

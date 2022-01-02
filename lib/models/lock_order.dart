@@ -6,8 +6,9 @@ import 'dart:convert';
 
 import 'package:kammun_app/models/start_model.dart';
 
-LockOrder lockOrderFromJson(String str) =>
-    LockOrder.fromJson(json.decode(str));
+import 'start_models/order_product_model.dart';
+
+LockOrder lockOrderFromJson(String str) => LockOrder.fromJson(json.decode(str));
 
 String lockOrderToJson(LockOrder data) => json.encode(data.toJson());
 

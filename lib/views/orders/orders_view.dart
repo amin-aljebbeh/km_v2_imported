@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/lock_order.dart';
+import 'package:kammun_app/models/start_models/order_model.dart';
+import 'package:kammun_app/models/start_models/order_product_model.dart';
 import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -277,7 +279,7 @@ class OrdersViewState extends State<OrdersView> {
                             orderDataList[index].accountOrderRows();
                           }
 
-                          String shopper, delivery;
+                          String shopper;
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
                           return Column(

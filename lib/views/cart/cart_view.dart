@@ -1,8 +1,8 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/screen_message.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
@@ -216,35 +216,11 @@ class CartViewState extends State<CartView> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              new Container(
-                width: 100.0,
-                height: 100.0,
-                decoration: new BoxDecoration(
-                    borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Hero(
-                    tag: index + 100,
-                    child: Image(
-                      image: orderArray[index].images.length != 0
-                          ? AdvImageCache(
-                              LoadingScreenServices.imagePrefixUrl +
-                                  orderArray[index]
-                                      .images[0]
-                                      .imageFileName
-                                      .toString(),
-                              useMemCache: true,
-                              diskCacheExpire: Duration(days: 400),
-                            )
-                          : AssetImage("assets/kmIcon.png"),
-                      width: MediaQuery.of(context).size.width,
-                      height: 120,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
+              KCacheImage(
+                tag: index + 100,
+                image: LoadingScreenServices.imagePrefixUrl +
+                    orderArray[index].images[0].imageFileName,
               ),
-              // SizedBox(width: 10),
               SizedBox(width: 10),
               Expanded(
                 child: Container(

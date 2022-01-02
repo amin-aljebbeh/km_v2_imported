@@ -529,55 +529,54 @@ class StoreViewState extends State<StoreView> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _imageCarousel(),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          decoration: new BoxDecoration(
-                            color: UtilsImporter().colorUtils.kmColors,
-                            border:
-                                new Border.all(color: Colors.white, width: 2.0),
-                            borderRadius: new BorderRadius.circular(10.0),
-                          ),
-                          height: 10,
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _imageCarousel(),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        decoration: new BoxDecoration(
+                          color: UtilsImporter().colorUtils.kmColors,
+                          border:
+                              new Border.all(color: Colors.white, width: 2.0),
+                          borderRadius: new BorderRadius.circular(10.0),
                         ),
+                        height: 10,
                       ),
-                      Text(
-                        "  " +
-                            UtilsImporter().stringUtils.shopByCategory +
-                            "  ",
-                        style: TextStyle(
-                            color: UtilsImporter().colorUtils.primaryColor,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 22),
-                      ),
-                      Expanded(
-                        child: Container(
-                          decoration: new BoxDecoration(
-                            color: UtilsImporter().colorUtils.kmColors,
-                            border:
-                                new Border.all(color: Colors.white, width: 2.0),
-                            borderRadius: new BorderRadius.circular(10.0),
-                          ),
-                          height: 10,
+                    ),
+                    Text(
+                      "  " + UtilsImporter().stringUtils.shopByCategory + "  ",
+                      style: TextStyle(
+                          color: UtilsImporter().colorUtils.primaryColor,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontSize: 22),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: new BoxDecoration(
+                          color: UtilsImporter().colorUtils.kmColors,
+                          border:
+                              new Border.all(color: Colors.white, width: 2.0),
+                          borderRadius: new BorderRadius.circular(10.0),
                         ),
+                        height: 10,
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  StoreViewCategory(),
-                ],
-              ),
-            )),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                StoreViewCategory(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

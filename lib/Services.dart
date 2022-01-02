@@ -24,6 +24,9 @@ import 'models/productsCategoriesModel.dart';
 import 'models/role_model.dart';
 import 'models/shopper_level_model.dart';
 import 'models/start_model.dart';
+import 'models/start_models/order_model.dart';
+import 'models/start_models/order_product_model.dart';
+import 'models/start_models/warehouse_model.dart';
 import 'utils/Styles.dart';
 import 'utils/utils_importer.dart';
 

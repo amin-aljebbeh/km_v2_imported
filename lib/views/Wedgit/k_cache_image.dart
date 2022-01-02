@@ -1,6 +1,5 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 
 class KCacheImage extends StatelessWidget {
   final Object tag;
@@ -14,7 +13,6 @@ class KCacheImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Tools.logToConsole('message from cache image');
     return Container(
       width: 100.0,
       height: 100.0,
