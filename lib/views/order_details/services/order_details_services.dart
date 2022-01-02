@@ -33,7 +33,7 @@ class OrderDetailsServices {
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontFamily: StringUtils.HKGrotesk),
+              fontFamily: StringUtils.fontFamilyHKGrotesk),
         ),
 
         boxShadows: [
@@ -61,7 +61,7 @@ class OrderDetailsServices {
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontFamily: StringUtils.HKGrotesk),
+              fontFamily: StringUtils.fontFamilyHKGrotesk),
         ),
         boxShadows: [
           BoxShadow(

@@ -118,7 +118,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
-                            fontFamily: StringUtils.HKGrotesk),
+                            fontFamily: StringUtils.fontFamilyHKGrotesk),
                       )),
                     )
                   : Container(),
@@ -172,7 +172,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
-                            fontFamily: StringUtils.HKGrotesk),
+                            fontFamily: StringUtils.fontFamilyHKGrotesk),
                       )),
                     )
                   : Container(),
@@ -271,7 +271,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                               orderArray[index].name,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18),
                             ),
                             // SizedBox(height: 6),
@@ -282,7 +282,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 17),
                             ),
                           ],
@@ -353,7 +353,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                               orderArray[index].name,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18),
                             ),
                             SizedBox(height: 6),
@@ -364,7 +364,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 17),
                             ),
                             SizedBox(height: 8),
@@ -373,7 +373,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: ColorUtils.primaryColor,
-                                    fontFamily: StringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18)),
                           ],
                         ),

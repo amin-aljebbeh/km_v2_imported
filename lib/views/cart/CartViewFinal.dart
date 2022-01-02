@@ -176,7 +176,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               StringUtils.shoppingCart,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 30),
                             ),
                           ),
@@ -214,7 +214,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryColorDark,
-                            fontFamily: StringUtils.HKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 17.0,
                           ),
                         ),
@@ -223,7 +223,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.HKGrotesk,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                               fontSize: 17.0),
                         ),
                       ],
@@ -236,7 +236,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.HKGrotesk,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                               fontSize: 16.0,
                             )),
                         Text(
@@ -244,7 +244,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.HKGrotesk,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                               fontSize: 16),
                         ),
                       ],
@@ -257,7 +257,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.HKGrotesk,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                               fontSize: 19.0,
                             )),
                         Text(
@@ -265,7 +265,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.HKGrotesk,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                               fontSize: 19),
                         ),
                       ],
@@ -304,8 +304,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                   color: Colors.white,
                                                   // fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
-                                                  fontFamily:
-                                                      StringUtils.HKGrotesk),
+                                                  fontFamily: StringUtils
+                                                      .fontFamilyHKGrotesk),
                                             ),
                                           ),
                                         ),
@@ -353,8 +353,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w700,
-                                                      fontFamily:
-                                                          StringUtils.HKGrotesk,
+                                                      fontFamily: StringUtils
+                                                          .fontFamilyHKGrotesk,
                                                       fontSize: 18),
                                                 ),
                                               ),
@@ -378,8 +378,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                       TextInputType.multiline,
                                                   maxLines: 5,
                                                   style: TextStyle(
-                                                    fontFamily:
-                                                        StringUtils.HKGrotesk,
+                                                    fontFamily: StringUtils
+                                                        .fontFamilyHKGrotesk,
                                                   ),
                                                 ),
                                               ),
@@ -481,7 +481,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               orderArray[index].name,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18),
                             ),
                             SizedBox(height: 6),
@@ -492,7 +492,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 17),
                             ),
                             SizedBox(height: 8),
@@ -501,7 +501,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: ColorUtils.primaryColor,
-                                    fontFamily: StringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18)),
                           ],
                         ),
@@ -545,7 +545,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: StringUtils.HKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 18)),
                   SizedBox(height: 5),
                   Container(

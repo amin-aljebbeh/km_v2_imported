@@ -71,19 +71,19 @@ class ThankYouViewState extends State<ThankYouView> {
                     style: TextStyle(
                         color: ColorUtils.primaryColor,
                         fontWeight: FontWeight.w700,
-                        fontFamily: StringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontSize: 30),
                   ),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 30, top: 10, right: 0, bottom: 10),
                     child: Text(
-                      StringUtils.thankyoudescrip,
+                      StringUtils.thankYouDescribe,
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: ColorUtils.primaryColor,
-                        fontFamily: StringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontSize: 16.0,
                       ),
                     ),
@@ -97,7 +97,7 @@ class ThankYouViewState extends State<ThankYouView> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: ColorUtils.kmColors,
-                        fontFamily: StringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontSize: 16.0,
                       ),
                     ),

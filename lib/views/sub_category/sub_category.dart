@@ -82,7 +82,7 @@ class _SubCategoryState extends State<SubCategory> {
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: StringUtils.HKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
               ),
             ),
@@ -185,7 +185,7 @@ class _SubCategoryState extends State<SubCategory> {
                           color: ColorUtils.primaryColor,
                           fontSize: ResponsiveFlutter.of(context).fontSize(3),
                           fontWeight: FontWeight.bold,
-                          fontFamily: StringUtils.HKGrotesk)),
+                          fontFamily: StringUtils.fontFamilyHKGrotesk)),
                 ),
               ),
             )
@@ -268,7 +268,8 @@ class _SubCategoryState extends State<SubCategory> {
                                       fontSize: ResponsiveFlutter.of(context)
                                           .fontSize(4),
                                       color: Colors.white,
-                                      fontFamily: StringUtils.HKGrotesk,
+                                      fontFamily:
+                                          StringUtils.fontFamilyHKGrotesk,
                                     ),
                                     softWrap: true,
                                     overflow: TextOverflow.fade,

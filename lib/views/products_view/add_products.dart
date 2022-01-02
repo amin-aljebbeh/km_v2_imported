@@ -119,7 +119,8 @@ class _AddProductsViewState extends State<AddProductsView> {
         Text(
           title,
           style: TextStyle(
-              fontFamily: StringUtils.HKGrotesk, fontWeight: FontWeight.bold),
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
+              fontWeight: FontWeight.bold),
         ),
         subTitle == null
             ? Container(width: 0, height: 0)
@@ -163,7 +164,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                 border: OutlineInputBorder(),
                 hintText: hint,
                 hintStyle: TextStyle(
-                  fontFamily: StringUtils.HKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
                 fillColor: Colors.white,
                 filled: true,
@@ -238,7 +239,7 @@ class _AddProductsViewState extends State<AddProductsView> {
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontFamily: StringUtils.HKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
           boxShadows: [
             BoxShadow(
@@ -264,7 +265,7 @@ class _AddProductsViewState extends State<AddProductsView> {
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontFamily: StringUtils.HKGrotesk),
+              fontFamily: StringUtils.fontFamilyHKGrotesk),
         ),
         boxShadows: [
           BoxShadow(
@@ -376,7 +377,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     Text(
                       "يرجى إختيار المستودع التابع لهذه المادة",
                       style: TextStyle(
-                        fontFamily: StringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -396,7 +397,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily: StringUtils.HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedSubWarehouseValue,
@@ -517,7 +519,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                           Text(
                             "السماح بتفعيل المنتاج تلقائيا",
                             style: TextStyle(
-                                fontFamily: StringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(

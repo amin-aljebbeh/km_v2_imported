@@ -121,7 +121,8 @@ class DeliverToViewState extends State<DeliverToView> {
                                         .userAddress[index].supportedCityName,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontFamily: StringUtils.HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -133,7 +134,8 @@ class DeliverToViewState extends State<DeliverToView> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         color: ColorUtils.greyColor,
-                                        fontFamily: StringUtils.HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -145,7 +147,8 @@ class DeliverToViewState extends State<DeliverToView> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         color: ColorUtils.greyColor,
-                                        fontFamily: StringUtils.HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -157,7 +160,8 @@ class DeliverToViewState extends State<DeliverToView> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         color: ColorUtils.greyColor,
-                                        fontFamily: StringUtils.HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -244,10 +248,10 @@ class DeliverToViewState extends State<DeliverToView> {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              StringUtils.deliverto,
+                              StringUtils.deliverTo,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 30),
                             )),
                       ],
@@ -291,11 +295,12 @@ class DeliverToViewState extends State<DeliverToView> {
                               alignment: Alignment.center,
                               child: FlatButton(
                                 padding: EdgeInsets.only(left: 30.0, top: 10.0),
-                                child: Text(StringUtils.add_new_address,
+                                child: Text(StringUtils.addNewAddress,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         color: ColorUtils.greyColor,
-                                        fontFamily: StringUtils.HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 17)),
                                 onPressed: () {
                                   Navigator.push(
@@ -311,7 +316,7 @@ class DeliverToViewState extends State<DeliverToView> {
                       ),
                     ),
                     KammunButton(
-                      text: StringUtils.proceed_to_pay.toUpperCase(),
+                      text: StringUtils.proceedToPay.toUpperCase(),
                       height: 50,
                       color: DeliverToView.selectedIndex != null
                           ? ColorUtils.primaryColor

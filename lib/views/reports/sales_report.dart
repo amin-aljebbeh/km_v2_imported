@@ -44,7 +44,7 @@ class _SalesReportState extends State<SalesReport> {
               child: Text(
                 response.data[i].name,
                 style: TextStyle(
-                  fontFamily: StringUtils.HKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                   fontSize: 25,
                 ),
               ),
@@ -207,7 +207,7 @@ class _SalesReportState extends State<SalesReport> {
       appBar: AppBar(
         title: Text(
           "إحصائيات المبيعات",
-          style: TextStyle(fontFamily: StringUtils.HKGrotesk),
+          style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
         ),
       ),
       body: SafeArea(
@@ -221,7 +221,8 @@ class _SalesReportState extends State<SalesReport> {
                 children: [
                   Text(
                     "من تاريخ",
-                    style: TextStyle(fontFamily: StringUtils.HKGrotesk),
+                    style:
+                        TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
                   ),
                   IconButton(
                     icon: Icon(Icons.timer),
@@ -240,7 +241,8 @@ class _SalesReportState extends State<SalesReport> {
                   ),
                   Text(
                     _fromDateTimeValue,
-                    style: TextStyle(fontFamily: StringUtils.HKGrotesk),
+                    style:
+                        TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
                   ),
                 ],
               ),
@@ -248,7 +250,8 @@ class _SalesReportState extends State<SalesReport> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text("إلى تاريخ",
-                      style: TextStyle(fontFamily: StringUtils.HKGrotesk)),
+                      style: TextStyle(
+                          fontFamily: StringUtils.fontFamilyHKGrotesk)),
                   IconButton(
                     icon: Icon(Icons.timeline),
                     onPressed: () {
@@ -266,7 +269,8 @@ class _SalesReportState extends State<SalesReport> {
                   ),
                   Text(
                     _toDateTimeValue,
-                    style: TextStyle(fontFamily: StringUtils.HKGrotesk),
+                    style:
+                        TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
                   )
                 ],
               ),

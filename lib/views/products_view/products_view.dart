@@ -180,7 +180,7 @@ class ProductsViewState extends State<ProductsView> {
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: StringUtils.HKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
               ),
             ),
@@ -292,7 +292,8 @@ class ProductsViewState extends State<ProductsView> {
                           child: Center(
                             child: Text(errorMessage,
                                 style: TextStyle(
-                                    fontFamily: StringUtils.HKGrotesk)),
+                                    fontFamily:
+                                        StringUtils.fontFamilyHKGrotesk)),
                           ),
                         )
                   : Padding(
@@ -379,7 +380,8 @@ class ProductsViewState extends State<ProductsView> {
                                     ? Text("تم جلب جميع المنتجات",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: StringUtils.HKGrotesk))
+                                            fontFamily: StringUtils
+                                                .fontFamilyHKGrotesk))
                                     : Loader(),
                               ),
                             ),

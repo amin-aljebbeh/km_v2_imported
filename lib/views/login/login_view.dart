@@ -154,8 +154,8 @@ class _LoginScreenState extends State<LoginScreen>
         obscureText: true,
         decoration: InputDecoration(
           labelText: "كلمة المرور",
-          labelStyle:
-              TextStyle(fontFamily: StringUtils.HKGrotesk, fontSize: 30),
+          labelStyle: TextStyle(
+              fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
@@ -190,8 +190,8 @@ class _LoginScreenState extends State<LoginScreen>
 
         decoration: InputDecoration(
           labelText: "اسم المستخدم",
-          labelStyle:
-              TextStyle(fontFamily: StringUtils.HKGrotesk, fontSize: 30),
+          labelStyle: TextStyle(
+              fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(

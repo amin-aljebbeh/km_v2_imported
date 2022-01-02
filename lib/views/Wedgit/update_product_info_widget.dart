@@ -111,7 +111,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: StringUtils.HKGrotesk),
+                                fontFamily: StringUtils.fontFamilyHKGrotesk),
                           ),
 
                           boxShadows: [

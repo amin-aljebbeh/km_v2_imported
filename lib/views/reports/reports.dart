@@ -12,7 +12,7 @@ class _DailyStatisticsState extends State<DailyStatistics> {
     return Scaffold(
       appBar: AppBar(
         title: Text("لوحة تحكم المدير",
-            style: TextStyle(fontFamily: StringUtils.HKGrotesk)),
+            style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
       ),
       body: SafeArea(
         child: Container(
@@ -24,7 +24,8 @@ class _DailyStatisticsState extends State<DailyStatistics> {
                 // trailing: Icon(Icons.arrow_back),
                 title: Text("إحصائيات المبيعات",
                     style: TextStyle(
-                        fontFamily: StringUtils.HKGrotesk, fontSize: 25)),
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontSize: 25)),
                 onTap: () {
                   Navigator.of(context).pushNamed('/sales_reports');
                 },
@@ -35,7 +36,7 @@ class _DailyStatisticsState extends State<DailyStatistics> {
                 title: Text(
                   "تقرير المطابقة",
                   style: TextStyle(
-                    fontFamily: StringUtils.HKGrotesk,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                     fontSize: 25,
                   ),
                 ),

@@ -152,7 +152,7 @@ class AlertTextView extends StatelessWidget {
                         fontSize: headerTextSize != null ? headerTextSize : 15,
                         fontWeight: FontWeight.w700,
                         height: 1.5,
-                        fontFamily: StringUtils.HKGrotesk),
+                        fontFamily: StringUtils.fontFamilyHKGrotesk),
                   ),
                   TextSpan(
                     text: text,
@@ -163,7 +163,7 @@ class AlertTextView extends StatelessWidget {
                             : textSize,
                         height: 1.5,
                         fontWeight: FontWeight.w400,
-                        fontFamily: StringUtils.HKGrotesk),
+                        fontFamily: StringUtils.fontFamilyHKGrotesk),
                   ),
                 ],
               ),

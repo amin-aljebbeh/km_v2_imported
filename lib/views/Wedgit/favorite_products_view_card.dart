@@ -61,7 +61,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                                 widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: StringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -72,7 +72,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: ColorUtils.greyColor,
-                                fontFamily: StringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
@@ -85,7 +85,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: ColorUtils.primaryColor,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),
@@ -110,7 +110,8 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                                     fontSize: 15,
 
                                     //fontWeight: FontWeight.w500,
-                                    fontFamily: StringUtils.HKGrotesk),
+                                    fontFamily:
+                                        StringUtils.fontFamilyHKGrotesk),
                               ),
                               Text(
                                 'المستودعات',
@@ -118,7 +119,8 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                                     color: Colors.white,
                                     fontSize: 15,
                                     //   fontWeight: FontWeight.w500,
-                                    fontFamily: StringUtils.HKGrotesk),
+                                    fontFamily:
+                                        StringUtils.fontFamilyHKGrotesk),
                               ),
                             ],
                           ),

@@ -128,7 +128,7 @@ class CartViewState extends State<CartView> {
                         StringUtils.shoppingCart,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: StringUtils.HKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 30),
                       ),
                     ],
@@ -172,7 +172,7 @@ class CartViewState extends State<CartView> {
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: StringUtils.HKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 19.0,
                         )),
                     Text(
@@ -180,7 +180,7 @@ class CartViewState extends State<CartView> {
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: StringUtils.HKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 19),
                     ),
                   ],
@@ -236,7 +236,8 @@ class CartViewState extends State<CartView> {
                                   orderArray[index].name,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontFamily: StringUtils.HKGrotesk,
+                                      fontFamily:
+                                          StringUtils.fontFamilyHKGrotesk,
                                       fontSize: 18),
                                 ),
                               ],
@@ -249,7 +250,7 @@ class CartViewState extends State<CartView> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 17),
                             ),
                             SizedBox(height: 8),
@@ -283,7 +284,8 @@ class CartViewState extends State<CartView> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                             color: ColorUtils.primaryColor,
-                                            fontFamily: StringUtils.HKGrotesk,
+                                            fontFamily:
+                                                StringUtils.fontFamilyHKGrotesk,
                                             fontSize: 18)),
                                 indexToEdit == index
                                     ? IconButton(
@@ -387,7 +389,7 @@ class CartViewState extends State<CartView> {
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: StringUtils.HKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 18)),
                   SizedBox(height: 5),
                   Container(

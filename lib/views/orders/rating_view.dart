@@ -77,7 +77,7 @@ class _RatingViewState extends State<RatingView> {
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            StringUtils.submit_feedback.toUpperCase(),
+            StringUtils.submitFeedback.toUpperCase(),
             style: decisionButtonStyle,
           ),
         ),
@@ -118,7 +118,7 @@ class _RatingViewState extends State<RatingView> {
                       child: Text('تقييم الخدمة',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontFamily: StringUtils.HKGrotesk,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                               color: ColorUtils.primaryColor,
                               fontSize: 25)), //font color is different
                     ),
@@ -137,7 +137,7 @@ class _RatingViewState extends State<RatingView> {
                       child: Text(
                         "كيف كانت تجربة طلبك في كمّون؟ ( تقييمك وملاحظاتك تساعدنا في تطوير خدمة كمّون )",
                         style: TextStyle(
-                            fontFamily: StringUtils.HKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 18,
                             color: Colors.black),
                       ), //font color is different
@@ -191,7 +191,7 @@ class _RatingViewState extends State<RatingView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           labelStyle: TextStyle(
-                              fontFamily: StringUtils.HKGrotesk,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                               color: _focusNode.hasFocus
                                   ? Colors.orange
                                   : Colors.grey),

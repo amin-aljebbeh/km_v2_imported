@@ -221,7 +221,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: ColorUtils.primaryColor,
-                            fontFamily: StringUtils.HKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 25,
                           ),
                         ),
@@ -359,7 +359,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 35)),
                         ),
                         SizedBox(
@@ -400,7 +400,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                               style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: StringUtils.HKGrotesk),
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk),
                             )),
                           )
                         : Container(),

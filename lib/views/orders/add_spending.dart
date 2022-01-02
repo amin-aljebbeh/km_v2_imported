@@ -83,7 +83,7 @@ class _AddSpendingState extends State<AddSpending> {
                     Text(
                       "أنت تقوم حاليا بإضافة مصروف على الطلب",
                       style: TextStyle(
-                        fontFamily: StringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

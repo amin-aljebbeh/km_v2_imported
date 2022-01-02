@@ -134,7 +134,7 @@ class _CounterOtpState extends State<CounterOtp> {
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 17,
-                              fontFamily: StringUtils.HKGrotesk),
+                              fontFamily: StringUtils.fontFamilyHKGrotesk),
                           softWrap: true,
                         ),
                       ),
@@ -185,7 +185,8 @@ class _CounterOtpState extends State<CounterOtp> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 17,
-                                    fontFamily: StringUtils.HKGrotesk),
+                                    fontFamily:
+                                        StringUtils.fontFamilyHKGrotesk),
                                 softWrap: true,
                               ),
                             ),

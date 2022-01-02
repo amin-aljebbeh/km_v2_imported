@@ -105,7 +105,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                               StringUtils.deliverMethod,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 30),
                             )),
                       ],
@@ -147,12 +147,14 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                           //color: UtilsImporter().colorUtils.primarycolor,
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: StringUtils.HKGrotesk),
+                                          fontFamily:
+                                              StringUtils.fontFamilyHKGrotesk),
                                       selectedTextStyle: TextStyle(
                                           color: Colors.white,
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: StringUtils.HKGrotesk),
+                                          fontFamily:
+                                              StringUtils.fontFamilyHKGrotesk),
                                       direction: Axis.vertical,
                                       isRadio: true,
                                       spacing: 10,
@@ -181,7 +183,8 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                           color: ColorUtils.primaryColor,
                                           fontSize: 25.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: StringUtils.HKGrotesk)),
+                                          fontFamily:
+                                              StringUtils.fontFamilyHKGrotesk)),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -191,7 +194,8 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                           color: ColorUtils.primaryColor,
                                           fontSize: 25.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: StringUtils.HKGrotesk)),
+                                          fontFamily:
+                                              StringUtils.fontFamilyHKGrotesk)),
                                 ),
                                 Center(
                                   child: Padding(
@@ -217,7 +221,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                             onTap: _getDeliveryMethods,
                           )
                         : KammunButton(
-                            text: StringUtils.proceed_to_pay.toUpperCase(),
+                            text: StringUtils.proceedToPay.toUpperCase(),
                             height: 50,
                             color: selectedIndex != null
                                 ? ColorUtils.primaryColor

@@ -60,9 +60,9 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          StringUtils.Kammun,
+          StringUtils.kammun,
           style: TextStyle(
-            fontFamily: StringUtils.HKGrotesk,
+            fontFamily: StringUtils.fontFamilyHKGrotesk,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -77,7 +77,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                     Text(
                       "يرجى إختيار المستودع التابع لهذه المادة",
                       style: TextStyle(
-                        fontFamily: StringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -97,7 +97,8 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily: StringUtils.HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedSubWarehouseValue,

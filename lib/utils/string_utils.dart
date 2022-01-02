@@ -1,43 +1,42 @@
 import 'package:intl/intl.dart';
 
 class StringUtils {
-  static String Kammun = 'كمّون';
+  static String kammun = 'كمّون';
 
   //Font
-  static String HKGrotesk = 'Tajawal';
+  static String fontFamilyHKGrotesk = 'Tajawal';
 
   // App Name
-  static String Grocery = 'كمّـون';
-  static String rating_order = "تقييم الطلب";
+  static String ratingOrder = "تقييم الطلب";
 
-  static String get_started = 'البداية';
+  static String getStarted = 'البداية';
 
-  static String cancel_order = 'إلغاء الطلب';
+  static String cancelOrder = 'إلغاء الطلب';
   static String edit = 'تعديل';
 
-  static String edit_order = 'تعديل الطلب';
-  static String submit_feedback = 'تقييم الطلب';
+  static String editOrder = 'تعديل الطلب';
+  static String submitFeedback = 'تقييم الطلب';
 
   //Labels
-  static String sign_in = 'تسجيل الدخول';
+  static String signIn = 'تسجيل الدخول';
   static String welcome = 'أهل بكل في';
 
   static String bill = 'الفاتورة : ';
   static String phoneNumber = 'رقم الهاتف : ';
-  static String full_name = 'الإسم الكامل ';
-  static String email_address = 'البريد الإلكتروني';
+  static String fullName = 'الإسم الكامل ';
+  static String emailAddress = 'البريد الإلكتروني';
 
   static String entrance = 'المدخل: ';
 
-  static String Continue = 'متابعة';
+  static String complete = 'متابعة';
 
-  static String add_address = 'إضافة عنوان جديد';
+  static String addAddress = 'إضافة عنوان جديد';
 
-  static String change_settings = 'Change Settings';
-  static String share_link = 'Facebook.com/amin.aljebbeh';
+  static String changeSettings = 'Change Settings';
+  static String shareLink = 'Facebook.com/amin.aljebbeh';
 
   //Images
-  static String right_arrow = 'assets/right_arrow.png';
+  static String rightArrow = 'assets/right_arrow.png';
   static String logo = 'assets/logo.jpg';
   static String google = 'assets/google.png';
   static String facebook = 'assets/facebook.png';
@@ -58,13 +57,13 @@ class StringUtils {
 
   static String shoppingCart = 'سلة  المشتريات';
   static String confirmOrder = 'تأكيد الطلب';
-  static String repeat_order = 'إعادة نفس الطلب';
-  static String proceed_to_pay = 'الذهاب لصفحة الدفع';
-  static String your_orders = 'طلباتك السابقة';
-  static String order_detail = 'معلومات الطلب';
+  static String repeatOrder = 'إعادة نفس الطلب';
+  static String proceedToPay = 'الذهاب لصفحة الدفع';
+  static String yourOrders = 'طلباتك السابقة';
+  static String orderDetail = 'معلومات الطلب';
   static String settings = 'معلومات الحساب';
-  static String settings_descrip = 'تستطيع تعديل المعلومات الشخصية الخاصة بك';
-  static String deliverto = 'التوصيل إلى';
+  static String settingsDescribe = 'تستطيع تعديل المعلومات الشخصية الخاصة بك';
+  static String deliverTo = 'التوصيل إلى';
   static String deliverMethod = 'طريقة التوصيل';
 
   static String payment = 'وسيلة الدفع';
@@ -72,18 +71,18 @@ class StringUtils {
   static String delivery = 'إجرة التوصيل';
   static String total = 'المجموع الكلي';
 
-  static String loaction_request_info =
+  static String locationRequestInfo =
       "مشاركة موقعك على الخريطة يمكننا أن يساعد كابتن التوصيل على توصيل الطلب. \n يرجى تجاوز هذه المرحلة بحال كنت تقوم بالطلب لعنوان مغاير لموقعك الحالي";
-  static String location_request_note =
+  static String locationRequestNote =
       "ملاحظة: هذا الإجراء لمرة واحدة واختياري ولايقوم تطبيق كمّون بتتبع موقعك او طلبه خارج هذه المرحلة";
 
   static String delete = 'حذف';
   static String note = 'ملاحظة';
 
-  static String add_new_address = '+ إضافة عنوان جديد';
+  static String addNewAddress = '+ إضافة عنوان جديد';
 
   static String thankyou = 'شكراً لطلبك عن طريق كمّـون';
-  static String thankyoudescrip =
+  static String thankYouDescribe =
       'تم إستلام طلبك بنجاح، يمكنك الآن العودة للقائمة الرئيسة و الذهاب لصفحة الطلبات لتفقد حالة الطلب';
 
   static String continueShopping = 'متابعة التسوق';
@@ -96,21 +95,20 @@ class StringUtils {
   static String buildingName = 'اسم / رقم البناء';
   static String floor = 'الطابق';
   static String closeSign = 'علامة قريبة';
-  static String dont_want_to_share_location =
-      "لا أريد مشاركة موقعي على الخريطة";
+  static String noWantToShareLocation = "لا أريد مشاركة موقعي على الخريطة";
 
-  static String profile_info = 'معلومات الحساب';
-  static String profile_info_descrip = 'تغيير معلومات الحساب';
+  static String profileInfo = 'معلومات الحساب';
+  static String profileInfoDescribe = 'تغيير معلومات الحساب';
 
-  static String onboarding_title1 = 'إختار منتجاتك';
-  static String onboarding_title2 = 'Pick Up or Delivery';
-  static String onboarding_title3 = 'Pay quick and easy';
+  static String onBoardingTitle1 = 'إختار منتجاتك';
+  static String onBoardingTitle2 = 'Pick Up or Delivery';
+  static String onBoardingTitle3 = 'Pay quick and easy';
 
-  static String onboarding_descrip1 =
+  static String onBoardingDescribe1 =
       'Easily find your grocery items and you will get delivery in wide range';
-  static String onboarding_descrip2 =
+  static String onBoardingDescribe2 =
       'We make ordering fast, simple and free-no matter if you order online or cash';
-  static String onboarding_descrip3 =
+  static String onBoardingDescribe3 =
       'Pay for order using credit or debit card';
 
   //Roles:
@@ -157,6 +155,7 @@ class StringUtils {
   static String name = 'الاسم';
   static String unit = 'الوحدة';
   static String priority = 'الأولوية';
+  static String logout = "تسجيل الخروج";
 
   //Hints:
   static String chooseDelivery = 'اختر كابتن';

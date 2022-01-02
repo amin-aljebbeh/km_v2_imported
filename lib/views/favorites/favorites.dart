@@ -200,7 +200,7 @@ class FavoritesViewState extends State<Favorites> {
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: StringUtils.HKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
               ),
             ),
@@ -529,7 +529,7 @@ class FavoritesViewState extends State<Favorites> {
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: ColorUtils.greyColor,
-                              fontFamily: StringUtils.HKGrotesk,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                               fontSize: 20.0,
                             ),
                           ),
@@ -544,7 +544,8 @@ class FavoritesViewState extends State<Favorites> {
                           child: Text("تم جلب جميع المنتجات",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: StringUtils.HKGrotesk))))
+                                  fontFamily:
+                                      StringUtils.fontFamilyHKGrotesk))))
                   : Container(),
               isLoading
                   ? Container(

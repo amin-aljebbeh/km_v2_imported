@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'utils_importer.dart';
 
 TextStyle mainStyle = TextStyle(
-  fontFamily: StringUtils.HKGrotesk,
+  fontFamily: StringUtils.fontFamilyHKGrotesk,
 );
 
 TextStyle dialogStyle = mainStyle;

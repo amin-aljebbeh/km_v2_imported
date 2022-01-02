@@ -117,7 +117,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                               text: "سوف يتم إرسال رسالة تفعيل إلى الرقم ",
                               style: TextStyle(
                                 color: Colors.grey[900],
-                                fontFamily: StringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -126,7 +126,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                               text: " ${LoginScreen.phoneNumber} ",
                               style: TextStyle(
                                 color: ColorUtils.primaryColor,
-                                fontFamily: StringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -135,7 +135,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                               text: "عبر رسالة (SMS)",
                               style: TextStyle(
                                 color: Colors.grey[900],
-                                fontFamily: StringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -149,7 +149,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                               text: " تغيير الرقم ",
                               style: TextStyle(
                                 color: ColorUtils.kmColors,
-                                fontFamily: StringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.underline,

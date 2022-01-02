@@ -211,7 +211,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: ColorUtils.greyColor,
-                                    fontFamily: StringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 20.0,
                                   ),
                                 ),
@@ -290,7 +290,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 ),
                               ),
                               KammunButton(
-                                text: StringUtils.edit_order,
+                                text: StringUtils.editOrder,
                                 onTap: () async {
                                   setState(
                                     () {

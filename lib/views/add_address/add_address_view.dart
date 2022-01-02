@@ -118,10 +118,10 @@ class AddAddressViewState extends State<AddAddressView> {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            StringUtils.add_address,
+                            StringUtils.addAddress,
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontFamily: StringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 30),
                           )
                         ],
@@ -173,7 +173,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           FocusScope.of(context).requestFocus(_entranceFocus);
                         },
                         hintText: "المدخل اليميني",
-                        labelText: StringUtils.HKGrotesk,
+                        labelText: StringUtils.fontFamilyHKGrotesk,
                       ),
                       KTextField(
                         controller: countryController,
@@ -209,7 +209,7 @@ class AddAddressViewState extends State<AddAddressView> {
               child: Text(
                 "المدينة :",
                 style: TextStyle(
-                    fontFamily: StringUtils.HKGrotesk,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                     fontSize: 20,
                     color: ColorUtils.primaryColor,
                     fontWeight: FontWeight.w500),
@@ -229,13 +229,13 @@ class AddAddressViewState extends State<AddAddressView> {
                 'يرجى إختيار المدينة التابع لها ',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontFamily: StringUtils.HKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
               ),
               searchHint: new Text(
                 'إختيار المنطقة',
                 style: new TextStyle(
-                    fontSize: 20, fontFamily: StringUtils.HKGrotesk),
+                    fontSize: 20, fontFamily: StringUtils.fontFamilyHKGrotesk),
               ),
               onChanged: (value) {
                 setState(() {
@@ -271,7 +271,7 @@ class AddAddressViewState extends State<AddAddressView> {
                     child: Text('هل تريد مشاركة موقعك؟',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontFamily: StringUtils.HKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             color: ColorUtils.kmColors,
                             fontWeight: FontWeight.bold,
                             fontSize: 25)), //font color is diffrent
@@ -279,9 +279,9 @@ class AddAddressViewState extends State<AddAddressView> {
                   Container(
                     margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
                     child: Text(
-                      StringUtils.loaction_request_info,
+                      StringUtils.locationRequestInfo,
                       style: TextStyle(
-                          fontFamily: StringUtils.HKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           color: ColorUtils.primaryColor,
                           fontSize: 18),
                     ), //font color is diffrent
@@ -290,9 +290,10 @@ class AddAddressViewState extends State<AddAddressView> {
                   Container(
                     margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
                     child: Text(
-                      StringUtils.location_request_note,
+                      StringUtils.locationRequestNote,
                       style: TextStyle(
-                          fontFamily: StringUtils.HKGrotesk, color: Colors.red),
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                          color: Colors.red),
                     ), //font color is diffrent
                   ),
                   //   _submitRating(),

@@ -167,7 +167,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             overflow: TextOverflow.clip,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              fontFamily: StringUtils.HKGrotesk,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                             ),
                           ),
                         ),
@@ -326,7 +326,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily: StringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17.0),
                           ),
                         ],
@@ -341,7 +341,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily: StringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 19.0,
                               )),
                           Text(
@@ -350,7 +350,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily: StringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 19),
                           ),
                         ],

@@ -142,7 +142,8 @@ class _InventoryState extends State<Inventory> {
               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
             style: TextStyle(
-                color: Colors.white, fontFamily: StringUtils.HKGrotesk),
+                color: Colors.white,
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: ColorUtils.kmColors),
@@ -242,7 +243,8 @@ class _InventoryState extends State<Inventory> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: StringUtils.HKGrotesk)),
+                                    fontFamily:
+                                        StringUtils.fontFamilyHKGrotesk)),
                             onPressed: () =>
                                 _loadData(filterIndex: filterProducts),
                           ),
@@ -258,12 +260,14 @@ class _InventoryState extends State<Inventory> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: StringUtils.HKGrotesk))
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk))
                                 : Text("لا يوجد منتجات بحاجة إلغاء تفعيل",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: StringUtils.HKGrotesk)),
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk)),
                           ),
                         )
                       : Expanded(

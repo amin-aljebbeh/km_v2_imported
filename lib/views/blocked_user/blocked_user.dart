@@ -28,7 +28,7 @@ class BlockedUser extends StatelessWidget {
                       color: Colors.black,
                       fontSize: 25.0,
                       fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.HKGrotesk),
+                      fontFamily: StringUtils.fontFamilyHKGrotesk),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -42,7 +42,7 @@ class BlockedUser extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 18,
-                        fontFamily: StringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

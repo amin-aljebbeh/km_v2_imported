@@ -40,7 +40,8 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
         Text(
           title,
           style: TextStyle(
-              fontFamily: StringUtils.HKGrotesk, fontWeight: FontWeight.bold),
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
+              fontWeight: FontWeight.bold),
         ),
         subTitle == null
             ? Container(width: 0, height: 0)
@@ -195,7 +196,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                     Text(
                       "يرجى إختيار المستودع التابع لهذه المادة",
                       style: TextStyle(
-                        fontFamily: StringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -215,7 +216,8 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily: StringUtils.HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedValue,

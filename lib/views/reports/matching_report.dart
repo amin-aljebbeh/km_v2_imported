@@ -56,7 +56,7 @@ class _MatchingReportState extends State<MatchingReport> {
     return Scaffold(
       appBar: AppBar(
         title: Text("إحصائيات المبيعات",
-            style: TextStyle(fontFamily: StringUtils.HKGrotesk)),
+            style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
       ),
       body: SafeArea(
         child: Container(
@@ -68,7 +68,8 @@ class _MatchingReportState extends State<MatchingReport> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text("التاريخ",
-                          style: TextStyle(fontFamily: StringUtils.HKGrotesk)),
+                          style: TextStyle(
+                              fontFamily: StringUtils.fontFamilyHKGrotesk)),
                       IconButton(
                         icon: Icon(Icons.timer),
                         onPressed: () {
@@ -83,7 +84,8 @@ class _MatchingReportState extends State<MatchingReport> {
                         },
                       ),
                       Text(_reportDate,
-                          style: TextStyle(fontFamily: StringUtils.HKGrotesk))
+                          style: TextStyle(
+                              fontFamily: StringUtils.fontFamilyHKGrotesk))
                     ]),
                 ListTile(
                   contentPadding:
@@ -101,7 +103,7 @@ class _MatchingReportState extends State<MatchingReport> {
                                 title: Text(
                                   "${data.name}",
                                   style: TextStyle(
-                                    fontFamily: StringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   ),
                                 ),
                                 groupValue: _selectedValue,

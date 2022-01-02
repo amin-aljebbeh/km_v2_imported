@@ -17,7 +17,7 @@ class ScreenMessage extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.w700,
               color: ColorUtils.greyColor,
-              fontFamily: StringUtils.HKGrotesk,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
               fontSize: 20.0,
             ),
           ),

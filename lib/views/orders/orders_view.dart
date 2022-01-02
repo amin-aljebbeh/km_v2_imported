@@ -247,7 +247,7 @@ class OrdersViewState extends State<OrdersView> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: ColorUtils.greyColor,
-                                    fontFamily: StringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 20.0,
                                   ),
                                 ),
@@ -408,7 +408,7 @@ class OrdersViewState extends State<OrdersView> {
                                   ),
                                 ),
                               KammunButton(
-                                text: StringUtils.edit_order,
+                                text: StringUtils.editOrder,
                                 onTap: () async {
                                   setState(
                                     () {
@@ -545,7 +545,7 @@ class OrdersViewState extends State<OrdersView> {
                                 "تم جلب جميع الطلبات",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 ),
                               ),
                             ),

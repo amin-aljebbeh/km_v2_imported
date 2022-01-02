@@ -10,7 +10,7 @@ class ShopByCategory extends StatefulWidget {
   final int index;
 
   ShopByCategory(
-      {Key,
+      {kKey,
       key,
       @required this.img,
       @required this.categoryName,
@@ -70,7 +70,7 @@ class ShopByCategoryState extends State<ShopByCategory> {
                         color: Colors.white,
                         fontSize: ResponsiveFlutter.of(context).fontSize(3),
                         fontWeight: FontWeight.bold,
-                        fontFamily: StringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                       ),
                       textAlign: TextAlign.center,
                     ),

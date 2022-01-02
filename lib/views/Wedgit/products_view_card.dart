@@ -75,7 +75,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: StringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -86,7 +86,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: ColorUtils.greyColor,
-                                fontFamily: StringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
@@ -99,7 +99,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: ColorUtils.primaryColor,
-                                  fontFamily: StringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),

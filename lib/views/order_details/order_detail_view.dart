@@ -73,31 +73,33 @@ class OrderDetailViewState extends State<OrderDetailView> {
 
     bottomList.add(
       BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.home,
-            // color: Theme.of(context).primaryColor,
-            color: Color.fromARGB(255, 210, 178, 2),
-          ),
-          icon: Icon(Icons.account_balance,
-              color: Color.fromARGB(255, 53, 99, 124)),
-          title: Text(
-            "الرئيسية",
-            style: naveBarStyle,
-          )),
+        activeIcon: Icon(
+          Icons.home,
+          // color: Theme.of(context).primaryColor,
+          color: Color.fromARGB(255, 210, 178, 2),
+        ),
+        icon: Icon(Icons.account_balance,
+            color: Color.fromARGB(255, 53, 99, 124)),
+        title: Text(
+          "الرئيسية",
+          style: naveBarStyle,
+        ),
+      ),
     );
     bottomList.add(
       BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.account_balance,
-            // color: Theme.of(context).primaryColor,
-            color: Color.fromARGB(255, 210, 178, 2),
-          ),
-          icon: Icon(Icons.account_balance,
-              color: Color.fromARGB(255, 53, 99, 124)),
-          title: Text(
-            "الحسابات",
-            style: naveBarStyle,
-          )),
+        activeIcon: Icon(
+          Icons.account_balance,
+          // color: Theme.of(context).primaryColor,
+          color: Color.fromARGB(255, 210, 178, 2),
+        ),
+        icon: Icon(Icons.account_balance,
+            color: Color.fromARGB(255, 53, 99, 124)),
+        title: Text(
+          "الحسابات",
+          style: naveBarStyle,
+        ),
+      ),
     );
 
     return BottomNavigationBar(
