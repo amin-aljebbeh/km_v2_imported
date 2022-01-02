@@ -23,12 +23,11 @@ import 'models/level_response_model.dart';
 import 'models/productsCategoriesModel.dart';
 import 'models/role_model.dart';
 import 'models/shopper_level_model.dart';
-import 'models/start_model.dart';
 import 'models/start_models/order_model.dart';
 import 'models/start_models/order_product_model.dart';
 import 'models/start_models/warehouse_model.dart';
 import 'utils/Styles.dart';
-import 'utils/utils_importer.dart';
+import 'utils/new_utils_importer.dart';
 
 class Services {
   static List<Role> roles = [];
@@ -520,56 +519,52 @@ class Services {
 
   static bool isAdmin() {
     return Services.roles
-            .where((element) =>
-                element.slug.contains(UtilsImporter().stringUtils.adminRole))
+            .where((element) => element.slug.contains(StringUtils.adminRole))
             .length >
         0;
   }
 
   static bool isOperationManager() {
     return Services.roles
-            .where((element) => element.slug
-                .contains(UtilsImporter().stringUtils.operationManager))
+            .where((element) =>
+                element.slug.contains(StringUtils.operationManager))
             .length >
         0;
   }
 
   static bool isProductsController() {
     return Services.roles
-            .where((element) => element.slug
-                .contains(UtilsImporter().stringUtils.productsController))
+            .where((element) =>
+                element.slug.contains(StringUtils.productsController))
             .length >
         0;
   }
 
   static bool isSuperAdmin() {
     return Services.roles
-            .where((element) => element.slug
-                .contains(UtilsImporter().stringUtils.superAdminRole))
+            .where(
+                (element) => element.slug.contains(StringUtils.superAdminRole))
             .length >
         0;
   }
 
   static bool isDelivery() {
     return Services.roles
-            .where((element) =>
-                element.slug.contains(UtilsImporter().stringUtils.deliveryRole))
+            .where((element) => element.slug.contains(StringUtils.deliveryRole))
             .length >
         0;
   }
 
   static bool isShopper() {
     return Services.roles
-            .where((element) =>
-                element.slug.contains(UtilsImporter().stringUtils.shopperRole))
+            .where((element) => element.slug.contains(StringUtils.shopperRole))
             .length >
         0;
   }
 
   static bool isSupplierManager() {
     return Services.roles
-            .where((element) =>
-                element.slug.contains(UtilsImporter().stringUtils.supplierRol))
+            .where((element) => element.slug.contains(StringUtils.supplierRol))
             .length >
         0;
   }
@@ -594,7 +589,6 @@ class Services {
         color: Colors.white,
       ),
       duration: Duration(seconds: 2),
-      // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
     )..show(context);
   }
 
@@ -609,7 +603,7 @@ class Services {
 
       boxShadows: [
         BoxShadow(
-          color: UtilsImporter().colorUtils.primaryColor,
+          color: ColorUtils.primaryColor,
           offset: Offset(0.0, 2.0),
           blurRadius: 3.0,
         )
@@ -620,7 +614,7 @@ class Services {
         color: Colors.white,
       ),
       duration: Duration(seconds: 1),
-      leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      leftBarIndicatorColor: ColorUtils.kmColors,
     )..show(context);
   }
 

@@ -6,6 +6,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 import '../../utils/Styles.dart';
 import 'entry_field.dart';
@@ -80,7 +81,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                 //       fillColor: Colors.white,
                 //       border: new UnderlineInputBorder(
                 //         borderSide: new BorderSide(
-                //             color: UtilsImporter().colorUtils.primarycolor),
+                //             color: ColorUtils.primarycolor),
                 //       ),
                 //     ),
                 //   ),
@@ -117,7 +118,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
 
                           boxShadows: [
                             BoxShadow(
-                              color: UtilsImporter().colorUtils.primaryColor,
+                              color: ColorUtils.primaryColor,
                               offset: Offset(0.0, 2.0),
                               blurRadius: 3.0,
                             )
@@ -128,8 +129,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                             color: Colors.white,
                           ),
                           duration: Duration(seconds: 3),
-                          leftBarIndicatorColor:
-                              UtilsImporter().colorUtils.kmColors,
+                          leftBarIndicatorColor: ColorUtils.kmColors,
                         )..show(context);
                       } else {
                         Tools.logToConsole(

@@ -12,6 +12,7 @@ import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+import 'new_utils_importer.dart';
 
 // ignore: must_be_immutable
 class ProductsViewCard extends StatefulWidget {
@@ -124,7 +125,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 widget.quantity,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    color: UtilsImporter().colorUtils.greyColor,
+                                    color: ColorUtils.greyColor,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk,
                                     fontSize: 17),
@@ -142,9 +143,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                               "  ",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              color: UtilsImporter()
-                                                  .colorUtils
-                                                  .primaryColor,
+                                              color: ColorUtils.primaryColor,
                                               fontFamily: UtilsImporter()
                                                   .stringUtils
                                                   .HKGrotesk,
@@ -210,9 +209,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                       10.0) //                 <--- border radius here
                                   ),
                               border: Border.all(
-                                  color:
-                                      UtilsImporter().colorUtils.primaryColor,
-                                  width: 2)),
+                                  color: ColorUtils.primaryColor, width: 2)),
                           child: widget.attached &&
                                   widget.supplierCode != null &&
                                   !widget.fromInventory

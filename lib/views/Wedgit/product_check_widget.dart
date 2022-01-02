@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Styles.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 import 'dialog_button.dart';
 import 'my_dialog.dart';
@@ -39,9 +39,8 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                       borderRadius: BorderRadius.all(Radius.circular(
                               10.0) //                 <--- border radius here
                           ),
-                      border: Border.all(
-                          color: UtilsImporter().colorUtils.primaryColor,
-                          width: 2)),
+                      border:
+                          Border.all(color: ColorUtils.primaryColor, width: 2)),
                   child: Center(
                       child: Text(
                     widget.productCount,

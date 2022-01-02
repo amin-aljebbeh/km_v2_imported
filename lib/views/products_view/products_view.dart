@@ -13,6 +13,7 @@ import 'package:kammun_app/views/Wedgit/products_view_card.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class ProductsView extends StatefulWidget {
   final int heroIndex;
@@ -174,7 +175,7 @@ class ProductsViewState extends State<ProductsView> {
                               )));
                 });
               },
-              cursorColor: UtilsImporter().colorUtils.primaryColor,
+              cursorColor: ColorUtils.primaryColor,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
@@ -198,7 +199,7 @@ class ProductsViewState extends State<ProductsView> {
     return Scaffold(
         floatingActionButton: widget.queryString == null
             ? FloatingActionButton(
-                backgroundColor: UtilsImporter().colorUtils.kmColors2,
+                backgroundColor: ColorUtils.kmColors2,
                 onPressed: () {
                   Navigator.push(
                       context,

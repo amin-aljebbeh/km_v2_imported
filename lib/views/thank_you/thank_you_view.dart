@@ -4,6 +4,7 @@ import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class ThankYouView extends StatefulWidget {
   final String orderMessage;
@@ -69,7 +70,7 @@ class ThankYouViewState extends State<ThankYouView> {
                   Text(
                     UtilsImporter().stringUtils.thankyou,
                     style: TextStyle(
-                        color: UtilsImporter().colorUtils.primaryColor,
+                        color: ColorUtils.primaryColor,
                         fontWeight: FontWeight.w700,
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                         fontSize: 30),
@@ -82,7 +83,7 @@ class ThankYouViewState extends State<ThankYouView> {
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: UtilsImporter().colorUtils.primaryColor,
+                        color: ColorUtils.primaryColor,
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                         fontSize: 16.0,
                       ),
@@ -96,7 +97,7 @@ class ThankYouViewState extends State<ThankYouView> {
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: UtilsImporter().colorUtils.kmColors,
+                        color: ColorUtils.kmColors,
                         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                         fontSize: 16.0,
                       ),

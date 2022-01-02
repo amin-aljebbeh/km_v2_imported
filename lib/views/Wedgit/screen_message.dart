@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class ScreenMessage extends StatelessWidget {
   final String message;
@@ -16,7 +17,7 @@ class ScreenMessage extends StatelessWidget {
             message,
             style: TextStyle(
               fontWeight: FontWeight.w700,
-              color: UtilsImporter().colorUtils.greyColor,
+              color: ColorUtils.greyColor,
               fontFamily: UtilsImporter().stringUtils.HKGrotesk,
               fontSize: 20.0,
             ),

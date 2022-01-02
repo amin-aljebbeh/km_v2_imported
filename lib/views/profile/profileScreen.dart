@@ -6,6 +6,7 @@ import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 import '../../Services.dart';
 
@@ -119,8 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                          color: UtilsImporter().colorUtils.primaryColor,
-                          spreadRadius: 3),
+                          color: ColorUtils.primaryColor, spreadRadius: 3),
                     ],
                   ),
                   child: ListTile(
@@ -128,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Icon(
                         FontAwesomeIcons.phone,
-                        color: UtilsImporter().colorUtils.kmColors,
+                        color: ColorUtils.kmColors,
                         size: 30,
                       ),
                     ),
@@ -172,8 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
+                                    color: ColorUtils.primaryColor,
                                     spreadRadius: 3),
                               ],
                             ),
@@ -223,8 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
+                                    color: ColorUtils.primaryColor,
                                     spreadRadius: 3),
                               ],
                             ),
@@ -235,10 +233,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   icon: Icon(
                                     Icons.library_add_check_outlined,
                                     color: LoadingScreenServices.preferLeftSide
-                                        ? UtilsImporter()
-                                            .colorUtils
-                                            .searchGreyColor
-                                        : UtilsImporter().colorUtils.kmColors2,
+                                        ? ColorUtils.searchGreyColor
+                                        : ColorUtils.kmColors2,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -253,10 +249,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   icon: Icon(
                                     Icons.library_add_check_outlined,
                                     color: LoadingScreenServices.preferLeftSide
-                                        ? UtilsImporter().colorUtils.kmColors2
-                                        : UtilsImporter()
-                                            .colorUtils
-                                            .searchGreyColor,
+                                        ? ColorUtils.kmColors2
+                                        : ColorUtils.searchGreyColor,
                                   ),
                                   onPressed: () {
                                     setState(() {
@@ -344,8 +338,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                          color: UtilsImporter().colorUtils.primaryColor,
-                          spreadRadius: 3),
+                          color: ColorUtils.primaryColor, spreadRadius: 3),
                     ],
                   ),
                   child: ListTile(
@@ -357,7 +350,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                         icon: Icon(
                           Icons.logout,
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           size: 30,
                         ),
                       ),
@@ -394,7 +387,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
               border: Border.all(
                 width: 2,
-                color: UtilsImporter().colorUtils.kmColors,
+                color: ColorUtils.kmColors,
               )),
           child: Card(
             elevation: 1.0,
@@ -432,9 +425,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         .userAddress[index].street,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greyColor,
+                                        color: ColorUtils.greyColor,
                                         fontFamily: UtilsImporter()
                                             .stringUtils
                                             .HKGrotesk,
@@ -448,9 +439,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         .userAddress[index].building,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greyColor,
+                                        color: ColorUtils.greyColor,
                                         fontFamily: UtilsImporter()
                                             .stringUtils
                                             .HKGrotesk,
@@ -464,9 +453,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         .userAddress[index].description,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greyColor,
+                                        color: ColorUtils.greyColor,
                                         fontFamily: UtilsImporter()
                                             .stringUtils
                                             .HKGrotesk,
@@ -484,7 +471,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Divider(
-                    color: UtilsImporter().colorUtils.kmColors,
+                    color: ColorUtils.kmColors,
                     thickness: 3,
                   ),
                 ),
@@ -496,7 +483,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       text: UtilsImporter().stringUtils.delete.toUpperCase(),
                       width: 125,
                       height: 35,
-                      color: UtilsImporter().colorUtils.primaryColor,
+                      color: ColorUtils.primaryColor,
                       onTap: () {
                         onrRemove(index);
                       },
@@ -506,7 +493,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       text: UtilsImporter().stringUtils.edit.toUpperCase(),
                       width: 125,
                       height: 35,
-                      color: UtilsImporter().colorUtils.primaryColor,
+                      color: ColorUtils.primaryColor,
                       onTap: () {
                         Navigator.push(
                           context,

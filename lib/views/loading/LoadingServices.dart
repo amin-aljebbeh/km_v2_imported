@@ -21,13 +21,13 @@ import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
 import 'Loading.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class LoadingScreenServices {
   static StartModel startRequest = new StartModel();
@@ -244,7 +244,7 @@ class LoadingScreenServices {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Divider(
                     thickness: 1,
-                    color: UtilsImporter().colorUtils.greyColor,
+                    color: ColorUtils.greyColor,
                   ),
                 )
               ],

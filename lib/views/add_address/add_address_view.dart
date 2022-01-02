@@ -8,6 +8,7 @@ import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/k_text_field.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 import '../../Services.dart';
 
@@ -191,7 +192,7 @@ class AddAddressViewState extends State<AddAddressView> {
                             ' ' +
                             UtilsImporter().stringUtils.address,
                         height: 50,
-                        color: UtilsImporter().colorUtils.primaryColor,
+                        color: ColorUtils.primaryColor,
                         onTap: _addAddressBtnTapped,
                       ),
                     ],
@@ -214,14 +215,13 @@ class AddAddressViewState extends State<AddAddressView> {
                 style: TextStyle(
                     fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                     fontSize: 20,
-                    color: UtilsImporter().colorUtils.primaryColor,
+                    color: ColorUtils.primaryColor,
                     fontWeight: FontWeight.w500),
               )),
           Container(
             padding: EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
-              border: Border.all(
-                  width: 5, color: UtilsImporter().colorUtils.kmColors),
+              border: Border.all(width: 5, color: ColorUtils.kmColors),
             ),
             child: new SearchableDropdown(
               isCaseSensitiveSearch: false,
@@ -277,7 +277,7 @@ class AddAddressViewState extends State<AddAddressView> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: ColorUtils.kmColors,
                             fontWeight: FontWeight.bold,
                             fontSize: 25)), //font color is diffrent
                   ),
@@ -287,7 +287,7 @@ class AddAddressViewState extends State<AddAddressView> {
                       UtilsImporter().stringUtils.loaction_request_info,
                       style: TextStyle(
                           fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                          color: UtilsImporter().colorUtils.primaryColor,
+                          color: ColorUtils.primaryColor,
                           fontSize: 18),
                     ), //font color is diffrent
                   ),
@@ -324,7 +324,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           ' ' +
                           UtilsImporter().stringUtils.address,
                       height: 50,
-                      color: UtilsImporter().colorUtils.primaryColor,
+                      color: ColorUtils.primaryColor,
                       onTap: () {
                         setState(() {
                           userIgnorShareLocation = true;

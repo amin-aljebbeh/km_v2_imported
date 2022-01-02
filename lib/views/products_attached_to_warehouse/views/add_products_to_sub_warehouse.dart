@@ -8,6 +8,7 @@ import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:toast/toast.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
   final ProductData productData;
@@ -270,9 +271,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                         10.0) //                 <--- border radius here
                                     ),
                                 border: Border.all(
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
-                                    width: 2)),
+                                    color: ColorUtils.primaryColor, width: 2)),
                             child: Switch(
                               value: switchController,
                               onChanged: (value) {
@@ -280,9 +279,8 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                   switchController = value;
                                 });
                               },
-                              activeTrackColor:
-                                  UtilsImporter().colorUtils.kmColors2,
-                              activeColor: UtilsImporter().colorUtils.kmColors,
+                              activeTrackColor: ColorUtils.kmColors2,
+                              activeColor: ColorUtils.kmColors,
                             ),
                           ),
                         ),
@@ -292,8 +290,8 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         text: UtilsImporter().stringUtils.save,
                         height: 50,
                         color: completeData()
-                            ? UtilsImporter().colorUtils.kmColors
-                            : UtilsImporter().colorUtils.searchGreyColor,
+                            ? ColorUtils.kmColors
+                            : ColorUtils.searchGreyColor,
                         onTap: () async {
                           if (completeData()) {
                             bool result = await _addNewProduct();

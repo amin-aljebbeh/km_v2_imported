@@ -12,6 +12,7 @@ import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'Services/login_services.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class LoginScreen extends StatefulWidget {
   static String routeName = "/login";
@@ -159,13 +160,13 @@ class _LoginScreenState extends State<LoginScreen>
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: UtilsImporter().colorUtils.primaryColor,
+              color: ColorUtils.primaryColor,
             ),
             borderRadius: BorderRadius.circular(5.0),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: UtilsImporter().colorUtils.kmColors,
+              color: ColorUtils.kmColors,
             ),
             borderRadius: BorderRadius.circular(5.0),
           ),
@@ -195,13 +196,13 @@ class _LoginScreenState extends State<LoginScreen>
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: UtilsImporter().colorUtils.primaryColor,
+              color: ColorUtils.primaryColor,
             ),
             borderRadius: BorderRadius.circular(5.0),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: UtilsImporter().colorUtils.kmColors,
+              color: ColorUtils.kmColors,
             ),
             borderRadius: BorderRadius.circular(5.0),
           ),
@@ -213,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: UtilsImporter().colorUtils.kmColors,
+      backgroundColor: ColorUtils.kmColors,
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -292,7 +293,7 @@ class _LoginScreenState extends State<LoginScreen>
                       : KammunButton(
                           text: "تسجيل الدخول",
                           height: 50,
-                          color: UtilsImporter().colorUtils.primaryColor,
+                          color: ColorUtils.primaryColor,
                           onTap: adminLogin,
                         ),
                 ),

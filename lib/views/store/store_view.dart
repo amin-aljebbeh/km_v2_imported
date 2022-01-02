@@ -15,6 +15,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
 import 'package:share/share.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class StoreView extends StatefulWidget {
   @override
@@ -85,7 +86,7 @@ class StoreViewState extends State<StoreView> {
                         "تحديث متوفر",
                         style: TextStyle(
                             fontSize: 17,
-                            color: UtilsImporter().colorUtils.primaryColor,
+                            color: ColorUtils.primaryColor,
                             fontWeight: FontWeight.bold,
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk),
                       ),
@@ -137,7 +138,7 @@ class StoreViewState extends State<StoreView> {
                       child: KammunButton(
                         text: " التحديث الآن ",
                         height: 50,
-                        color: UtilsImporter().colorUtils.kmColors,
+                        color: ColorUtils.kmColors,
                         onTap: _updateApplication,
                       ),
                     ),
@@ -235,8 +236,7 @@ class StoreViewState extends State<StoreView> {
                       child: DrawerHeader(
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            border: Border.all(
-                                color: UtilsImporter().colorUtils.kmColors)),
+                            border: Border.all(color: ColorUtils.kmColors)),
                         child: InkWell(
                           onTap: () => Navigator.of(context).pop(),
                           child: Container(
@@ -246,13 +246,13 @@ class StoreViewState extends State<StoreView> {
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 //color: Colors.white,
-                                color: UtilsImporter().colorUtils.kmColors,
+                                color: ColorUtils.kmColors,
                               ),
                             ),
                           ),
                         ),
                         // decoration: BoxDecoration(
-                        //   color: UtilsImporter().colorUtils.primarycolor,
+                        //   color: ColorUtils.primarycolor,
                         // ),
                       ),
                     ),
@@ -265,10 +265,10 @@ class StoreViewState extends State<StoreView> {
                         height: 200,
                       ),
 
-                      //color: UtilsImporter().colorUtils.kmColors,
+                      //color: ColorUtils.kmColors,
                       color: Colors.white),
                   Divider(
-                    color: UtilsImporter().colorUtils.kmColors,
+                    color: ColorUtils.kmColors,
                     // height: 20,
                   ),
                   Container(
@@ -379,7 +379,7 @@ class StoreViewState extends State<StoreView> {
                           },
                         ),
                         Divider(
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           height: 20,
                         ),
                         Padding(
@@ -392,8 +392,7 @@ class StoreViewState extends State<StoreView> {
                                   onTap: () => _openUrl("facebook"),
                                   child: Icon(
                                     FontAwesomeIcons.facebookF,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
+                                    color: ColorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -401,8 +400,7 @@ class StoreViewState extends State<StoreView> {
                                   onTap: () => _openUrl("instagram"),
                                   child: Icon(
                                     FontAwesomeIcons.instagram,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
+                                    color: ColorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -410,8 +408,7 @@ class StoreViewState extends State<StoreView> {
                                   onTap: () => _openUrl("messenger"),
                                   child: Icon(
                                     FontAwesomeIcons.facebookMessenger,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
+                                    color: ColorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -419,8 +416,7 @@ class StoreViewState extends State<StoreView> {
                                   onTap: () => _openUrl("whatsapp"),
                                   child: Icon(
                                     FontAwesomeIcons.whatsapp,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
+                                    color: ColorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -448,7 +444,7 @@ class StoreViewState extends State<StoreView> {
           backgroundColor: Services.isShopper()
               ? Services.shopper.status == 1
                   ? Color.fromARGB(255, 210, 178, 2)
-                  : UtilsImporter().colorUtils.searchGreyColor
+                  : ColorUtils.searchGreyColor
               : Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false,
           // hides leading widget
@@ -542,7 +538,7 @@ class StoreViewState extends State<StoreView> {
                     Expanded(
                       child: Container(
                         decoration: new BoxDecoration(
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           border:
                               new Border.all(color: Colors.white, width: 2.0),
                           borderRadius: new BorderRadius.circular(10.0),
@@ -553,7 +549,7 @@ class StoreViewState extends State<StoreView> {
                     Text(
                       "  " + UtilsImporter().stringUtils.shopByCategory + "  ",
                       style: TextStyle(
-                          color: UtilsImporter().colorUtils.primaryColor,
+                          color: ColorUtils.primaryColor,
                           fontWeight: FontWeight.w900,
                           fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                           fontSize: 22),
@@ -561,7 +557,7 @@ class StoreViewState extends State<StoreView> {
                     Expanded(
                       child: Container(
                         decoration: new BoxDecoration(
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           border:
                               new Border.all(color: Colors.white, width: 2.0),
                           borderRadius: new BorderRadius.circular(10.0),
@@ -602,7 +598,7 @@ class StoreViewState extends State<StoreView> {
                             categoryId: "0",
                           )));
             },
-            cursorColor: UtilsImporter().colorUtils.primaryColor,
+            cursorColor: ColorUtils.primaryColor,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
               contentPadding: const EdgeInsets.only(bottom: 0.5),
@@ -625,7 +621,7 @@ class StoreViewState extends State<StoreView> {
       height: MediaQuery.of(context).size.height * 0.30,
 
       decoration: new BoxDecoration(
-          color: UtilsImporter().colorUtils.searchGreyColor,
+          color: ColorUtils.searchGreyColor,
           borderRadius: new BorderRadius.all(Radius.circular(20.0))),
       child: new Carousel(
         borderRadius: true,

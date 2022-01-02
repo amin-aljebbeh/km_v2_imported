@@ -10,6 +10,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:http/http.dart' as http;
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class OrderDetailsServices {
   static Future<bool> updateOrder(
@@ -38,7 +39,7 @@ class OrderDetailsServices {
 
         boxShadows: [
           BoxShadow(
-            color: UtilsImporter().colorUtils.primaryColor,
+            color: ColorUtils.primaryColor,
             offset: Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
@@ -49,7 +50,7 @@ class OrderDetailsServices {
           color: Colors.white,
         ),
         duration: Duration(seconds: 3),
-        leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+        leftBarIndicatorColor: ColorUtils.kmColors,
       )..show(context);
       return true;
     } else {
@@ -76,7 +77,7 @@ class OrderDetailsServices {
           color: Colors.white,
         ),
         duration: Duration(seconds: 3),
-        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+        // leftBarIndicatorColor: ColorUtils.kmColors,
       )..show(context);
       return false;
     }

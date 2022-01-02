@@ -8,6 +8,7 @@ import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:toast/toast.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 import 'models/matching_report_model.dart';
 import 'services/reports_services.dart';
@@ -126,7 +127,7 @@ class _MatchingReportState extends State<MatchingReport> {
                   text: UtilsImporter().stringUtils.send,
                   color: validDates()
                       ? Theme.of(context).primaryColor
-                      : UtilsImporter().colorUtils.searchGreyColor,
+                      : ColorUtils.searchGreyColor,
                   onTap: () {
                     if (validDates())
                       _getMatchingReport();

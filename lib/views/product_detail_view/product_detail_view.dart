@@ -3,7 +3,6 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/models/start_models/category_model.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -26,6 +25,7 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
@@ -102,7 +102,7 @@ class ProductDetailViewState extends State<ProductDetailView>
       right: false,
       bottom: true,
       child: Scaffold(
-        //backgroundColor: UtilsImporter().colorUtils.primarycolor,
+        //backgroundColor: ColorUtils.primarycolor,
         backgroundColor: Theme.of(context).primaryColorLight,
         body: NestedScrollView(
           controller: _controller,
@@ -127,7 +127,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                     ),
                   ),
                 ],
-                backgroundColor: UtilsImporter().colorUtils.primaryColor,
+                backgroundColor: ColorUtils.primaryColor,
                 expandedHeight: 300.0,
                 floating: false,
                 pinned: true,
@@ -222,7 +222,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           widget.product.name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: UtilsImporter().colorUtils.primaryColor,
+                            color: ColorUtils.primaryColor,
                             fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                             fontSize: 25,
                           ),
@@ -397,9 +397,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         10.0) //                 <--- border radius here
                                     ),
                                 border: Border.all(
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
-                                    width: 4)),
+                                    color: ColorUtils.primaryColor, width: 4)),
                             child: Center(
                                 child: Text(
                               UtilsImporter().stringUtils.outOfStock,
@@ -433,7 +431,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                             ),
                             boxShadows: [
                               BoxShadow(
-                                color: UtilsImporter().colorUtils.primaryColor,
+                                color: ColorUtils.primaryColor,
                                 offset: Offset(0.0, 2.0),
                                 blurRadius: 3.0,
                               )
@@ -444,8 +442,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                               color: Colors.white,
                             ),
                             duration: Duration(seconds: 3),
-                            leftBarIndicatorColor:
-                                UtilsImporter().colorUtils.kmColors,
+                            leftBarIndicatorColor: ColorUtils.kmColors,
                           )..show(context);
 
                           SharedPreferences prefs =
@@ -604,9 +601,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                 BorderRadius.circular(6),
                                             border: Border.all(
                                                 width: 5,
-                                                color: UtilsImporter()
-                                                    .colorUtils
-                                                    .greyColor),
+                                                color: ColorUtils.greyColor),
                                           ),
                                           child: Center(
                                             child: new DropdownButton(
@@ -616,9 +611,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                                               items: Services
                                                   .productSubWarehouseNames(
                                                       context),
-                                              iconEnabledColor: UtilsImporter()
-                                                  .colorUtils
-                                                  .greyColor,
+                                              iconEnabledColor:
+                                                  ColorUtils.greyColor,
                                               value: productSubWarehouseId,
                                               hint: new Text(
                                                 LoadingScreenServices
@@ -632,9 +626,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                     .name,
                                                 style: decisionButtonStyle
                                                     .copyWith(
-                                                  color: UtilsImporter()
-                                                      .colorUtils
-                                                      .greyColor,
+                                                  color: ColorUtils.greyColor,
                                                 ),
                                               ),
                                               onChanged: (value) async {
@@ -675,9 +667,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                 BorderRadius.circular(6),
                                             border: Border.all(
                                                 width: 5,
-                                                color: UtilsImporter()
-                                                    .colorUtils
-                                                    .greyColor),
+                                                color: ColorUtils.greyColor),
                                           ),
                                           child: Center(
                                             child: new SearchableDropdown(
@@ -689,9 +679,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                       .close,
                                                   style: decisionButtonStyle
                                                       .copyWith(
-                                                    color: UtilsImporter()
-                                                        .colorUtils
-                                                        .greyColor,
+                                                    color: ColorUtils.greyColor,
                                                   ),
                                                 ),
                                                 onPressed: () =>
@@ -702,25 +690,21 @@ class ProductDetailViewState extends State<ProductDetailView>
                                               isExpanded: false,
                                               items: LoadingScreenServices
                                                   .fullCategoryList,
-                                              iconEnabledColor: UtilsImporter()
-                                                  .colorUtils
-                                                  .greyColor,
+                                              iconEnabledColor:
+                                                  ColorUtils.greyColor,
                                               value: selectedValueCategoryValue,
                                               hint: new Text(
                                                 'اختيار الصنف التابع له المنتج',
                                                 style: decisionButtonStyle
                                                     .copyWith(
-                                                        color: UtilsImporter()
-                                                            .colorUtils
+                                                        color: ColorUtils
                                                             .greyColor),
                                               ),
                                               searchHint: new Text(
                                                   'إختيار الصنف',
                                                   style: decisionButtonStyle
                                                       .copyWith(
-                                                    color: UtilsImporter()
-                                                        .colorUtils
-                                                        .greyColor,
+                                                    color: ColorUtils.greyColor,
                                                   )),
                                               onChanged: (value) {
                                                 setState(() {

@@ -11,6 +11,7 @@ import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'Counter.dart';
 import 'Services/login_services.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class OTPVerification extends StatefulWidget {
   static String routeName = "/otp";
@@ -126,7 +127,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                             TextSpan(
                               text: " ${LoginScreen.phoneNumber} ",
                               style: TextStyle(
-                                color: UtilsImporter().colorUtils.primaryColor,
+                                color: ColorUtils.primaryColor,
                                 fontFamily:
                                     UtilsImporter().stringUtils.HKGrotesk,
                                 fontSize: 20,
@@ -151,7 +152,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                                     ),
                               text: " تغيير الرقم ",
                               style: TextStyle(
-                                color: UtilsImporter().colorUtils.kmColors,
+                                color: ColorUtils.kmColors,
                                 fontFamily:
                                     UtilsImporter().stringUtils.HKGrotesk,
                                 fontSize: 20,
@@ -192,7 +193,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                     : KammunButton(
                         text: "تأكيد الرمز",
                         height: 50,
-                        color: UtilsImporter().colorUtils.primaryColor,
+                        color: ColorUtils.primaryColor,
                         onTap: () {
                           if (_textController.text.length == 6) {
                             checkOtpValidation(_textController.text);

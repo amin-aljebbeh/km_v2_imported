@@ -12,6 +12,7 @@ import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'services/cart_services.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class CartView extends StatefulWidget {
   final bool isFromUpdateOrder;
@@ -190,7 +191,7 @@ class CartViewState extends State<CartView> {
                   child: KammunButton(
                     width: MediaQuery.of(context).size.width,
                     color: CartServices.cartProducts.length > 0
-                        ? UtilsImporter().colorUtils.primaryColor
+                        ? ColorUtils.primaryColor
                         : Colors.grey[400],
                     text:
                         UtilsImporter().stringUtils.confirmOrder.toUpperCase(),
@@ -250,7 +251,7 @@ class CartViewState extends State<CartView> {
                                   orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greyColor,
+                                  color: ColorUtils.greyColor,
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 17),
@@ -285,9 +286,7 @@ class CartViewState extends State<CartView> {
                                         "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w700,
-                                            color: UtilsImporter()
-                                                .colorUtils
-                                                .primaryColor,
+                                            color: ColorUtils.primaryColor,
                                             fontFamily: UtilsImporter()
                                                 .stringUtils
                                                 .HKGrotesk,
@@ -372,10 +371,7 @@ class CartViewState extends State<CartView> {
                     height: 30,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: UtilsImporter()
-                            .colorUtils
-                            .greyColor
-                            .withOpacity(0.2)),
+                        color: ColorUtils.greyColor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {
@@ -405,10 +401,7 @@ class CartViewState extends State<CartView> {
                     height: 30,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: UtilsImporter()
-                            .colorUtils
-                            .greyColor
-                            .withOpacity(0.2)),
+                        color: ColorUtils.greyColor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {

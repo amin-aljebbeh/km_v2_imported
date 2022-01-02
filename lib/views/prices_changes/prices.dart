@@ -6,6 +6,7 @@ import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'model/prices_changes_model.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class Prices extends StatefulWidget {
   @override
@@ -64,27 +65,23 @@ class _PricesState extends State<Prices> {
               borderRadius: BorderRadius.all(Radius.circular(
                       10.0) //                 <--- border radius here
                   ),
-              border: Border.all(
-                  color: UtilsImporter().colorUtils.primaryColor, width: 2)),
+              border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: UtilsImporter().stringUtils.HKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
               border: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
             ),
-            cursorColor: UtilsImporter().colorUtils.kmColors,
+            cursorColor: ColorUtils.kmColors,
             controller: _controller,
           ),
         ),

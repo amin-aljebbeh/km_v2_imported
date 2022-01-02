@@ -9,6 +9,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class SubWarehouseProducts extends StatefulWidget {
   final String subWarehouseId;
@@ -105,13 +106,13 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
 
         boxShadows: [
           BoxShadow(
-            color: UtilsImporter().colorUtils.primaryColor,
+            color: ColorUtils.primaryColor,
             offset: Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
         ],
         duration: Duration(seconds: 3),
-        leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+        leftBarIndicatorColor: ColorUtils.kmColors,
       )..show(context);
     } else if (filterIndex == 1) {
       // Active first
@@ -134,13 +135,13 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
 
         boxShadows: [
           BoxShadow(
-            color: UtilsImporter().colorUtils.primaryColor,
+            color: ColorUtils.primaryColor,
             offset: Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
         ],
         duration: Duration(seconds: 3),
-        leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+        leftBarIndicatorColor: ColorUtils.kmColors,
       )..show(context);
     } else if (filterIndex == 2) {
       // Oldest First
@@ -166,13 +167,13 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
 
         boxShadows: [
           BoxShadow(
-            color: UtilsImporter().colorUtils.primaryColor,
+            color: ColorUtils.primaryColor,
             offset: Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
         ],
         duration: Duration(seconds: 3),
-        leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+        leftBarIndicatorColor: ColorUtils.kmColors,
       )..show(context);
     }
   }
@@ -189,27 +190,23 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
               borderRadius: BorderRadius.all(Radius.circular(
                       10.0) //                 <--- border radius here
                   ),
-              border: Border.all(
-                  color: UtilsImporter().colorUtils.primaryColor, width: 2)),
+              border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: UtilsImporter().stringUtils.HKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
               border: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
             ),
-            cursorColor: UtilsImporter().colorUtils.kmColors,
+            cursorColor: ColorUtils.kmColors,
             controller: _controller,
           ),
         ),

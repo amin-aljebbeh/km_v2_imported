@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'kammun_button.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class AddImageWidget extends StatefulWidget {
   final bool hasImage;
@@ -33,7 +33,7 @@ class _AddImageWidgetState extends State<AddImageWidget> {
             FlatButton(
               child: Icon(
                 Icons.camera,
-                color: UtilsImporter().colorUtils.kmColors,
+                color: ColorUtils.kmColors,
                 size: 40,
               ),
               onPressed: () {
@@ -43,7 +43,7 @@ class _AddImageWidgetState extends State<AddImageWidget> {
             FlatButton(
               child: Icon(
                 Icons.image,
-                color: UtilsImporter().colorUtils.kmColors,
+                color: ColorUtils.kmColors,
                 size: 40,
               ),
               onPressed: () {

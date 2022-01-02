@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Styles.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class SideBarRow extends StatelessWidget {
   final IconData icon;
@@ -21,7 +21,7 @@ class SideBarRow extends StatelessWidget {
         padding: const EdgeInsets.only(top: 8.0),
         child: Icon(
           icon,
-          color: UtilsImporter().colorUtils.primaryColor,
+          color: ColorUtils.primaryColor,
           size: 30,
         ),
       ),

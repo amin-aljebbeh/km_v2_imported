@@ -112,13 +112,13 @@ class StringUtils {
   String onboarding_descrip3 = 'Pay for order using credit or debit card';
 
   //Roles:
-  String shopperRole = 'shopper';
-  String deliveryRole = 'delivery';
-  String adminRole = 'admin';
-  String superAdminRole = 'super-admin';
-  String operationManager = 'operation-manager';
-  String productsController = 'product-management';
-  String supplierRol = 'supplier-role';
+  static String shopperRole = 'shopper';
+  static String deliveryRole = 'delivery';
+  static String adminRole = 'admin';
+  static String superAdminRole = 'super-admin';
+  static String operationManager = 'operation-manager';
+  static String productsController = 'product-management';
+  static String supplierRol = 'supplier-role';
 
   //Orders types:
   String myOrder = 'assigned';

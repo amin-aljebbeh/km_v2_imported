@@ -6,11 +6,11 @@ import 'package:kammun_app/views/Wedgit/product_check_widget.dart';
 import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/colors_utils.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/full_screen_image.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 import 'k_cache_image.dart';
 
@@ -133,7 +133,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     );
                   },
                   child: KCacheImage(
-                    tag: widget.index + widget.orderId,
+                    tag: widget.index + int.parse(widget.productId),
                     image: widget.img,
                   ),
                 ),
@@ -162,8 +162,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                               Text(
                                 widget.quantity + " " + widget.unit,
                                 style: mainStyle.copyWith(
-                                  color:
-                                      UtilsImporter().colorUtils.primaryColor,
+                                  color: ColorUtils.primaryColor,
                                   fontSize: 17,
                                 ),
                               ),
@@ -177,7 +176,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                     .toString() +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: mainStyle.copyWith(
-                                color: UtilsImporter().colorUtils.primaryColor,
+                                color: ColorUtils.primaryColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),

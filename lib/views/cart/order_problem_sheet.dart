@@ -10,6 +10,7 @@ import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class OrderProblemBottomSheet extends StatefulWidget {
   final List<int> notActiveProducts;
@@ -107,7 +108,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   ? Container(
                       padding: EdgeInsets.all(10),
                       decoration: new BoxDecoration(
-                          color: UtilsImporter().colorUtils.primaryColor,
+                          color: ColorUtils.primaryColor,
                           borderRadius: new BorderRadius.only(
                             topLeft: const Radius.circular(30.0),
                             topRight: const Radius.circular(30.0),
@@ -128,8 +129,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       child: Container(
                         decoration: BoxDecoration(
                             border: Border.all(
-                                width: 5,
-                                color: UtilsImporter().colorUtils.kmColors)),
+                                width: 5, color: ColorUtils.kmColors)),
                         child: ListView.builder(
                           primary: false,
                           shrinkWrap: true,
@@ -162,7 +162,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   ? Container(
                       padding: EdgeInsets.all(10),
                       decoration: new BoxDecoration(
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           borderRadius: new BorderRadius.only(
                             topLeft: const Radius.circular(30.0),
                             topRight: const Radius.circular(30.0),
@@ -185,9 +185,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       child: Container(
                         decoration: BoxDecoration(
                             border: Border.all(
-                                width: 5,
-                                color:
-                                    UtilsImporter().colorUtils.primaryColor)),
+                                width: 5, color: ColorUtils.primaryColor)),
                         child: ListView.builder(
                           primary: false,
                           shrinkWrap: true,
@@ -285,7 +283,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                                   orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greyColor,
+                                  color: ColorUtils.greyColor,
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 17),
@@ -369,7 +367,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                                   orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greyColor,
+                                  color: ColorUtils.greyColor,
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 17),
@@ -379,8 +377,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                                 "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
+                                    color: ColorUtils.primaryColor,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk,
                                     fontSize: 18)),

@@ -9,6 +9,7 @@ import 'package:kammun_app/views/deliver_to/services/delivery_method_services.da
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:group_button/group_button.dart';
 import 'package:toast/toast.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 import 'deliver_to_view.dart';
 
@@ -141,9 +142,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                             ),
                                         border: Border.all(
                                           width: 2,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .kmColors,
+                                          color: ColorUtils.kmColors,
                                         )),
                                     child: GroupButton(
                                       unselectedTextStyle: TextStyle(
@@ -185,9 +184,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text("اجرةالتوصيل النهائية",
                                       style: TextStyle(
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .primaryColor,
+                                          color: ColorUtils.primaryColor,
                                           fontSize: 25.0,
                                           fontWeight: FontWeight.w500,
                                           fontFamily: UtilsImporter()
@@ -199,9 +196,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                   child: Text(
                                       "${int.parse(DeliveryMethodServices.deliveryMethodsList[selectedIndex].pivot.price.split(".")[0]) + LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice} ${LoadingScreenServices.companyInformation.currency}",
                                       style: TextStyle(
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .primaryColor,
+                                          color: ColorUtils.primaryColor,
                                           fontSize: 25.0,
                                           fontWeight: FontWeight.w500,
                                           fontFamily: UtilsImporter()
@@ -238,7 +233,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                 .toUpperCase(),
                             height: 50,
                             color: selectedIndex != null
-                                ? UtilsImporter().colorUtils.primaryColor
+                                ? ColorUtils.primaryColor
                                 : Colors.grey[400],
                             onTap: _showGoToReviewPage,
                           ),

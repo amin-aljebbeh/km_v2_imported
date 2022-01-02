@@ -3,6 +3,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class ServerUpdate extends StatelessWidget {
   static final String routeName = "/server-update";
@@ -55,7 +56,7 @@ class ServerUpdate extends StatelessWidget {
                   child: KammunButton(
                     text: UtilsImporter().stringUtils.tryAgain,
                     height: 50,
-                    color: UtilsImporter().colorUtils.primaryColor,
+                    color: ColorUtils.primaryColor,
                     onTap: () => KammunRestart.restartApp(context),
                   ),
                 ),

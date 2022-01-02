@@ -7,6 +7,7 @@ import 'package:kammun_app/views/inventory/sub_warehouse_products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'services/inventory_services.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class GetSubWarehouse extends StatefulWidget {
   const GetSubWarehouse({Key key}) : super(key: key);
@@ -123,7 +124,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                       text: UtilsImporter().stringUtils.next,
                       color: selected
                           ? Theme.of(context).primaryColor
-                          : UtilsImporter().colorUtils.searchGreyColor,
+                          : ColorUtils.searchGreyColor,
                       onTap: () {
                         if (selected)
                           Navigator.push(

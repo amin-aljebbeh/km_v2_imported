@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class FavoriteProductsViewCard extends StatefulWidget {
   final String img;
@@ -72,7 +73,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                             widget.quantity,
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                color: UtilsImporter().colorUtils.greyColor,
+                                color: ColorUtils.greyColor,
                                 fontFamily:
                                     UtilsImporter().stringUtils.HKGrotesk,
                                 fontSize: 17),
@@ -87,8 +88,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                                   " ${LoadingScreenServices.companyInformation.currency}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color:
-                                      UtilsImporter().colorUtils.primaryColor,
+                                  color: ColorUtils.primaryColor,
                                   fontFamily:
                                       UtilsImporter().stringUtils.HKGrotesk,
                                   fontSize: 18)),
@@ -101,7 +101,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                     ? Badge(
                         borderRadius: BorderRadius.zero,
                         shape: BadgeShape.square,
-                        badgeColor: UtilsImporter().colorUtils.primaryColor,
+                        badgeColor: ColorUtils.primaryColor,
                         badgeContent: Padding(
                           padding: const EdgeInsets.only(
                             right: 10.0,

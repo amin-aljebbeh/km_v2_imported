@@ -1,13 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/models/start_models/order_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/order_information_row.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../utils/Styles.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 // ignore: must_be_immutable
 class OrdersViewCard extends StatefulWidget {
@@ -156,10 +156,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       padding: EdgeInsets.all(6),
                       decoration: BoxDecoration(
                         border: Border.all(
-                            color: UtilsImporter()
-                                .colorUtils
-                                .greyColor
-                                .withOpacity(0.2)),
+                            color: ColorUtils.greyColor.withOpacity(0.2)),
                       ),
                       child: Text(
                         widget.orderQuantity.toString(),
@@ -194,7 +191,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   rightSideText: UtilsImporter().stringUtils.phoneNumber,
                   leftSideText: widget.userNumber,
                   leftSideStyle: paragraphStyle.copyWith(
-                    color: UtilsImporter().colorUtils.kmColors,
+                    color: ColorUtils.kmColors,
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => _makePhoneCall(widget.userNumber),

@@ -1,6 +1,6 @@
 import 'dart:math' as math;
-import 'package:flutter/material.dart'; 
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:flutter/material.dart';
+import 'new_utils_importer.dart';
 
 class Actor extends StatelessWidget {
   final size;
@@ -12,10 +12,10 @@ class Actor extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle, color: UtilsImporter().colorUtils.kmColors
-          //color: Color.fromARGB(255, 66, 103, 178),
-          ),
+      decoration:
+          BoxDecoration(shape: BoxShape.circle, color: ColorUtils.kmColors
+              //color: Color.fromARGB(255, 66, 103, 178),
+              ),
     );
   }
 }

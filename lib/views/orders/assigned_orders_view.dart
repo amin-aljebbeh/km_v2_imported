@@ -5,7 +5,6 @@ import 'package:kammun_app/models/start_models/order_product_model.dart';
 import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -22,6 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:intl/intl.dart';
 import 'services/order_services.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class AssignedOrdersView extends StatefulWidget {
   @override
@@ -168,7 +168,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             icon: Icon(
                               Icons.arrow_back,
                               size: 40,
-                              color: UtilsImporter().colorUtils.kmColors,
+                              color: ColorUtils.kmColors,
                             ),
                           ),
                         ),
@@ -199,7 +199,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             icon: Icon(
                               Icons.last_page,
                               size: 40,
-                              color: UtilsImporter().colorUtils.kmColors,
+                              color: ColorUtils.kmColors,
                             ),
                           ),
                         ),
@@ -214,7 +214,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   "لا يوجد أي طلبات سابقة",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: UtilsImporter().colorUtils.greyColor,
+                                    color: ColorUtils.greyColor,
                                     fontFamily:
                                         UtilsImporter().stringUtils.HKGrotesk,
                                     fontSize: 20.0,
@@ -416,7 +416,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Divider(
                                   thickness: 5,
-                                  color: UtilsImporter().colorUtils.kmColors2,
+                                  color: ColorUtils.kmColors2,
                                 ),
                               )
                             ],

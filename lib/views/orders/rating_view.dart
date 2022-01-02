@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 import '../../utils/Styles.dart';
 import 'services/order_services.dart';
@@ -119,7 +120,7 @@ class _RatingViewState extends State<RatingView> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                              color: UtilsImporter().colorUtils.primaryColor,
+                              color: ColorUtils.primaryColor,
                               fontSize: 25)), //font color is different
                     ),
                     error

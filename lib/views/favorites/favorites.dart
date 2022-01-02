@@ -13,6 +13,7 @@ import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class Favorites extends StatefulWidget {
   //int heroIndex;
@@ -194,7 +195,7 @@ class FavoritesViewState extends State<Favorites> {
                               categoryId: "0",
                             )));
               },
-              cursorColor: UtilsImporter().colorUtils.primaryColor,
+              cursorColor: ColorUtils.primaryColor,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
@@ -234,8 +235,7 @@ class FavoritesViewState extends State<Favorites> {
                         child: DrawerHeader(
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              border: Border.all(
-                                  color: UtilsImporter().colorUtils.kmColors)),
+                              border: Border.all(color: ColorUtils.kmColors)),
                           child: InkWell(
                             onTap: () => Navigator.of(context).pop(),
                             child: Container(
@@ -245,13 +245,13 @@ class FavoritesViewState extends State<Favorites> {
                                 child: Icon(
                                   Icons.arrow_back_ios,
                                   //color: Colors.white,
-                                  color: UtilsImporter().colorUtils.kmColors,
+                                  color: ColorUtils.kmColors,
                                 ),
                               ),
                             ),
                           ),
                           // decoration: BoxDecoration(
-                          //   color: UtilsImporter().colorUtils.primarycolor,
+                          //   color: ColorUtils.primarycolor,
                           // ),
                         ),
                       ),
@@ -264,10 +264,10 @@ class FavoritesViewState extends State<Favorites> {
                           height: 200,
                         ),
 
-                        //color: UtilsImporter().colorUtils.kmColors,
+                        //color: ColorUtils.kmColors,
                         color: Colors.white),
                     Divider(
-                      color: UtilsImporter().colorUtils.kmColors,
+                      color: ColorUtils.kmColors,
                       // height: 20,
                     ),
                     ListTile(
@@ -275,7 +275,7 @@ class FavoritesViewState extends State<Favorites> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Icon(
                           Icons.phone,
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           size: 30,
                         ),
                       ),
@@ -292,7 +292,7 @@ class FavoritesViewState extends State<Favorites> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Icon(
                             Icons.share,
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: ColorUtils.kmColors,
                             size: 30,
                           ),
                         ),
@@ -316,7 +316,7 @@ class FavoritesViewState extends State<Favorites> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Icon(
                           Icons.info_outline,
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           size: 30,
                         ),
                       ),
@@ -338,7 +338,7 @@ class FavoritesViewState extends State<Favorites> {
                       },
                     ),
                     Divider(
-                      color: UtilsImporter().colorUtils.kmColors,
+                      color: ColorUtils.kmColors,
                       height: 20,
                     ),
                     Padding(
@@ -351,7 +351,7 @@ class FavoritesViewState extends State<Favorites> {
                               onTap: () => _openUrl("facebook"),
                               child: Icon(
                                 FontAwesomeIcons.facebookF,
-                                color: UtilsImporter().colorUtils.primaryColor,
+                                color: ColorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -359,7 +359,7 @@ class FavoritesViewState extends State<Favorites> {
                               onTap: () => _openUrl("instagram"),
                               child: Icon(
                                 FontAwesomeIcons.instagram,
-                                color: UtilsImporter().colorUtils.primaryColor,
+                                color: ColorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -367,7 +367,7 @@ class FavoritesViewState extends State<Favorites> {
                               onTap: () => _openUrl("messenger"),
                               child: Icon(
                                 FontAwesomeIcons.facebookMessenger,
-                                color: UtilsImporter().colorUtils.primaryColor,
+                                color: ColorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -375,7 +375,7 @@ class FavoritesViewState extends State<Favorites> {
                               onTap: () => _openUrl("whatsapp"),
                               child: Icon(
                                 FontAwesomeIcons.whatsapp,
-                                color: UtilsImporter().colorUtils.primaryColor,
+                                color: ColorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -529,7 +529,7 @@ class FavoritesViewState extends State<Favorites> {
                             !isLoading ? "لم تقم بإضافة أي عنصر للمفضلة" : "",
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              color: UtilsImporter().colorUtils.greyColor,
+                              color: ColorUtils.greyColor,
                               fontFamily: UtilsImporter().stringUtils.HKGrotesk,
                               fontSize: 20.0,
                             ),
