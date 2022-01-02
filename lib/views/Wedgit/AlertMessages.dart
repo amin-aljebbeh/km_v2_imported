@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 // ignore: must_be_immutable
 class AlertMessages extends StatelessWidget {
@@ -152,7 +152,7 @@ class AlertTextView extends StatelessWidget {
                         fontSize: headerTextSize != null ? headerTextSize : 15,
                         fontWeight: FontWeight.w700,
                         height: 1.5,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                        fontFamily: StringUtils.HKGrotesk),
                   ),
                   TextSpan(
                     text: text,
@@ -163,7 +163,7 @@ class AlertTextView extends StatelessWidget {
                             : textSize,
                         height: 1.5,
                         fontWeight: FontWeight.w400,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                        fontFamily: StringUtils.HKGrotesk),
                   ),
                 ],
               ),

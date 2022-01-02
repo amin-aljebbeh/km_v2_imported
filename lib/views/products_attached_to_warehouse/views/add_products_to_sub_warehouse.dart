@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/entry_field.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -41,8 +40,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
         Text(
           title,
           style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-              fontWeight: FontWeight.bold),
+              fontFamily: StringUtils.HKGrotesk, fontWeight: FontWeight.bold),
         ),
         subTitle == null
             ? Container(width: 0, height: 0)
@@ -197,7 +195,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                     Text(
                       "يرجى إختيار المستودع التابع لهذه المادة",
                       style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.HKGrotesk,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -217,9 +215,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedValue,
@@ -239,13 +235,13 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       children: [
                         _entryField(
                             controller: supplierCodeController,
-                            title: UtilsImporter().stringUtils.supplierCode,
+                            title: StringUtils.supplierCode,
                             fieldType: TextInputType.name,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
                         _entryField(
                             controller: priceController,
-                            title: UtilsImporter().stringUtils.price,
+                            title: StringUtils.price,
                             fieldType: TextInputType.number,
                             hint: "5000",
                             width: MediaQuery.of(context).size.width / 3),
@@ -256,7 +252,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       children: [
                         _entryField(
                             controller: priceFactorController,
-                            title: UtilsImporter().stringUtils.priceFactor,
+                            title: StringUtils.priceFactor,
                             fieldType: TextInputType.number,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
@@ -287,7 +283,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       ],
                     ),
                     KammunButton(
-                        text: UtilsImporter().stringUtils.save,
+                        text: StringUtils.save,
                         height: 50,
                         color: completeData()
                             ? ColorUtils.kmColors

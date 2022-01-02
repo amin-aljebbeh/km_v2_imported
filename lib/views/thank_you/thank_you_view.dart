@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
@@ -30,7 +29,7 @@ class ThankYouViewState extends State<ThankYouView> {
         )
       ];
       showMyDialog(
-          title: UtilsImporter().stringUtils.costumerNote,
+          title: StringUtils.costumerNote,
           text: widget.orderMessage,
           dialogButtons: dialogButtons,
           context: context);
@@ -68,23 +67,23 @@ class ThankYouViewState extends State<ThankYouView> {
                   Image.asset('assets/like.png', width: 200, height: 200),
                   SizedBox(height: 50),
                   Text(
-                    UtilsImporter().stringUtils.thankyou,
+                    StringUtils.thankyou,
                     style: TextStyle(
                         color: ColorUtils.primaryColor,
                         fontWeight: FontWeight.w700,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.HKGrotesk,
                         fontSize: 30),
                   ),
                   Padding(
                     padding: EdgeInsets.only(
                         left: 30, top: 10, right: 0, bottom: 10),
                     child: Text(
-                      UtilsImporter().stringUtils.thankyoudescrip,
+                      StringUtils.thankyoudescrip,
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: ColorUtils.primaryColor,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.HKGrotesk,
                         fontSize: 16.0,
                       ),
                     ),
@@ -98,14 +97,14 @@ class ThankYouViewState extends State<ThankYouView> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: ColorUtils.kmColors,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.HKGrotesk,
                         fontSize: 16.0,
                       ),
                     ),
                   ),
                   SizedBox(height: 40),
                   KammunButton(
-                    text: UtilsImporter().stringUtils.continueShopping,
+                    text: StringUtils.continueShopping,
                     color: Theme.of(context).primaryColor,
                     height: 50,
                     onTap: _showContinueShoppingBtnTapped,

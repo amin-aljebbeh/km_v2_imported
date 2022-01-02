@@ -5,7 +5,6 @@ import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -193,8 +192,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
             style: TextStyle(
-                color: Colors.white,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                color: Colors.white, fontFamily: StringUtils.HKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: ColorUtils.kmColors),
@@ -262,9 +260,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk)),
+                                        fontFamily: StringUtils.HKGrotesk)),
                                 onPressed: () {
                                   _loadData();
                                 }),

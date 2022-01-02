@@ -5,7 +5,6 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/favorite_products_view_card.dart';
 import 'package:kammun_app/views/favorites/services/product_favorites_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -201,7 +200,7 @@ class FavoritesViewState extends State<Favorites> {
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: StringUtils.HKGrotesk,
                 ),
               ),
             ),
@@ -305,7 +304,7 @@ class FavoritesViewState extends State<Favorites> {
                         //   "بدعمكم نستمر",
 
                         //   style: TextStyle(
-                        //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        //       fontFamily: StringUtils.HKGrotesk,
                         //       fontWeight: FontWeight.bold),
                         // ),
                         onTap: () => _shareApp(),
@@ -330,7 +329,7 @@ class FavoritesViewState extends State<Favorites> {
                       //       .companyInformation.websiteUrl,
 
                       //   style: TextStyle(
-                      //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                      //       fontFamily: StringUtils.HKGrotesk,
                       //       fontWeight: FontWeight.bold),
                       // ),
                       onTap: () {
@@ -530,7 +529,7 @@ class FavoritesViewState extends State<Favorites> {
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: ColorUtils.greyColor,
-                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontFamily: StringUtils.HKGrotesk,
                               fontSize: 20.0,
                             ),
                           ),
@@ -545,8 +544,7 @@ class FavoritesViewState extends State<Favorites> {
                           child: Text("تم جلب جميع المنتجات",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk))))
+                                  fontFamily: StringUtils.HKGrotesk))))
                   : Container(),
               isLoading
                   ? Container(

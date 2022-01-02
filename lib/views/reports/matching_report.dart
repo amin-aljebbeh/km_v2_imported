@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
@@ -57,8 +56,7 @@ class _MatchingReportState extends State<MatchingReport> {
     return Scaffold(
       appBar: AppBar(
         title: Text("إحصائيات المبيعات",
-            style:
-                TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
+            style: TextStyle(fontFamily: StringUtils.HKGrotesk)),
       ),
       body: SafeArea(
         child: Container(
@@ -70,9 +68,7 @@ class _MatchingReportState extends State<MatchingReport> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text("التاريخ",
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk)),
+                          style: TextStyle(fontFamily: StringUtils.HKGrotesk)),
                       IconButton(
                         icon: Icon(Icons.timer),
                         onPressed: () {
@@ -87,9 +83,7 @@ class _MatchingReportState extends State<MatchingReport> {
                         },
                       ),
                       Text(_reportDate,
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk))
+                          style: TextStyle(fontFamily: StringUtils.HKGrotesk))
                     ]),
                 ListTile(
                   contentPadding:
@@ -107,8 +101,7 @@ class _MatchingReportState extends State<MatchingReport> {
                                 title: Text(
                                   "${data.name}",
                                   style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.HKGrotesk,
                                   ),
                                 ),
                                 groupValue: _selectedValue,
@@ -124,7 +117,7 @@ class _MatchingReportState extends State<MatchingReport> {
                   ),
                 ),
                 KammunButton(
-                  text: UtilsImporter().stringUtils.send,
+                  text: StringUtils.send,
                   color: validDates()
                       ? Theme.of(context).primaryColor
                       : ColorUtils.searchGreyColor,

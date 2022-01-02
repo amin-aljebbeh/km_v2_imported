@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/k_table_element.dart';
@@ -45,7 +44,7 @@ class _SalesReportState extends State<SalesReport> {
               child: Text(
                 response.data[i].name,
                 style: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: StringUtils.HKGrotesk,
                   fontSize: 25,
                 ),
               ),
@@ -66,24 +65,21 @@ class _SalesReportState extends State<SalesReport> {
                 TableRow(
                   children: [
                     KTableElement(
-                      text: UtilsImporter()
-                          .stringUtils
+                      text: StringUtils()
                           .oCcy
                           .format(
                               response.data[i].statisticsWarehouses.totalSales)
                           .toString(),
                     ),
                     KTableElement(
-                      text: UtilsImporter()
-                          .stringUtils
+                      text: StringUtils()
                           .oCcy
                           .format(response
                               .data[i].statisticsWarehouses.deliveryIncome)
                           .toString(),
                     ),
                     KTableElement(
-                      text: UtilsImporter()
-                          .stringUtils
+                      text: StringUtils()
                           .oCcy
                           .format(response.data[i].statisticsWarehouses.total)
                           .toString(),
@@ -105,8 +101,7 @@ class _SalesReportState extends State<SalesReport> {
                     text: response.data[i].statisticsSubWarehouses[j].name,
                   ),
                   KTableElement(
-                    text: UtilsImporter()
-                        .stringUtils
+                    text: StringUtils()
                         .oCcy
                         .format(int.parse(response.data[i]
                             .statisticsSubWarehouses[j].sumPurchasePrice))
@@ -141,8 +136,7 @@ class _SalesReportState extends State<SalesReport> {
               KTableRow(
                 children: [
                   KTableElement(
-                    text: UtilsImporter()
-                        .stringUtils
+                    text: StringUtils()
                         .oCcy
                         .format(int.parse(response
                             .data[i].statisticsSupportedCities[j].deliveryIncome
@@ -150,8 +144,7 @@ class _SalesReportState extends State<SalesReport> {
                         .toString(),
                   ),
                   KTableElement(
-                    text: UtilsImporter()
-                        .stringUtils
+                    text: StringUtils()
                         .oCcy
                         .format(
                           int.parse(
@@ -163,8 +156,7 @@ class _SalesReportState extends State<SalesReport> {
                         .toString(),
                   ),
                   KTableElement(
-                    text: UtilsImporter()
-                        .stringUtils
+                    text: StringUtils()
                         .oCcy
                         .format(
                           int.parse(
@@ -215,7 +207,7 @@ class _SalesReportState extends State<SalesReport> {
       appBar: AppBar(
         title: Text(
           "إحصائيات المبيعات",
-          style: TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+          style: TextStyle(fontFamily: StringUtils.HKGrotesk),
         ),
       ),
       body: SafeArea(
@@ -229,8 +221,7 @@ class _SalesReportState extends State<SalesReport> {
                 children: [
                   Text(
                     "من تاريخ",
-                    style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    style: TextStyle(fontFamily: StringUtils.HKGrotesk),
                   ),
                   IconButton(
                     icon: Icon(Icons.timer),
@@ -249,8 +240,7 @@ class _SalesReportState extends State<SalesReport> {
                   ),
                   Text(
                     _fromDateTimeValue,
-                    style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    style: TextStyle(fontFamily: StringUtils.HKGrotesk),
                   ),
                 ],
               ),
@@ -258,8 +248,7 @@ class _SalesReportState extends State<SalesReport> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text("إلى تاريخ",
-                      style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
+                      style: TextStyle(fontFamily: StringUtils.HKGrotesk)),
                   IconButton(
                     icon: Icon(Icons.timeline),
                     onPressed: () {
@@ -277,13 +266,12 @@ class _SalesReportState extends State<SalesReport> {
                   ),
                   Text(
                     _toDateTimeValue,
-                    style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    style: TextStyle(fontFamily: StringUtils.HKGrotesk),
                   )
                 ],
               ),
               KammunButton(
-                text: UtilsImporter().stringUtils.send,
+                text: StringUtils.send,
                 color: validDates()
                     ? Theme.of(context).primaryColor
                     : ColorUtils.searchGreyColor,

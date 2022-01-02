@@ -6,7 +6,6 @@ import 'package:kammun_app/views/Wedgit/product_check_widget.dart';
 import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/colors_utils.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/full_screen_image.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
@@ -169,11 +168,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                             ],
                           ),
                           Text(
-                            UtilsImporter()
-                                    .stringUtils
-                                    .oCcy
-                                    .format(widget.price)
-                                    .toString() +
+                            StringUtils().oCcy.format(widget.price).toString() +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: mainStyle.copyWith(
                                 color: ColorUtils.primaryColor,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
@@ -77,16 +76,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 LoadingScreenServices.name,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.HKGrotesk,
                                     fontSize: 30),
                               ),
                               Text(
                                 LoadingScreenServices.userName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.HKGrotesk,
                                     fontSize: 15),
                               ),
                             ],
@@ -106,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       "الرقم الشخصي",
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: StringUtils.HKGrotesk,
                           fontSize: 20),
                     ),
                   ),
@@ -137,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Text(
                         LoadingScreenServices.phoneNumber ?? "لا يوجد",
                         style: TextStyle(
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: StringUtils.HKGrotesk,
                             fontSize: 25,
                             color: Colors.black),
                       ),
@@ -157,8 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 "المستودع",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.HKGrotesk,
                                     fontSize: 20),
                               ),
                             ),
@@ -189,9 +185,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           child: Text(
                                             "${data.name}",
                                             style: TextStyle(
-                                                fontFamily: UtilsImporter()
-                                                    .stringUtils
-                                                    .HKGrotesk,
+                                                fontFamily:
+                                                    StringUtils.HKGrotesk,
                                                 fontSize: 25,
                                                 color: Colors.black),
                                           ),
@@ -208,8 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               "الجهة المفضلة لاستخدام الهاتف",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                   fontSize: 20),
                             ),
                           ),
@@ -325,7 +319,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     "تسجيل الخروج",
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.HKGrotesk,
                         fontSize: 20),
                   ),
                 ),
@@ -360,7 +354,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Text(
                         "تسجيل الخروج",
                         style: TextStyle(
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: StringUtils.HKGrotesk,
                             fontSize: 25,
                             color: Colors.black),
                       ),
@@ -412,9 +406,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         .userAddress[index].supportedCityName,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -426,9 +418,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         color: ColorUtils.greyColor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -440,9 +430,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         color: ColorUtils.greyColor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -454,9 +442,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         color: ColorUtils.greyColor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -480,7 +466,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   //    crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     KammunButton(
-                      text: UtilsImporter().stringUtils.delete.toUpperCase(),
+                      text: StringUtils.delete.toUpperCase(),
                       width: 125,
                       height: 35,
                       color: ColorUtils.primaryColor,
@@ -490,7 +476,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     // _showDeleteButton(index: index),
                     KammunButton(
-                      text: UtilsImporter().stringUtils.edit.toUpperCase(),
+                      text: StringUtils.edit.toUpperCase(),
                       width: 125,
                       height: 35,
                       color: ColorUtils.primaryColor,

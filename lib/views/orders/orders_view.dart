@@ -7,7 +7,6 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
@@ -164,7 +163,7 @@ class OrdersViewState extends State<OrdersView> {
                             DropdownButton(
                               value: ordersFilter,
                               items: Services.dropdownStringList(
-                                  UtilsImporter().stringUtils.orderStatus),
+                                  StringUtils.orderStatus),
                               onChanged: (value) {
                                 setState(() {
                                   generalLoaded = true;
@@ -178,7 +177,7 @@ class OrdersViewState extends State<OrdersView> {
                             DropdownButton(
                               value: ordersTypeFilter,
                               items: Services.dropdownStringList(
-                                  UtilsImporter().stringUtils.orderTypes),
+                                  StringUtils.orderTypes),
                               onChanged: (value) {
                                 setState(() {
                                   generalLoaded = false;
@@ -211,7 +210,7 @@ class OrdersViewState extends State<OrdersView> {
                         DropdownButton(
                           value: page,
                           items: Services.dropdownIntList(
-                              UtilsImporter().stringUtils.dropdownValues),
+                              StringUtils.dropdownValues),
                           onChanged: (value) {
                             setState(() {
                               page = value;
@@ -251,8 +250,7 @@ class OrdersViewState extends State<OrdersView> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: ColorUtils.greyColor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.HKGrotesk,
                                     fontSize: 20.0,
                                   ),
                                 ),
@@ -345,9 +343,7 @@ class OrdersViewState extends State<OrdersView> {
                                         hint: orderDataList[index].shopper !=
                                                 null
                                             ? orderDataList[index].shopper.name
-                                            : UtilsImporter()
-                                                .stringUtils
-                                                .chooseShopper,
+                                            : StringUtils.chooseShopper,
                                         search: shopper,
                                         items: Services.shoppersNameList(),
                                         onChanged: (value) async {
@@ -415,7 +411,7 @@ class OrdersViewState extends State<OrdersView> {
                                   ),
                                 ),
                               KammunButton(
-                                text: UtilsImporter().stringUtils.edit_order,
+                                text: StringUtils.edit_order,
                                 onTap: () async {
                                   setState(
                                     () {
@@ -472,8 +468,7 @@ class OrdersViewState extends State<OrdersView> {
                               orderDataList[index].userNotes.toString() !=
                                       "null"
                                   ? KammunButton(
-                                      text:
-                                          UtilsImporter().stringUtils.watchNote,
+                                      text: StringUtils.watchNote,
                                       onTap: () {
                                         List<DialogButton> decisionButtons = [
                                           DialogButton(
@@ -484,9 +479,7 @@ class OrdersViewState extends State<OrdersView> {
                                           )
                                         ];
                                         showMyDialog(
-                                            title: UtilsImporter()
-                                                .stringUtils
-                                                .costumerNote,
+                                            title: StringUtils.costumerNote,
                                             text:
                                                 orderDataList[index].userNotes,
                                             dialogButtons: decisionButtons,
@@ -497,7 +490,7 @@ class OrdersViewState extends State<OrdersView> {
                                   : Container(),
                               orderDataList[index].underUpdate.toString() != "0"
                                   ? KammunButton(
-                                      text: UtilsImporter().stringUtils.unLock,
+                                      text: StringUtils.unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
                                         List<DialogButton> decisionButtons = [
@@ -522,12 +515,8 @@ class OrdersViewState extends State<OrdersView> {
                                         ];
 
                                         showMyDialog(
-                                            title: UtilsImporter()
-                                                .stringUtils
-                                                .unLock,
-                                            text: UtilsImporter()
-                                                .stringUtils
-                                                .unLockConfirm,
+                                            title: StringUtils.unLock,
+                                            text: StringUtils.unLockConfirm,
                                             dialogButtons: decisionButtons,
                                             context: context);
                                         // _showDialog(
@@ -559,8 +548,7 @@ class OrdersViewState extends State<OrdersView> {
                                 "تم جلب جميع الطلبات",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                 ),
                               ),
                             ),

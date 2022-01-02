@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/screen_message.dart';
@@ -126,10 +125,10 @@ class CartViewState extends State<CartView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        UtilsImporter().stringUtils.shoppingCart,
+                        StringUtils.shoppingCart,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: StringUtils.HKGrotesk,
                             fontSize: 30),
                       ),
                     ],
@@ -169,19 +168,19 @@ class CartViewState extends State<CartView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(UtilsImporter().stringUtils.subtotal,
+                    Text(StringUtils.subtotal,
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: StringUtils.HKGrotesk,
                           fontSize: 19.0,
                         )),
                     Text(
-                      "${UtilsImporter().stringUtils.oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
+                      "${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: StringUtils.HKGrotesk,
                           fontSize: 19),
                     ),
                   ],
@@ -193,8 +192,7 @@ class CartViewState extends State<CartView> {
                     color: CartServices.cartProducts.length > 0
                         ? ColorUtils.primaryColor
                         : Colors.grey[400],
-                    text:
-                        UtilsImporter().stringUtils.confirmOrder.toUpperCase(),
+                    text: StringUtils.confirmOrder.toUpperCase(),
                     onTap: _showConfirmOrderBtnTapped,
                     height: 50,
                   ),
@@ -238,8 +236,7 @@ class CartViewState extends State<CartView> {
                                   orderArray[index].name,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontFamily:
-                                          UtilsImporter().stringUtils.HKGrotesk,
+                                      fontFamily: StringUtils.HKGrotesk,
                                       fontSize: 18),
                                 ),
                               ],
@@ -252,8 +249,7 @@ class CartViewState extends State<CartView> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                   fontSize: 17),
                             ),
                             SizedBox(height: 8),
@@ -283,13 +279,11 @@ class CartViewState extends State<CartView> {
                                         ),
                                       )
                                     : Text(
-                                        "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                        "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                             color: ColorUtils.primaryColor,
-                                            fontFamily: UtilsImporter()
-                                                .stringUtils
-                                                .HKGrotesk,
+                                            fontFamily: StringUtils.HKGrotesk,
                                             fontSize: 18)),
                                 indexToEdit == index
                                     ? IconButton(
@@ -393,7 +387,7 @@ class CartViewState extends State<CartView> {
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: StringUtils.HKGrotesk,
                           fontSize: 18)),
                   SizedBox(height: 5),
                   Container(

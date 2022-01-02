@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
@@ -155,8 +154,8 @@ class _LoginScreenState extends State<LoginScreen>
         obscureText: true,
         decoration: InputDecoration(
           labelText: "كلمة المرور",
-          labelStyle: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk, fontSize: 30),
+          labelStyle:
+              TextStyle(fontFamily: StringUtils.HKGrotesk, fontSize: 30),
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
@@ -191,8 +190,8 @@ class _LoginScreenState extends State<LoginScreen>
 
         decoration: InputDecoration(
           labelText: "اسم المستخدم",
-          labelStyle: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk, fontSize: 30),
+          labelStyle:
+              TextStyle(fontFamily: StringUtils.HKGrotesk, fontSize: 30),
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(

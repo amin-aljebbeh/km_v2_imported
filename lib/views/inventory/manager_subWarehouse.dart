@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/sub_warehouse_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/inventory/sub_warehouse_products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,9 +60,9 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: Text(
-          UtilsImporter().stringUtils.Kammun,
+          StringUtils.Kammun,
           style: TextStyle(
-            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+            fontFamily: StringUtils.HKGrotesk,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -78,7 +77,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                     Text(
                       "يرجى إختيار المستودع التابع لهذه المادة",
                       style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.HKGrotesk,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -98,9 +97,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedSubWarehouseValue,
@@ -121,7 +118,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                     ),
                     KammunButton(
                       height: 50,
-                      text: UtilsImporter().stringUtils.next,
+                      text: StringUtils.next,
                       color: selected
                           ? Theme.of(context).primaryColor
                           : ColorUtils.searchGreyColor,

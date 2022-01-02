@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 class DailyStatistics extends StatefulWidget {
   @override
@@ -12,8 +12,7 @@ class _DailyStatisticsState extends State<DailyStatistics> {
     return Scaffold(
       appBar: AppBar(
         title: Text("لوحة تحكم المدير",
-            style:
-                TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
+            style: TextStyle(fontFamily: StringUtils.HKGrotesk)),
       ),
       body: SafeArea(
         child: Container(
@@ -25,8 +24,7 @@ class _DailyStatisticsState extends State<DailyStatistics> {
                 // trailing: Icon(Icons.arrow_back),
                 title: Text("إحصائيات المبيعات",
                     style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        fontSize: 25)),
+                        fontFamily: StringUtils.HKGrotesk, fontSize: 25)),
                 onTap: () {
                   Navigator.of(context).pushNamed('/sales_reports');
                 },
@@ -37,7 +35,7 @@ class _DailyStatisticsState extends State<DailyStatistics> {
                 title: Text(
                   "تقرير المطابقة",
                   style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                    fontFamily: StringUtils.HKGrotesk,
                     fontSize: 25,
                   ),
                 ),

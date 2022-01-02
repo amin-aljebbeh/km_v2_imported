@@ -8,7 +8,6 @@ import 'package:kammun_app/views/Wedgit/blurred_widget.dart';
 import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
@@ -16,6 +15,7 @@ import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/order_detail_view_main_card.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 // ignore: must_be_immutable
 class OrderDetailViewMain extends StatefulWidget {
@@ -168,7 +168,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             overflow: TextOverflow.clip,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontFamily: StringUtils.HKGrotesk,
                             ),
                           ),
                         ),
@@ -315,12 +315,11 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            UtilsImporter().stringUtils.subtotal,
+                            StringUtils.subtotal,
                             style: darkBold,
                           ),
                           Text(
-                            UtilsImporter()
-                                    .stringUtils
+                            StringUtils()
                                     .oCcy
                                     .format(widget.subTotal)
                                     .toString() +
@@ -328,8 +327,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: StringUtils.HKGrotesk,
                                 fontSize: 17.0),
                           ),
                         ],
@@ -340,22 +338,20 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(UtilsImporter().stringUtils.total,
+                          Text(StringUtils.total,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: StringUtils.HKGrotesk,
                                 fontSize: 19.0,
                               )),
                           Text(
-                            "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.total))}" +
+                            "${StringUtils().oCcy.format(int.parse(widget.total))}" +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: StringUtils.HKGrotesk,
                                 fontSize: 19),
                           ),
                         ],

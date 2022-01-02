@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/start_models/category_model.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/add_image_widget.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
@@ -223,7 +222,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: ColorUtils.primaryColor,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: StringUtils.HKGrotesk,
                             fontSize: 25,
                           ),
                         ),
@@ -236,7 +235,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text(UtilsImporter().stringUtils.quantity + ' :',
+                            Text(StringUtils.quantity + ' :',
                                 style: paragraphStyle),
                             SizedBox(width: 5),
                             Text(
@@ -252,11 +251,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                         Column(
                           // crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text(UtilsImporter().stringUtils.price + ' :',
+                            Text(StringUtils.price + ' :',
                                 style: paragraphStyle),
                             SizedBox(width: 5),
                             Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                "${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: informationStyle),
                           ],
                         ),
@@ -267,8 +266,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         OrderInformationRow(
-                          rightSideText:
-                              UtilsImporter().stringUtils.description + ' :',
+                          rightSideText: StringUtils.description + ' :',
                           leftSideText: widget.product.description != null
                               ? widget.product.description.split("@")[0]
                               : "",
@@ -288,7 +286,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 onLongPress: () {
                                   List<DialogButton> dialogButtons = [
                                     DialogButton(
-                                      text: UtilsImporter().stringUtils.yes,
+                                      text: StringUtils.yes,
                                       onTap: () async {
                                         Navigator.of(context).pop();
                                         bool result = await ProductsServices
@@ -309,7 +307,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                       },
                                     ),
                                     DialogButton(
-                                      text: UtilsImporter().stringUtils.no,
+                                      text: StringUtils.no,
                                       onTap: () {
                                         Navigator.of(context).pop();
                                       },
@@ -362,8 +360,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                   fontSize: 35)),
                         ),
                         SizedBox(
@@ -400,18 +397,17 @@ class ProductDetailViewState extends State<ProductDetailView>
                                     color: ColorUtils.primaryColor, width: 4)),
                             child: Center(
                                 child: Text(
-                              UtilsImporter().stringUtils.outOfStock,
+                              StringUtils.outOfStock,
                               style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk),
+                                  fontFamily: StringUtils.HKGrotesk),
                             )),
                           )
                         : Container(),
                     KammunButton(
                       text:
-                          '${UtilsImporter().stringUtils.addToCart}  (${UtilsImporter().stringUtils.oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
+                          '${StringUtils.addToCart}  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
                       height: 50,
                       color: Theme.of(context).primaryColor,
                       onTap: () async {
@@ -472,9 +468,9 @@ class ProductDetailViewState extends State<ProductDetailView>
                             children: [
                               SizedBox(height: 30),
                               UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.edit +
+                                title: StringUtils.edit +
                                     ' ' +
-                                    UtilsImporter().stringUtils.price +
+                                    StringUtils.price +
                                     ' :',
                                 inputType: TextInputType.number,
                                 bodyKey: "price",
@@ -484,9 +480,9 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 initialText: widget.product.price,
                               ),
                               UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.edit +
+                                title: StringUtils.edit +
                                     ' ' +
-                                    UtilsImporter().stringUtils.supplierCode +
+                                    StringUtils.supplierCode +
                                     ':',
                                 inputType: TextInputType.text,
                                 textHint: widget.product.supplierCode,
@@ -496,8 +492,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 productData: widget.product,
                               ),
                               UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.priceFactor +
-                                    ' :',
+                                title: StringUtils.priceFactor + ' :',
                                 inputType: TextInputType.number,
                                 bodyKey: "price_factor",
                                 productId: widget.product.id,
@@ -511,13 +506,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   ? Column(
                                       children: [
                                         UpdateProductInfoWidget(
-                                          title:
-                                              UtilsImporter().stringUtils.edit +
-                                                  ' ' +
-                                                  UtilsImporter()
-                                                      .stringUtils
-                                                      .priority +
-                                                  ' :',
+                                          title: StringUtils.edit +
+                                              ' ' +
+                                              StringUtils.priority +
+                                              ' :',
                                           textHint: widget.product.priority
                                               .toString(),
                                           inputType: TextInputType.text,
@@ -529,11 +521,9 @@ class ProductDetailViewState extends State<ProductDetailView>
                                               .toString(),
                                         ),
                                         UpdateProductInfoWidget(
-                                          title: UtilsImporter()
-                                                  .stringUtils
-                                                  .edit +
+                                          title: StringUtils.edit +
                                               ' ' +
-                                              UtilsImporter().stringUtils.name +
+                                              StringUtils.name +
                                               ' :',
                                           textHint: widget.product.name,
                                           inputType: TextInputType.multiline,
@@ -544,11 +534,9 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           productData: widget.product,
                                         ),
                                         UpdateProductInfoWidget(
-                                          title: UtilsImporter()
-                                                  .stringUtils
-                                                  .edit +
+                                          title: StringUtils.edit +
                                               ' ' +
-                                              UtilsImporter().stringUtils.unit +
+                                              StringUtils.unit +
                                               ' :',
                                           inputType: TextInputType.multiline,
                                           bodyKey: "unit",
@@ -559,13 +547,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           initialText: widget.product.unit,
                                         ),
                                         UpdateProductInfoWidget(
-                                          title:
-                                              UtilsImporter().stringUtils.edit +
-                                                  ' ' +
-                                                  UtilsImporter()
-                                                      .stringUtils
-                                                      .quantity +
-                                                  ' :',
+                                          title: StringUtils.edit +
+                                              ' ' +
+                                              StringUtils.quantity +
+                                              ' :',
                                           isForSubWarehouse: false,
                                           inputType: TextInputType.text,
                                           productData: widget.product,
@@ -575,13 +560,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           initialText: widget.product.quantity,
                                         ),
                                         UpdateProductInfoWidget(
-                                          title:
-                                              UtilsImporter().stringUtils.edit +
-                                                  ' ' +
-                                                  UtilsImporter()
-                                                      .stringUtils
-                                                      .description +
-                                                  ' :',
+                                          title: StringUtils.edit +
+                                              ' ' +
+                                              StringUtils.description +
+                                              ' :',
                                           textHint: "الوصف الجديد",
                                           inputType: TextInputType.multiline,
                                           bodyKey: "description",
@@ -674,9 +656,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                               style: decisionButtonStyle,
                                               closeButton: FlatButton(
                                                 child: Text(
-                                                  UtilsImporter()
-                                                      .stringUtils
-                                                      .close,
+                                                  StringUtils.close,
                                                   style: decisionButtonStyle
                                                       .copyWith(
                                                     color: ColorUtils.greyColor,
@@ -818,9 +798,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                       List<DialogButton>
                                                           dialogButtons = [
                                                         DialogButton(
-                                                          text: UtilsImporter()
-                                                              .stringUtils
-                                                              .yes,
+                                                          text: StringUtils.yes,
                                                           onTap: () async {
                                                             bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
                                                                 productsId: widget
@@ -847,9 +825,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                           },
                                                         ),
                                                         DialogButton(
-                                                          text: UtilsImporter()
-                                                              .stringUtils
-                                                              .no,
+                                                          text: StringUtils.no,
                                                           onTap: () {
                                                             Navigator.of(
                                                                     context)
@@ -874,9 +850,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                       List<DialogButton>
                                                           dialogButtons = [
                                                         DialogButton(
-                                                          text: UtilsImporter()
-                                                              .stringUtils
-                                                              .yes,
+                                                          text: StringUtils.yes,
                                                           onTap: () async {
                                                             bool result =
                                                                 await ProductsServices
@@ -901,9 +875,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                           },
                                                         ),
                                                         DialogButton(
-                                                          text: UtilsImporter()
-                                                              .stringUtils
-                                                              .no,
+                                                          text: StringUtils.no,
                                                           onTap: () {
                                                             Navigator.of(
                                                                     context)

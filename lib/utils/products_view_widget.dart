@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
@@ -113,9 +112,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     widget.productName,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                         fontSize: 18),
                                   ),
                                 ],
@@ -126,8 +123,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     color: ColorUtils.greyColor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.HKGrotesk,
                                     fontSize: 17),
                               ),
                               SizedBox(height: 8),
@@ -135,8 +131,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 children: [
                                   widget.price != null
                                       ? Text(
-                                          UtilsImporter()
-                                                  .stringUtils
+                                          StringUtils()
                                                   .oCcy
                                                   .format(widget.price)
                                                   .toString() +
@@ -144,9 +139,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               color: ColorUtils.primaryColor,
-                                              fontFamily: UtilsImporter()
-                                                  .stringUtils
-                                                  .HKGrotesk,
+                                              fontFamily: StringUtils.HKGrotesk,
                                               fontSize: 18))
                                       : Container(),
                                   widget.oldPrice != null
@@ -154,8 +147,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                           text: new TextSpan(
                                             children: <TextSpan>[
                                               new TextSpan(
-                                                text: UtilsImporter()
-                                                    .stringUtils
+                                                text: StringUtils()
                                                     .oCcy
                                                     .format(widget.oldPrice)
                                                     .toString(),
@@ -221,14 +213,14 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                   onPressed: () {
                                     List<DialogButton> dialogButtons = [
                                       DialogButton(
-                                        text: UtilsImporter().stringUtils.yes,
+                                        text: StringUtils.yes,
                                         onTap: () {
                                           _unAttachProduct();
                                           Navigator.of(context).pop();
                                         },
                                       ),
                                       DialogButton(
-                                        text: UtilsImporter().stringUtils.close,
+                                        text: StringUtils.close,
                                         onTap: () {
                                           Navigator.of(context).pop();
                                         },

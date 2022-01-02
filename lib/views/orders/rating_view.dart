@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/utils/new_utils_importer.dart';
 
@@ -78,7 +77,7 @@ class _RatingViewState extends State<RatingView> {
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.submit_feedback.toUpperCase(),
+            StringUtils.submit_feedback.toUpperCase(),
             style: decisionButtonStyle,
           ),
         ),
@@ -119,7 +118,7 @@ class _RatingViewState extends State<RatingView> {
                       child: Text('تقييم الخدمة',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontFamily: StringUtils.HKGrotesk,
                               color: ColorUtils.primaryColor,
                               fontSize: 25)), //font color is different
                     ),
@@ -138,7 +137,7 @@ class _RatingViewState extends State<RatingView> {
                       child: Text(
                         "كيف كانت تجربة طلبك في كمّون؟ ( تقييمك وملاحظاتك تساعدنا في تطوير خدمة كمّون )",
                         style: TextStyle(
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: StringUtils.HKGrotesk,
                             fontSize: 18,
                             color: Colors.black),
                       ), //font color is different
@@ -192,7 +191,7 @@ class _RatingViewState extends State<RatingView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           labelStyle: TextStyle(
-                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontFamily: StringUtils.HKGrotesk,
                               color: _focusNode.hasFocus
                                   ? Colors.orange
                                   : Colors.grey),

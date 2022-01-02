@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
@@ -122,9 +121,7 @@ class DeliverToViewState extends State<DeliverToView> {
                                         .userAddress[index].supportedCityName,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -136,9 +133,7 @@ class DeliverToViewState extends State<DeliverToView> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         color: ColorUtils.greyColor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -150,9 +145,7 @@ class DeliverToViewState extends State<DeliverToView> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         color: ColorUtils.greyColor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -164,9 +157,7 @@ class DeliverToViewState extends State<DeliverToView> {
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         color: ColorUtils.greyColor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -190,14 +181,14 @@ class DeliverToViewState extends State<DeliverToView> {
                   //    crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     KammunButton(
-                      text: UtilsImporter().stringUtils.delete.toUpperCase(),
+                      text: StringUtils.delete.toUpperCase(),
                       height: 35,
                       width: 125,
                       color: ColorUtils.primaryColor,
                       onTap: () => onrRemove(index),
                     ),
                     KammunButton(
-                      text: UtilsImporter().stringUtils.edit.toUpperCase(),
+                      text: StringUtils.edit.toUpperCase(),
                       height: 35,
                       width: 125,
                       color: ColorUtils.primaryColor,
@@ -253,11 +244,10 @@ class DeliverToViewState extends State<DeliverToView> {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              UtilsImporter().stringUtils.deliverto,
+                              StringUtils.deliverto,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                   fontSize: 30),
                             )),
                       ],
@@ -301,14 +291,11 @@ class DeliverToViewState extends State<DeliverToView> {
                               alignment: Alignment.center,
                               child: FlatButton(
                                 padding: EdgeInsets.only(left: 30.0, top: 10.0),
-                                child: Text(
-                                    UtilsImporter().stringUtils.add_new_address,
+                                child: Text(StringUtils.add_new_address,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         color: ColorUtils.greyColor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                         fontSize: 17)),
                                 onPressed: () {
                                   Navigator.push(
@@ -324,10 +311,7 @@ class DeliverToViewState extends State<DeliverToView> {
                       ),
                     ),
                     KammunButton(
-                      text: UtilsImporter()
-                          .stringUtils
-                          .proceed_to_pay
-                          .toUpperCase(),
+                      text: StringUtils.proceed_to_pay.toUpperCase(),
                       height: 50,
                       color: DeliverToView.selectedIndex != null
                           ? ColorUtils.primaryColor

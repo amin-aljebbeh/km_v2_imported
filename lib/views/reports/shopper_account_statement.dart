@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Styles.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/k_searchable_dropdown.dart';
 import 'package:kammun_app/views/Wedgit/transaction_widget.dart';
 
@@ -165,7 +165,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                       padding: const EdgeInsets.only(
                           left: 0, top: 10, right: 0, bottom: 10),
                       child: KSearchableDropdown(
-                        hint: UtilsImporter().stringUtils.chooseShopper,
+                        hint: StringUtils.chooseShopper,
                         search: shopperFilter,
                         items: Services.shoppersNameList(),
                         onChanged: (value) {
@@ -188,8 +188,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    UtilsImporter()
-                        .stringUtils
+                    StringUtils()
                         .oCcy
                         .format(int.parse(shopperDues))
                         .toString(),
@@ -197,8 +196,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                   ),
                   Services.isOperationManager()
                       ? Text(
-                          UtilsImporter()
-                              .stringUtils
+                          StringUtils()
                               .oCcy
                               .format(int.parse(kammunDues))
                               .toString(),

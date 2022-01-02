@@ -1,7 +1,6 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/start_models/category_model.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
@@ -83,7 +82,7 @@ class _SubCategoryState extends State<SubCategory> {
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: StringUtils.HKGrotesk,
                 ),
               ),
             ),
@@ -186,7 +185,7 @@ class _SubCategoryState extends State<SubCategory> {
                           color: ColorUtils.primaryColor,
                           fontSize: ResponsiveFlutter.of(context).fontSize(3),
                           fontWeight: FontWeight.bold,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
+                          fontFamily: StringUtils.HKGrotesk)),
                 ),
               ),
             )
@@ -269,8 +268,7 @@ class _SubCategoryState extends State<SubCategory> {
                                       fontSize: ResponsiveFlutter.of(context)
                                           .fontSize(4),
                                       color: Colors.white,
-                                      fontFamily:
-                                          UtilsImporter().stringUtils.HKGrotesk,
+                                      fontFamily: StringUtils.HKGrotesk,
                                     ),
                                     softWrap: true,
                                     overflow: TextOverflow.fade,

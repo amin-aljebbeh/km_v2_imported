@@ -7,7 +7,6 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
@@ -145,7 +144,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         DropdownButton(
                           value: filterOrders,
                           items: Services.dropdownStringList(
-                              UtilsImporter().stringUtils.orderStatus),
+                              StringUtils.orderStatus),
                           onChanged: (value) {
                             setState(() {
                               filterOrders = value;
@@ -175,7 +174,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         DropdownButton(
                           value: page,
                           items: Services.dropdownIntList(
-                              UtilsImporter().stringUtils.dropdownValues),
+                              StringUtils.dropdownValues),
                           onChanged: (value) {
                             setState(() {
                               page = value;
@@ -215,8 +214,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: ColorUtils.greyColor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.HKGrotesk,
                                     fontSize: 20.0,
                                   ),
                                 ),
@@ -295,7 +293,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 ),
                               ),
                               KammunButton(
-                                text: UtilsImporter().stringUtils.edit_order,
+                                text: StringUtils.edit_order,
                                 onTap: () async {
                                   setState(
                                     () {
@@ -352,8 +350,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                               orderDataList[index].userNotes.toString() !=
                                       "null"
                                   ? KammunButton(
-                                      text:
-                                          UtilsImporter().stringUtils.watchNote,
+                                      text: StringUtils.watchNote,
                                       onTap: () {
                                         List<DialogButton> decisionButtons = [
                                           DialogButton(
@@ -375,7 +372,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   : Container(),
                               orderDataList[index].underUpdate.toString() != "0"
                                   ? KammunButton(
-                                      text: UtilsImporter().stringUtils.unLock,
+                                      text: StringUtils.unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
                                         List<DialogButton> decisionButtons = [

@@ -3,7 +3,6 @@ import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
@@ -89,8 +88,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
             style: TextStyle(
-                color: Colors.white,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                color: Colors.white, fontFamily: StringUtils.HKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: ColorUtils.kmColors),
@@ -157,9 +155,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk)),
+                                        fontFamily: StringUtils.HKGrotesk)),
                                 onPressed: () {
                                   _loadData();
                                 }),

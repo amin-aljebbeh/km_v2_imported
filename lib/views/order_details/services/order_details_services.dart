@@ -7,7 +7,6 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:http/http.dart' as http;
 import 'package:kammun_app/utils/new_utils_importer.dart';
@@ -34,7 +33,7 @@ class OrderDetailsServices {
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              fontFamily: StringUtils.HKGrotesk),
         ),
 
         boxShadows: [
@@ -62,7 +61,7 @@ class OrderDetailsServices {
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              fontFamily: StringUtils.HKGrotesk),
         ),
         boxShadows: [
           BoxShadow(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
 import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -76,8 +75,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.HKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -88,14 +86,12 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: ColorUtils.greyColor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: StringUtils.HKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
                           Text(
-                              UtilsImporter()
-                                      .stringUtils
+                              StringUtils()
                                       .oCcy
                                       .format(widget.price)
                                       .toString() +
@@ -103,8 +99,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: ColorUtils.primaryColor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),

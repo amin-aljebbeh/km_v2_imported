@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
@@ -103,11 +102,10 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              UtilsImporter().stringUtils.deliverMethod,
+                              StringUtils.deliverMethod,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                   fontSize: 30),
                             )),
                       ],
@@ -149,16 +147,12 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                           //color: UtilsImporter().colorUtils.primarycolor,
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk),
+                                          fontFamily: StringUtils.HKGrotesk),
                                       selectedTextStyle: TextStyle(
                                           color: Colors.white,
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk),
+                                          fontFamily: StringUtils.HKGrotesk),
                                       direction: Axis.vertical,
                                       isRadio: true,
                                       spacing: 10,
@@ -187,9 +181,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                           color: ColorUtils.primaryColor,
                                           fontSize: 25.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk)),
+                                          fontFamily: StringUtils.HKGrotesk)),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -199,9 +191,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                           color: ColorUtils.primaryColor,
                                           fontSize: 25.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk)),
+                                          fontFamily: StringUtils.HKGrotesk)),
                                 ),
                                 Center(
                                   child: Padding(
@@ -221,16 +211,13 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                           ),
                     error
                         ? KammunButton(
-                            text: UtilsImporter().stringUtils.tryAgain,
+                            text: StringUtils.tryAgain,
                             height: 50,
                             color: Colors.green,
                             onTap: _getDeliveryMethods,
                           )
                         : KammunButton(
-                            text: UtilsImporter()
-                                .stringUtils
-                                .proceed_to_pay
-                                .toUpperCase(),
+                            text: StringUtils.proceed_to_pay.toUpperCase(),
                             height: 50,
                             color: selectedIndex != null
                                 ? ColorUtils.primaryColor

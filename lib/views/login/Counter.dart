@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'login_view.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 
 // ignore: must_be_immutable
 class CounterOtp extends StatefulWidget {
@@ -134,8 +134,7 @@ class _CounterOtpState extends State<CounterOtp> {
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 17,
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk),
+                              fontFamily: StringUtils.HKGrotesk),
                           softWrap: true,
                         ),
                       ),
@@ -186,8 +185,7 @@ class _CounterOtpState extends State<CounterOtp> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 17,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
+                                    fontFamily: StringUtils.HKGrotesk),
                                 softWrap: true,
                               ),
                             ),

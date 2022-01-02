@@ -7,7 +7,6 @@ import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/funny_images.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/facebook_loader.dart';
 import 'package:kammun_app/views/Wedgit/products_view_card.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -181,7 +180,7 @@ class ProductsViewState extends State<ProductsView> {
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: StringUtils.HKGrotesk,
                 ),
               ),
             ),
@@ -293,8 +292,7 @@ class ProductsViewState extends State<ProductsView> {
                           child: Center(
                             child: Text(errorMessage,
                                 style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
+                                    fontFamily: StringUtils.HKGrotesk)),
                           ),
                         )
                   : Padding(
@@ -381,9 +379,7 @@ class ProductsViewState extends State<ProductsView> {
                                     ? Text("تم جلب جميع المنتجات",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: UtilsImporter()
-                                                .stringUtils
-                                                .HKGrotesk))
+                                            fontFamily: StringUtils.HKGrotesk))
                                     : Loader(),
                               ),
                             ),

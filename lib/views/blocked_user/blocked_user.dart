@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/utils/new_utils_importer.dart';
@@ -29,7 +28,7 @@ class BlockedUser extends StatelessWidget {
                       color: Colors.black,
                       fontSize: 25.0,
                       fontWeight: FontWeight.w500,
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                      fontFamily: StringUtils.HKGrotesk),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -43,7 +42,7 @@ class BlockedUser extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 18,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.HKGrotesk,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -52,7 +51,7 @@ class BlockedUser extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: KammunButton(
-                    text: UtilsImporter().stringUtils.tryAgain,
+                    text: StringUtils.tryAgain,
                     height: 50,
                     color: ColorUtils.primaryColor,
                     onTap: () => KammunRestart.restartApp(context),

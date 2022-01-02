@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -51,7 +50,7 @@ class UpdateScreen extends StatelessWidget {
                       color: Colors.black,
                       fontSize: 25.0,
                       fontWeight: FontWeight.w500,
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                      fontFamily: StringUtils.HKGrotesk),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -65,7 +64,7 @@ class UpdateScreen extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 18,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.HKGrotesk,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
@@ -120,8 +119,7 @@ class _AddProductsViewState extends State<AddProductsView> {
         Text(
           title,
           style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-              fontWeight: FontWeight.bold),
+              fontFamily: StringUtils.HKGrotesk, fontWeight: FontWeight.bold),
         ),
         subTitle == null
             ? Container(width: 0, height: 0)
@@ -165,7 +163,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                 border: OutlineInputBorder(),
                 hintText: hint,
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: StringUtils.HKGrotesk,
                 ),
                 fillColor: Colors.white,
                 filled: true,
@@ -240,7 +238,7 @@ class _AddProductsViewState extends State<AddProductsView> {
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: StringUtils.HKGrotesk),
           ),
           boxShadows: [
             BoxShadow(
@@ -266,7 +264,7 @@ class _AddProductsViewState extends State<AddProductsView> {
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              fontFamily: StringUtils.HKGrotesk),
         ),
         boxShadows: [
           BoxShadow(
@@ -378,7 +376,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     Text(
                       "يرجى إختيار المستودع التابع لهذه المادة",
                       style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.HKGrotesk,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -398,9 +396,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: StringUtils.HKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedSubWarehouseValue,
@@ -521,8 +517,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                           Text(
                             "السماح بتفعيل المنتاج تلقائيا",
                             style: TextStyle(
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: StringUtils.HKGrotesk,
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -557,7 +552,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     _image != null ? imagesBody() : Container(),
                     KammunButton(
                       height: 50,
-                      text: UtilsImporter().stringUtils.save,
+                      text: StringUtils.save,
                       color: toastList() == 0
                           ? ColorUtils.kmColors2
                           : ColorUtils.searchGreyColor,

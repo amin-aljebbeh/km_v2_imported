@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/start_models/order_model.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/order_information_row.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -146,9 +145,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     OrderInformationRow(
-                      rightSideText: UtilsImporter().stringUtils.bill,
+                      rightSideText: StringUtils.bill,
                       leftSideText:
-                          "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
+                          "${StringUtils().oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
                               " ${LoadingScreenServices.companyInformation.currency.toString()}",
                       leftSideStyle: informationStyle,
                     ),
@@ -179,7 +178,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           RichText(
                             text: TextSpan(
                               text:
-                                  "${UtilsImporter().stringUtils.oCcy.format(widget.orderData.shopperProfit).toString()}",
+                                  "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
                               style: profitStyle,
                             ),
                           ),
@@ -188,7 +187,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   ],
                 ),
                 OrderInformationRow(
-                  rightSideText: UtilsImporter().stringUtils.phoneNumber,
+                  rightSideText: StringUtils.phoneNumber,
                   leftSideText: widget.userNumber,
                   leftSideStyle: paragraphStyle.copyWith(
                     color: ColorUtils.kmColors,
@@ -197,12 +196,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     ..onTap = () => _makePhoneCall(widget.userNumber),
                 ),
                 OrderInformationRow(
-                  rightSideText: UtilsImporter().stringUtils.address + " : ",
+                  rightSideText: StringUtils.address + " : ",
                   leftSideText: widget.address,
                   leftSideStyle: informationStyle,
                 ),
                 OrderInformationRow(
-                  rightSideText: UtilsImporter().stringUtils.city,
+                  rightSideText: StringUtils.city,
                   leftSideText: LoadingScreenServices.supportedCitiesListIntro
                           .where((supportedCity) =>
                               supportedCity.id == widget.supportedCityId)
@@ -212,12 +211,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   leftSideStyle: informationStyle,
                 ),
                 OrderInformationRow(
-                  rightSideText: UtilsImporter().stringUtils.entrance,
+                  rightSideText: StringUtils.entrance,
                   leftSideText: widget.entrance,
                   leftSideStyle: informationStyle,
                 ),
                 OrderInformationRow(
-                  rightSideText: UtilsImporter().stringUtils.orderDate,
+                  rightSideText: StringUtils.orderDate,
                   leftSideText: widget.orderCreatedDate,
                   leftSideStyle: disableStyle,
                 ),
@@ -231,12 +230,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
             Column(
               children: [
                 OrderInformationRow(
-                  rightSideText: UtilsImporter().stringUtils.shopperName + " ",
+                  rightSideText: StringUtils.shopperName + " ",
                   leftSideText: shopperName != null ? shopperName : " ",
                   leftSideStyle: paragraphStyle,
                 ),
                 // OrderInformationRow(
-                //   rightSideText: UtilsImporter().stringUtils.deliveryName + " ",
+                //   rightSideText: StringUtils.deliveryName + " ",
                 //   leftSideText: deliveryName != null ? deliveryName : " ",
                 //   leftSideStyle: paragraphStyle,
                 // ),

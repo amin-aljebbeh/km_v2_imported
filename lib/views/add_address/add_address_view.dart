@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/start_models/address_model.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/k_text_field.dart';
@@ -119,11 +118,10 @@ class AddAddressViewState extends State<AddAddressView> {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            UtilsImporter().stringUtils.add_address,
+                            StringUtils.add_address,
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: StringUtils.HKGrotesk,
                                 fontSize: 30),
                           )
                         ],
@@ -145,7 +143,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           FocusScope.of(context).requestFocus(_cityFocus);
                         },
                         hintText: "مثال: بيت الجبه منزل الدكتور محمد",
-                        labelText: UtilsImporter().stringUtils.familyName,
+                        labelText: StringUtils.familyName,
                       ),
                       KTextField(
                         controller: cityController,
@@ -155,7 +153,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           FocusScope.of(context).requestFocus(_stateFocus);
                         },
                         hintText: "بناء رقم 15، بناء المهندسين",
-                        labelText: UtilsImporter().stringUtils.buildingName,
+                        labelText: StringUtils.buildingName,
                       ),
                       KTextField(
                         controller: stateController,
@@ -165,7 +163,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           FocusScope.of(context).requestFocus(_countryFocus);
                         },
                         hintText: "الطابق الأرضي، الطابق الخامس",
-                        labelText: UtilsImporter().stringUtils.floor,
+                        labelText: StringUtils.floor,
                       ),
                       KTextField(
                         controller: entranceController,
@@ -175,7 +173,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           FocusScope.of(context).requestFocus(_entranceFocus);
                         },
                         hintText: "المدخل اليميني",
-                        labelText: UtilsImporter().stringUtils.HKGrotesk,
+                        labelText: StringUtils.HKGrotesk,
                       ),
                       KTextField(
                         controller: countryController,
@@ -185,12 +183,10 @@ class AddAddressViewState extends State<AddAddressView> {
                           _countryFocus.unfocus();
                         },
                         hintText: "مقابل جامع النعمان،",
-                        labelText: UtilsImporter().stringUtils.closeSign,
+                        labelText: StringUtils.closeSign,
                       ),
                       KammunButton(
-                        text: UtilsImporter().stringUtils.save +
-                            ' ' +
-                            UtilsImporter().stringUtils.address,
+                        text: StringUtils.save + ' ' + StringUtils.address,
                         height: 50,
                         color: ColorUtils.primaryColor,
                         onTap: _addAddressBtnTapped,
@@ -213,7 +209,7 @@ class AddAddressViewState extends State<AddAddressView> {
               child: Text(
                 "المدينة :",
                 style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                    fontFamily: StringUtils.HKGrotesk,
                     fontSize: 20,
                     color: ColorUtils.primaryColor,
                     fontWeight: FontWeight.w500),
@@ -233,14 +229,13 @@ class AddAddressViewState extends State<AddAddressView> {
                 'يرجى إختيار المدينة التابع لها ',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: StringUtils.HKGrotesk,
                 ),
               ),
               searchHint: new Text(
                 'إختيار المنطقة',
                 style: new TextStyle(
-                    fontSize: 20,
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                    fontSize: 20, fontFamily: StringUtils.HKGrotesk),
               ),
               onChanged: (value) {
                 setState(() {
@@ -276,7 +271,7 @@ class AddAddressViewState extends State<AddAddressView> {
                     child: Text('هل تريد مشاركة موقعك؟',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: StringUtils.HKGrotesk,
                             color: ColorUtils.kmColors,
                             fontWeight: FontWeight.bold,
                             fontSize: 25)), //font color is diffrent
@@ -284,9 +279,9 @@ class AddAddressViewState extends State<AddAddressView> {
                   Container(
                     margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
                     child: Text(
-                      UtilsImporter().stringUtils.loaction_request_info,
+                      StringUtils.loaction_request_info,
                       style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: StringUtils.HKGrotesk,
                           color: ColorUtils.primaryColor,
                           fontSize: 18),
                     ), //font color is diffrent
@@ -295,10 +290,9 @@ class AddAddressViewState extends State<AddAddressView> {
                   Container(
                     margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
                     child: Text(
-                      UtilsImporter().stringUtils.location_request_note,
+                      StringUtils.location_request_note,
                       style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                          color: Colors.red),
+                          fontFamily: StringUtils.HKGrotesk, color: Colors.red),
                     ), //font color is diffrent
                   ),
                   //   _submitRating(),
@@ -320,9 +314,7 @@ class AddAddressViewState extends State<AddAddressView> {
                     padding: const EdgeInsets.only(
                         top: 0.0, left: 8, right: 8, bottom: 40),
                     child: KammunButton(
-                      text: UtilsImporter().stringUtils.save +
-                          ' ' +
-                          UtilsImporter().stringUtils.address,
+                      text: StringUtils.save + ' ' + StringUtils.address,
                       height: 50,
                       color: ColorUtils.primaryColor,
                       onTap: () {

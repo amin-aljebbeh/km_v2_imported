@@ -1,6 +1,6 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 
@@ -70,7 +70,7 @@ class ShopByCategoryState extends State<ShopByCategory> {
                         color: Colors.white,
                         fontSize: ResponsiveFlutter.of(context).fontSize(3),
                         fontWeight: FontWeight.bold,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.HKGrotesk,
                       ),
                       textAlign: TextAlign.center,
                     ),

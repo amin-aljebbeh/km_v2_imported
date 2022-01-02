@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Styles.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/utils/new_utils_importer.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 // ignore: must_be_immutable
@@ -28,7 +28,7 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
     return SearchableDropdown(
       closeButton: FlatButton(
         child: Text(
-          UtilsImporter().stringUtils.close,
+          StringUtils.close,
           style: dropdownItemStyle,
         ),
         onPressed: () => Navigator.of(context).pop(),

@@ -1,6 +1,5 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/new_utils_importer.dart';
@@ -62,8 +61,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                                 widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.HKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -74,14 +72,12 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: ColorUtils.greyColor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: StringUtils.HKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
                           Text(
-                              UtilsImporter()
-                                      .stringUtils
+                              StringUtils()
                                       .oCcy
                                       .format(widget.price)
                                       .toString() +
@@ -89,8 +85,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: ColorUtils.primaryColor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),
@@ -115,8 +110,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                                     fontSize: 15,
 
                                     //fontWeight: FontWeight.w500,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
+                                    fontFamily: StringUtils.HKGrotesk),
                               ),
                               Text(
                                 'المستودعات',
@@ -124,8 +118,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                                     color: Colors.white,
                                     fontSize: 15,
                                     //   fontWeight: FontWeight.w500,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
+                                    fontFamily: StringUtils.HKGrotesk),
                               ),
                             ],
                           ),

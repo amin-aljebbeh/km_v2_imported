@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/side_bar_row.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
@@ -88,7 +87,7 @@ class StoreViewState extends State<StoreView> {
                             fontSize: 17,
                             color: ColorUtils.primaryColor,
                             fontWeight: FontWeight.bold,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                            fontFamily: StringUtils.HKGrotesk),
                       ),
                     ),
                     IconButton(
@@ -119,7 +118,7 @@ class StoreViewState extends State<StoreView> {
                             color: Colors.grey[900],
                             fontSize: 20,
                             fontWeight: FontWeight.normal,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                            fontFamily: StringUtils.HKGrotesk),
                       ),
                     ],
                   ),
@@ -334,7 +333,7 @@ class StoreViewState extends State<StoreView> {
                                       : Container(),
                                   SideBarRow(
                                     icon: Icons.fact_check,
-                                    text: UtilsImporter().stringUtils.inventory,
+                                    text: StringUtils.inventory,
                                     onTap: () {
                                       Navigator.of(context)
                                           .pushNamed('/Inventory');
@@ -547,11 +546,11 @@ class StoreViewState extends State<StoreView> {
                       ),
                     ),
                     Text(
-                      "  " + UtilsImporter().stringUtils.shopByCategory + "  ",
+                      "  " + StringUtils.shopByCategory + "  ",
                       style: TextStyle(
                           color: ColorUtils.primaryColor,
                           fontWeight: FontWeight.w900,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: StringUtils.HKGrotesk,
                           fontSize: 22),
                     ),
                     Expanded(
@@ -602,7 +601,7 @@ class StoreViewState extends State<StoreView> {
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
               contentPadding: const EdgeInsets.only(bottom: 0.5),
-              hintText: UtilsImporter().stringUtils.search,
+              hintText: StringUtils.search,
               hintStyle: mainStyle,
             ),
           ),

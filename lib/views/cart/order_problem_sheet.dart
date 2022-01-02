@@ -2,7 +2,6 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
@@ -119,7 +118,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                            fontFamily: StringUtils.HKGrotesk),
                       )),
                     )
                   : Container(),
@@ -173,7 +172,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                            fontFamily: StringUtils.HKGrotesk),
                       )),
                     )
                   : Container(),
@@ -272,8 +271,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                               orderArray[index].name,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                   fontSize: 18),
                             ),
                             // SizedBox(height: 6),
@@ -284,8 +282,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                   fontSize: 17),
                             ),
                           ],
@@ -356,8 +353,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                               orderArray[index].name,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                   fontSize: 18),
                             ),
                             SizedBox(height: 6),
@@ -368,18 +364,16 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.HKGrotesk,
                                   fontSize: 17),
                             ),
                             SizedBox(height: 8),
                             Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: ColorUtils.primaryColor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.HKGrotesk,
                                     fontSize: 18)),
                           ],
                         ),
