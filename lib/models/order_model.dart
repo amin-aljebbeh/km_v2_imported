@@ -614,6 +614,7 @@ class User {
       };
 }
 
+//TODO: compare models with others in start model folder
 class Warehouse {
   Warehouse({
     this.id,

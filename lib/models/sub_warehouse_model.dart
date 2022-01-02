@@ -4,8 +4,7 @@
 
 import 'dart:convert';
 
-import 'sub_warehouse_level_pivot.dart';
-import 'sub_warehouse_pivot.dart';
+import 'models_importer.dart';
 
 List<SubWarehouse> subWarehouseFromJson(String str) => List<SubWarehouse>.from(
     json.decode(str).map((x) => SubWarehouse.fromJson(x)));

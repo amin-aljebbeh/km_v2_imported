@@ -9,7 +9,7 @@ import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:http/http.dart' as http;
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class OrderDetailsServices {
   static Future<bool> updateOrder(

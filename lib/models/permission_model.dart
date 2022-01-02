@@ -1,4 +1,4 @@
-import 'permission_pivot_model.dart';
+import 'models_importer.dart';
 
 class Permission {
   Permission({

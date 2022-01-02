@@ -14,7 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
 import 'package:share/share.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class StoreView extends StatefulWidget {
   @override

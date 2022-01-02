@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class BlockedUser extends StatelessWidget {
   static final String routeName = "/blocked-user";

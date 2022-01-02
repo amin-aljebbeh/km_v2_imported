@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class ScreenMessage extends StatelessWidget {
   final String message;

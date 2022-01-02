@@ -5,7 +5,7 @@ import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'model/prices_changes_model.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class Prices extends StatefulWidget {
   @override

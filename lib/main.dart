@@ -26,7 +26,7 @@ import 'views/reports/sales_report.dart';
 import 'views/reports/shopper_account_statement.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 void main() {
   //BlocSupervisor.delegate = SimpleBlocDelegate();

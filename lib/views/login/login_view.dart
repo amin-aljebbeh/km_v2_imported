@@ -11,7 +11,7 @@ import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'Services/login_services.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class LoginScreen extends StatefulWidget {
   static String routeName = "/login";

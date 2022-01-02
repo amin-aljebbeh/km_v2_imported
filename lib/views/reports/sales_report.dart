@@ -8,7 +8,7 @@ import 'package:kammun_app/views/Wedgit/k_table_element.dart';
 import 'package:kammun_app/views/Wedgit/k_table_row.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:toast/toast.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 import 'models/sales_reports_model.dart';
 import 'services/reports_services.dart';

@@ -1,7 +1,7 @@
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Styles.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class KTextField extends StatefulWidget {
   final TextEditingController controller;

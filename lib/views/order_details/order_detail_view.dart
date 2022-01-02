@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/start_models/order_model.dart';
-import 'package:kammun_app/models/start_models/order_product_model.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/common_utils.dart';
 import '../../utils/Styles.dart';
 import 'order_accounting.dart';

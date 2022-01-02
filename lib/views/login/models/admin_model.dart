@@ -1,7 +1,4 @@
-import 'package:kammun_app/models/permission_model.dart';
-import 'package:kammun_app/models/role_model.dart';
-import 'package:kammun_app/models/shopper_model.dart';
-import 'package:kammun_app/models/sub_warehouse_model.dart';
+import 'package:kammun_app/models/models_importer.dart';
 
 class AdminModel {
   AdminModel(

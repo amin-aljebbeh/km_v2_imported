@@ -5,7 +5,7 @@ import 'package:kammun_app/utils/Loader.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'login_view.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class CounterOtp extends StatefulWidget {

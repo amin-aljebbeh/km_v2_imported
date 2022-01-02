@@ -1,12 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/models/start_models/order_model.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Wedgit/order_information_row.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../utils/Styles.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class OrdersViewCard extends StatefulWidget {

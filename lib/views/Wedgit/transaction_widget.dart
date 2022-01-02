@@ -3,7 +3,7 @@ import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/views/Wedgit/k_table_row.dart';
 import 'package:kammun_app/views/Wedgit/k_table_element.dart';
 import 'package:kammun_app/views/reports/models/transaction_model.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:intl/intl.dart';
 
 class Transaction extends StatelessWidget {

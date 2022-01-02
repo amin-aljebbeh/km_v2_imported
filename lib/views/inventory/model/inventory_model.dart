@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/models_importer.dart';
 
 ProductsToReview productsToReviewFromJson(String str) =>
     ProductsToReview.fromJson(json.decode(str));

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'new_utils_importer.dart';
+import 'utils_importer.dart';
 
 class CommonUtils {
   Size deviceScreenSize(BuildContext context) {

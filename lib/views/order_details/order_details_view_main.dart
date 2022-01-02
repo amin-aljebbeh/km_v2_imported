@@ -1,8 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/models/start_models/order_model.dart';
-import 'package:kammun_app/models/start_models/order_product_model.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/views/Wedgit/blurred_widget.dart';
 import '../../utils/Styles.dart';
@@ -15,7 +14,7 @@ import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/order_detail_view_main_card.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class OrderDetailViewMain extends StatefulWidget {

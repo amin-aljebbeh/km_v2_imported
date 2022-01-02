@@ -6,7 +6,7 @@ import 'package:kammun_app/views/inventory/sub_warehouse_products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'services/inventory_services.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class GetSubWarehouse extends StatefulWidget {
   const GetSubWarehouse({Key key}) : super(key: key);

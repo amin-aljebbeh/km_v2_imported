@@ -8,7 +8,7 @@ import 'package:kammun_app/views/deliver_to/services/delivery_method_services.da
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:group_button/group_button.dart';
 import 'package:toast/toast.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 import 'deliver_to_view.dart';
 

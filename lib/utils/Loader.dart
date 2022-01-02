@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'new_utils_importer.dart';
+import 'utils_importer.dart';
 
 class Actor extends StatelessWidget {
   final size;

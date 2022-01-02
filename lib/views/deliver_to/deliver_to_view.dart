@@ -11,7 +11,7 @@ import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:toast/toast.dart';
 import '../../Services.dart';
 import 'delivery_method.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class DeliverToView extends StatefulWidget {
   static int selectedIndex;

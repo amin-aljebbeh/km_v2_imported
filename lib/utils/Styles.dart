@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'new_utils_importer.dart';
+import 'utils_importer.dart';
 
 TextStyle mainStyle = TextStyle(
   fontFamily: StringUtils.HKGrotesk,

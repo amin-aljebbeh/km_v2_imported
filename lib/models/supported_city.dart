@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:kammun_app/models/supported_city_level_pivot.dart';
+import 'models_importer.dart';
 
 List<SupportedCity> subWarehouseFromJson(String str) =>
     List<SupportedCity>.from(

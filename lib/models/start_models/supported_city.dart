@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:kammun_app/models/start_models/warehouse_model.dart';
-
-import 'headers_model.dart';
+import 'start_model_importer.dart';
 
 SupportedCityOriginal supportedCityOriginalFromJson(String str) =>
     SupportedCityOriginal.fromJson(json.decode(str));

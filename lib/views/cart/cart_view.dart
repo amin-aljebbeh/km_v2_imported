@@ -11,7 +11,7 @@ import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'services/cart_services.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class CartView extends StatefulWidget {
   final bool isFromUpdateOrder;

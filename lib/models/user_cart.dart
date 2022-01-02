@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'start_models/order_product_model.dart';
+import 'models_importer.dart';
 
 UserCart userCartFromJson(String str) => UserCart.fromJson(json.decode(str));
 

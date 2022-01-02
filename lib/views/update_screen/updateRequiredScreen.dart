@@ -3,7 +3,7 @@ import 'package:kammun_app/views/Wedgit/kammun_button.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class UpdateScreen extends StatelessWidget {
   static final String routeName = "/update";

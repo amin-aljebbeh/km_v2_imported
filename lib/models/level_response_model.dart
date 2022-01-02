@@ -1,4 +1,4 @@
-import 'shopper_level_model.dart';
+import 'models_importer.dart';
 
 class ModelResponse {
   ModelResponse({

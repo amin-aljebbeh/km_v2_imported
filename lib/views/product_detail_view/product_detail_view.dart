@@ -3,9 +3,8 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/start_models/category_model.dart';
 import 'package:kammun_app/utils/Styles.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Wedgit/add_image_widget.dart';
 import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/kammun_button.dart';
@@ -24,7 +23,7 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {

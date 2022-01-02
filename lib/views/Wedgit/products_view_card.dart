@@ -4,7 +4,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
 import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/utils/new_utils_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class ProductsViewCard extends StatefulWidget {
