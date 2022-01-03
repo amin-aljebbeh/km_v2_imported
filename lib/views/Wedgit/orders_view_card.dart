@@ -16,7 +16,6 @@ class OrdersViewCard extends StatefulWidget {
   String deliveryName;
   String shopperName;
   int orderQuantity;
-  String orderTitle;
   String orderTotalPrice;
   int orderStatus;
   String orderCreatedDate;
@@ -31,7 +30,6 @@ class OrdersViewCard extends StatefulWidget {
   OrdersViewCard({
     @required this.orderId,
     this.orderQuantity,
-    this.orderTitle,
     this.orderTotalPrice,
     this.orderStatus,
     this.orderCreatedDate,
@@ -138,108 +136,94 @@ class OrdersViewCardState extends State<OrdersViewCard> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    OrderInformationRow(
-                      rightSideText: StringUtils.bill,
-                      leftSideText:
-                          "${StringUtils().oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
-                              " ${LoadingScreenServices.companyInformation.currency.toString()}",
-                      leftSideStyle: informationStyle,
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: ColorUtils.greyColor.withOpacity(0.2)),
-                      ),
-                      child: Text(
-                        widget.orderQuantity.toString(),
-                        style: paragraphStyle,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          widget.orderId.toString().length >= 3
-                              ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
-                              : '#${widget.orderId.toString()}',
-                          style: profitStyle.copyWith(
-                            color: Colors.purple,
-                          ),
-                        ),
-                        if (Services.isShopper())
-                          RichText(
-                            text: TextSpan(
-                              text:
-                                  "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
-                              style: profitStyle,
-                            ),
-                          ),
-                      ],
-                    )
-                  ],
-                ),
                 OrderInformationRow(
-                  rightSideText: StringUtils.phoneNumber,
-                  leftSideText: widget.userNumber,
-                  leftSideStyle: paragraphStyle.copyWith(
-                    color: ColorUtils.kmColors,
+                  rightSideText: StringUtils.bill,
+                  leftSideText:
+                      "${StringUtils().oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
+                          " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                  leftSideStyle: informationStyle,
+                ),
+                Container(
+                  padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: ColorUtils.greyColor.withOpacity(0.2)),
                   ),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () => _makePhoneCall(widget.userNumber),
+                  child: Text(
+                    widget.orderQuantity.toString(),
+                    style: paragraphStyle,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                OrderInformationRow(
-                  rightSideText: StringUtils.address + " : ",
-                  leftSideText: widget.address,
-                  leftSideStyle: informationStyle,
-                ),
-                OrderInformationRow(
-                  rightSideText: StringUtils.city,
-                  leftSideText: LoadingScreenServices.supportedCitiesListIntro
-                          .where((supportedCity) =>
-                              supportedCity.id == widget.supportedCityId)
-                          .first
-                          .name +
-                      "   ",
-                  leftSideStyle: informationStyle,
-                ),
-                OrderInformationRow(
-                  rightSideText: StringUtils.entrance,
-                  leftSideText: widget.entrance,
-                  leftSideStyle: informationStyle,
-                ),
-                OrderInformationRow(
-                  rightSideText: StringUtils.orderDate,
-                  leftSideText: widget.orderCreatedDate,
-                  leftSideStyle: disableStyle,
-                ),
-                OrderInformationRow(
-                  rightSideText: orderStatus,
-                  leftSideText: '',
-                  leftSideStyle: informationStyle,
-                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.orderId.toString().length >= 3
+                          ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
+                          : '#${widget.orderId.toString()}',
+                      style: profitStyle.copyWith(
+                        color: Colors.purple,
+                      ),
+                    ),
+                    if (Services.isShopper())
+                      RichText(
+                        text: TextSpan(
+                          text:
+                              "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
+                          style: profitStyle,
+                        ),
+                      ),
+                  ],
+                )
               ],
             ),
-            Column(
-              children: [
-                OrderInformationRow(
-                  rightSideText: StringUtils.shopperName + " ",
-                  leftSideText: shopperName != null ? shopperName : " ",
-                  leftSideStyle: paragraphStyle,
-                ),
-                // OrderInformationRow(
-                //   rightSideText: StringUtils.deliveryName + " ",
-                //   leftSideText: deliveryName != null ? deliveryName : " ",
-                //   leftSideStyle: paragraphStyle,
-                // ),
-              ],
+            OrderInformationRow(
+              rightSideText: StringUtils.phoneNumber,
+              leftSideText: widget.userNumber,
+              leftSideStyle: paragraphStyle.copyWith(
+                color: ColorUtils.kmColors,
+              ),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => _makePhoneCall(widget.userNumber),
+            ),
+            OrderInformationRow(
+              rightSideText: StringUtils.address + " : ",
+              leftSideText: widget.address,
+              leftSideStyle: informationStyle,
+            ),
+            OrderInformationRow(
+              rightSideText: StringUtils.city,
+              leftSideText: LoadingScreenServices.supportedCitiesListIntro
+                      .where((supportedCity) =>
+                          supportedCity.id == widget.supportedCityId)
+                      .first
+                      .name +
+                  "   ",
+              leftSideStyle: informationStyle,
+            ),
+            OrderInformationRow(
+              rightSideText: StringUtils.entrance,
+              leftSideText: widget.entrance,
+              leftSideStyle: informationStyle,
+            ),
+            OrderInformationRow(
+              rightSideText: StringUtils.orderDate,
+              leftSideText: widget.orderCreatedDate,
+              leftSideStyle: disableStyle,
+            ),
+            OrderInformationRow(
+              rightSideText: orderStatus,
+              leftSideText: '',
+              leftSideStyle: informationStyle,
+            ),
+            OrderInformationRow(
+              rightSideText: StringUtils.shopperName + " ",
+              leftSideText: shopperName != null ? shopperName : " ",
+              leftSideStyle: paragraphStyle,
             ),
           ],
         ),

@@ -22,7 +22,6 @@ class OrderDetailViewMain extends StatefulWidget {
   int subTotal;
   String total;
   String deliveryPrice;
-  int orderIndex;
   int orderId;
   String addressName;
   OrdersOriginalData order;
@@ -35,7 +34,6 @@ class OrderDetailViewMain extends StatefulWidget {
       this.deliveryPrice,
       this.orderId,
       this.addressName,
-      this.orderIndex,
       this.order,
       @required this.orderType});
 
@@ -51,6 +49,21 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
   static List<OrderProducts> notDeletedProductsAry;
   static List<OrderProducts> finalProductsAry;
 
+  String subTotal() {
+    int total = 0;
+    if (Services.isSupplierManager()) {
+      for (int i = 0; i < widget.ordersAry.length; i++) {
+        total += (int.parse(widget.ordersAry[i].pivot.purchasePrice) -
+                widget.ordersAry[i].pivot.increaseValue) *
+            int.parse(widget.ordersAry[i].pivot.quantity);
+      }
+      return total.toString();
+    } else {
+      return StringUtils().oCcy.format(widget.subTotal).toString() +
+          " ${LoadingScreenServices.companyInformation.currency}";
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -59,7 +72,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
       setState(() {
         productsAry = widget.ordersAry;
         idOrder = widget.orderId;
-        orderArrayIndex = widget.orderIndex;
 
         if (LoadingScreenServices.subWarehouses.length == 1) {
           productsAry.sort((a, b) {
@@ -97,11 +109,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
   }
 
   _refillProducts() {
-    Tools.logToConsole("productsAry Length is : ${widget.ordersAry.length}");
     setState(() {
       productsAry = widget.ordersAry;
       idOrder = widget.orderId;
-      orderArrayIndex = widget.orderIndex;
 
       if (LoadingScreenServices.subWarehouses.length == 1) {
         productsAry.sort((a, b) {
@@ -127,7 +137,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
 
   int idOrder;
   bool isLoading = false;
-  int orderArrayIndex;
   bool errorAlert = false;
 
   @override
@@ -157,19 +166,28 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                           onTap: () {
                             Navigator.of(context).pop();
                           },
-                          child: AutoSizeText(
-                            widget.addressName.length > 37
-                                ? widget.addressName.substring(0, 37)
-                                : widget.addressName,
-                            maxLines: 1,
+                          child: !Services.isSupplierManager()
+                              ? AutoSizeText(
+                                  widget.addressName.length > 37
+                                      ? widget.addressName.substring(0, 37)
+                                      : widget.addressName,
+                                  maxLines: 1,
 
-                            // maxFontSize: 20,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            ),
-                          ),
+                                  // maxFontSize: 20,
+                                  overflow: TextOverflow.clip,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  ),
+                                )
+                              : Text(
+                                  widget.orderId.toString().length >= 3
+                                      ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
+                                      : '#${widget.orderId.toString()}',
+                                  style: profitStyle.copyWith(
+                                    color: Colors.purple,
+                                  ),
+                                ),
                         ),
                         IconButton(
                             icon: Icon(Icons.refresh,
@@ -199,7 +217,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                           if (index < notDeletedProductsAry.length) {
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
-                              onTap: () => _onTileClicked(index),
+                              onTap: () => {},
                               child: OrderDetailViewMainCard(
                                 subWarehouseId: orderDetail.subWarehouseId,
                                 orderId: widget.orderId,
@@ -263,7 +281,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                           if (Services.isAdmin())
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
-                              onTap: () => _onTileClicked(index),
+                              onTap: () => {},
                               child: BlurredWidget(
                                 child: OrderDetailViewMainCard(
                                   subWarehouseId: orderDetail.subWarehouseId,
@@ -318,11 +336,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             style: darkBold,
                           ),
                           Text(
-                            StringUtils()
-                                    .oCcy
-                                    .format(widget.subTotal)
-                                    .toString() +
-                                " ${LoadingScreenServices.companyInformation.currency}",
+                            subTotal(),
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,
@@ -332,145 +346,177 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 20, top: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(StringUtils.total,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 19.0,
-                              )),
-                          Text(
-                            "${StringUtils().oCcy.format(int.parse(widget.total))}" +
-                                " ${LoadingScreenServices.companyInformation.currency}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 19),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    // _showReOrderButton(),
-                    int.parse(widget.order.orderStatusId) <= 4 &&
-                            int.parse(widget.order.underUpdate) != 1
-                        ? Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                KammunButton(
-                                  text: widget.order.orderStatusId == "1"
-                                      ? "قبول الطلب"
-                                      : widget.order.orderStatusId == "2"
-                                          ? "الطلب جاهز"
-                                          : widget.order.orderStatusId == "3"
-                                              ? "مع التوصيل"
-                                              : "تم التوصيل",
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
-                                  color: widget.order.orderStatusId == "1"
-                                      ? Colors.green[700]
-                                      : widget.order.orderStatusId == "2"
-                                          ? Colors.yellow[700]
-                                          : Colors.cyan[700],
-                                  onTap: () async {
-                                    int changeStatus = 0;
-                                    setState(() {
-                                      isLoading = true;
-                                      errorAlert = false;
-                                    });
-                                    if (widget.order.orderStatusId == "1")
-                                      changeStatus = 2;
-                                    else if (widget.order.orderStatusId == "2")
-                                      changeStatus = 3;
-                                    else if (widget.order.orderStatusId == "3")
-                                      changeStatus = 4;
-                                    else if (widget.order.orderStatusId == "4")
-                                      changeStatus = 5;
-
-                                    bool x =
-                                        await OrderServices.changeOrderStatus(
-                                            widget.orderId.toString(),
-                                            changeStatus);
-
-                                    if (x) {
-                                      setState(() {
-                                        widget.order.orderStatusId =
-                                            changeStatus.toString();
-                                        isLoading = false;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        isLoading = false;
-                                        errorAlert = true;
-                                      });
-                                    }
-                                  },
+                    Services.isSupplierManager()
+                        ? Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 20, top: 5),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(StringUtils.total,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          color: Theme.of(context)
+                                              .primaryColorDark,
+                                          fontFamily:
+                                              StringUtils.fontFamilyHKGrotesk,
+                                          fontSize: 19.0,
+                                        )),
+                                    Text(
+                                      "${StringUtils().oCcy.format(int.parse(widget.total))}" +
+                                          " ${LoadingScreenServices.companyInformation.currency}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          color: Theme.of(context)
+                                              .primaryColorDark,
+                                          fontFamily:
+                                              StringUtils.fontFamilyHKGrotesk,
+                                          fontSize: 19),
+                                    ),
+                                  ],
                                 ),
-                                // _showCancelButton(idOrder),
-                                KammunButton(
-                                  text: "إلغاء الطلب",
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
-                                  color: Colors.red,
-                                  onTap: () {
-                                    List<DialogButton> decisionButton = [
-                                      DialogButton(
-                                        text: 'نعم',
-                                        onTap: () async {
-                                          int changeStatus = 0;
-                                          Navigator.of(context).pop();
+                              ),
+                              SizedBox(height: 5),
+                              int.parse(widget.order.orderStatusId) <= 4 &&
+                                      int.parse(widget.order.underUpdate) != 1
+                                  ? Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 10.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          KammunButton(
+                                            text: widget.order.orderStatusId ==
+                                                    "1"
+                                                ? "قبول الطلب"
+                                                : widget.order.orderStatusId ==
+                                                        "2"
+                                                    ? "الطلب جاهز"
+                                                    : widget.order
+                                                                .orderStatusId ==
+                                                            "3"
+                                                        ? "مع التوصيل"
+                                                        : "تم التوصيل",
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
+                                            color: widget.order.orderStatusId ==
+                                                    "1"
+                                                ? Colors.green[700]
+                                                : widget.order.orderStatusId ==
+                                                        "2"
+                                                    ? Colors.yellow[700]
+                                                    : Colors.cyan[700],
+                                            onTap: () async {
+                                              int changeStatus = 0;
+                                              setState(() {
+                                                isLoading = true;
+                                                errorAlert = false;
+                                              });
+                                              if (widget.order.orderStatusId ==
+                                                  "1")
+                                                changeStatus = 2;
+                                              else if (widget
+                                                      .order.orderStatusId ==
+                                                  "2")
+                                                changeStatus = 3;
+                                              else if (widget
+                                                      .order.orderStatusId ==
+                                                  "3")
+                                                changeStatus = 4;
+                                              else if (widget
+                                                      .order.orderStatusId ==
+                                                  "4") changeStatus = 5;
 
-                                          setState(() {
-                                            isLoading = true;
-                                            errorAlert = false;
-                                          });
-                                          changeStatus = 6;
+                                              bool x = await OrderServices
+                                                  .changeOrderStatus(
+                                                      widget.orderId.toString(),
+                                                      changeStatus);
 
-                                          bool x = await OrderServices
-                                              .changeOrderStatus(
-                                                  widget.orderId.toString(),
-                                                  changeStatus);
+                                              if (x) {
+                                                setState(() {
+                                                  widget.order.orderStatusId =
+                                                      changeStatus.toString();
+                                                  isLoading = false;
+                                                });
+                                              } else {
+                                                setState(() {
+                                                  isLoading = false;
+                                                  errorAlert = true;
+                                                });
+                                              }
+                                            },
+                                          ),
+                                          // _showCancelButton(idOrder),
+                                          KammunButton(
+                                            text: "إلغاء الطلب",
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
+                                            color: Colors.red,
+                                            onTap: () {
+                                              List<DialogButton>
+                                                  decisionButton = [
+                                                DialogButton(
+                                                  text: 'نعم',
+                                                  onTap: () async {
+                                                    int changeStatus = 0;
+                                                    Navigator.of(context).pop();
 
-                                          if (x) {
-                                            setState(() {
-                                              widget.order.orderStatusId =
-                                                  changeStatus.toString();
-                                              isLoading = false;
-                                            });
-                                          } else {
-                                            setState(() {
-                                              isLoading = false;
-                                              errorAlert = true;
-                                            });
-                                          }
-                                        },
+                                                    setState(() {
+                                                      isLoading = true;
+                                                      errorAlert = false;
+                                                    });
+                                                    changeStatus = 6;
+
+                                                    bool x = await OrderServices
+                                                        .changeOrderStatus(
+                                                            widget.orderId
+                                                                .toString(),
+                                                            changeStatus);
+
+                                                    if (x) {
+                                                      setState(() {
+                                                        widget.order
+                                                                .orderStatusId =
+                                                            changeStatus
+                                                                .toString();
+                                                        isLoading = false;
+                                                      });
+                                                    } else {
+                                                      setState(() {
+                                                        isLoading = false;
+                                                        errorAlert = true;
+                                                      });
+                                                    }
+                                                  },
+                                                ),
+                                                DialogButton(
+                                                  text: 'لا',
+                                                  onTap: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ];
+                                              showMyDialog(
+                                                  title: "إلغاء الطلب",
+                                                  text:
+                                                      "هل أنت متأكد انك تريد إلغاء الطلب ؟",
+                                                  dialogButtons: decisionButton,
+                                                  context: context);
+                                            },
+                                          ),
+                                          // _showCancelOrderButton(idOrder),
+                                        ],
                                       ),
-                                      DialogButton(
-                                        text: 'لا',
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ];
-                                    showMyDialog(
-                                        title: "إلغاء الطلب",
-                                        text:
-                                            "هل أنت متأكد انك تريد إلغاء الطلب ؟",
-                                        dialogButtons: decisionButton,
-                                        context: context);
-                                  },
-                                ),
-                                // _showCancelOrderButton(idOrder),
-                              ],
-                            ),
+                                    )
+                                  : Container(),
+                            ],
                           )
                         : Container(),
                   ],
@@ -478,9 +524,5 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
         ),
       ),
     );
-  }
-
-  void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
   }
 }

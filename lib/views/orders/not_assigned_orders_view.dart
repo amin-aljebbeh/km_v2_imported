@@ -268,7 +268,6 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                       orderDataList[index].supportedCityId,
                                   underUpdate: int.parse(
                                       orderDataList[index].underUpdate),
-                                  orderTitle: "",
                                   orderTotalPrice:
                                       orderDataList[index].total.toString(),
                                   orderStatus: int.parse(
@@ -360,10 +359,6 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                               )
                             ],
                           );
-                          // return Container(
-                          //   height: 0.01,
-                          //   width: 0.01,
-                          // );
                         },
                       ),
                     ),
@@ -384,18 +379,13 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
   }
 
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-
-    List<OrderProducts> ordAry = orderDataList[index].products;
-
     Navigator.push(
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
           orderData: orderDataList[index],
           orderId: orderDataList[index].id,
-          orderIndex: index,
-          ordersAry: ordAry,
+          ordersAry: orderDataList[index].products,
           addressName: orderDataList[index].address.street,
           subTotal:
               int.parse(orderDataList[index].total.toString().split(".")[0]) -

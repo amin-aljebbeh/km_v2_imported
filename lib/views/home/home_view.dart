@@ -234,12 +234,13 @@ class HomeViewState extends State<HomeView> {
       );
     }
 
-    if (Services.isDelivery() || Services.isShopper()) {
+    if (Services.isDelivery() ||
+        Services.isShopper() ||
+        Services.isSupplierManager()) {
       bottomList.add(
         BottomNavigationBarItem(
           activeIcon: Icon(
             Icons.playlist_add_check_outlined,
-            // color: Theme.of(context).primaryColor,
             color: Color.fromARGB(255, 210, 178, 2),
           ),
           icon: Icon(
@@ -254,19 +255,20 @@ class HomeViewState extends State<HomeView> {
       );
       bottomList.add(
         BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.reorder,
-              //color: Theme.of(context).primaryColor,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            icon: Icon(
-              Icons.reorder,
-              color: Color.fromARGB(255, 53, 99, 124),
-            ),
-            title: Text(
-              StringUtils.orders,
-              style: naveBarStyle,
-            )),
+          activeIcon: Icon(
+            Icons.reorder,
+            //color: Theme.of(context).primaryColor,
+            color: Color.fromARGB(255, 210, 178, 2),
+          ),
+          icon: Icon(
+            Icons.reorder,
+            color: Color.fromARGB(255, 53, 99, 124),
+          ),
+          title: Text(
+            StringUtils.orders,
+            style: naveBarStyle,
+          ),
+        ),
       );
     }
 

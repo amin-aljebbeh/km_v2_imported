@@ -320,7 +320,6 @@ class OrdersViewState extends State<OrdersView> {
                                       orderDataList[index].supportedCityId,
                                   underUpdate: int.parse(
                                       orderDataList[index].underUpdate),
-                                  orderTitle: "",
                                   orderTotalPrice:
                                       orderDataList[index].total.toString(),
                                   orderStatus: int.parse(
@@ -616,18 +615,13 @@ class OrdersViewState extends State<OrdersView> {
   }
 
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-
-    List<OrderProducts> ordAry = orderDataList[index].products;
-
     Navigator.push(
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
           orderData: orderDataList[index],
           orderId: orderDataList[index].id,
-          orderIndex: index,
-          ordersAry: ordAry,
+          ordersAry: orderDataList[index].products,
           addressName: orderDataList[index].address.street,
           subTotal:
               int.parse(orderDataList[index].total.toString().split(".")[0]) -

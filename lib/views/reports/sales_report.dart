@@ -34,7 +34,6 @@ class _SalesReportState extends State<SalesReport> {
 
   _reportCard(GetDailyStatistics response) {
     totalSubWarehouses.clear();
-    Tools.logToConsole("Response Data Length: ${response.data.length}");
     for (int i = 0; i < response.data.length; i++) {
       if (response.data[i].statisticsWarehouses != null) {
         totalSubWarehouses.add(
@@ -183,7 +182,7 @@ class _SalesReportState extends State<SalesReport> {
       isLoading = true;
     });
 
-    var response = await ReportsServcies.getSalesReports(
+    var response = await ReportsServices.getSalesReports(
       fromDate: _fromDateTimeValue,
       toDate: _toDateTimeValue,
     );

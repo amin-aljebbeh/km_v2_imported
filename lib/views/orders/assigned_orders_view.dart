@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/common_utils.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
@@ -10,6 +9,7 @@ import 'package:kammun_app/views/Wedgit/dialog_button.dart';
 import 'package:kammun_app/views/Wedgit/my_dialog.dart';
 import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
 import 'package:kammun_app/views/Wedgit/screen_message.dart';
+import 'package:kammun_app/views/Wedgit/supplier_orders_view_card.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
@@ -62,11 +62,12 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       errorMessage = false;
       orderDataList.clear();
     });
+    //TODO: request supplier orders api
     var orderList;
     if (LoadingScreenServices.myOrdersList.length == 0) {
       if (Services.isDelivery())
         orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
-      if (Services.isShopper())
+      if (Services.isShopper() || Services.isSupplierManager())
         orderList = await OrderServices.getShopperOrders(pageNumber: page);
     } else {
       orderList = LoadingScreenServices.myOrdersList;
@@ -84,7 +85,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       } else {
         setState(() {
           orderDataList = orderList;
-          // orderDataList.addAll(orderList);
           if (filterOrders == 0) {
             orderDataList
                 .removeWhere((order) => int.parse(order.orderStatusId) > 4);
@@ -236,6 +236,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             orderDataList[index].accountOrderRows();
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
+                          if (Services.isSupplierManager())
+                            return SupplierOrdersViewCard(
+                              order: orderDataList[index],
+                            );
                           return Column(
                             children: <Widget>[
                               new GestureDetector(
@@ -279,7 +283,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                       orderDataList[index].supportedCityId,
                                   underUpdate: int.parse(
                                       orderDataList[index].underUpdate),
-                                  orderTitle: "",
                                   orderTotalPrice:
                                       orderDataList[index].total.toString(),
                                   orderStatus: int.parse(
@@ -491,18 +494,13 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   }
 
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-
-    List<OrderProducts> ordAry = orderDataList[index].products;
-
     Navigator.push(
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
           orderData: orderDataList[index],
           orderId: orderDataList[index].id,
-          orderIndex: index,
-          ordersAry: ordAry,
+          ordersAry: orderDataList[index].products,
           addressName: orderDataList[index].address.street,
           subTotal:
               int.parse(orderDataList[index].total.toString().split(".")[0]) -

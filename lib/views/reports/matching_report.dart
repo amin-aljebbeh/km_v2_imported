@@ -33,7 +33,7 @@ class _MatchingReportState extends State<MatchingReport> {
       isLoading = true;
     });
 
-    var response = await ReportsServcies.getMatchingReport(
+    var response = await ReportsServices.getMatchingReport(
         reportDate: _reportDate, subWarehouseId: _selectedValue.toString());
     if (response != null) {
       setState(() {
