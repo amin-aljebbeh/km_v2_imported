@@ -523,7 +523,7 @@ class OrdersViewState extends State<OrdersView> {
                                   thickness: 5,
                                   color: ColorUtils.kmColors2,
                                 ),
-                              )
+                              ),
                             ],
                           );
                         },

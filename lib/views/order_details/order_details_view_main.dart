@@ -46,16 +46,12 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
   String subTotal() {
     int total = 0;
     if (Services.isSupplierManager()) {
-      for (int i = 0; i < widget.ordersAry.length; i++) {
-        total += (int.parse(widget.ordersAry[i].pivot.purchasePrice) -
-                widget.ordersAry[i].pivot.increaseValue) *
-            int.parse(widget.ordersAry[i].pivot.quantity);
-      }
-      return total.toString();
+      total = Services.productsNetPrice(widget.ordersAry);
     } else {
-      return StringUtils().oCcy.format(widget.subTotal).toString() +
-          " ${LoadingScreenServices.companyInformation.currency}";
+      total = widget.subTotal;
     }
+    return StringUtils().oCcy.format(total).toString() +
+        " ${LoadingScreenServices.companyInformation.currency}";
   }
 
   @override

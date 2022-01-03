@@ -647,4 +647,15 @@ class Services {
         .id
         .toString();
   }
+
+  static int productsNetPrice(List<OrderProducts> ordersAry) {
+    int total = 0;
+    for (int i = 0; i < ordersAry.length; i++) {
+      if ((ordersAry[i].pivot.deletedAt == null))
+        total += (int.parse(ordersAry[i].pivot.purchasePrice) -
+                ordersAry[i].pivot.increaseValue) *
+            int.parse(ordersAry[i].pivot.quantity);
+    }
+    return total;
+  }
 }

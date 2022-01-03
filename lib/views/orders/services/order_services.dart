@@ -144,8 +144,6 @@ class OrderServices {
   }
 
   static Future<String> cancelOrder(String orderId) async {
-    // Tools.logToConsole("------------------ CANCEL ORDER  --------------------");
-
     Map cancelOrderBody = {
       'order_status_id': 5,
     };
@@ -165,8 +163,6 @@ class OrderServices {
 
   static Future<bool> rateOrder(
       {String orderId, String userFeedback, double rating}) async {
-    // Tools.logToConsole("------------------ Rate Order --------------------");
-
     Map ratingOrderBody = {
       'user_feedback': userFeedback,
       "user_delivery_rating": rating.toString(),
@@ -192,7 +188,6 @@ class OrderServices {
       @required String supportedCityCost,
       @required String deliveryMethodCost,
       @required String userNote}) async {
-    // Tools.logToConsole("------------------ CANCEL ORDER  --------------------");
     try {
       var response = await ApiProvider.sendRequest(
         url: LOCK_ORDER + orderId,

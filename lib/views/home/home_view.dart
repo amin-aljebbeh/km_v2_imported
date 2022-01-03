@@ -296,7 +296,9 @@ class HomeViewState extends State<HomeView> {
       );
     }
 
-    if (Services.isDelivery() || Services.isShopper()) {
+    if (Services.isDelivery() ||
+        Services.isShopper() ||
+        Services.isSupplierManager()) {
       _tabs.add(
         AssignedOrdersView(),
       );

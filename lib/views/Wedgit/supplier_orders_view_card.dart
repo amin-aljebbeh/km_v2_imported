@@ -5,6 +5,7 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
 
+import '../../Services.dart';
 import 'widgets_importer.dart';
 
 class SupplierOrdersViewCard extends StatefulWidget {
@@ -22,7 +23,8 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
     return int.parse(widget.order.orderAccountingRows
         .firstWhere((row) => row.subWarehouseId == supplierId)
         .payToSubWarehouse
-        .toString());
+        .toString()
+        .split('.')[0]);
   }
 
   @override
@@ -52,71 +54,82 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
           ),
         ),
       },
-      child: Padding(
-        padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                OrderInformationRow(
-                  rightSideText: StringUtils.bill,
-                  leftSideText:
-                      "${StringUtils().oCcy.format(int.parse(widget.order.total)).toString()}" +
-                          " ${LoadingScreenServices.companyInformation.currency.toString()}",
-                  leftSideStyle: informationStyle,
-                ),
-                Container(
-                  padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: ColorUtils.greyColor.withOpacity(0.2)),
-                  ),
-                  child: Text(
-                    widget.order.products.length.toString(),
-                    style: paragraphStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      widget.order.id.toString().length >= 3
-                          ? "#${widget.order.id.toString().substring(2, widget.order.id.toString().length)}"
-                          : '#${widget.order.id.toString()}',
-                      style: profitStyle.copyWith(
-                        color: Colors.purple,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    OrderInformationRow(
+                      rightSideText: StringUtils.bill,
+                      leftSideText:
+                          "${StringUtils().oCcy.format(Services.productsNetPrice(widget.order.products)).toString()}" +
+                              " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                      leftSideStyle: informationStyle,
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: ColorUtils.greyColor.withOpacity(0.2)),
+                      ),
+                      child: Text(
+                        widget.order.products.length.toString(),
+                        style: paragraphStyle,
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                    RichText(
-                      text: TextSpan(
-                        text: //TODO:replace this with real supplier id
-                            "${StringUtils().oCcy.format(getSupplierDues(1)).toString()}",
-                        style: profitStyle,
-                      ),
-                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.order.id.toString().length >= 3
+                              ? "#${widget.order.id.toString().substring(2, widget.order.id.toString().length)}"
+                              : '#${widget.order.id.toString()}',
+                          style: profitStyle.copyWith(
+                            color: Colors.purple,
+                          ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            text: //TODO:replace this with real supplier id
+                                "${StringUtils().oCcy.format(Services.productsNetPrice(widget.order.products)).toString()}",
+                            style: profitStyle,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
-                )
+                ),
+                OrderInformationRow(
+                  rightSideText: StringUtils.orderDate,
+                  leftSideText: DateFormat('a h:mm - dd-MM-yyyy')
+                      .format(widget.order.createdAt),
+                  leftSideStyle: disableStyle,
+                ),
+                OrderInformationRow(
+                  rightSideText: StringUtils.shopperName + " ",
+                  leftSideText: widget.order.shopper != null
+                      ? widget.order.shopper.name
+                      : " ",
+                  leftSideStyle: paragraphStyle,
+                ),
               ],
             ),
-            OrderInformationRow(
-              rightSideText: StringUtils.orderDate,
-              leftSideText: DateFormat('a h:mm - dd-MM-yyyy')
-                  .format(widget.order.createdAt),
-              leftSideStyle: disableStyle,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Divider(
+              thickness: 5,
+              color: ColorUtils.kmColors2,
             ),
-            OrderInformationRow(
-              rightSideText: StringUtils.shopperName + " ",
-              leftSideText: widget.order.shopper != null
-                  ? widget.order.shopper.name
-                  : " ",
-              leftSideStyle: paragraphStyle,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

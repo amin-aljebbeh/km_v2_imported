@@ -52,14 +52,13 @@ class OrderDetailViewState extends State<OrderDetailView> {
         orderType: widget.orderType,
       ),
     );
-    if (!Services.isSupplierManager())
-      _tabs.add(
-        OrderAccounting(
-          orderData: widget.orderData,
-          ordersAry: widget.ordersAry,
-          orderId: widget.orderId,
-        ),
-      );
+    _tabs.add(
+      OrderAccounting(
+        orderData: widget.orderData,
+        ordersAry: widget.ordersAry,
+        orderId: widget.orderId,
+      ),
+    );
     super.initState();
   }
 
@@ -87,22 +86,21 @@ class OrderDetailViewState extends State<OrderDetailView> {
         ),
       ),
     );
-    if (!Services.isSupplierManager())
-      bottomList.add(
-        BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.account_balance,
-            // color: Theme.of(context).primaryColor,
-            color: Color.fromARGB(255, 210, 178, 2),
-          ),
-          icon: Icon(Icons.account_balance,
-              color: Color.fromARGB(255, 53, 99, 124)),
-          title: Text(
-            "الحسابات",
-            style: naveBarStyle,
-          ),
+    bottomList.add(
+      BottomNavigationBarItem(
+        activeIcon: Icon(
+          Icons.account_balance,
+          // color: Theme.of(context).primaryColor,
+          color: Color.fromARGB(255, 210, 178, 2),
         ),
-      );
+        icon: Icon(Icons.account_balance,
+            color: Color.fromARGB(255, 53, 99, 124)),
+        title: Text(
+          "الحسابات",
+          style: naveBarStyle,
+        ),
+      ),
+    );
 
     return BottomNavigationBar(
       // backgroundColor: Color.fromARGB(255, 53, 99, 124),
