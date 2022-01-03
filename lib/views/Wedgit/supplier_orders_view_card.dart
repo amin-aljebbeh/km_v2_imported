@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -95,16 +96,12 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                             color: Colors.purple,
                           ),
                         ),
-                        RichText(
-                          text: TextSpan(
-                            text: //TODO:replace this with real supplier id
-                                "${StringUtils().oCcy.format(Services.productsNetPrice(widget.order.products)).toString()}",
-                            style: profitStyle,
-                          ),
-                        ),
                       ],
                     )
                   ],
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 OrderInformationRow(
                   rightSideText: StringUtils.orderDate,
@@ -118,6 +115,15 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                       ? widget.order.shopper.name
                       : " ",
                   leftSideStyle: paragraphStyle,
+                ),
+                OrderInformationRow(
+                  rightSideText: StringUtils.phoneNumber,
+                  leftSideText: '0941441319',
+                  leftSideStyle: paragraphStyle.copyWith(
+                    color: ColorUtils.kmColors,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => Services.makePhoneCall('0941441319'),
                 ),
               ],
             ),

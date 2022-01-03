@@ -52,15 +52,6 @@ class OrdersViewCard extends StatefulWidget {
   }
 }
 
-_makePhoneCall(String number) async {
-  String url = 'tel:$number';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
 openMapsSheet(context, lat, lon) async {
   try {
     // final coords = Coords(lat, lon);
@@ -188,7 +179,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 color: ColorUtils.kmColors,
               ),
               recognizer: TapGestureRecognizer()
-                ..onTap = () => _makePhoneCall(widget.userNumber),
+                ..onTap = () => Services.makePhoneCall(widget.userNumber),
             ),
             OrderInformationRow(
               rightSideText: StringUtils.address + " : ",

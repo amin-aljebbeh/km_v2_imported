@@ -11,6 +11,7 @@ import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'core/api/admin_URLs.dart';
 import 'core/api/api_URLs.dart';
 import 'core/api/api_provider.dart';
@@ -657,5 +658,14 @@ class Services {
             int.parse(ordersAry[i].pivot.quantity);
     }
     return total;
+  }
+
+  static makePhoneCall(String number) async {
+    String url = 'tel:$number';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
