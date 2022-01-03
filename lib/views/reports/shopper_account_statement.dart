@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/k_searchable_dropdown.dart';
-import 'package:kammun_app/views/Wedgit/transaction_widget.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 
 import '../../Services.dart';
 import 'models/transaction_model.dart';

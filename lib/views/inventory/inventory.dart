@@ -8,7 +8,7 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -290,7 +290,7 @@ class _InventoryState extends State<Inventory> {
                                   return GestureDetector(
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () => () {},
-                                    child: ProductsViewCard(
+                                    child: InventoryProductsViewCard(
                                       fromInventory: true,
                                       productData: eachProduct,
                                       onChangeStatus: (result) {
@@ -329,7 +329,7 @@ class _InventoryState extends State<Inventory> {
                                   return GestureDetector(
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () => () {},
-                                    child: ProductsViewCard(
+                                    child: InventoryProductsViewCard(
                                       fromInventory: true,
                                       productData: eachProduct,
                                       onChangeStatus: (result) {
@@ -368,7 +368,7 @@ class _InventoryState extends State<Inventory> {
                                 return GestureDetector(
                                   behavior: HitTestBehavior.translucent,
                                   onTap: () => () {},
-                                  child: ProductsViewCard(
+                                  child: InventoryProductsViewCard(
                                     onChangeStatus: (result) {
                                       if (result) {
                                         Tools.logToConsole(

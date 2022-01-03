@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;

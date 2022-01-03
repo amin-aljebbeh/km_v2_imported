@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';

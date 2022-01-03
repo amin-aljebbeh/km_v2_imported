@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/k_table_element.dart';
-import 'package:kammun_app/views/Wedgit/k_table_row.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:toast/toast.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 

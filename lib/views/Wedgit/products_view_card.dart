@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
-import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -54,7 +53,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 KCacheImage(
                   tag: widget.index + 100,

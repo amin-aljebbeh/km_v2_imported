@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/common_utils.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
-import 'package:kammun_app/views/Wedgit/dialog_button.dart';
-import 'package:kammun_app/views/Wedgit/k_searchable_dropdown.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
-import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';

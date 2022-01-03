@@ -149,7 +149,6 @@ class LoadingScreenServices {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       preferLeftSide = prefs.getBool('preferLeftSide');
       String userToken = prefs.getString('userToken');
-      String userSelectSupportedCity = prefs.getString('supportedCitySelected');
 
       if (userToken != null) {
         LoadingScreen.userToken = "Bearer " + userToken;

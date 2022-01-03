@@ -8,7 +8,7 @@ import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 import '../../utils/Styles.dart';
-import 'entry_field.dart';
+import 'widgets_importer.dart';
 
 class UpdateProductInfoWidget extends StatefulWidget {
   final Function(bool) onSavePressed;
@@ -71,20 +71,6 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                   isAddress: false,
                   isPhoneNumber: false,
                 ),
-                // Container(
-                //   child: AutoSizeTextField(
-                //     maxLines: null,
-                //     textAlign: TextAlign.center,
-                //     decoration: new InputDecoration(
-                //       hintStyle: hintStyle,
-                //       fillColor: Colors.white,
-                //       border: new UnderlineInputBorder(
-                //         borderSide: new BorderSide(
-                //             color: ColorUtils.primarycolor),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 SizedBox(
                   width: 18,
                 ),

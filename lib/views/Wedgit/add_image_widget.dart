@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
-import 'kammun_button.dart';
+import 'widgets_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class AddImageWidget extends StatefulWidget {

@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/views/Wedgit/add_image_widget.dart';
-import 'package:kammun_app/views/Wedgit/dialog_button.dart';
-import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
-import 'package:kammun_app/views/Wedgit/k_table_row.dart';
-import 'package:kammun_app/views/Wedgit/k_table_element.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import '../../Services.dart';

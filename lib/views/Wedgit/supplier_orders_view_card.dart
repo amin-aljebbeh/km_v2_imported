@@ -5,7 +5,7 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
 
-import 'order_information_row.dart';
+import 'widgets_importer.dart';
 
 class SupplierOrdersViewCard extends StatefulWidget {
   final OrdersOriginalData order;

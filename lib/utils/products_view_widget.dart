@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/views/Wedgit/dialog_button.dart';
-import 'package:kammun_app/views/Wedgit/k_cache_image.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
-import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
@@ -14,7 +11,7 @@ import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'utils_importer.dart';
 
 // ignore: must_be_immutable
-class ProductsViewCard extends StatefulWidget {
+class InventoryProductsViewCard extends StatefulWidget {
   final String img;
   final String productName;
   final String quantity;
@@ -30,7 +27,7 @@ class ProductsViewCard extends StatefulWidget {
   final Function(bool) onDelete;
   final bool fromInventory;
 
-  ProductsViewCard(
+  InventoryProductsViewCard(
       {this.img,
       this.productName,
       this.quantity,
@@ -48,11 +45,11 @@ class ProductsViewCard extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return ProductsViewCardState();
+    return InventoryProductsViewCardState();
   }
 }
 
-class ProductsViewCardState extends State<ProductsViewCard> {
+class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   _unAttachProduct() async {
     bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
         productsId: widget.productId,

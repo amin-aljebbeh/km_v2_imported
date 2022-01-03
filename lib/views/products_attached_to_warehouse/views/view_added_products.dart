@@ -3,7 +3,7 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -180,7 +180,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                               ? GestureDetector(
                                   behavior: HitTestBehavior.translucent,
                                   onTap: () => () {},
-                                  child: ProductsViewCard(
+                                  child: InventoryProductsViewCard(
                                     onDelete: (result) {
                                       if (result) {
                                         setState(() {
@@ -226,7 +226,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                   ? GestureDetector(
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => () {},
-                                      child: ProductsViewCard(
+                                      child: InventoryProductsViewCard(
                                         onDelete: (result) {
                                           if (result) {
                                             setState(() {
