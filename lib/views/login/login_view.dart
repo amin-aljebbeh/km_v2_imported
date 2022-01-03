@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'Services/login_services.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class LoginScreen extends StatefulWidget {
   static String routeName = "/login";
@@ -160,17 +159,17 @@ class _LoginScreenState extends State<LoginScreen>
         decoration: InputDecoration(
           labelText: "كلمة المرور",
           labelStyle: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk, fontSize: 30),
+              fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: UtilsImporter().colorUtils.primaryColor,
+              color: ColorUtils.primaryColor,
             ),
             borderRadius: BorderRadius.circular(5.0),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: UtilsImporter().colorUtils.kmColors,
+              color: ColorUtils.kmColors,
             ),
             borderRadius: BorderRadius.circular(5.0),
           ),
@@ -198,17 +197,17 @@ class _LoginScreenState extends State<LoginScreen>
         decoration: InputDecoration(
           labelText: "اسم المستخدم",
           labelStyle: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk, fontSize: 30),
+              fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: UtilsImporter().colorUtils.primaryColor,
+              color: ColorUtils.primaryColor,
             ),
             borderRadius: BorderRadius.circular(5.0),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: UtilsImporter().colorUtils.kmColors,
+              color: ColorUtils.kmColors,
             ),
             borderRadius: BorderRadius.circular(5.0),
           ),
@@ -220,7 +219,7 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: UtilsImporter().colorUtils.kmColors,
+      backgroundColor: ColorUtils.kmColors,
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -307,7 +306,7 @@ class _LoginScreenState extends State<LoginScreen>
                       : KammunButton(
                           text: "تسجيل الدخول",
                           height: 50,
-                          color: UtilsImporter().colorUtils.primaryColor,
+                          color: ColorUtils.primaryColor,
                           onTap: adminLogin,
                         ),
                 ),

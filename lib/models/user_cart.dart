@@ -3,7 +3,8 @@
 //     final userCart = userCartFromJson(jsonString);
 
 import 'dart:convert';
-import 'package:kammun_app/models/start_model.dart';
+
+import 'models_importer.dart';
 
 UserCart userCartFromJson(String str) => UserCart.fromJson(json.decode(str));
 

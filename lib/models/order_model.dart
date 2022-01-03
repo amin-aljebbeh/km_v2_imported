@@ -7,7 +7,7 @@ import 'dart:convert';
 StartModel startModelFromJson(String str) =>
     StartModel.fromJson(json.decode(str));
 
-String emptyToJson(StartModel data) => json.encode(data.toJson());
+String startModelToJson(StartModel data) => json.encode(data.toJson());
 
 class StartModel {
   StartModel({
@@ -614,6 +614,7 @@ class User {
       };
 }
 
+//TODO: compare these models with others in start model folder
 class Warehouse {
   Warehouse({
     this.id,

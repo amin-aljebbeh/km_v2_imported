@@ -1,8 +1,8 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class FavoriteProductsViewCard extends StatefulWidget {
   final String img;
@@ -42,32 +42,9 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
             Row(
               //mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
-                  width: 100.0,
-                  height: 100.0,
-                  decoration: new BoxDecoration(
-                      borderRadius:
-                          new BorderRadius.all(Radius.circular(20.0))),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Hero(
-                          tag: widget.index + 100,
-                          child: Image(
-                            image: AdvImageCache(
-                              widget.img,
-                              useMemCache: true,
-                              diskCacheExpire: Duration(days: 400),
-                            ),
-                          )
-                          //           FadeInImage.assetNetwork(
-                          //   fadeInCurve: Curves.fastOutSlowIn,
-                          //   placeholder: "assets/kmIcon.png",
-                          //   fit: BoxFit.contain,
-                          //   image: widget.img,
-                          //   width: MediaQuery.of(context).size.width,
-                          //   height: 120,
-                          // ),
-                          )),
+                KCacheImage(
+                  tag: widget.index + 100,
+                  image: widget.img,
                 ),
                 SizedBox(width: 10),
                 Expanded(
@@ -84,8 +61,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                                 widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -95,25 +71,21 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                             widget.quantity,
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                color: UtilsImporter().colorUtils.greyColor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                color: ColorUtils.greyColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
                           Text(
-                              UtilsImporter()
-                                      .stringUtils
+                              StringUtils()
                                       .oCcy
                                       .format(widget.price)
                                       .toString() +
                                   " ${LoadingScreenServices.companyInformation.currency}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color:
-                                      UtilsImporter().colorUtils.primaryColor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  color: ColorUtils.primaryColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),
@@ -124,7 +96,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                     ? Badge(
                         borderRadius: BorderRadius.zero,
                         shape: BadgeShape.square,
-                        badgeColor: UtilsImporter().colorUtils.primaryColor,
+                        badgeColor: ColorUtils.primaryColor,
                         badgeContent: Padding(
                           padding: const EdgeInsets.only(
                             right: 10.0,
@@ -139,7 +111,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
 
                                     //fontWeight: FontWeight.w500,
                                     fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
+                                        StringUtils.fontFamilyHKGrotesk),
                               ),
                               Text(
                                 'المستودعات',
@@ -148,7 +120,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                                     fontSize: 15,
                                     //   fontWeight: FontWeight.w500,
                                     fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
+                                        StringUtils.fontFamilyHKGrotesk),
                               ),
                             ],
                           ),

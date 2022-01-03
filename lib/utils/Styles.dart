@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'utils_importer.dart';
 
 TextStyle mainStyle = TextStyle(
-  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+  fontFamily: StringUtils.fontFamilyHKGrotesk,
 );
 
 TextStyle dialogStyle = mainStyle;
@@ -16,7 +15,7 @@ TextStyle decisionButtonStyle = mainStyle.copyWith(
 );
 
 TextStyle paragraphStyle = mainStyle.copyWith(
-  color: UtilsImporter().colorUtils.primaryColor,
+  color: ColorUtils.primaryColor,
   fontSize: 18,
   fontWeight: FontWeight.bold,
 );
@@ -38,7 +37,7 @@ TextStyle naveBarStyle = mainStyle.copyWith(
 
 TextStyle darkBold = mainStyle.copyWith(
   fontWeight: FontWeight.w600,
-  color: UtilsImporter().colorUtils.greyColor,
+  color: ColorUtils.greyColor,
   fontSize: 17.5,
 );
 
@@ -60,7 +59,7 @@ TextStyle hintStyle = mainStyle.copyWith(
 
 TextStyle labelStyle = mainStyle.copyWith(
   fontSize: 15,
-  color: UtilsImporter().colorUtils.greyColor,
+  color: ColorUtils.greyColor,
 );
 
 TextStyle disableStyle = paragraphStyle.copyWith(
@@ -68,6 +67,10 @@ TextStyle disableStyle = paragraphStyle.copyWith(
 );
 TextStyle warehouseStyle = mainStyle.copyWith(
   fontWeight: FontWeight.bold,
-  color: UtilsImporter().colorUtils.greyColor,
+  color: ColorUtils.greyColor,
   fontSize: 20,
+);
+TextStyle profitStyle = warehouseStyle.copyWith(
+  color: Colors.green,
+  fontSize: 25,
 );

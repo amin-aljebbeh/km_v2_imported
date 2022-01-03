@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:toast/toast.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 import '../../Services.dart';
 
@@ -119,7 +119,7 @@ class _AddProductsViewState extends State<AddProductsView> {
         Text(
           title,
           style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
               fontWeight: FontWeight.bold),
         ),
         subTitle == null
@@ -164,7 +164,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                 border: OutlineInputBorder(),
                 hintText: hint,
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
                 fillColor: Colors.white,
                 filled: true,
@@ -239,7 +239,7 @@ class _AddProductsViewState extends State<AddProductsView> {
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
           boxShadows: [
             BoxShadow(
@@ -254,7 +254,7 @@ class _AddProductsViewState extends State<AddProductsView> {
             color: Colors.white,
           ),
           duration: Duration(seconds: 1),
-          // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+          // leftBarIndicatorColor: ColorUtils.kmColors,
         )..show(context);
       }
     } else if (productIds == null) {
@@ -265,7 +265,7 @@ class _AddProductsViewState extends State<AddProductsView> {
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              fontFamily: StringUtils.fontFamilyHKGrotesk),
         ),
         boxShadows: [
           BoxShadow(
@@ -280,7 +280,7 @@ class _AddProductsViewState extends State<AddProductsView> {
           color: Colors.white,
         ),
         duration: Duration(seconds: 10),
-        // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+        // leftBarIndicatorColor: ColorUtils.kmColors,
       )..show(context);
     }
   }
@@ -377,7 +377,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     Text(
                       "يرجى إختيار المستودع التابع لهذه المادة",
                       style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -397,9 +397,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedSubWarehouseValue,
@@ -470,7 +469,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                         FlatButton(
                           child: Icon(
                             Icons.camera,
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: ColorUtils.kmColors,
                           ),
                           onPressed: () {
                             getImageCamera();
@@ -479,7 +478,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                         FlatButton(
                           child: Icon(
                             Icons.image,
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: ColorUtils.kmColors,
                           ),
                           onPressed: () {
                             getImageGallery();
@@ -497,10 +496,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                                     ),
                                 border: Border.all(
                                     color: switchController
-                                        ? UtilsImporter().colorUtils.kmColors2
-                                        : UtilsImporter()
-                                            .colorUtils
-                                            .searchGreyColor,
+                                        ? ColorUtils.kmColors2
+                                        : ColorUtils.searchGreyColor,
                                     width: 2)),
                             child: Switch(
                               value: switchController,
@@ -509,9 +506,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                                   switchController = value;
                                 });
                               },
-                              activeTrackColor:
-                                  UtilsImporter().colorUtils.kmColors2,
-                              activeColor: UtilsImporter().colorUtils.kmColors,
+                              activeTrackColor: ColorUtils.kmColors2,
+                              activeColor: ColorUtils.kmColors,
                             ),
                           ),
                         ),
@@ -523,8 +519,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                           Text(
                             "السماح بتفعيل المنتاج تلقائيا",
                             style: TextStyle(
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
@@ -540,10 +535,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                                       ),
                                   border: Border.all(
                                       color: autoActivationController
-                                          ? UtilsImporter().colorUtils.kmColors2
-                                          : UtilsImporter()
-                                              .colorUtils
-                                              .searchGreyColor,
+                                          ? ColorUtils.kmColors2
+                                          : ColorUtils.searchGreyColor,
                                       width: 2)),
                               child: Switch(
                                 value: autoActivationController,
@@ -552,10 +545,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                                     autoActivationController = value;
                                   });
                                 },
-                                activeTrackColor:
-                                    UtilsImporter().colorUtils.kmColors2,
-                                activeColor:
-                                    UtilsImporter().colorUtils.kmColors,
+                                activeTrackColor: ColorUtils.kmColors2,
+                                activeColor: ColorUtils.kmColors,
                               ),
                             ),
                           ),
@@ -563,10 +554,10 @@ class _AddProductsViewState extends State<AddProductsView> {
                     _image != null ? imagesBody() : Container(),
                     KammunButton(
                       height: 50,
-                      text: UtilsImporter().stringUtils.save,
+                      text: StringUtils.save,
                       color: toastList() == 0
-                          ? UtilsImporter().colorUtils.kmColors2
-                          : UtilsImporter().colorUtils.searchGreyColor,
+                          ? ColorUtils.kmColors2
+                          : ColorUtils.searchGreyColor,
                       onTap: () {
                         if (toastList() == 0) {
                           _addNewProduct();

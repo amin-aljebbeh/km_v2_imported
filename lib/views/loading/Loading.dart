@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/cartModel.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/blocked_user/blocked_user.dart';
 import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/home/home_view.dart';
@@ -9,6 +8,7 @@ import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/server_update/server_update.dart';
 import 'package:kammun_app/views/supported_city/supported_city.dart';
 import 'package:kammun_app/views/update_screen/updateRequiredScreen.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class LoadingScreen extends StatefulWidget {
   static String userToken = "Bearer ";
@@ -54,7 +54,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   loadingProgress() {
     return Scaffold(
-      backgroundColor: UtilsImporter().colorUtils.kmColors,
+      backgroundColor: ColorUtils.kmColors,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,

@@ -4,13 +4,13 @@ import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/core/api/admin_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 import 'model/inventory_model.dart';
 
@@ -139,27 +139,23 @@ class _InventoryState extends State<Inventory> {
               borderRadius: BorderRadius.all(Radius.circular(
                       10.0) //                 <--- border radius here
                   ),
-              border: Border.all(
-                  color: UtilsImporter().colorUtils.primaryColor, width: 2)),
+              border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
             style: TextStyle(
                 color: Colors.white,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
               border: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
             ),
-            cursorColor: UtilsImporter().colorUtils.kmColors,
+            cursorColor: ColorUtils.kmColors,
             controller: _controller,
           ),
         ),
@@ -248,7 +244,7 @@ class _InventoryState extends State<Inventory> {
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
+                                        StringUtils.fontFamilyHKGrotesk)),
                             onPressed: () =>
                                 _loadData(filterIndex: filterProducts),
                           ),
@@ -264,16 +260,14 @@ class _InventoryState extends State<Inventory> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk))
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk))
                                 : Text("لا يوجد منتجات بحاجة إلغاء تفعيل",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk)),
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk)),
                           ),
                         )
                       : Expanded(
@@ -296,7 +290,7 @@ class _InventoryState extends State<Inventory> {
                                   return GestureDetector(
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () => () {},
-                                    child: ProductsViewCard(
+                                    child: InventoryProductsViewCard(
                                       fromInventory: true,
                                       productData: eachProduct,
                                       onChangeStatus: (result) {
@@ -335,7 +329,7 @@ class _InventoryState extends State<Inventory> {
                                   return GestureDetector(
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () => () {},
-                                    child: ProductsViewCard(
+                                    child: InventoryProductsViewCard(
                                       fromInventory: true,
                                       productData: eachProduct,
                                       onChangeStatus: (result) {
@@ -374,7 +368,7 @@ class _InventoryState extends State<Inventory> {
                                 return GestureDetector(
                                   behavior: HitTestBehavior.translucent,
                                   onTap: () => () {},
-                                  child: ProductsViewCard(
+                                  child: InventoryProductsViewCard(
                                     onChangeStatus: (result) {
                                       if (result) {
                                         Tools.logToConsole(

@@ -2,9 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/dialog_button.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/assigned_orders_view.dart';
@@ -14,6 +12,7 @@ import 'package:kammun_app/views/store/store_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import '../../utils/Styles.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class HomeView extends StatefulWidget {
@@ -48,7 +47,7 @@ class HomeViewState extends State<HomeView> {
             (_) {
               List<DialogButton> decisionButtons = [
                 DialogButton(
-                  text: UtilsImporter().stringUtils.close,
+                  text: StringUtils.close,
                   onTap: () {
                     Navigator.of(context).pop();
                   },
@@ -89,7 +88,7 @@ class HomeViewState extends State<HomeView> {
 
         List<DialogButton> decisionButtons = [
           DialogButton(
-            text: UtilsImporter().stringUtils.close,
+            text: StringUtils.close,
             onTap: () {
               Navigator.of(context).pop();
             },
@@ -116,7 +115,7 @@ class HomeViewState extends State<HomeView> {
 
         List<DialogButton> decisionButtons = [
           DialogButton(
-            text: UtilsImporter().stringUtils.close,
+            text: StringUtils.close,
             onTap: () {
               Navigator.of(context).pop();
             },
@@ -142,7 +141,7 @@ class HomeViewState extends State<HomeView> {
 
         List<DialogButton> decisionButtons = [
           DialogButton(
-            text: UtilsImporter().stringUtils.close,
+            text: StringUtils.close,
             onTap: () {
               Navigator.of(context).pop();
             },
@@ -194,7 +193,7 @@ class HomeViewState extends State<HomeView> {
         ),
         icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
         title: Text(
-          UtilsImporter().stringUtils.store,
+          StringUtils.store,
           style: naveBarStyle,
         ),
       ),
@@ -209,7 +208,7 @@ class HomeViewState extends State<HomeView> {
         icon:
             Icon(Icons.shopping_cart, color: Color.fromARGB(255, 53, 99, 124)),
         title: Text(
-          UtilsImporter().stringUtils.cart,
+          StringUtils.cart,
           style: naveBarStyle,
         ),
       ),
@@ -228,18 +227,19 @@ class HomeViewState extends State<HomeView> {
               color: Color.fromARGB(255, 53, 99, 124),
             ),
             title: Text(
-              UtilsImporter().stringUtils.allOrders,
+              StringUtils.allOrders,
               style: naveBarStyle,
             )),
       );
     }
 
-    if (Services.isDelivery() || Services.isShopper()) {
+    if (Services.isDelivery() ||
+        Services.isShopper() ||
+        Services.isSupplierManager()) {
       bottomList.add(
         BottomNavigationBarItem(
           activeIcon: Icon(
             Icons.playlist_add_check_outlined,
-            // color: Theme.of(context).primaryColor,
             color: Color.fromARGB(255, 210, 178, 2),
           ),
           icon: Icon(
@@ -247,26 +247,27 @@ class HomeViewState extends State<HomeView> {
             color: Color.fromARGB(255, 53, 99, 124),
           ),
           title: Text(
-            UtilsImporter().stringUtils.myOrders,
+            StringUtils.myOrders,
             style: naveBarStyle,
           ),
         ),
       );
       bottomList.add(
         BottomNavigationBarItem(
-            activeIcon: Icon(
-              Icons.reorder,
-              //color: Theme.of(context).primaryColor,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            icon: Icon(
-              Icons.reorder,
-              color: Color.fromARGB(255, 53, 99, 124),
-            ),
-            title: Text(
-              UtilsImporter().stringUtils.orders,
-              style: naveBarStyle,
-            )),
+          activeIcon: Icon(
+            Icons.reorder,
+            //color: Theme.of(context).primaryColor,
+            color: Color.fromARGB(255, 210, 178, 2),
+          ),
+          icon: Icon(
+            Icons.reorder,
+            color: Color.fromARGB(255, 53, 99, 124),
+          ),
+          title: Text(
+            StringUtils.orders,
+            style: naveBarStyle,
+          ),
+        ),
       );
     }
 
@@ -295,7 +296,9 @@ class HomeViewState extends State<HomeView> {
       );
     }
 
-    if (Services.isDelivery() || Services.isShopper()) {
+    if (Services.isDelivery() ||
+        Services.isShopper() ||
+        Services.isSupplierManager()) {
       _tabs.add(
         AssignedOrdersView(),
       );

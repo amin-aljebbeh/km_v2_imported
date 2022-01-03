@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class UpdateScreen extends StatelessWidget {
   static final String routeName = "/update";
@@ -50,7 +50,7 @@ class UpdateScreen extends StatelessWidget {
                       color: Colors.black,
                       fontSize: 25.0,
                       fontWeight: FontWeight.w500,
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                      fontFamily: StringUtils.fontFamilyHKGrotesk),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -64,7 +64,7 @@ class UpdateScreen extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 18,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -75,7 +75,7 @@ class UpdateScreen extends StatelessWidget {
                   child: KammunButton(
                     text: " التحديث الآن ",
                     height: 50,
-                    color: UtilsImporter().colorUtils.primaryColor,
+                    color: ColorUtils.primaryColor,
                     onTap: Platform.isAndroid
                         ? () => _androidUpdateLink()
                         : () => _iosUpdateLink(),

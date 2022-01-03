@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'delivery_model.dart';
+import 'models_importer.dart';
 
 GetDeliveriesResponse deliveriesFromJson(String str) =>
     GetDeliveriesResponse.fromJson(json.decode(str));

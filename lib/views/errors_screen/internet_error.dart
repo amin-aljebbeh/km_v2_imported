@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class InternetError extends StatelessWidget {
   @override
@@ -57,7 +57,7 @@ class InternetError extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                fontFamily: StringUtils.fontFamilyHKGrotesk,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -68,7 +68,7 @@ class InternetError extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 15,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -77,7 +77,7 @@ class InternetError extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: KammunButton(
                 height: 50,
-                text: UtilsImporter().stringUtils.tryAgain,
+                text: StringUtils.tryAgain,
                 color: Theme.of(context).primaryColor,
                 onTap: () => KammunRestart.restartApp(context),
               ),

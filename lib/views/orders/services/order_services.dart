@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/models/lock_order.dart';
-import 'package:kammun_app/models/orders_response.dart';
-import 'package:kammun_app/models/start_model.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
@@ -88,7 +86,6 @@ class OrderServices {
 
   static Future<OrderResponse> updateOrder(
       {String userNotes, bool checkPrices = true}) async {
-    print('updateOrder');
     String productIds = "";
     String quantities = "";
     String productPrices = "";
@@ -111,8 +108,6 @@ class OrderServices {
     }
 
     Map orderData = {
-      // "delivery_method_id": LoadingScreenServices
-      //     .myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryMethodId,
       "delivery_method_id": DeliverToView.selectedIndex.toString(),
       "product_ids": productIds.substring(0, productIds.length - 1),
       "quantities": quantities.substring(0, quantities.length - 1),
@@ -127,7 +122,6 @@ class OrderServices {
 
     orderId = orderUnderUpdateId;
 
-    Tools.logToConsole(ORDER + "/$orderId");
     try {
       var response = await ApiProvider.sendRequest(
           url: ORDER + "/$orderId",
@@ -135,22 +129,21 @@ class OrderServices {
           body: jsonEncode(orderData));
 
       if (response.data["reason"].toString().contains("discontinued")) {
+        Tools.logToConsole('message in updating Order 1');
         return new OrderResponse(success: false, reason: "discontinued");
       } else {
+        Tools.logToConsole('message in updating Order 2');
         var parsedJson = orderResponseFromJson(jsonEncode(response.data));
 
         return parsedJson;
       }
     } catch (e) {
-      print('yaoo');
       Tools.logToConsole(e);
       return null;
     }
   }
 
   static Future<String> cancelOrder(String orderId) async {
-    // Tools.logToConsole("------------------ CANCEL ORDER  --------------------");
-
     Map cancelOrderBody = {
       'order_status_id': 5,
     };
@@ -170,8 +163,6 @@ class OrderServices {
 
   static Future<bool> rateOrder(
       {String orderId, String userFeedback, double rating}) async {
-    // Tools.logToConsole("------------------ Rate Order --------------------");
-
     Map ratingOrderBody = {
       'user_feedback': userFeedback,
       "user_delivery_rating": rating.toString(),
@@ -197,7 +188,6 @@ class OrderServices {
       @required String supportedCityCost,
       @required String deliveryMethodCost,
       @required String userNote}) async {
-    // Tools.logToConsole("------------------ CANCEL ORDER  --------------------");
     try {
       var response = await ApiProvider.sendRequest(
         url: LOCK_ORDER + orderId,

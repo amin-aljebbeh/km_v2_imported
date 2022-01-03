@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
@@ -12,6 +10,7 @@ import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:toast/toast.dart';
 import '../../Services.dart';
 import 'delivery_method.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class DeliverToView extends StatefulWidget {
   static int selectedIndex;
@@ -82,7 +81,7 @@ class DeliverToViewState extends State<DeliverToView> {
                 ),
             border: Border.all(
               width: 2,
-              color: UtilsImporter().colorUtils.kmColors,
+              color: ColorUtils.kmColors,
             ),
           ),
           child: Card(
@@ -102,8 +101,8 @@ class DeliverToViewState extends State<DeliverToView> {
                               ? Icons.radio_button_checked
                               : Icons.radio_button_unchecked,
                           color: DeliverToView.selectedIndex == index
-                              ? UtilsImporter().colorUtils.primaryColor
-                              : UtilsImporter().colorUtils.greyColor),
+                              ? ColorUtils.primaryColor
+                              : ColorUtils.greyColor),
                     ),
                     SizedBox(width: 10),
                     Expanded(
@@ -121,9 +120,8 @@ class DeliverToViewState extends State<DeliverToView> {
                                         .userAddress[index].supportedCityName,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -134,12 +132,9 @@ class DeliverToViewState extends State<DeliverToView> {
                                         .userAddress[index].street,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greyColor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        color: ColorUtils.greyColor,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -150,12 +145,9 @@ class DeliverToViewState extends State<DeliverToView> {
                                         .userAddress[index].building,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greyColor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        color: ColorUtils.greyColor,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -166,12 +158,9 @@ class DeliverToViewState extends State<DeliverToView> {
                                         .userAddress[index].description,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greyColor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        color: ColorUtils.greyColor,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -186,7 +175,7 @@ class DeliverToViewState extends State<DeliverToView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Divider(
-                    color: UtilsImporter().colorUtils.kmColors,
+                    color: ColorUtils.kmColors,
                     thickness: 3,
                   ),
                 ),
@@ -195,17 +184,17 @@ class DeliverToViewState extends State<DeliverToView> {
                   //    crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     KammunButton(
-                      text: UtilsImporter().stringUtils.delete.toUpperCase(),
+                      text: StringUtils.delete.toUpperCase(),
                       height: 35,
                       width: 125,
-                      color: UtilsImporter().colorUtils.primaryColor,
+                      color: ColorUtils.primaryColor,
                       onTap: () => onrRemove(index),
                     ),
                     KammunButton(
-                      text: UtilsImporter().stringUtils.edit.toUpperCase(),
+                      text: StringUtils.edit.toUpperCase(),
                       height: 35,
                       width: 125,
-                      color: UtilsImporter().colorUtils.primaryColor,
+                      color: ColorUtils.primaryColor,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -258,11 +247,10 @@ class DeliverToViewState extends State<DeliverToView> {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              UtilsImporter().stringUtils.deliverto,
+                              StringUtils.deliverTo,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 30),
                             )),
                       ],
@@ -306,16 +294,12 @@ class DeliverToViewState extends State<DeliverToView> {
                               alignment: Alignment.center,
                               child: FlatButton(
                                 padding: EdgeInsets.only(left: 30.0, top: 10.0),
-                                child: Text(
-                                    UtilsImporter().stringUtils.add_new_address,
+                                child: Text(StringUtils.addNewAddress,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greyColor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        color: ColorUtils.greyColor,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 17)),
                                 onPressed: () {
                                   Navigator.push(
@@ -331,13 +315,10 @@ class DeliverToViewState extends State<DeliverToView> {
                       ),
                     ),
                     KammunButton(
-                      text: UtilsImporter()
-                          .stringUtils
-                          .proceed_to_pay
-                          .toUpperCase(),
+                      text: StringUtils.proceedToPay.toUpperCase(),
                       height: 50,
                       color: DeliverToView.selectedIndex != null
-                          ? UtilsImporter().colorUtils.primaryColor
+                          ? ColorUtils.primaryColor
                           : Colors.grey[400],
                       onTap: _showProceedToPayBtnTapped,
                     ),

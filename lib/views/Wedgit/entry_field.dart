@@ -64,7 +64,7 @@ class _EntryFieldState extends State<EntryField> {
             border: OutlineInputBorder(),
             hintText: widget.hint,
             hintStyle: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
             fillColor: Colors.white,
             filled: true,

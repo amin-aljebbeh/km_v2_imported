@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class ColorUtils {
-  Color primaryColor = HexColor("35637c"); // كحلي
-  Color greyColor = HexColor("35637c"); //
-  Color searchGreyColor = HexColor("e6e6e6");
+  static Color primaryColor = HexColor("35637c"); // كحلي
+  static Color greyColor = HexColor("35637c"); //
+  static Color searchGreyColor = HexColor("e6e6e6");
   Color darkColor = HexColor("3D56F0");
   Color violetColor = HexColor("5120AE");
   Color lightVioletColor = HexColor("7085C3");
 
-  Color kmColors = Color.fromARGB(255, 210, 178, 2);
+  static Color kmColors = Color.fromARGB(255, 210, 178, 2);
   Color blueColor = HexColor("396b89");
 
-  Color kmColors2 = HexColor("e5cb37");
+  static Color kmColors2 = HexColor("e5cb37");
 
   Color khawajaColor = Colors.purple;
   Color vegetableColor = Colors.green[800];

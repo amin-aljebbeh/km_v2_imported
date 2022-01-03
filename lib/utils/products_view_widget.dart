@@ -1,20 +1,17 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/dialog_button.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
-import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+import 'utils_importer.dart';
 
 // ignore: must_be_immutable
-class ProductsViewCard extends StatefulWidget {
+class InventoryProductsViewCard extends StatefulWidget {
   final String img;
   final String productName;
   final String quantity;
@@ -30,7 +27,7 @@ class ProductsViewCard extends StatefulWidget {
   final Function(bool) onDelete;
   final bool fromInventory;
 
-  ProductsViewCard(
+  InventoryProductsViewCard(
       {this.img,
       this.productName,
       this.quantity,
@@ -48,11 +45,11 @@ class ProductsViewCard extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return ProductsViewCardState();
+    return InventoryProductsViewCardState();
   }
 }
 
-class ProductsViewCardState extends State<ProductsViewCard> {
+class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   _unAttachProduct() async {
     bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
         productsId: widget.productId,
@@ -93,28 +90,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
               Row(
                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Container(
-                    width: 100.0,
-                    height: 100.0,
-                    decoration: new BoxDecoration(
-                        borderRadius:
-                            new BorderRadius.all(Radius.circular(20.0))),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Hero(
-                            tag: widget.productId,
-                            child: Image(
-                              fit: BoxFit.contain,
-                              image: widget.img.length > 0
-                                  ? AdvImageCache(
-                                      widget.img,
-                                      useMemCache: true,
-                                      diskCacheExpire: Duration(days: 400),
-                                    )
-                                  : AssetImage("assets/kmIcon.png"),
-                              width: MediaQuery.of(context).size.width,
-                              height: 120,
-                            ))),
+                  KCacheImage(
+                    tag: widget.productId,
+                    image: widget.img,
                   ),
                   SizedBox(width: 10),
                   Expanded(
@@ -131,9 +109,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     widget.productName,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 18),
                                   ),
                                 ],
@@ -143,9 +120,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 widget.quantity,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    color: UtilsImporter().colorUtils.greyColor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    color: ColorUtils.greyColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 17),
                               ),
                               SizedBox(height: 8),
@@ -153,20 +129,16 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 children: [
                                   widget.price != null
                                       ? Text(
-                                          UtilsImporter()
-                                                  .stringUtils
+                                          StringUtils()
                                                   .oCcy
                                                   .format(widget.price)
                                                   .toString() +
                                               "  ",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              color: UtilsImporter()
-                                                  .colorUtils
-                                                  .primaryColor,
-                                              fontFamily: UtilsImporter()
-                                                  .stringUtils
-                                                  .HKGrotesk,
+                                              color: ColorUtils.primaryColor,
+                                              fontFamily: StringUtils
+                                                  .fontFamilyHKGrotesk,
                                               fontSize: 18))
                                       : Container(),
                                   widget.oldPrice != null
@@ -174,8 +146,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                           text: new TextSpan(
                                             children: <TextSpan>[
                                               new TextSpan(
-                                                text: UtilsImporter()
-                                                    .stringUtils
+                                                text: StringUtils()
                                                     .oCcy
                                                     .format(widget.oldPrice)
                                                     .toString(),
@@ -229,9 +200,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                       10.0) //                 <--- border radius here
                                   ),
                               border: Border.all(
-                                  color:
-                                      UtilsImporter().colorUtils.primaryColor,
-                                  width: 2)),
+                                  color: ColorUtils.primaryColor, width: 2)),
                           child: widget.attached &&
                                   widget.supplierCode != null &&
                                   !widget.fromInventory
@@ -243,14 +212,14 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                   onPressed: () {
                                     List<DialogButton> dialogButtons = [
                                       DialogButton(
-                                        text: UtilsImporter().stringUtils.yes,
+                                        text: StringUtils.yes,
                                         onTap: () {
                                           _unAttachProduct();
                                           Navigator.of(context).pop();
                                         },
                                       ),
                                       DialogButton(
-                                        text: UtilsImporter().stringUtils.close,
+                                        text: StringUtils.close,
                                         onTap: () {
                                           Navigator.of(context).pop();
                                         },

@@ -1,16 +1,16 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/Wedgit/product_check_widget.dart';
-import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
-import '../../utils/Styles.dart';
+import 'package:kammun_app/Services.dart';
+import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/utils/colors_utils.dart';
-import 'package:kammun_app/models/start_model.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/full_screen_image.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
+
+import 'k_cache_image.dart';
 
 // ignore: must_be_immutable
 class OrderDetailViewMainCard extends StatefulWidget {
@@ -18,6 +18,7 @@ class OrderDetailViewMainCard extends StatefulWidget {
   final String productName;
   String quantity;
   final int price;
+  final int increaseValue;
   final int index;
   final String unit;
   final String productCount;
@@ -35,6 +36,7 @@ class OrderDetailViewMainCard extends StatefulWidget {
       this.productName,
       this.quantity,
       this.price,
+      this.increaseValue,
       this.index,
       this.unit,
       this.active,
@@ -130,32 +132,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                       ),
                     );
                   },
-                  child: new Container(
-                    width: 100.0,
-                    height: 100.0,
-                    decoration: new BoxDecoration(
-                        borderRadius:
-                            new BorderRadius.all(Radius.circular(20.0))),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Hero(
-                        tag: widget.index + 100,
-                        child: Image(
-                          // fadeInCurve: Curves.fastOutSlowIn,
-                          // placeholder: AssetImage("assets/kmIcon.png"),
-                          fit: BoxFit.contain,
-                          image: widget.img.length > 0
-                              ? AdvImageCache(
-                                  widget.img,
-                                  useMemCache: true,
-                                  diskCacheExpire: Duration(days: 400),
-                                )
-                              : AssetImage("assets/kmIcon.png"),
-                          width: MediaQuery.of(context).size.width,
-                          height: 120,
-                        ),
-                      ),
-                    ),
+                  child: KCacheImage(
+                    tag: widget.index + int.parse(widget.productId),
+                    image: widget.img,
                   ),
                 ),
                 SizedBox(width: 3),
@@ -183,60 +162,65 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                               Text(
                                 widget.quantity + " " + widget.unit,
                                 style: mainStyle.copyWith(
-                                  color:
-                                      UtilsImporter().colorUtils.primaryColor,
+                                  color: ColorUtils.primaryColor,
                                   fontSize: 17,
                                 ),
                               ),
                             ],
                           ),
                           Text(
-                            UtilsImporter()
-                                    .stringUtils
+                            StringUtils()
                                     .oCcy
-                                    .format(widget.price)
+                                    .format(widget.price - widget.increaseValue)
                                     .toString() +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: mainStyle.copyWith(
-                                color: UtilsImporter().colorUtils.primaryColor,
+                                color: ColorUtils.primaryColor,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                          subWarehouseList.length > 0
-                              ? DropdownButton(
-                                  items: subWarehouseList,
-                                  onChanged: (a) {
-                                    OrderDetailsServices.updateOrder(
-                                        orderId: widget.orderId.toString(),
-                                        context: context,
-                                        updateKey: "sub_warehouse_id",
-                                        updateValue: a.toString(),
-                                        productId: widget.productId);
-                                    setState(() {
-                                      widget.subWarehouseId = a;
-                                    });
-                                  },
-                                  hint: subWarehouseList.firstWhere(
-                                      (element) =>
-                                          element.value ==
-                                          widget.subWarehouseId, orElse: () {
-                                    subWarehouseList.clear();
-                                    return DropdownMenuItem(
-                                        child: Text("No element"));
-                                  }).child,
+                          subWarehouseList.length > 0 &&
+                                  !Services.isSupplierManager()
+                              ? Column(
+                                  children: [
+                                    DropdownButton(
+                                      items: subWarehouseList,
+                                      onChanged: (a) {
+                                        OrderDetailsServices.updateOrder(
+                                            orderId: widget.orderId.toString(),
+                                            context: context,
+                                            updateKey: "sub_warehouse_id",
+                                            updateValue: a.toString(),
+                                            productId: widget.productId);
+                                        setState(() {
+                                          widget.subWarehouseId = a;
+                                        });
+                                      },
+                                      hint: subWarehouseList.firstWhere(
+                                          (element) =>
+                                              element.value ==
+                                              widget.subWarehouseId,
+                                          orElse: () {
+                                        subWarehouseList.clear();
+                                        return DropdownMenuItem(
+                                            child: Text("No element"));
+                                      }).child,
+                                    ),
+                                    SwitchProductStatusWidget(
+                                      height: 20,
+                                      width: 70,
+                                      preState: widget.active,
+                                      subWarehouseId:
+                                          widget.productsData.subWarehouseId,
+                                      productId: widget.productId,
+                                      onChange: (active) {
+                                        widget.active = active;
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ],
                                 )
                               : Container(),
-                          SwitchProductStatusWidget(
-                            height: 20,
-                            width: 70,
-                            preState: widget.active,
-                            subWarehouseId: widget.productsData.subWarehouseId,
-                            productId: widget.productId,
-                            onChange: (active) {
-                              widget.active = active;
-                              setState(() {});
-                            },
-                          ),
                         ],
                       ),
                     ],

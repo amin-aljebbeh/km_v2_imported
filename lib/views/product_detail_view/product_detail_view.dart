@@ -3,16 +3,9 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Styles.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/add_image_widget.dart';
-import 'package:kammun_app/views/Wedgit/dialog_button.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
-import 'package:kammun_app/views/Wedgit/update_product_info_widget.dart';
+import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -25,6 +18,7 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
@@ -101,7 +95,7 @@ class ProductDetailViewState extends State<ProductDetailView>
       right: false,
       bottom: true,
       child: Scaffold(
-        //backgroundColor: UtilsImporter().colorUtils.primarycolor,
+        //backgroundColor: ColorUtils.primarycolor,
         backgroundColor: Theme.of(context).primaryColorLight,
         body: NestedScrollView(
           controller: _controller,
@@ -126,7 +120,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                     ),
                   ),
                 ],
-                backgroundColor: UtilsImporter().colorUtils.primaryColor,
+                backgroundColor: ColorUtils.primaryColor,
                 expandedHeight: 300.0,
                 floating: false,
                 pinned: true,
@@ -177,20 +171,21 @@ class ProductDetailViewState extends State<ProductDetailView>
                         : widget.product.images.length > 0
                             ? FullScreenWidget(
                                 child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(16),
-                                    child: Image(
-                                      image: AdvImageCache(
-                                        LoadingScreenServices.imagePrefixUrl +
-                                            widget.product.images[0]
-                                                .imageFileName,
-                                        useMemCache: true,
-                                        diskCacheExpire: Duration(days: 400),
-                                      ),
-                                      width:
-                                          MediaQuery.of(context).size.width / 2,
-                                      height: 120,
-                                      fit: BoxFit.contain,
-                                    )),
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Image(
+                                    image: AdvImageCache(
+                                      LoadingScreenServices.imagePrefixUrl +
+                                          widget
+                                              .product.images[0].imageFileName,
+                                      useMemCache: true,
+                                      diskCacheExpire: Duration(days: 400),
+                                    ),
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    height: 120,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
                               )
                             : Image.asset(
                                 "assets/logobw.png",
@@ -211,7 +206,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                         topRight: Radius.circular(20.0),
                         topLeft: Radius.circular(20.0))),
                 child: ListView(
-                  // mainAxisAlignment: MainAxisAlignment.start,
                   shrinkWrap: true,
                   children: <Widget>[
                     Center(
@@ -221,8 +215,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                           widget.product.name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: UtilsImporter().colorUtils.primaryColor,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            color: ColorUtils.primaryColor,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 25,
                           ),
                         ),
@@ -235,7 +229,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text(UtilsImporter().stringUtils.quantity + ' :',
+                            Text(StringUtils.quantity + ' :',
                                 style: paragraphStyle),
                             SizedBox(width: 5),
                             Text(
@@ -251,38 +245,29 @@ class ProductDetailViewState extends State<ProductDetailView>
                         Column(
                           // crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text(UtilsImporter().stringUtils.price + ' :',
+                            Text(StringUtils.price + ' :',
                                 style: paragraphStyle),
                             SizedBox(width: 5),
                             Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                "${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: informationStyle),
                           ],
                         ),
                       ],
                     ),
                     SizedBox(height: 20),
-                    Row(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          UtilsImporter().stringUtils.description + ' :',
-                          style: paragraphStyle,
+                        OrderInformationRow(
+                          rightSideText: StringUtils.description + ' :',
+                          leftSideText: widget.product.description != null
+                              ? widget.product.description.split("@")[0]
+                              : "",
+                          leftSideStyle: informationStyle,
                         ),
-                        SizedBox(width: 5),
-                        widget.product.description != null
-                            ? Expanded(
-                                child: Text(
-                                  widget.product.description != null
-                                      ? widget.product.description.split("@")[0]
-                                      : "",
-                                  style: informationStyle,
-                                ),
-                              )
-                            : Container(),
                       ],
                     ),
-                    SizedBox(height: 15),
                     Container(
                       height: 74,
                       child: ListView.builder(
@@ -295,7 +280,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 onLongPress: () {
                                   List<DialogButton> dialogButtons = [
                                     DialogButton(
-                                      text: UtilsImporter().stringUtils.yes,
+                                      text: StringUtils.yes,
                                       onTap: () async {
                                         Navigator.of(context).pop();
                                         bool result = await ProductsServices
@@ -316,7 +301,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                       },
                                     ),
                                     DialogButton(
-                                      text: UtilsImporter().stringUtils.no,
+                                      text: StringUtils.no,
                                       onTap: () {
                                         Navigator.of(context).pop();
                                       },
@@ -369,8 +354,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 35)),
                         ),
                         SizedBox(
@@ -404,23 +388,20 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         10.0) //                 <--- border radius here
                                     ),
                                 border: Border.all(
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
-                                    width: 4)),
+                                    color: ColorUtils.primaryColor, width: 4)),
                             child: Center(
                                 child: Text(
-                              UtilsImporter().stringUtils.outOfStock,
+                              StringUtils.outOfStock,
                               style: TextStyle(
                                   fontSize: 25,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk),
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk),
                             )),
                           )
                         : Container(),
                     KammunButton(
                       text:
-                          '${UtilsImporter().stringUtils.addToCart}  (${UtilsImporter().stringUtils.oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
+                          '${StringUtils.addToCart}  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
                       height: 50,
                       color: Theme.of(context).primaryColor,
                       onTap: () async {
@@ -440,7 +421,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                             ),
                             boxShadows: [
                               BoxShadow(
-                                color: UtilsImporter().colorUtils.primaryColor,
+                                color: ColorUtils.primaryColor,
                                 offset: Offset(0.0, 2.0),
                                 blurRadius: 3.0,
                               )
@@ -451,8 +432,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                               color: Colors.white,
                             ),
                             duration: Duration(seconds: 3),
-                            leftBarIndicatorColor:
-                                UtilsImporter().colorUtils.kmColors,
+                            leftBarIndicatorColor: ColorUtils.kmColors,
                           )..show(context);
 
                           SharedPreferences prefs =
@@ -482,9 +462,9 @@ class ProductDetailViewState extends State<ProductDetailView>
                             children: [
                               SizedBox(height: 30),
                               UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.edit +
+                                title: StringUtils.edit +
                                     ' ' +
-                                    UtilsImporter().stringUtils.price +
+                                    StringUtils.price +
                                     ' :',
                                 inputType: TextInputType.number,
                                 bodyKey: "price",
@@ -493,11 +473,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 textHint: widget.product.price,
                                 initialText: widget.product.price,
                               ),
-                              SizedBox(height: 30),
                               UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.edit +
+                                title: StringUtils.edit +
                                     ' ' +
-                                    UtilsImporter().stringUtils.supplierCode +
+                                    StringUtils.supplierCode +
                                     ':',
                                 inputType: TextInputType.text,
                                 textHint: widget.product.supplierCode,
@@ -506,10 +485,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 productId: widget.product.id,
                                 productData: widget.product,
                               ),
-                              SizedBox(height: 30),
                               UpdateProductInfoWidget(
-                                title: UtilsImporter().stringUtils.priceFactor +
-                                    ' :',
+                                title: StringUtils.priceFactor + ' :',
                                 inputType: TextInputType.number,
                                 bodyKey: "price_factor",
                                 productId: widget.product.id,
@@ -517,38 +494,30 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 textHint: widget.product.priceFactor,
                                 initialText: widget.product.priceFactor,
                               ),
-                              SizedBox(height: 30),
-                              Services.isProductsController() ||
-                                      Services.isAdmin() ||
-                                      Services.isSuperAdmin()
-                                  ? UpdateProductInfoWidget(
-                                      title: UtilsImporter().stringUtils.edit +
-                                          ' ' +
-                                          UtilsImporter().stringUtils.priority +
-                                          ' :',
-                                      textHint:
-                                          widget.product.priority.toString(),
-                                      inputType: TextInputType.text,
-                                      bodyKey: "priority",
-                                      productId: widget.product.id,
-                                      isForSubWarehouse: true,
-                                      productData: widget.product,
-                                      initialText:
-                                          widget.product.priority.toString(),
-                                    )
-                                  : Container(),
-                              SizedBox(height: 30),
                               Services.isProductsController() ||
                                       Services.isAdmin() ||
                                       Services.isSuperAdmin()
                                   ? Column(
                                       children: [
                                         UpdateProductInfoWidget(
-                                          title: UtilsImporter()
-                                                  .stringUtils
-                                                  .edit +
+                                          title: StringUtils.edit +
                                               ' ' +
-                                              UtilsImporter().stringUtils.name +
+                                              StringUtils.priority +
+                                              ' :',
+                                          textHint: widget.product.priority
+                                              .toString(),
+                                          inputType: TextInputType.text,
+                                          bodyKey: "priority",
+                                          productId: widget.product.id,
+                                          isForSubWarehouse: true,
+                                          productData: widget.product,
+                                          initialText: widget.product.priority
+                                              .toString(),
+                                        ),
+                                        UpdateProductInfoWidget(
+                                          title: StringUtils.edit +
+                                              ' ' +
+                                              StringUtils.name +
                                               ' :',
                                           textHint: widget.product.name,
                                           inputType: TextInputType.multiline,
@@ -558,13 +527,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           isForSubWarehouse: false,
                                           productData: widget.product,
                                         ),
-                                        SizedBox(height: 30),
                                         UpdateProductInfoWidget(
-                                          title: UtilsImporter()
-                                                  .stringUtils
-                                                  .edit +
+                                          title: StringUtils.edit +
                                               ' ' +
-                                              UtilsImporter().stringUtils.unit +
+                                              StringUtils.unit +
                                               ' :',
                                           inputType: TextInputType.multiline,
                                           bodyKey: "unit",
@@ -574,15 +540,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           textHint: widget.product.unit,
                                           initialText: widget.product.unit,
                                         ),
-                                        SizedBox(height: 30),
                                         UpdateProductInfoWidget(
-                                          title:
-                                              UtilsImporter().stringUtils.edit +
-                                                  ' ' +
-                                                  UtilsImporter()
-                                                      .stringUtils
-                                                      .quantity +
-                                                  ' :',
+                                          title: StringUtils.edit +
+                                              ' ' +
+                                              StringUtils.quantity +
+                                              ' :',
                                           isForSubWarehouse: false,
                                           inputType: TextInputType.text,
                                           productData: widget.product,
@@ -591,15 +553,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           productId: widget.product.id,
                                           initialText: widget.product.quantity,
                                         ),
-                                        SizedBox(height: 30),
                                         UpdateProductInfoWidget(
-                                          title:
-                                              UtilsImporter().stringUtils.edit +
-                                                  ' ' +
-                                                  UtilsImporter()
-                                                      .stringUtils
-                                                      .description +
-                                                  ' :',
+                                          title: StringUtils.edit +
+                                              ' ' +
+                                              StringUtils.description +
+                                              ' :',
                                           textHint: "الوصف الجديد",
                                           inputType: TextInputType.multiline,
                                           bodyKey: "description",
@@ -609,7 +567,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           initialText:
                                               widget.product.description,
                                         ),
-                                        SizedBox(height: 30),
                                         Container(
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -620,9 +577,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                 BorderRadius.circular(6),
                                             border: Border.all(
                                                 width: 5,
-                                                color: UtilsImporter()
-                                                    .colorUtils
-                                                    .greyColor),
+                                                color: ColorUtils.greyColor),
                                           ),
                                           child: Center(
                                             child: new DropdownButton(
@@ -632,9 +587,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                                               items: Services
                                                   .productSubWarehouseNames(
                                                       context),
-                                              iconEnabledColor: UtilsImporter()
-                                                  .colorUtils
-                                                  .greyColor,
+                                              iconEnabledColor:
+                                                  ColorUtils.greyColor,
                                               value: productSubWarehouseId,
                                               hint: new Text(
                                                 LoadingScreenServices
@@ -648,9 +602,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                     .name,
                                                 style: decisionButtonStyle
                                                     .copyWith(
-                                                  color: UtilsImporter()
-                                                      .colorUtils
-                                                      .greyColor,
+                                                  color: ColorUtils.greyColor,
                                                 ),
                                               ),
                                               onChanged: (value) async {
@@ -691,23 +643,17 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                 BorderRadius.circular(6),
                                             border: Border.all(
                                                 width: 5,
-                                                color: UtilsImporter()
-                                                    .colorUtils
-                                                    .greyColor),
+                                                color: ColorUtils.greyColor),
                                           ),
                                           child: Center(
                                             child: new SearchableDropdown(
                                               style: decisionButtonStyle,
                                               closeButton: FlatButton(
                                                 child: Text(
-                                                  UtilsImporter()
-                                                      .stringUtils
-                                                      .close,
+                                                  StringUtils.close,
                                                   style: decisionButtonStyle
                                                       .copyWith(
-                                                    color: UtilsImporter()
-                                                        .colorUtils
-                                                        .greyColor,
+                                                    color: ColorUtils.greyColor,
                                                   ),
                                                 ),
                                                 onPressed: () =>
@@ -718,25 +664,21 @@ class ProductDetailViewState extends State<ProductDetailView>
                                               isExpanded: false,
                                               items: LoadingScreenServices
                                                   .fullCategoryList,
-                                              iconEnabledColor: UtilsImporter()
-                                                  .colorUtils
-                                                  .greyColor,
+                                              iconEnabledColor:
+                                                  ColorUtils.greyColor,
                                               value: selectedValueCategoryValue,
                                               hint: new Text(
                                                 'اختيار الصنف التابع له المنتج',
                                                 style: decisionButtonStyle
                                                     .copyWith(
-                                                        color: UtilsImporter()
-                                                            .colorUtils
+                                                        color: ColorUtils
                                                             .greyColor),
                                               ),
                                               searchHint: new Text(
                                                   'إختيار الصنف',
                                                   style: decisionButtonStyle
                                                       .copyWith(
-                                                    color: UtilsImporter()
-                                                        .colorUtils
-                                                        .greyColor,
+                                                    color: ColorUtils.greyColor,
                                                   )),
                                               onChanged: (value) {
                                                 setState(() {
@@ -850,9 +792,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                       List<DialogButton>
                                                           dialogButtons = [
                                                         DialogButton(
-                                                          text: UtilsImporter()
-                                                              .stringUtils
-                                                              .yes,
+                                                          text: StringUtils.yes,
                                                           onTap: () async {
                                                             bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
                                                                 productsId: widget
@@ -879,9 +819,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                           },
                                                         ),
                                                         DialogButton(
-                                                          text: UtilsImporter()
-                                                              .stringUtils
-                                                              .no,
+                                                          text: StringUtils.no,
                                                           onTap: () {
                                                             Navigator.of(
                                                                     context)
@@ -906,9 +844,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                       List<DialogButton>
                                                           dialogButtons = [
                                                         DialogButton(
-                                                          text: UtilsImporter()
-                                                              .stringUtils
-                                                              .yes,
+                                                          text: StringUtils.yes,
                                                           onTap: () async {
                                                             bool result =
                                                                 await ProductsServices
@@ -933,9 +869,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                           },
                                                         ),
                                                         DialogButton(
-                                                          text: UtilsImporter()
-                                                              .stringUtils
-                                                              .no,
+                                                          text: StringUtils.no,
                                                           onTap: () {
                                                             Navigator.of(
                                                                     context)
@@ -970,137 +904,6 @@ class ProductDetailViewState extends State<ProductDetailView>
         ),
       ),
     );
-  }
-
-  Widget _showAddToFavorite(BuildContext ctx) {
-    final GestureDetector addAddToOrderButtonWithGesture = new GestureDetector(
-      onTap: () {
-        _addToFavoriteBtnTapped(ctx);
-        if (LoadingScreenServices.userFavoriteProducts
-            .any((productId) => productId.id == widget.product.id)) {
-          Flushbar(
-            backgroundColor: Colors.red[900],
-            messageText: Text(
-              " تم إضافة ${widget.product.name}  إلى المفضلة",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-            boxShadows: [
-              BoxShadow(
-                color: Colors.red,
-                offset: Offset(0.0, 2.0),
-                blurRadius: 3.0,
-              )
-            ],
-            icon: Icon(
-              Icons.favorite,
-              size: 28.0,
-              color: Colors.white,
-            ),
-            duration: Duration(seconds: 3),
-            // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-          )..show(context);
-        } else {
-          Flushbar(
-            backgroundColor: Colors.red[900],
-            messageText: Text(
-              "تم إزالة ${widget.product.name}  من المفضلة",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-            boxShadows: [
-              BoxShadow(
-                color: Colors.red,
-                offset: Offset(0.0, 2.0),
-                blurRadius: 3.0,
-              )
-            ],
-            icon: Icon(
-              Icons.favorite,
-              size: 28.0,
-              color: Colors.white,
-            ),
-            duration: Duration(seconds: 3),
-            // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
-          )..show(context);
-        }
-      },
-      child: Container(
-        height: 50.0,
-        decoration: BoxDecoration(
-            color: Colors.red[800],
-            borderRadius: BorderRadius.all(Radius.circular(6.0))),
-        child: Center(
-          child: Text(
-            LoadingScreenServices.userFavoriteProducts
-                        .where(
-                          (productId) => productId.id == widget.product.id,
-                        )
-                        .length ==
-                    1
-                ? 'الإزالة من المفضلة'
-                : 'الإضافة إلى المفضلة',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 17.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding:
-            EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0, bottom: 20.0),
-        child: addAddToOrderButtonWithGesture);
-  }
-
-  void _addToFavoriteBtnTapped(context) {
-    // Scaffold.of(context).showSnackBar(SnackBar(
-    //   content: Text("Item Addes"),
-    // ));
-    if (LoadingScreen.userToken.length > 5) {
-      LoadingScreenServices.userFavoriteProducts
-                  .where(
-                    (productId) => productId.id == widget.product.id,
-                  )
-                  .length ==
-              0
-          ? _addFavorite(context, widget.product)
-          : _removeFavorite();
-      if (widget.isFromFavoriteScreen) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            '/favoraites', (Route<dynamic> route) => false);
-      } else {
-        Navigator.of(context).pop();
-      }
-    } else {
-      Navigator.pushNamed(context, LoginScreen.routeName);
-    }
-  }
-
-  void _addFavorite(BuildContext ctx, ProductData product) {
-    Services.addToFavorites(widget.product.id.toString());
-    LoadingScreenServices.userFavoriteProducts.add(product);
-
-    Tools.logToConsole("im in add to favoraitses");
-    // Navigator.of(context).pop();
-  }
-
-  void _removeFavorite() {
-    for (int i = 0; i < LoadingScreenServices.userFavoriteProducts.length; i++)
-      if (LoadingScreenServices.userFavoriteProducts[i].id == widget.product.id)
-        LoadingScreenServices.userFavoriteProducts.removeAt(i);
-
-    Services.removeFromFavorites(widget.product.id.toString());
-
-    // Toast.show("تم إزالة ${widget.products.name}  من المفضلة", context,
-    //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
   }
 }
 

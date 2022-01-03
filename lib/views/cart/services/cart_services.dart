@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +15,8 @@ class CartServices {
   static String userCopoun;
 
   static Future getUserCart() async {
-    Tools.logToConsole("------------ GET USER CART FROM SHARED PREFRENCES --------------");
+    Tools.logToConsole(
+        "------------ GET USER CART FROM SHARED  --------------");
 
     Map<String, String> productsIdCount = new Map<String, String>();
 
@@ -73,7 +74,8 @@ class CartServices {
       } else {
         Tools.logToConsole(response.data);
         //   if (streamController != null) streamController.add(200);
-        Tools.logToConsole("------------ ERROR WHILE GETING USER CART --------------");
+        Tools.logToConsole(
+            "------------ ERROR WHILE GETING USER CART --------------");
 
         return false;
       }

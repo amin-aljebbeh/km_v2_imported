@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class NotAddedProductsToWarehouse extends StatefulWidget {
   @override
@@ -93,27 +93,23 @@ class _NotAddedProductsToWarehouseState
               borderRadius: BorderRadius.all(Radius.circular(
                       10.0) //                 <--- border radius here
                   ),
-              border: Border.all(
-                  color: UtilsImporter().colorUtils.primaryColor, width: 2)),
+              border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
             style: TextStyle(
                 color: Colors.white,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
               border: UnderlineInputBorder(
-                borderSide:
-                    BorderSide(color: UtilsImporter().colorUtils.kmColors),
+                borderSide: BorderSide(color: ColorUtils.kmColors),
               ),
             ),
-            cursorColor: UtilsImporter().colorUtils.kmColors,
+            cursorColor: ColorUtils.kmColors,
             controller: _controller,
           ),
         ),
@@ -168,9 +164,8 @@ class _NotAddedProductsToWarehouseState
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk)),
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk)),
                                 onPressed: () {}),
                           ],
                         ),
@@ -191,7 +186,7 @@ class _NotAddedProductsToWarehouseState
                               ? GestureDetector(
                                   behavior: HitTestBehavior.translucent,
                                   onTap: () => () {},
-                                  child: ProductsViewCard(
+                                  child: InventoryProductsViewCard(
                                     onDelete: (result) {
                                       if (result) {
                                         setState(() {
@@ -239,7 +234,7 @@ class _NotAddedProductsToWarehouseState
                                   ? GestureDetector(
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => () {},
-                                      child: ProductsViewCard(
+                                      child: InventoryProductsViewCard(
                                         onDelete: (result) {
                                           if (result) {
                                             setState(() {

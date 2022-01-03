@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
-import 'package:kammun_app/views/Wedgit/dialog_button.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
-import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
-import 'package:kammun_app/views/Wedgit/screen_message.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
 import '../../Services.dart';
 import 'package:intl/intl.dart';
 import 'services/order_services.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class NotAssignedOrdersView extends StatefulWidget {
   @override
@@ -33,7 +28,6 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
 
     getOrders = _initialFunction();
     _getOrder();
-
     super.initState();
   }
 
@@ -143,7 +137,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                         DropdownButton(
                           value: filterOrders,
                           items: Services.dropdownStringList(
-                              UtilsImporter().stringUtils.orderStatus),
+                              StringUtils.orderStatus),
                           onChanged: (value) {
                             setState(() {
                               filterOrders = value;
@@ -166,14 +160,14 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                             icon: Icon(
                               Icons.arrow_back,
                               size: 40,
-                              color: UtilsImporter().colorUtils.kmColors,
+                              color: ColorUtils.kmColors,
                             ),
                           ),
                         ),
                         DropdownButton(
                           value: page,
                           items: Services.dropdownIntList(
-                              UtilsImporter().stringUtils.dropdownValues),
+                              StringUtils.dropdownValues),
                           onChanged: (value) {
                             setState(() {
                               page = value;
@@ -197,7 +191,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                             icon: Icon(
                               Icons.last_page,
                               size: 40,
-                              color: UtilsImporter().colorUtils.kmColors,
+                              color: ColorUtils.kmColors,
                             ),
                           ),
                         ),
@@ -222,6 +216,8 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
+                          if (Services.isShopper())
+                            orderDataList[index].accountOrderRows();
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
                           return Column(
@@ -230,6 +226,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
+                                  orderData: orderDataList[index],
                                   deliveryName:
                                       orderDataList[index].delivery != null
                                           ? orderDataList[index].delivery.name
@@ -266,7 +263,6 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                       orderDataList[index].supportedCityId,
                                   underUpdate: int.parse(
                                       orderDataList[index].underUpdate),
-                                  orderTitle: "",
                                   orderTotalPrice:
                                       orderDataList[index].total.toString(),
                                   orderStatus: int.parse(
@@ -278,7 +274,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                               ),
                               if (Services.isDelivery() || Services.isShopper())
                                 KammunButton(
-                                  text: UtilsImporter().stringUtils.getOrder,
+                                  text: StringUtils.getOrder,
                                   color: Colors.green[800],
                                   onTap: () {
                                     OrderServices.assignOrder(
@@ -294,23 +290,18 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                               orderDataList[index].userNotes.toString() !=
                                       "null"
                                   ? KammunButton(
-                                      text:
-                                          UtilsImporter().stringUtils.watchNote,
+                                      text: StringUtils.watchNote,
                                       onTap: () {
                                         List<DialogButton> decisionButtons = [
                                           DialogButton(
-                                            text: UtilsImporter()
-                                                .stringUtils
-                                                .close,
+                                            text: StringUtils.close,
                                             onTap: () {
                                               Navigator.of(context).pop();
                                             },
                                           )
                                         ];
                                         showMyDialog(
-                                            title: UtilsImporter()
-                                                .stringUtils
-                                                .costumerNote,
+                                            title: StringUtils.costumerNote,
                                             text:
                                                 orderDataList[index].userNotes,
                                             dialogButtons: decisionButtons,
@@ -321,13 +312,12 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                   : Container(),
                               orderDataList[index].underUpdate.toString() != "0"
                                   ? KammunButton(
-                                      text: UtilsImporter().stringUtils.unLock,
+                                      text: StringUtils.unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
                                         List<DialogButton> decisionButtons = [
                                           DialogButton(
-                                            text:
-                                                UtilsImporter().stringUtils.yes,
+                                            text: StringUtils.yes,
                                             onTap: () {
                                               Navigator.of(context).pop();
                                               unLockOrder(orderId.toString(),
@@ -335,9 +325,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                             },
                                           ),
                                           DialogButton(
-                                            text: UtilsImporter()
-                                                .stringUtils
-                                                .close,
+                                            text: StringUtils.close,
                                             onTap: () {
                                               Navigator.of(context).pop();
                                             },
@@ -345,12 +333,8 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                         ];
 
                                         showMyDialog(
-                                            title: UtilsImporter()
-                                                .stringUtils
-                                                .unLock,
-                                            text: UtilsImporter()
-                                                .stringUtils
-                                                .unLockConfirm,
+                                            title: StringUtils.unLock,
+                                            text: StringUtils.unLockConfirm,
                                             dialogButtons: decisionButtons,
                                             context: context);
                                         // _showDialog(
@@ -365,15 +349,11 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Divider(
                                   thickness: 5,
-                                  color: UtilsImporter().colorUtils.kmColors2,
+                                  color: ColorUtils.kmColors2,
                                 ),
                               )
                             ],
                           );
-                          // return Container(
-                          //   height: 0.01,
-                          //   width: 0.01,
-                          // );
                         },
                       ),
                     ),
@@ -394,18 +374,13 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
   }
 
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-
-    List<OrderProducts> ordAry = orderDataList[index].products;
-
     Navigator.push(
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
-          order: orderDataList[index],
+          orderData: orderDataList[index],
           orderId: orderDataList[index].id,
-          orderIndex: index,
-          ordersAry: ordAry,
+          ordersAry: orderDataList[index].products,
           addressName: orderDataList[index].address.street,
           subTotal:
               int.parse(orderDataList[index].total.toString().split(".")[0]) -

@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/funny_images.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/facebook_loader.dart';
-import 'package:kammun_app/views/Wedgit/products_view_card.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class ProductsView extends StatefulWidget {
   final int heroIndex;
@@ -174,13 +173,13 @@ class ProductsViewState extends State<ProductsView> {
                               )));
                 });
               },
-              cursorColor: UtilsImporter().colorUtils.primaryColor,
+              cursorColor: ColorUtils.primaryColor,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
               ),
             ),
@@ -198,7 +197,7 @@ class ProductsViewState extends State<ProductsView> {
     return Scaffold(
         floatingActionButton: widget.queryString == null
             ? FloatingActionButton(
-                backgroundColor: UtilsImporter().colorUtils.kmColors2,
+                backgroundColor: ColorUtils.kmColors2,
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -293,7 +292,7 @@ class ProductsViewState extends State<ProductsView> {
                             child: Text(errorMessage,
                                 style: TextStyle(
                                     fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
+                                        StringUtils.fontFamilyHKGrotesk)),
                           ),
                         )
                   : Padding(
@@ -380,9 +379,8 @@ class ProductsViewState extends State<ProductsView> {
                                     ? Text("تم جلب جميع المنتجات",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: UtilsImporter()
-                                                .stringUtils
-                                                .HKGrotesk))
+                                            fontFamily: StringUtils
+                                                .fontFamilyHKGrotesk))
                                     : Loader(),
                               ),
                             ),

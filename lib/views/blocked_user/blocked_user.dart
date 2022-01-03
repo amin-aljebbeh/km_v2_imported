@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class BlockedUser extends StatelessWidget {
   static final String routeName = "/blocked-user";
@@ -28,7 +28,7 @@ class BlockedUser extends StatelessWidget {
                       color: Colors.black,
                       fontSize: 25.0,
                       fontWeight: FontWeight.w500,
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                      fontFamily: StringUtils.fontFamilyHKGrotesk),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -42,7 +42,7 @@ class BlockedUser extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 18,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -51,9 +51,9 @@ class BlockedUser extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: KammunButton(
-                    text: UtilsImporter().stringUtils.tryAgain,
+                    text: StringUtils.tryAgain,
                     height: 50,
-                    color: UtilsImporter().colorUtils.primaryColor,
+                    color: ColorUtils.primaryColor,
                     onTap: () => KammunRestart.restartApp(context),
                   ),
                 ),

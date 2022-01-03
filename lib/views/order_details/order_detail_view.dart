@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/start_model.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/common_utils.dart';
 import '../../utils/Styles.dart';
 import 'order_accounting.dart';
@@ -11,10 +11,9 @@ class OrderDetailView extends StatefulWidget {
   int subTotal;
   String total;
   String deliveryPrice;
-  int orderIndex;
   int orderId;
   String addressName;
-  OrdersOriginalData order;
+  OrdersOriginalData orderData;
   final OrderType orderType;
 
   OrderDetailView({
@@ -24,8 +23,7 @@ class OrderDetailView extends StatefulWidget {
     this.deliveryPrice,
     this.orderId,
     this.addressName,
-    this.orderIndex,
-    this.order,
+    this.orderData,
     @required this.orderType,
   });
 
@@ -41,24 +39,25 @@ class OrderDetailViewState extends State<OrderDetailView> {
 
   @override
   void initState() {
-    _tabs.addAll([
+    _tabs.add(
       OrderDetailViewMain(
         ordersAry: widget.ordersAry,
-        orderIndex: widget.orderIndex,
         addressName: widget.addressName,
         orderId: widget.orderId,
         subTotal: widget.subTotal,
         total: widget.total,
         deliveryPrice: widget.deliveryPrice,
-        order: widget.order,
+        order: widget.orderData,
         orderType: widget.orderType,
       ),
+    );
+    _tabs.add(
       OrderAccounting(
+        orderData: widget.orderData,
         ordersAry: widget.ordersAry,
-        images: widget.order.images,
         orderId: widget.orderId,
       ),
-    ]);
+    );
     super.initState();
   }
 
@@ -73,31 +72,33 @@ class OrderDetailViewState extends State<OrderDetailView> {
 
     bottomList.add(
       BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.home,
-            // color: Theme.of(context).primaryColor,
-            color: Color.fromARGB(255, 210, 178, 2),
-          ),
-          icon: Icon(Icons.account_balance,
-              color: Color.fromARGB(255, 53, 99, 124)),
-          title: Text(
-            "الرئيسية",
-            style: naveBarStyle,
-          )),
+        activeIcon: Icon(
+          Icons.home,
+          // color: Theme.of(context).primaryColor,
+          color: Color.fromARGB(255, 210, 178, 2),
+        ),
+        icon: Icon(Icons.account_balance,
+            color: Color.fromARGB(255, 53, 99, 124)),
+        title: Text(
+          "الرئيسية",
+          style: naveBarStyle,
+        ),
+      ),
     );
     bottomList.add(
       BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.account_balance,
-            // color: Theme.of(context).primaryColor,
-            color: Color.fromARGB(255, 210, 178, 2),
-          ),
-          icon: Icon(Icons.account_balance,
-              color: Color.fromARGB(255, 53, 99, 124)),
-          title: Text(
-            "الحسابات",
-            style: naveBarStyle,
-          )),
+        activeIcon: Icon(
+          Icons.account_balance,
+          // color: Theme.of(context).primaryColor,
+          color: Color.fromARGB(255, 210, 178, 2),
+        ),
+        icon: Icon(Icons.account_balance,
+            color: Color.fromARGB(255, 53, 99, 124)),
+        title: Text(
+          "الحسابات",
+          style: naveBarStyle,
+        ),
+      ),
     );
 
     return BottomNavigationBar(

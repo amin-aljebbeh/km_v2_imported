@@ -1,10 +1,9 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/switch_product_status_widget.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class ProductsViewCard extends StatefulWidget {
@@ -54,33 +53,10 @@ class ProductsViewCardState extends State<ProductsViewCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
-                  width: 100.0,
-                  height: 100.0,
-                  decoration: new BoxDecoration(
-                      borderRadius:
-                          new BorderRadius.all(Radius.circular(20.0))),
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Hero(
-                        tag: widget.index + 100,
-                        child: Image(
-                          // fadeInCurve: Curves.fastOutSlowIn,
-                          // placeholder: AssetImage("assets/kmIcon.png"),
-                          fit: BoxFit.contain,
-                          image: widget.img.length > 0
-                              ? AdvImageCache(
-                                  widget.img,
-                                  useMemCache: true,
-                                  diskCacheExpire: Duration(days: 400),
-                                )
-                              : AssetImage("assets/kmIcon.png"),
-                          width: MediaQuery.of(context).size.width,
-                          height: 120,
-                        ),
-                      )),
+                KCacheImage(
+                  tag: widget.index + 100,
+                  image: widget.img,
                 ),
                 SizedBox(width: 10),
                 Expanded(
@@ -97,8 +73,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -108,25 +83,21 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             widget.quantity,
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                color: UtilsImporter().colorUtils.greyColor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                color: ColorUtils.greyColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
                           Text(
-                              UtilsImporter()
-                                      .stringUtils
+                              StringUtils()
                                       .oCcy
                                       .format(widget.price)
                                       .toString() +
                                   " ${LoadingScreenServices.companyInformation.currency}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color:
-                                      UtilsImporter().colorUtils.primaryColor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  color: ColorUtils.primaryColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),

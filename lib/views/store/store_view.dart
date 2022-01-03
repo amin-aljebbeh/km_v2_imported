@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
@@ -14,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
 import 'package:share/share.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class StoreView extends StatefulWidget {
   @override
@@ -84,9 +84,9 @@ class StoreViewState extends State<StoreView> {
                         "تحديث متوفر",
                         style: TextStyle(
                             fontSize: 17,
-                            color: UtilsImporter().colorUtils.primaryColor,
+                            color: ColorUtils.primaryColor,
                             fontWeight: FontWeight.bold,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                            fontFamily: StringUtils.fontFamilyHKGrotesk),
                       ),
                     ),
                     IconButton(
@@ -117,7 +117,7 @@ class StoreViewState extends State<StoreView> {
                             color: Colors.grey[900],
                             fontSize: 20,
                             fontWeight: FontWeight.normal,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                            fontFamily: StringUtils.fontFamilyHKGrotesk),
                       ),
                     ],
                   ),
@@ -136,7 +136,7 @@ class StoreViewState extends State<StoreView> {
                       child: KammunButton(
                         text: " التحديث الآن ",
                         height: 50,
-                        color: UtilsImporter().colorUtils.kmColors,
+                        color: ColorUtils.kmColors,
                         onTap: _updateApplication,
                       ),
                     ),
@@ -192,12 +192,6 @@ class StoreViewState extends State<StoreView> {
     }
 
     launch(url);
-    // if (await canLaunch(url)) {
-    //   await launch(url);
-    // } else {
-    //   Tools.logToConsole(url);
-    //   throw 'Could not launch $url';
-    // }
   }
 
   _shareApp() {
@@ -234,8 +228,7 @@ class StoreViewState extends State<StoreView> {
                       child: DrawerHeader(
                         decoration: BoxDecoration(
                             color: Colors.white,
-                            border: Border.all(
-                                color: UtilsImporter().colorUtils.kmColors)),
+                            border: Border.all(color: ColorUtils.kmColors)),
                         child: InkWell(
                           onTap: () => Navigator.of(context).pop(),
                           child: Container(
@@ -245,13 +238,13 @@ class StoreViewState extends State<StoreView> {
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 //color: Colors.white,
-                                color: UtilsImporter().colorUtils.kmColors,
+                                color: ColorUtils.kmColors,
                               ),
                             ),
                           ),
                         ),
                         // decoration: BoxDecoration(
-                        //   color: UtilsImporter().colorUtils.primarycolor,
+                        //   color: ColorUtils.primarycolor,
                         // ),
                       ),
                     ),
@@ -264,10 +257,10 @@ class StoreViewState extends State<StoreView> {
                         height: 200,
                       ),
 
-                      //color: UtilsImporter().colorUtils.kmColors,
+                      //color: ColorUtils.kmColors,
                       color: Colors.white),
                   Divider(
-                    color: UtilsImporter().colorUtils.kmColors,
+                    color: ColorUtils.kmColors,
                     // height: 20,
                   ),
                   Container(
@@ -275,223 +268,110 @@ class StoreViewState extends State<StoreView> {
                     child: ListView(
                       primary: false,
                       children: <Widget>[
-                        ListTile(
-                          leading: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Icon(
-                              Icons.phone,
-                              color: UtilsImporter().colorUtils.primaryColor,
-                              size: 30,
-                            ),
-                          ),
-                          title: Text(
-                            "الإتصال بكمون",
-                            style: mainStyle,
-                          ),
+                        SideBarRow(
+                          icon: Icons.phone,
+                          text: "الإتصال بكمون",
                           onTap: () => _openUrl("number"),
                         ),
-                        InkWell(
-                          child: ListTile(
-                            leading: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Icon(
-                                Icons.share,
-                                color: UtilsImporter().colorUtils.primaryColor,
-                                size: 30,
-                              ),
-                            ),
-                            title: Text(
-                              "إرسال التطبيق للأصدقاء",
-                              style: mainStyle,
-                            ),
-                            onTap: () => _shareApp(),
-                          ),
+                        SideBarRow(
+                          icon: Icons.share,
+                          text: "إرسال التطبيق للأصدقاء",
+                          onTap: () => _shareApp(),
                         ),
-                        ListTile(
-                          leading: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Icon(
-                              Icons.person,
-                              color: UtilsImporter().colorUtils.primaryColor,
-                              size: 30,
-                            ),
-                          ),
-                          title: Text(
-                            "الملف الشخصي",
-                            style: mainStyle,
-                          ),
+                        SideBarRow(
+                          icon: Icons.person,
+                          text: "الملف الشخصي",
                           onTap: () {
                             Navigator.of(context).pushNamed('/profile');
                           },
                         ),
+                        Services.isOperationManager()
+                            ? SideBarRow(
+                                icon: Icons.featured_play_list,
+                                text: "كشف حساب المتسوق",
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed('/ShopperAccountStatement');
+                                },
+                              )
+                            : Container(),
                         Services.isProductsController()
                             ? Column(
                                 children: [
-                                  ListTile(
-                                    leading: Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Icon(
-                                        Icons.category,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .primaryColor,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      "المنتجات المضافة للمستودع",
-                                      style: mainStyle,
-                                    ),
+                                  SideBarRow(
+                                    icon: Icons.category,
+                                    text: "المنتجات المضافة للمستودع",
                                     onTap: () {
                                       Navigator.of(context).pushNamed(
                                           '/products_added_to_warehouse');
                                     },
                                   ),
-                                  ListTile(
-                                    leading: Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Icon(
-                                        Icons.category_outlined,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .primaryColor,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      "المنتجات الغير مضافة للمستودع",
-                                      style: mainStyle,
-                                    ),
+                                  SideBarRow(
+                                    icon: Icons.category_outlined,
+                                    text: "المنتجات الغير مضافة للمستودع",
                                     onTap: () {
                                       Navigator.of(context).pushNamed(
                                           '/products_not_added_to_warehouse');
                                     },
                                   ),
                                   Services.isAdmin()
-                                      ? ListTile(
-                                          leading: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 8.0),
-                                            child: Icon(
-                                              Icons.category_rounded,
-                                              color: UtilsImporter()
-                                                  .colorUtils
-                                                  .primaryColor,
-                                              size: 30,
-                                            ),
-                                          ),
-                                          title: Text(
-                                            "جميع المنتجات",
-                                            style: mainStyle,
-                                          ),
+                                      ? SideBarRow(
+                                          icon: Icons.category_rounded,
+                                          text: "جميع المنتجات",
                                           onTap: () {
                                             Navigator.of(context)
                                                 .pushNamed('/all_products');
                                           },
                                         )
                                       : Container(),
-                                  ListTile(
-                                    leading: Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Icon(
-                                        Icons.fact_check,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .primaryColor,
-                                        size: 30,
-                                      ),
-                                    ),
-                                    title: Text(
-                                      UtilsImporter().stringUtils.inventory,
-                                      style: mainStyle,
-                                    ),
+                                  SideBarRow(
+                                    icon: Icons.fact_check,
+                                    text: StringUtils.inventory,
                                     onTap: () {
                                       Navigator.of(context)
                                           .pushNamed('/Inventory');
+                                    },
+                                  ),
+                                  SideBarRow(
+                                    icon: Icons.inventory,
+                                    text: "إدارة المستودعات",
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .pushNamed('/subWarehouseManagement');
                                     },
                                   ),
                                 ],
                               )
                             : Container(),
                         Services.isAdmin() || Services.isSuperAdmin()
-                            ? ListTile(
-                                leading: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Icon(
-                                    Icons.report_sharp,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
-                                    size: 30,
-                                  ),
-                                ),
-                                title: Text(
-                                  "إحصائيات",
-                                  style: mainStyle,
-                                ),
+                            ? SideBarRow(
+                                icon: Icons.report_sharp,
+                                text: "إحصائيات",
                                 onTap: () {
                                   Navigator.of(context)
                                       .pushNamed('/statistics');
                                 },
                               )
                             : Container(),
-                        ListTile(
-                          leading: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Icon(
-                              Icons.inventory,
-                              color: UtilsImporter().colorUtils.primaryColor,
-                              size: 30,
-                            ),
-                          ),
-                          title: Text(
-                            "إدارة المستودعات",
-                            style: mainStyle,
-                          ),
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed('/subWarehouseManagement');
-                          },
-                        ),
                         Services.isAdmin()
-                            ? ListTile(
-                                leading: Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Icon(
-                                    Icons.attach_money,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
-                                    size: 30,
-                                  ),
-                                ),
-                                title: Text(
-                                  "تغير الأسعار",
-                                  style: mainStyle,
-                                ),
+                            ? SideBarRow(
+                                icon: Icons.attach_money,
+                                text: "تغير الأسعار",
                                 onTap: () {
                                   Navigator.of(context)
                                       .pushNamed('/priceChange');
                                 },
                               )
                             : Container(),
-                        ListTile(
-                          leading: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Icon(
-                              Icons.logout,
-                              color: UtilsImporter().colorUtils.primaryColor,
-                              size: 30,
-                            ),
-                          ),
-                          title: Text(
-                            "تسجيل الخروج",
-                            style: mainStyle,
-                          ),
-                          onTap: () {
-                            Services.logOutAdmin(context);
+                        SideBarRow(
+                          icon: Icons.logout,
+                          text: "تسجيل الخروج",
+                          onTap: () async {
+                            await Services.logOutAdmin(context);
                           },
                         ),
                         Divider(
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           height: 20,
                         ),
                         Padding(
@@ -504,8 +384,7 @@ class StoreViewState extends State<StoreView> {
                                   onTap: () => _openUrl("facebook"),
                                   child: Icon(
                                     FontAwesomeIcons.facebookF,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
+                                    color: ColorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -513,8 +392,7 @@ class StoreViewState extends State<StoreView> {
                                   onTap: () => _openUrl("instagram"),
                                   child: Icon(
                                     FontAwesomeIcons.instagram,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
+                                    color: ColorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -522,8 +400,7 @@ class StoreViewState extends State<StoreView> {
                                   onTap: () => _openUrl("messenger"),
                                   child: Icon(
                                     FontAwesomeIcons.facebookMessenger,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
+                                    color: ColorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -531,8 +408,7 @@ class StoreViewState extends State<StoreView> {
                                   onTap: () => _openUrl("whatsapp"),
                                   child: Icon(
                                     FontAwesomeIcons.whatsapp,
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
+                                    color: ColorUtils.primaryColor,
                                     size: 30,
                                   ),
                                 ),
@@ -560,7 +436,7 @@ class StoreViewState extends State<StoreView> {
           backgroundColor: Services.isShopper()
               ? Services.shopper.status == 1
                   ? Color.fromARGB(255, 210, 178, 2)
-                  : UtilsImporter().colorUtils.searchGreyColor
+                  : ColorUtils.searchGreyColor
               : Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false,
           // hides leading widget
@@ -641,55 +517,54 @@ class StoreViewState extends State<StoreView> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _imageCarousel(),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          decoration: new BoxDecoration(
-                            color: UtilsImporter().colorUtils.kmColors,
-                            border:
-                                new Border.all(color: Colors.white, width: 2.0),
-                            borderRadius: new BorderRadius.circular(10.0),
-                          ),
-                          height: 10,
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _imageCarousel(),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        decoration: new BoxDecoration(
+                          color: ColorUtils.kmColors,
+                          border:
+                              new Border.all(color: Colors.white, width: 2.0),
+                          borderRadius: new BorderRadius.circular(10.0),
                         ),
+                        height: 10,
                       ),
-                      Text(
-                        "  " +
-                            UtilsImporter().stringUtils.shopByCategory +
-                            "  ",
-                        style: TextStyle(
-                            color: UtilsImporter().colorUtils.primaryColor,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 22),
-                      ),
-                      Expanded(
-                        child: Container(
-                          decoration: new BoxDecoration(
-                            color: UtilsImporter().colorUtils.kmColors,
-                            border:
-                                new Border.all(color: Colors.white, width: 2.0),
-                            borderRadius: new BorderRadius.circular(10.0),
-                          ),
-                          height: 10,
+                    ),
+                    Text(
+                      "  " + StringUtils.shopByCategory + "  ",
+                      style: TextStyle(
+                          color: ColorUtils.primaryColor,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                          fontSize: 22),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: new BoxDecoration(
+                          color: ColorUtils.kmColors,
+                          border:
+                              new Border.all(color: Colors.white, width: 2.0),
+                          borderRadius: new BorderRadius.circular(10.0),
                         ),
+                        height: 10,
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  StoreViewCategory(),
-                ],
-              ),
-            )),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                StoreViewCategory(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -715,11 +590,11 @@ class StoreViewState extends State<StoreView> {
                             categoryId: "0",
                           )));
             },
-            cursorColor: UtilsImporter().colorUtils.primaryColor,
+            cursorColor: ColorUtils.primaryColor,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
               contentPadding: const EdgeInsets.only(bottom: 0.5),
-              hintText: UtilsImporter().stringUtils.search,
+              hintText: StringUtils.search,
               hintStyle: mainStyle,
             ),
           ),
@@ -738,7 +613,7 @@ class StoreViewState extends State<StoreView> {
       height: MediaQuery.of(context).size.height * 0.30,
 
       decoration: new BoxDecoration(
-          color: UtilsImporter().colorUtils.searchGreyColor,
+          color: ColorUtils.searchGreyColor,
           borderRadius: new BorderRadius.all(Radius.circular(20.0))),
       child: new Carousel(
         borderRadius: true,
