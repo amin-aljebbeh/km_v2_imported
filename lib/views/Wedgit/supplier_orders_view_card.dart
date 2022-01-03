@@ -69,7 +69,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                     OrderInformationRow(
                       rightSideText: StringUtils.bill,
                       leftSideText:
-                          "${StringUtils().oCcy.format(Services.productsNetPrice(widget.order.products)).toString()}" +
+                          "${StringUtils().oCcy.format(Services.productsNetPrice(widget.order.products, widget.order.id)).toString()}" +
                               " ${LoadingScreenServices.companyInformation.currency.toString()}",
                       leftSideStyle: informationStyle,
                     ),

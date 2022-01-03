@@ -192,12 +192,6 @@ class StoreViewState extends State<StoreView> {
     }
 
     launch(url);
-    // if (await canLaunch(url)) {
-    //   await launch(url);
-    // } else {
-    //   Tools.logToConsole(url);
-    //   throw 'Could not launch $url';
-    // }
   }
 
   _shareApp() {

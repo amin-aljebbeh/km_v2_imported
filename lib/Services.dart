@@ -649,14 +649,23 @@ class Services {
         .toString();
   }
 
-  static int productsNetPrice(List<OrderProducts> ordersAry) {
+  static int productsNetPrice(List<OrderProducts> ordersAry, int id) {
     int total = 0;
     for (int i = 0; i < ordersAry.length; i++) {
       if ((ordersAry[i].pivot.deletedAt == null))
-        total += (int.parse(ordersAry[i].pivot.purchasePrice) -
-                ordersAry[i].pivot.increaseValue) *
+        total += ((int.parse(ordersAry[i].pivot.purchasePrice) -
+                ordersAry[i].pivot.increaseValue)) *
             int.parse(ordersAry[i].pivot.quantity);
+      Tools.logToConsole('increase value problem');
+      Tools.logToConsole(id);
+      Tools.logToConsole(int.parse(ordersAry[i].pivot.purchasePrice));
+      Tools.logToConsole(ordersAry[i].pivot.increaseValue);
+      Tools.logToConsole(int.parse(ordersAry[i].pivot.quantity));
+      Tools.logToConsole(((int.parse(ordersAry[i].pivot.purchasePrice) -
+              ordersAry[i].pivot.increaseValue)) *
+          int.parse(ordersAry[i].pivot.quantity));
     }
+    Tools.logToConsole(total);
     return total;
   }
 

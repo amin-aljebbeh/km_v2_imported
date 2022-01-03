@@ -46,7 +46,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
   String subTotal() {
     int total = 0;
     if (Services.isSupplierManager()) {
-      total = Services.productsNetPrice(widget.ordersAry);
+      total = Services.productsNetPrice(widget.ordersAry, widget.order.id);
     } else {
       total = widget.subTotal;
     }
@@ -209,6 +209,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                               behavior: HitTestBehavior.translucent,
                               onTap: () => {},
                               child: OrderDetailViewMainCard(
+                                increaseValue: orderDetail.pivot.increaseValue,
                                 subWarehouseId: orderDetail.subWarehouseId,
                                 orderId: widget.orderId,
                                 onCheckbox: (a) {
@@ -274,6 +275,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                               onTap: () => {},
                               child: BlurredWidget(
                                 child: OrderDetailViewMainCard(
+                                  increaseValue:
+                                      orderDetail.pivot.increaseValue,
                                   subWarehouseId: orderDetail.subWarehouseId,
                                   orderId: widget.orderId,
                                   onCheckbox: (a) {
