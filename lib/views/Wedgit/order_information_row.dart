@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Styles.dart';
+import '../../utils/utils_importer.dart';
 
 class OrderInformationRow extends StatefulWidget {
   final String rightSideText;

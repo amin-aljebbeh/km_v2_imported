@@ -11,7 +11,6 @@ import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
-import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable

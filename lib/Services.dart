@@ -16,7 +16,6 @@ import 'core/api/admin_URLs.dart';
 import 'core/api/api_URLs.dart';
 import 'core/api/api_provider.dart';
 import 'core/errors/error_types.dart';
-import 'utils/Styles.dart';
 import 'utils/utils_importer.dart';
 
 class Services {
@@ -449,9 +448,11 @@ class Services {
     for (int i = 0; i < inputList.length; i++) {
       list.add(
         DropdownMenuItem<int>(
-          child: Text(
-            inputList[i],
-            style: dropdownItemStyle,
+          child: Center(
+            child: Text(
+              inputList[i],
+              style: dropdownItemStyle,
+            ),
           ),
           value: i,
         ),

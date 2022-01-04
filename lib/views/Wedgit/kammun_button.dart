@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Styles.dart';
+import '../../utils/utils_importer.dart';
 
 class KammunButton extends StatelessWidget {
   final String text;

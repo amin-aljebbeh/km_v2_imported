@@ -5,9 +5,7 @@ import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-
-import '../../utils/Styles.dart';
+import '../../utils/utils_importer.dart';
 import 'widgets_importer.dart';
 
 class UpdateProductInfoWidget extends StatefulWidget {
@@ -38,11 +36,11 @@ class UpdateProductInfoWidget extends StatefulWidget {
 }
 
 class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
-  final _textController = TextEditingController();
+  final textController = TextEditingController();
 
   @override
   void initState() {
-    _textController.text = widget.initialText;
+    textController.text = widget.initialText;
     super.initState();
   }
 
@@ -63,7 +61,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 EntryField(
-                  controller: _textController,
+                  controller: textController,
                   fieldType: widget.inputType,
                   hint: widget.textHint,
                   width: 150,
@@ -80,15 +78,11 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                       color: Colors.green,
                       size: 30,
                     ),
-
-                    // widget.products.supplierCode != null &&
-                    //                 LoadingScreenServices.subSupplierCodeHint
-                    //                     .hasMatch(widget.products.supplierCode)
                     onPressed: () async {
                       Tools.logToConsole("button save clicked");
                       if (widget.bodyKey == "supplier_code" &&
                           !LoadingScreenServices.subSupplierCodeHint
-                              .hasMatch(_textController.text)) {
+                              .hasMatch(textController.text)) {
                         Flushbar(
                           backgroundColor: Colors.red,
                           // titleText: Text("تمت الإضافة بنجاح"),
@@ -120,7 +114,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                             "I'm in else on save cliked ${widget.bodyKey}");
 
                         Tools.logToConsole(
-                            "I'm in else on save _textController ${_textController.text}");
+                            "I'm in else on save _textController ${textController.text}");
                         Tools.logToConsole(
                             "I'm in else on save isForSubWarehouse ${widget.isForSubWarehouse}");
                         Tools.logToConsole(
@@ -131,7 +125,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                         bool result =
                             await ProductsServices.updateProductsDetails(
                                 bodyKey: widget.bodyKey,
-                                value: _textController.text,
+                                value: textController.text,
                                 isForSubWarehouse: widget.isForSubWarehouse,
                                 subWarehouseId: widget
                                     .productData.subWarehouseId

@@ -170,6 +170,21 @@ class StringUtils {
   static String chooseShopper = 'اختر متسوق';
   final oCcy = new NumberFormat("#,##0", "en_US");
 
+  static List<String> transactionTableTypes = [
+    'تسوق',
+    'توصيل',
+    'طريقة التوصيل',
+    'تحديث الطلب',
+    'خصم',
+    'إقراض',
+    'تسديد',
+  ];
+  static List<String> singleTransactionTypes = [
+    'خصم',
+    'إقراض',
+    'تسديد',
+  ];
+
   static List<String> shopperLevels = [
     'مبتدئ',
     'متوسط',

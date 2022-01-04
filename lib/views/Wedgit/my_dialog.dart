@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/Styles.dart';
+import '../../utils/utils_importer.dart';
 import 'dialog_button.dart';
 
 class MyDialog extends StatelessWidget {
