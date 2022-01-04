@@ -86,39 +86,39 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   },
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    "تاريخ المناقلة",
-                    style:
-                        TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.calendar_today_outlined),
-                    onPressed: () {
-                      DatePicker.showDateTimePicker(context,
-                          showTitleActions: true,
-                          onChanged: (date) {}, onConfirm: (date) {
-                        setState(
-                          () {
-                            transactionDate =
-                                fullDateFormatter.format(date).toString();
-                          },
-                        );
-                      }, currentTime: DateTime.now(), locale: 'en');
-                    },
-                  ),
-                  Text(
-                    transactionDate,
-                    style:
-                        TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-                  ),
-                ],
-              ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: [
+              //     Text(
+              //       "تاريخ المناقلة",
+              //       style:
+              //           TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
+              //     ),
+              //     IconButton(
+              //       icon: Icon(Icons.calendar_today_outlined),
+              //       onPressed: () {
+              //         DatePicker.showDateTimePicker(context,
+              //             showTitleActions: true,
+              //             onChanged: (date) {}, onConfirm: (date) {
+              //           setState(
+              //             () {
+              //               transactionDate =
+              //                   fullDateFormatter.format(date).toString();
+              //             },
+              //           );
+              //         }, currentTime: DateTime.now(), locale: 'en');
+              //       },
+              //     ),
+              //     Text(
+              //       transactionDate,
+              //       style:
+              //           TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
+              //     ),
+              //   ],
+              // ),
               SizedBox(
                 height: 30,
               ),
@@ -154,7 +154,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   EntryField(
                     controller: descriptionController,
                     fieldType: TextInputType.multiline,
-                    width: 250,
+                    width: MediaQuery.of(context).size.width * 0.65,
                     canBeEmpty: false,
                     isAddress: false,
                     isPhoneNumber: false,
@@ -171,7 +171,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                     ? ColorUtils.searchGreyColor
                     : ColorUtils.primaryColor,
                 onTap: () {
-                  if (completeData()) {
+                  if (!completeData()) {
                     Toast.show("يرجى إدخال كافة البيانات", context,
                         duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                   } else {
@@ -192,8 +192,15 @@ class _AddTransactionViewState extends State<AddTransactionView> {
   }
 
   bool completeData() {
-    return shopperFilter != null &&
-        transactionType != null &&
-        moneyController.text.isNotEmpty;
+    if (transactionType != null) {
+      if (transactionType == 0)
+        return shopperFilter != null &&
+            moneyController.text.isNotEmpty &&
+            descriptionController.text.isNotEmpty;
+      else
+        return shopperFilter != null && moneyController.text.isNotEmpty;
+    } else {
+      return false;
+    }
   }
 }

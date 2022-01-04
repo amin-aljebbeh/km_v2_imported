@@ -189,6 +189,107 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 Services.resultFlushBar(context: context, result: result);
               },
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 1,
+                ),
+                KammunButton(
+                  color: ColorUtils.kmColors,
+                  onTap: () {
+                    final moneyController = TextEditingController();
+                    final descriptionController = TextEditingController();
+                    bool completeData() {
+                      return moneyController.text.isNotEmpty &&
+                          descriptionController.text.isNotEmpty;
+                    }
+
+                    List<DialogButton> decisionButtons = [
+                      DialogButton(
+                        text: StringUtils.addDeduct,
+                        onTap: () {
+                          if (!completeData()) {
+                            Toast.show("يرجى إدخال كافة البيانات", context,
+                                duration: Toast.LENGTH_LONG,
+                                gravity: Toast.CENTER);
+                          } else {
+                            //TODO: request post transaction api instead
+                            Toast.show("تمت", context,
+                                duration: Toast.LENGTH_LONG,
+                                gravity: Toast.CENTER);
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      ),
+                      DialogButton(
+                        text: StringUtils.close,
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ];
+                    showMyDialog(
+                      title: StringUtils.addDeduct,
+                      dialogButtons: decisionButtons,
+                      content: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                'المبلغ :',
+                                overflow: TextOverflow.clip,
+                                style: paragraphStyle,
+                              ),
+                              EntryField(
+                                controller: moneyController,
+                                fieldType: TextInputType.number,
+                                width: 150,
+                                canBeEmpty: false,
+                                isAddress: false,
+                                isPhoneNumber: false,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                'الوصف :',
+                                overflow: TextOverflow.clip,
+                                style: paragraphStyle,
+                              ),
+                              EntryField(
+                                controller: descriptionController,
+                                fieldType: TextInputType.multiline,
+                                width: MediaQuery.of(context).size.width * 0.5,
+                                canBeEmpty: false,
+                                isAddress: false,
+                                isPhoneNumber: false,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      context: context,
+                    );
+                  },
+                  text: StringUtils.addDeduct,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 50,
+                ),
+                SizedBox(
+                  width: 1,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),

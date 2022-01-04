@@ -443,7 +443,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                               }
                                             },
                                           ),
-                                          // _showCancelButton(idOrder),
                                           KammunButton(
                                             text: "إلغاء الطلب",
                                             width: MediaQuery.of(context)

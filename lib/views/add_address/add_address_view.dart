@@ -37,7 +37,7 @@ class AddAddressViewState extends State<AddAddressView> {
 
   bool isLoading = false;
   bool isError = false;
-  bool userIgnorShareLocation;
+  bool userIgnoreShareLocation;
   String selectedValue;
 
   double lat;
@@ -69,15 +69,7 @@ class AddAddressViewState extends State<AddAddressView> {
         }
       }
 
-      // Tools.logToConsole(Services.userAddress[widget.addressIndex].supportedCityName);
-      // Tools.logToConsole(Services.userAddress[widget.addressIndex].supportedCityId);
-
-      // selectedValue =
-      //     Services.userAddress[widget.addressIndex].supportedCityName;
-
-      userIgnorShareLocation = false;
-      Tools.logToConsole(userIgnorShareLocation);
-      Tools.logToConsole("userIgnorShareLocation Changed Value ");
+      userIgnoreShareLocation = false;
     }
   }
 
@@ -318,7 +310,7 @@ class AddAddressViewState extends State<AddAddressView> {
                       color: ColorUtils.primaryColor,
                       onTap: () {
                         setState(() {
-                          userIgnorShareLocation = true;
+                          userIgnoreShareLocation = true;
                         });
                         Navigator.of(context).pop();
 
@@ -383,24 +375,14 @@ class AddAddressViewState extends State<AddAddressView> {
   }
 
   Future<void> _addAddressBtnTapped() async {
-    Tools.logToConsole("selectedValue $selectedValue");
-    Tools.logToConsole("countryController + ${countryController.text}");
-    Tools.logToConsole("stateController + ${stateController.text}");
-    Tools.logToConsole("streetController + ${streetController.text}");
-    if (userIgnorShareLocation == null) {
-      userIgnorShareLocation = false;
+    if (userIgnoreShareLocation == null) {
+      userIgnoreShareLocation = false;
     }
 
-    if (userLocation == null && !userIgnorShareLocation) {
+    if (userLocation == null && !userIgnoreShareLocation) {
       _settingModalBottomSheet(context);
     } else {
       Address newUserAddress = new Address();
-
-      //     final streetController = TextEditingController();
-      // final cityController = TextEditingController();
-      // final stateController = TextEditingController();
-      // final countryController = TextEditingController();
-      Tools.logToConsole("city id " + selectedValue.split("id")[1].toString());
 
       newUserAddress.deliveryPrice = int.parse(
           selectedValue.split("price")[1].split("id")[0].split(".")[0]);
@@ -440,7 +422,7 @@ class AddAddressViewState extends State<AddAddressView> {
           isError = false;
         });
 
-        bool addressUpdted = await Services.updateAddress(
+        bool addressUpdated = await Services.updateAddress(
             addressId: LoadingScreenServices.userAddress[widget.addressIndex].id
                 .toString(),
             city: newUserAddress.supportedCityName,
@@ -453,7 +435,7 @@ class AddAddressViewState extends State<AddAddressView> {
             lon: lon,
             entrance: newUserAddress.entrance);
 
-        if (addressUpdted) {
+        if (addressUpdated) {
           setState(() {
             isLoading = false;
             isError = false;

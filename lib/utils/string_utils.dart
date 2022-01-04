@@ -141,6 +141,7 @@ class StringUtils {
   static String next = 'التالي';
   static String addToCart = 'الإضافة لسلة المشتريات';
   static String send = 'إرسال';
+  static String addDeduct = 'إضافة خصم';
 
 //Labels:
   static String deliveryName = 'الكابتن : ';

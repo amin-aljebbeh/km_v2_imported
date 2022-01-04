@@ -74,11 +74,10 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                       KammunButton(
                         text: "حفظ الصورة",
                         height: 50,
-                        color: Theme.of(context).primaryColor,
+                        color: ColorUtils.kmColors,
                         onTap: () async {
                           setState(() {
                             isLoading = true;
-                            Tools.logToConsole('true loader');
                           });
                           await widget.onSubmit(image);
 

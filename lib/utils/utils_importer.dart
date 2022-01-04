@@ -3,3 +3,4 @@ export 'colors_utils.dart';
 export 'common_utils.dart';
 export 'Styles.dart';
 export 'tools.dart';
+export 'package:toast/toast.dart';

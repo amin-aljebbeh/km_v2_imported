@@ -116,9 +116,6 @@ class OrderServices {
       "user_notes": "$userNotes",
       "check_changed_price_product": checkPrices ? "1" : "0"
     };
-    // orderId = LoadingScreenServices
-    //     .myOrdersList[OrderServices.orderUnderUpdateIndex].id
-    //     .toString();
 
     orderId = orderUnderUpdateId;
 
