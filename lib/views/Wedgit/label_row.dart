@@ -2,13 +2,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../utils/utils_importer.dart';
 
-class OrderInformationRow extends StatefulWidget {
+class LabelRow extends StatefulWidget {
   final String rightSideText;
   final String leftSideText;
   final TextStyle leftSideStyle;
   final GestureRecognizer recognizer;
 
-  const OrderInformationRow({
+  const LabelRow({
     Key key,
     @required this.rightSideText,
     @required this.leftSideText,
@@ -17,10 +17,10 @@ class OrderInformationRow extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _OrderInformationRowState createState() => _OrderInformationRowState();
+  _LabelRowState createState() => _LabelRowState();
 }
 
-class _OrderInformationRowState extends State<OrderInformationRow> {
+class _LabelRowState extends State<LabelRow> {
   @override
   Widget build(BuildContext context) {
     return Column(

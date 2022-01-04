@@ -13,7 +13,7 @@ export 'k_text_field.dart';
 export 'kammun_button.dart';
 export 'my_dialog.dart';
 export 'order_detail_view_main_card.dart';
-export 'order_information_row.dart';
+export 'label_row.dart';
 export 'orders_view_card.dart';
 export 'product_check_widget.dart';
 export 'products_view_card.dart';

@@ -66,7 +66,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    OrderInformationRow(
+                    LabelRow(
                       rightSideText: StringUtils.bill,
                       leftSideText:
                           "${StringUtils().oCcy.format(Services.productsNetPrice(widget.order.products, widget.order.id)).toString()}" +
@@ -103,20 +103,20 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                 SizedBox(
                   height: 10,
                 ),
-                OrderInformationRow(
+                LabelRow(
                   rightSideText: StringUtils.orderDate,
                   leftSideText: DateFormat('a h:mm - dd-MM-yyyy')
                       .format(widget.order.createdAt),
                   leftSideStyle: disableStyle,
                 ),
-                OrderInformationRow(
+                LabelRow(
                   rightSideText: StringUtils.shopperName + " ",
                   leftSideText: widget.order.shopper != null
                       ? widget.order.shopper.name
                       : " ",
                   leftSideStyle: paragraphStyle,
                 ),
-                OrderInformationRow(
+                LabelRow(
                   rightSideText: StringUtils.phoneNumber,
                   leftSideText: '0941441319',
                   leftSideStyle: paragraphStyle.copyWith(

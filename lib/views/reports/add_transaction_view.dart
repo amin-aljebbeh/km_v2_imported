@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/text_field_row.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 import '../../Services.dart';
@@ -122,44 +122,22 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               SizedBox(
                 height: 30,
               ),
-              Row(
+              TextFieldRow(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    'المبلغ :',
-                    overflow: TextOverflow.clip,
-                    style: paragraphStyle,
-                  ),
-                  EntryField(
-                    controller: moneyController,
-                    fieldType: TextInputType.number,
-                    width: 150,
-                    canBeEmpty: false,
-                    isAddress: false,
-                    isPhoneNumber: false,
-                  ),
-                ],
+                controller: moneyController,
+                text: 'المبلغ :',
+                inputType: TextInputType.number,
+                width: 150,
               ),
               SizedBox(
                 height: 40,
               ),
-              Row(
+              TextFieldRow(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    'الوصف :',
-                    overflow: TextOverflow.clip,
-                    style: paragraphStyle,
-                  ),
-                  EntryField(
-                    controller: descriptionController,
-                    fieldType: TextInputType.multiline,
-                    width: MediaQuery.of(context).size.width * 0.65,
-                    canBeEmpty: false,
-                    isAddress: false,
-                    isPhoneNumber: false,
-                  ),
-                ],
+                controller: descriptionController,
+                text: 'الوصف :',
+                inputType: TextInputType.multiline,
+                width: MediaQuery.of(context).size.width * 0.65,
               ),
               SizedBox(
                 height: 20,

@@ -257,7 +257,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        OrderInformationRow(
+                        LabelRow(
                           rightSideText: StringUtils.description + ' :',
                           leftSideText: widget.product.description != null
                               ? widget.product.description.split("@")[0]
