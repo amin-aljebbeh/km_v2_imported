@@ -102,6 +102,8 @@ class ProductsServices {
     };
 
     try {
+      Tools.logToConsole('judge sub warehouse id if guilty');
+      Tools.logToConsole(subWarehouseId);
       var response = await ApiProvider.sendRequest(
           url: GET_PRODUCT,
           method: httpMethods.post,
@@ -110,7 +112,7 @@ class ProductsServices {
       if (response.statusCode == SUCCESS_CODE &&
           response.data["success"] == true) {
         Tools.logToConsole(
-            "THE Product Id from Add PRoduct is : ${response.data["data"]["id"]}");
+            "THE Product Id from Add Product is : ${response.data["data"]["id"]}");
         var subWarehouseBody = {
           "product_id": response.data["data"]["id"].toString(),
           "sub_warehouse_id": subWarehouseId,

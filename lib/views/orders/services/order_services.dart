@@ -64,7 +64,7 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: ORDER,
+        url: API + ORDER,
         method: httpMethods.post,
         body: jsonEncode(orderData),
       );
@@ -121,7 +121,7 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: ORDER + "/$orderId",
+          url: API + ORDER + "/$orderId",
           method: httpMethods.put,
           body: jsonEncode(orderData));
 
@@ -254,7 +254,7 @@ class OrderServices {
     try {
       var body = {"order_status_id": "$statusId"};
       var response = await ApiProvider.sendRequest(
-        url: ORDER + "/change_order_status/$orderId",
+        url: API + ORDER + "/change_order_status/$orderId",
         method: httpMethods.post,
         body: jsonEncode(body),
       );
@@ -281,7 +281,7 @@ class OrderServices {
         "description": "$description"
       };
       var response = await ApiProvider.sendRequest(
-        url: ORDER + "/add_spending_to_order/$orderId",
+        url: API + ORDER + "/add_spending_to_order/$orderId",
         method: httpMethods.post,
         body: jsonEncode(body),
       );
@@ -316,7 +316,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + ORDERS_NOT_ASSIGNED_TO_DELIVERIES,
+        url: BaseUrl + ORDERS_NOT_ASSIGNED_TO_DELIVERIES,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -343,7 +343,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + GET_ORDERS_ASSIGNED_TO_DELIVERIES,
+        url: BaseUrl + GET_ORDERS_ASSIGNED_TO_DELIVERIES,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -371,7 +371,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + GET_ORDERS_ASSIGNED_TO_SHOPPERS,
+        url: BaseUrl + GET_ORDERS_ASSIGNED_TO_SHOPPERS,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -399,7 +399,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: ORDER + DELIVERY_VIEWS_HIS_OWN_ORDERS,
+        url: DELIVERY_VIEWS_HIS_OWN_ORDERS,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -425,7 +425,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS,
+        url: BaseUrl + GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -453,7 +453,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + SHOPPER_VIEWS_HIS_OWN_ORDERS,
+        url: BaseUrl + SHOPPER_VIEWS_HIS_OWN_ORDERS,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -484,7 +484,7 @@ class OrderServices {
       url = ASSIGN_SHOPPER_ORDER_HIMSELF;
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + url + orderId,
+        url: BaseUrl + url + orderId,
         method: httpMethods.put,
       );
       Tools.logToConsole("------- orders data -------");
@@ -511,7 +511,7 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + ASSIGN_ORDER_TO_SHOPPER,
+        url: BaseUrl + ASSIGN_ORDER_TO_SHOPPER,
         method: httpMethods.post,
         body: jsonEncode(assignOrderBody),
       );
@@ -537,7 +537,7 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + ASSIGN_ORDER_TO_DELIVERY,
+        url: BaseUrl + ASSIGN_ORDER_TO_DELIVERY,
         method: httpMethods.post,
         body: jsonEncode(assignOrderBody),
       );

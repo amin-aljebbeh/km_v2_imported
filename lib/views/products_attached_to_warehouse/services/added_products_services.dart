@@ -56,6 +56,7 @@ class AddedProductsServices {
   static Future<bool> attachProductsToSubWarehouse({
     dynamic fullRequestBody,
   }) async {
+    Tools.logToConsole('print link');
     var response = await ApiProvider.sendRequest(
         url: ATTACH_PRODUCTS_TO_SUB_WAREHOUSE,
         method: httpMethods.post,
@@ -78,6 +79,11 @@ class AddedProductsServices {
       method: httpMethods.get,
     );
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      Tools.logToConsole('message');
+      Tools.logToConsole(syncCartFromJson(jsonEncode(response.data["data"]))[0]
+          .warehouses[0]
+          .pivot
+          .subWarehouseId);
       return syncCartFromJson(jsonEncode(response.data["data"]));
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");

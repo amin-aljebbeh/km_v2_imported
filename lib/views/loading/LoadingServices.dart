@@ -336,6 +336,7 @@ class LoadingScreenServices {
               getSupportedCity(),
               getSubWarehouse(),
               getCategory(),
+              Services.getWarehouses(),
               fetchAdminInformation(),
             ]);
             if (Services.isOperationManager()) {
