@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:kammun_app/views/login/models/admin_model.dart';
+
 import 'start_model_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 
@@ -138,7 +140,7 @@ class OrdersOriginalData {
 
   factory OrdersOriginalData.fromJson(Map<String, dynamic> json) =>
       OrdersOriginalData(
-        id: json["id"],
+        id: json["id"] == null ? null : json["id"],
         expectedTimeMinutes: json["expected_time_minutes"].toString(),
         deliveryCost: json["delivery_cost"].toString(),
         supportedCityCost: json["supported_city_cost"].toString(),
@@ -151,12 +153,16 @@ class OrdersOriginalData {
         couponId: json["coupon_id"].toString(),
         userDeliveryRating: json["user_delivery_rating"].toString(),
         userPriceRating: json["user_price_rating"].toString(),
-        userComment: json["user_comment"].toString(),
+        userComment: json["user_feedback"].toString(),
         total: json["total"].toString(),
-        userData: UserData.fromJson(json["user"]),
-        address: OrderAddress.fromJson(json["address"]),
-        userNotes: json["user_notes"],
-        createdAt: DateTime.parse(json["created_at"]),
+        userData: json["user"] == null ? null : UserData.fromJson(json["user"]),
+        address: json["address"] == null
+            ? null
+            : OrderAddress.fromJson(json["address"]),
+        userNotes: json["user_notes"] == null ? null : json['user_notes'],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
         supportedCityId: json["supported_city_id"].toString(),
         underUpdate: json["under_update"].toString(),
         deliveryStaffId: json["delivery_staff_id"].toString(),
@@ -305,18 +311,23 @@ class Assigned {
   Assigned({
     this.id,
     this.name,
+    this.admin,
   });
 
   int id;
   String name;
+  AdminModel admin;
 
   factory Assigned.fromJson(Map<String, dynamic> json) => Assigned(
         id: json["id"] == null ? null : json["id"],
         name: json["name"] == null ? null : json["name"],
+        admin:
+            json["admin"] == null ? null : AdminModel.fromJson(json["admin"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "name": name == null ? null : name,
+        "admin": admin == null ? null : admin,
       };
 }

@@ -56,13 +56,14 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       errorMessage = false;
       orderDataList.clear();
     });
-    //TODO: request supplier orders api
     var orderList;
     if (LoadingScreenServices.myOrdersList.length == 0) {
       if (Services.isDelivery())
         orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
-      if (Services.isShopper() || Services.isSupplierManager())
+      if (Services.isShopper())
         orderList = await OrderServices.getShopperOrders(pageNumber: page);
+      if (Services.isSupplierManager())
+        orderList = await OrderServices.getSupplierOrders(pageNumber: page);
     } else {
       orderList = LoadingScreenServices.myOrdersList;
     }

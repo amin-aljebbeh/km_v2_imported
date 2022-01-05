@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/core/api/admin_URLs.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
@@ -208,42 +209,20 @@ class OrderServices {
         //! Order Under Update delivery Method !//
         DeliverToView.selectedIndex = deliveryMethodId;
 
-        // DeliverToView.selectedIndex = LoadingScreenServices.userAddress
-        //     .indexWhere((address) =>
-        //         address.id ==
-        //         int.parse(LoadingScreenServices
-        //             .myOrdersList[orderUnderUpdateIndex].addressId));
-
         //! Order Under Update Delivery Price !//
 
         Services.deliveryPrice = int.parse(supportedCityCost.split(".")[0]) +
             int.parse(deliveryMethodCost.split(".")[0]);
 
-        // Services.deliveryPrice = int.parse(LoadingScreenServices
-        //         .myOrdersList[orderUnderUpdateIndex].supportedCityCost
-        //         .split(".")[0]) +
-        //     int.parse(LoadingScreenServices
-        //         .myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryCost
-        //         .split(".")[0]);
         //! Order Under Update Note !//
 
         updateOrderNote = userNote;
 
-        // updateOrderNote =
-        //     LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;
         return lockOrderFromJson(json.encode(response.data));
-        // return "true";
       } else {
         return lockOrderFromJson(json.encode(response.data));
-        // Tools.logToConsole("------------ ERROR Update ORDER --------------");
-        // if (response.data["reason"].toString().contains("admin")) {
-        //   return "admin";
-        // } else {
-        //   return "false";
-        // }
       }
     } catch (e) {
-      Tools.logToConsole("------------ ERROR Catched --------------");
       Tools.logToConsole(e.toString());
 
       return null;
@@ -316,7 +295,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDERS_NOT_ASSIGNED_TO_DELIVERIES,
+        url: BASE_URL + ORDERS_NOT_ASSIGNED_TO_DELIVERIES,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -343,7 +322,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_ORDERS_ASSIGNED_TO_DELIVERIES,
+        url: BASE_URL + GET_ORDERS_ASSIGNED_TO_DELIVERIES,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -371,7 +350,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_ORDERS_ASSIGNED_TO_SHOPPERS,
+        url: BASE_URL + GET_ORDERS_ASSIGNED_TO_SHOPPERS,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -425,7 +404,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS,
+        url: BASE_URL + GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -453,7 +432,7 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + SHOPPER_VIEWS_HIS_OWN_ORDERS,
+        url: BASE_URL + SHOPPER_VIEWS_HIS_OWN_ORDERS,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -476,6 +455,32 @@ class OrderServices {
     }
   }
 
+  static Future<List<OrdersOriginalData>> getSupplierOrders(
+      {int pageNumber = 1}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: BASE_URL + GET_SUPPLIER_ORDER,
+        method: httpMethods.get,
+        queryParameters: {"page": pageNumber},
+      );
+
+      if (response.statusCode == SUCCESS_CODE) {
+        LoadingScreenServices.myOrdersList.addAll(
+            ordersFromJson(jsonEncode(response.data)).data.data.where((order) =>
+                !LoadingScreenServices.myOrdersList.contains(order)));
+
+        return LoadingScreenServices.myOrdersList;
+      } else {
+        return LoadingScreenServices.myOrdersList;
+      }
+    } catch (e) {
+      Tools.logToConsole(
+          "------------ ERROR GET SUPPLIER ORDERS --------------");
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
   static Future<bool> assignOrder(String orderId) async {
     String url;
     if (Services.isDelivery())
@@ -484,7 +489,7 @@ class OrderServices {
       url = ASSIGN_SHOPPER_ORDER_HIMSELF;
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + url + orderId,
+        url: BASE_URL + url + orderId,
         method: httpMethods.put,
       );
       Tools.logToConsole("------- orders data -------");
@@ -511,7 +516,7 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ASSIGN_ORDER_TO_SHOPPER,
+        url: BASE_URL + ASSIGN_ORDER_TO_SHOPPER,
         method: httpMethods.post,
         body: jsonEncode(assignOrderBody),
       );
@@ -537,7 +542,7 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ASSIGN_ORDER_TO_DELIVERY,
+        url: BASE_URL + ASSIGN_ORDER_TO_DELIVERY,
         method: httpMethods.post,
         body: jsonEncode(assignOrderBody),
       );

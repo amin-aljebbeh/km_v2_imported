@@ -40,7 +40,7 @@ class OrderDetailsServices {
           LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""
     };
     var request =
-        http.MultipartRequest('POST', Uri.parse(BaseUrl + ADD_IMAGE_TO_ORDER));
+        http.MultipartRequest('POST', Uri.parse(BASE_URL + ADD_IMAGE_TO_ORDER));
     request.fields.addAll({'order_id': '$orderId'});
     request.files
         .add(await http.MultipartFile.fromPath('image', '${image.path}'));

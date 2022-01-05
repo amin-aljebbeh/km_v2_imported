@@ -205,9 +205,9 @@ class Services {
   static Future<bool> loginUser(
       {String phoneNumber, String signCode, String supportedCityId}) async {
     if (phoneNumber == "5000000001") {
-      BaseUrl = APPLE_BASE_URL;
+      BASE_URL = APPLE_BASE_URL;
     } else {
-      BaseUrl = PRODUCTION_BASE_URL;
+      BASE_URL = PRODUCTION_BASE_URL;
     }
 
     Map loginBody = {
@@ -260,9 +260,9 @@ class Services {
       prefs.setString("userToken", data["api_token"]);
       LoadingScreen.userToken = "Bearer " + data["api_token"];
       if (data["api_token"] == "APPLE_VERIFICATION") {
-        BaseUrl = APPLE_BASE_URL;
+        BASE_URL = APPLE_BASE_URL;
       } else {
-        BaseUrl = PRODUCTION_BASE_URL;
+        BASE_URL = PRODUCTION_BASE_URL;
       }
       return true;
     } else {
@@ -283,7 +283,7 @@ class Services {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_SHOPPER,
+        url: BASE_URL + GET_SHOPPER,
         method: httpMethods.get,
       );
       Tools.logToConsole("------- shoppers data -------");
@@ -305,7 +305,7 @@ class Services {
   static Future<Level> getLevel(String levelId) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_LEVEL + levelId,
+        url: BASE_URL + GET_LEVEL + levelId,
         method: httpMethods.get,
       );
 
@@ -331,7 +331,7 @@ class Services {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_DELIVERIES,
+        url: BASE_URL + GET_DELIVERIES,
         method: httpMethods.get,
       );
       Tools.logToConsole("------- Deliveries data -------");
@@ -356,7 +356,8 @@ class Services {
     Map changeStatus = {'status': newStatus};
     try {
       var response = await ApiProvider.sendRequest(
-          url: BaseUrl + CHANGE_SHOPPER_STATUS + Services.shopper.id.toString(),
+          url:
+              BASE_URL + CHANGE_SHOPPER_STATUS + Services.shopper.id.toString(),
           method: httpMethods.put,
           body: jsonEncode(changeStatus));
 
@@ -377,7 +378,7 @@ class Services {
   static Future<List<Warehouse>> getWarehouses() async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_WAREHOUSE,
+        url: BASE_URL + GET_WAREHOUSE,
         method: httpMethods.get,
       );
       Tools.logToConsole("------- Warehouses data -------");
@@ -648,26 +649,6 @@ class Services {
             shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
         .id
         .toString();
-  }
-
-  static int productsNetPrice(List<OrderProducts> ordersAry, int id) {
-    int total = 0;
-    for (int i = 0; i < ordersAry.length; i++) {
-      if ((ordersAry[i].pivot.deletedAt == null))
-        total += ((int.parse(ordersAry[i].pivot.purchasePrice) -
-                ordersAry[i].pivot.increaseValue)) *
-            int.parse(ordersAry[i].pivot.quantity);
-      Tools.logToConsole('increase value problem');
-      Tools.logToConsole(id);
-      Tools.logToConsole(int.parse(ordersAry[i].pivot.purchasePrice));
-      Tools.logToConsole(ordersAry[i].pivot.increaseValue);
-      Tools.logToConsole(int.parse(ordersAry[i].pivot.quantity));
-      Tools.logToConsole(((int.parse(ordersAry[i].pivot.purchasePrice) -
-              ordersAry[i].pivot.increaseValue)) *
-          int.parse(ordersAry[i].pivot.quantity));
-    }
-    Tools.logToConsole(total);
-    return total;
   }
 
   static makePhoneCall(String number) async {

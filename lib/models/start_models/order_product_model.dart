@@ -31,12 +31,15 @@ class OrderProducts {
   List<ProductImage> images;
 
   factory OrderProducts.fromJson(Map<String, dynamic> json) => OrderProducts(
-        id: json["id"],
+        id: json["id"] == null ? null : json["id"],
         name: json["name"],
         description: json["description"],
         unit: json["unit"].toString(),
-        isInFacebook: json["is_in_facebook"].toString(),
-        categoryId: json["category_id"].toString(),
+        isInFacebook: json["is_in_facebook"] == null
+            ? null
+            : json["is_in_facebook"].toString(),
+        categoryId:
+            json["category_id"] == null ? null : json["category_id"].toString(),
         supplierCode: json["supplier_code"].toString(),
         isActive: json["is_active"],
         subWarehouseId:

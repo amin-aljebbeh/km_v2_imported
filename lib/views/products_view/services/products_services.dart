@@ -149,7 +149,7 @@ class ProductsServices {
           LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""
     };
     var request = http.MultipartRequest(
-        'POST', Uri.parse(BaseUrl + ADD_IMAGE_TO_PRODUCTS));
+        'POST', Uri.parse(BASE_URL + ADD_IMAGE_TO_PRODUCTS));
     request.fields.addAll({'product_id': '$productId'});
     request.files
         .add(await http.MultipartFile.fromPath('image', '${image.path}'));

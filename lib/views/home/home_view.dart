@@ -251,6 +251,8 @@ class HomeViewState extends State<HomeView> {
           ),
         ),
       );
+    }
+    if (Services.isDelivery() || Services.isShopper())
       bottomList.add(
         BottomNavigationBarItem(
           activeIcon: Icon(
@@ -268,8 +270,6 @@ class HomeViewState extends State<HomeView> {
           ),
         ),
       );
-    }
-
     return BottomNavigationBar(
       // backgroundColor: Color.fromARGB(255, 53, 99, 124),
       //backgroundColor: Color.fromARGB(255, 57, 107, 137),
@@ -301,6 +301,8 @@ class HomeViewState extends State<HomeView> {
       _tabs.add(
         AssignedOrdersView(),
       );
+    }
+    if (Services.isDelivery() || Services.isShopper()) {
       _tabs.add(
         NotAssignedOrdersView(),
       );

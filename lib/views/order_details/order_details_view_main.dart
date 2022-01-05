@@ -42,17 +42,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
   static List<OrderProducts> notDeletedProductsAry;
   static List<OrderProducts> finalProductsAry;
 
-  String subTotal() {
-    int total = 0;
-    if (Services.isSupplierManager()) {
-      total = Services.productsNetPrice(widget.ordersAry, widget.order.id);
-    } else {
-      total = widget.subTotal;
-    }
-    return StringUtils().oCcy.format(total).toString() +
-        " ${LoadingScreenServices.companyInformation.currency}";
-  }
-
   @override
   void initState() {
     super.initState();
@@ -257,8 +246,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                     : "",
                                 productName: orderDetail.name,
                                 quantity: orderDetail.quantity,
-                                price:
-                                    int.parse(orderDetail.pivot.purchasePrice),
+                                price: int.parse(orderDetail.pivot.purchasePrice
+                                    .split('.')[0]),
                                 unit: orderDetail.unit == null
                                     ? ""
                                     : orderDetail.unit,
@@ -328,7 +317,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             style: darkBold,
                           ),
                           Text(
-                            subTotal(),
+                            widget.total,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,
@@ -338,7 +327,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         ],
                       ),
                     ),
-                    Services.isSupplierManager()
+                    !Services.isSupplierManager()
                         ? Column(
                             children: [
                               Padding(
@@ -357,7 +346,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                           fontSize: 19.0,
                                         )),
                                     Text(
-                                      "${StringUtils().oCcy.format(int.parse(widget.total))}" +
+                                      "${StringUtils().oCcy.format(int.parse(widget.total.split('.')[0]))}" +
                                           " ${LoadingScreenServices.companyInformation.currency}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
@@ -509,7 +498,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                   : Container(),
                             ],
                           )
-                        : Container(),
+                        : SizedBox(
+                            height: 10,
+                          ),
                   ],
                 ),
         ),

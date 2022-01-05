@@ -12,6 +12,8 @@ const String SUB_WAREHOUSE = 'sub_warehouse/';
 
 const String LEVEL = 'level/';
 
+const String GET_SUPPLIER_ORDER = API + ORDER + 'get_supplier_order';
+
 const String LOGIN_ADMIN = API + 'auth/admin_login';
 
 const String UPDATE_ADMIN_FIREBASE_TOKEN =
@@ -55,7 +57,7 @@ const String GET_WAREHOUSE = API + WAREHOUSE;
 const String UPDATE_SUB_WAREHOUSE_PRODUCTS =
     API + PRODUCT + 'update_product_warehouse/';
 
-const String GET_ADMIN_INFO = API + ADMIN + '';
+const String GET_ADMIN_INFO = API + ADMIN;
 
 const String GET_SUB_WAREHOUSE_PRODUCTS = API + SUB_WAREHOUSE;
 

@@ -4,8 +4,9 @@ const String APP_URL = 'https://kammun.app';
 const String API = '/api/';
 
 const String USER = 'user/';
+
 // ignore: non_constant_identifier_names
-String BaseUrl = TEST_URL;
+String BASE_URL = TEST_URL;
 
 const String APPLE_BASE_URL = 'https://kammun.app';
 const String PRODUCTION_BASE_URL = TEST_URL;

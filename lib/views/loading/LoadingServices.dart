@@ -153,9 +153,9 @@ class LoadingScreenServices {
       if (userToken != null) {
         LoadingScreen.userToken = "Bearer " + userToken;
         if (userToken == "APPLE_VERIFICATION") {
-          BaseUrl = APPLE_BASE_URL;
+          BASE_URL = APPLE_BASE_URL;
         } else {
-          BaseUrl = PRODUCTION_BASE_URL;
+          BASE_URL = PRODUCTION_BASE_URL;
         }
         return true;
       } else {
@@ -259,7 +259,7 @@ class LoadingScreenServices {
         currency: "S.P",
         additionalInfo: "http://m.me/KammunApp");
 
-    imagePrefixUrl = BaseUrl + "/images/";
+    imagePrefixUrl = BASE_URL + "/images/";
 
     // --------------------------------------------------------------------- //
 

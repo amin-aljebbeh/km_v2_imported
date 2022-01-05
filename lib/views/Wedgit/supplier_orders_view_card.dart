@@ -5,6 +5,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
+import 'package:kammun_app/views/order_details/order_details_view_main.dart';
 
 import '../../Services.dart';
 import 'widgets_importer.dart';
@@ -20,12 +21,39 @@ class SupplierOrdersViewCard extends StatefulWidget {
 }
 
 class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
-  int getSupplierDues(int supplierId) {
-    return int.parse(widget.order.orderAccountingRows
-        .firstWhere((row) => row.subWarehouseId == supplierId)
-        .payToSubWarehouse
-        .toString()
-        .split('.')[0]);
+  int productsCount() {
+    return widget.order.products
+        .where((product) => product.pivot.deletedAt == null)
+        .length;
+  }
+
+  productsNetPrice() {
+    double total = 0;
+    for (int i = 0; i < widget.order.products.length; i++) {
+      if ((widget.order.products[i].pivot.deletedAt == null)) {
+        double subTotal =
+            ((double.parse(widget.order.products[i].pivot.purchasePrice) -
+                widget.order.products[i].pivot.increaseValue));
+        subTotal -= subTotal *
+            (LoadingScreenServices.subWarehouses
+                    .firstWhere((subWarehouse) =>
+                        subWarehouse.id ==
+                        widget.order.products[i].subWarehouseId)
+                    .discountPercentage /
+                100);
+        widget.order.products[i].pivot.purchasePrice = subTotal.toString();
+        subTotal *= double.parse(widget.order.products[i].pivot.quantity);
+        total += subTotal;
+      }
+    }
+    widget.order.total = total.toString();
+  }
+
+  @override
+  void initState() {
+    productsCount();
+    productsNetPrice();
+    super.initState();
   }
 
   @override
@@ -36,20 +64,17 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
         Navigator.push(
           context,
           new MaterialPageRoute(
-            builder: (context) => new OrderDetailView(
-              orderData: widget.order,
-              orderId: widget.order.id,
+            builder: (context) => new OrderDetailViewMain(
               ordersAry: widget.order.products,
-              addressName: widget.order.address.street,
+              addressName: 'widget.order.address.street',
+              orderId: widget.order.id,
               subTotal: int.parse(widget.order.total.toString().split(".")[0]) -
                   int.parse(
                       widget.order.supportedCityCost.toString().split(".")[0]) -
                   int.parse(widget.order.deliveryCost.split(".")[0]),
               total: widget.order.total.toString(),
-              deliveryPrice:
-                  (int.parse(widget.order.supportedCityCost.split(".")[0]) +
-                          int.parse(widget.order.deliveryCost.split(".")[0]))
-                      .toString(),
+              deliveryPrice: '0',
+              order: widget.order,
               orderType: OrderType.myOrder,
             ),
           ),
@@ -69,7 +94,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                     LabelRow(
                       rightSideText: StringUtils.bill,
                       leftSideText:
-                          "${StringUtils().oCcy.format(Services.productsNetPrice(widget.order.products, widget.order.id)).toString()}" +
+                          "${StringUtils().oCcy.format(int.parse(widget.order.total.split('.')[0])).toString()}" +
                               " ${LoadingScreenServices.companyInformation.currency.toString()}",
                       leftSideStyle: informationStyle,
                     ),
@@ -80,7 +105,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                             color: ColorUtils.greyColor.withOpacity(0.2)),
                       ),
                       child: Text(
-                        widget.order.products.length.toString(),
+                        productsCount().toString(),
                         style: paragraphStyle,
                         textAlign: TextAlign.center,
                       ),
@@ -118,7 +143,9 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                 ),
                 LabelRow(
                   rightSideText: StringUtils.phoneNumber,
-                  leftSideText: '0941441319',
+                  leftSideText: widget.order.shopper != null
+                      ? widget.order.shopper.admin.phone
+                      : " ",
                   leftSideStyle: paragraphStyle.copyWith(
                     color: ColorUtils.kmColors,
                   ),
