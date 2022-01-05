@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/login/models/admin_model.dart';
 
 import 'start_model_importer.dart';
@@ -271,11 +272,8 @@ class OrdersOriginalData {
               100;
         }
 
-        discountPercentage = LoadingScreenServices.subWarehouses
-                .firstWhere((subWarehouse) =>
-                    subWarehouse.id == products[i].subWarehouseId)
-                .discountPercentage /
-            100;
+        discountPercentage =
+            SubWarehouse.getDiscountPercentage(products[i].subWarehouseId);
 
         shopperIncreaseProfit += increaseValue * increaseProfit;
         kammunIncreaseProfit +=

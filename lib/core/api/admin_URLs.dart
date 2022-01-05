@@ -73,4 +73,7 @@ const String CHANGE_SHOPPER_STATUS = API + SHOPPER + 'change_shopper_status/';
 
 const String GET_LEVEL = API + LEVEL;
 
+const String GET_SHOPPER_TRANSACTIONS =
+    API + SHOPPER + 'transaction_shopper/shopper_transactions/';
+
 const String GET_DELIVERIES = API + 'delivery';

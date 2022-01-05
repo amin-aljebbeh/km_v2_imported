@@ -301,6 +301,17 @@ class StoreViewState extends State<StoreView> {
                                 ],
                               )
                             : Container(),
+                        Services.isSupplierManager() ||
+                                Services.isProductsController()
+                            ? SideBarRow(
+                                icon: Icons.inventory,
+                                text: "إدارة المستودعات",
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed('/subWarehouseManagement');
+                                },
+                              )
+                            : Container(),
                         Services.isProductsController()
                             ? Column(
                                 children: [
@@ -336,14 +347,6 @@ class StoreViewState extends State<StoreView> {
                                     onTap: () {
                                       Navigator.of(context)
                                           .pushNamed('/Inventory');
-                                    },
-                                  ),
-                                  SideBarRow(
-                                    icon: Icons.inventory,
-                                    text: "إدارة المستودعات",
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .pushNamed('/subWarehouseManagement');
                                     },
                                   ),
                                 ],

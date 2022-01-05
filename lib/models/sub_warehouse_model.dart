@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:kammun_app/views/loading/LoadingServices.dart';
+
 import 'models_importer.dart';
 
 List<SubWarehouse> subWarehouseFromJson(String str) => List<SubWarehouse>.from(
@@ -36,6 +38,13 @@ class SubWarehouse {
   SubWarehouseAdminPivot adminPivot;
   SubWarehouseLevelPivot levelPivot;
   double discountPercentage;
+
+  static double getDiscountPercentage(int subWarehouseId) {
+    return (LoadingScreenServices.subWarehouses
+            .firstWhere((subWarehouse) => subWarehouse.id == subWarehouseId)
+            .discountPercentage /
+        100);
+  }
 
   factory SubWarehouse.fromJson(Map<String, dynamic> json) => SubWarehouse(
         id: json["id"] == null ? null : json["id"],

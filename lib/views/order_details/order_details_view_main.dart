@@ -317,7 +317,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             style: darkBold,
                           ),
                           Text(
-                            "${StringUtils().oCcy.format(int.parse(widget.total.split('.')[0]))}" +
+                            "${StringUtils().oCcy.format(widget.subTotal)}" +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -328,38 +328,36 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         ],
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20, top: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            StringUtils.total,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 19.0,
+                            ),
+                          ),
+                          Text(
+                            "${StringUtils().oCcy.format(int.parse(widget.total.split('.')[0]))}" +
+                                " ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 19,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     !Services.isSupplierManager()
                         ? Column(
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 20, top: 5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(StringUtils.total,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          color: Theme.of(context)
-                                              .primaryColorDark,
-                                          fontFamily:
-                                              StringUtils.fontFamilyHKGrotesk,
-                                          fontSize: 19.0,
-                                        )),
-                                    Text(
-                                      "${StringUtils().oCcy.format(int.parse(widget.total.split('.')[0]))}" +
-                                          " ${LoadingScreenServices.companyInformation.currency}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          color: Theme.of(context)
-                                              .primaryColorDark,
-                                          fontFamily:
-                                              StringUtils.fontFamilyHKGrotesk,
-                                          fontSize: 19),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               SizedBox(height: 5),
                               int.parse(widget.order.orderStatusId) <= 4 &&
                                       int.parse(widget.order.underUpdate) != 1

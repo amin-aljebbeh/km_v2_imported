@@ -4,7 +4,6 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/views/order_details/order_detail_view.dart';
 import 'package:kammun_app/views/order_details/order_details_view_main.dart';
 
 import '../../Services.dart';
@@ -34,13 +33,6 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
         double subTotal =
             ((double.parse(widget.order.products[i].pivot.purchasePrice) -
                 widget.order.products[i].pivot.increaseValue));
-        subTotal -= subTotal *
-            (LoadingScreenServices.subWarehouses
-                    .firstWhere((subWarehouse) =>
-                        subWarehouse.id ==
-                        widget.order.products[i].subWarehouseId)
-                    .discountPercentage /
-                100);
         widget.order.products[i].pivot.purchasePrice = subTotal.toString();
         subTotal *= double.parse(widget.order.products[i].pivot.quantity);
         total += subTotal;
@@ -58,6 +50,8 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
 
   @override
   Widget build(BuildContext context) {
+    double discountPercentage = SubWarehouse.getDiscountPercentage(
+        widget.order.products[0].subWarehouseId);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => {
@@ -68,11 +62,11 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
               ordersAry: widget.order.products,
               addressName: 'widget.order.address.street',
               orderId: widget.order.id,
-              subTotal: int.parse(widget.order.total.toString().split(".")[0]) -
-                  int.parse(
-                      widget.order.supportedCityCost.toString().split(".")[0]) -
-                  int.parse(widget.order.deliveryCost.split(".")[0]),
-              total: widget.order.total.toString(),
+              subTotal: int.parse((double.parse(widget.order.total) -
+                      double.parse(widget.order.total) * discountPercentage)
+                  .toString()
+                  .split('.')[0]),
+              total: widget.order.total,
               deliveryPrice: '0',
               order: widget.order,
               orderType: OrderType.myOrder,

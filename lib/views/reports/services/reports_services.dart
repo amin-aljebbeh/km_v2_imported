@@ -6,6 +6,7 @@ import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/reports/models/matching_report_model.dart';
 import 'package:kammun_app/views/reports/models/sales_reports_model.dart';
+import 'package:kammun_app/views/reports/models/transaction_model.dart';
 
 class ReportsServices {
   static Future<GetDailyStatistics> getSalesReports(
@@ -23,6 +24,25 @@ class ReportsServices {
 
     if (response.statusCode == SUCCESS_CODE) {
       return getDailyStatisticsFromJson(jsonEncode(response.data));
+    } else {
+      return null;
+    }
+  }
+
+  static Future<List<TransactionModel>> getShopperTransactions(
+      {String shopperId}) async {
+    var response;
+
+    response = await ApiProvider.sendRequest(
+      url: GET_SHOPPER_TRANSACTIONS + shopperId,
+      method: httpMethods.get,
+    );
+
+    if (response.statusCode == SUCCESS_CODE) {
+      if (response.data["success"].toString() == "true") {
+        Tools.logToConsole('message from transaction');
+        return transactionResponseFromJson(jsonEncode(response.data)).data.data;
+      }
     } else {
       return null;
     }

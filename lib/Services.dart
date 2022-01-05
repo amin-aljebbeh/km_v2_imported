@@ -465,8 +465,6 @@ class Services {
   static List<DropdownMenuItem> shoppersNameList() {
     List<DropdownMenuItem> list = List();
     for (int i = 0; i < LoadingScreenServices.allShoppers.length; i++) {
-      Tools.logToConsole('shopper name due');
-      Tools.logToConsole(LoadingScreenServices.allShoppers[i].name);
       if (LoadingScreenServices.allShoppers[i].status == 1) {
         list.add(DropdownMenuItem<String>(
           child: Center(

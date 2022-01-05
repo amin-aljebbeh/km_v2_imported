@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/reports/services/reports_services.dart';
 
 import '../../Services.dart';
 import 'models/transaction_model.dart';
@@ -12,12 +13,10 @@ class ShopperAccountStatement extends StatefulWidget {
 }
 
 class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
-  String shopperFilter;
   bool selected;
   String kammunDues;
   String shopperDues;
-  DateTime dateTime1 = DateTime.parse("2021-12-29 09:42:33");
-  DateTime dateTime2 = DateTime.parse("2021-12-30 09:42:33");
+  List<TransactionModel> transactions = List<TransactionModel>();
 
   @override
   void initState() {
@@ -34,114 +33,23 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
     super.initState();
   }
 
+  getTransaction(String shopperId) async {
+    setState(() {
+      if (transactions != null) transactions.clear();
+    });
+    transactions =
+        await ReportsServices.getShopperTransactions(shopperId: shopperId);
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<TransactionModel> transactions = [
-      TransactionModel(
-        1,
-        12124,
-        3,
-        StringUtils.transactionTableTypes[0],
-        -500,
-        1000,
-        null,
-        dateTime1,
-      ),
-      TransactionModel(
-        2,
-        12124,
-        3,
-        StringUtils.transactionTableTypes[2],
-        -500,
-        0,
-        null,
-        dateTime1,
-      ),
-      TransactionModel(
-        3,
-        12124,
-        3,
-        StringUtils.transactionTableTypes[1],
-        -300,
-        700,
-        null,
-        dateTime1,
-      ),
-      TransactionModel(
-        4,
-        null,
-        3,
-        StringUtils.transactionTableTypes[5],
-        -50000,
-        0,
-        'إيداع في الحساب',
-        dateTime1,
-      ),
-      TransactionModel(
-        5,
-        12124,
-        3,
-        StringUtils.transactionTableTypes[4],
-        -100,
-        -100,
-        'انكسرت بيضة عالطريق',
-        dateTime1,
-      ),
-      TransactionModel(
-        6,
-        12124,
-        3,
-        StringUtils.transactionTableTypes[3],
-        200,
-        -200,
-        null,
-        dateTime1,
-      ),
-      TransactionModel(
-        7,
-        null,
-        3,
-        StringUtils.transactionTableTypes[6],
-        53700,
-        0,
-        null,
-        dateTime2,
-      ),
-      TransactionModel(
-        8,
-        12125,
-        3,
-        StringUtils.transactionTableTypes[0],
-        -600,
-        1100,
-        null,
-        dateTime2,
-      ),
-      TransactionModel(
-        9,
-        12125,
-        3,
-        StringUtils.transactionTableTypes[2],
-        500,
-        0,
-        null,
-        dateTime2,
-      ),
-      TransactionModel(
-        10,
-        12126,
-        3,
-        StringUtils.transactionTableTypes[4],
-        -200,
-        -200,
-        'تأخير الطلب',
-        dateTime2,
-      ),
-    ];
     bool newTransaction(int index) {
       if (index == 0) return true;
-      return transactions[index].date != transactions[index - 1].date;
+      return transactions[index].createdAt.toString().split(' ')[0] !=
+          transactions[index - 1].createdAt.toString().split(' ')[0];
     }
+
+    String shopperFilter;
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
@@ -163,16 +71,19 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                       hint: StringUtils.chooseShopper,
                       search: shopperFilter,
                       items: Services.shoppersNameList(),
-                      onChanged: (value) {
-                        //TODO: request api and assign values to [kammunDues,shopperDues]
+                      onChanged: (value) async {
+                        shopperFilter = value;
                         setState(
                           () {
-                            shopperFilter = value;
                             selected = true;
                             shopperDues = '2000';
                             kammunDues = '3150';
                           },
                         );
+                        String shopperId = Services.selectedShopperId(value);
+
+                        await getTransaction(shopperId);
+                        //TODO: request api and assign values to [kammunDues,shopperDues]
                       },
                     )
                   : SizedBox(
@@ -201,13 +112,14 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                       : Container(),
                 ],
               ),
-              Services.isOperationManager() && selected
+              Services.isOperationManager() && selected && transactions != null
                   ? Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.75,
                       child: ListView.builder(
                         scrollDirection: Axis.vertical,
-                        itemCount: transactions.length,
+                        itemCount:
+                            transactions != null ? transactions.length : 0,
                         itemBuilder: (BuildContext context, int index) {
                           return Transaction(
                             transaction: transactions[index],

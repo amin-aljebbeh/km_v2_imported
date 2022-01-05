@@ -96,6 +96,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
       borderColor = Colors.transparent;
     }
 
+    double discountPercentage =
+        SubWarehouse.getDiscountPercentage(widget.productsData.subWarehouseId);
     return Container(
       padding: EdgeInsets.only(
         top: 10,
@@ -179,33 +181,50 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
-                          subWarehouseList.length > 0 &&
-                                  !Services.isSupplierManager()
-                              ? Column(
+                          Services.isSupplierManager()
+                              ? Text(
+                                  StringUtils()
+                                          .oCcy
+                                          .format((widget.price -
+                                                  widget.increaseValue) -
+                                              ((widget.price -
+                                                      widget.increaseValue) *
+                                                  discountPercentage))
+                                          .toString() +
+                                      " ${LoadingScreenServices.companyInformation.currency}",
+                                  style: mainStyle.copyWith(
+                                      color: ColorUtils.primaryColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              : Column(
                                   children: [
-                                    DropdownButton(
-                                      items: subWarehouseList,
-                                      onChanged: (a) {
-                                        OrderDetailsServices.updateOrder(
-                                            orderId: widget.orderId.toString(),
-                                            context: context,
-                                            updateKey: "sub_warehouse_id",
-                                            updateValue: a.toString(),
-                                            productId: widget.productId);
-                                        setState(() {
-                                          widget.subWarehouseId = a;
-                                        });
-                                      },
-                                      hint: subWarehouseList.firstWhere(
-                                          (element) =>
-                                              element.value ==
-                                              widget.subWarehouseId,
-                                          orElse: () {
-                                        subWarehouseList.clear();
-                                        return DropdownMenuItem(
-                                            child: Text("No element"));
-                                      }).child,
-                                    ),
+                                    subWarehouseList.length > 0
+                                        ? DropdownButton(
+                                            items: subWarehouseList,
+                                            onChanged: (a) {
+                                              OrderDetailsServices.updateOrder(
+                                                  orderId:
+                                                      widget.orderId.toString(),
+                                                  context: context,
+                                                  updateKey: "sub_warehouse_id",
+                                                  updateValue: a.toString(),
+                                                  productId: widget.productId);
+                                              setState(() {
+                                                widget.subWarehouseId = a;
+                                              });
+                                            },
+                                            hint: subWarehouseList.firstWhere(
+                                                (element) =>
+                                                    element.value ==
+                                                    widget.subWarehouseId,
+                                                orElse: () {
+                                              subWarehouseList.clear();
+                                              return DropdownMenuItem(
+                                                  child: Text("No element"));
+                                            }).child,
+                                          )
+                                        : Container(),
                                     SwitchProductStatusWidget(
                                       height: 20,
                                       width: 70,
@@ -219,8 +238,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                       },
                                     ),
                                   ],
-                                )
-                              : Container(),
+                                ),
                         ],
                       ),
                     ],
