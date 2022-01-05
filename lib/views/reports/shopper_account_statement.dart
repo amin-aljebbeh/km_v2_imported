@@ -14,6 +14,8 @@ class ShopperAccountStatement extends StatefulWidget {
 
 class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
   bool selected;
+  bool error;
+  bool empty;
   String kammunDues;
   String shopperDues;
   List<TransactionModel> transactions = List<TransactionModel>();
@@ -28,7 +30,8 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
       kammunDues = '0';
       shopperDues = '0';
     }
-
+    error = false;
+    empty = true;
     selected = false;
     super.initState();
   }
@@ -37,8 +40,18 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
     setState(() {
       if (transactions != null) transactions.clear();
     });
-    transactions =
+    var tempTransactions =
         await ReportsServices.getShopperTransactions(shopperId: shopperId);
+    setState(() {
+      if (tempTransactions != null) {
+        error = false;
+        empty = false;
+        transactions = tempTransactions;
+        if (transactions.isEmpty) empty = true;
+      } else {
+        error = true;
+      }
+    });
   }
 
   @override
@@ -112,22 +125,34 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                       : Container(),
                 ],
               ),
-              Services.isOperationManager() && selected && transactions != null
-                  ? Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.75,
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount:
-                            transactions != null ? transactions.length : 0,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Transaction(
-                            transaction: transactions[index],
-                            newTransaction: newTransaction(index),
-                          );
-                        },
-                      ),
-                    )
+              Services.isOperationManager() && selected
+                  ? !error
+                      ? empty
+                          ? Padding(
+                              padding: const EdgeInsets.all(75),
+                              child: ScreenMessage(
+                                message: 'لا يوجد حركة',
+                              ),
+                            )
+                          : Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.75,
+                              child: ListView.builder(
+                                scrollDirection: Axis.vertical,
+                                itemCount: transactions.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Transaction(
+                                    transaction: transactions[index],
+                                    newTransaction: newTransaction(index),
+                                  );
+                                },
+                              ),
+                            )
+                      : AlertMessages(
+                          text: "حدث خطأ اثناء محاولة جلب البيانات",
+                          messageType: "internetError",
+                          headerText: "حدث خطأ",
+                        )
                   : Container(),
             ],
           ),

@@ -39,10 +39,15 @@ class ReportsServices {
     );
 
     if (response.statusCode == SUCCESS_CODE) {
+      List<TransactionModel> transactions = List<TransactionModel>();
+      Tools.logToConsole('message from transaction');
+      Tools.logToConsole(transactions.toString());
       if (response.data["success"].toString() == "true") {
-        Tools.logToConsole('message from transaction');
-        return transactionResponseFromJson(jsonEncode(response.data)).data.data;
-      }
+        transactions =
+            transactionResponseFromJson(jsonEncode(response.data)).data.data;
+        return transactions;
+      } else
+        return transactions;
     } else {
       return null;
     }
