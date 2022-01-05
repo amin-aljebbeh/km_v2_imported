@@ -45,22 +45,18 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 0, top: 10, right: 0, bottom: 10),
-                child: KSearchableDropdown(
-                  hint: StringUtils.chooseShopper,
-                  search: shopperFilter,
-                  items: Services.shoppersNameList(),
-                  onChanged: (value) {
-                    //TODO: request api
-                    setState(
-                      () {
-                        shopperFilter = value;
-                      },
-                    );
-                  },
-                ),
+              KSearchableDropdown(
+                hint: StringUtils.chooseShopper,
+                search: shopperFilter,
+                items: Services.shoppersNameList(),
+                onChanged: (value) {
+                  //TODO: request api
+                  setState(
+                    () {
+                      shopperFilter = value;
+                    },
+                  );
+                },
               ),
               SizedBox(
                 height: 20,

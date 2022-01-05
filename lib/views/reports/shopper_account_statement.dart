@@ -159,25 +159,21 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Services.isOperationManager()
-                  ? Padding(
-                      padding: const EdgeInsets.only(
-                          left: 0, top: 10, right: 0, bottom: 10),
-                      child: KSearchableDropdown(
-                        hint: StringUtils.chooseShopper,
-                        search: shopperFilter,
-                        items: Services.shoppersNameList(),
-                        onChanged: (value) {
-                          //TODO: request api and assign values to [kammunDues,shopperDues]
-                          setState(
-                            () {
-                              shopperFilter = value;
-                              selected = true;
-                              shopperDues = '2000';
-                              kammunDues = '3150';
-                            },
-                          );
-                        },
-                      ),
+                  ? KSearchableDropdown(
+                      hint: StringUtils.chooseShopper,
+                      search: shopperFilter,
+                      items: Services.shoppersNameList(),
+                      onChanged: (value) {
+                        //TODO: request api and assign values to [kammunDues,shopperDues]
+                        setState(
+                          () {
+                            shopperFilter = value;
+                            selected = true;
+                            shopperDues = '2000';
+                            kammunDues = '3150';
+                          },
+                        );
+                      },
                     )
                   : SizedBox(
                       height: 025,

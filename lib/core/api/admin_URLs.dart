@@ -4,7 +4,7 @@ const String PRODUCT = 'product/';
 
 const String ADMIN = 'admin/';
 
-const String SHOPPER = 'admin/';
+const String SHOPPER = 'shopper/';
 
 const String WAREHOUSE = 'warehouse/';
 

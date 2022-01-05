@@ -317,7 +317,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             style: darkBold,
                           ),
                           Text(
-                            widget.total,
+                            "${StringUtils().oCcy.format(int.parse(widget.total.split('.')[0]))}" +
+                                " ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,
