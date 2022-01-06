@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:kammun_app/core/api/api_importer.dart';
 
 class StringUtils {
   static String kammun = 'كمُّون';
@@ -176,10 +177,29 @@ class StringUtils {
     'إقراض', //6
     'تسديد', //7
   ];
+
   static List<String> singleTransactionTypes = [
     'خصم', //1
     'إقراض', //2
     'تسديد', //3
+  ];
+
+  static List<String> singleTransactionUrls = [
+    DEDUCT_FROM_SHOPPER_PROFIT,
+    LEND_MONEY_TO_SHOPPER,
+    REPAYMENT_BY_SHOPPER,
+  ];
+
+  static List<String> singleTransactionValue = [
+    'deduct_value',
+    'loan_value',
+    'repayment_value',
+  ];
+
+  static List<String> singleTransactionDescription = [
+    'deduct_reason',
+    'description',
+    'description',
   ];
 
   static List<String> shopperLevels = [

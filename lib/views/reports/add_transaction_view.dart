@@ -3,6 +3,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/text_field_row.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:intl/intl.dart';
+import 'package:kammun_app/views/reports/services/reports_services.dart';
 import 'package:toast/toast.dart';
 import '../../Services.dart';
 
@@ -19,10 +20,10 @@ class AddTransactionView extends StatefulWidget {
 class _AddTransactionViewState extends State<AddTransactionView> {
   bool start;
   int transactionType;
-  int transactionTypeID;
   final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   String transactionDate = '';
   final moneyController = TextEditingController();
+  final orderIdController = TextEditingController();
   final descriptionController = TextEditingController();
   String shopperName;
   String shopperId;
@@ -38,7 +39,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
   @override
   Widget build(BuildContext context) {
     String shopperFilter;
-    if (start && widget.shopperName != null) shopperFilter = widget.shopperName;
+    if (start && widget.shopperName != null) shopperFilter = shopperName;
     start = false;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
@@ -91,7 +92,6 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   onChanged: (value) {
                     setState(() {
                       transactionType = value;
-                      transactionTypeID = value + 5;
                     });
                   },
                 ),
@@ -135,10 +135,22 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               TextFieldRow(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 controller: moneyController,
-                text: 'المبلغ :',
+                text: 'المبلغ :         ',
                 inputType: TextInputType.number,
                 width: 150,
               ),
+              SizedBox(
+                height: 40,
+              ),
+              transactionType == 0
+                  ? TextFieldRow(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      controller: orderIdController,
+                      text: 'رقم الطلب :',
+                      inputType: TextInputType.number,
+                      width: 150,
+                    )
+                  : Container(),
               SizedBox(
                 height: 40,
               ),
@@ -158,7 +170,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                 color: !completeData()
                     ? ColorUtils.searchGreyColor
                     : ColorUtils.primaryColor,
-                onTap: () {
+                onTap: () async {
                   if (!completeData()) {
                     Toast.show("يرجى إدخال كافة البيانات", context,
                         duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
@@ -166,9 +178,15 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                     String description = descriptionController.text.isNotEmpty
                         ? descriptionController.text
                         : ' ';
-                    //TODO: request post transaction api instead
-                    Toast.show("تمت", context,
-                        duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                    shopperId = Services.selectedShopperId(shopperName);
+                    bool result = await ReportsServices.addTransaction(
+                      shopperId: shopperId,
+                      value: moneyController.text,
+                      transactionType: transactionType,
+                      description: description,
+                      orderId: orderIdController.text,
+                    );
+                    Services.resultFlushBar(context: context, result: result);
                   }
                 },
               ),

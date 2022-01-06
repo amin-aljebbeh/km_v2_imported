@@ -187,4 +187,35 @@ class ReportsServices {
       return null;
     }
   }
+
+  static Future<bool> addTransaction({
+    @required String shopperId,
+    @required int transactionType,
+    @required String value,
+    String orderId,
+    String description,
+  }) async {
+    Map transaction = {
+      // 'city': city,
+      'shopper_id': shopperId,
+      StringUtils.singleTransactionValue[transactionType]: value,
+      'order_id': orderId,
+      StringUtils.singleTransactionDescription[transactionType]: description,
+    };
+    try {
+      var response = await ApiProvider.sendRequest(
+          url: StringUtils.singleTransactionUrls[transactionType],
+          method: httpMethods.post,
+          body: jsonEncode(transaction));
+
+      if (response.statusCode == SUCCESS_CODE) {
+        return response.data['success'];
+      } else {
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
 }

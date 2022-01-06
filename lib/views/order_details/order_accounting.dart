@@ -5,6 +5,7 @@ import 'package:kammun_app/views/Wedgit/text_field_row.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/reports/services/reports_services.dart';
 import '../../Services.dart';
 import 'full_screen_image.dart';
 import 'services/order_details_services.dart';
@@ -196,71 +197,91 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 SizedBox(
                   width: 1,
                 ),
-                KammunButton(
-                  color: ColorUtils.kmColors,
-                  onTap: () {
-                    final moneyController = TextEditingController();
-                    final descriptionController = TextEditingController();
-                    bool completeData() {
-                      return moneyController.text.isNotEmpty &&
-                          descriptionController.text.isNotEmpty;
-                    }
-
-                    List<DialogButton> decisionButtons = [
-                      DialogButton(
-                        text: StringUtils.addDeduct,
+                Services.isOperationManager()
+                    ? KammunButton(
+                        color: ColorUtils.kmColors,
                         onTap: () {
-                          if (!completeData()) {
-                            Toast.show("يرجى إدخال كافة البيانات", context,
-                                duration: Toast.LENGTH_LONG,
-                                gravity: Toast.CENTER);
+                          if (widget.orderData.shopper != null) {
+                            final moneyController = TextEditingController();
+                            final descriptionController =
+                                TextEditingController();
+                            bool completeData() {
+                              return moneyController.text.isNotEmpty &&
+                                  descriptionController.text.isNotEmpty;
+                            }
+
+                            List<DialogButton> decisionButtons = [
+                              DialogButton(
+                                text: StringUtils.addDeduct,
+                                onTap: () async {
+                                  if (!completeData()) {
+                                    Toast.show(
+                                        "يرجى إدخال كافة البيانات", context,
+                                        duration: Toast.LENGTH_LONG,
+                                        gravity: Toast.CENTER);
+                                  } else {
+                                    Navigator.of(context).pop();
+                                    bool result =
+                                        await ReportsServices.addTransaction(
+                                      shopperId: widget.orderData.shopper.id
+                                          .toString(),
+                                      transactionType: 0,
+                                      value: moneyController.text,
+                                      description: descriptionController.text,
+                                      orderId: widget.orderId.toString(),
+                                    );
+                                    Services.resultFlushBar(
+                                        context: context, result: result);
+                                  }
+                                },
+                              ),
+                              DialogButton(
+                                text: StringUtils.close,
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ];
+                            showMyDialog(
+                              title: StringUtils.addDeduct,
+                              dialogButtons: decisionButtons,
+                              content: Column(
+                                children: [
+                                  TextFieldRow(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    controller: moneyController,
+                                    text: 'المبلغ :',
+                                    inputType: TextInputType.number,
+                                    width: 150,
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  TextFieldRow(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    controller: descriptionController,
+                                    text: 'الوصف :',
+                                    inputType: TextInputType.multiline,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                  ),
+                                ],
+                              ),
+                              context: context,
+                            );
                           } else {
-                            //TODO: request post transaction api instead
-                            Toast.show("تمت", context,
+                            Toast.show("هذا الطلب غير مسند لمتسوق", context,
                                 duration: Toast.LENGTH_LONG,
                                 gravity: Toast.CENTER);
-                            Navigator.of(context).pop();
                           }
                         },
-                      ),
-                      DialogButton(
-                        text: StringUtils.close,
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ];
-                    showMyDialog(
-                      title: StringUtils.addDeduct,
-                      dialogButtons: decisionButtons,
-                      content: Column(
-                        children: [
-                          TextFieldRow(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            controller: moneyController,
-                            text: 'المبلغ :',
-                            inputType: TextInputType.number,
-                            width: 150,
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          TextFieldRow(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            controller: descriptionController,
-                            text: 'الوصف :',
-                            inputType: TextInputType.multiline,
-                            width: MediaQuery.of(context).size.width * 0.5,
-                          ),
-                        ],
-                      ),
-                      context: context,
-                    );
-                  },
-                  text: StringUtils.addDeduct,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: 50,
-                ),
+                        text: StringUtils.addDeduct,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        height: 50,
+                      )
+                    : Container(),
                 SizedBox(
                   width: 1,
                 ),

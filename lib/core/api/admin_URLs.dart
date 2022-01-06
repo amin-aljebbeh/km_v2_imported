@@ -84,4 +84,13 @@ const String GET_STATISTICS_SHOPPER_TRANSACTION =
 const String GET_DAILY_SHOPPER_PROFIT =
     API + SHOPPER + SHOPPER_TRANSACTION + 'shopper_profits_for_today/';
 
+const String DEDUCT_FROM_SHOPPER_PROFIT =
+    API + SHOPPER + SHOPPER_TRANSACTION + 'deduct_value_from_shopper_profits';
+
+const String LEND_MONEY_TO_SHOPPER =
+    API + SHOPPER + SHOPPER_TRANSACTION + 'lend_mony_to_shopper';
+
+const String REPAYMENT_BY_SHOPPER =
+    API + SHOPPER + SHOPPER_TRANSACTION + 'repayment_by_shopper';
+
 const String GET_DELIVERIES = API + 'delivery';

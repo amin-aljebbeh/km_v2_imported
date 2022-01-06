@@ -134,23 +134,14 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                           text: 'إضافة مناقلة',
                           color: ColorUtils.primaryColor,
                           onTap: () {
-                            if (selected) {
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new AddTransactionView(
-                                    shopperName: shopperName,
-                                  ),
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                builder: (context) => new AddTransactionView(
+                                  shopperName: shopperName,
                                 ),
-                              );
-                            } else {
-                              Toast.show(
-                                "يرجى اختيار متسوق",
-                                context,
-                                duration: Toast.LENGTH_LONG,
-                                gravity: Toast.CENTER,
-                              );
-                            }
+                              ),
+                            );
                           },
                         ),
                       ],
