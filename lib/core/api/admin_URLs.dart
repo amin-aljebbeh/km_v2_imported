@@ -12,6 +12,8 @@ const String SUB_WAREHOUSE = 'sub_warehouse/';
 
 const String LEVEL = 'level/';
 
+const String SHOPPER_TRANSACTION = 'transaction_shopper/';
+
 const String GET_SUPPLIER_ORDER = API + ORDER + 'get_supplier_order';
 
 const String LOGIN_ADMIN = API + 'auth/admin_login';
@@ -74,6 +76,12 @@ const String CHANGE_SHOPPER_STATUS = API + SHOPPER + 'change_shopper_status/';
 const String GET_LEVEL = API + LEVEL;
 
 const String GET_SHOPPER_TRANSACTIONS =
-    API + SHOPPER + 'transaction_shopper/shopper_transactions/';
+    API + SHOPPER + SHOPPER_TRANSACTION + 'shopper_transactions/';
+
+const String GET_STATISTICS_SHOPPER_TRANSACTION =
+    API + SHOPPER + SHOPPER_TRANSACTION + 'statistics_shopper_transaction/';
+
+const String GET_DAILY_SHOPPER_PROFIT =
+    API + SHOPPER + SHOPPER_TRANSACTION + 'shopper_profits_for_today/';
 
 const String GET_DELIVERIES = API + 'delivery';

@@ -279,26 +279,24 @@ class StoreViewState extends State<StoreView> {
                             Navigator.of(context).pushNamed('/profile');
                           },
                         ),
+                        Services.isShopper() || Services.isOperationManager()
+                            ? SideBarRow(
+                                icon: Icons.featured_play_list,
+                                text: "كشف حساب المتسوق",
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed('/ShopperAccountStatement');
+                                },
+                              )
+                            : Container(),
                         Services.isOperationManager()
-                            ? Column(
-                                children: [
-                                  SideBarRow(
-                                    icon: Icons.featured_play_list,
-                                    text: "كشف حساب المتسوق",
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed(
-                                          '/ShopperAccountStatement');
-                                    },
-                                  ),
-                                  SideBarRow(
-                                    icon: Icons.money,
-                                    text: "إضافة مناقلة",
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .pushNamed('/AddTransactionView');
-                                    },
-                                  ),
-                                ],
+                            ? SideBarRow(
+                                icon: Icons.money,
+                                text: "إضافة مناقلة",
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed('/AddTransactionView');
+                                },
                               )
                             : Container(),
                         Services.isSupplierManager() ||

@@ -6,27 +6,40 @@ import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 import '../../Services.dart';
 
+// ignore: must_be_immutable
 class AddTransactionView extends StatefulWidget {
+  String shopperName;
+
+  AddTransactionView({Key key, this.shopperName}) : super(key: key);
+
   @override
   _AddTransactionViewState createState() => _AddTransactionViewState();
 }
 
 class _AddTransactionViewState extends State<AddTransactionView> {
-  String shopperFilter;
+  bool start;
   int transactionType;
+  int transactionTypeID;
   final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   String transactionDate = '';
   final moneyController = TextEditingController();
   final descriptionController = TextEditingController();
+  String shopperName;
+  String shopperId;
 
   @override
   void initState() {
+    start = true;
+    shopperName = widget.shopperName;
     transactionDate = fullDateFormatter.format(DateTime.now()).toString();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    String shopperFilter;
+    if (start && widget.shopperName != null) shopperFilter = widget.shopperName;
+    start = false;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
@@ -50,10 +63,10 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                 search: shopperFilter,
                 items: Services.shoppersNameList(),
                 onChanged: (value) {
-                  //TODO: request api
                   setState(
                     () {
                       shopperFilter = value;
+                      shopperName = value;
                     },
                   );
                 },
@@ -78,6 +91,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   onChanged: (value) {
                     setState(() {
                       transactionType = value;
+                      transactionTypeID = value + 5;
                     });
                   },
                 ),
@@ -168,11 +182,11 @@ class _AddTransactionViewState extends State<AddTransactionView> {
   bool completeData() {
     if (transactionType != null) {
       if (transactionType == 0)
-        return shopperFilter != null &&
+        return shopperName != null &&
             moneyController.text.isNotEmpty &&
             descriptionController.text.isNotEmpty;
       else
-        return shopperFilter != null && moneyController.text.isNotEmpty;
+        return shopperName != null && moneyController.text.isNotEmpty;
     } else {
       return false;
     }

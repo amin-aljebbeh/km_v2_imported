@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/reports/add_transaction_view.dart';
+import 'package:kammun_app/views/reports/daily_profit_widget.dart';
 import 'package:kammun_app/views/reports/services/reports_services.dart';
 
 import '../../Services.dart';
@@ -16,20 +18,12 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
   bool selected;
   bool error;
   bool empty;
-  String kammunDues;
-  String shopperDues;
   List<TransactionModel> transactions = List<TransactionModel>();
+  String shopperName;
+  String shopperId;
 
   @override
   void initState() {
-    if (Services.isShopper()) {
-      //TODO: request api instead
-      kammunDues = '3550';
-      shopperDues = '3550';
-    } else {
-      kammunDues = '0';
-      shopperDues = '0';
-    }
     error = false;
     empty = true;
     selected = false;
@@ -79,81 +73,111 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Services.isOperationManager()
-                  ? KSearchableDropdown(
-                      hint: StringUtils.chooseShopper,
-                      search: shopperFilter,
-                      items: Services.shoppersNameList(),
-                      onChanged: (value) async {
-                        shopperFilter = value;
-                        setState(
-                          () {
-                            selected = true;
-                            shopperDues = '2000';
-                            kammunDues = '3150';
-                          },
-                        );
-                        String shopperId = Services.selectedShopperId(value);
+              Services.isShopper()
+                  ? DailyProfit(shopperId: Services.shopper.id.toString())
+                  : Column(
+                      children: [
+                        KSearchableDropdown(
+                          hint: StringUtils.chooseShopper,
+                          search: shopperFilter,
+                          items: Services.shoppersNameList(),
+                          onChanged: (value) async {
+                            setState(
+                              () {
+                                shopperFilter = value;
+                                shopperName = value;
+                                selected = true;
+                              },
+                            );
+                            shopperId = Services.selectedShopperId(value);
 
-                        await getTransaction(shopperId);
-                        //TODO: request api and assign values to [kammunDues,shopperDues]
-                      },
-                    )
-                  : SizedBox(
-                      height: 025,
+                            await getTransaction(shopperId);
+                          },
+                        ),
+                        selected
+                            ? !error
+                                ? empty
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(75),
+                                        child: ScreenMessage(
+                                          message: 'لا يوجد حركة',
+                                        ),
+                                      )
+                                    : Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.6335,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.vertical,
+                                          itemCount: transactions.length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return Transaction(
+                                              transaction: transactions[index],
+                                              newTransaction:
+                                                  newTransaction(index),
+                                            );
+                                          },
+                                        ),
+                                      )
+                                : AlertMessages(
+                                    text: "حدث خطأ اثناء محاولة جلب البيانات",
+                                    messageType: "internetError",
+                                    headerText: "حدث خطأ",
+                                  )
+                            : Container(),
+                        KammunButton(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          text: 'إضافة مناقلة',
+                          color: ColorUtils.primaryColor,
+                          onTap: () {
+                            if (selected) {
+                              Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                  builder: (context) => new AddTransactionView(
+                                    shopperName: shopperName,
+                                  ),
+                                ),
+                              );
+                            } else {
+                              Toast.show(
+                                "يرجى اختيار متسوق",
+                                context,
+                                duration: Toast.LENGTH_LONG,
+                                gravity: Toast.CENTER,
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    StringUtils()
-                        .oCcy
-                        .format(int.parse(shopperDues))
-                        .toString(),
-                    style: profitStyle,
-                  ),
-                  Services.isOperationManager()
-                      ? Text(
-                          StringUtils()
-                              .oCcy
-                              .format(int.parse(kammunDues))
-                              .toString(),
-                          style: profitStyle.copyWith(
-                            color: Colors.red,
-                          ),
-                        )
-                      : Container(),
-                ],
+              KammunButton(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                text: 'المستحقات المالية',
+                color: ColorUtils.primaryColor,
+                onTap: () {
+                  if (Services.isShopper()) {
+                    shopperId = Services.shopper.id.toString();
+                    selected = true;
+                  }
+                  if (selected) {
+                    ReportsServices.financialDues(
+                        context: context, shopperId: shopperId);
+                  } else {
+                    Toast.show(
+                      "يرجى اختيار متسوق",
+                      context,
+                      duration: Toast.LENGTH_LONG,
+                      gravity: Toast.CENTER,
+                    );
+                  }
+                },
               ),
-              Services.isOperationManager() && selected
-                  ? !error
-                      ? empty
-                          ? Padding(
-                              padding: const EdgeInsets.all(75),
-                              child: ScreenMessage(
-                                message: 'لا يوجد حركة',
-                              ),
-                            )
-                          : Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.75,
-                              child: ListView.builder(
-                                scrollDirection: Axis.vertical,
-                                itemCount: transactions.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Transaction(
-                                    transaction: transactions[index],
-                                    newTransaction: newTransaction(index),
-                                  );
-                                },
-                              ),
-                            )
-                      : AlertMessages(
-                          text: "حدث خطأ اثناء محاولة جلب البيانات",
-                          messageType: "internetError",
-                          headerText: "حدث خطأ",
-                        )
-                  : Container(),
             ],
           ),
         ),

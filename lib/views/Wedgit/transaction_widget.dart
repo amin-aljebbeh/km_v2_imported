@@ -26,15 +26,17 @@ class Transaction extends StatelessWidget {
                       height: 25,
                     ),
                     Text(
-                      DateFormat('EEEE dd-MM-yyyy')
-                          .format(transaction.createdAt),
+                      DateFormat('EEEE', 'ar').format(transaction.createdAt) +
+                          ' ' +
+                          DateFormat('dd-MM-yyyy', 'en')
+                              .format(transaction.createdAt),
                       style: disableStyle,
                     ),
                     KTableRow(
                       children: [
                         // KTableElement(text: 'الوقت'),
-                        KTableElement(text: 'متسوق'),
-                        KTableElement(text: 'كمُّون'),
+                        KTableElement(text: StringUtils.shopper),
+                        KTableElement(text: StringUtils.kammun),
                         KTableElement(text: 'النوع'),
                         KTableElement(text: 'الطلب'),
                         KTableElement(text: 'المناقلة'),
