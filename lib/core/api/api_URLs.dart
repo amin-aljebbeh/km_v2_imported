@@ -6,10 +6,10 @@ const String API = '/api/';
 const String USER = 'user/';
 
 // ignore: non_constant_identifier_names
-String BASE_URL = TEST_URL;
+String BASE_URL = APP_URL;
 
 const String APPLE_BASE_URL = 'https://kammun.app';
-const String PRODUCTION_BASE_URL = TEST_URL;
+const String PRODUCTION_BASE_URL = APP_URL;
 
 const String GET_COMPANY = API + 'company';
 const String GET_MOBILE_VERSION = API + 'mob_v_config';
