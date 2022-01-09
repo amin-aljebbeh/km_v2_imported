@@ -80,7 +80,6 @@ class ProductsViewState extends State<ProductsView> {
                   categoryProductFromJson(jsonEncode(response.data));
               productsList.addAll(products.data.data);
 
-              Tools.logToConsole("Done Loading");
               if (this.mounted) {
                 setState(() {
                   if (page - 1 == products.data.lastPage) {

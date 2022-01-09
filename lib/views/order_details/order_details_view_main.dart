@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -261,46 +260,71 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () => {},
-                              child: BlurredWidget(
-                                child: OrderDetailViewMainCard(
-                                  increaseValue:
-                                      orderDetail.pivot.increaseValue,
-                                  subWarehouseId: orderDetail.subWarehouseId,
-                                  orderId: widget.orderId,
-                                  onCheckbox: (a) {
-                                    if (Services.isShopper())
-                                      setState(() {
-                                        LoadingScreenServices.myOrdersList
-                                            .firstWhere((order) =>
-                                                order.id == widget.orderId)
-                                            .products
-                                            .removeWhere((product) =>
-                                                product.id ==
-                                                deletedProductsAry[a].id);
-                                        deletedProductsAry.removeAt(a);
-                                        finalProductsAry.removeAt(index);
-                                      });
-                                  },
-                                  productsData: orderDetail,
-                                  supplierCode: orderDetail.supplierCode,
-                                  active: orderDetail.isActive,
-                                  productId: orderDetail.pivot.productId,
-                                  img: orderDetail.images.length != 0
-                                      ? LoadingScreenServices.imagePrefixUrl +
-                                          orderDetail.images[0].imageFileName
-                                      : "",
-                                  productName: orderDetail.name,
-                                  quantity: orderDetail.quantity,
-                                  price: int.parse(
-                                      orderDetail.pivot.purchasePrice),
-                                  unit: orderDetail.unit == null
-                                      ? ""
-                                      : orderDetail.unit,
-                                  productCount:
-                                      orderDetail.pivot.quantity.toString(),
-                                  index:
-                                      index - (deletedProductsAry.length + 1),
-                                ),
+                              child: Stack(
+                                children: [
+                                  BlurredWidget(
+                                    child: OrderDetailViewMainCard(
+                                      increaseValue:
+                                          orderDetail.pivot.increaseValue,
+                                      subWarehouseId:
+                                          orderDetail.subWarehouseId,
+                                      orderId: widget.orderId,
+                                      onCheckbox: (a) {
+                                        if (Services.isShopper())
+                                          setState(() {
+                                            LoadingScreenServices.myOrdersList
+                                                .firstWhere((order) =>
+                                                    order.id == widget.orderId)
+                                                .products
+                                                .removeWhere((product) =>
+                                                    product.id ==
+                                                    deletedProductsAry[a].id);
+                                            deletedProductsAry.removeAt(a);
+                                            finalProductsAry.removeAt(index);
+                                          });
+                                      },
+                                      productsData: orderDetail,
+                                      supplierCode: orderDetail.supplierCode,
+                                      active: orderDetail.isActive,
+                                      productId: orderDetail.pivot.productId,
+                                      img: orderDetail.images.length != 0
+                                          ? LoadingScreenServices
+                                                  .imagePrefixUrl +
+                                              orderDetail
+                                                  .images[0].imageFileName
+                                          : "",
+                                      productName: orderDetail.name,
+                                      quantity: orderDetail.quantity,
+                                      price: int.parse(
+                                          orderDetail.pivot.purchasePrice),
+                                      unit: orderDetail.unit == null
+                                          ? ""
+                                          : orderDetail.unit,
+                                      productCount:
+                                          orderDetail.pivot.quantity.toString(),
+                                      index: index -
+                                          (deletedProductsAry.length + 1),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 138,
+                                      top: 127,
+                                    ),
+                                    child: SwitchProductStatusWidget(
+                                      height: 20,
+                                      width: 70,
+                                      preState: orderDetail.isActive,
+                                      subWarehouseId:
+                                          orderDetail.subWarehouseId,
+                                      productId: orderDetail.pivot.productId,
+                                      onChange: (active) {
+                                        orderDetail.isActive = active;
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             );
                           return Container();
