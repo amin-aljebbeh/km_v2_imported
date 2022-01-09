@@ -326,14 +326,11 @@ class OrderServices {
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
-      Tools.logToConsole("------- orders data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.deliveriesAssignedOrdersList =
             ordersFromJson(jsonEncode(response.data)).data.data;
 
-        print('getOrdersAssignedToDeliveries');
-        print(LoadingScreenServices.deliveriesAssignedOrdersList.length);
         return LoadingScreenServices.deliveriesAssignedOrdersList;
       } else {
         return LoadingScreenServices.deliveriesAssignedOrdersList;

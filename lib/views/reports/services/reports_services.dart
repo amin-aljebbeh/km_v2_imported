@@ -31,12 +31,13 @@ class ReportsServices {
   }
 
   static Future<List<TransactionModel>> getShopperTransactions(
-      {String shopperId}) async {
+      {String shopperId, int pageNumber}) async {
     var response;
 
     response = await ApiProvider.sendRequest(
       url: GET_SHOPPER_TRANSACTIONS + shopperId,
       method: httpMethods.get,
+      queryParameters: {"page": pageNumber},
     );
 
     if (response.statusCode == SUCCESS_CODE) {

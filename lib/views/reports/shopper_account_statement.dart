@@ -21,9 +21,11 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
   List<TransactionModel> transactions = List<TransactionModel>();
   String shopperName;
   String shopperId;
+  int page;
 
   @override
   void initState() {
+    page = 1;
     error = false;
     empty = true;
     selected = false;
@@ -34,8 +36,8 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
     setState(() {
       if (transactions != null) transactions.clear();
     });
-    var tempTransactions =
-        await ReportsServices.getShopperTransactions(shopperId: shopperId);
+    var tempTransactions = await ReportsServices.getShopperTransactions(
+        shopperId: shopperId, pageNumber: page);
     setState(() {
       if (tempTransactions != null) {
         error = false;
@@ -77,22 +79,62 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                   ? DailyProfit(shopperId: Services.shopper.id.toString())
                   : Column(
                       children: [
-                        KSearchableDropdown(
-                          hint: StringUtils.chooseShopper,
-                          search: shopperFilter,
-                          items: Services.shoppersNameList(),
-                          onChanged: (value) async {
-                            setState(
-                              () {
-                                shopperFilter = value;
-                                shopperName = value;
-                                selected = true;
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_back,
+                                size: 40,
+                                color: ColorUtils.primaryColor,
+                              ),
+                              onPressed: () {
+                                if (selected) {
+                                  setState(() {
+                                    page++;
+                                  });
+                                  getTransaction(shopperId);
+                                }
                               },
-                            );
-                            shopperId = Services.selectedShopperId(value);
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: KSearchableDropdown(
+                                hint: StringUtils.chooseShopper,
+                                search: shopperFilter,
+                                items: Services.shoppersNameList(),
+                                onChanged: (value) async {
+                                  setState(
+                                    () {
+                                      page = 1;
+                                      shopperFilter = value;
+                                      shopperName = value;
+                                      selected = true;
+                                    },
+                                  );
+                                  shopperId = Services.selectedShopperId(value);
 
-                            await getTransaction(shopperId);
-                          },
+                                  await getTransaction(shopperId);
+                                },
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_forward,
+                                size: 40,
+                                color: ColorUtils.primaryColor,
+                              ),
+                              onPressed: () {
+                                if (selected) {
+                                  setState(() {
+                                    if (page > 1) page--;
+                                  });
+                                  getTransaction(shopperId);
+                                }
+                              },
+                            ),
+                          ],
                         ),
                         selected
                             ? !error
