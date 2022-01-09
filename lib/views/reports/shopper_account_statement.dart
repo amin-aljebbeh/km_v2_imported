@@ -144,46 +144,56 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                             ),
                           ],
                         ),
-                        selected
-                            ? !error
-                                ? loading
-                                    ? Loader()
-                                    : empty
-                                        ? Padding(
-                                            padding: const EdgeInsets.all(75),
-                                            child: ScreenMessage(
-                                              message: 'لا يوجد حركة',
-                                            ),
-                                          )
-                                        : Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: MediaQuery.of(context)
+                        !error
+                            ? Container(
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.6335,
+                                child: selected
+                                    ? loading
+                                        ? Loader()
+                                        : empty
+                                            ? Padding(
+                                                padding:
+                                                    const EdgeInsets.all(75),
+                                                child: ScreenMessage(
+                                                  message: 'لا يوجد حركة',
+                                                ),
+                                              )
+                                            : Container(
+                                                width: MediaQuery.of(context)
                                                     .size
-                                                    .height *
-                                                0.6335,
-                                            child: ListView.builder(
-                                              scrollDirection: Axis.vertical,
-                                              itemCount: transactions.length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return Transaction(
-                                                  transaction:
-                                                      transactions[index],
-                                                  newTransaction:
-                                                      newTransaction(index),
-                                                );
-                                              },
-                                            ),
-                                          )
-                                : AlertMessages(
-                                    text: "حدث خطأ اثناء محاولة جلب البيانات",
-                                    messageType: "internetError",
-                                    headerText: "حدث خطأ",
-                                  )
-                            : Container(),
+                                                    .width,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.6335,
+                                                child: ListView.builder(
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemCount:
+                                                      transactions.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return Transaction(
+                                                      transaction:
+                                                          transactions[index],
+                                                      newTransaction:
+                                                          newTransaction(index),
+                                                    );
+                                                  },
+                                                ),
+                                              )
+                                    : ScreenMessage(
+                                        message: 'اختر متسوق',
+                                      ),
+                              )
+                            : AlertMessages(
+                                text: "حدث خطأ اثناء محاولة جلب البيانات",
+                                messageType: "internetError",
+                                headerText: "حدث خطأ",
+                              ),
                         KammunButton(
                           width: MediaQuery.of(context).size.width,
                           height: 50,
