@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/api/admin_URLs.dart';
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
+import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:http/http.dart' as http;
@@ -19,12 +17,9 @@ class ProductsServices {
     String subWarehouseId,
   }) async {
     try {
-      Tools.logToConsole("is for subwarehouse $isForSubWarehouse");
       var body;
 
       body = {bodyKey: value};
-
-      Tools.logToConsole("THE BODY FROM ATTCCH PRODUCT $body");
 
       var response;
       if (bodyKey == "category_id") {

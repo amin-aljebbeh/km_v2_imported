@@ -34,7 +34,6 @@ class Transaction extends StatelessWidget {
                     ),
                     KTableRow(
                       children: [
-                        // KTableElement(text: 'الوقت'),
                         KTableElement(text: StringUtils.shopper),
                         KTableElement(text: StringUtils.kammun),
                         KTableElement(text: 'النوع'),
@@ -50,10 +49,6 @@ class Transaction extends StatelessWidget {
               : Container(),
           KTableRow(
             children: [
-              // KTableElement(
-              //   text: DateFormat('h:mm a').format(transaction.date),
-              //   style: mainStyle,
-              // ),
               KTableElement(
                 text: StringUtils()
                     .oCcy

@@ -1,3 +1,5 @@
+import 'api_importer.dart';
+
 const String TEST_URL = 'http://test.kammun.com';
 const String APP_URL = 'https://kammun.app';
 
@@ -13,7 +15,7 @@ const String PRODUCTION_BASE_URL = TEST_URL;
 
 const String GET_COMPANY = API + 'company';
 const String GET_MOBILE_VERSION = API + 'mob_v_config';
-const String GET_PRODUCT = API + 'product/';
+const String GET_PRODUCT = API + PRODUCT;
 
 const String ADD_IMAGE_TO_PRODUCTS = API + 'product_image';
 const String GET_CATEGORY = API + 'category/';
@@ -72,6 +74,8 @@ const String ASSIGN_ORDER_TO_SHOPPER = API + ORDER + 'assign_order_to_shopper';
 
 const String ASSIGN_ORDER_TO_DELIVERY =
     API + ORDER + 'assign_order_to_delivery';
+
+const String CHANGE_ORDER_STATUS = API + ORDER + 'change_order_status/';
 
 /// NEW Version ///
 

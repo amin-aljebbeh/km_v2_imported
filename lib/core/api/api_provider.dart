@@ -14,7 +14,7 @@ class ApiProvider {
       bool mapService,
       bool isUrlEncodedFormat}) async {
     Tools.logToConsole("---------------------service url : ");
-    Tools.logToConsole(url);
+    Tools.logToConsole(BASE_URL + url);
     Tools.logToConsole(body);
     Tools.logToConsole(method);
     Tools.logToConsole("-----------------------------------");

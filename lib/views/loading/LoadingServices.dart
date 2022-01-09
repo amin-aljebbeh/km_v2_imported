@@ -341,7 +341,6 @@ class LoadingScreenServices {
             ]);
             if (Services.isOperationManager()) {
               await Services.getShoppers();
-              await Services.getDeliveries();
             }
           } catch (e) {
             Tools.logToConsole("--------- error call -----");

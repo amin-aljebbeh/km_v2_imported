@@ -373,13 +373,18 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                         List<DialogButton> decisionButtons = [
                                           DialogButton(
                                             text: 'نعم',
-                                            onTap: () {
+                                            onTap: () async {
                                               Navigator.of(context).pop();
-                                              submitSpending(orderId.toString(),
-                                                  isSpendingApi: false);
+                                              bool result = await OrderServices
+                                                  .unlockOrder(
+                                                      orderId.toString());
+                                              Services.resultFlushBar(
+                                                  context: context,
+                                                  result: result);
                                               setState(() {
-                                                orderDataList[index]
-                                                    .underUpdate = '0';
+                                                if (result)
+                                                  orderDataList[index]
+                                                      .underUpdate = '0';
                                               });
                                             },
                                           ),
@@ -428,25 +433,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
         ),
       ),
     );
-  }
-
-  TextEditingController _spendingController = new TextEditingController();
-  TextEditingController _reasonController = new TextEditingController();
-
-  void submitSpending(String orderId, {bool isSpendingApi = true}) async {
-    bool result;
-    if (!isSpendingApi) {
-      result = await OrderServices.unlockOrder(orderId);
-    } else {
-      result = await OrderServices.addSpendingToOrder(
-          orderId, _spendingController.text, _reasonController.text);
-    }
-
-    Services.resultFlushBar(context: context, result: result);
-    if (result) {
-      _spendingController.text = '';
-      _reasonController.text = '';
-    }
   }
 
   _moveOrderProductsToCart(

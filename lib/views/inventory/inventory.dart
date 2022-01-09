@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/core/api/admin_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
+import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -214,7 +213,7 @@ class _InventoryState extends State<Inventory> {
                   onChanged: (value) {
                     Tools.logToConsole("The Value is :$value");
                     isActiveFilter = value;
-                    Tools.logToConsole("The fillterIndex is :$filterProducts");
+                    Tools.logToConsole("The filterIndex is :$filterProducts");
 
                     _loadData(filterIndex: filterProducts);
                   },
@@ -239,12 +238,13 @@ class _InventoryState extends State<Inventory> {
                             headerText: "حدث خطأ",
                           ),
                           RaisedButton(
-                            child: Text("المحاولة من جديد",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily:
-                                        StringUtils.fontFamilyHKGrotesk)),
+                            child: Text(
+                              "المحاولة من جديد",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk),
+                            ),
                             onPressed: () =>
                                 _loadData(filterIndex: filterProducts),
                           ),
@@ -280,10 +280,6 @@ class _InventoryState extends State<Inventory> {
                             itemCount:
                                 productsList == null ? 0 : productsList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              // Tools.logToConsole(
-                              //     'productsList[index].warehouseId');
-                              // Tools.logToConsole(
-                              //     productsList[index].categoryId);
                               var eachProduct = productsList[index];
                               if (filter == null || filter == "") {
                                 if (selectedSubWarehouseId == -1) {
@@ -295,8 +291,6 @@ class _InventoryState extends State<Inventory> {
                                       productData: eachProduct,
                                       onChangeStatus: (result) {
                                         if (result) {
-                                          Tools.logToConsole(
-                                              "the result : $result");
                                           setState(() {
                                             productsList.removeAt(index);
                                           });

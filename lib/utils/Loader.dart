@@ -13,9 +13,7 @@ class Actor extends StatelessWidget {
       width: size,
       height: size,
       decoration:
-          BoxDecoration(shape: BoxShape.circle, color: ColorUtils.kmColors
-              //color: Color.fromARGB(255, 66, 103, 178),
-              ),
+          BoxDecoration(shape: BoxShape.circle, color: ColorUtils.kmColors),
     );
   }
 }

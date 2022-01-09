@@ -4,3 +4,4 @@ export 'common_utils.dart';
 export 'Styles.dart';
 export 'tools.dart';
 export 'package:toast/toast.dart';
+export 'Loader.dart';

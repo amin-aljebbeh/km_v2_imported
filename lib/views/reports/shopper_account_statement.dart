@@ -18,6 +18,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
   bool selected;
   bool error;
   bool empty;
+  bool loading;
   List<TransactionModel> transactions = List<TransactionModel>();
   String shopperName;
   String shopperId;
@@ -29,6 +30,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
     error = false;
     empty = true;
     selected = false;
+    loading = false;
     super.initState();
   }
 
@@ -39,6 +41,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
     var tempTransactions = await ReportsServices.getShopperTransactions(
         shopperId: shopperId, pageNumber: page);
     setState(() {
+      loading = false;
       if (tempTransactions != null) {
         error = false;
         empty = false;
@@ -93,6 +96,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                                 if (selected) {
                                   setState(() {
                                     page++;
+                                    loading = true;
                                   });
                                   getTransaction(shopperId);
                                 }
@@ -104,18 +108,19 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                                 hint: StringUtils.chooseShopper,
                                 search: shopperFilter,
                                 items: Services.shoppersNameList(),
-                                onChanged: (value) async {
+                                onChanged: (value) {
                                   setState(
                                     () {
                                       page = 1;
                                       shopperFilter = value;
                                       shopperName = value;
                                       selected = true;
+                                      loading = true;
                                     },
                                   );
                                   shopperId = Services.selectedShopperId(value);
 
-                                  await getTransaction(shopperId);
+                                  getTransaction(shopperId);
                                 },
                               ),
                             ),
@@ -128,7 +133,10 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                               onPressed: () {
                                 if (selected) {
                                   setState(() {
-                                    if (page > 1) page--;
+                                    if (page > 1) {
+                                      page--;
+                                      loading = true;
+                                    }
                                   });
                                   getTransaction(shopperId);
                                 }
@@ -138,32 +146,38 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                         ),
                         selected
                             ? !error
-                                ? empty
-                                    ? Padding(
-                                        padding: const EdgeInsets.all(75),
-                                        child: ScreenMessage(
-                                          message: 'لا يوجد حركة',
-                                        ),
-                                      )
-                                    : Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height *
+                                ? loading
+                                    ? Loader()
+                                    : empty
+                                        ? Padding(
+                                            padding: const EdgeInsets.all(75),
+                                            child: ScreenMessage(
+                                              message: 'لا يوجد حركة',
+                                            ),
+                                          )
+                                        : Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
                                                 0.6335,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: transactions.length,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return Transaction(
-                                              transaction: transactions[index],
-                                              newTransaction:
-                                                  newTransaction(index),
-                                            );
-                                          },
-                                        ),
-                                      )
+                                            child: ListView.builder(
+                                              scrollDirection: Axis.vertical,
+                                              itemCount: transactions.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Transaction(
+                                                  transaction:
+                                                      transactions[index],
+                                                  newTransaction:
+                                                      newTransaction(index),
+                                                );
+                                              },
+                                            ),
+                                          )
                                 : AlertMessages(
                                     text: "حدث خطأ اثناء محاولة جلب البيانات",
                                     messageType: "internetError",
