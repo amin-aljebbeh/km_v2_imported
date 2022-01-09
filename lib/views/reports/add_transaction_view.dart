@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/text_field_row.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/views/reports/services/reports_services.dart';
+import 'services/reports_services.dart';
 import 'package:toast/toast.dart';
 import '../../Services.dart';
 
@@ -53,144 +52,116 @@ class _AddTransactionViewState extends State<AddTransactionView> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              KSearchableDropdown(
-                hint: StringUtils.chooseShopper,
-                search: shopperFilter,
-                items: Services.shoppersNameList(),
-                onChanged: (value) {
-                  setState(
-                    () {
-                      shopperFilter = value;
-                      shopperName = value;
-                    },
-                  );
-                },
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: DropdownButton(
-                  underline: Container(),
-                  isExpanded: true,
-                  hint: Center(
-                    child: Text(
-                      'نوع المناقلة',
-                      style: dropdownItemStyle,
-                    ),
-                  ),
-                  value: transactionType,
-                  items: Services.dropdownStringList(
-                      StringUtils.singleTransactionTypes),
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                KSearchableDropdown(
+                  hint: StringUtils.chooseShopper,
+                  search: shopperFilter,
+                  items: Services.shoppersNameList(),
                   onChanged: (value) {
-                    setState(() {
-                      transactionType = value;
-                    });
+                    setState(
+                      () {
+                        shopperFilter = value;
+                        shopperName = value;
+                      },
+                    );
                   },
                 ),
-              ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //   children: [
-              //     Text(
-              //       "تاريخ المناقلة",
-              //       style:
-              //           TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-              //     ),
-              //     IconButton(
-              //       icon: Icon(Icons.calendar_today_outlined),
-              //       onPressed: () {
-              //         DatePicker.showDateTimePicker(context,
-              //             showTitleActions: true,
-              //             onChanged: (date) {}, onConfirm: (date) {
-              //           setState(
-              //             () {
-              //               transactionDate =
-              //                   fullDateFormatter.format(date).toString();
-              //             },
-              //           );
-              //         }, currentTime: DateTime.now(), locale: 'en');
-              //       },
-              //     ),
-              //     Text(
-              //       transactionDate,
-              //       style:
-              //           TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-              //     ),
-              //   ],
-              // ),
-              SizedBox(
-                height: 30,
-              ),
-              TextFieldRow(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                controller: moneyController,
-                text: 'المبلغ :         ',
-                inputType: TextInputType.number,
-                width: 150,
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              transactionType == 0
-                  ? TextFieldRow(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      controller: orderIdController,
-                      text: 'رقم الطلب :',
-                      inputType: TextInputType.number,
-                      width: 150,
-                    )
-                  : Container(),
-              SizedBox(
-                height: 40,
-              ),
-              TextFieldRow(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                controller: descriptionController,
-                text: 'الوصف :',
-                inputType: TextInputType.multiline,
-                width: MediaQuery.of(context).size.width * 0.65,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              KammunButton(
-                height: 50,
-                text: 'حفظ المناقلة',
-                color: !completeData()
-                    ? ColorUtils.searchGreyColor
-                    : ColorUtils.primaryColor,
-                onTap: () async {
-                  if (!completeData()) {
-                    Toast.show("يرجى إدخال كافة البيانات", context,
-                        duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                  } else {
-                    String description = descriptionController.text.isNotEmpty
-                        ? descriptionController.text
-                        : ' ';
-                    shopperId = Services.selectedShopperId(shopperName);
-                    bool result = await ReportsServices.addTransaction(
-                      shopperId: shopperId,
-                      value: moneyController.text,
-                      transactionType: transactionType,
-                      description: description,
-                      orderId: orderIdController.text,
-                    );
-                    Services.resultFlushBar(context: context, result: result);
-                  }
-                },
-              ),
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: DropdownButton(
+                    underline: Container(),
+                    isExpanded: true,
+                    hint: Center(
+                      child: Text(
+                        'نوع المناقلة',
+                        style: dropdownItemStyle,
+                      ),
+                    ),
+                    value: transactionType,
+                    items: Services.dropdownStringList(
+                        StringUtils.singleTransactionTypes),
+                    onChanged: (value) {
+                      setState(() {
+                        transactionType = value;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                TextFieldRow(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  controller: moneyController,
+                  text: 'المبلغ :         ',
+                  inputType: TextInputType.number,
+                  width: 150,
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                transactionType == 0
+                    ? TextFieldRow(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        controller: orderIdController,
+                        text: 'رقم الطلب :',
+                        inputType: TextInputType.number,
+                        width: 150,
+                      )
+                    : Container(),
+                SizedBox(
+                  height: 40,
+                ),
+                TextFieldRow(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  controller: descriptionController,
+                  text: 'الوصف :',
+                  inputType: TextInputType.multiline,
+                  width: MediaQuery.of(context).size.width * 0.65,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                KammunButton(
+                  height: 50,
+                  text: 'حفظ المناقلة',
+                  color: !completeData()
+                      ? ColorUtils.searchGreyColor
+                      : ColorUtils.primaryColor,
+                  onTap: () async {
+                    if (!completeData()) {
+                      Toast.show("يرجى إدخال كافة البيانات", context,
+                          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                    } else {
+                      String description = descriptionController.text.isNotEmpty
+                          ? descriptionController.text
+                          : ' ';
+                      shopperId = Services.selectedShopperId(shopperName);
+                      bool result = await ReportsServices.addTransaction(
+                        shopperId: shopperId,
+                        value: moneyController.text,
+                        transactionType: transactionType,
+                        description: description,
+                        orderId: orderIdController.text,
+                      );
+                      Services.resultFlushBar(context: context, result: result);
+                    }
+                  },
+                ),
+                Container(
+                  height: transactionType == 0 ? 300 : 0,
+                ),
+              ],
+            ),
           ),
         ),
       ),
