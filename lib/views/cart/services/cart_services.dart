@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
+import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -22,19 +21,10 @@ class CartServices {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userCart = prefs.getString('userCart');
-    Tools.logToConsole("------ Before if user Cart ------");
-    Tools.logToConsole(userCart);
-    if (userCart != null && userCart.length == 1 && userCart == "@") {
-      prefs.setString('userCart', "");
-    }
-    Tools.logToConsole("------ after setString if user Cart ------");
-    Tools.logToConsole(userCart);
     if (userCart != null &&
         userCart.length > 2 &&
         userCart.toString() != "null") {
       cartProducts.clear();
-      Tools.logToConsole("------ user Cart ------");
-      Tools.logToConsole(userCart);
       List<String> productsIds = userCart.split("@")[0].split(";");
       List<String> productsCounts = userCart.split("@")[1].split(";");
 
@@ -42,11 +32,6 @@ class CartServices {
         productsIdCount[productsIds[i]] = productsCounts[i];
       }
 
-      Tools.logToConsole("----------- the product in synd --------");
-      Tools.logToConsole(userCart.split("@")[0].replaceRange(
-          userCart.split("@")[0].length - 1,
-          userCart.split("@")[0].length,
-          ""));
       var response = await ApiProvider.sendRequest(
           url: SYNC_CART,
           method: httpMethods.post,
@@ -75,7 +60,7 @@ class CartServices {
         Tools.logToConsole(response.data);
         //   if (streamController != null) streamController.add(200);
         Tools.logToConsole(
-            "------------ ERROR WHILE GETING USER CART --------------");
+            "------------ ERROR WHILE GETTING USER CART --------------");
 
         return false;
       }

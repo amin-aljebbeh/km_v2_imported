@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
+import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -13,66 +12,60 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Services.dart';
 
 class OrderServices {
-  static String deliverySupportedCityId = "";
+  static String deliverySupportedCityId = '';
   static int orderUnderUpdateIndex = -1;
-  static String updateOrderNote = "";
+  static String updateOrderNote = '';
 
-  static String orderUnderUpdateId = "";
+  static String orderUnderUpdateId = '';
 
-  static String orderUnderAddressId = "";
+  static String orderUnderAddressId = '';
 
   static Future<OrderResponse> submitNewOrder(
       {String userNotes, bool checkPrices = true}) async {
-    String productIds = "";
-    String quantities = "";
-    String productPrices = "";
+    String productIds = '';
+    String quantities = '';
+    String productPrices = '';
 
     int purchasePrices = 0;
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
       productIds =
-          productIds + CartServices.cartProducts[i].id.toString() + ";";
+          productIds + CartServices.cartProducts[i].id.toString() + ';';
       quantities = quantities +
           CartServices.cartProducts[i].productCount.toString() +
-          ";";
+          ';';
       purchasePrices = purchasePrices +
-          (int.parse(CartServices.cartProducts[i].price.split(".")[0]) *
+          (int.parse(CartServices.cartProducts[i].price.split('.')[0]) *
               CartServices.cartProducts[i].productCount);
       productPrices = productPrices +
-          int.parse(CartServices.cartProducts[i].price.split(".")[0])
+          int.parse(CartServices.cartProducts[i].price.split('.')[0])
               .toString() +
-          ";";
+          ';';
     }
 
     Map orderData = {
-      "payment_method_id": "1",
-      // "delivery_method_id": DeliveryMethodServices
-      //     .deliveryMethodsList[(DeliveryMethodView.selectedDeliveryIndex)].id
-      //     .toString(),
-      "delivery_method_id": DeliverToView.selectedIndex.toString(),
-
-      "supported_city_id": deliverySupportedCityId,
-      // "address_id":
-      //     LoadingScreenServices.userAddress[DeliverToView.selectedIndex].id,
-      "address_id": OrderServices.orderUnderAddressId,
-      "product_ids": productIds.substring(0, productIds.length - 1),
-      "quantities": quantities.substring(0, quantities.length - 1),
-      "purchase_prices": purchasePrices.toString(),
-      "product_prices": productPrices.substring(0, productPrices.length - 1),
-      "user_notes": "$userNotes",
-      "check_changed_price_product": checkPrices ? "1" : "0"
+      'payment_method_id': '1',
+      'delivery_method_id': DeliverToView.selectedIndex.toString(),
+      'supported_city_id': deliverySupportedCityId,
+      'address_id': OrderServices.orderUnderAddressId,
+      'product_ids': productIds.substring(0, productIds.length - 1),
+      'quantities': quantities.substring(0, quantities.length - 1),
+      'purchase_prices': purchasePrices.toString(),
+      'product_prices': productPrices.substring(0, productPrices.length - 1),
+      'user_notes': '$userNotes',
+      'check_changed_price_product': checkPrices ? '1' : '0'
     };
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: ORDER,
+        url: API + ORDER,
         method: httpMethods.post,
         body: jsonEncode(orderData),
       );
 
-      Tools.logToConsole(response.data["reason"]);
+      Tools.logToConsole(response.data['reason']);
 
-      if (response.data["reason"].toString().contains("discontinued")) {
-        return new OrderResponse(success: false, reason: "discontinued");
+      if (response.data['reason'].toString().contains('discontinued')) {
+        return new OrderResponse(success: false, reason: 'discontinued');
       } else {
         var parsedJson = orderResponseFromJson(jsonEncode(response.data));
 
@@ -86,51 +79,48 @@ class OrderServices {
 
   static Future<OrderResponse> updateOrder(
       {String userNotes, bool checkPrices = true}) async {
-    String productIds = "";
-    String quantities = "";
-    String productPrices = "";
+    String productIds = '';
+    String quantities = '';
+    String productPrices = '';
     String orderId;
 
     int purchasePrices = 0;
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
       productIds =
-          productIds + CartServices.cartProducts[i].id.toString() + ";";
+          productIds + CartServices.cartProducts[i].id.toString() + ';';
       quantities = quantities +
           CartServices.cartProducts[i].productCount.toString() +
-          ";";
+          ';';
       purchasePrices = purchasePrices +
-          (int.parse(CartServices.cartProducts[i].price.split(".")[0]) *
+          (int.parse(CartServices.cartProducts[i].price.split('.')[0]) *
               CartServices.cartProducts[i].productCount);
       productPrices = productPrices +
-          int.parse(CartServices.cartProducts[i].price.split(".")[0])
+          int.parse(CartServices.cartProducts[i].price.split('.')[0])
               .toString() +
-          ";";
+          ';';
     }
 
     Map orderData = {
-      "delivery_method_id": DeliverToView.selectedIndex.toString(),
-      "product_ids": productIds.substring(0, productIds.length - 1),
-      "quantities": quantities.substring(0, quantities.length - 1),
-      "purchase_prices": purchasePrices.toString(),
-      "product_prices": productPrices.substring(0, productPrices.length - 1),
-      "user_notes": "$userNotes",
-      "check_changed_price_product": checkPrices ? "1" : "0"
+      'delivery_method_id': DeliverToView.selectedIndex.toString(),
+      'product_ids': productIds.substring(0, productIds.length - 1),
+      'quantities': quantities.substring(0, quantities.length - 1),
+      'purchase_prices': purchasePrices.toString(),
+      'product_prices': productPrices.substring(0, productPrices.length - 1),
+      'user_notes': '$userNotes',
+      'check_changed_price_product': checkPrices ? '1' : '0'
     };
-    // orderId = LoadingScreenServices
-    //     .myOrdersList[OrderServices.orderUnderUpdateIndex].id
-    //     .toString();
 
     orderId = orderUnderUpdateId;
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: ORDER + "/$orderId",
+          url: API + ORDER + '/$orderId',
           method: httpMethods.put,
           body: jsonEncode(orderData));
 
-      if (response.data["reason"].toString().contains("discontinued")) {
+      if (response.data['reason'].toString().contains('discontinued')) {
         Tools.logToConsole('message in updating Order 1');
-        return new OrderResponse(success: false, reason: "discontinued");
+        return new OrderResponse(success: false, reason: 'discontinued');
       } else {
         Tools.logToConsole('message in updating Order 2');
         var parsedJson = orderResponseFromJson(jsonEncode(response.data));
@@ -153,11 +143,11 @@ class OrderServices {
       body: jsonEncode(cancelOrderBody),
     );
 
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      return "true";
+    if (response.statusCode == SUCCESS_CODE && response.data['success']) {
+      return 'true';
     } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
-      return "تم قبول طلبك مسبقاً لايمكن إلغاء الطلب حاليا اذا كنت مصراً على إلغاء الطلب يرجى التواصل مع فريق الدعم";
+      Tools.logToConsole('------------ ERROR CANCEL ORDER --------------');
+      return 'تم قبول طلبك مسبقاً لايمكن إلغاء الطلب حاليا اذا كنت مصراً على إلغاء الطلب يرجى التواصل مع فريق الدعم';
     }
   }
 
@@ -165,8 +155,8 @@ class OrderServices {
       {String orderId, String userFeedback, double rating}) async {
     Map ratingOrderBody = {
       'user_feedback': userFeedback,
-      "user_delivery_rating": rating.toString(),
-      "user_price_rating": rating.toString(),
+      'user_delivery_rating': rating.toString(),
+      'user_price_rating': rating.toString(),
     };
     var response = await ApiProvider.sendRequest(
       url: RATE_ORDER + orderId,
@@ -177,7 +167,7 @@ class OrderServices {
     if (response.statusCode == SUCCESS_CODE) {
       return true;
     } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+      Tools.logToConsole('------------ ERROR CANCEL ORDER --------------');
       return false;
     }
   }
@@ -196,14 +186,14 @@ class OrderServices {
       if (response.data == null) {
         return null;
       }
-      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         orderUnderUpdateIndex = LoadingScreenServices.myOrdersList
             .indexWhere((order) => order.id == int.parse(orderId));
         if (orderUnderUpdateIndex == -1) {
           orderUnderUpdateIndex = 0;
         }
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString("orderUnderUpdateId", orderId);
+        prefs.setString('orderUnderUpdateId', orderId);
 
         //! Order Under Update ID !//
         orderUnderUpdateId = orderId;
@@ -211,42 +201,20 @@ class OrderServices {
         //! Order Under Update delivery Method !//
         DeliverToView.selectedIndex = deliveryMethodId;
 
-        // DeliverToView.selectedIndex = LoadingScreenServices.userAddress
-        //     .indexWhere((address) =>
-        //         address.id ==
-        //         int.parse(LoadingScreenServices
-        //             .myOrdersList[orderUnderUpdateIndex].addressId));
-
         //! Order Under Update Delivery Price !//
 
-        Services.deliveryPrice = int.parse(supportedCityCost.split(".")[0]) +
-            int.parse(deliveryMethodCost.split(".")[0]);
+        Services.deliveryPrice = int.parse(supportedCityCost.split('.')[0]) +
+            int.parse(deliveryMethodCost.split('.')[0]);
 
-        // Services.deliveryPrice = int.parse(LoadingScreenServices
-        //         .myOrdersList[orderUnderUpdateIndex].supportedCityCost
-        //         .split(".")[0]) +
-        //     int.parse(LoadingScreenServices
-        //         .myOrdersList[OrderServices.orderUnderUpdateIndex].deliveryCost
-        //         .split(".")[0]);
         //! Order Under Update Note !//
 
         updateOrderNote = userNote;
 
-        // updateOrderNote =
-        //     LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;
         return lockOrderFromJson(json.encode(response.data));
-        // return "true";
       } else {
         return lockOrderFromJson(json.encode(response.data));
-        // Tools.logToConsole("------------ ERROR Update ORDER --------------");
-        // if (response.data["reason"].toString().contains("admin")) {
-        //   return "admin";
-        // } else {
-        //   return "false";
-        // }
       }
     } catch (e) {
-      Tools.logToConsole("------------ ERROR Catched --------------");
       Tools.logToConsole(e.toString());
 
       return null;
@@ -255,40 +223,14 @@ class OrderServices {
 
   static Future<bool> changeOrderStatus(String orderId, int statusId) async {
     try {
-      var body = {"order_status_id": "$statusId"};
+      var body = {'order_status_id': '$statusId'};
       var response = await ApiProvider.sendRequest(
-        url: ORDER + "/change_order_status/$orderId",
+        url: CHANGE_ORDER_STATUS + '$orderId',
         method: httpMethods.post,
         body: jsonEncode(body),
       );
-      Tools.logToConsole("ChangeStatusCode is: ");
-      Tools.logToConsole(response.data);
 
-      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      Tools.logToConsole("------------ ERROR Catched --------------");
-
-      return false;
-    }
-  }
-
-  static Future<bool> addSpendingToOrder(
-      String orderId, String spendingValue, String description) async {
-    try {
-      var body = {
-        "spending_value": "$spendingValue",
-        "description": "$description"
-      };
-      var response = await ApiProvider.sendRequest(
-        url: ORDER + "/add_spending_to_order/$orderId",
-        method: httpMethods.post,
-        body: jsonEncode(body),
-      );
-      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         return true;
       } else {
         return false;
@@ -305,7 +247,7 @@ class OrderServices {
         method: httpMethods.put,
       );
       Tools.logToConsole(response);
-      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         return true;
       } else {
         return false;
@@ -319,11 +261,11 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + ORDERS_NOT_ASSIGNED_TO_DELIVERIES,
+        url: ORDERS_NOT_ASSIGNED_TO_DELIVERIES,
         method: httpMethods.get,
-        queryParameters: {"page": pageNumber},
+        queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole("------- orders data -------");
+      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.notAssignedOrdersList.addAll(
@@ -336,7 +278,7 @@ class OrderServices {
       }
     } catch (e) {
       Tools.logToConsole(
-          "------------ ERROR GET NotAssignedToDeliveries ORDER --------------");
+          '------------ ERROR GET NotAssignedToDeliveries ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
@@ -346,25 +288,22 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + GET_ORDERS_ASSIGNED_TO_DELIVERIES,
+        url: GET_ORDERS_ASSIGNED_TO_DELIVERIES,
         method: httpMethods.get,
-        queryParameters: {"page": pageNumber},
+        queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole("------- orders data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.deliveriesAssignedOrdersList =
             ordersFromJson(jsonEncode(response.data)).data.data;
 
-        print('getOrdersAssignedToDeliveries');
-        print(LoadingScreenServices.deliveriesAssignedOrdersList.length);
         return LoadingScreenServices.deliveriesAssignedOrdersList;
       } else {
         return LoadingScreenServices.deliveriesAssignedOrdersList;
       }
     } catch (e) {
       Tools.logToConsole(
-          "------------ ERROR GET NotAssignedToDeliveries ORDER --------------");
+          '------------ ERROR GET NotAssignedToDeliveries ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
@@ -374,11 +313,11 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + GET_ORDERS_ASSIGNED_TO_SHOPPERS,
+        url: GET_ORDERS_ASSIGNED_TO_SHOPPERS,
         method: httpMethods.get,
-        queryParameters: {"page": pageNumber},
+        queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole("------- orders data -------");
+      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.shoppersAssignedOrdersList =
@@ -392,7 +331,7 @@ class OrderServices {
       }
     } catch (e) {
       Tools.logToConsole(
-          "------------ ERROR GET NotAssignedToDeliveries ORDER --------------");
+          '------------ ERROR GET NotAssignedToDeliveries ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
@@ -402,11 +341,11 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: ORDER + DELIVERY_VIEWS_HIS_OWN_ORDERS,
+        url: DELIVERY_VIEWS_HIS_OWN_ORDERS,
         method: httpMethods.get,
-        queryParameters: {"page": pageNumber},
+        queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole("------- orders data -------");
+      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.myOrdersList =
@@ -418,7 +357,7 @@ class OrderServices {
       }
     } catch (e) {
       Tools.logToConsole(
-          "------------ ERROR GET getDeliveryOrders ORDER --------------");
+          '------------ ERROR GET getDeliveryOrders ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
@@ -428,11 +367,11 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS,
+        url: GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS,
         method: httpMethods.get,
-        queryParameters: {"page": pageNumber},
+        queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole("------- orders data -------");
+      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.notAssignedOrdersList =
@@ -446,7 +385,7 @@ class OrderServices {
       }
     } catch (e) {
       Tools.logToConsole(
-          "------------ ERROR GET NotAssignedToShoppers ORDER --------------");
+          '------------ ERROR GET NotAssignedToShoppers ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
@@ -456,11 +395,11 @@ class OrderServices {
       {int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + SHOPPER_VIEWS_HIS_OWN_ORDERS,
+        url: SHOPPER_VIEWS_HIS_OWN_ORDERS,
         method: httpMethods.get,
-        queryParameters: {"page": pageNumber},
+        queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole("------- orders data -------");
+      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.myOrdersList.addAll(
@@ -473,7 +412,33 @@ class OrderServices {
       }
     } catch (e) {
       Tools.logToConsole(
-          "------------ ERROR GET ShopperOrders ORDER --------------");
+          '------------ ERROR GET ShopperOrders ORDER --------------');
+      Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
+  static Future<List<OrdersOriginalData>> getSupplierOrders(
+      {int pageNumber = 1}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: GET_SUPPLIER_ORDER,
+        method: httpMethods.get,
+        queryParameters: {'page': pageNumber},
+      );
+
+      if (response.statusCode == SUCCESS_CODE) {
+        LoadingScreenServices.myOrdersList.addAll(
+            ordersFromJson(jsonEncode(response.data)).data.data.where((order) =>
+                !LoadingScreenServices.myOrdersList.contains(order)));
+
+        return LoadingScreenServices.myOrdersList;
+      } else {
+        return LoadingScreenServices.myOrdersList;
+      }
+    } catch (e) {
+      Tools.logToConsole(
+          '------------ ERROR GET SUPPLIER ORDERS --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
@@ -487,19 +452,19 @@ class OrderServices {
       url = ASSIGN_SHOPPER_ORDER_HIMSELF;
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + url + orderId,
+        url: url + orderId,
         method: httpMethods.put,
       );
-      Tools.logToConsole("------- orders data -------");
+      Tools.logToConsole('------- orders data -------');
 
-      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         return true;
       } else {
         return false;
       }
     } catch (e) {
       Tools.logToConsole(
-          "------------ ERROR GET ShopperOrders ORDER --------------");
+          '------------ ERROR GET ShopperOrders ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
@@ -514,15 +479,14 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + ASSIGN_ORDER_TO_SHOPPER,
+        url: ASSIGN_ORDER_TO_SHOPPER,
         method: httpMethods.post,
         body: jsonEncode(assignOrderBody),
       );
-      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-        Tools.logToConsole("------------ ASSIGNED --------------");
+      if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         return true;
       } else {
-        Tools.logToConsole("------------NOT ASSIGNED --------------");
+        Tools.logToConsole('------------NOT ASSIGNED --------------');
         return false;
       }
     } catch (e) {
@@ -540,15 +504,15 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + ORDER + ASSIGN_ORDER_TO_DELIVERY,
+        url: ASSIGN_ORDER_TO_DELIVERY,
         method: httpMethods.post,
         body: jsonEncode(assignOrderBody),
       );
-      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-        Tools.logToConsole("------------ ASSIGNED --------------");
+      if (response.statusCode == SUCCESS_CODE && response.data['success']) {
+        Tools.logToConsole('------------ ASSIGNED --------------');
         return true;
       } else {
-        Tools.logToConsole("------------NOT ASSIGNED --------------");
+        Tools.logToConsole('------------NOT ASSIGNED --------------');
         return false;
       }
     } catch (e) {

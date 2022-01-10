@@ -2,9 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
-import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
@@ -42,17 +40,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
   static List<OrderProducts> deletedProductsAry;
   static List<OrderProducts> notDeletedProductsAry;
   static List<OrderProducts> finalProductsAry;
-
-  String subTotal() {
-    int total = 0;
-    if (Services.isSupplierManager()) {
-      total = Services.productsNetPrice(widget.ordersAry, widget.order.id);
-    } else {
-      total = widget.subTotal;
-    }
-    return StringUtils().oCcy.format(total).toString() +
-        " ${LoadingScreenServices.companyInformation.currency}";
-  }
 
   @override
   void initState() {
@@ -258,8 +245,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                     : "",
                                 productName: orderDetail.name,
                                 quantity: orderDetail.quantity,
-                                price:
-                                    int.parse(orderDetail.pivot.purchasePrice),
+                                price: int.parse(orderDetail.pivot.purchasePrice
+                                    .split('.')[0]),
                                 unit: orderDetail.unit == null
                                     ? ""
                                     : orderDetail.unit,
@@ -273,46 +260,71 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () => {},
-                              child: BlurredWidget(
-                                child: OrderDetailViewMainCard(
-                                  increaseValue:
-                                      orderDetail.pivot.increaseValue,
-                                  subWarehouseId: orderDetail.subWarehouseId,
-                                  orderId: widget.orderId,
-                                  onCheckbox: (a) {
-                                    if (Services.isShopper())
-                                      setState(() {
-                                        LoadingScreenServices.myOrdersList
-                                            .firstWhere((order) =>
-                                                order.id == widget.orderId)
-                                            .products
-                                            .removeWhere((product) =>
-                                                product.id ==
-                                                deletedProductsAry[a].id);
-                                        deletedProductsAry.removeAt(a);
-                                        finalProductsAry.removeAt(index);
-                                      });
-                                  },
-                                  productsData: orderDetail,
-                                  supplierCode: orderDetail.supplierCode,
-                                  active: orderDetail.isActive,
-                                  productId: orderDetail.pivot.productId,
-                                  img: orderDetail.images.length != 0
-                                      ? LoadingScreenServices.imagePrefixUrl +
-                                          orderDetail.images[0].imageFileName
-                                      : "",
-                                  productName: orderDetail.name,
-                                  quantity: orderDetail.quantity,
-                                  price: int.parse(
-                                      orderDetail.pivot.purchasePrice),
-                                  unit: orderDetail.unit == null
-                                      ? ""
-                                      : orderDetail.unit,
-                                  productCount:
-                                      orderDetail.pivot.quantity.toString(),
-                                  index:
-                                      index - (deletedProductsAry.length + 1),
-                                ),
+                              child: Stack(
+                                children: [
+                                  BlurredWidget(
+                                    child: OrderDetailViewMainCard(
+                                      increaseValue:
+                                          orderDetail.pivot.increaseValue,
+                                      subWarehouseId:
+                                          orderDetail.subWarehouseId,
+                                      orderId: widget.orderId,
+                                      onCheckbox: (a) {
+                                        if (Services.isShopper())
+                                          setState(() {
+                                            LoadingScreenServices.myOrdersList
+                                                .firstWhere((order) =>
+                                                    order.id == widget.orderId)
+                                                .products
+                                                .removeWhere((product) =>
+                                                    product.id ==
+                                                    deletedProductsAry[a].id);
+                                            deletedProductsAry.removeAt(a);
+                                            finalProductsAry.removeAt(index);
+                                          });
+                                      },
+                                      productsData: orderDetail,
+                                      supplierCode: orderDetail.supplierCode,
+                                      active: orderDetail.isActive,
+                                      productId: orderDetail.pivot.productId,
+                                      img: orderDetail.images.length != 0
+                                          ? LoadingScreenServices
+                                                  .imagePrefixUrl +
+                                              orderDetail
+                                                  .images[0].imageFileName
+                                          : "",
+                                      productName: orderDetail.name,
+                                      quantity: orderDetail.quantity,
+                                      price: int.parse(
+                                          orderDetail.pivot.purchasePrice),
+                                      unit: orderDetail.unit == null
+                                          ? ""
+                                          : orderDetail.unit,
+                                      productCount:
+                                          orderDetail.pivot.quantity.toString(),
+                                      index: index -
+                                          (deletedProductsAry.length + 1),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 138,
+                                      top: 127,
+                                    ),
+                                    child: SwitchProductStatusWidget(
+                                      height: 20,
+                                      width: 70,
+                                      preState: orderDetail.isActive,
+                                      subWarehouseId:
+                                          orderDetail.subWarehouseId,
+                                      productId: orderDetail.pivot.productId,
+                                      onChange: (active) {
+                                        orderDetail.isActive = active;
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             );
                           return Container();
@@ -329,7 +341,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             style: darkBold,
                           ),
                           Text(
-                            subTotal(),
+                            "${StringUtils().oCcy.format(widget.subTotal)}" +
+                                " ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,
@@ -339,38 +352,36 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         ],
                       ),
                     ),
-                    Services.isSupplierManager()
+                    Padding(
+                      padding: EdgeInsets.only(left: 20, top: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            StringUtils.total,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 19.0,
+                            ),
+                          ),
+                          Text(
+                            "${StringUtils().oCcy.format(int.parse(widget.total.split('.')[0]))}" +
+                                " ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 19,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    !Services.isSupplierManager()
                         ? Column(
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 20, top: 5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(StringUtils.total,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          color: Theme.of(context)
-                                              .primaryColorDark,
-                                          fontFamily:
-                                              StringUtils.fontFamilyHKGrotesk,
-                                          fontSize: 19.0,
-                                        )),
-                                    Text(
-                                      "${StringUtils().oCcy.format(int.parse(widget.total))}" +
-                                          " ${LoadingScreenServices.companyInformation.currency}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          color: Theme.of(context)
-                                              .primaryColorDark,
-                                          fontFamily:
-                                              StringUtils.fontFamilyHKGrotesk,
-                                          fontSize: 19),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               SizedBox(height: 5),
                               int.parse(widget.order.orderStatusId) <= 4 &&
                                       int.parse(widget.order.underUpdate) != 1
@@ -444,7 +455,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                               }
                                             },
                                           ),
-                                          // _showCancelButton(idOrder),
                                           KammunButton(
                                             text: "إلغاء الطلب",
                                             width: MediaQuery.of(context)
@@ -511,7 +521,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                   : Container(),
                             ],
                           )
-                        : Container(),
+                        : SizedBox(
+                            height: 10,
+                          ),
                   ],
                 ),
         ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/reports/add_transaction_view.dart';
+import 'package:kammun_app/views/reports/daily_profit_widget.dart';
+import 'package:kammun_app/views/reports/services/reports_services.dart';
 
 import '../../Services.dart';
 import 'models/transaction_model.dart';
@@ -13,136 +15,53 @@ class ShopperAccountStatement extends StatefulWidget {
 }
 
 class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
-  String shopperFilter;
   bool selected;
-  String kammunDues;
-  String shopperDues;
-  DateTime dateTime1 = DateTime.parse("2021-12-29 09:42:33");
-  DateTime dateTime2 = DateTime.parse("2021-12-30 09:42:33");
+  bool error;
+  bool empty;
+  bool loading;
+  List<TransactionModel> transactions = List<TransactionModel>();
+  String shopperName;
+  String shopperId;
+  int page;
 
   @override
   void initState() {
-    if (Services.isShopper()) {
-      //TODO: request api instead
-      kammunDues = '3550';
-      shopperDues = '3550';
-    } else {
-      kammunDues = '0';
-      shopperDues = '0';
-    }
-
+    page = 1;
+    error = false;
+    empty = true;
     selected = false;
+    loading = false;
     super.initState();
+  }
+
+  getTransaction(String shopperId) async {
+    setState(() {
+      if (transactions != null) transactions.clear();
+    });
+    var tempTransactions = await ReportsServices.getShopperTransactions(
+        shopperId: shopperId, pageNumber: page);
+    setState(() {
+      loading = false;
+      if (tempTransactions != null) {
+        error = false;
+        empty = false;
+        transactions = tempTransactions;
+        if (transactions.isEmpty) empty = true;
+      } else {
+        error = true;
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<TransactionModel> transactions = [
-      TransactionModel(
-        1,
-        12124,
-        3,
-        'تسوق',
-        -500,
-        1000,
-        null,
-        dateTime1,
-      ),
-      TransactionModel(
-        2,
-        12124,
-        3,
-        'طريقة توصيل',
-        -500,
-        0,
-        null,
-        dateTime1,
-      ),
-      TransactionModel(
-        3,
-        12124,
-        3,
-        'توصيل',
-        -300,
-        700,
-        null,
-        dateTime1,
-      ),
-      TransactionModel(
-        4,
-        null,
-        3,
-        'إقراض',
-        -50000,
-        0,
-        'إيداع في الحساب',
-        dateTime1,
-      ),
-      TransactionModel(
-        5,
-        12124,
-        3,
-        'حسم',
-        -100,
-        -100,
-        'انكسرت بيضة عالطريق',
-        dateTime1,
-      ),
-      TransactionModel(
-        6,
-        12124,
-        3,
-        'تعديل طلب',
-        200,
-        -200,
-        null,
-        dateTime1,
-      ),
-      TransactionModel(
-        7,
-        null,
-        3,
-        'تسديد',
-        53700,
-        0,
-        null,
-        dateTime2,
-      ),
-      TransactionModel(
-        8,
-        12125,
-        3,
-        'تسوق',
-        -600,
-        1100,
-        null,
-        dateTime2,
-      ),
-      TransactionModel(
-        9,
-        12125,
-        3,
-        'طريقة التوصيل',
-        500,
-        0,
-        null,
-        dateTime2,
-      ),
-      TransactionModel(
-        10,
-        12126,
-        3,
-        'حسم',
-        -200,
-        -200,
-        'تأخير الطلب',
-        dateTime2,
-      ),
-    ];
     bool newTransaction(int index) {
       if (index == 0) return true;
-      return transactions[index].date != transactions[index - 1].date;
+      return transactions[index].createdAt.toString().split(' ')[0] !=
+          transactions[index - 1].createdAt.toString().split(' ')[0];
     }
+
+    String shopperFilter;
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
@@ -159,69 +78,163 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Services.isOperationManager()
-                  ? Padding(
-                      padding: const EdgeInsets.only(
-                          left: 0, top: 10, right: 0, bottom: 10),
-                      child: KSearchableDropdown(
-                        hint: StringUtils.chooseShopper,
-                        search: shopperFilter,
-                        items: Services.shoppersNameList(),
-                        onChanged: (value) {
-                          //TODO: request api and assign values to [kammunDues,shopperDues]
-                          setState(
-                            () {
-                              shopperFilter = value;
-                              selected = true;
-                              shopperDues = '2000';
-                              kammunDues = '3150';
-                            },
-                          );
-                        },
-                      ),
-                    )
-                  : SizedBox(
-                      height: 025,
+              Services.isShopper()
+                  ? DailyProfit(shopperId: Services.shopper.id.toString())
+                  : Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_back,
+                                size: 40,
+                                color: ColorUtils.primaryColor,
+                              ),
+                              onPressed: () {
+                                if (selected) {
+                                  setState(() {
+                                    page++;
+                                    loading = true;
+                                  });
+                                  getTransaction(shopperId);
+                                }
+                              },
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: KSearchableDropdown(
+                                hint: StringUtils.chooseShopper,
+                                search: shopperFilter,
+                                items: Services.shoppersNameList(),
+                                onChanged: (value) {
+                                  setState(
+                                    () {
+                                      page = 1;
+                                      shopperFilter = value;
+                                      shopperName = value;
+                                      selected = true;
+                                      loading = true;
+                                    },
+                                  );
+                                  shopperId = Services.selectedShopperId(value);
+
+                                  getTransaction(shopperId);
+                                },
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_forward,
+                                size: 40,
+                                color: ColorUtils.primaryColor,
+                              ),
+                              onPressed: () {
+                                if (selected) {
+                                  setState(() {
+                                    if (page > 1) {
+                                      page--;
+                                      loading = true;
+                                    }
+                                  });
+                                  getTransaction(shopperId);
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                        !error
+                            ? Container(
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.6335,
+                                child: selected
+                                    ? loading
+                                        ? Loader()
+                                        : empty
+                                            ? Padding(
+                                                padding:
+                                                    const EdgeInsets.all(75),
+                                                child: ScreenMessage(
+                                                  message: 'لا يوجد حركة',
+                                                ),
+                                              )
+                                            : Container(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.6335,
+                                                child: ListView.builder(
+                                                  scrollDirection:
+                                                      Axis.vertical,
+                                                  itemCount:
+                                                      transactions.length,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return Transaction(
+                                                      transaction:
+                                                          transactions[index],
+                                                      newTransaction:
+                                                          newTransaction(index),
+                                                    );
+                                                  },
+                                                ),
+                                              )
+                                    : ScreenMessage(
+                                        message: 'اختر متسوق',
+                                      ),
+                              )
+                            : AlertMessages(
+                                text: "حدث خطأ اثناء محاولة جلب البيانات",
+                                messageType: "internetError",
+                                headerText: "حدث خطأ",
+                              ),
+                        KammunButton(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          text: 'إضافة مناقلة',
+                          color: ColorUtils.primaryColor,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                builder: (context) => new AddTransactionView(
+                                  shopperName: shopperName,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    StringUtils()
-                        .oCcy
-                        .format(int.parse(shopperDues))
-                        .toString(),
-                    style: profitStyle,
-                  ),
-                  Services.isOperationManager()
-                      ? Text(
-                          StringUtils()
-                              .oCcy
-                              .format(int.parse(kammunDues))
-                              .toString(),
-                          style: profitStyle.copyWith(
-                            color: Colors.red,
-                          ),
-                        )
-                      : Container(),
-                ],
+              KammunButton(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                text: 'المستحقات المالية',
+                color: ColorUtils.primaryColor,
+                onTap: () {
+                  if (Services.isShopper()) {
+                    shopperId = Services.shopper.id.toString();
+                    selected = true;
+                  }
+                  if (selected) {
+                    ReportsServices.financialDues(
+                        context: context, shopperId: shopperId);
+                  } else {
+                    Toast.show(
+                      "يرجى اختيار متسوق",
+                      context,
+                      duration: Toast.LENGTH_LONG,
+                      gravity: Toast.CENTER,
+                    );
+                  }
+                },
               ),
-              Services.isOperationManager() && selected
-                  ? Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.75,
-                      child: ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        itemCount: transactions.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Transaction(
-                            transaction: transactions[index],
-                            newTransaction: newTransaction(index),
-                          );
-                        },
-                      ),
-                    )
-                  : Container(),
             ],
           ),
         ),

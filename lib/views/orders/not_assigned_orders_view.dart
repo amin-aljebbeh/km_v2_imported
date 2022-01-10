@@ -216,6 +216,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
+                          orderDataList[index].initOrderRow();
                           if (Services.isShopper())
                             orderDataList[index].accountOrderRows();
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')

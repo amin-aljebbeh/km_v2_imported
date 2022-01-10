@@ -11,7 +11,6 @@ import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
-import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
@@ -252,6 +251,8 @@ class HomeViewState extends State<HomeView> {
           ),
         ),
       );
+    }
+    if (Services.isDelivery() || Services.isShopper())
       bottomList.add(
         BottomNavigationBarItem(
           activeIcon: Icon(
@@ -269,8 +270,6 @@ class HomeViewState extends State<HomeView> {
           ),
         ),
       );
-    }
-
     return BottomNavigationBar(
       // backgroundColor: Color.fromARGB(255, 53, 99, 124),
       //backgroundColor: Color.fromARGB(255, 57, 107, 137),
@@ -302,6 +301,8 @@ class HomeViewState extends State<HomeView> {
       _tabs.add(
         AssignedOrdersView(),
       );
+    }
+    if (Services.isDelivery() || Services.isShopper()) {
       _tabs.add(
         NotAssignedOrdersView(),
       );

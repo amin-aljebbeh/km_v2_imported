@@ -271,6 +271,11 @@ class OrdersViewState extends State<OrdersView> {
                           String shopper;
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
+                          if (orderDataList[index].shopper != null) {
+                            Tools.logToConsole('shopper name : ');
+                            Tools.logToConsole(
+                                orderDataList[index].shopper.name);
+                          }
                           return Column(
                             children: <Widget>[
                               new GestureDetector(
@@ -325,80 +330,35 @@ class OrdersViewState extends State<OrdersView> {
                               ),
                               if (Services.isAdmin() ||
                                   Services.isOperationManager())
-                                Container(
-                                  width: MediaQuery.of(context).size.width * .6,
-                                  child: Column(
-                                    children: [
-                                      KSearchableDropdown(
-                                        hint: orderDataList[index].shopper !=
-                                                null
-                                            ? orderDataList[index].shopper.name
-                                            : StringUtils.chooseShopper,
-                                        search: shopper,
-                                        items: Services.shoppersNameList(),
-                                        onChanged: (value) async {
-                                          if (value != null) {
-                                            String shopperId =
-                                                Services.selectedShopperId(
-                                                    value);
-                                            setState(() {
-                                              shopper = value;
-                                              orderDataList[index].shopper =
-                                                  new Assigned(
-                                                      name: value
-                                                          .replaceAll(' ✅', '')
-                                                          .replaceAll(' ❌', ''),
-                                                      id: int.parse(shopperId));
-                                            });
-                                            bool result = await OrderServices
-                                                .assignOrderToShopper(
-                                                    shopperId,
-                                                    orderDataList[index]
-                                                        .id
-                                                        .toString());
-                                            Services.resultFlushBar(
-                                                context: context,
-                                                result: result);
-                                          }
-                                        },
-                                      ),
-                                      // KSearchableDropdown(
-                                      //   search: delivery,
-                                      //   hint: orderDataList[index].delivery !=
-                                      //           null
-                                      //       ? orderDataList[index].delivery.name
-                                      //       : UtilsImporter()
-                                      //           .stringUtils
-                                      //           .chooseDelivery,
-                                      //   items: Services.deliveriesNameList(),
-                                      //   onChanged: (value) async {
-                                      //     if (value != null) {
-                                      //       int deliverId =
-                                      //           LoadingScreenServices
-                                      //               .allDeliveries
-                                      //               .firstWhere((element) =>
-                                      //                   element.name == value)
-                                      //               .id;
-                                      //       setState(() {
-                                      //         orderDataList[index].delivery =
-                                      //             Assigned(
-                                      //                 id: deliverId,
-                                      //                 name: value);
-                                      //       });
-                                      //       bool result = await OrderServices
-                                      //           .assignOrderToDelivery(
-                                      //               deliverId.toString(),
-                                      //               orderDataList[index]
-                                      //                   .id
-                                      //                   .toString());
-                                      //       Services.resultFlushBar(
-                                      //           context: context,
-                                      //           result: result);
-                                      //     }
-                                      //   },
-                                      // ),
-                                    ],
-                                  ),
+                                KSearchableDropdown(
+                                  hint: orderDataList[index].shopper != null
+                                      ? orderDataList[index].shopper.name
+                                      : StringUtils.chooseShopper,
+                                  search: shopper,
+                                  items: Services.shoppersNameList(),
+                                  onChanged: (value) async {
+                                    if (value != null) {
+                                      String shopperId =
+                                          Services.selectedShopperId(value);
+                                      setState(() {
+                                        shopper = value;
+                                        orderDataList[index].shopper =
+                                            new Assigned(
+                                                name: value
+                                                    .replaceAll(' ✅', '')
+                                                    .replaceAll(' ❌', ''),
+                                                id: int.parse(shopperId));
+                                      });
+                                      bool result = await OrderServices
+                                          .assignOrderToShopper(
+                                              shopperId,
+                                              orderDataList[index]
+                                                  .id
+                                                  .toString());
+                                      Services.resultFlushBar(
+                                          context: context, result: result);
+                                    }
+                                  },
                                 ),
                               KammunButton(
                                 text: StringUtils.editOrder,
@@ -486,13 +446,18 @@ class OrdersViewState extends State<OrdersView> {
                                         List<DialogButton> decisionButtons = [
                                           DialogButton(
                                             text: 'نعم',
-                                            onTap: () {
+                                            onTap: () async {
                                               Navigator.of(context).pop();
-                                              submitSpending(orderId.toString(),
-                                                  isSpendingApi: false);
+                                              bool result = await OrderServices
+                                                  .unlockOrder(
+                                                      orderId.toString());
+                                              Services.resultFlushBar(
+                                                  context: context,
+                                                  result: result);
                                               setState(() {
-                                                orderDataList[index]
-                                                    .underUpdate = '0';
+                                                if (result)
+                                                  orderDataList[index]
+                                                      .underUpdate = '0';
                                               });
                                             },
                                           ),
@@ -549,24 +514,6 @@ class OrdersViewState extends State<OrdersView> {
         ),
       ),
     );
-  }
-
-  TextEditingController _spendingController = new TextEditingController();
-  TextEditingController _reasonController = new TextEditingController();
-
-  void submitSpending(String orderId, {bool isSpendingApi = true}) async {
-    bool result;
-    if (!isSpendingApi) {
-      result = await OrderServices.unlockOrder(orderId);
-    } else {
-      result = await OrderServices.addSpendingToOrder(
-          orderId, _spendingController.text, _reasonController.text);
-    }
-    Services.resultFlushBar(context: context, result: result);
-    if (result) {
-      _spendingController.text = '';
-      _reasonController.text = '';
-    }
   }
 
   _moveOrderProductsToCart(

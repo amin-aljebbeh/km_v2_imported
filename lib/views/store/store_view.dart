@@ -1,6 +1,5 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
@@ -27,8 +26,6 @@ class StoreViewState extends State<StoreView> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _searchController = TextEditingController();
 
-// Color.fromARGB(255, 210, 178, 2) كموني
-//Color.fromARGB(255, 53, 99, 124) كجلي
   bool isDarkThemeMode = false;
 
   // Future getCategories;
@@ -243,9 +240,6 @@ class StoreViewState extends State<StoreView> {
                             ),
                           ),
                         ),
-                        // decoration: BoxDecoration(
-                        //   color: ColorUtils.primarycolor,
-                        // ),
                       ),
                     ),
                   ),
@@ -285,13 +279,34 @@ class StoreViewState extends State<StoreView> {
                             Navigator.of(context).pushNamed('/profile');
                           },
                         ),
-                        Services.isOperationManager()
+                        Services.isShopper() || Services.isOperationManager()
                             ? SideBarRow(
                                 icon: Icons.featured_play_list,
                                 text: "كشف حساب المتسوق",
                                 onTap: () {
                                   Navigator.of(context)
                                       .pushNamed('/ShopperAccountStatement');
+                                },
+                              )
+                            : Container(),
+                        Services.isOperationManager()
+                            ? SideBarRow(
+                                icon: Icons.money,
+                                text: "إضافة مناقلة",
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed('/AddTransactionView');
+                                },
+                              )
+                            : Container(),
+                        Services.isSupplierManager() ||
+                                Services.isProductsController()
+                            ? SideBarRow(
+                                icon: Icons.inventory,
+                                text: "إدارة المستودعات",
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed('/subWarehouseManagement');
                                 },
                               )
                             : Container(),
@@ -330,14 +345,6 @@ class StoreViewState extends State<StoreView> {
                                     onTap: () {
                                       Navigator.of(context)
                                           .pushNamed('/Inventory');
-                                    },
-                                  ),
-                                  SideBarRow(
-                                    icon: Icons.inventory,
-                                    text: "إدارة المستودعات",
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .pushNamed('/subWarehouseManagement');
                                     },
                                   ),
                                 ],

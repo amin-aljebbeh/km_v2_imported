@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/api/admin_URLs.dart';
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
+import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:http/http.dart' as http;
@@ -19,12 +17,9 @@ class ProductsServices {
     String subWarehouseId,
   }) async {
     try {
-      Tools.logToConsole("is for subwarehouse $isForSubWarehouse");
       var body;
 
       body = {bodyKey: value};
-
-      Tools.logToConsole("THE BODY FROM ATTCCH PRODUCT $body");
 
       var response;
       if (bodyKey == "category_id") {
@@ -102,6 +97,8 @@ class ProductsServices {
     };
 
     try {
+      Tools.logToConsole('judge sub warehouse id if guilty');
+      Tools.logToConsole(subWarehouseId);
       var response = await ApiProvider.sendRequest(
           url: GET_PRODUCT,
           method: httpMethods.post,
@@ -110,7 +107,7 @@ class ProductsServices {
       if (response.statusCode == SUCCESS_CODE &&
           response.data["success"] == true) {
         Tools.logToConsole(
-            "THE Product Id from Add PRoduct is : ${response.data["data"]["id"]}");
+            "THE Product Id from Add Product is : ${response.data["data"]["id"]}");
         var subWarehouseBody = {
           "product_id": response.data["data"]["id"].toString(),
           "sub_warehouse_id": subWarehouseId,
@@ -147,7 +144,7 @@ class ProductsServices {
           LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""
     };
     var request = http.MultipartRequest(
-        'POST', Uri.parse(BaseUrl + ADD_IMAGE_TO_PRODUCTS));
+        'POST', Uri.parse(BASE_URL + ADD_IMAGE_TO_PRODUCTS));
     request.fields.addAll({'product_id': '$productId'});
     request.files
         .add(await http.MultipartFile.fromPath('image', '${image.path}'));

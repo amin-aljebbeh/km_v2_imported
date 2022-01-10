@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
+import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/delivery_method_model.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -30,8 +29,8 @@ class DeliveryMethodServices {
       return true;
     } else {
       Tools.logToConsole(response.data);
-      //   if (streamController != null) streamController.add(200);
-      Tools.logToConsole("------------ ERROR WHILE GETING USER CART --------------");
+      Tools.logToConsole(
+          "------------ ERROR WHILE GETTING USER CART --------------");
 
       return false;
     }

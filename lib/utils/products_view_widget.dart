@@ -51,9 +51,25 @@ class InventoryProductsViewCard extends StatefulWidget {
 
 class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   _unAttachProduct() async {
+    Tools.logToConsole('sub warehouse id');
+    Tools.logToConsole(widget.productData.subWarehouseId.toString());
+    String id;
+    if (widget.productData.subWarehouseId != null)
+      id = widget.productData.subWarehouseId.toString();
+    else {
+      List<int> warehousesIds = List<int>();
+      for (int i = 0; i < LoadingScreenServices.warehouses.length; i++)
+        warehousesIds.add(LoadingScreenServices.warehouses[i].id);
+      id = widget.productData.warehouses
+          .firstWhere((warehouse) => warehousesIds.contains(warehouse.id))
+          .pivot
+          .subWarehouseId
+          .toString();
+    }
     bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
-        productsId: widget.productId,
-        subWarehouse: widget.productData.subWarehouseId.toString());
+      productsId: widget.productId,
+      subWarehouse: id,
+    );
     Services.resultFlushBar(context: context, result: result);
     if (result) {
       widget.onDelete(true);

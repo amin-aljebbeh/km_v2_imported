@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
@@ -25,35 +24,38 @@ class KSearchableDropdown extends StatefulWidget {
 class _KSearchableDropdownState extends State<KSearchableDropdown> {
   @override
   Widget build(BuildContext context) {
-    return SearchableDropdown(
-      closeButton: FlatButton(
-        child: Text(
-          StringUtils.close,
-          style: dropdownItemStyle,
+    return Padding(
+      padding: const EdgeInsets.only(left: 0, top: 10, right: 0, bottom: 10),
+      child: SearchableDropdown(
+        closeButton: FlatButton(
+          child: Text(
+            StringUtils.close,
+            style: dropdownItemStyle,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
         ),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
-      disabledHint: Center(
-        child: Text(
-          'disabled',
-          style: disableStyle,
+        disabledHint: Center(
+          child: Text(
+            'disabled',
+            style: disableStyle,
+          ),
         ),
-      ),
-      isCaseSensitiveSearch: false,
-      underline: Container(),
-      isExpanded: true,
-      hint: Center(
-        child: Text(
-          widget.hint,
-          style: dropdownItemStyle,
+        isCaseSensitiveSearch: false,
+        underline: Container(),
+        isExpanded: true,
+        hint: Center(
+          child: Text(
+            widget.hint,
+            style: dropdownItemStyle,
+          ),
         ),
+        style: dropdownItemStyle,
+        value: widget.search,
+        items: widget.items,
+        onChanged: (String value) {
+          if (value != null) widget.onChanged(value);
+        },
       ),
-      style: dropdownItemStyle,
-      value: widget.search,
-      items: widget.items,
-      onChanged: (String value) {
-        if (value != null) widget.onChanged(value);
-      },
     );
   }
 }

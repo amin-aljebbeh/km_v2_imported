@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
+import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -42,8 +42,6 @@ class ProductsViewState extends State<ProductsView> {
   bool badWordMatched = false;
 
   Future<bool> _loadData(String query, String type) async {
-    Tools.logToConsole(
-        "******************** => " + page.toString() + "the CatId : " + query);
     setState(() {
       badWordMatched = false;
     });
@@ -66,8 +64,6 @@ class ProductsViewState extends State<ProductsView> {
             url: url,
             method: httpMethods.get,
           );
-          Tools.logToConsole("------ response status code -----");
-          Tools.logToConsole(response.statusCode);
           if (response.statusCode == SUCCESS_CODE) {
             if (!response.data["success"] &&
                 response.data["reason"] == "No results") {
@@ -82,13 +78,8 @@ class ProductsViewState extends State<ProductsView> {
             } else {
               final products =
                   categoryProductFromJson(jsonEncode(response.data));
-              Tools.logToConsole(
-                  "----- LENGTH : ${products.data.data[0].categories.length}");
-              //productsList.addAll(products.data.data);
-              Tools.logToConsole("---------- warehouse -----------");
               productsList.addAll(products.data.data);
 
-              Tools.logToConsole("Done Loading");
               if (this.mounted) {
                 setState(() {
                   if (page - 1 == products.data.lastPage) {
@@ -116,7 +107,6 @@ class ProductsViewState extends State<ProductsView> {
             });
           }
         } catch (e) {
-          Tools.logToConsole("------- error catched ---------");
           Tools.logToConsole(e.toString());
         }
       } else {
@@ -192,227 +182,212 @@ class ProductsViewState extends State<ProductsView> {
           child: searchButtonWithGesture);
     }
 
-// Color.fromARGB(255, 210, 178, 2) كموني
-//Color.fromARGB(255, 53, 99, 124) كجلي
     return Scaffold(
-        floatingActionButton: widget.queryString == null
-            ? FloatingActionButton(
-                backgroundColor: ColorUtils.kmColors2,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new AddProductsView(
-                                categoryId: widget.categoryId,
-                              )));
-                },
-                tooltip: 'Pick Image',
-                child: Icon(Icons.add),
-              )
-            : null,
-        appBar: PreferredSize(
-          child: AppBar(
-            backgroundColor: Color.fromARGB(255, 210, 178, 2),
-            automaticallyImplyLeading: false, // hides leading widget
-            flexibleSpace: SafeArea(
-              top: true,
-              left: false,
-              bottom: false,
-              right: false,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.shopping_cart,
-                              size: 35,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/cart', (Route<dynamic> route) => false);
-                            },
+      floatingActionButton: widget.queryString == null
+          ? FloatingActionButton(
+              backgroundColor: ColorUtils.kmColors2,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new AddProductsView(
+                      categoryId: widget.categoryId,
+                    ),
+                  ),
+                );
+              },
+              tooltip: 'Pick Image',
+              child: Icon(Icons.add),
+            )
+          : null,
+      appBar: PreferredSize(
+        child: AppBar(
+          backgroundColor: Color.fromARGB(255, 210, 178, 2),
+          automaticallyImplyLeading: false, // hides leading widget
+          flexibleSpace: SafeArea(
+            top: true,
+            left: false,
+            bottom: false,
+            right: false,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.shopping_cart,
+                          size: 35,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/cart', (Route<dynamic> route) => false);
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Transform.scale(
+                        scale: 2,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/home',
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: Image.asset(
+                            "assets/logobw.png",
+                            width: 150,
+                            height: 50,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: Transform.scale(
-                            scale: 2,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  '/home',
-                                  (Route<dynamic> route) => false,
-                                );
-                              },
-                              child: Image.asset(
-                                "assets/logobw.png",
-                                width: 150,
-                                height: 50,
-                              ),
-                            ),
-                          ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: InkWell(
+                        onTap: () => Navigator.of(context).pop(true),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                          size: 40,
                         ),
-                        Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: InkWell(
-                                onTap: () => Navigator.of(context).pop(true),
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.white,
-                                  size: 40,
-                                ))),
-                      ]),
-                  _showSearchTxtFld(),
-                ],
-              ),
+                      ),
+                    ),
+                  ],
+                ),
+                _showSearchTxtFld(),
+              ],
             ),
           ),
-          preferredSize: Size.fromHeight(105.0),
         ),
-        backgroundColor: Theme.of(context).primaryColorLight,
-        body: SafeArea(
-          child: badWordMatched
-              ? Container(
-                  child: Center(
+        preferredSize: Size.fromHeight(105.0),
+      ),
+      backgroundColor: Theme.of(context).primaryColorLight,
+      body: SafeArea(
+        child: badWordMatched
+            ? Container(
+                child: Center(
                   child: funnyImages[_random.nextInt(funnyImages.length)],
-                ))
-              : productsList.length == 0
-                  ? searchLoading || firstLoading
-                      ? FacebookLoader()
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(errorMessage,
-                                style: TextStyle(
-                                    fontFamily:
-                                        StringUtils.fontFamilyHKGrotesk)),
-                          ),
-                        )
-                  : Padding(
-                      padding: EdgeInsets.only(
-                          left: 15, top: 10, right: 15, bottom: 0),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Expanded(
-                              child: NotificationListener<ScrollNotification>(
-                                onNotification:
-                                    (ScrollNotification scrollInfo) {
-                                  if (!isLoading &&
-                                      scrollInfo.metrics.pixels ==
-                                          scrollInfo.metrics.maxScrollExtent) {
-                                    setState(() {
-                                      page++;
-                                      isLoading = true;
-                                    });
-                                    _searchController.text != ""
-                                        ? _loadData(
-                                            _searchController.text, "search")
-                                        : _loadData(
-                                            widget.categoryId, "category");
-                                    // start loading data
+                ),
+              )
+            : productsList.length == 0
+                ? searchLoading || firstLoading
+                    ? FacebookLoader()
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(errorMessage,
+                              style: TextStyle(
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                        ),
+                      )
+                : Padding(
+                    padding: EdgeInsets.only(
+                        left: 15, top: 10, right: 15, bottom: 0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: NotificationListener<ScrollNotification>(
+                            onNotification: (ScrollNotification scrollInfo) {
+                              if (!isLoading &&
+                                  scrollInfo.metrics.pixels ==
+                                      scrollInfo.metrics.maxScrollExtent) {
+                                setState(() {
+                                  page++;
+                                  isLoading = true;
+                                });
+                                _searchController.text != ""
+                                    ? _loadData(
+                                        _searchController.text, "search")
+                                    : _loadData(widget.categoryId, "category");
+                                // start loading data
 
-                                  }
-                                  return;
-                                },
-                                child: ListView.builder(
-                                  physics: const AlwaysScrollableScrollPhysics(
-                                      parent: BouncingScrollPhysics()),
-                                  primary: false,
-                                  scrollDirection: Axis.vertical,
-                                  shrinkWrap: true,
-                                  itemCount: productsList == null
-                                      ? 0
-                                      : productsList.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    var eachProduct = productsList[index];
-                                    Tools.logToConsole(
-                                        "--------- image length -------- $index ");
-                                    Tools.logToConsole(
-                                        eachProduct.images.length);
-                                    return new GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () => _onTileClicked(index),
-                                      child: ProductsViewCard(
-                                        subWarehouseId:
-                                            eachProduct.subWarehouseId,
-                                        productData: eachProduct,
-                                        supplierCode: eachProduct.supplierCode,
-                                        productId: eachProduct.id.toString(),
-                                        active: int.parse(eachProduct.isActive),
-                                        img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices
-                                                    .imagePrefixUrl +
-                                                eachProduct
-                                                    .images[0].imageFileName
-                                            : "",
-                                        productName: eachProduct.name,
-                                        quantity: eachProduct.unit.toString() !=
-                                                "null"
+                              }
+                              return;
+                            },
+                            child: ListView.builder(
+                              physics: const AlwaysScrollableScrollPhysics(
+                                  parent: BouncingScrollPhysics()),
+                              primary: false,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: productsList == null
+                                  ? 0
+                                  : productsList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var eachProduct = productsList[index];
+                                return new GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () => _onTileClicked(index),
+                                  child: ProductsViewCard(
+                                    subWarehouseId: eachProduct.subWarehouseId,
+                                    productData: eachProduct,
+                                    supplierCode: eachProduct.supplierCode,
+                                    productId: eachProduct.id.toString(),
+                                    active: int.parse(eachProduct.isActive),
+                                    img: eachProduct.images.length > 0
+                                        ? LoadingScreenServices.imagePrefixUrl +
+                                            eachProduct.images[0].imageFileName
+                                        : "",
+                                    productName: eachProduct.name,
+                                    quantity:
+                                        eachProduct.unit.toString() != "null"
                                             ? eachProduct.quantity.toString() +
                                                 " " +
                                                 eachProduct.unit.toString()
                                             : eachProduct.quantity.toString(),
-                                        price: int.parse(
-                                            eachProduct.price.split(".")[0]),
-                                        index: index,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
+                                    price: int.parse(
+                                        eachProduct.price.split(".")[0]),
+                                    index: index,
+                                  ),
+                                );
+                              },
                             ),
-                            Container(
-                              height: isLoading ? 50.0 : 0,
-                              color: Colors.transparent,
-                              child: Center(
-                                child: theEndOfProducts
-                                    ? Text("تم جلب جميع المنتجات",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: StringUtils
-                                                .fontFamilyHKGrotesk))
-                                    : Loader(),
-                              ),
-                            ),
-                          ])),
-        ));
+                          ),
+                        ),
+                        Container(
+                          height: isLoading ? 50.0 : 0,
+                          color: Colors.transparent,
+                          child: Center(
+                            child: theEndOfProducts
+                                ? Text(
+                                    "تم جلب جميع المنتجات",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily:
+                                          StringUtils.fontFamilyHKGrotesk,
+                                    ),
+                                  )
+                                : Loader(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+      ),
+    );
   }
 
-  // Function to be called on click
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-
     ProductData productsDic = productsList[index];
 
-    // Services.userVisitProduct(productsDic.id.toString());
-
-    //Second
-
-    // Navigator.push(
-    //     context, new MaterialPageRoute(builder: (context) => new Second()));
-
     Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) => new ProductDetailView(
-                  product: productsDic,
-                  isFromFavoriteScreen: false,
-                )));
-
-    // Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //         builder: (context) => new ProductDetailView(
-    //             heroIndex: index + 100, products: productsDic)));
+      context,
+      new MaterialPageRoute(
+        builder: (context) => new ProductDetailView(
+          product: productsDic,
+          isFromFavoriteScreen: false,
+        ),
+      ),
+    );
   }
 }

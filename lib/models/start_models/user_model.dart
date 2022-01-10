@@ -57,7 +57,6 @@ class UserData {
     this.rememberToken,
     this.warehouseId,
     this.supportedCityId,
-    // this.addresses,
     this.coupon,
   });
 
@@ -74,11 +73,10 @@ class UserData {
   String warehouseId;
   dynamic supportedCityId;
 
-  // List<Address> addresses;
   dynamic coupon;
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-        id: json["id"],
+        id: json["id"] == null ? null : json["id"],
         name: json["name"],
         phone: json["phone"],
         email: json["email"],
@@ -89,9 +87,7 @@ class UserData {
         rememberToken: json["remember_token"].toString(),
         warehouseId: json["warehouse_id"].toString(),
         supportedCityId: json["supported_city_id"].toString(),
-        // addresses: List<Address>.from(
-        //     json["addresses"].map((x) => Address.fromJson(x))),
-        coupon: json["coupon"],
+        coupon: json["coupon"] == null ? null : json['coupon'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -106,7 +102,6 @@ class UserData {
         "remember_token": rememberToken,
         "warehouse_id": warehouseId,
         "supported_city_id": supportedCityId,
-        // "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
         "coupon": coupon,
       };
 }

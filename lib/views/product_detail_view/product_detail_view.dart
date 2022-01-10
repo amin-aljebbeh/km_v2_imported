@@ -3,7 +3,6 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
@@ -95,7 +94,6 @@ class ProductDetailViewState extends State<ProductDetailView>
       right: false,
       bottom: true,
       child: Scaffold(
-        //backgroundColor: ColorUtils.primarycolor,
         backgroundColor: Theme.of(context).primaryColorLight,
         body: NestedScrollView(
           controller: _controller,
@@ -259,7 +257,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        OrderInformationRow(
+                        LabelRow(
                           rightSideText: StringUtils.description + ' :',
                           leftSideText: widget.product.description != null
                               ? widget.product.description.split("@")[0]

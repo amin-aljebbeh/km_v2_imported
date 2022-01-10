@@ -74,3 +74,7 @@ TextStyle profitStyle = warehouseStyle.copyWith(
   color: Colors.green,
   fontSize: 25,
 );
+TextStyle loseStyle = warehouseStyle.copyWith(
+  color: Colors.red,
+  fontSize: 25,
+);

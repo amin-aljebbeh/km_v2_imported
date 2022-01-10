@@ -26,14 +26,16 @@ class Transaction extends StatelessWidget {
                       height: 25,
                     ),
                     Text(
-                      DateFormat('EEEE dd-MM-yyyy').format(transaction.date),
+                      DateFormat('EEEE', 'ar').format(transaction.createdAt) +
+                          ' ' +
+                          DateFormat('dd-MM-yyyy', 'en')
+                              .format(transaction.createdAt),
                       style: disableStyle,
                     ),
                     KTableRow(
                       children: [
-                        // KTableElement(text: 'الوقت'),
-                        KTableElement(text: 'متسوق'),
-                        KTableElement(text: 'كمُّون'),
+                        KTableElement(text: StringUtils.shopper),
+                        KTableElement(text: StringUtils.kammun),
                         KTableElement(text: 'النوع'),
                         KTableElement(text: 'الطلب'),
                         KTableElement(text: 'المناقلة'),
@@ -47,29 +49,28 @@ class Transaction extends StatelessWidget {
               : Container(),
           KTableRow(
             children: [
-              // KTableElement(
-              //   text: DateFormat('h:mm a').format(transaction.date),
-              //   style: mainStyle,
-              // ),
               KTableElement(
                 text: StringUtils()
                     .oCcy
-                    .format(transaction.shopperValue.abs())
+                    .format(transaction.valueShopper.abs())
                     .toString(),
-                style: transaction.shopperValue >= 0
+                style: transaction.valueShopper >= 0
                     ? mainStyle.copyWith(color: Colors.green)
                     : mainStyle.copyWith(color: Colors.red),
               ),
               KTableElement(
                 text: StringUtils()
                     .oCcy
-                    .format(transaction.kammunValue.abs())
+                    .format(transaction.valueCompany.abs())
                     .toString(),
-                style: transaction.kammunValue >= 0
+                style: transaction.valueCompany >= 0
                     ? mainStyle.copyWith(color: Colors.green)
                     : mainStyle.copyWith(color: Colors.red),
               ),
-              KTableElement(text: transaction.type),
+              KTableElement(
+                text: StringUtils
+                    .transactionTableTypes[transaction.transactionTypeId - 1],
+              ),
               KTableElement(
                 text: transaction.orderId != null
                     ? transaction.orderId.toString().length >= 3
@@ -81,9 +82,9 @@ class Transaction extends StatelessWidget {
                 ),
               ),
               KTableElement(
-                text: transaction.transactionId.toString().length >= 3
-                    ? "#${transaction.transactionId.toString().substring(2, transaction.transactionId.toString().length)}"
-                    : '#${transaction.transactionId.toString()}',
+                text: transaction.id.toString().length >= 3
+                    ? "#${transaction.id.toString().substring(2, transaction.id.toString().length)}"
+                    : '#${transaction.id.toString()}',
                 style: mainStyle,
               ),
             ],

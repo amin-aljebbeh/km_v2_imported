@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../utils/Styles.dart';
+import '../../utils/utils_importer.dart';
 
 class DialogButton extends StatelessWidget {
   final String text;

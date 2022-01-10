@@ -14,7 +14,7 @@ class ApiProvider {
       bool mapService,
       bool isUrlEncodedFormat}) async {
     Tools.logToConsole("---------------------service url : ");
-    Tools.logToConsole(url);
+    Tools.logToConsole(BASE_URL + url);
     Tools.logToConsole(body);
     Tools.logToConsole(method);
     Tools.logToConsole("-----------------------------------");
@@ -23,7 +23,7 @@ class ApiProvider {
     if (isUrlEncodedFormat == null) isUrlEncodedFormat = false;
 
     var options = BaseOptions(
-        baseUrl: mapService ? "" : BaseUrl,
+        baseUrl: mapService ? "" : BASE_URL,
         connectTimeout: 40000,
         receiveTimeout: 40000,
         contentType: isUrlEncodedFormat
@@ -86,6 +86,7 @@ class ApiProvider {
 
       return ErrorHandler.handleDioError(e);
     } on NoSuchMethodError catch (e) {
+      Tools.logToConsole('message from selected error');
       Tools.logToConsole(e.toString());
     }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Styles.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class KTableElement extends StatelessWidget {
   final String text;

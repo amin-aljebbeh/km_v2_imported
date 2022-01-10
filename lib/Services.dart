@@ -12,11 +12,8 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'core/api/admin_URLs.dart';
-import 'core/api/api_URLs.dart';
-import 'core/api/api_provider.dart';
+import 'core/api/api_importer.dart';
 import 'core/errors/error_types.dart';
-import 'utils/Styles.dart';
 import 'utils/utils_importer.dart';
 
 class Services {
@@ -32,8 +29,6 @@ class Services {
   static int deliveryPrice = 50;
 
   static Future<bool> addToFavorites(String productsId) async {
-    // Tools.logToConsole("------------------ ADD TO FAVORITES  --------------------");
-
     var response = await ApiProvider.sendRequest(
       url: ADD_TO_FAVORITE + productsId,
       method: httpMethods.put,
@@ -48,8 +43,6 @@ class Services {
   }
 
   static Future<bool> removeFromFavorites(String productsId) async {
-    // Tools.logToConsole("------------------ REMOVE FROM FAVORITES  --------------------");
-
     var response = await ApiProvider.sendRequest(
       url: REMOVE_FROM_FAVORITE + productsId,
       method: httpMethods.put,
@@ -74,17 +67,15 @@ class Services {
       double lat,
       double lon,
       String entrance) async {
-    //  Tools.logToConsole("------------------ ADD NEW ADDRESS  --------------------");
-
     Map addressData = {
-      // 'city': city,
       'street': street,
       'building': building,
       'floor': floor,
       'description': description,
       "supported_city_id": supportedCityId,
       "latitude": lat,
-      "longitude": lon, "entrance": entrance,
+      "longitude": lon,
+      "entrance": entrance,
     };
     try {
       var response = await ApiProvider.sendRequest(
@@ -120,7 +111,6 @@ class Services {
       double lat,
       double lon,
       String entrance}) async {
-    //  Tools.logToConsole("------------------ ADD NEW ADDRESS  --------------------");
     Tools.logToConsole("------- ID: $addressId");
     Map addressData = {
       'city': city,
@@ -140,8 +130,6 @@ class Services {
           body: jsonEncode(addressData));
 
       if (response.statusCode == SUCCESS_CODE) {
-        // final addNewAddress = addNewAddreFromJson(jsonEncode(response.data));
-        // userAddress[0].id = addNewAddress.addressId.id;
         Tools.logToConsole(response.data);
         return true;
       } else {
@@ -177,13 +165,9 @@ class Services {
 
   static Future<List<OrdersOriginalData>> getAllOrders(
       {int pageNumber = 1}) async {
-    Tools.logToConsole(
-        "------------------ Get My Orders  --------------------");
-
-    Tools.logToConsole("------------------ $pageNumber --------------------");
     try {
       var response = await ApiProvider.sendRequest(
-        url: ORDER,
+        url: API + ORDER,
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
@@ -206,9 +190,9 @@ class Services {
   static Future<bool> loginUser(
       {String phoneNumber, String signCode, String supportedCityId}) async {
     if (phoneNumber == "5000000001") {
-      BaseUrl = APPLE_BASE_URL;
+      BASE_URL = APPLE_BASE_URL;
     } else {
-      BaseUrl = PRODUCTION_BASE_URL;
+      BASE_URL = PRODUCTION_BASE_URL;
     }
 
     Map loginBody = {
@@ -261,9 +245,9 @@ class Services {
       prefs.setString("userToken", data["api_token"]);
       LoadingScreen.userToken = "Bearer " + data["api_token"];
       if (data["api_token"] == "APPLE_VERIFICATION") {
-        BaseUrl = APPLE_BASE_URL;
+        BASE_URL = APPLE_BASE_URL;
       } else {
-        BaseUrl = PRODUCTION_BASE_URL;
+        BASE_URL = PRODUCTION_BASE_URL;
       }
       return true;
     } else {
@@ -284,7 +268,7 @@ class Services {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_SHOPPER,
+        url: GET_SHOPPER,
         method: httpMethods.get,
       );
       Tools.logToConsole("------- shoppers data -------");
@@ -306,7 +290,7 @@ class Services {
   static Future<Level> getLevel(String levelId) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_LEVEL + levelId,
+        url: GET_LEVEL + levelId,
         method: httpMethods.get,
       );
 
@@ -332,7 +316,7 @@ class Services {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_DELIVERIES,
+        url: GET_DELIVERIES,
         method: httpMethods.get,
       );
       Tools.logToConsole("------- Deliveries data -------");
@@ -357,7 +341,7 @@ class Services {
     Map changeStatus = {'status': newStatus};
     try {
       var response = await ApiProvider.sendRequest(
-          url: BaseUrl + CHANGE_SHOPPER_STATUS + Services.shopper.id.toString(),
+          url: CHANGE_SHOPPER_STATUS + Services.shopper.id.toString(),
           method: httpMethods.put,
           body: jsonEncode(changeStatus));
 
@@ -378,7 +362,7 @@ class Services {
   static Future<List<Warehouse>> getWarehouses() async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: BaseUrl + GET_WAREHOUSE,
+        url: GET_WAREHOUSE,
         method: httpMethods.get,
       );
       Tools.logToConsole("------- Warehouses data -------");
@@ -449,9 +433,11 @@ class Services {
     for (int i = 0; i < inputList.length; i++) {
       list.add(
         DropdownMenuItem<int>(
-          child: Text(
-            inputList[i],
-            style: dropdownItemStyle,
+          child: Center(
+            child: Text(
+              inputList[i],
+              style: dropdownItemStyle,
+            ),
           ),
           value: i,
         ),
@@ -647,26 +633,6 @@ class Services {
             shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
         .id
         .toString();
-  }
-
-  static int productsNetPrice(List<OrderProducts> ordersAry, int id) {
-    int total = 0;
-    for (int i = 0; i < ordersAry.length; i++) {
-      if ((ordersAry[i].pivot.deletedAt == null))
-        total += ((int.parse(ordersAry[i].pivot.purchasePrice) -
-                ordersAry[i].pivot.increaseValue)) *
-            int.parse(ordersAry[i].pivot.quantity);
-      Tools.logToConsole('increase value problem');
-      Tools.logToConsole(id);
-      Tools.logToConsole(int.parse(ordersAry[i].pivot.purchasePrice));
-      Tools.logToConsole(ordersAry[i].pivot.increaseValue);
-      Tools.logToConsole(int.parse(ordersAry[i].pivot.quantity));
-      Tools.logToConsole(((int.parse(ordersAry[i].pivot.purchasePrice) -
-              ordersAry[i].pivot.increaseValue)) *
-          int.parse(ordersAry[i].pivot.quantity));
-    }
-    Tools.logToConsole(total);
-    return total;
   }
 
   static makePhoneCall(String number) async {

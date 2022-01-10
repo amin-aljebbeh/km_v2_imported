@@ -1,7 +1,8 @@
 import 'package:intl/intl.dart';
+import 'package:kammun_app/core/api/api_importer.dart';
 
 class StringUtils {
-  static String kammun = 'كمّون';
+  static String kammun = 'كمُّون';
 
   //Font
   static String fontFamilyHKGrotesk = 'Tajawal';
@@ -20,18 +21,13 @@ class StringUtils {
   //Labels
   static String signIn = 'تسجيل الدخول';
   static String welcome = 'أهل بكل في';
-
   static String bill = 'الفاتورة : ';
   static String phoneNumber = 'رقم الهاتف : ';
   static String fullName = 'الإسم الكامل ';
   static String emailAddress = 'البريد الإلكتروني';
-
   static String entrance = 'المدخل: ';
-
   static String complete = 'متابعة';
-
   static String addAddress = 'إضافة عنوان جديد';
-
   static String changeSettings = 'Change Settings';
   static String shareLink = 'Facebook.com/amin.aljebbeh';
 
@@ -141,6 +137,7 @@ class StringUtils {
   static String next = 'التالي';
   static String addToCart = 'الإضافة لسلة المشتريات';
   static String send = 'إرسال';
+  static String addDeduct = 'إضافة خصم';
 
 //Labels:
   static String deliveryName = 'الكابتن : ';
@@ -156,6 +153,7 @@ class StringUtils {
   static String unit = 'الوحدة';
   static String priority = 'الأولوية';
   static String logout = "تسجيل الخروج";
+  static String shopper = 'متسوق';
 
   //Hints:
   static String chooseDelivery = 'اختر كابتن';
@@ -169,6 +167,40 @@ class StringUtils {
   static String noInternetConnection = 'لايوجد إتصال بالإنترنت';
   static String chooseShopper = 'اختر متسوق';
   final oCcy = new NumberFormat("#,##0", "en_US");
+
+  static List<String> transactionTableTypes = [
+    'تسوق', //1
+    'توصيل', //2
+    'طريقة التوصيل', //3
+    'تحديث الطلب', //4
+    'خصم', //5
+    'إقراض', //6
+    'تسديد', //7
+  ];
+
+  static List<String> singleTransactionTypes = [
+    'خصم', //1
+    'إقراض', //2
+    'تسديد', //3
+  ];
+
+  static List<String> singleTransactionUrls = [
+    DEDUCT_FROM_SHOPPER_PROFIT,
+    LEND_MONEY_TO_SHOPPER,
+    REPAYMENT_BY_SHOPPER,
+  ];
+
+  static List<String> singleTransactionValue = [
+    'deduct_value',
+    'loan_value',
+    'repayment_value',
+  ];
+
+  static List<String> singleTransactionDescription = [
+    'deduct_reason',
+    'description',
+    'description',
+  ];
 
   static List<String> shopperLevels = [
     'مبتدئ',

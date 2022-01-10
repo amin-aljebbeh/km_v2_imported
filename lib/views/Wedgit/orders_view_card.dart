@@ -4,7 +4,6 @@ import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import '../../utils/Styles.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
@@ -129,7 +128,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                OrderInformationRow(
+                LabelRow(
                   rightSideText: StringUtils.bill,
                   leftSideText:
                       "${StringUtils().oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
@@ -171,7 +170,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 )
               ],
             ),
-            OrderInformationRow(
+            LabelRow(
               rightSideText: StringUtils.phoneNumber,
               leftSideText: widget.userNumber,
               leftSideStyle: paragraphStyle.copyWith(
@@ -180,12 +179,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
               recognizer: TapGestureRecognizer()
                 ..onTap = () => Services.makePhoneCall(widget.userNumber),
             ),
-            OrderInformationRow(
+            LabelRow(
               rightSideText: StringUtils.address + " : ",
               leftSideText: widget.address,
               leftSideStyle: informationStyle,
             ),
-            OrderInformationRow(
+            LabelRow(
               rightSideText: StringUtils.city,
               leftSideText: LoadingScreenServices.supportedCitiesListIntro
                       .where((supportedCity) =>
@@ -195,22 +194,22 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   "   ",
               leftSideStyle: informationStyle,
             ),
-            OrderInformationRow(
+            LabelRow(
               rightSideText: StringUtils.entrance,
               leftSideText: widget.entrance,
               leftSideStyle: informationStyle,
             ),
-            OrderInformationRow(
+            LabelRow(
               rightSideText: StringUtils.orderDate,
               leftSideText: widget.orderCreatedDate,
               leftSideStyle: disableStyle,
             ),
-            OrderInformationRow(
+            LabelRow(
               rightSideText: orderStatus,
               leftSideText: '',
               leftSideStyle: informationStyle,
             ),
-            OrderInformationRow(
+            LabelRow(
               rightSideText: StringUtils.shopperName + " ",
               leftSideText: shopperName != null ? shopperName : " ",
               leftSideStyle: paragraphStyle,
