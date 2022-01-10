@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:toast/toast.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 import 'models/sales_reports_model.dart';
 import 'services/reports_services.dart';
@@ -32,7 +30,6 @@ class _SalesReportState extends State<SalesReport> {
 
   _reportCard(GetDailyStatistics response) {
     totalSubWarehouses.clear();
-    Tools.logToConsole("Response Data Length: ${response.data.length}");
     for (int i = 0; i < response.data.length; i++) {
       if (response.data[i].statisticsWarehouses != null) {
         totalSubWarehouses.add(
@@ -42,7 +39,7 @@ class _SalesReportState extends State<SalesReport> {
               child: Text(
                 response.data[i].name,
                 style: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                   fontSize: 25,
                 ),
               ),
@@ -56,78 +53,34 @@ class _SalesReportState extends State<SalesReport> {
                   color: Colors.black, style: BorderStyle.solid, width: 2),
               children: [
                 TableRow(children: [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Text(
-                      "إجمالي المبيعات",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Text(
-                      "إجمالي التوصيل",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Text(
-                      "المجموع الكلي",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-                    ),
-                  )
+                  KTableElement(text: "إجمالي المبيعات"),
+                  KTableElement(text: "إجمالي التوصيل"),
+                  KTableElement(text: "المجموع الكلي"),
                 ]),
-                TableRow(children: [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Text(
-                      UtilsImporter()
-                          .stringUtils
+                TableRow(
+                  children: [
+                    KTableElement(
+                      text: StringUtils()
                           .oCcy
                           .format(
                               response.data[i].statisticsWarehouses.totalSales)
                           .toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Text(
-                      UtilsImporter()
-                          .stringUtils
+                    KTableElement(
+                      text: StringUtils()
                           .oCcy
                           .format(response
                               .data[i].statisticsWarehouses.deliveryIncome)
                           .toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: Text(
-                      UtilsImporter()
-                          .stringUtils
+                    KTableElement(
+                      text: StringUtils()
                           .oCcy
                           .format(response.data[i].statisticsWarehouses.total)
                           .toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
                     ),
-                  )
-                ]),
+                  ],
+                ),
               ],
             ),
           ),
@@ -137,39 +90,18 @@ class _SalesReportState extends State<SalesReport> {
               j < response.data[i].statisticsSubWarehouses.length;
               j++) {
             totalSubWarehouses.add(
-              Table(
-                border: TableBorder.all(
-                    color: Theme.of(context).primaryColor,
-                    style: BorderStyle.solid,
-                    width: 1),
+              KTableRow(
                 children: [
-                  TableRow(children: [
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(
-                        response.data[i].statisticsSubWarehouses[j].name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(
-                        UtilsImporter()
-                            .stringUtils
-                            .oCcy
-                            .format(int.parse(response.data[i]
-                                .statisticsSubWarehouses[j].sumPurchasePrice))
-                            .toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
-                      ),
-                    )
-                  ]),
+                  KTableElement(
+                    text: response.data[i].statisticsSubWarehouses[j].name,
+                  ),
+                  KTableElement(
+                    text: StringUtils()
+                        .oCcy
+                        .format(int.parse(response.data[i]
+                            .statisticsSubWarehouses[j].sumPurchasePrice))
+                        .toString(),
+                  ),
                 ],
               ),
             );
@@ -181,95 +113,56 @@ class _SalesReportState extends State<SalesReport> {
               j < response.data[i].statisticsSupportedCities.length;
               j++) {
             totalSubWarehouses.add(
-              Table(
-                border: TableBorder.all(
-                    color: Theme.of(context).primaryColor,
-                    style: BorderStyle.solid,
-                    width: 1),
+              KTableRow(
                 children: [
-                  TableRow(children: [
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(
-                        response.data[i].statisticsSupportedCities[j].name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(
-                        "عدد الطلبات",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(
-                        "تسعيرة التوصيل",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
-                      ),
-                    ),
-                  ]),
-                  TableRow(children: [
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(
-                        UtilsImporter()
-                            .stringUtils
-                            .oCcy
-                            .format(int.parse(response.data[i]
-                                .statisticsSupportedCities[j].deliveryIncome
-                                .split(".")[0]))
-                            .toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(
-                        UtilsImporter()
-                            .stringUtils
-                            .oCcy
-                            .format(int.parse(response.data[i]
-                                .statisticsSupportedCities[j].ordersCount
-                                .toString()))
-                            .toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(
-                        UtilsImporter()
-                            .stringUtils
-                            .oCcy
-                            .format(int.parse(response.data[i]
-                                .statisticsSupportedCities[j].deliveryPrice
+                  KTableElement(
+                    text: response.data[i].statisticsSupportedCities[j].name,
+                  ),
+                  KTableElement(
+                    text: "عدد الطلبات",
+                  ),
+                  KTableElement(
+                    text: "تسعيرة التوصيل",
+                  ),
+                ],
+              ),
+            );
+            totalSubWarehouses.add(
+              KTableRow(
+                children: [
+                  KTableElement(
+                    text: StringUtils()
+                        .oCcy
+                        .format(int.parse(response
+                            .data[i].statisticsSupportedCities[j].deliveryIncome
+                            .split(".")[0]))
+                        .toString(),
+                  ),
+                  KTableElement(
+                    text: StringUtils()
+                        .oCcy
+                        .format(
+                          int.parse(
+                            response.data[i].statisticsSupportedCities[j]
+                                .ordersCount
+                                .toString(),
+                          ),
+                        )
+                        .toString(),
+                  ),
+                  KTableElement(
+                    text: StringUtils()
+                        .oCcy
+                        .format(
+                          int.parse(
+                            response.data[i].statisticsSupportedCities[j]
+                                .deliveryPrice
                                 .split(".")[0]
-                                .toString()))
-                            .toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
-                      ),
-                    )
-                  ])
+                                .toString(),
+                          ),
+                        )
+                        .toString(),
+                  ),
                 ],
               ),
             );
@@ -277,8 +170,6 @@ class _SalesReportState extends State<SalesReport> {
         }
       }
     }
-    Tools.logToConsole(
-        "The end if for  and the length : ${totalSubWarehouses.length}");
   }
 
   _getSailsReport() async {
@@ -287,7 +178,7 @@ class _SalesReportState extends State<SalesReport> {
       isLoading = true;
     });
 
-    var response = await ReportsServcies.getSalesReports(
+    var response = await ReportsServices.getSalesReports(
       fromDate: _fromDateTimeValue,
       toDate: _toDateTimeValue,
     );
@@ -295,11 +186,6 @@ class _SalesReportState extends State<SalesReport> {
       _reportCard(response);
 
       setState(() {
-        // vegetables = response.data[0].subWarehouses[0].sumPurchasePrice;
-        // toaster = response.data.toaster;
-        // library = response.data.dataLibrary;
-        // seed = response.data.seed;
-        // all = response.data.all;
         isLoading = false;
       });
     } else {
@@ -314,98 +200,108 @@ class _SalesReportState extends State<SalesReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("إحصائيات المبيعات",
-            style:
-                TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
+        title: Text(
+          "إحصائيات المبيعات",
+          style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
+        ),
       ),
       body: SafeArea(
         child: Container(
-            padding: EdgeInsets.all(10),
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text("من تاريخ",
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk)),
-                      IconButton(
-                        icon: Icon(Icons.timer),
-                        onPressed: () {
-                          DatePicker.showDateTimePicker(context,
-                              showTitleActions: true,
-                              onChanged: (date) {}, onConfirm: (date) {
-                            setState(() {
-                              _fromDateTimeValue =
-                                  fullDateFormatter.format(date).toString();
-                            });
-                          }, currentTime: DateTime.now(), locale: 'en');
-                        },
-                      ),
-                      Text(_fromDateTimeValue,
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk))
-                    ]),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text("إلى تاريخ",
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk)),
-                      IconButton(
-                        icon: Icon(Icons.timeline),
-                        onPressed: () {
-                          DatePicker.showDateTimePicker(context,
-                              showTitleActions: true,
-                              onChanged: (date) {}, onConfirm: (date) {
-                            setState(() {
-                              _toDateTimeValue =
-                                  fullDateFormatter.format(date).toString();
-                            });
-                          }, currentTime: DateTime.now(), locale: 'en');
-                        },
-                      ),
-                      Text(_toDateTimeValue,
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk))
-                    ]),
-                KammunButton(
-                  text: UtilsImporter().stringUtils.send,
-                  color: validDates()
-                      ? Theme.of(context).primaryColor
-                      : UtilsImporter().colorUtils.searchGreyColor,
-                  onTap: () {
-                    if (validDates())
-                      _getSailsReport();
-                    else
-                      Toast.show('الرجاء إدخال كافة البيانات', context,
-                          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                  },
-                  height: 50,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                isError
-                    ? AlertMessages(
-                        text: "حطأ أثناء جلب البيانات",
-                        messageType: "internetError")
-                    : Container(),
-                isLoading
-                    ? Loader()
-                    : totalSubWarehouses.length > 0
-                        ? Column(
-                            // shrinkWrap: true,
-                            children: totalSubWarehouses,
-                          )
-                        : Container(),
-              ],
-            )),
+          padding: EdgeInsets.all(10),
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "من تاريخ",
+                    style:
+                        TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.timer),
+                    onPressed: () {
+                      DatePicker.showDateTimePicker(context,
+                          showTitleActions: true,
+                          onChanged: (date) {}, onConfirm: (date) {
+                        setState(
+                          () {
+                            _fromDateTimeValue =
+                                fullDateFormatter.format(date).toString();
+                          },
+                        );
+                      }, currentTime: DateTime.now(), locale: 'en');
+                    },
+                  ),
+                  Text(
+                    _fromDateTimeValue,
+                    style:
+                        TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text("إلى تاريخ",
+                      style: TextStyle(
+                          fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                  IconButton(
+                    icon: Icon(Icons.timeline),
+                    onPressed: () {
+                      DatePicker.showDateTimePicker(context,
+                          showTitleActions: true,
+                          onChanged: (date) {}, onConfirm: (date) {
+                        setState(
+                          () {
+                            _toDateTimeValue =
+                                fullDateFormatter.format(date).toString();
+                          },
+                        );
+                      }, currentTime: DateTime.now(), locale: 'en');
+                    },
+                  ),
+                  Text(
+                    _toDateTimeValue,
+                    style:
+                        TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
+                  )
+                ],
+              ),
+              KammunButton(
+                text: StringUtils.send,
+                color: validDates()
+                    ? Theme.of(context).primaryColor
+                    : ColorUtils.searchGreyColor,
+                onTap: () {
+                  if (validDates())
+                    _getSailsReport();
+                  else
+                    Toast.show('الرجاء إدخال كافة البيانات', context,
+                        duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                },
+                height: 50,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              isError
+                  ? AlertMessages(
+                      text: "حطأ أثناء جلب البيانات",
+                      messageType: "internetError")
+                  : Container(),
+              isLoading
+                  ? Loader()
+                  : totalSubWarehouses.length > 0
+                      ? Column(
+                          // shrinkWrap: true,
+                          children: totalSubWarehouses,
+                        )
+                      : Container(),
+            ],
+          ),
+        ),
       ),
     );
   }

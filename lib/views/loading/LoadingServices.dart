@@ -4,23 +4,17 @@ import 'dart:convert';
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/admin_URLs.dart';
-import 'package:kammun_app/models/delivery_model.dart';
-import 'package:kammun_app/models/shopper_model.dart';
-import 'package:kammun_app/models/sub_warehouse_model.dart';
-import 'package:kammun_app/utils/Styles.dart';
-import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/models/start_model.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
 import 'Loading.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class LoadingScreenServices {
   static StartModel startRequest = new StartModel();
@@ -35,11 +29,8 @@ class LoadingScreenServices {
 
   static String imagePrefixUrl = "";
 
-  // static List<AssetImage> bannerList = List<AssetImage>();
   static List<FadeInImage> bannerListNetwork = List<FadeInImage>();
 
-  // static List<DeliveryMethodOriginalData> deliveryMethodsList =
-  //     new List<DeliveryMethodOriginalData>();
   // Mobile Configuration variables
   static String updateUrl = "";
   static String androidShareUrl = "";
@@ -61,9 +52,6 @@ class LoadingScreenServices {
 
   static List<DropdownMenuItem> supportedCitiesList = List<DropdownMenuItem>();
 
-  // static List<DropdownMenuItem> supportedCitiesListIntro =
-  //     List<DropdownMenuItem>();
-
   static List<IndigoDatum> supportedCitiesListIntro = List<IndigoDatum>();
 
   // -------------------------------------------------------//
@@ -82,12 +70,12 @@ class LoadingScreenServices {
       new List<OrdersOriginalData>();
   static List<OrdersOriginalData> notAssignedOrdersList =
       new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> supplierOrderList =
+      new List<OrdersOriginalData>();
   static String phoneNumber = "لم تقم بتسجيل رقم";
   static String name;
   static String userName;
   static bool preferLeftSide = true;
-
-  // -------------------------------------------------------//
 
   /// -------- selected supported city information ------- ///
 
@@ -122,8 +110,6 @@ class LoadingScreenServices {
   static Future<bool> getSubWarehouse() async {
     subWarehouses.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    Tools.logToConsole(
-        "The Admin ID is ####: " + prefs.getString("adminId").toString());
 
     List<SubWarehouse> response = await InventoryServices.getSubWarehoused(
         adminId: prefs.getString("adminId"));
@@ -149,12 +135,6 @@ class LoadingScreenServices {
       supportedCityOriginal = supportedCitiesResponse;
 
       supportedCitiesListIntro.clear();
-      Tools.logToConsole("=== DONE getting supported Cities ====");
-
-      Tools.logToConsole(supportedCitiesResponse.data);
-      // Tools.logToConsole(supportedCitiesResponse.data[0].name);
-      // Tools.logToConsole(supportedCitiesResponse.data[1].name);
-      // Tools.logToConsole(supportedCitiesResponse.data[2].name);
 
       supportedCitiesListIntro.addAll(supportedCitiesResponse.data);
 
@@ -165,33 +145,19 @@ class LoadingScreenServices {
   }
 
   Future<bool> checkIfUserLoadedIn() async {
-    Tools.logToConsole("--------- Checking User Token ---------- ");
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       preferLeftSide = prefs.getBool('preferLeftSide');
       String userToken = prefs.getString('userToken');
-      String userSelectSupportedCity = prefs.getString('supportedCitySelected');
-      Tools.logToConsole(
-          "supportedCitySelected :" + userSelectSupportedCity.toString());
-      // prefs.remove('userToken');
-      // prefs.remove('supportedCitySelected');
 
-      Tools.logToConsole(userToken);
       if (userToken != null) {
-        Tools.logToConsole(
-            "supportedCitySelected :" + userSelectSupportedCity.toString());
         LoadingScreen.userToken = "Bearer " + userToken;
         if (userToken == "APPLE_VERIFICATION") {
           BaseUrl = APPLE_BASE_URL;
         } else {
           BaseUrl = PRODUCTION_BASE_URL;
         }
-        // if (!LoadingScreen.isAdmin && userSelectSupportedCity == null) {
-        //   Tools.logToConsole("Im in false supported city ");
-        //   return null;
-        // } else {
         return true;
-        // }
       } else {
         return false;
       }
@@ -205,14 +171,10 @@ class LoadingScreenServices {
   int contractsLength = 0;
 
   Future<bool> getCategory() async {
-    Tools.logToConsole("==== Getting Category ====");
-
     var response = await ApiProvider.sendRequest(
       url: GET_CATEGORY,
       method: httpMethods.get,
     );
-    Tools.logToConsole("==== Category Result ====");
-    Tools.logToConsole(response.data);
 
     if (response.statusCode == SUCCESS_CODE) {
       categoryList.clear();
@@ -237,7 +199,7 @@ class LoadingScreenServices {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Divider(
                     thickness: 1,
-                    color: UtilsImporter().colorUtils.greyColor,
+                    color: ColorUtils.greyColor,
                   ),
                 )
               ],
@@ -280,7 +242,6 @@ class LoadingScreenServices {
   }
 
   Future<bool> fetchAdminInformation() async {
-    Tools.logToConsole("Featching admin information");
     String buildNumber = "100";
     int lastSupported;
     int currentVersion;
@@ -336,8 +297,6 @@ class LoadingScreenServices {
     } else if (int.parse(buildNumber) < currentVersion) {
       updateOptional = true;
     }
-
-    Tools.logToConsole("======= DONE Mobile Compaiesion =======");
 
     bannerListNetwork.clear();
     bannerListNetwork.add(
@@ -398,14 +357,7 @@ class LoadingScreenServices {
               return false;
             }
           }
-
-          // bool everyThingGood = await getStartScreenInformation(
-          //     streamController: streamController);
-          // if (everyThingGood) {
-          //   return true;
-          // } else {
-          //   return false;
-          // }
+          return true;
         } catch (e) {
           Tools.logToConsole(e.toString());
           return false;

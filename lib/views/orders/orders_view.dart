@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/lock_order.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/common_utils.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
-import 'package:kammun_app/views/Wedgit/dialog_button.dart';
-import 'package:kammun_app/views/Wedgit/k_searchable_dropdown.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
-import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
@@ -20,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:intl/intl.dart';
 import 'services/order_services.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class OrdersView extends StatefulWidget {
   @override
@@ -112,12 +104,7 @@ class OrdersViewState extends State<OrdersView> {
                 break;
             }
 
-          Tools.logToConsole("orderDataList before filltiting");
-          Tools.logToConsole(orderDataList.length);
-
           orderDataList.removeWhere((order) => order.products.length == 0);
-          Tools.logToConsole("orderDataList After filltiting");
-          Tools.logToConsole(orderDataList.length);
           LoadingScreenServices.allOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
@@ -167,7 +154,7 @@ class OrdersViewState extends State<OrdersView> {
                             DropdownButton(
                               value: ordersFilter,
                               items: Services.dropdownStringList(
-                                  UtilsImporter().stringUtils.orderStatus),
+                                  StringUtils.orderStatus),
                               onChanged: (value) {
                                 setState(() {
                                   generalLoaded = true;
@@ -181,7 +168,7 @@ class OrdersViewState extends State<OrdersView> {
                             DropdownButton(
                               value: ordersTypeFilter,
                               items: Services.dropdownStringList(
-                                  UtilsImporter().stringUtils.orderTypes),
+                                  StringUtils.orderTypes),
                               onChanged: (value) {
                                 setState(() {
                                   generalLoaded = false;
@@ -207,14 +194,14 @@ class OrdersViewState extends State<OrdersView> {
                             icon: Icon(
                               Icons.arrow_back,
                               size: 40,
-                              color: UtilsImporter().colorUtils.kmColors,
+                              color: ColorUtils.kmColors,
                             ),
                           ),
                         ),
                         DropdownButton(
                           value: page,
                           items: Services.dropdownIntList(
-                              UtilsImporter().stringUtils.dropdownValues),
+                              StringUtils.dropdownValues),
                           onChanged: (value) {
                             setState(() {
                               page = value;
@@ -238,7 +225,7 @@ class OrdersViewState extends State<OrdersView> {
                             icon: Icon(
                               Icons.last_page,
                               size: 40,
-                              color: UtilsImporter().colorUtils.kmColors,
+                              color: ColorUtils.kmColors,
                             ),
                           ),
                         ),
@@ -253,9 +240,8 @@ class OrdersViewState extends State<OrdersView> {
                                   "لا يوجد أي طلبات سابقة",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: UtilsImporter().colorUtils.greyColor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    color: ColorUtils.greyColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 20.0,
                                   ),
                                 ),
@@ -275,7 +261,14 @@ class OrdersViewState extends State<OrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          String shopper, delivery;
+                          if (LoadingScreenServices.subWarehouses[0].warehouseId
+                              .toString()
+                              .contains(orderDataList[index].warehouseId)) {
+                            orderDataList[index].initOrderRow();
+                            orderDataList[index].accountOrderRows();
+                          }
+
+                          String shopper;
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
                           return Column(
@@ -284,6 +277,7 @@ class OrdersViewState extends State<OrdersView> {
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
+                                  orderData: orderDataList[index],
                                   deliveryName:
                                       orderDataList[index].delivery != null
                                           ? orderDataList[index].delivery.name
@@ -320,7 +314,6 @@ class OrdersViewState extends State<OrdersView> {
                                       orderDataList[index].supportedCityId,
                                   underUpdate: int.parse(
                                       orderDataList[index].underUpdate),
-                                  orderTitle: "",
                                   orderTotalPrice:
                                       orderDataList[index].total.toString(),
                                   orderStatus: int.parse(
@@ -340,26 +333,14 @@ class OrdersViewState extends State<OrdersView> {
                                         hint: orderDataList[index].shopper !=
                                                 null
                                             ? orderDataList[index].shopper.name
-                                            : UtilsImporter()
-                                                .stringUtils
-                                                .chooseShopper,
+                                            : StringUtils.chooseShopper,
                                         search: shopper,
                                         items: Services.shoppersNameList(),
                                         onChanged: (value) async {
-                                          Tools.logToConsole(
-                                              'id  ' + value.toString());
                                           if (value != null) {
-                                            int shopperId =
-                                                LoadingScreenServices
-                                                    .allShoppers
-                                                    .firstWhere((element) =>
-                                                        element.name ==
-                                                        value
-                                                            .replaceAll(
-                                                                ' ✅', '')
-                                                            .replaceAll(
-                                                                ' ❌', ''))
-                                                    .id;
+                                            String shopperId =
+                                                Services.selectedShopperId(
+                                                    value);
                                             setState(() {
                                               shopper = value;
                                               orderDataList[index].shopper =
@@ -367,11 +348,11 @@ class OrdersViewState extends State<OrdersView> {
                                                       name: value
                                                           .replaceAll(' ✅', '')
                                                           .replaceAll(' ❌', ''),
-                                                      id: shopperId);
+                                                      id: int.parse(shopperId));
                                             });
                                             bool result = await OrderServices
                                                 .assignOrderToShopper(
-                                                    shopperId.toString(),
+                                                    shopperId,
                                                     orderDataList[index]
                                                         .id
                                                         .toString());
@@ -381,46 +362,46 @@ class OrdersViewState extends State<OrdersView> {
                                           }
                                         },
                                       ),
-                                      KSearchableDropdown(
-                                        search: delivery,
-                                        hint: orderDataList[index].delivery !=
-                                                null
-                                            ? orderDataList[index].delivery.name
-                                            : UtilsImporter()
-                                                .stringUtils
-                                                .chooseDelivery,
-                                        items: Services.deliveriesNameList(),
-                                        onChanged: (value) async {
-                                          if (value != null) {
-                                            int deliverId =
-                                                LoadingScreenServices
-                                                    .allDeliveries
-                                                    .firstWhere((element) =>
-                                                        element.name == value)
-                                                    .id;
-                                            setState(() {
-                                              orderDataList[index].delivery =
-                                                  Assigned(
-                                                      id: deliverId,
-                                                      name: value);
-                                            });
-                                            bool result = await OrderServices
-                                                .assignOrderToDelivery(
-                                                    deliverId.toString(),
-                                                    orderDataList[index]
-                                                        .id
-                                                        .toString());
-                                            Services.resultFlushBar(
-                                                context: context,
-                                                result: result);
-                                          }
-                                        },
-                                      ),
+                                      // KSearchableDropdown(
+                                      //   search: delivery,
+                                      //   hint: orderDataList[index].delivery !=
+                                      //           null
+                                      //       ? orderDataList[index].delivery.name
+                                      //       : UtilsImporter()
+                                      //           .stringUtils
+                                      //           .chooseDelivery,
+                                      //   items: Services.deliveriesNameList(),
+                                      //   onChanged: (value) async {
+                                      //     if (value != null) {
+                                      //       int deliverId =
+                                      //           LoadingScreenServices
+                                      //               .allDeliveries
+                                      //               .firstWhere((element) =>
+                                      //                   element.name == value)
+                                      //               .id;
+                                      //       setState(() {
+                                      //         orderDataList[index].delivery =
+                                      //             Assigned(
+                                      //                 id: deliverId,
+                                      //                 name: value);
+                                      //       });
+                                      //       bool result = await OrderServices
+                                      //           .assignOrderToDelivery(
+                                      //               deliverId.toString(),
+                                      //               orderDataList[index]
+                                      //                   .id
+                                      //                   .toString());
+                                      //       Services.resultFlushBar(
+                                      //           context: context,
+                                      //           result: result);
+                                      //     }
+                                      //   },
+                                      // ),
                                     ],
                                   ),
                                 ),
                               KammunButton(
-                                text: UtilsImporter().stringUtils.edit_order,
+                                text: StringUtils.editOrder,
                                 onTap: () async {
                                   setState(
                                     () {
@@ -477,8 +458,7 @@ class OrdersViewState extends State<OrdersView> {
                               orderDataList[index].userNotes.toString() !=
                                       "null"
                                   ? KammunButton(
-                                      text:
-                                          UtilsImporter().stringUtils.watchNote,
+                                      text: StringUtils.watchNote,
                                       onTap: () {
                                         List<DialogButton> decisionButtons = [
                                           DialogButton(
@@ -489,9 +469,7 @@ class OrdersViewState extends State<OrdersView> {
                                           )
                                         ];
                                         showMyDialog(
-                                            title: UtilsImporter()
-                                                .stringUtils
-                                                .costumerNote,
+                                            title: StringUtils.costumerNote,
                                             text:
                                                 orderDataList[index].userNotes,
                                             dialogButtons: decisionButtons,
@@ -502,7 +480,7 @@ class OrdersViewState extends State<OrdersView> {
                                   : Container(),
                               orderDataList[index].underUpdate.toString() != "0"
                                   ? KammunButton(
-                                      text: UtilsImporter().stringUtils.unLock,
+                                      text: StringUtils.unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
                                         List<DialogButton> decisionButtons = [
@@ -527,12 +505,8 @@ class OrdersViewState extends State<OrdersView> {
                                         ];
 
                                         showMyDialog(
-                                            title: UtilsImporter()
-                                                .stringUtils
-                                                .unLock,
-                                            text: UtilsImporter()
-                                                .stringUtils
-                                                .unLockConfirm,
+                                            title: StringUtils.unLock,
+                                            text: StringUtils.unLockConfirm,
                                             dialogButtons: decisionButtons,
                                             context: context);
                                         // _showDialog(
@@ -547,15 +521,11 @@ class OrdersViewState extends State<OrdersView> {
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Divider(
                                   thickness: 5,
-                                  color: UtilsImporter().colorUtils.kmColors2,
+                                  color: ColorUtils.kmColors2,
                                 ),
-                              )
+                              ),
                             ],
                           );
-                          // return Container(
-                          //   height: 0.01,
-                          //   width: 0.01,
-                          // );
                         },
                       ),
                     ),
@@ -568,8 +538,7 @@ class OrdersViewState extends State<OrdersView> {
                                 "تم جلب جميع الطلبات",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 ),
                               ),
                             ),
@@ -640,18 +609,13 @@ class OrdersViewState extends State<OrdersView> {
   }
 
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-
-    List<OrderProducts> ordAry = orderDataList[index].products;
-
     Navigator.push(
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
-          order: orderDataList[index],
+          orderData: orderDataList[index],
           orderId: orderDataList[index].id,
-          orderIndex: index,
-          ordersAry: ordAry,
+          ordersAry: orderDataList[index].products,
           addressName: orderDataList[index].address.street,
           subTotal:
               int.parse(orderDataList[index].total.toString().split(".")[0]) -

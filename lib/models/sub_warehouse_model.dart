@@ -4,8 +4,7 @@
 
 import 'dart:convert';
 
-
-import 'sub_warehouse_pivot.dart';
+import 'models_importer.dart';
 
 List<SubWarehouse> subWarehouseFromJson(String str) => List<SubWarehouse>.from(
     json.decode(str).map((x) => SubWarehouse.fromJson(x)));
@@ -22,7 +21,9 @@ class SubWarehouse {
     this.businessDomain,
     this.accountingSystemId,
     this.warehouseId,
-    this.pivot,
+    this.adminPivot,
+    this.levelPivot,
+    this.discountPercentage,
   });
 
   int id;
@@ -32,7 +33,9 @@ class SubWarehouse {
   String businessDomain;
   int accountingSystemId;
   int warehouseId;
-  SubWarehousePivot pivot;
+  SubWarehouseAdminPivot adminPivot;
+  SubWarehouseLevelPivot levelPivot;
+  double discountPercentage;
 
   factory SubWarehouse.fromJson(Map<String, dynamic> json) => SubWarehouse(
         id: json["id"] == null ? null : json["id"],
@@ -45,9 +48,15 @@ class SubWarehouse {
             ? null
             : json["accounting_system_id"],
         warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"],
-        pivot: json["pivot"] == null
+        adminPivot: json["pivot"]["admin_id"] == null
             ? null
-            : SubWarehousePivot.fromJson(json["pivot"]),
+            : SubWarehouseAdminPivot.fromJson(json["pivot"]),
+        levelPivot: json["pivot"]["level_id"] == null
+            ? null
+            : SubWarehouseLevelPivot.fromJson(json["pivot"]),
+        discountPercentage: json["discount_percentage"] == null
+            ? null
+            : double.parse(json["discount_percentage"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,6 +68,12 @@ class SubWarehouse {
         "accounting_system_id":
             accountingSystemId == null ? null : accountingSystemId,
         "warehouse_id": warehouseId == null ? null : warehouseId,
-        "pivot": pivot == null ? null : pivot.toJson(),
+        "pivot": adminPivot == null
+            ? levelPivot == null
+                ? null
+                : levelPivot.toJson()
+            : adminPivot.toJson(),
+        "discount_percentage":
+            discountPercentage == null ? null : discountPercentage,
       };
 }

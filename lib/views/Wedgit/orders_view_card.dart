@@ -1,10 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/Services.dart';
+import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:url_launcher/url_launcher.dart';
-import '../../Services.dart';
 import '../../utils/Styles.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class OrdersViewCard extends StatefulWidget {
@@ -14,7 +15,6 @@ class OrdersViewCard extends StatefulWidget {
   String deliveryName;
   String shopperName;
   int orderQuantity;
-  String orderTitle;
   String orderTotalPrice;
   int orderStatus;
   String orderCreatedDate;
@@ -24,11 +24,11 @@ class OrdersViewCard extends StatefulWidget {
   final double lat;
   final double lon;
   final String entrance;
+  final OrdersOriginalData orderData;
 
   OrdersViewCard({
     @required this.orderId,
     this.orderQuantity,
-    this.orderTitle,
     this.orderTotalPrice,
     this.orderStatus,
     this.orderCreatedDate,
@@ -42,20 +42,12 @@ class OrdersViewCard extends StatefulWidget {
     this.underUpdate,
     this.shopperName,
     this.deliveryName,
+    @required this.orderData,
   });
 
   @override
   State<StatefulWidget> createState() {
     return OrdersViewCardState();
-  }
-}
-
-_makePhoneCall(String number) async {
-  String url = 'tel:$number';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
   }
 }
 
@@ -121,8 +113,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
     if (widget.orderStatus == 6) orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
     if (widget.orderStatus == 7) orderStatus = "😔 لم نستطع تأمين الطلب 😔";
 
-    print("THe ORDER ID");
-    print(widget.orderId.toString());
     return Container(
       decoration: widget.deliveryMethodId == 2
           ? BoxDecoration(border: Border.all(color: Colors.red, width: 5))
@@ -137,241 +127,94 @@ class OrdersViewCardState extends State<OrdersViewCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Expanded(
-                  child: Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            text: UtilsImporter()
-                                                .stringUtils
-                                                .bill,
-                                            style: paragraphStyle,
-                                          ),
-                                          TextSpan(
-                                            text: "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
-                                                " ${LoadingScreenServices.companyInformation.currency.toString()}",
-                                            style: informationStyle,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.all(6),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: UtilsImporter()
-                                                .colorUtils
-                                                .greyColor
-                                                .withOpacity(0.2)),
-                                      ),
-                                      child: Text(
-                                        widget.orderQuantity.toString(),
-                                        style: paragraphStyle,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 20.0),
-                                      child: Text(
-                                        widget.orderId.toString().length >= 3
-                                            ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
-                                            : '#${widget.orderId.toString()}',
-                                        style: TextStyle(
-                                          color: Colors.purple,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
-                                        ),
-                                      ),
-                                    )
-                                  ]),
-                              SizedBox(height: 10),
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            text: UtilsImporter()
-                                                .stringUtils
-                                                .phoneNumber,
-                                            style: paragraphStyle,
-                                          ),
-                                          TextSpan(
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () => _makePhoneCall(
-                                                  widget.userNumber),
-                                            text: widget.userNumber,
-                                            style: TextStyle(
-                                              color: UtilsImporter()
-                                                  .colorUtils
-                                                  .kmColors,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: UtilsImporter()
-                                                  .stringUtils
-                                                  .HKGrotesk,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ]),
-                              SizedBox(height: 10),
-                              Wrap(children: <Widget>[
-                                RichText(
-                                  text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: UtilsImporter()
-                                                .stringUtils
-                                                .address +
-                                            " : ",
-                                        style: paragraphStyle,
-                                      ),
-                                      TextSpan(
-                                        text: widget.address,
-                                        style: informationStyle,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ]),
-                              SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text:
-                                              UtilsImporter().stringUtils.city,
-                                          style: paragraphStyle,
-                                        ),
-                                        TextSpan(
-                                          text: LoadingScreenServices
-                                                  .supportedCitiesListIntro
-                                                  .where((supportedCity) =>
-                                                      supportedCity.id
-                                                          .toString() ==
-                                                      widget.supportedCityId)
-                                                  .first
-                                                  .name +
-                                              "   ",
-                                          style: informationStyle,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  widget.lat != null && widget.lon != null
-                                      ? InkWell(
-                                          child: Icon(
-                                            Icons.delivery_dining,
-                                            color: Colors.blue,
-                                            size: 30,
-                                          ),
-                                          onTap: () {
-                                            openMapsSheet(context, widget.lat,
-                                                widget.lon);
-                                          },
-                                        )
-                                      : Container(),
-                                ],
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text:
-                                          UtilsImporter().stringUtils.entrance,
-                                      style: paragraphStyle,
-                                    ),
-                                    TextSpan(
-                                      text: widget.entrance,
-                                      style: informationStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              SizedBox(height: 10),
-                              RichText(
-                                text: TextSpan(
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text:
-                                          UtilsImporter().stringUtils.orderDate,
-                                      style: paragraphStyle,
-                                    ),
-                                    TextSpan(
-                                      text: widget.orderCreatedDate,
-                                      style: disableStyle,
-                                    ),
-                                  ],
-                                ),
-                              ),
-
-                              Text(
-                                orderStatus,
-                                style: paragraphStyle,
-                              ),
-                              //supportedCitiesResponse
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                OrderInformationRow(
+                  rightSideText: StringUtils.bill,
+                  leftSideText:
+                      "${StringUtils().oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
+                          " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                  leftSideStyle: informationStyle,
+                ),
+                Container(
+                  padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: ColorUtils.greyColor.withOpacity(0.2)),
+                  ),
+                  child: Text(
+                    widget.orderQuantity.toString(),
+                    style: paragraphStyle,
+                    textAlign: TextAlign.center,
                   ),
                 ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.orderId.toString().length >= 3
+                          ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
+                          : '#${widget.orderId.toString()}',
+                      style: profitStyle.copyWith(
+                        color: Colors.purple,
+                      ),
+                    ),
+                    if (Services.isShopper())
+                      RichText(
+                        text: TextSpan(
+                          text:
+                              "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
+                          style: profitStyle,
+                        ),
+                      ),
+                  ],
+                )
               ],
             ),
-            if (Services.isShopper() || Services.isDelivery())
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        UtilsImporter().stringUtils.shopperName + " ",
-                        style: paragraphStyle,
-                      ),
-                      Text(
-                        shopperName != null ? shopperName : " ",
-                        style: paragraphStyle,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        UtilsImporter().stringUtils.deliveryName + " ",
-                        style: paragraphStyle,
-                      ),
-                      Text(
-                        deliveryName != null ? deliveryName : " ",
-                        style: paragraphStyle,
-                      ),
-                    ],
-                  ),
-                ],
+            OrderInformationRow(
+              rightSideText: StringUtils.phoneNumber,
+              leftSideText: widget.userNumber,
+              leftSideStyle: paragraphStyle.copyWith(
+                color: ColorUtils.kmColors,
               ),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => Services.makePhoneCall(widget.userNumber),
+            ),
+            OrderInformationRow(
+              rightSideText: StringUtils.address + " : ",
+              leftSideText: widget.address,
+              leftSideStyle: informationStyle,
+            ),
+            OrderInformationRow(
+              rightSideText: StringUtils.city,
+              leftSideText: LoadingScreenServices.supportedCitiesListIntro
+                      .where((supportedCity) =>
+                          supportedCity.id == widget.supportedCityId)
+                      .first
+                      .name +
+                  "   ",
+              leftSideStyle: informationStyle,
+            ),
+            OrderInformationRow(
+              rightSideText: StringUtils.entrance,
+              leftSideText: widget.entrance,
+              leftSideStyle: informationStyle,
+            ),
+            OrderInformationRow(
+              rightSideText: StringUtils.orderDate,
+              leftSideText: widget.orderCreatedDate,
+              leftSideStyle: disableStyle,
+            ),
+            OrderInformationRow(
+              rightSideText: orderStatus,
+              leftSideText: '',
+              leftSideStyle: informationStyle,
+            ),
+            OrderInformationRow(
+              rightSideText: StringUtils.shopperName + " ",
+              leftSideText: shopperName != null ? shopperName : " ",
+              leftSideStyle: paragraphStyle,
+            ),
           ],
         ),
       ),

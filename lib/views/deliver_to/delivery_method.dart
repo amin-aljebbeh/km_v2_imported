@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:group_button/group_button.dart';
 import 'package:toast/toast.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 import 'deliver_to_view.dart';
 
@@ -102,11 +101,10 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              UtilsImporter().stringUtils.deliverMethod,
+                              StringUtils.deliverMethod,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 30),
                             )),
                       ],
@@ -141,25 +139,21 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                             ),
                                         border: Border.all(
                                           width: 2,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .kmColors,
+                                          color: ColorUtils.kmColors,
                                         )),
                                     child: GroupButton(
                                       unselectedTextStyle: TextStyle(
                                           //color: UtilsImporter().colorUtils.primarycolor,
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk),
+                                          fontFamily:
+                                              StringUtils.fontFamilyHKGrotesk),
                                       selectedTextStyle: TextStyle(
                                           color: Colors.white,
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk),
+                                          fontFamily:
+                                              StringUtils.fontFamilyHKGrotesk),
                                       direction: Axis.vertical,
                                       isRadio: true,
                                       spacing: 10,
@@ -185,28 +179,22 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text("اجرةالتوصيل النهائية",
                                       style: TextStyle(
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .primaryColor,
+                                          color: ColorUtils.primaryColor,
                                           fontSize: 25.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk)),
+                                          fontFamily:
+                                              StringUtils.fontFamilyHKGrotesk)),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                       "${int.parse(DeliveryMethodServices.deliveryMethodsList[selectedIndex].pivot.price.split(".")[0]) + LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice} ${LoadingScreenServices.companyInformation.currency}",
                                       style: TextStyle(
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .primaryColor,
+                                          color: ColorUtils.primaryColor,
                                           fontSize: 25.0,
                                           fontWeight: FontWeight.w500,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk)),
+                                          fontFamily:
+                                              StringUtils.fontFamilyHKGrotesk)),
                                 ),
                                 Center(
                                   child: Padding(
@@ -226,19 +214,16 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                           ),
                     error
                         ? KammunButton(
-                            text: UtilsImporter().stringUtils.tryAgain,
+                            text: StringUtils.tryAgain,
                             height: 50,
                             color: Colors.green,
                             onTap: _getDeliveryMethods,
                           )
                         : KammunButton(
-                            text: UtilsImporter()
-                                .stringUtils
-                                .proceed_to_pay
-                                .toUpperCase(),
+                            text: StringUtils.proceedToPay.toUpperCase(),
                             height: 50,
                             color: selectedIndex != null
-                                ? UtilsImporter().colorUtils.primaryColor
+                                ? ColorUtils.primaryColor
                                 : Colors.grey[400],
                             onTap: _showGoToReviewPage,
                           ),

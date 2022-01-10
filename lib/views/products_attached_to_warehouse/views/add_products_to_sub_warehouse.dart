@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/entry_field.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:toast/toast.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
   final ProductData productData;
@@ -40,7 +39,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
         Text(
           title,
           style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
               fontWeight: FontWeight.bold),
         ),
         subTitle == null
@@ -196,7 +195,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                     Text(
                       "يرجى إختيار المستودع التابع لهذه المادة",
                       style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -216,9 +215,8 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedValue,
@@ -238,13 +236,13 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       children: [
                         _entryField(
                             controller: supplierCodeController,
-                            title: UtilsImporter().stringUtils.supplierCode,
+                            title: StringUtils.supplierCode,
                             fieldType: TextInputType.name,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
                         _entryField(
                             controller: priceController,
-                            title: UtilsImporter().stringUtils.price,
+                            title: StringUtils.price,
                             fieldType: TextInputType.number,
                             hint: "5000",
                             width: MediaQuery.of(context).size.width / 3),
@@ -255,7 +253,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       children: [
                         _entryField(
                             controller: priceFactorController,
-                            title: UtilsImporter().stringUtils.priceFactor,
+                            title: StringUtils.priceFactor,
                             fieldType: TextInputType.text,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
@@ -270,9 +268,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                         10.0) //                 <--- border radius here
                                     ),
                                 border: Border.all(
-                                    color:
-                                        UtilsImporter().colorUtils.primaryColor,
-                                    width: 2)),
+                                    color: ColorUtils.primaryColor, width: 2)),
                             child: Switch(
                               value: switchController,
                               onChanged: (value) {
@@ -280,20 +276,19 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                   switchController = value;
                                 });
                               },
-                              activeTrackColor:
-                                  UtilsImporter().colorUtils.kmColors2,
-                              activeColor: UtilsImporter().colorUtils.kmColors,
+                              activeTrackColor: ColorUtils.kmColors2,
+                              activeColor: ColorUtils.kmColors,
                             ),
                           ),
                         ),
                       ],
                     ),
                     KammunButton(
-                        text: UtilsImporter().stringUtils.save,
+                        text: StringUtils.save,
                         height: 50,
                         color: completeData()
-                            ? UtilsImporter().colorUtils.kmColors
-                            : UtilsImporter().colorUtils.searchGreyColor,
+                            ? ColorUtils.kmColors
+                            : ColorUtils.searchGreyColor,
                         onTap: () async {
                           if (completeData()) {
                             bool result = await _addNewProduct();

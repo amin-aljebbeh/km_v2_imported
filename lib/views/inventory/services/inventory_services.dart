@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:kammun_app/core/api/admin_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/models/sub_warehouse_model.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
@@ -27,7 +26,6 @@ class InventoryServices {
   }
 
   static Future<List<SubWarehouse>> getSubWarehoused({String adminId}) async {
-    Tools.logToConsole("ADMINIDIS: $adminId");
     var response = await ApiProvider.sendRequest(
       url: GET_ADMIN_INFO + adminId,
       method: httpMethods.get,
@@ -40,7 +38,8 @@ class InventoryServices {
         Services.roles = result.data.roles;
         if (result.data.shopper != null) {
           Services.shopper = result.data.shopper;
-          // await Services.getShopper(result.data.shopper.id.toString());
+          Services.shopper.level =
+              await Services.getLevel(result.data.shopper.levelId.toString());
         }
       }
       LoadingScreenServices.name = result.data.name;

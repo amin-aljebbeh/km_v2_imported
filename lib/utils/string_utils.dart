@@ -1,184 +1,191 @@
 import 'package:intl/intl.dart';
 
 class StringUtils {
-  String Kammun = 'كمّون';
+  static String kammun = 'كمّون';
 
   //Font
-  String HKGrotesk = 'Tajawal';
+  static String fontFamilyHKGrotesk = 'Tajawal';
 
   // App Name
-  String Grocery = 'كمّـون';
-  String rating_order = "تقييم الطلب";
+  static String ratingOrder = "تقييم الطلب";
 
-  String get_started = 'البداية';
+  static String getStarted = 'البداية';
 
-  String cancel_order = 'إلغاء الطلب';
-  String edit = 'تعديل';
+  static String cancelOrder = 'إلغاء الطلب';
+  static String edit = 'تعديل';
 
-  String edit_order = 'تعديل الطلب';
-  String submit_feedback = 'تقييم الطلب';
+  static String editOrder = 'تعديل الطلب';
+  static String submitFeedback = 'تقييم الطلب';
 
   //Labels
-  String sign_in = 'تسجيل الدخول';
-  String welcome = 'أهل بكل في';
+  static String signIn = 'تسجيل الدخول';
+  static String welcome = 'أهل بكل في';
 
-  String bill = 'الفاتورة : ';
-  String phoneNumber = 'رقم الهاتف : ';
-  String full_name = 'الإسم الكامل ';
-  String email_address = 'البريد الإلكتروني';
+  static String bill = 'الفاتورة : ';
+  static String phoneNumber = 'رقم الهاتف : ';
+  static String fullName = 'الإسم الكامل ';
+  static String emailAddress = 'البريد الإلكتروني';
 
-  String entrance = 'المدخل: ';
+  static String entrance = 'المدخل: ';
 
-  String Continue = 'متابعة';
+  static String complete = 'متابعة';
 
-  String add_address = 'إضافة عنوان جديد';
+  static String addAddress = 'إضافة عنوان جديد';
 
-  String change_settings = 'Change Settings';
-  String share_link = 'Facebook.com/amin.aljebbeh';
+  static String changeSettings = 'Change Settings';
+  static String shareLink = 'Facebook.com/amin.aljebbeh';
 
   //Images
-  String right_arrow = 'assets/right_arrow.png';
-  String logo = 'assets/logo.jpg';
-  String google = 'assets/google.png';
-  String facebook = 'assets/facebook.png';
-  String email = 'assets/email.png';
+  static String rightArrow = 'assets/right_arrow.png';
+  static String logo = 'assets/logo.jpg';
+  static String google = 'assets/google.png';
+  static String facebook = 'assets/facebook.png';
+  static String email = 'assets/email.png';
 
   // Tabs
-  String store = 'الرئيسية';
-  String cart = 'السلة';
-  String orders = 'الطلبات';
-  String allOrders = 'كل الطلبات';
-  String profile = 'المفضلة';
+  static String store = 'الرئيسية';
+  static String cart = 'السلة';
+  static String orders = 'الطلبات';
+  static String allOrders = 'كل الطلبات';
+  static String profile = 'المفضلة';
 
-  String search = 'بحث';
-  String home = 'الرئيسية';
-  String shopByCategory = 'الأصناف';
+  static String search = 'بحث';
+  static String home = 'الرئيسية';
+  static String shopByCategory = 'الأصناف';
 
-  String addressTitle = "العناوين المضافة";
+  static String addressTitle = "العناوين المضافة";
 
-  String shoppingCart = 'سلة  المشتريات';
-  String confirmOrder = 'تأكيد الطلب';
-  String repeat_order = 'إعادة نفس الطلب';
-  String proceed_to_pay = 'الذهاب لصفحة الدفع';
-  String your_orders = 'طلباتك السابقة';
-  String order_detail = 'معلومات الطلب';
-  String settings = 'معلومات الحساب';
-  String settings_descrip = 'تستطيع تعديل المعلومات الشخصية الخاصة بك';
-  String deliverto = 'التوصيل إلى';
-  String deliverMethod = 'طريقة التوصيل';
+  static String shoppingCart = 'سلة  المشتريات';
+  static String confirmOrder = 'تأكيد الطلب';
+  static String repeatOrder = 'إعادة نفس الطلب';
+  static String proceedToPay = 'الذهاب لصفحة الدفع';
+  static String yourOrders = 'طلباتك السابقة';
+  static String orderDetail = 'معلومات الطلب';
+  static String settings = 'معلومات الحساب';
+  static String settingsDescribe = 'تستطيع تعديل المعلومات الشخصية الخاصة بك';
+  static String deliverTo = 'التوصيل إلى';
+  static String deliverMethod = 'طريقة التوصيل';
 
-  String payment = 'وسيلة الدفع';
-  String subtotal = 'المجموع';
-  String delivery = 'إجرة التوصيل';
-  String total = 'المجموع الكلي';
+  static String payment = 'وسيلة الدفع';
+  static String subtotal = 'المجموع';
+  static String delivery = 'إجرة التوصيل';
+  static String total = 'المجموع الكلي';
 
-  String loaction_request_info =
+  static String locationRequestInfo =
       "مشاركة موقعك على الخريطة يمكننا أن يساعد كابتن التوصيل على توصيل الطلب. \n يرجى تجاوز هذه المرحلة بحال كنت تقوم بالطلب لعنوان مغاير لموقعك الحالي";
-  String location_request_note =
+  static String locationRequestNote =
       "ملاحظة: هذا الإجراء لمرة واحدة واختياري ولايقوم تطبيق كمّون بتتبع موقعك او طلبه خارج هذه المرحلة";
 
-  String delete = 'حذف';
-  String note = 'ملاحظة';
+  static String delete = 'حذف';
+  static String note = 'ملاحظة';
 
-  String add_new_address = '+ إضافة عنوان جديد';
+  static String addNewAddress = '+ إضافة عنوان جديد';
 
-  String thankyou = 'شكراً لطلبك عن طريق كمّـون';
-  String thankyoudescrip =
+  static String thankyou = 'شكراً لطلبك عن طريق كمّـون';
+  static String thankYouDescribe =
       'تم إستلام طلبك بنجاح، يمكنك الآن العودة للقائمة الرئيسة و الذهاب لصفحة الطلبات لتفقد حالة الطلب';
 
-  String continueShopping = 'متابعة التسوق';
+  static String continueShopping = 'متابعة التسوق';
 
-  String share = 'مشاركة';
+  static String share = 'مشاركة';
 
-  String address = 'العنوان';
-  String city = 'المدينة: ';
-  String familyName = 'منزل - مكتب السيد/ة';
-  String buildingName = 'اسم / رقم البناء';
-  String floor = 'الطابق';
-  String closeSign = 'علامة قريبة';
-  String dont_want_to_share_location = "لا أريد مشاركة موقعي على الخريطة";
+  static String address = 'العنوان';
+  static String city = 'المدينة: ';
+  static String familyName = 'منزل - مكتب السيد/ة';
+  static String buildingName = 'اسم / رقم البناء';
+  static String floor = 'الطابق';
+  static String closeSign = 'علامة قريبة';
+  static String noWantToShareLocation = "لا أريد مشاركة موقعي على الخريطة";
 
-  String profile_info = 'معلومات الحساب';
-  String profile_info_descrip = 'تغيير معلومات الحساب';
+  static String profileInfo = 'معلومات الحساب';
+  static String profileInfoDescribe = 'تغيير معلومات الحساب';
 
-  String onboarding_title1 = 'إختار منتجاتك';
-  String onboarding_title2 = 'Pick Up or Delivery';
-  String onboarding_title3 = 'Pay quick and easy';
+  static String onBoardingTitle1 = 'إختار منتجاتك';
+  static String onBoardingTitle2 = 'Pick Up or Delivery';
+  static String onBoardingTitle3 = 'Pay quick and easy';
 
-  String onboarding_descrip1 =
+  static String onBoardingDescribe1 =
       'Easily find your grocery items and you will get delivery in wide range';
-  String onboarding_descrip2 =
+  static String onBoardingDescribe2 =
       'We make ordering fast, simple and free-no matter if you order online or cash';
-  String onboarding_descrip3 = 'Pay for order using credit or debit card';
+  static String onBoardingDescribe3 =
+      'Pay for order using credit or debit card';
 
   //Roles:
-  String shopperRole = 'shopper';
-  String deliveryRole = 'delivery';
-  String adminRole = 'admin';
-  String superAdminRole = 'super-admin';
-  String operationManager = 'operation-manager';
-  String productsController = 'product-management';
-  String supplierRol = 'supplier-role';
+  static String shopperRole = 'shopper';
+  static String deliveryRole = 'delivery';
+  static String adminRole = 'admin';
+  static String superAdminRole = 'super-admin';
+  static String operationManager = 'operation-manager';
+  static String productsController = 'product-management';
+  static String supplierRol = 'supplier-role';
 
   //Orders types:
-  String myOrder = 'assigned';
-  String notAssignedOrder = 'unassigned';
+  static String myOrder = 'assigned';
+  static String notAssignedOrder = 'unassigned';
 
   //Order icons:
-  String myOrders = 'طلباتي';
-  String inventory = 'جرد منتجات';
-  String prices = 'الأسعار';
+  static String myOrders = 'طلباتي';
+  static String inventory = 'جرد منتجات';
+  static String prices = 'الأسعار';
 
   //Buttons text:
-  String getOrder = 'أخذ الطلب';
-  String watchNote = 'مشاهدة ملاحظة العميل';
-  String close = 'إغلاق';
-  String unLock = 'إلغاء التعليق';
-  String yes = 'نعم';
-  String no = 'لا';
-  String save = 'حفظ';
-  String tryAgain = 'إعادة المحاولة';
-  String next = 'التالي';
-  String addToCart = 'الإضافة لسلة المشتريات';
-  String send = 'إرسال';
+  static String getOrder = 'أخذ الطلب';
+  static String watchNote = 'مشاهدة ملاحظة العميل';
+  static String close = 'إغلاق';
+  static String unLock = 'إلغاء التعليق';
+  static String yes = 'نعم';
+  static String no = 'لا';
+  static String save = 'حفظ';
+  static String tryAgain = 'إعادة المحاولة';
+  static String next = 'التالي';
+  static String addToCart = 'الإضافة لسلة المشتريات';
+  static String send = 'إرسال';
 
 //Labels:
-  String deliveryName = 'الكابتن : ';
-  String shopperName = 'المتسوق : ';
-  String orderDate = 'تاريخ الطلب : ';
-  String quantity = "الكمية";
-  String price = "السعر ";
-  String description = "الوصف ";
-  String outOfStock = "المنتج نفذ من المستودعات";
-  String supplierCode = 'رمز المادة';
-  String priceFactor = 'معدل الضرب';
-  String name = 'الاسم';
-  String unit = 'الوحدة';
-  String priority = 'الأولوية';
+  static String deliveryName = 'الكابتن : ';
+  static String shopperName = 'مسؤول الطلب : ';
+  static String orderDate = 'تاريخ الطلب : ';
+  static String quantity = "الكمية";
+  static String price = "السعر ";
+  static String description = "الوصف ";
+  static String outOfStock = "المنتج نفذ من المستودعات";
+  static String supplierCode = 'رمز المادة';
+  static String priceFactor = 'معدل الضرب';
+  static String name = 'الاسم';
+  static String unit = 'الوحدة';
+  static String priority = 'الأولوية';
+  static String logout = "تسجيل الخروج";
 
   //Hints:
-  String chooseDelivery = 'اختر كابتن';
+  static String chooseDelivery = 'اختر كابتن';
 
   //Dialogs:
-  String costumerNote = 'ملاحظة العميل';
-  String unLockConfirm =
+  static String costumerNote = 'ملاحظة العميل';
+  static String unLockConfirm =
       'هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل';
 
   //Messages:
-  String noInternetConnection = 'لايوجد إتصال بالإنترنت';
-  String chooseShopper = 'اختر متسوق';
+  static String noInternetConnection = 'لايوجد إتصال بالإنترنت';
+  static String chooseShopper = 'اختر متسوق';
   final oCcy = new NumberFormat("#,##0", "en_US");
 
-  List<String> shopperLevels = ['مبتدئ', 'متوسط', 'متقدم', 'خبير', 'معلم'];
+  static List<String> shopperLevels = [
+    'مبتدئ',
+    'متوسط',
+    'متقدم',
+    'خبير',
+    'معلم'
+  ];
 
-  List<String> orderTypes = [
+  static List<String> orderTypes = [
     'مسند لكابتن',
     'بحاجة لكابتن',
     'مسند لمتسوق',
     'بحاجة لمتسوق',
   ];
 
-  List<String> orderStatus = [
+  static List<String> orderStatus = [
     "فلترة الطلبات",
     "قيد المعالجة",
     "تم قبولها",
@@ -189,7 +196,7 @@ class StringUtils {
     "تم رفضها"
   ];
 
-  List<String> dropdownValues = [
+  static List<String> dropdownValues = [
     "1",
     "2",
     "3",

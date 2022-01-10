@@ -7,7 +7,7 @@ import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/reports/models/matching_report_model.dart';
 import 'package:kammun_app/views/reports/models/sales_reports_model.dart';
 
-class ReportsServcies {
+class ReportsServices {
   static Future<GetDailyStatistics> getSalesReports(
       {String fromDate, String toDate, String warehouseId}) async {
     var response;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kammun_app/utils/common_utils.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/home/home_view.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
@@ -24,8 +23,10 @@ import 'views/products_attached_to_warehouse/views/view_not_added_products.dart'
 import 'views/profile/profileScreen.dart';
 import 'views/reports/matching_report.dart';
 import 'views/reports/sales_report.dart';
+import 'views/reports/shopper_account_statement.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 void main() {
   //BlocSupervisor.delegate = SimpleBlocDelegate();
@@ -56,7 +57,7 @@ class _MyAppState extends State<MyApp> {
 
   loadingProgress(BuildContext context) {
     return Scaffold(
-      backgroundColor: UtilsImporter().colorUtils.kmColors,
+      backgroundColor: ColorUtils.kmColors,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -133,6 +134,7 @@ class _MyAppState extends State<MyApp> {
               '/subWarehouseManagement': (_) => GetSubWarehouse(),
               '/priceChange': (_) => Prices(),
               '/Inventory': (_) => Inventory(),
+              '/ShopperAccountStatement': (_) => ShopperAccountStatement(),
             },
             theme: CustomTheme.of(context),
             home: LoadingScreen()));

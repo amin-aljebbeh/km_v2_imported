@@ -28,7 +28,7 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
     return SearchableDropdown(
       closeButton: FlatButton(
         child: Text(
-          UtilsImporter().stringUtils.close,
+          StringUtils.close,
           style: dropdownItemStyle,
         ),
         onPressed: () => Navigator.of(context).pop(),

@@ -1,11 +1,10 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/models/start_model.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class SubCategory extends StatefulWidget {
@@ -29,10 +28,6 @@ class _SubCategoryState extends State<SubCategory> {
       List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
 
       for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
-        Tools.logToConsole(
-            LoadingScreenServices.categoryList[i].parentCategoryId.toString() +
-                "   ------   " +
-                index.toString());
         if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() ==
             index.toString()) {
           subCategoryList.add(LoadingScreenServices.categoryList[i]);
@@ -81,13 +76,13 @@ class _SubCategoryState extends State<SubCategory> {
                               categoryId: "0",
                             )));
               },
-              cursorColor: UtilsImporter().colorUtils.primaryColor,
+              cursorColor: ColorUtils.primaryColor,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
               ),
             ),
@@ -187,10 +182,10 @@ class _SubCategoryState extends State<SubCategory> {
                   child: Text(
                       "لا يوجد اصناف متوفرة حالياً، سيتم إضافة اصناف في المستقبل",
                       style: TextStyle(
-                          color: UtilsImporter().colorUtils.primaryColor,
+                          color: ColorUtils.primaryColor,
                           fontSize: ResponsiveFlutter.of(context).fontSize(3),
                           fontWeight: FontWeight.bold,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
+                          fontFamily: StringUtils.fontFamilyHKGrotesk)),
                 ),
               ),
             )
@@ -210,7 +205,7 @@ class _SubCategoryState extends State<SubCategory> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                       side: BorderSide(
-                        color: UtilsImporter().colorUtils.kmColors,
+                        color: ColorUtils.kmColors,
                         width: 4.0,
                       ),
                     ),
@@ -274,7 +269,7 @@ class _SubCategoryState extends State<SubCategory> {
                                           .fontSize(4),
                                       color: Colors.white,
                                       fontFamily:
-                                          UtilsImporter().stringUtils.HKGrotesk,
+                                          StringUtils.fontFamilyHKGrotesk,
                                     ),
                                     softWrap: true,
                                     overflow: TextOverflow.fade,

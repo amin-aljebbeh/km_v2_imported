@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'Counter.dart';
 import 'Services/login_services.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class OTPVerification extends StatefulWidget {
   static String routeName = "/otp";
@@ -117,8 +116,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                               text: "سوف يتم إرسال رسالة تفعيل إلى الرقم ",
                               style: TextStyle(
                                 color: Colors.grey[900],
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -126,9 +124,8 @@ class _OTPVerificationState extends State<OTPVerification> {
                             TextSpan(
                               text: " ${LoginScreen.phoneNumber} ",
                               style: TextStyle(
-                                color: UtilsImporter().colorUtils.primaryColor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                color: ColorUtils.primaryColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -137,8 +134,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                               text: "عبر رسالة (SMS)",
                               style: TextStyle(
                                 color: Colors.grey[900],
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -151,9 +147,8 @@ class _OTPVerificationState extends State<OTPVerification> {
                                     ),
                               text: " تغيير الرقم ",
                               style: TextStyle(
-                                color: UtilsImporter().colorUtils.kmColors,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                color: ColorUtils.kmColors,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.underline,
@@ -192,7 +187,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                     : KammunButton(
                         text: "تأكيد الرمز",
                         height: 50,
-                        color: UtilsImporter().colorUtils.primaryColor,
+                        color: ColorUtils.primaryColor,
                         onTap: () {
                           if (_textController.text.length == 6) {
                             checkOtpValidation(_textController.text);

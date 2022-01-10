@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 import '../../Services.dart';
 
@@ -44,8 +44,8 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
               ),
           border: Border.all(
               color: widget.preState == 1
-                  ? UtilsImporter().colorUtils.kmColors
-                  : UtilsImporter().colorUtils.searchGreyColor,
+                  ? ColorUtils.kmColors
+                  : ColorUtils.searchGreyColor,
               width: 2)),
       child: Center(
         child: Switch(
@@ -76,8 +76,8 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
               });
             } else {}
           },
-          activeTrackColor: UtilsImporter().colorUtils.kmColors2,
-          activeColor: UtilsImporter().colorUtils.kmColors,
+          activeTrackColor: ColorUtils.kmColors2,
+          activeColor: ColorUtils.kmColors,
         ),
       ),
     );

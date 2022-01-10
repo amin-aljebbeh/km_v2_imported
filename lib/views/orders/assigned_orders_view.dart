@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/lock_order.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/common_utils.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/kammun_button.dart';
-import 'package:kammun_app/views/Wedgit/dialog_button.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
-import 'package:kammun_app/views/Wedgit/orders_view_card.dart';
-import 'package:kammun_app/views/Wedgit/screen_message.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
@@ -20,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:intl/intl.dart';
 import 'services/order_services.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class AssignedOrdersView extends StatefulWidget {
   @override
@@ -41,7 +33,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       getOrders = _initialFunction();
       orderDataList = LoadingScreenServices.myOrdersList;
     }
-
     super.initState();
   }
 
@@ -65,11 +56,12 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       errorMessage = false;
       orderDataList.clear();
     });
+    //TODO: request supplier orders api
     var orderList;
     if (LoadingScreenServices.myOrdersList.length == 0) {
       if (Services.isDelivery())
         orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
-      if (Services.isShopper())
+      if (Services.isShopper() || Services.isSupplierManager())
         orderList = await OrderServices.getShopperOrders(pageNumber: page);
     } else {
       orderList = LoadingScreenServices.myOrdersList;
@@ -87,7 +79,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       } else {
         setState(() {
           orderDataList = orderList;
-          // orderDataList.addAll(orderList);
           if (filterOrders == 0) {
             orderDataList
                 .removeWhere((order) => int.parse(order.orderStatusId) > 4);
@@ -95,12 +86,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
             orderDataList.removeWhere(
                 (order) => int.parse(order.orderStatusId) != filterOrders);
           }
-          Tools.logToConsole("orderDataList before filltiting");
-          Tools.logToConsole(orderDataList.length);
 
           orderDataList.removeWhere((order) => order.products.length == 0);
-          Tools.logToConsole("orderDataList After filltiting");
-          Tools.logToConsole(orderDataList.length);
           LoadingScreenServices.myOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
@@ -148,7 +135,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         DropdownButton(
                           value: filterOrders,
                           items: Services.dropdownStringList(
-                              UtilsImporter().stringUtils.orderStatus),
+                              StringUtils.orderStatus),
                           onChanged: (value) {
                             setState(() {
                               filterOrders = value;
@@ -171,14 +158,14 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             icon: Icon(
                               Icons.arrow_back,
                               size: 40,
-                              color: UtilsImporter().colorUtils.kmColors,
+                              color: ColorUtils.kmColors,
                             ),
                           ),
                         ),
                         DropdownButton(
                           value: page,
                           items: Services.dropdownIntList(
-                              UtilsImporter().stringUtils.dropdownValues),
+                              StringUtils.dropdownValues),
                           onChanged: (value) {
                             setState(() {
                               page = value;
@@ -202,7 +189,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             icon: Icon(
                               Icons.last_page,
                               size: 40,
-                              color: UtilsImporter().colorUtils.kmColors,
+                              color: ColorUtils.kmColors,
                             ),
                           ),
                         ),
@@ -217,9 +204,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   "لا يوجد أي طلبات سابقة",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: UtilsImporter().colorUtils.greyColor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    color: ColorUtils.greyColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 20.0,
                                   ),
                                 ),
@@ -239,14 +225,22 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         itemCount:
                             orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
+                          orderDataList[index].initOrderRow();
+                          if (Services.isShopper())
+                            orderDataList[index].accountOrderRows();
                           String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
                               .format(orderDataList[index].createdAt);
+                          if (Services.isSupplierManager())
+                            return SupplierOrdersViewCard(
+                              order: orderDataList[index],
+                            );
                           return Column(
                             children: <Widget>[
                               new GestureDetector(
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () => _onTileClicked(index),
                                 child: OrdersViewCard(
+                                  orderData: orderDataList[index],
                                   deliveryName:
                                       orderDataList[index].delivery != null
                                           ? orderDataList[index].delivery.name
@@ -283,7 +277,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                       orderDataList[index].supportedCityId,
                                   underUpdate: int.parse(
                                       orderDataList[index].underUpdate),
-                                  orderTitle: "",
                                   orderTotalPrice:
                                       orderDataList[index].total.toString(),
                                   orderStatus: int.parse(
@@ -294,7 +287,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 ),
                               ),
                               KammunButton(
-                                text: UtilsImporter().stringUtils.edit_order,
+                                text: StringUtils.editOrder,
                                 onTap: () async {
                                   setState(
                                     () {
@@ -351,8 +344,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                               orderDataList[index].userNotes.toString() !=
                                       "null"
                                   ? KammunButton(
-                                      text:
-                                          UtilsImporter().stringUtils.watchNote,
+                                      text: StringUtils.watchNote,
                                       onTap: () {
                                         List<DialogButton> decisionButtons = [
                                           DialogButton(
@@ -374,7 +366,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   : Container(),
                               orderDataList[index].underUpdate.toString() != "0"
                                   ? KammunButton(
-                                      text: UtilsImporter().stringUtils.unLock,
+                                      text: StringUtils.unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
                                         List<DialogButton> decisionButtons = [
@@ -415,7 +407,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: Divider(
                                   thickness: 5,
-                                  color: UtilsImporter().colorUtils.kmColors2,
+                                  color: ColorUtils.kmColors2,
                                 ),
                               )
                             ],
@@ -496,18 +488,13 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   }
 
   void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-
-    List<OrderProducts> ordAry = orderDataList[index].products;
-
     Navigator.push(
       context,
       new MaterialPageRoute(
         builder: (context) => new OrderDetailView(
-          order: orderDataList[index],
+          orderData: orderDataList[index],
           orderId: orderDataList[index].id,
-          orderIndex: index,
-          ordersAry: ordAry,
+          ordersAry: orderDataList[index].products,
           addressName: orderDataList[index].address.street,
           subTotal:
               int.parse(orderDataList[index].total.toString().split(".")[0]) -

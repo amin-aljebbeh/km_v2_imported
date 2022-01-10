@@ -1,15 +1,9 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:kammun_app/models/order_image.dart';
-import 'package:kammun_app/models/start_model.dart';
-import 'package:kammun_app/models/sub_warehouse_model.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/add_image_widget.dart';
-import 'package:kammun_app/views/Wedgit/dialog_button.dart';
-import 'package:kammun_app/views/Wedgit/my_dialog.dart';
+import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-
+import 'package:kammun_app/utils/utils_importer.dart';
 import '../../Services.dart';
 import 'full_screen_image.dart';
 import 'services/order_details_services.dart';
@@ -17,13 +11,13 @@ import 'services/order_details_services.dart';
 class OrderAccounting extends StatefulWidget {
   final int orderId;
   final List<OrderProducts> ordersAry;
-  final List<OrderImage> images;
+  final OrdersOriginalData orderData;
 
   const OrderAccounting({
     Key key,
     @required this.ordersAry,
-    @required this.images,
     @required this.orderId,
+    @required this.orderData,
   }) : super(key: key);
 
   @override
@@ -31,49 +25,39 @@ class OrderAccounting extends StatefulWidget {
 }
 
 class _OrderAccountingState extends State<OrderAccounting> {
-  List<SubWarehouse> _ls = LoadingScreenServices.subWarehouses;
   List<Widget> subWarehouseTotal = [];
   List<Widget> imageWidgets = [];
 
-  _sumSubWarehouse(int subWarehouseId) {
-    int sum = 0;
-
-    for (int i = 0; i < widget.ordersAry.length; i++) {
-      if (widget.ordersAry[i].pivot.deletedAt != null) {
-      } else {
-        if (widget.ordersAry[i].subWarehouseId == subWarehouseId) {
-          sum = sum +
-              (int.parse(widget.ordersAry[i].pivot.purchasePrice) *
-                  int.parse(widget.ordersAry[i].pivot.quantity));
-        }
-      }
-    }
-    return UtilsImporter().stringUtils.oCcy.format(sum);
-  }
-
   getImages() {
-    for (int i = 0; i < widget.images.length; i++) {
+    for (int i = 0; i < widget.orderData.images.length; i++) {
       imageWidgets.add(
         InkWell(
           onLongPress: () async {
             List<DialogButton> dialogButtons = [
               DialogButton(
-                text: UtilsImporter().stringUtils.yes,
+                text: StringUtils.yes,
                 onTap: () async {
                   Navigator.of(context).pop();
                   bool result = await OrderDetailsServices.deleteImageFromOrder(
-                      imageId: widget.images[i].id.toString());
-                  Services.resultFlushBar(context: context, result: result);
+                    imageId: widget.orderData.images[i].id.toString(),
+                  );
+                  Services.resultFlushBar(
+                    context: context,
+                    result: result,
+                  );
                   if (result)
-                    setState(() {
-                      widget.images.removeWhere(
-                          (image) => image.id == widget.images[i].id);
-                      imageWidgets.clear();
-                    });
+                    setState(
+                      () {
+                        widget.orderData.images.removeWhere(
+                          (image) => image.id == widget.orderData.images[i].id,
+                        );
+                        imageWidgets.clear();
+                      },
+                    );
                 },
               ),
               DialogButton(
-                text: UtilsImporter().stringUtils.no,
+                text: StringUtils.no,
                 onTap: () {
                   Navigator.of(context).pop();
                 },
@@ -93,100 +77,93 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   return FullScreenImage(
                     imageUrl: LoadingScreenServices.imagePrefixUrl +
                         'orders/' +
-                        widget.images[i].imageFileName,
+                        widget.orderData.images[i].imageFileName,
                     tag: "generate_a_unique_tag",
                   );
                 },
               ),
             );
           },
-          child: new Container(
-            width: 100.0,
-            height: 100.0,
-            decoration: new BoxDecoration(
-                borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Hero(
-                tag: i + 100,
-                child: Image(
-                  // fadeInCurve: Curves.fastOutSlowIn,
-                  // placeholder: AssetImage("assets/kmIcon.png"),
-                  fit: BoxFit.contain,
-                  image: widget.images != null && widget.images.length > 0
-                      ? AdvImageCache(
-                          LoadingScreenServices.imagePrefixUrl +
-                              'orders/' +
-                              widget.images[i].imageFileName,
-                          useMemCache: true,
-                          diskCacheExpire: Duration(days: 400),
-                        )
-                      : AssetImage("assets/kmIcon.png"),
-                  width: MediaQuery.of(context).size.width,
-                  height: 120,
-                ),
-              ),
-            ),
-          ),
+          child: widget.orderData.images != null &&
+                  widget.orderData.images.length > 0
+              ? KCacheImage(
+                  tag: i + 100,
+                  image: LoadingScreenServices.imagePrefixUrl +
+                      'orders/' +
+                      widget.orderData.images[i].imageFileName)
+              : AssetImage("assets/kmIcon.png"),
         ),
       );
     }
   }
 
   _calculate() {
-    setState(() {
-      subWarehouseTotal.clear();
-      for (int i = 0; i < _ls.length; i++) {
+    setState(
+      () {
+        subWarehouseTotal.clear();
         subWarehouseTotal.add(
-          Table(
-            border: TableBorder.all(
-              color: Theme.of(context).primaryColor,
-              style: BorderStyle.solid,
-              width: 1,
-            ),
+          KTableRow(
             children: [
-              TableRow(children: [
-                Container(
-                  margin: EdgeInsets.all(10),
-                  child: Text(
-                    _ls[i].name,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(10),
-                  child: Text(
-                    _sumSubWarehouse(_ls[i].id).toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                    ),
-                  ),
-                )
-              ]),
+              KTableElement(text: 'المورد'),
+              KTableElement(text: 'الدفع للمورد'),
+              KTableElement(text: 'القبض من الزبون'),
             ],
           ),
         );
+        for (int i = 0; i < widget.orderData.orderAccountingRows.length; i++) {
+          subWarehouseTotal.add(
+            KTableRow(
+              children: [
+                KTableElement(
+                  text:
+                      widget.orderData.orderAccountingRows[i].subWarehouseName,
+                ),
+                KTableElement(
+                  text: _sumSubWarehouse(
+                    widget.orderData.orderAccountingRows[i].subWarehouseId,
+                  ),
+                ),
+                KTableElement(
+                  text: StringUtils().oCcy.format(
+                        widget.orderData.orderAccountingRows[i].customerPay,
+                      ),
+                ),
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  String _sumSubWarehouse(int subWarehouseId) {
+    int sum = 0;
+
+    for (int i = 0; i < widget.ordersAry.length; i++) {
+      if (widget.ordersAry[i].pivot.deletedAt != null) {
+      } else {
+        if (widget.ordersAry[i].subWarehouseId == subWarehouseId) {
+          sum = sum +
+              ((int.parse(widget.ordersAry[i].pivot.purchasePrice) -
+                      widget.ordersAry[i].pivot.increaseValue) *
+                  int.parse(widget.ordersAry[i].pivot.quantity));
+        }
       }
-    });
+    }
+    return StringUtils().oCcy.format(sum);
   }
 
   @override
   Widget build(BuildContext context) {
     _calculate();
-    if (widget.images != null) getImages();
+    if (widget.orderData.images != null) getImages();
     return Scaffold(
       body: SafeArea(
         child: ListView(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: Column(
-                children: subWarehouseTotal,
-              ),
+            Column(
+              children: subWarehouseTotal,
             ),
             Container(
               height: MediaQuery.of(context).size.height * 0.35,
@@ -204,15 +181,14 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 children: imageWidgets,
               ),
             ),
-            if (Services.isShopper())
-              AddImageWidget(
-                hasImage: widget.images != null,
-                onSubmit: (image) async {
-                  bool result = await OrderDetailsServices.addImageToOrder(
-                      image: image, orderId: widget.orderId.toString());
-                  Services.resultFlushBar(context: context, result: result);
-                },
-              ),
+            AddImageWidget(
+              hasImage: widget.orderData.images != null,
+              onSubmit: (image) async {
+                bool result = await OrderDetailsServices.addImageToOrder(
+                    image: image, orderId: widget.orderId.toString());
+                Services.resultFlushBar(context: context, result: result);
+              },
+            ),
           ],
         ),
       ),

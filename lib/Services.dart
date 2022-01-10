@@ -5,23 +5,17 @@ import 'package:dio/dio.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/get_shoppers_model.dart';
-import 'package:kammun_app/models/shopper_model.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'core/api/admin_URLs.dart';
 import 'core/api/api_URLs.dart';
 import 'core/api/api_provider.dart';
 import 'core/errors/error_types.dart';
-import 'models/addAddressResponse.dart';
-import 'models/delivery_model.dart';
-import 'models/get_deliveries_model.dart';
-import 'models/productsCategoriesModel.dart';
-import 'models/role_model.dart';
-import 'models/start_model.dart';
 import 'utils/Styles.dart';
 import 'utils/utils_importer.dart';
 
@@ -193,13 +187,10 @@ class Services {
         method: httpMethods.get,
         queryParameters: {"page": pageNumber},
       );
-      Tools.logToConsole("------- orders data -------");
-      Tools.logToConsole(response);
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.allOrdersList =
             ordersFromJson(jsonEncode(response.data)).data.data;
-        Tools.logToConsole("sucess orders from json");
 
         return LoadingScreenServices.allOrdersList;
       } else {
@@ -312,29 +303,28 @@ class Services {
     }
   }
 
-  // static Future<ShopperModel> getShopper(String id) async {
-  //   Tools.logToConsole(
-  //       "------------------ #Get The Shopper#  --------------------");
-  //   try {
-  //     var response = await ApiProvider.sendRequest(
-  //       url: BaseUrl + GET_SHOPPER + id,
-  //       method: httpMethods.get,
-  //     );
-  //     Tools.logToConsole("------- shoppers data -------");
+  static Future<Level> getLevel(String levelId) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: BaseUrl + GET_LEVEL + levelId,
+        method: httpMethods.get,
+      );
 
-  //     if (response.statusCode == SUCCESS_CODE) {
-  //       shopper = GetShopperResponse.fromJson(response.data).shopper;
-
-  //       return shopper;
-  //     } else {
-  //       return shopper;
-  //     }
-  //   } catch (e) {
-  //     Tools.logToConsole("------------ ERROR GET THE SHOPPER --------------");
-  //     Tools.logToConsole(e.toString());
-  //     return null;
-  //   }
-  // }
+      if (response.statusCode == SUCCESS_CODE) {
+        Tools.logToConsole("message from get level and decode");
+        Tools.logToConsole(
+            ModelResponse.fromJson(response.data).data.id.toString());
+        Level level = ModelResponse.fromJson(response.data).data;
+        return level;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      Tools.logToConsole('e.toString()');
+      return null;
+    }
+  }
 
   static Future<List<DeliveryModel>> getDeliveries() async {
     Tools.logToConsole(
@@ -519,56 +509,52 @@ class Services {
 
   static bool isAdmin() {
     return Services.roles
-            .where((element) =>
-                element.slug.contains(UtilsImporter().stringUtils.adminRole))
+            .where((element) => element.slug.contains(StringUtils.adminRole))
             .length >
         0;
   }
 
   static bool isOperationManager() {
     return Services.roles
-            .where((element) => element.slug
-                .contains(UtilsImporter().stringUtils.operationManager))
+            .where((element) =>
+                element.slug.contains(StringUtils.operationManager))
             .length >
         0;
   }
 
   static bool isProductsController() {
     return Services.roles
-            .where((element) => element.slug
-                .contains(UtilsImporter().stringUtils.productsController))
+            .where((element) =>
+                element.slug.contains(StringUtils.productsController))
             .length >
         0;
   }
 
   static bool isSuperAdmin() {
     return Services.roles
-            .where((element) => element.slug
-                .contains(UtilsImporter().stringUtils.superAdminRole))
+            .where(
+                (element) => element.slug.contains(StringUtils.superAdminRole))
             .length >
         0;
   }
 
   static bool isDelivery() {
     return Services.roles
-            .where((element) =>
-                element.slug.contains(UtilsImporter().stringUtils.deliveryRole))
+            .where((element) => element.slug.contains(StringUtils.deliveryRole))
             .length >
         0;
   }
 
   static bool isShopper() {
     return Services.roles
-            .where((element) =>
-                element.slug.contains(UtilsImporter().stringUtils.shopperRole))
+            .where((element) => element.slug.contains(StringUtils.shopperRole))
             .length >
         0;
   }
 
   static bool isSupplierManager() {
     return Services.roles
-            .where((element) =>
-                element.slug.contains(UtilsImporter().stringUtils.supplierRol))
+            .where((element) => element.slug.contains(StringUtils.supplierRol))
             .length >
         0;
   }
@@ -593,7 +579,6 @@ class Services {
         color: Colors.white,
       ),
       duration: Duration(seconds: 2),
-      // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
     )..show(context);
   }
 
@@ -608,7 +593,7 @@ class Services {
 
       boxShadows: [
         BoxShadow(
-          color: UtilsImporter().colorUtils.primaryColor,
+          color: ColorUtils.primaryColor,
           offset: Offset(0.0, 2.0),
           blurRadius: 3.0,
         )
@@ -619,7 +604,7 @@ class Services {
         color: Colors.white,
       ),
       duration: Duration(seconds: 1),
-      leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+      leftBarIndicatorColor: ColorUtils.kmColors,
     )..show(context);
   }
 
@@ -643,5 +628,53 @@ class Services {
         return -1;
     });
     return productsList;
+  }
+
+  static List<OrderProducts> orderProductsSort(
+      List<OrderProducts> productsList) {
+    productsList.sort((a, b) {
+      if (a.subWarehouseId > b.subWarehouseId)
+        return 1;
+      else
+        return -1;
+    });
+    return productsList;
+  }
+
+  static String selectedShopperId(String name) {
+    return LoadingScreenServices.allShoppers
+        .firstWhere((shopper) =>
+            shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
+        .id
+        .toString();
+  }
+
+  static int productsNetPrice(List<OrderProducts> ordersAry, int id) {
+    int total = 0;
+    for (int i = 0; i < ordersAry.length; i++) {
+      if ((ordersAry[i].pivot.deletedAt == null))
+        total += ((int.parse(ordersAry[i].pivot.purchasePrice) -
+                ordersAry[i].pivot.increaseValue)) *
+            int.parse(ordersAry[i].pivot.quantity);
+      Tools.logToConsole('increase value problem');
+      Tools.logToConsole(id);
+      Tools.logToConsole(int.parse(ordersAry[i].pivot.purchasePrice));
+      Tools.logToConsole(ordersAry[i].pivot.increaseValue);
+      Tools.logToConsole(int.parse(ordersAry[i].pivot.quantity));
+      Tools.logToConsole(((int.parse(ordersAry[i].pivot.purchasePrice) -
+              ordersAry[i].pivot.increaseValue)) *
+          int.parse(ordersAry[i].pivot.quantity));
+    }
+    Tools.logToConsole(total);
+    return total;
+  }
+
+  static makePhoneCall(String number) async {
+    String url = 'tel:$number';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

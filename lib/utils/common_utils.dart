@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'utils_importer.dart';
 
 class CommonUtils {
   Size deviceScreenSize(BuildContext context) {
@@ -21,25 +21,23 @@ enum OrderType { myOrder, allOrder, orders }
 
 class MyThemes {
   static final ThemeData lightTheme = ThemeData(
-    primaryColor: UtilsImporter().colorUtils.primaryColor,
+    primaryColor: ColorUtils.primaryColor,
     primaryColorLight: Colors.white,
     primaryColorDark: Colors.black,
     brightness: Brightness.light,
     inputDecorationTheme: InputDecorationTheme(
         focusedBorder: UnderlineInputBorder(
-            borderSide:
-                BorderSide(color: UtilsImporter().colorUtils.primaryColor))),
+            borderSide: BorderSide(color: ColorUtils.primaryColor))),
   );
 
   static final ThemeData darkTheme = ThemeData(
-    primaryColor: UtilsImporter().colorUtils.primaryColor,
+    primaryColor: ColorUtils.primaryColor,
     primaryColorLight: Colors.black,
     primaryColorDark: Colors.white,
     brightness: Brightness.dark,
     inputDecorationTheme: InputDecorationTheme(
         focusedBorder: UnderlineInputBorder(
-            borderSide:
-                BorderSide(color: UtilsImporter().colorUtils.primaryColor))),
+            borderSide: BorderSide(color: ColorUtils.primaryColor))),
   );
 
   static final ThemeData darkerTheme = ThemeData(
