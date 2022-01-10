@@ -486,7 +486,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                     ' ' +
                                     UtilsImporter().stringUtils.price +
                                     ' :',
-                                inputType: TextInputType.number,
+                                inputType: TextInputType.text,
                                 bodyKey: "price",
                                 productId: widget.product.id,
                                 productData: widget.product,
