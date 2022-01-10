@@ -93,7 +93,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                                 color: ColorUtils.primaryColor,
                               ),
                               onPressed: () {
-                                if (selected) {
+                                if (selected && !empty) {
                                   setState(() {
                                     page++;
                                     loading = true;

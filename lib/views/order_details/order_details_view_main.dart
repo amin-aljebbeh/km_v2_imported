@@ -518,7 +518,89 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                         ],
                                       ),
                                     )
-                                  : Container(),
+                                  : ['6', '7']
+                                          .contains(widget.order.orderStatusId)
+                                      ? Column(
+                                          children: [
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            LabelRow(
+                                                rightSideText:
+                                                    'تم إلغاء الطلب من قبل ابو الزين',
+                                                leftSideText: '',
+                                                leftSideStyle: mainStyle),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 15.0),
+                                              child: KammunButton(
+                                                text: "استعادة الطلب",
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                color: ColorUtils.kmColors,
+                                                onTap: () {
+                                                  List<DialogButton>
+                                                      decisionButton = [
+                                                    DialogButton(
+                                                      text: 'نعم',
+                                                      onTap: () async {
+                                                        int changeStatus = 0;
+                                                        Navigator.of(context)
+                                                            .pop();
+
+                                                        setState(() {
+                                                          isLoading = true;
+                                                          errorAlert = false;
+                                                        });
+                                                        changeStatus = 1;
+
+                                                        bool result = await OrderServices
+                                                            .changeOrderStatus(
+                                                                widget.orderId
+                                                                    .toString(),
+                                                                changeStatus);
+                                                        Services.resultFlushBar(
+                                                            context: context,
+                                                            result: result);
+
+                                                        if (result) {
+                                                          setState(() {
+                                                            widget.order
+                                                                    .orderStatusId =
+                                                                changeStatus
+                                                                    .toString();
+                                                            isLoading = false;
+                                                          });
+                                                        } else {
+                                                          setState(() {
+                                                            isLoading = false;
+                                                            errorAlert = true;
+                                                          });
+                                                        }
+                                                      },
+                                                    ),
+                                                    DialogButton(
+                                                      text: 'لا',
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ];
+                                                  showMyDialog(
+                                                      title: "استعادة الطلب",
+                                                      text:
+                                                          "هل أنت متأكد انك تريد استعادة الطلب ؟",
+                                                      dialogButtons:
+                                                          decisionButton,
+                                                      context: context);
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Container(),
                             ],
                           )
                         : SizedBox(
@@ -536,89 +618,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
  *
  * (محمد ربيع بدر الدين نجيب)
  *
- * ['6', '7']
-    .contains(widget.order.orderStatusId)
-    ? Column(
-    children: [
-    SizedBox(
-    height: 10,
-    ),
-    LabelRow(
-    rightSideText:
-    'تم إلغاء الطلب من قبل ابو الزين',
-    leftSideText: '',
-    leftSideStyle: mainStyle),
-    Padding(
-    padding: const EdgeInsets.only(
-    left: 15.0),
-    child: KammunButton(
-    text: "استعادة الطلب",
-    width: MediaQuery.of(context)
-    .size
-    .width,
-    color: ColorUtils.kmColors,
-    onTap: () {
-    List<DialogButton>
-    decisionButton = [
-    DialogButton(
-    text: 'نعم',
-    onTap: () async {
-    int changeStatus = 0;
-    Navigator.of(context)
-    .pop();
-
-    setState(() {
-    isLoading = true;
-    errorAlert = false;
-    });
-    changeStatus = 1;
-
-    bool result = await OrderServices
-    .changeOrderStatus(
-    widget.orderId
-    .toString(),
-    changeStatus);
-    Services.resultFlushBar(
-    context: context,
-    result: result);
-
-    if (result) {
-    setState(() {
-    widget.order
-    .orderStatusId =
-    changeStatus
-    .toString();
-    isLoading = false;
-    });
-    } else {
-    setState(() {
-    isLoading = false;
-    errorAlert = true;
-    });
-    }
-    },
-    ),
-    DialogButton(
-    text: 'لا',
-    onTap: () {
-    Navigator.of(context)
-    .pop();
-    },
-    ),
-    ];
-    showMyDialog(
-    title: "استعادة الطلب",
-    text:
-    "هل أنت متأكد انك تريد استعادة الطلب ؟",
-    dialogButtons:
-    decisionButton,
-    context: context);
-    },
-    ),
-    ),
-    ],
-    )
-    : Container()
+ *
  *
  *
  *
