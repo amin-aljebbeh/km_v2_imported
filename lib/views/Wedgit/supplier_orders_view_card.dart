@@ -144,7 +144,10 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                     color: ColorUtils.kmColors,
                   ),
                   recognizer: TapGestureRecognizer()
-                    ..onTap = () => Services.makePhoneCall('0941441319'),
+                    ..onTap = () => Services.makePhoneCall(
+                        widget.order.shopper != null
+                            ? widget.order.shopper.admin.phone
+                            : "0969999204"),
                 ),
               ],
             ),
