@@ -79,7 +79,11 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Services.isShopper()
-                  ? DailyProfit(shopperId: Services.shopper.id.toString())
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 25.0),
+                      child: DailyProfit(
+                          shopperId: Services.shopper.id.toString()),
+                    )
                   : Column(
                       children: [
                         Row(
@@ -144,11 +148,17 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                             ),
                           ],
                         ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.043,
+                          child: selected
+                              ? DailyProfit(shopperId: shopperId)
+                              : Container(),
+                        ),
                         !error
                             ? Container(
                                 width: MediaQuery.of(context).size.width,
                                 height:
-                                    MediaQuery.of(context).size.height * 0.6335,
+                                    MediaQuery.of(context).size.height * 0.61,
                                 child: selected
                                     ? loading
                                         ? Loader()
@@ -160,30 +170,19 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                                                   message: 'لا يوجد حركة',
                                                 ),
                                               )
-                                            : Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.6335,
-                                                child: ListView.builder(
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  itemCount:
-                                                      transactions.length,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    return Transaction(
-                                                      transaction:
-                                                          transactions[index],
-                                                      newTransaction:
-                                                          newTransaction(index),
-                                                    );
-                                                  },
-                                                ),
+                                            : ListView.builder(
+                                                scrollDirection: Axis.vertical,
+                                                itemCount: transactions.length,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return Transaction(
+                                                    transaction:
+                                                        transactions[index],
+                                                    newTransaction:
+                                                        newTransaction(index),
+                                                  );
+                                                },
                                               )
                                     : ScreenMessage(
                                         message: 'اختر متسوق',

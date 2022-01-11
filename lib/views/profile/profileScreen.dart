@@ -11,72 +11,101 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen>
+    with SingleTickerProviderStateMixin {
   bool isLoading = false;
   bool isError = false;
+  AnimationController animationController;
+  Animation animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    animationController = AnimationController(
+      duration: Duration(seconds: 5),
+      vsync: this,
+    );
+    animation =
+        CurvedAnimation(parent: animationController, curve: Curves.decelerate);
+    animationController.forward();
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        animationController.reverse(from: 1.0);
+      } else if (status == AnimationStatus.dismissed) {
+        animationController.forward();
+      }
+    });
+
+    animationController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: RichText(
+                textDirection: TextDirection.ltr,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: LoadingScreenServices.name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                          fontSize: 30),
+                    ),
+                    TextSpan(text: '\n'),
+                    TextSpan(
+                      text: LoadingScreenServices.userName,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                          fontSize: 15),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: ColorUtils.kmColors,
+      ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
+          padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                        icon: Icon(Icons.arrow_back_ios,
-                            color: Theme.of(context).primaryColorDark,
-                            size: 45),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        }),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        SizedBox(height: 5),
-                        Text(
-                          LoadingScreenServices.name,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 30),
-                        ),
-                        Text(
-                          LoadingScreenServices.userName,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 15),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
               Container(
                 height: MediaQuery.of(context).size.height * 0.85,
                 child: ListView(
                   children: [
                     Center(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 30.0),
+                        padding: const EdgeInsets.only(top: 10.0),
                         child: Center(
                           child: Text(
                             "الرقم الشخصي",
                             style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 20),
+                              fontWeight: FontWeight.w700,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ),
@@ -89,8 +118,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
-                                color: ColorUtils.primaryColor,
-                                spreadRadius: 3),
+                              color: ColorUtils.kmColors,
+                              spreadRadius: 3,
+                            ),
                           ],
                         ),
                         child: ListTile(
@@ -107,9 +137,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Text(
                               LoadingScreenServices.phoneNumber ?? "لا يوجد",
                               style: TextStyle(
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 25,
-                                  color: Colors.black),
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 25,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                           onTap: () {},
@@ -126,10 +157,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Text(
                                       "المستودع",
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily:
-                                              StringUtils.fontFamilyHKGrotesk,
-                                          fontSize: 20),
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily:
+                                            StringUtils.fontFamilyHKGrotesk,
+                                        fontSize: 20,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -142,8 +174,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: Colors.white,
                                     boxShadow: [
                                       BoxShadow(
-                                          color: ColorUtils.primaryColor,
-                                          spreadRadius: 3),
+                                        color: ColorUtils.kmColors,
+                                        spreadRadius: 3,
+                                      ),
                                     ],
                                   ),
                                   child: Center(
@@ -152,20 +185,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           MainAxisAlignment.spaceEvenly,
                                       children:
                                           LoadingScreenServices.subWarehouses
-                                              .map((subWarehouse) => Container(
-                                                    padding: EdgeInsets.all(5),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
+                                              .map(
+                                                (subWarehouse) => Container(
+                                                  padding: EdgeInsets.all(5),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                  ),
+                                                  child: Text(
+                                                    "${subWarehouse.name}",
+                                                    style: TextStyle(
+                                                      fontFamily: StringUtils
+                                                          .fontFamilyHKGrotesk,
+                                                      fontSize: 25,
+                                                      color: Colors.black,
                                                     ),
-                                                    child: Text(
-                                                      "${subWarehouse.name}",
-                                                      style: TextStyle(
-                                                          fontFamily: StringUtils
-                                                              .fontFamilyHKGrotesk,
-                                                          fontSize: 25,
-                                                          color: Colors.black),
-                                                    ),
-                                                  ))
+                                                  ),
+                                                ),
+                                              )
                                               .toList(),
                                     ),
                                   ),
@@ -177,10 +213,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Text(
                                     "الجهة المفضلة لاستخدام الهاتف",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk,
-                                        fontSize: 20),
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily:
+                                          StringUtils.fontFamilyHKGrotesk,
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -192,8 +229,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: Colors.white,
                                     boxShadow: [
                                       BoxShadow(
-                                          color: ColorUtils.primaryColor,
-                                          spreadRadius: 3),
+                                        color: ColorUtils.kmColors,
+                                        spreadRadius: 3,
+                                      ),
                                     ],
                                   ),
                                   child: Row(
@@ -247,9 +285,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Text(
                           StringUtils.logout,
                           style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 20),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
@@ -261,8 +300,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.white,
                           boxShadow: [
                             BoxShadow(
-                                color: ColorUtils.primaryColor,
-                                spreadRadius: 3),
+                              color: ColorUtils.kmColors,
+                              spreadRadius: 3,
+                            ),
                           ],
                         ),
                         child: ListTile(
@@ -284,9 +324,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Text(
                               StringUtils.logout,
                               style: TextStyle(
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 25,
-                                  color: Colors.black),
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 25,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                           onTap: () {},

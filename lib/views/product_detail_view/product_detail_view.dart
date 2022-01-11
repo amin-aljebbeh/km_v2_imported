@@ -276,40 +276,43 @@ class ProductDetailViewState extends State<ProductDetailView>
                               width: MediaQuery.of(context).size.width * 0.45,
                               child: GestureDetector(
                                 onLongPress: () {
-                                  List<DialogButton> dialogButtons = [
-                                    DialogButton(
-                                      text: StringUtils.yes,
-                                      onTap: () async {
-                                        Navigator.of(context).pop();
-                                        bool result = await ProductsServices
-                                            .removeProductFromCategory(
-                                                productId: widget.product.id
-                                                    .toString(),
-                                                categoryId: widget.product
-                                                    .categories[index].id
-                                                    .toString());
-                                        Services.resultFlushBar(
-                                            context: context, result: result);
-                                        if (result) {
-                                          setState(() {
-                                            widget.product.categories
-                                                .removeAt(index);
-                                          });
-                                        }
-                                      },
-                                    ),
-                                    DialogButton(
-                                      text: StringUtils.no,
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ];
-                                  showMyDialog(
-                                      title: '',
-                                      context: context,
-                                      text: 'هل تريد إزالة المنتج من الصنف ؟',
-                                      dialogButtons: dialogButtons);
+                                  if (Services.isProductsController()) {
+                                    List<DialogButton> dialogButtons = [
+                                      DialogButton(
+                                        text: StringUtils.yes,
+                                        onTap: () async {
+                                          Navigator.of(context).pop();
+                                          bool result = await ProductsServices
+                                              .removeProductFromCategory(
+                                                  productId: widget.product.id
+                                                      .toString(),
+                                                  categoryId: widget.product
+                                                      .categories[index].id
+                                                      .toString());
+                                          Services.resultFlushBar(
+                                              context: context, result: result);
+                                          if (result) {
+                                            setState(() {
+                                              widget.product.categories
+                                                  .removeAt(index);
+                                            });
+                                          }
+                                        },
+                                      ),
+                                      DialogButton(
+                                        text: StringUtils.no,
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ];
+                                    showMyDialog(
+                                        title: '',
+                                        context: context,
+                                        text:
+                                            'هل تريد إزالة ${widget.product.name} من ${widget.product.categories[index].name} ؟',
+                                        dialogButtons: dialogButtons);
+                                  }
                                 },
                                 child: ShopByCategory(
                                   img: widget
@@ -623,9 +626,6 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                         int.parse(value);
                                                   }
                                                 });
-                                                // bool result = await ;
-                                                // Services.resultFlushBar(
-                                                //     context: context, result: result);
                                               },
                                             ),
                                           ),
@@ -673,11 +673,12 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                             .greyColor),
                                               ),
                                               searchHint: new Text(
-                                                  'إختيار الصنف',
-                                                  style: decisionButtonStyle
-                                                      .copyWith(
-                                                    color: ColorUtils.greyColor,
-                                                  )),
+                                                'إختيار الصنف',
+                                                style: decisionButtonStyle
+                                                    .copyWith(
+                                                  color: ColorUtils.greyColor,
+                                                ),
+                                              ),
                                               onChanged: (value) {
                                                 setState(() {
                                                   if (value != null) {
@@ -829,7 +830,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                           title: '',
                                                           context: context,
                                                           text:
-                                                              'هل تريد إزالة المنتج من المستودع ؟',
+                                                              'هل تريد إزالة ${widget.product.name} من المستودع ؟',
                                                           dialogButtons:
                                                               dialogButtons);
                                                     },
@@ -879,7 +880,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                           title: '',
                                                           context: context,
                                                           text:
-                                                              'هل تريد حذف المنتج نهائياً ؟',
+                                                              'هل تريد حذف ${widget.product.name} نهائياً ؟',
                                                           dialogButtons:
                                                               dialogButtons);
                                                     },
@@ -890,7 +891,53 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         SizedBox(height: 30),
                                       ],
                                     )
-                                  : Container(),
+                                  : Services.isSupplierManager()
+                                      ? KammunButton(
+                                          height: 50,
+                                          text: "إزالة من المستودع",
+                                          color: Colors.red,
+                                          onTap: () {
+                                            List<DialogButton> dialogButtons = [
+                                              DialogButton(
+                                                text: StringUtils.yes,
+                                                onTap: () async {
+                                                  bool result =
+                                                      await AddedProductsServices
+                                                          .unAttachProductsToSubWarehouse(
+                                                              productsId: widget
+                                                                  .product.id
+                                                                  .toString(),
+                                                              subWarehouse: widget
+                                                                  .product
+                                                                  .subWarehouseId
+                                                                  .toString());
+                                                  if (result) {
+                                                    int count = 0;
+                                                    Navigator.of(context)
+                                                        .popUntil((_) =>
+                                                            count++ >= 1);
+                                                  }
+                                                  Services.resultFlushBar(
+                                                      context: context,
+                                                      result: result);
+                                                },
+                                              ),
+                                              DialogButton(
+                                                text: StringUtils.no,
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ];
+                                            showMyDialog(
+                                                title: '',
+                                                context: context,
+                                                text:
+                                                    'هل تريد إزالة ${widget.product.name} من المستودع ؟',
+                                                dialogButtons: dialogButtons);
+                                          },
+                                        )
+                                      : Container(),
                             ],
                           )
                         : Container(),

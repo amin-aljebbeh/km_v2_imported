@@ -142,18 +142,41 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                       Toast.show("يرجى إدخال كافة البيانات", context,
                           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                     } else {
-                      String description = descriptionController.text.isNotEmpty
-                          ? descriptionController.text
-                          : ' ';
-                      shopperId = Services.selectedShopperId(shopperName);
-                      bool result = await ReportsServices.addTransaction(
-                        shopperId: shopperId,
-                        value: moneyController.text,
-                        transactionType: transactionType,
-                        description: description,
-                        orderId: orderIdController.text,
+                      List<DialogButton> decisionButton = [
+                        DialogButton(
+                          text: 'نعم',
+                          onTap: () async {
+                            Navigator.of(context).pop();
+                            String description =
+                                descriptionController.text.isNotEmpty
+                                    ? descriptionController.text
+                                    : ' ';
+                            shopperId = Services.selectedShopperId(shopperName);
+                            bool result = await ReportsServices.addTransaction(
+                              shopperId: shopperId,
+                              value: moneyController.text,
+                              transactionType: transactionType,
+                              description: description,
+                              orderId: orderIdController.text,
+                            );
+                            Services.resultFlushBar(
+                                context: context, result: result);
+                          },
+                        ),
+                        DialogButton(
+                          text: 'لا',
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ];
+                      showMyDialog(
+                        title:
+                            StringUtils.singleTransactionTypes[transactionType],
+                        context: context,
+                        text: 'هل تريد تأكيد إتمام العملية ؟',
+                        dialogButtons: decisionButton,
                       );
-                      Services.resultFlushBar(context: context, result: result);
                     }
                   },
                 ),

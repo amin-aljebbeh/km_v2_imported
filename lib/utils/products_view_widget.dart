@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
@@ -51,8 +50,6 @@ class InventoryProductsViewCard extends StatefulWidget {
 
 class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   _unAttachProduct() async {
-    Tools.logToConsole('sub warehouse id');
-    Tools.logToConsole(widget.productData.subWarehouseId.toString());
     String id;
     if (widget.productData.subWarehouseId != null)
       id = widget.productData.subWarehouseId.toString();
@@ -87,13 +84,14 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
             if (widget.productData != null &&
                 widget.productData.supplierCode != null)
               Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new ProductDetailView(
-                            product: widget.productData,
-                            isFromFavoriteScreen: false,
-                          )));
-            Tools.logToConsole("Products Data is null");
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => new ProductDetailView(
+                    product: widget.productData,
+                    isFromFavoriteScreen: false,
+                  ),
+                ),
+              );
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -114,7 +112,6 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                   Expanded(
                     child: Container(
                       child: Wrap(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,10 +121,11 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   Text(
                                     widget.productName,
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk,
-                                        fontSize: 18),
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily:
+                                          StringUtils.fontFamilyHKGrotesk,
+                                      fontSize: 18,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -135,10 +133,11 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                               Text(
                                 widget.quantity,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: ColorUtils.greyColor,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    fontSize: 17),
+                                  fontWeight: FontWeight.w400,
+                                  color: ColorUtils.greyColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontSize: 17,
+                                ),
                               ),
                               SizedBox(height: 8),
                               Wrap(
@@ -151,11 +150,13 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                   .toString() +
                                               "  ",
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              color: ColorUtils.primaryColor,
-                                              fontFamily: StringUtils
-                                                  .fontFamilyHKGrotesk,
-                                              fontSize: 18))
+                                            fontWeight: FontWeight.w700,
+                                            color: ColorUtils.primaryColor,
+                                            fontFamily:
+                                                StringUtils.fontFamilyHKGrotesk,
+                                            fontSize: 18,
+                                          ),
+                                        )
                                       : Container(),
                                   widget.oldPrice != null
                                       ? RichText(
@@ -244,11 +245,12 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                     showMyDialog(
                                       title: "حذف منتج من المستودع",
                                       text:
-                                          "هل أنت متأكد أنك تريد إزالة $widget.productName من المستودع",
+                                          "هل أنت متأكد أنك تريد إزالة ${widget.productName} من المستودع",
                                       dialogButtons: dialogButtons,
                                       context: context,
                                     );
-                                  })
+                                  },
+                                )
                               : !widget.fromInventory
                                   ? IconButton(
                                       icon: Icon(
@@ -257,14 +259,16 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                       ),
                                       onPressed: () {
                                         Navigator.push(
-                                            context,
-                                            new MaterialPageRoute(
-                                                builder: (context) =>
-                                                    new AddProductsToSubWarehouse(
-                                                      productData:
-                                                          widget.productData,
-                                                    )));
-                                      })
+                                          context,
+                                          new MaterialPageRoute(
+                                            builder: (context) =>
+                                                new AddProductsToSubWarehouse(
+                                              productData: widget.productData,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    )
                                   : IconButton(
                                       icon: Icon(
                                         Icons.check_sharp,
@@ -288,7 +292,8 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                         if (result) {
                                           widget.onChangeStatus(true);
                                         }
-                                      }),
+                                      },
+                                    ),
                         ),
                       ],
                     ),

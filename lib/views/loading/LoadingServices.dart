@@ -113,8 +113,6 @@ class LoadingScreenServices {
 
     List<SubWarehouse> response = await InventoryServices.getSubWarehoused(
         adminId: prefs.getString("adminId"));
-    Tools.logToConsole("Admin response");
-    Tools.logToConsole(response);
     if (response != null) {
       subWarehouses.addAll(response);
 
@@ -324,8 +322,6 @@ class LoadingScreenServices {
 
   Future<bool> fetchStartInformation() async {
     try {
-      Tools.logToConsole(
-          "------------- get Start Screen Information returns ---------");
       bool userLoggedIn = await checkIfUserLoadedIn();
       if (userLoggedIn) {
         try {

@@ -279,7 +279,9 @@ class StoreViewState extends State<StoreView> {
                             Navigator.of(context).pushNamed('/profile');
                           },
                         ),
-                        Services.isShopper() || Services.isOperationManager()
+                        Services.isShopper() ||
+                                Services.isAdmin() ||
+                                Services.isSuperAdmin()
                             ? SideBarRow(
                                 icon: Icons.featured_play_list,
                                 text: "كشف حساب المتسوق",

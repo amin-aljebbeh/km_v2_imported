@@ -15,11 +15,13 @@ class DailyProfit extends StatefulWidget {
 class _DailyProfitState extends State<DailyProfit> {
   String profit;
   bool loading;
+  bool error;
 
   getDailyProfit() async {
     profit = await ReportsServices.getShopperDailyProfit(
         shopperId: widget.shopperId);
     setState(() {
+      if (profit == null) error = true;
       loading = false;
     });
   }
@@ -27,6 +29,7 @@ class _DailyProfitState extends State<DailyProfit> {
   @override
   void initState() {
     loading = true;
+    error = false;
     getDailyProfit();
     super.initState();
   }
@@ -37,20 +40,19 @@ class _DailyProfitState extends State<DailyProfit> {
         ? Loader()
         : Column(
             children: [
-              SizedBox(
-                height: 25,
-              ),
               LabelRow(
                 rightSideText: 'مرابح اليوم : ',
-                leftSideText: StringUtils()
-                    .oCcy
-                    .format(int.parse(profit).abs())
-                    .toString(),
-                leftSideStyle:
-                    int.parse(profit).isNegative ? loseStyle : profitStyle,
-              ),
-              SizedBox(
-                height: 25,
+                leftSideText: profit != null
+                    ? StringUtils()
+                        .oCcy
+                        .format(int.parse(profit).abs())
+                        .toString()
+                    : 'error',
+                leftSideStyle: profit != null
+                    ? int.parse(profit).isNegative
+                        ? loseStyle
+                        : profitStyle
+                    : loseStyle,
               ),
             ],
           );

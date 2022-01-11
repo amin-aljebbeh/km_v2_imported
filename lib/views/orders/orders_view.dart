@@ -474,9 +474,6 @@ class OrdersViewState extends State<OrdersView> {
                                             text: StringUtils.unLockConfirm,
                                             dialogButtons: decisionButtons,
                                             context: context);
-                                        // _showDialog(
-                                        //     body: orderDataList[index]
-                                        //         .userNotes);
                                       },
                                       color: Colors.blue[800],
                                     )

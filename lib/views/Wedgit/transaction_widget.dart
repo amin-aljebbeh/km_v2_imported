@@ -22,8 +22,9 @@ class Transaction extends StatelessWidget {
           newTransaction
               ? Column(
                   children: [
-                    SizedBox(
-                      height: 25,
+                    Divider(
+                      thickness: 5,
+                      color: ColorUtils.primaryColor,
                     ),
                     Text(
                       DateFormat('EEEE', 'ar').format(transaction.createdAt) +
