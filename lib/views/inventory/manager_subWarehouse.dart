@@ -114,9 +114,6 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                             .toList(),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
                     KammunButton(
                       height: 50,
                       text: StringUtils.next,
@@ -140,6 +137,19 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                               gravity: Toast.CENTER);
                       },
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    UpdateProductInfoWidget(
+                      isForPriceRate: true,
+                      title: ' عتبة التقييم:',
+                      textHint: "تقييم الأسعار",
+                      inputType: TextInputType.number,
+                      bodyKey: "rate",
+                      productId: 0,
+                      isForSubWarehouse: false,
+                      initialText: '50',
+                    )
                   ],
                 ),
               ),

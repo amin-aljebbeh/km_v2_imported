@@ -335,7 +335,9 @@ class LoadingScreenServices {
               Services.getWarehouses(),
               fetchAdminInformation(),
             ]);
-            if (Services.isOperationManager()) {
+            if (Services.isOperationManager() ||
+                Services.isSuperAdmin() ||
+                Services.isAdmin()) {
               await Services.getShoppers();
             }
           } catch (e) {

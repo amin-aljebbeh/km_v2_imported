@@ -349,6 +349,14 @@ class StoreViewState extends State<StoreView> {
                                           .pushNamed('/Inventory');
                                     },
                                   ),
+                                  SideBarRow(
+                                    icon: Icons.filter_list_sharp,
+                                    text: 'فلترة المنتجات',
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .pushNamed('/products_filter');
+                                    },
+                                  ),
                                 ],
                               )
                             : Container(),

@@ -196,7 +196,6 @@ class ReportsServices {
     String description,
   }) async {
     Map transaction = {
-      // 'city': city,
       'shopper_id': shopperId,
       StringUtils.singleTransactionValue[transactionType]: value,
       'order_id': orderId,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/reports/add_transaction_view.dart';
-import 'package:kammun_app/views/reports/daily_profit_widget.dart';
 import 'package:kammun_app/views/reports/services/reports_services.dart';
 
 import '../../Services.dart';
@@ -17,26 +16,40 @@ class ShopperAccountStatement extends StatefulWidget {
 class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
   bool selected;
   bool error;
+  bool profitError;
   bool empty;
   bool loading;
+  bool profitLoading;
   List<TransactionModel> transactions = List<TransactionModel>();
   String shopperName;
   String shopperId;
   int page;
+  String profit;
 
   @override
   void initState() {
     page = 1;
     error = false;
+    profitError = false;
     empty = true;
     selected = false;
     loading = false;
+    profitLoading = false;
+    if (Services.isShopper()) {
+      setState(() {
+        profitLoading = true;
+      });
+      getDailyProfit(Services.shopper.id.toString());
+    }
     super.initState();
   }
 
   getTransaction(String shopperId) async {
     setState(() {
-      if (transactions != null) transactions.clear();
+      if (transactions != null) {
+        error = false;
+        transactions.clear();
+      }
     });
     var tempTransactions = await ReportsServices.getShopperTransactions(
         shopperId: shopperId, pageNumber: page);
@@ -50,6 +63,15 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
       } else {
         error = true;
       }
+    });
+  }
+
+  getDailyProfit(String shopperId) async {
+    String result =
+        await ReportsServices.getShopperDailyProfit(shopperId: shopperId);
+    setState(() {
+      profitLoading = false;
+      profit = result;
     });
   }
 
@@ -81,8 +103,20 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
               Services.isShopper()
                   ? Padding(
                       padding: const EdgeInsets.only(top: 25.0),
-                      child: DailyProfit(
-                          shopperId: Services.shopper.id.toString()),
+                      child: LabelRow(
+                        rightSideText: 'مرابح اليوم : ',
+                        leftSideText: profit != null
+                            ? StringUtils()
+                                .oCcy
+                                .format(int.parse(profit).abs())
+                                .toString()
+                            : 'error',
+                        leftSideStyle: profit != null
+                            ? int.parse(profit).isNegative
+                                ? loseStyle
+                                : profitStyle
+                            : loseStyle,
+                      ),
                     )
                   : Column(
                       children: [
@@ -113,18 +147,19 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                                 search: shopperFilter,
                                 items: Services.shoppersNameList(),
                                 onChanged: (value) {
-                                  setState(
-                                    () {
-                                      page = 1;
-                                      shopperFilter = value;
-                                      shopperName = value;
-                                      selected = true;
-                                      loading = true;
-                                    },
-                                  );
-                                  shopperId = Services.selectedShopperId(value);
+                                  setState(() {
+                                    page = 1;
+                                    shopperFilter = value;
+                                    shopperName = value;
+                                    selected = true;
+                                    loading = true;
+                                    shopperId =
+                                        Services.selectedShopperId(value);
+                                    profitLoading = true;
+                                  });
 
                                   getTransaction(shopperId);
+                                  getDailyProfit(shopperId);
                                 },
                               ),
                             ),
@@ -151,48 +186,64 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.043,
                           child: selected
-                              ? DailyProfit(shopperId: shopperId)
+                              ? profitLoading
+                                  ? Loader()
+                                  : LabelRow(
+                                      rightSideText: 'مرابح اليوم : ',
+                                      leftSideText: profit != null
+                                          ? StringUtils()
+                                              .oCcy
+                                              .format(int.parse(profit).abs())
+                                              .toString()
+                                          : 'error',
+                                      leftSideStyle: profit != null
+                                          ? int.parse(profit).isNegative
+                                              ? loseStyle
+                                              : profitStyle
+                                          : loseStyle,
+                                    )
                               : Container(),
                         ),
-                        !error
-                            ? Container(
-                                width: MediaQuery.of(context).size.width,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.61,
-                                child: selected
-                                    ? loading
-                                        ? Loader()
-                                        : empty
-                                            ? Padding(
-                                                padding:
-                                                    const EdgeInsets.all(75),
-                                                child: ScreenMessage(
-                                                  message: 'لا يوجد حركة',
-                                                ),
-                                              )
-                                            : ListView.builder(
-                                                scrollDirection: Axis.vertical,
-                                                itemCount: transactions.length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  return Transaction(
-                                                    transaction:
-                                                        transactions[index],
-                                                    newTransaction:
-                                                        newTransaction(index),
-                                                  );
-                                                },
-                                              )
-                                    : ScreenMessage(
-                                        message: 'اختر متسوق',
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.61,
+                          child: selected
+                              ? error
+                                  ? Center(
+                                      child: AlertMessages(
+                                        text:
+                                            "حدث خطأ اثناء محاولة جلب البيانات",
+                                        messageType: "internetError",
+                                        headerText: "حدث خطأ",
                                       ),
-                              )
-                            : AlertMessages(
-                                text: "حدث خطأ اثناء محاولة جلب البيانات",
-                                messageType: "internetError",
-                                headerText: "حدث خطأ",
-                              ),
+                                    )
+                                  : loading
+                                      ? Loader()
+                                      : empty
+                                          ? Padding(
+                                              padding: const EdgeInsets.all(75),
+                                              child: ScreenMessage(
+                                                message: 'لا يوجد حركة',
+                                              ),
+                                            )
+                                          : ListView.builder(
+                                              scrollDirection: Axis.vertical,
+                                              itemCount: transactions.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Transaction(
+                                                  transaction:
+                                                      transactions[index],
+                                                  newTransaction:
+                                                      newTransaction(index),
+                                                );
+                                              },
+                                            )
+                              : ScreenMessage(
+                                  message: 'اختر متسوق',
+                                ),
+                        ),
                         KammunButton(
                           width: MediaQuery.of(context).size.width,
                           height: 50,

@@ -2,8 +2,8 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/Wedgit/text_field_row.dart';
+import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import '../../utils/utils_importer.dart';
@@ -18,17 +18,20 @@ class UpdateProductInfoWidget extends StatefulWidget {
   final String initialText;
   final ProductData productData;
   final bool isForSubWarehouse;
+  final bool isForPriceRate;
 
-  UpdateProductInfoWidget(
-      {this.onSavePressed,
-      this.initialText = "",
-      this.title,
-      this.inputType = TextInputType.number,
-      @required this.bodyKey,
-      @required this.productId,
-      this.productData,
-      this.isForSubWarehouse = true,
-      this.textHint = "."});
+  UpdateProductInfoWidget({
+    this.onSavePressed,
+    this.initialText = "",
+    this.title,
+    this.inputType = TextInputType.number,
+    @required this.bodyKey,
+    @required this.productId,
+    this.productData,
+    this.isForSubWarehouse = true,
+    this.textHint = ".",
+    this.isForPriceRate,
+  });
 
   @override
   _UpdateProductInfoWidgetState createState() =>
@@ -62,34 +65,24 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                 width: 150,
               ),
             ),
-            // Text(
-            //   widget.title,
-            //   overflow: TextOverflow.clip,
-            //   style: paragraphStyle,
-            // ),
-            // EntryField(
-            //   controller: textController,
-            //   fieldType: widget.inputType,
-            //   hint: widget.textHint,
-            //   width: 150,
-            //   canBeEmpty: false,
-            //   isAddress: false,
-            //   isPhoneNumber: false,
-            // ),
             IconButton(
-                icon: Icon(
-                  Icons.save,
-                  color: Colors.green,
-                  size: 30,
-                ),
-                onPressed: () async {
-                  Tools.logToConsole("button save clicked");
+              icon: Icon(
+                Icons.save,
+                color: Colors.green,
+                size: 30,
+              ),
+              onPressed: () async {
+                if (widget.isForPriceRate) {
+                  bool result =
+                      await InventoryServices.updatePriceRateThreshold(
+                          textController.text);
+                  Services.resultFlushBar(context: context, result: result);
+                } else {
                   if (widget.bodyKey == "supplier_code" &&
                       !LoadingScreenServices.subSupplierCodeHint
                           .hasMatch(textController.text)) {
                     Flushbar(
                       backgroundColor: Colors.red,
-                      // titleText: Text("تمت الإضافة بنجاح"),
                       messageText: Text(
                         "فشل عملية التعديل يجب أن يحتوي رمز المادة على الرمز الخاص بك",
                         style: TextStyle(
@@ -97,7 +90,6 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                             fontWeight: FontWeight.bold,
                             fontFamily: StringUtils.fontFamilyHKGrotesk),
                       ),
-
                       boxShadows: [
                         BoxShadow(
                           color: ColorUtils.primaryColor,
@@ -114,18 +106,6 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                       leftBarIndicatorColor: ColorUtils.kmColors,
                     )..show(context);
                   } else {
-                    Tools.logToConsole(
-                        "I'm in else on save cliked ${widget.bodyKey}");
-
-                    Tools.logToConsole(
-                        "I'm in else on save _textController ${textController.text}");
-                    Tools.logToConsole(
-                        "I'm in else on save isForSubWarehouse ${widget.isForSubWarehouse}");
-                    Tools.logToConsole(
-                        "I'm in else on save subWarehouseId ${widget.productData.subWarehouseId != null}");
-
-                    Tools.logToConsole(
-                        "I'm in else on save productId ${widget.productId}");
                     bool result = await ProductsServices.updateProductsDetails(
                         bodyKey: widget.bodyKey,
                         value: textController.text,
@@ -134,11 +114,11 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                             widget.productData.subWarehouseId.toString(),
                         productId: widget.productId.toString());
 
-                    Tools.logToConsole(
-                        "The Result issssss from onPresed $result");
                     Services.resultFlushBar(context: context, result: result);
                   }
-                }),
+                }
+              },
+            ),
           ],
         ),
         SizedBox(height: 30),

@@ -10,15 +10,18 @@ class EntryField extends StatefulWidget {
   bool isAddress;
   double width;
   bool isPhoneNumber;
+  Function(String) onSubmit;
 
-  EntryField(
-      {this.canBeEmpty = true,
-      this.controller,
-      this.hint,
-      this.fieldType,
-      this.isAddress = false,
-      this.width,
-      this.isPhoneNumber = false});
+  EntryField({
+    this.canBeEmpty = true,
+    this.controller,
+    this.hint,
+    this.fieldType,
+    this.isAddress = false,
+    this.width,
+    this.isPhoneNumber = false,
+    this.onSubmit,
+  });
 
   @override
   _EntryFieldState createState() => _EntryFieldState();
@@ -46,6 +49,7 @@ class _EntryFieldState extends State<EntryField> {
           onChanged: (value) {
             setState(() {});
           },
+          onFieldSubmitted: widget.onSubmit,
           validator: (value) {
             RegExp regExp = new RegExp("^(?:9)?[0-9]{3}(?:-)[0-9]{9}\$");
 

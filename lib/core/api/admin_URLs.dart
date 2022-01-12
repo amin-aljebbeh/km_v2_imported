@@ -24,6 +24,18 @@ const String UPDATE_ADMIN_FIREBASE_TOKEN =
 const String GET_INVENTORY_PRODUCTS =
     API + PRODUCT + 'product_under_check_availability';
 
+const String UPDATE_PRICE_RATE_THRESHOLD =
+    API + PRODUCT + 'products_price_rate';
+
+const String FILTER_BY_NUMBER_OF_VISITS =
+    API + PRODUCT + 'filter_by_number_of_visite';
+
+const String FILTER_BY_LAST_ACTIVATION_DATE =
+    API + PRODUCT + 'filter_by_last_activation_date';
+
+const String FILTER_BY_NUMBER_OF_SALES =
+    API + PRODUCT + 'filter_by_number_of_sale';
+
 const String GET_PRICES_CHANGES = API + PRODUCT + 'products_price_change';
 
 const String PRODUCT_IMAGE = API + 'product_image/';

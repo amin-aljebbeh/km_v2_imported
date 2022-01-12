@@ -122,7 +122,7 @@ class StringUtils {
 
   //Order icons:
   static String myOrders = 'طلباتي';
-  static String inventory = 'جرد منتجات';
+  static String inventory = 'جرد المنتجات';
   static String prices = 'الأسعار';
 
   //Buttons text:
@@ -208,6 +208,24 @@ class StringUtils {
     'متقدم',
     'خبير',
     'معلم'
+  ];
+
+  static List<String> productFilter = [
+    'الغير مفعلة',
+    'عدد مرات البيع',
+    'عدد مرات العرض',
+  ];
+
+  static List<String> productFilterUrls = [
+    FILTER_BY_LAST_ACTIVATION_DATE,
+    FILTER_BY_NUMBER_OF_SALES,
+    FILTER_BY_NUMBER_OF_VISITS,
+  ];
+
+  static List<String> productFilterParams = [
+    'number_of_days',
+    'number_of_sale',
+    'number_of_visit',
   ];
 
   static List<String> orderTypes = [

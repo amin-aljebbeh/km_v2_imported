@@ -132,7 +132,6 @@ class _InventoryState extends State<Inventory> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Container(
-          //margin: const EdgeInsets.all(15.0),
           padding: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(
@@ -281,7 +280,11 @@ class _InventoryState extends State<Inventory> {
                                 productsList == null ? 0 : productsList.length,
                             itemBuilder: (BuildContext context, int index) {
                               var eachProduct = productsList[index];
-                              if (filter == null || filter == "") {
+                              if (filter == null ||
+                                  filter == "" ||
+                                  eachProduct.name
+                                      .toLowerCase()
+                                      .contains(filter.toLowerCase())) {
                                 if (selectedSubWarehouseId == -1) {
                                   return GestureDetector(
                                     behavior: HitTestBehavior.translucent,
@@ -356,43 +359,6 @@ class _InventoryState extends State<Inventory> {
                                       index: index,
                                     ),
                                   );
-                              } else if (eachProduct.name
-                                  .toLowerCase()
-                                  .contains(filter.toLowerCase())) {
-                                return GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () => () {},
-                                  child: InventoryProductsViewCard(
-                                    onChangeStatus: (result) {
-                                      if (result) {
-                                        Tools.logToConsole(
-                                            "the result : $result");
-                                        setState(() {
-                                          productsList.removeAt(index);
-                                        });
-                                      }
-                                    },
-                                    fromInventory: true,
-                                    productData: eachProduct,
-                                    supplierCode: eachProduct.supplierCode,
-                                    productId: eachProduct.id.toString(),
-                                    active: int.parse(eachProduct.isActive),
-                                    img: eachProduct.images.length > 0
-                                        ? LoadingScreenServices.imagePrefixUrl +
-                                            eachProduct.images[0].imageFileName
-                                        : "",
-                                    productName: eachProduct.name,
-                                    quantity:
-                                        eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                    price: int.parse(
-                                        eachProduct.price.split(".")[0]),
-                                    index: index,
-                                  ),
-                                );
                               }
                               return Container();
                             },

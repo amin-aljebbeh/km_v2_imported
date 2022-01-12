@@ -28,13 +28,11 @@ class ProductsServices {
             method: httpMethods.post,
             body: jsonEncode(body));
       } else if (!isForSubWarehouse) {
-        Tools.logToConsole("Updating Products information $body");
         response = await ApiProvider.sendRequest(
             url: GET_PRODUCT + productId,
             method: httpMethods.put,
             body: jsonEncode(body));
       } else {
-        Tools.logToConsole("Updating warehouse information $body");
         response = await ApiProvider.sendRequest(
             url: UPDATE_SUB_WAREHOUSE_PRODUCTS + productId,
             method: httpMethods.put,
@@ -42,10 +40,6 @@ class ProductsServices {
                 {"sub_warehouse_id": subWarehouseId, bodyKey: value}));
       }
       if (response.statusCode == SUCCESS_CODE) {
-        print('response.statusCode');
-        print(response.statusCode);
-        print('update response');
-        print(response);
         return true;
       } else {
         return false;

@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'views/cart/CartViewFinal.dart';
 import 'views/inventory/inventory.dart';
 import 'views/inventory/manager_subWarehouse.dart';
+import 'views/inventory/products_filter.dart';
 import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
 import 'views/prices_changes/prices.dart';
@@ -134,6 +135,7 @@ class _MyAppState extends State<MyApp> {
           '/Inventory': (_) => Inventory(),
           '/ShopperAccountStatement': (_) => ShopperAccountStatement(),
           '/AddTransactionView': (_) => AddTransactionView(),
+          '/products_filter': (_) => ProductsFilterScreen(),
         },
         theme: CustomTheme.of(context),
         home: LoadingScreen(),

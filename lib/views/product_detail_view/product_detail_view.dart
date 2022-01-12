@@ -568,6 +568,23 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           initialText:
                                               widget.product.description,
                                         ),
+                                        if (Services.isAdmin() ||
+                                            Services.isSuperAdmin())
+                                          Column(
+                                            children: [
+                                              LabelRow(
+                                                rightSideText:
+                                                    'تقييم السعر :  ',
+                                                leftSideText: widget
+                                                    .product.rate
+                                                    .toString(),
+                                                leftSideStyle: paragraphStyle,
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              )
+                                            ],
+                                          ),
                                         Container(
                                           width:
                                               MediaQuery.of(context).size.width,
