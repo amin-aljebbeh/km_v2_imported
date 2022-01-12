@@ -113,7 +113,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
         ],
       ),
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

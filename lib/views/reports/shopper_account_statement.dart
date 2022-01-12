@@ -97,8 +97,8 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+         //   crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Services.isShopper()
                   ? Padding(

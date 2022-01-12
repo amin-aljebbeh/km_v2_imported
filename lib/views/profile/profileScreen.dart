@@ -89,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
-          child: Column(
+          child: ListView(
             children: [
               Container(
                 height: MediaQuery.of(context).size.height * 0.85,
