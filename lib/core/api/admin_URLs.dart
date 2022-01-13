@@ -90,19 +90,16 @@ const String GET_LEVEL = API + LEVEL;
 const String GET_SHOPPER_TRANSACTIONS =
     API + SHOPPER + SHOPPER_TRANSACTION + 'shopper_transactions/';
 
+const String GET_TRANSACTION_TYPES =
+    GET_SHOPPER_TRANSACTIONS + 'manual_transaction';
+
 const String GET_STATISTICS_SHOPPER_TRANSACTION =
     API + SHOPPER + SHOPPER_TRANSACTION + 'statistics_shopper_transaction/';
 
 const String GET_DAILY_SHOPPER_PROFIT =
     API + SHOPPER + SHOPPER_TRANSACTION + 'shopper_profits_for_today/';
 
-const String DEDUCT_FROM_SHOPPER_PROFIT =
-    API + SHOPPER + SHOPPER_TRANSACTION + 'deduct_value_from_shopper_profits';
-
-const String LEND_MONEY_TO_SHOPPER =
-    API + SHOPPER + SHOPPER_TRANSACTION + 'lend_mony_to_shopper';
-
-const String REPAYMENT_BY_SHOPPER =
-    API + SHOPPER + SHOPPER_TRANSACTION + 'repayment_by_shopper';
+const String ADD_TRANSACTION =
+    API + SHOPPER + SHOPPER_TRANSACTION + 'add_transaction';
 
 const String GET_DELIVERIES = API + 'delivery';

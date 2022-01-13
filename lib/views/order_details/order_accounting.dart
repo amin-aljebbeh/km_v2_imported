@@ -225,7 +225,12 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                         await ReportsServices.addTransaction(
                                       shopperId: widget.orderData.shopper.id
                                           .toString(),
-                                      transactionType: 0,
+                                      transactionTypeId: LoadingScreenServices
+                                          .transactionTypes
+                                          .firstWhere((transactionType) =>
+                                              transactionType.slug == 'deduct')
+                                          .id
+                                          .toString(),
                                       value: moneyController.text,
                                       description: descriptionController.text,
                                       orderId: widget.orderId.toString(),

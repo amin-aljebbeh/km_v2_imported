@@ -115,6 +115,7 @@ class StringUtils {
   static String operationManager = 'operation-manager';
   static String productsController = 'product-management';
   static String supplierRol = 'supplier-role';
+  static String accountingRole = 'accounting-role';
 
   //Orders types:
   static String myOrder = 'assigned';
@@ -168,39 +169,17 @@ class StringUtils {
   static String chooseShopper = 'اختر متسوق';
   final oCcy = new NumberFormat("#,##0", "en_US");
 
-  static List<String> transactionTableTypes = [
-    'تسوق', //1
-    'توصيل', //2
-    'طريقة التوصيل', //3
-    'تحديث الطلب', //4
-    'خصم', //5
-    'إقراض', //6
-    'تسديد', //7
-  ];
-
-  static List<String> singleTransactionTypes = [
-    'خصم', //1
-    'إقراض', //2
-    'تسديد', //3
-  ];
-
-  static List<String> singleTransactionUrls = [
-    DEDUCT_FROM_SHOPPER_PROFIT,
-    LEND_MONEY_TO_SHOPPER,
-    REPAYMENT_BY_SHOPPER,
-  ];
-
-  static List<String> singleTransactionValue = [
-    'deduct_value',
-    'loan_value',
-    'repayment_value',
-  ];
-
-  static List<String> singleTransactionDescription = [
-    'deduct_reason',
-    'description',
-    'description',
-  ];
+  static Map<String, String> transactionTypesMap = {
+    'shopping': 'تسوق', //1
+    'delivery': 'توصيل', //2
+    'delivery-method': 'طريقة التوصيل', //3
+    'update-order': 'تحديث الطلب', //4
+    'deduct': 'خصم', //5
+    'lend-mony': 'إقراض', //6
+    'repayment': 'تسديد', //7
+    'compensation': 'تعويض', //8
+    'bonus': 'بونص', //9
+  };
 
   static List<String> shopperLevels = [
     'مبتدئ',

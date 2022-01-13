@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:intl/intl.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'services/reports_services.dart';
 import '../../Services.dart';
 
@@ -17,9 +18,9 @@ class AddTransactionView extends StatefulWidget {
 
 class _AddTransactionViewState extends State<AddTransactionView> {
   bool start;
-  int transactionType;
+  int transactionTypeIndex;
+  String transactionTypeString;
   final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
-  String transactionDate = '';
   final moneyController = TextEditingController();
   final orderIdController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -30,7 +31,6 @@ class _AddTransactionViewState extends State<AddTransactionView> {
   void initState() {
     start = true;
     shopperName = widget.shopperName;
-    transactionDate = fullDateFormatter.format(DateTime.now()).toString();
     super.initState();
   }
 
@@ -85,12 +85,14 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                         style: dropdownItemStyle,
                       ),
                     ),
-                    value: transactionType,
-                    items: Services.dropdownStringList(
-                        StringUtils.singleTransactionTypes),
+                    value: transactionTypeIndex,
+                    items: Services.transactionTypesNames(),
                     onChanged: (value) {
                       setState(() {
-                        transactionType = value;
+                        transactionTypeIndex = value;
+                        transactionTypeString = StringUtils.transactionTypesMap[
+                            LoadingScreenServices
+                                .transactionTypes[transactionTypeIndex].slug];
                       });
                     },
                   ),
@@ -108,15 +110,14 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                 SizedBox(
                   height: 40,
                 ),
-                transactionType == 0
-                    ? TextFieldRow(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        controller: orderIdController,
-                        text: 'رقم الطلب :',
-                        inputType: TextInputType.number,
-                        width: 150,
-                      )
-                    : Container(),
+                if (transactionTypeString == 'خصم')
+                  TextFieldRow(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    controller: orderIdController,
+                    text: 'رقم الطلب :',
+                    inputType: TextInputType.number,
+                    width: 150,
+                  ),
                 SizedBox(
                   height: 40,
                 ),
@@ -154,7 +155,9 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                             bool result = await ReportsServices.addTransaction(
                               shopperId: shopperId,
                               value: moneyController.text,
-                              transactionType: transactionType,
+                              transactionTypeId: LoadingScreenServices
+                                  .transactionTypes[transactionTypeIndex].id
+                                  .toString(),
                               description: description,
                               orderId: orderIdController.text,
                             );
@@ -170,8 +173,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                         ),
                       ];
                       showMyDialog(
-                        title:
-                            StringUtils.singleTransactionTypes[transactionType],
+                        title: transactionTypeString,
                         context: context,
                         text: 'هل تريد تأكيد إتمام العملية ؟',
                         dialogButtons: decisionButton,
@@ -180,7 +182,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   },
                 ),
                 Container(
-                  height: transactionType == 0 ? 300 : 0,
+                  height: transactionTypeString == 'خصم' ? 300 : 0,
                 ),
               ],
             ),
@@ -191,8 +193,10 @@ class _AddTransactionViewState extends State<AddTransactionView> {
   }
 
   bool completeData() {
-    if (transactionType != null) {
-      if (transactionType == 0)
+    if (transactionTypeIndex != null) {
+      if (StringUtils.transactionTypesMap[LoadingScreenServices
+              .transactionTypes[transactionTypeIndex].slug] ==
+          'خصم')
         return shopperName != null &&
             moneyController.text.isNotEmpty &&
             descriptionController.text.isNotEmpty;

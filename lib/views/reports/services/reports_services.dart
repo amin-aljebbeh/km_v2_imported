@@ -5,6 +5,7 @@ import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/reports/models/transaction_type_model.dart';
 import '../models/report_model_importer.dart';
 
 class ReportsServices {
@@ -179,8 +180,7 @@ class ReportsServices {
     );
 
     if (response.statusCode == SUCCESS_CODE &&
-        response.shopper["success"] == true) {
-      Tools.logToConsole(response.shopper);
+        response.data["success"] == true) {
       return matchingProductsFromJson(jsonEncode(response.shopper));
     } else {
       return null;
@@ -189,20 +189,21 @@ class ReportsServices {
 
   static Future<bool> addTransaction({
     @required String shopperId,
-    @required int transactionType,
+    @required String transactionTypeId,
     @required String value,
     String orderId,
     String description,
   }) async {
     Map transaction = {
+      'transaction_type_id': transactionTypeId,
       'shopper_id': shopperId,
-      StringUtils.singleTransactionValue[transactionType]: value,
       'order_id': orderId,
-      StringUtils.singleTransactionDescription[transactionType]: description,
+      'value': value,
+      'description': description,
     };
     try {
       var response = await ApiProvider.sendRequest(
-          url: StringUtils.singleTransactionUrls[transactionType],
+          url: ADD_TRANSACTION,
           method: httpMethods.post,
           body: jsonEncode(transaction));
 
@@ -213,6 +214,23 @@ class ReportsServices {
       }
     } catch (e) {
       Tools.logToConsole(e.toString());
+      return null;
+    }
+  }
+
+  static Future<List<TransactionTypeModel>> getTransactionTypes() async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: GET_TRANSACTION_TYPES,
+        method: httpMethods.get,
+      );
+      if (response.statusCode == SUCCESS_CODE &&
+          response.data["success"] == true) {
+        return transactionTypeResponseFromJson(jsonEncode(response.data)).data;
+      } else {
+        return null;
+      }
+    } catch (e) {
       return null;
     }
   }

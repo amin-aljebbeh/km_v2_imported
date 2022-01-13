@@ -9,6 +9,8 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
+import 'package:kammun_app/views/reports/models/transaction_type_model.dart';
+import 'package:kammun_app/views/reports/services/reports_services.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
@@ -72,6 +74,8 @@ class LoadingScreenServices {
       new List<OrdersOriginalData>();
   static List<OrdersOriginalData> supplierOrderList =
       new List<OrdersOriginalData>();
+  static List<TransactionTypeModel> transactionTypes =
+      List<TransactionTypeModel>();
   static String phoneNumber = "لم تقم بتسجيل رقم";
   static String name;
   static String userName;
@@ -337,8 +341,14 @@ class LoadingScreenServices {
             ]);
             if (Services.isOperationManager() ||
                 Services.isSuperAdmin() ||
-                Services.isAdmin()) {
+                Services.isAdmin() ||
+                Services.isAccounting()) {
               await Services.getShoppers();
+            }
+            if (Services.isAccounting() ||
+                Services.isSuperAdmin() ||
+                Services.isAdmin()) {
+              transactionTypes = await ReportsServices.getTransactionTypes();
             }
           } catch (e) {
             Tools.logToConsole("--------- error call -----");

@@ -275,9 +275,7 @@ class StoreViewState extends State<StoreView> {
                             Navigator.of(context).pushNamed('/profile');
                           },
                         ),
-                        Services.isShopper() ||
-                                Services.isAdmin() ||
-                                Services.isSuperAdmin()
+                        Services.isShopper() || Services.isAccounting()
                             ? SideBarRow(
                                 icon: Icons.featured_play_list,
                                 text: "كشف حساب المتسوق",
@@ -287,7 +285,7 @@ class StoreViewState extends State<StoreView> {
                                 },
                               )
                             : Container(),
-                        Services.isOperationManager()
+                        Services.isAccounting()
                             ? SideBarRow(
                                 icon: Icons.money,
                                 text: "إضافة مناقلة",

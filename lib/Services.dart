@@ -391,6 +391,14 @@ class Services {
     return dropdownStringList(names);
   }
 
+  static List<DropdownMenuItem<int>> transactionTypesNames() {
+    List<String> names = LoadingScreenServices.transactionTypes
+        .where((type) => type.automatic == 0)
+        .map((type) => StringUtils.transactionTypesMap[type.slug])
+        .toList();
+    return dropdownStringList(names);
+  }
+
   static List<DropdownMenuItem<String>> productSubWarehouseNames(
       BuildContext context) {
     List<DropdownMenuItem<String>> names = [];
@@ -520,6 +528,14 @@ class Services {
     return Services.roles
             .where(
                 (element) => element.slug.contains(StringUtils.superAdminRole))
+            .length >
+        0;
+  }
+
+  static bool isAccounting() {
+    return Services.roles
+            .where(
+                (element) => element.slug.contains(StringUtils.accountingRole))
             .length >
         0;
   }
