@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/common_utils.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -84,12 +82,8 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
             orderDataList.removeWhere(
                 (order) => int.parse(order.orderStatusId) != filterOrders);
           }
-          Tools.logToConsole("orderDataList before filtering");
-          Tools.logToConsole(orderDataList.length);
 
           orderDataList.removeWhere((order) => order.products.length == 0);
-          Tools.logToConsole("orderDataList After filtering");
-          Tools.logToConsole(orderDataList.length);
           LoadingScreenServices.notAssignedOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;

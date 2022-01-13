@@ -7,7 +7,7 @@ import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'utils_importer.dart';
+import '../../utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class InventoryProductsViewCard extends StatefulWidget {

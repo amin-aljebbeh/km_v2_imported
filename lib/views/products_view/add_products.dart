@@ -2,13 +2,10 @@ import 'dart:io';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:toast/toast.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 import '../../Services.dart';
@@ -46,13 +43,6 @@ class _AddProductsViewState extends State<AddProductsView> {
         imageQuality: 100,
         maxHeight: 600,
         maxWidth: 500);
-    // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
-    Tools.logToConsole("Image Path");
-    // Tools.logToConsole(File(pickedFile.path));
-    // Tools.logToConsole("Compressed Image Path");
-    // Tools.logToConsole(uploadedFile);
-    // Tools.logToConsole(uploadedFile.path);
-
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -69,17 +59,9 @@ class _AddProductsViewState extends State<AddProductsView> {
         imageQuality: 100,
         maxHeight: 600,
         maxWidth: 500);
-    // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
-    Tools.logToConsole("Image Path");
-    // Tools.logToConsole(File(pickedFile.path));
-    // Tools.logToConsole("Compressed Image Path");
-    // Tools.logToConsole(uploadedFile);
-    // Tools.logToConsole(uploadedFile.path);
-
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        // _uploadedFile = uploadedFile;
       } else {
         print('No image selected.');
       }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
-import 'package:toast/toast.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 import 'models/sales_reports_model.dart';
@@ -21,7 +19,6 @@ class _SalesReportState extends State<SalesReport> {
   bool isLoading = false;
   bool isError = false;
   int vegetables = 0;
-  int toaster = 0;
   int library = 0;
   int seed = 0;
   int all = 0;

@@ -24,3 +24,5 @@ export 'switch_product_status_widget.dart';
 export 'transaction_widget.dart';
 export 'update_product_info_widget.dart';
 export 'text_field_row.dart';
+export 'loader.dart';
+export 'products_view_widget.dart';

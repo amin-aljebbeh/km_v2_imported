@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
@@ -342,7 +340,6 @@ class AddAddressViewState extends State<AddAddressView> {
     try {
       if (true && await location.requestService() == true) {
         try {
-          Tools.logToConsole("---- Location Garented ----");
           Tools.logToConsole(await location.hasPermission());
           await location.getLocation().then((onValue) {
             setState(() {

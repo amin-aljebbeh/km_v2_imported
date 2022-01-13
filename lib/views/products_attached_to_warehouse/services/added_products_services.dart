@@ -5,7 +5,7 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class AddedProductsServices {
   static Future<List<ProductData>> getAddedProductsToWarehouse() async {

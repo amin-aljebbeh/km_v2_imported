@@ -1,8 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -26,8 +24,6 @@ class _OTPVerificationState extends State<OTPVerification> {
 
   Future checkOtpValidation(String verificationCode) async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    Tools.logToConsole(
-        LoginServices.replaceFarsiNumber(verificationCode.toString()));
     try {
       setState(() {
         loadingScreen = true;
@@ -55,7 +51,7 @@ class _OTPVerificationState extends State<OTPVerification> {
         _textController.text = "";
       });
       Tools.logToConsole(
-          "--------------------- Cehck OTP EXCEption ----------------------");
+          "--------------------- Check OTP Exception ----------------------");
       Tools.logToConsole(e.toString());
     }
   }

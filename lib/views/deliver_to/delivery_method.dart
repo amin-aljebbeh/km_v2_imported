@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:group_button/group_button.dart';
-import 'package:toast/toast.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 import 'deliver_to_view.dart';
@@ -159,7 +156,6 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                       spacing: 10,
 
                                       onSelected: (index, isSelected) {
-                                        Tools.logToConsole(index);
                                         setState(() {
                                           selectedIndex = index;
                                           DeliveryMethodView

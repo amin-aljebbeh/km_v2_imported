@@ -1,6 +1,5 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
@@ -134,9 +133,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                           itemBuilder: (BuildContext context, int index) {
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
-                              onTap: () => _onTileClicked(index),
+                              onTap: () {},
                               child: Container(
-                                //  color: Theme.of(context).primaryColorLight,
                                 child: Padding(
                                   padding: EdgeInsets.only(
                                       left: 0, right: 0, top: 0),
@@ -189,7 +187,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                           itemBuilder: (BuildContext context, int index) {
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
-                              onTap: () => _onTileClicked(index),
+                              onTap: () => {},
                               child: Container(
                                 //  color: Theme.of(context).primaryColorLight,
                                 child: Padding(
@@ -388,15 +386,5 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
         ],
       ),
     );
-  }
-
-  // Function to be called on click
-  void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-    // Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //         builder: (context) =>
-    //             new ProductDetailView(heroIndex: index + 100)));
   }
 }

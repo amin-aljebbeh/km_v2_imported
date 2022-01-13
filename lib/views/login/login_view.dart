@@ -1,9 +1,7 @@
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
@@ -130,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen>
           loadingScreen = false;
           errorCode = true;
         });
-        Tools.logToConsole("----------------- FEATCH OTP EXCEPTION ------");
+        Tools.logToConsole("----------------- FETCH OTP EXCEPTION ------");
         throw new Exception(e.toString());
       }
     }

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/Loader.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'login_view.dart';
@@ -47,8 +46,6 @@ class _CounterOtpState extends State<CounterOtp> {
       if (signature.toString().length != 11) {
         signature = "";
       }
-      Tools.logToConsole(
-          "Signature: ###################" + signature.toString());
 
       bool response = await Services.loginUser(
           phoneNumber: LoginScreen.phoneNumber,
@@ -75,7 +72,7 @@ class _CounterOtpState extends State<CounterOtp> {
         widget.onRequestSent(false);
       });
       Tools.logToConsole(
-          "---------------------------------- FEATCH OTP EXCEPTION ----------------------------------");
+          "---------------------------------- FETCH OTP EXCEPTION ----------------------------------");
       throw new Exception(e.toString());
     }
   }

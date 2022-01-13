@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:kammun_app/views/shop_by_category/shop_by_category_view.dart';
@@ -23,8 +22,6 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
   void initState() {
     super.initState();
     setState(() {
-      Tools.logToConsole("-------- the Category List value ==========");
-      // Tools.logToConsole(LoadingScreenServices.categoryList);
       categoryListHome.clear();
       for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
         if (LoadingScreenServices.categoryList[i].parentCategoryId == null) {
@@ -74,22 +71,11 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
 
   // Function to be called on click
   void _onTileClicked(String index) {
-    Tools.logToConsole("You tapped on item $index");
-
-    //String category_name = categoriesListArray[index]['category_name'];
-    // List<Map<String, dynamic>> productsAry =
-    //     categoriesListArray[index]["grocery_products"];
-
     List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
 
     for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
-      Tools.logToConsole(
-          LoadingScreenServices.categoryList[i].parentCategoryId.toString() +
-              "   ------   " +
-              index);
       if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() ==
           index.toString()) {
-        Tools.logToConsole("added");
         subCategoryList.add(LoadingScreenServices.categoryList[i]);
       }
     }

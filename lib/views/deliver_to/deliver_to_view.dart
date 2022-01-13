@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
-import 'package:toast/toast.dart';
 import '../../Services.dart';
 import 'delivery_method.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -279,7 +276,11 @@ class DeliverToViewState extends State<DeliverToView> {
                             itemBuilder: (BuildContext context, int index) {
                               return new GestureDetector(
                                 behavior: HitTestBehavior.translucent,
-                                onTap: () => _onAddressClicked(index),
+                                onTap: () => {
+                                  setState(() {
+                                    DeliverToView.selectedIndex = index + 1;
+                                  }),
+                                },
                                 child: Container(
                                   child: Padding(
                                     padding: EdgeInsets.only(
@@ -329,18 +330,8 @@ class DeliverToViewState extends State<DeliverToView> {
     );
   }
 
-  // Function to be called on click
-  void _onAddressClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-
-    setState(() {
-      DeliverToView.selectedIndex = index + 1;
-    });
-  }
-
   void _showProceedToPayBtnTapped() {
     if (DeliverToView.selectedIndex != null) {
-      Tools.logToConsole(DeliveryMethodServices.deliveryMethodsList.length);
       if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
         Navigator.push(
             context,

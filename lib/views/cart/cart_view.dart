@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
@@ -7,7 +6,6 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 import 'services/cart_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -92,12 +90,6 @@ class CartViewState extends State<CartView> {
           ((int.parse(orderArray[i].price.split(".")[0])) *
               orderArray[i].productCount);
     }
-
-    // Tools.logToConsole(widget.isFromUpdateOrder);
-    // widget.isFromUpdateOrder
-    //     ? WidgetsBinding.instance.addPostFrameCallback(
-    //         (_) => _showUpdateOrderInstruction(context: context))
-    //     : {};
   }
 
   void onrRemove(item) {
@@ -324,8 +316,6 @@ class CartViewState extends State<CartView> {
                                                   productId: orderArray[index]
                                                       .id
                                                       .toString());
-
-                                              // asdsa ads das sda a
                                             }
                                           });
 
