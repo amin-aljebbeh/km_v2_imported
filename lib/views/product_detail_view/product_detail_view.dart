@@ -485,7 +485,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                               ),
                               UpdateProductInfoWidget(
                                 title: StringUtils.priceFactor + ' :',
-                                inputType: TextInputType.number,
+                                inputType: TextInputType.text,
                                 bodyKey: "price_factor",
                                 productId: widget.product.id,
                                 productData: widget.product,
