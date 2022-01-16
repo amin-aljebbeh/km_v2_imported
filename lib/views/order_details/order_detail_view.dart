@@ -45,7 +45,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
         addressName: widget.addressName,
         orderId: widget.orderId,
         subTotal: widget.subTotal,
-        total: widget.total,
+        total: widget.total.split('.')[0],
         deliveryPrice: widget.deliveryPrice,
         order: widget.orderData,
         orderType: widget.orderType,

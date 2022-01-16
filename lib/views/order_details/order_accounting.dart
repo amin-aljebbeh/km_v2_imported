@@ -152,6 +152,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
         }
       }
     }
+    if (sum != 0) sum = Services.kRound(sum);
     return StringUtils().oCcy.format(sum);
   }
 

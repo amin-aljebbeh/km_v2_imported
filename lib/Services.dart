@@ -633,6 +633,14 @@ class Services {
         .toString();
   }
 
+  static int kRound(int number) {
+    double doubleSum = number / 100;
+    String stringSum = doubleSum.toString().split('.')[0];
+    number = int.parse(stringSum);
+    number *= 100;
+    return number;
+  }
+
   static makePhoneCall(String number) async {
     String url = 'tel:$number';
     if (await canLaunch(url)) {

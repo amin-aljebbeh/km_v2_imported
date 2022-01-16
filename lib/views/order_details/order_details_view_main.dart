@@ -366,7 +366,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             ),
                           ),
                           Text(
-                            "${StringUtils().oCcy.format(int.parse(widget.total.split('.')[0]))}" +
+                            "${StringUtils().oCcy.format(int.parse(widget.total))}" +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
