@@ -91,8 +91,10 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                       setState(() {
                         transactionTypeIndex = value;
                         transactionTypeString = StringUtils.transactionTypesMap[
-                            LoadingScreenServices
-                                .transactionTypes[transactionTypeIndex].slug];
+                            LoadingScreenServices.transactionTypes
+                                .where((type) => type.automatic == 0)
+                                .toList()[transactionTypeIndex]
+                                .slug];
                       });
                     },
                   ),
@@ -152,11 +154,23 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                                     ? descriptionController.text
                                     : ' ';
                             shopperId = Services.selectedShopperId(shopperName);
+                            Tools.logToConsole('message from add transaction');
+                            Tools.logToConsole(shopperId);
+                            Tools.logToConsole(LoadingScreenServices
+                                .transactionTypes
+                                .where((type) => type.automatic == 0)
+                                .toList()[transactionTypeIndex]
+                                .id
+                                .toString());
+                            Tools.logToConsole(moneyController.text);
                             bool result = await ReportsServices.addTransaction(
                               shopperId: shopperId,
                               value: moneyController.text,
                               transactionTypeId: LoadingScreenServices
-                                  .transactionTypes[transactionTypeIndex].id
+                                  .transactionTypes
+                                  .where((type) => type.automatic == 0)
+                                  .toList()[transactionTypeIndex]
+                                  .id
                                   .toString(),
                               description: description,
                               orderId: orderIdController.text,
@@ -194,8 +208,10 @@ class _AddTransactionViewState extends State<AddTransactionView> {
 
   bool completeData() {
     if (transactionTypeIndex != null) {
-      if (StringUtils.transactionTypesMap[LoadingScreenServices
-              .transactionTypes[transactionTypeIndex].slug] ==
+      if (StringUtils.transactionTypesMap[LoadingScreenServices.transactionTypes
+              .where((type) => type.automatic == 0)
+              .toList()[transactionTypeIndex]
+              .slug] ==
           'خصم')
         return shopperName != null &&
             moneyController.text.isNotEmpty &&

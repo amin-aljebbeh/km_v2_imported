@@ -332,7 +332,6 @@ class LoadingScreenServices {
           List responses;
           try {
             responses = await Future.wait([
-              //CartServices.getUserCart(),
               getSupportedCity(),
               getSubWarehouse(),
               getCategory(),

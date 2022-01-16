@@ -90,8 +90,10 @@ const String GET_LEVEL = API + LEVEL;
 const String GET_SHOPPER_TRANSACTIONS =
     API + SHOPPER + SHOPPER_TRANSACTION + 'shopper_transactions/';
 
-const String GET_TRANSACTION_TYPES =
-    GET_SHOPPER_TRANSACTIONS + 'manual_transaction';
+const String GET_TRANSACTION_TYPES = API + 'transaction_type';
+
+const String GET_MANUAL_TRANSACTION_TYPES =
+    GET_TRANSACTION_TYPES + 'manual_transaction_type';
 
 const String GET_STATISTICS_SHOPPER_TRANSACTION =
     API + SHOPPER + SHOPPER_TRANSACTION + 'statistics_shopper_transaction/';

@@ -383,10 +383,9 @@ class Services {
   }
 
   static List<DropdownMenuItem<int>> inventorySubWarehouseNames() {
-    List<String> names = [];
-    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
-      names.add(LoadingScreenServices.subWarehouses[i].name);
-    }
+    List<String> names = LoadingScreenServices.subWarehouses
+        .map((subWarehouse) => subWarehouse.name)
+        .toList();
     names.add('الجميع');
     return dropdownStringList(names);
   }
@@ -401,104 +400,98 @@ class Services {
 
   static List<DropdownMenuItem<String>> productSubWarehouseNames(
       BuildContext context) {
-    List<DropdownMenuItem<String>> names = [];
-    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
-      names.add(
-        DropdownMenuItem<String>(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.68,
-            child: Text(
-              LoadingScreenServices.subWarehouses[i].name,
-              style: warehouseStyle,
+    List<DropdownMenuItem<String>> names = LoadingScreenServices.subWarehouses
+        .map(
+          (subWarehouse) => DropdownMenuItem<String>(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.68,
+              child: Text(
+                subWarehouse.name,
+                style: warehouseStyle,
+              ),
             ),
+            value: subWarehouse.id.toString(),
           ),
-          value: LoadingScreenServices.subWarehouses[i].id.toString(),
-        ),
-      );
-    }
+        )
+        .toList();
     return names;
   }
 
   static List<DropdownMenuItem<int>> dropdownIntList(List<String> inputList) {
-    List<DropdownMenuItem<int>> list = List();
-    for (int i = 0; i < inputList.length; i++) {
-      list.add(
-        DropdownMenuItem<int>(
-          child: Text(
-            inputList[i],
-            style: dropdownItemStyle,
+    List<DropdownMenuItem<int>> list = inputList
+        .asMap()
+        .map(
+          (value, string) => MapEntry(
+            value,
+            DropdownMenuItem<int>(
+              child: Text(
+                string,
+                style: dropdownItemStyle,
+              ),
+              value: value + 1,
+            ),
           ),
-          value: i + 1,
-        ),
-      );
-    }
+        )
+        .values
+        .toList();
     return list;
   }
 
   static List<DropdownMenuItem<int>> dropdownStringList(
       List<String> inputList) {
-    List<DropdownMenuItem<int>> list = List();
-    for (int i = 0; i < inputList.length; i++) {
-      list.add(
-        DropdownMenuItem<int>(
-          child: Center(
-            child: Text(
-              inputList[i],
-              style: dropdownItemStyle,
+    List<DropdownMenuItem<int>> list = inputList
+        .asMap()
+        .map(
+          (value, string) => MapEntry(
+            value,
+            DropdownMenuItem<int>(
+              child: Center(
+                child: Text(
+                  string,
+                  style: dropdownItemStyle,
+                ),
+              ),
+              value: value,
             ),
           ),
-          value: i,
-        ),
-      );
-    }
+        )
+        .values
+        .toList();
     return list;
   }
 
-  static List<DropdownMenuItem> shoppersNameList() {
-    List<DropdownMenuItem> list = List();
-    for (int i = 0; i < LoadingScreenServices.allShoppers.length; i++) {
-      if (LoadingScreenServices.allShoppers[i].status == 1) {
-        list.add(DropdownMenuItem<String>(
-          child: Center(
-            child: Text(
-              LoadingScreenServices.allShoppers[i].name + ' ✅',
-              style: dropdownItemStyle,
+  static List<DropdownMenuItem<String>> shoppersNameList() {
+    List<DropdownMenuItem<String>> list = LoadingScreenServices.allShoppers
+        .where((shopper) => shopper.status == 1)
+        .map(
+          (shopper) => DropdownMenuItem<String>(
+            child: Center(
+              child: Text(
+                shopper.name + ' ✅',
+                style: dropdownItemStyle,
+              ),
             ),
+            value: shopper.name,
           ),
-          value: LoadingScreenServices.allShoppers[i].name,
-        ));
-      }
-    }
-    for (int i = 0; i < LoadingScreenServices.allShoppers.length; i++) {
-      if (LoadingScreenServices.allShoppers[i].status == 0) {
-        list.add(DropdownMenuItem<String>(
-          child: Center(
-            child: Text(
-              LoadingScreenServices.allShoppers[i].name + ' ❌',
-              style: dropdownItemStyle,
+        )
+        .toList();
+    list.addAll(
+      LoadingScreenServices.allShoppers
+          .where((shopper) => shopper.status == 0)
+          .map(
+            (shopper) => DropdownMenuItem<String>(
+              child: Center(
+                child: Text(
+                  shopper.name + ' ❌',
+                  style: dropdownItemStyle,
+                ),
+              ),
+              value: shopper.name,
             ),
-          ),
-          value: LoadingScreenServices.allShoppers[i].name,
-        ));
-      }
-    }
+          )
+          .toList(),
+    );
     return list;
-  }
-
-  static List<DropdownMenuItem> deliveriesNameList() {
-    List<DropdownMenuItem> itemList = List();
-    for (int i = 0; i < LoadingScreenServices.allDeliveries.length; i++) {
-      itemList.add(DropdownMenuItem<String>(
-        child: Center(
-          child: Text(
-            LoadingScreenServices.allDeliveries[i].name,
-            style: dropdownItemStyle,
-          ),
-        ),
-        value: LoadingScreenServices.allDeliveries[i].name,
-      ));
-    }
-    return itemList;
   }
 
   static bool isAdmin() {
@@ -627,17 +620,6 @@ class Services {
         } else
           return -1;
       } else
-        return -1;
-    });
-    return productsList;
-  }
-
-  static List<OrderProducts> orderProductsSort(
-      List<OrderProducts> productsList) {
-    productsList.sort((a, b) {
-      if (a.subWarehouseId > b.subWarehouseId)
-        return 1;
-      else
         return -1;
     });
     return productsList;

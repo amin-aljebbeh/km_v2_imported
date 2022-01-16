@@ -179,6 +179,7 @@ class StringUtils {
     'repayment': 'تسديد', //7
     'compensation': 'تعويض', //8
     'bonus': 'بونص', //9
+    'remaining-money': 'بقية المال', //10
   };
 
   static List<String> shopperLevels = [

@@ -52,7 +52,7 @@ class AdminModel {
         id: json["id"] == null ? null : json["id"],
         username: json["username"] == null ? null : json["username"],
         name: json["name"] == null ? null : json["name"],
-        phone: json["phone"],
+        phone: json["phone"] == null ? null : json['phone'],
         apiToken: json["api_token"] == null ? null : json["api_token"],
         productOperationsPermission:
             json["product_operations_permission"] == null

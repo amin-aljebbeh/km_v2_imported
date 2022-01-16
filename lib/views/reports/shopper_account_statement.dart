@@ -98,7 +98,6 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
         child: Padding(
           padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
           child: ListView(
-         //   crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Services.isShopper()
                   ? Padding(
