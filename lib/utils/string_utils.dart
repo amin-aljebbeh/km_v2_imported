@@ -100,12 +100,10 @@ class StringUtils {
   static String onBoardingTitle2 = 'Pick Up or Delivery';
   static String onBoardingTitle3 = 'Pay quick and easy';
 
-  static String onBoardingDescribe1 =
-      'Easily find your grocery items and you will get delivery in wide range';
+  static String onBoardingDescribe1 = 'Easily find your grocery items and you will get delivery in wide range';
   static String onBoardingDescribe2 =
       'We make ordering fast, simple and free-no matter if you order online or cash';
-  static String onBoardingDescribe3 =
-      'Pay for order using credit or debit card';
+  static String onBoardingDescribe3 = 'Pay for order using credit or debit card';
 
   //Roles:
   static String shopperRole = 'shopper';
@@ -179,16 +177,10 @@ class StringUtils {
     'repayment': 'تسديد', //7
     'compensation': 'تعويض', //8
     'bonus': 'بونص', //9
-    'remaining-money': 'بقية المال', //10
+    'remaining-money': 'زوائد', //10
   };
 
-  static List<String> shopperLevels = [
-    'مبتدئ',
-    'متوسط',
-    'متقدم',
-    'خبير',
-    'معلم'
-  ];
+  static List<String> shopperLevels = ['مبتدئ', 'متوسط', 'متقدم', 'خبير', 'معلم'];
 
   static List<String> productFilter = [
     'الغير مفعلة',

@@ -30,8 +30,7 @@ class Transaction extends StatelessWidget {
                     Text(
                       DateFormat('EEEE', 'ar').format(transaction.createdAt) +
                           ' ' +
-                          DateFormat('dd-MM-yyyy', 'en')
-                              .format(transaction.createdAt),
+                          DateFormat('dd-MM-yyyy', 'en').format(transaction.createdAt),
                       style: disableStyle,
                     ),
                     KTableRow(
@@ -54,19 +53,13 @@ class Transaction extends StatelessWidget {
               KTableRow(
                 children: [
                   KTableElement(
-                    text: StringUtils()
-                        .oCcy
-                        .format(transaction.valueShopper.abs())
-                        .toString(),
+                    text: StringUtils().oCcy.format(transaction.valueShopper.abs()).toString(),
                     style: transaction.valueShopper >= 0
                         ? mainStyle.copyWith(color: Colors.green)
                         : mainStyle.copyWith(color: Colors.red),
                   ),
                   KTableElement(
-                    text: StringUtils()
-                        .oCcy
-                        .format(transaction.valueCompany.abs())
-                        .toString(),
+                    text: StringUtils().oCcy.format(transaction.valueCompany.abs()).toString(),
                     style: transaction.valueCompany >= 0
                         ? mainStyle.copyWith(color: Colors.green)
                         : mainStyle.copyWith(color: Colors.red),
@@ -74,11 +67,9 @@ class Transaction extends StatelessWidget {
                   Stack(
                     children: [
                       KTableElement(
-                        text: StringUtils.transactionTypesMap[
-                            LoadingScreenServices.transactionTypes
-                                .firstWhere((type) =>
-                                    type.id == transaction.transactionTypeId)
-                                .slug],
+                        text: StringUtils.transactionTypesMap[LoadingScreenServices.transactionTypes
+                            .firstWhere((type) => type.id == transaction.transactionTypeId)
+                            .slug],
                       ),
                       transaction.description != null
                           ? IconButton(

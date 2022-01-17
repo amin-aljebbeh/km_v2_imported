@@ -100,13 +100,10 @@ class OrdersViewCardState extends State<OrdersViewCard> {
   Widget build(BuildContext context) {
     if (widget.orderStatus == 2) orderStatus = "تم قبول الطلب ✅";
     if (widget.orderStatus == 3) orderStatus = "تم تجهيز الطلب 😎";
-    if (widget.orderStatus == 4)
-      orderStatus = "تم إرسال الطلب مع كابتن التوصيل";
-    if (widget.underUpdate == 1)
-      orderStatus = "الطلب معلق حتى يأكد الزبون التعديل";
+    if (widget.orderStatus == 4) orderStatus = "تم إرسال الطلب مع كابتن التوصيل";
+    if (widget.underUpdate == 1) orderStatus = "الطلب معلق حتى يأكد الزبون التعديل";
 
-    if (widget.underUpdate == 2)
-      orderStatus = "الطلب معلق حتى تقوم بتأكيد التعديل";
+    if (widget.underUpdate == 2) orderStatus = "الطلب معلق حتى تقوم بتأكيد التعديل";
 
     if (widget.orderStatus == 5) orderStatus = "تم توصيل الطلب بنجاح";
     if (widget.orderStatus == 6) orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
@@ -117,8 +114,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
           ? BoxDecoration(border: Border.all(color: Colors.red, width: 5))
           : widget.deliveryMethodId == 3
               ? BoxDecoration(border: Border.all(color: Colors.green, width: 5))
-              : BoxDecoration(
-                  border: Border.all(color: Colors.transparent, width: 5)),
+              : BoxDecoration(border: Border.all(color: Colors.transparent, width: 5)),
       child: Padding(
         padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
         child: Column(
@@ -130,16 +126,14 @@ class OrdersViewCardState extends State<OrdersViewCard> {
               children: <Widget>[
                 LabelRow(
                   rightSideText: StringUtils.bill,
-                  leftSideText:
-                      "${StringUtils().oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
-                          " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                  leftSideText: "${StringUtils().oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
+                      " ${LoadingScreenServices.companyInformation.currency.toString()}",
                   leftSideStyle: informationStyle,
                 ),
                 Container(
                   padding: EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                        color: ColorUtils.greyColor.withOpacity(0.2)),
+                    border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2)),
                   ),
                   child: Text(
                     widget.orderQuantity.toString(),
@@ -147,6 +141,23 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     textAlign: TextAlign.center,
                   ),
                 ),
+                if (Services.isAdmin())
+                  Container(
+                    padding: EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red.withOpacity(0.2)),
+                    ),
+                    child: Text(
+                      widget.orderData.products
+                          .where((product) => product.pivot.deletedAt != null)
+                          .length
+                          .toString(),
+                      style: loseStyle.copyWith(
+                        fontSize: 18,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -161,8 +172,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     if (Services.isShopper())
                       RichText(
                         text: TextSpan(
-                          text:
-                              "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
+                          text: "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
                           style: profitStyle,
                         ),
                       ),
@@ -176,8 +186,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
               leftSideStyle: paragraphStyle.copyWith(
                 color: ColorUtils.kmColors,
               ),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () => Services.makePhoneCall(widget.userNumber),
+              recognizer: TapGestureRecognizer()..onTap = () => Services.makePhoneCall(widget.userNumber),
             ),
             LabelRow(
               rightSideText: StringUtils.address + " : ",
@@ -187,8 +196,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
             LabelRow(
               rightSideText: StringUtils.city,
               leftSideText: LoadingScreenServices.supportedCitiesListIntro
-                      .where((supportedCity) =>
-                          supportedCity.id == widget.supportedCityId)
+                      .where((supportedCity) => supportedCity.id == widget.supportedCityId)
                       .first
                       .name +
                   "   ",

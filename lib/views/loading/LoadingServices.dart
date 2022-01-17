@@ -62,20 +62,14 @@ class LoadingScreenServices {
   static List<Address> userAddress = List<Address>();
   static List<ProductData> userFavoriteProducts = List<ProductData>();
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> allOrdersList =
-      new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> allOrdersList = new List<OrdersOriginalData>();
   static List<ShopperModel> allShoppers = List<ShopperModel>();
   static List<DeliveryModel> allDeliveries = List<DeliveryModel>();
-  static List<OrdersOriginalData> shoppersAssignedOrdersList =
-      new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> deliveriesAssignedOrdersList =
-      new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> notAssignedOrdersList =
-      new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> supplierOrderList =
-      new List<OrdersOriginalData>();
-  static List<TransactionTypeModel> transactionTypes =
-      List<TransactionTypeModel>();
+  static List<OrdersOriginalData> shoppersAssignedOrdersList = new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> deliveriesAssignedOrdersList = new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> notAssignedOrdersList = new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> supplierOrderList = new List<OrdersOriginalData>();
+  static List<TransactionTypeModel> transactionTypes = List<TransactionTypeModel>();
   static String phoneNumber = "لم تقم بتسجيل رقم";
   static String name;
   static String userName;
@@ -115,8 +109,7 @@ class LoadingScreenServices {
     subWarehouses.clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<SubWarehouse> response = await InventoryServices.getSubWarehoused(
-        adminId: prefs.getString("adminId"));
+    List<SubWarehouse> response = await InventoryServices.getSubWarehoused(adminId: prefs.getString("adminId"));
     if (response != null) {
       subWarehouses.addAll(response);
 
@@ -132,8 +125,7 @@ class LoadingScreenServices {
       method: httpMethods.get,
     );
     if (response.statusCode == SUCCESS_CODE) {
-      final supportedCitiesResponse =
-          supportedCityOriginalFromJson(jsonEncode(response.data));
+      final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
       supportedCityOriginal = supportedCitiesResponse;
 
       supportedCitiesListIntro.clear();
@@ -221,18 +213,15 @@ class LoadingScreenServices {
             value: category[i].name + ";" + category[i].id.toString(),
           ));
         }
-        if (category[i].warehouses.length > 0 &&
-            category[i].warehouses[0].pivot.isActive == "1") {
+        if (category[i].warehouses.length > 0 && category[i].warehouses[0].pivot.isActive == "1") {
           categoryList.add(category[i]);
         }
       }
 
       categoryList.sort((a, b) {
-        if ((int.parse(a.warehouses[0].pivot.priority)) >
-            (int.parse(b.warehouses[0].pivot.priority)))
+        if ((int.parse(a.warehouses[0].pivot.priority)) > (int.parse(b.warehouses[0].pivot.priority)))
           return 1;
-        else if ((int.parse(a.warehouses[0].pivot.priority) <
-            (int.parse(b.warehouses[0].pivot.priority))))
+        else if ((int.parse(a.warehouses[0].pivot.priority) < (int.parse(b.warehouses[0].pivot.priority))))
           return -1;
         else
           return 0;
@@ -268,30 +257,24 @@ class LoadingScreenServices {
     // Mobile Configuration
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("adminRoll") != null &&
-        prefs.getString("adminRoll").contains("@")) {
-      subSupplierCodeHint =
-          RegExp(".*${prefs.getString("adminRoll").split("@")[1]}");
+    if (prefs.getString("adminRoll") != null && prefs.getString("adminRoll").contains("@")) {
+      subSupplierCodeHint = RegExp(".*${prefs.getString("adminRoll").split("@")[1]}");
     } else {
       subSupplierCodeHint = RegExp(".*");
     }
 
-    androidShareUrl =
-        "https://play.google.com/store/apps/details?id=com.kammun.app";
-    iOSShareUrl =
-        "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
+    androidShareUrl = "https://play.google.com/store/apps/details?id=com.kammun.app";
+    iOSShareUrl = "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
 
     if (Platform.isIOS) {
       lastSupported = 100;
       currentVersion = 100;
 
-      LoadingScreen.updateUrl =
-          "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
+      LoadingScreen.updateUrl = "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
     } else {
       lastSupported = 100;
       currentVersion = 100;
-      LoadingScreen.updateUrl =
-          "https://play.google.com/store/apps/details?id=com.kammun.app";
+      LoadingScreen.updateUrl = "https://play.google.com/store/apps/details?id=com.kammun.app";
     }
 
     if (int.parse(buildNumber) < lastSupported) {
@@ -344,9 +327,7 @@ class LoadingScreenServices {
                 Services.isAccounting()) {
               await Services.getShoppers();
             }
-            if (Services.isAccounting() ||
-                Services.isSuperAdmin() ||
-                Services.isAdmin()) {
+            if (Services.isAccounting() || Services.isSuperAdmin() || Services.isAdmin() || Services.isShopper()) {
               transactionTypes = await ReportsServices.getTransactionTypes();
             }
           } catch (e) {

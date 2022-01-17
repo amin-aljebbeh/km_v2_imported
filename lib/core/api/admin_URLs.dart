@@ -89,4 +89,7 @@ const String ADD_TRANSACTION = API + SHOPPER + SHOPPER_TRANSACTION + 'add_transa
 
 const String REMAINING_MONEY_FOR_SUPPLIER = API + SHOPPER + SHOPPER_TRANSACTION + 'remining_mony_for_supplier';
 
+const String GET_SHOPPER_PROFIT_overOVER_DATE =
+    API + SHOPPER + SHOPPER_TRANSACTION + 'get_shopper_profit_over_date';
+
 const String GET_DELIVERIES = API + 'delivery';

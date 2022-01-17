@@ -9,8 +9,7 @@ import 'models/transaction_model.dart';
 
 class ShopperAccountStatement extends StatefulWidget {
   @override
-  _ShopperAccountStatementState createState() =>
-      _ShopperAccountStatementState();
+  _ShopperAccountStatementState createState() => _ShopperAccountStatementState();
 }
 
 class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
@@ -40,19 +39,20 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
         profitLoading = true;
       });
       getDailyProfit(Services.shopper.id.toString());
+      getTransaction(Services.shopper.id.toString());
     }
     super.initState();
   }
 
   getTransaction(String shopperId) async {
     setState(() {
+      if (Services.isShopper()) selected = true;
       if (transactions != null) {
         error = false;
         transactions.clear();
       }
     });
-    var tempTransactions = await ReportsServices.getShopperTransactions(
-        shopperId: shopperId, pageNumber: page);
+    var tempTransactions = await ReportsServices.getShopperTransactions(shopperId: shopperId, pageNumber: page);
     setState(() {
       loading = false;
       if (tempTransactions != null) {
@@ -67,8 +67,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
   }
 
   getDailyProfit(String shopperId) async {
-    String result =
-        await ReportsServices.getShopperDailyProfit(shopperId: shopperId);
+    String result = await ReportsServices.getShopperDailyProfit(shopperId: shopperId);
     setState(() {
       profitLoading = false;
       profit = result;
@@ -99,47 +98,30 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
           padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
           child: ListView(
             children: [
-              Services.isShopper()
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 25.0),
-                      child: LabelRow(
-                        rightSideText: 'مرابح اليوم : ',
-                        leftSideText: profit != null
-                            ? StringUtils()
-                                .oCcy
-                                .format(int.parse(profit).abs())
-                                .toString()
-                            : 'error',
-                        leftSideStyle: profit != null
-                            ? int.parse(profit).isNegative
-                                ? loseStyle
-                                : profitStyle
-                            : loseStyle,
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back,
+                          size: 40,
+                          color: ColorUtils.primaryColor,
+                        ),
+                        onPressed: () {
+                          if (selected && !empty) {
+                            setState(() {
+                              page++;
+                              loading = true;
+                            });
+                            getTransaction(Services.isAccounting() ? shopperId : Services.shopper.id.toString());
+                          }
+                        },
                       ),
-                    )
-                  : Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.arrow_back,
-                                size: 40,
-                                color: ColorUtils.primaryColor,
-                              ),
-                              onPressed: () {
-                                if (selected && !empty) {
-                                  setState(() {
-                                    page++;
-                                    loading = true;
-                                  });
-                                  getTransaction(shopperId);
-                                }
-                              },
-                            ),
-                            Container(
+                      Services.isAccounting()
+                          ? Container(
                               width: MediaQuery.of(context).size.width * 0.5,
                               child: KSearchableDropdown(
                                 hint: StringUtils.chooseShopper,
@@ -152,8 +134,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                                     shopperName = value;
                                     selected = true;
                                     loading = true;
-                                    shopperId =
-                                        Services.selectedShopperId(value);
+                                    shopperId = Services.selectedShopperId(value);
                                     profitLoading = true;
                                   });
 
@@ -161,89 +142,98 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                                   getDailyProfit(shopperId);
                                 },
                               ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.arrow_forward,
-                                size: 40,
-                                color: ColorUtils.primaryColor,
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 20.0),
+                              child: LabelRow(
+                                rightSideText: 'مرابح اليوم : ',
+                                leftSideText: profit != null
+                                    ? StringUtils().oCcy.format(int.parse(profit).abs()).toString()
+                                    : 'error',
+                                leftSideStyle: profit != null
+                                    ? int.parse(profit).isNegative
+                                        ? loseStyle
+                                        : profitStyle
+                                    : loseStyle,
                               ),
-                              onPressed: () {
-                                if (selected) {
-                                  setState(() {
-                                    if (page > 1) {
-                                      page--;
-                                      loading = true;
-                                    }
-                                  });
-                                  getTransaction(shopperId);
-                                }
-                              },
                             ),
-                          ],
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward,
+                          size: 40,
+                          color: ColorUtils.primaryColor,
                         ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.043,
-                          child: selected
-                              ? profitLoading
-                                  ? Loader()
-                                  : LabelRow(
-                                      rightSideText: 'مرابح اليوم : ',
-                                      leftSideText: profit != null
-                                          ? StringUtils()
-                                              .oCcy
-                                              .format(int.parse(profit).abs())
-                                              .toString()
-                                          : 'error',
-                                      leftSideStyle: profit != null
-                                          ? int.parse(profit).isNegative
-                                              ? loseStyle
-                                              : profitStyle
-                                          : loseStyle,
-                                    )
-                              : Container(),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.61,
-                          child: selected
-                              ? error
-                                  ? Center(
-                                      child: AlertMessages(
-                                        text:
-                                            "حدث خطأ اثناء محاولة جلب البيانات",
-                                        messageType: "internetError",
-                                        headerText: "حدث خطأ",
-                                      ),
-                                    )
-                                  : loading
-                                      ? Loader()
-                                      : empty
-                                          ? Padding(
-                                              padding: const EdgeInsets.all(75),
-                                              child: ScreenMessage(
-                                                message: 'لا يوجد حركة',
-                                              ),
-                                            )
-                                          : ListView.builder(
-                                              scrollDirection: Axis.vertical,
-                                              itemCount: transactions.length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return Transaction(
-                                                  transaction:
-                                                      transactions[index],
-                                                  newTransaction:
-                                                      newTransaction(index),
-                                                );
-                                              },
-                                            )
-                              : ScreenMessage(
-                                  message: 'اختر متسوق',
+                        onPressed: () {
+                          if (selected) {
+                            setState(() {
+                              if (page > 1) {
+                                page--;
+                                loading = true;
+                              }
+                            });
+                            getTransaction(Services.isAccounting() ? shopperId : Services.shopper.id.toString());
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.043,
+                    child: selected
+                        ? profitLoading
+                            ? Loader()
+                            : Services.isAccounting()
+                                ? LabelRow(
+                                    rightSideText: 'مرابح اليوم : ',
+                                    leftSideText: profit != null
+                                        ? StringUtils().oCcy.format(int.parse(profit).abs()).toString()
+                                        : 'error',
+                                    leftSideStyle: profit != null
+                                        ? int.parse(profit).isNegative
+                                            ? loseStyle
+                                            : profitStyle
+                                        : loseStyle,
+                                  )
+                                : Container()
+                        : Container(),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.61,
+                    child: selected
+                        ? error
+                            ? Center(
+                                child: AlertMessages(
+                                  text: "حدث خطأ اثناء محاولة جلب البيانات",
+                                  messageType: "internetError",
+                                  headerText: "حدث خطأ",
                                 ),
-                        ),
-                        KammunButton(
+                              )
+                            : loading
+                                ? Loader()
+                                : empty
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(75),
+                                        child: ScreenMessage(
+                                          message: 'لا يوجد حركة',
+                                        ),
+                                      )
+                                    : ListView.builder(
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: transactions.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          return Transaction(
+                                            transaction: transactions[index],
+                                            newTransaction: newTransaction(index),
+                                          );
+                                        },
+                                      )
+                        : ScreenMessage(
+                            message: 'اختر متسوق',
+                          ),
+                  ),
+                  Services.isAccounting()
+                      ? KammunButton(
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           text: 'إضافة مناقلة',
@@ -258,9 +248,12 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                               ),
                             );
                           },
+                        )
+                      : SizedBox(
+                          height: 50,
                         ),
-                      ],
-                    ),
+                ],
+              ),
               KammunButton(
                 width: MediaQuery.of(context).size.width,
                 height: 50,
@@ -272,8 +265,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                     selected = true;
                   }
                   if (selected) {
-                    ReportsServices.financialDues(
-                        context: context, shopperId: shopperId);
+                    ReportsServices.financialDues(context: context, shopperId: shopperId);
                   } else {
                     Toast.show(
                       "يرجى اختيار متسوق",
