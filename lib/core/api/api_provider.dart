@@ -20,15 +20,12 @@ class ApiProvider {
         baseUrl: mapService ? "" : BASE_URL,
         connectTimeout: 40000,
         receiveTimeout: 40000,
-        contentType: isUrlEncodedFormat
-            ? Headers.formUrlEncodedContentType
-            : Headers.jsonContentType);
+        contentType: isUrlEncodedFormat ? Headers.formUrlEncodedContentType : Headers.jsonContentType);
 
     var dio = new Dio(options);
 
     Map<String, String> header = {
-      'Authorization':
-          LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : "",
+      'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : "",
     };
 
     Response response;
@@ -68,15 +65,12 @@ class ApiProvider {
         case httpMethods.post:
           {
             response = await dio.post(url,
-                queryParameters: queryParameters,
-                options: Options(headers: header),
-                data: body);
+                queryParameters: queryParameters, options: Options(headers: header), data: body);
             break;
           }
       }
     } on DioError catch (e) {
-      Tools.logToConsole(
-          "------------------------ API Exception --------------------------------------");
+      Tools.logToConsole("------------------------ API Exception --------------------------------------");
 
       return ErrorHandler.handleDioError(e);
     } on NoSuchMethodError catch (e) {

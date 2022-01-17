@@ -6,6 +6,7 @@ export 'entry_field.dart';
 export 'facebook_loader.dart';
 export 'favorite_products_view_card.dart';
 export 'k_cache_image.dart';
+export 'k_date_picker.dart';
 export 'k_searchable_dropdown.dart';
 export 'k_table_element.dart';
 export 'k_table_row.dart';

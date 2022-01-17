@@ -5,12 +5,12 @@ import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/reports/models/supplier_account_model.dart';
 import 'package:kammun_app/views/reports/models/transaction_type_model.dart';
 import '../models/report_model_importer.dart';
 
 class ReportsServices {
-  static Future<GetDailyStatistics> getSalesReports(
-      {String fromDate, String toDate, String warehouseId}) async {
+  static Future<GetDailyStatistics> getSalesReports({String fromDate, String toDate, String warehouseId}) async {
     var response;
 
     response = await ApiProvider.sendRequest(
@@ -29,8 +29,7 @@ class ReportsServices {
     }
   }
 
-  static Future<List<TransactionModel>> getShopperTransactions(
-      {String shopperId, int pageNumber}) async {
+  static Future<List<TransactionModel>> getShopperTransactions({String shopperId, int pageNumber}) async {
     var response;
 
     response = await ApiProvider.sendRequest(
@@ -42,8 +41,7 @@ class ReportsServices {
     if (response.statusCode == SUCCESS_CODE) {
       List<TransactionModel> transactions = List<TransactionModel>();
       if (response.data["success"].toString() == "true") {
-        transactions =
-            transactionResponseFromJson(jsonEncode(response.data)).data.data;
+        transactions = transactionResponseFromJson(jsonEncode(response.data)).data.data;
         return transactions;
       } else
         return transactions;
@@ -52,8 +50,7 @@ class ReportsServices {
     }
   }
 
-  static Future<FinancialDuesModel> getShopperFinancialDues(
-      {@required String shopperId}) async {
+  static Future<FinancialDuesModel> getShopperFinancialDues({@required String shopperId}) async {
     var response;
 
     response = await ApiProvider.sendRequest(
@@ -64,8 +61,7 @@ class ReportsServices {
     if (response.statusCode == SUCCESS_CODE) {
       FinancialDuesModel financialDues = FinancialDuesModel();
       if (response.data["success"].toString() == "true") {
-        financialDues =
-            financialDuesResponseModelFromJson(jsonEncode(response.data)).data;
+        financialDues = financialDuesResponseModelFromJson(jsonEncode(response.data)).data;
         return financialDues;
       } else
         return financialDues;
@@ -74,8 +70,7 @@ class ReportsServices {
     }
   }
 
-  static Future<String> getShopperDailyProfit(
-      {@required String shopperId}) async {
+  static Future<String> getShopperDailyProfit({@required String shopperId}) async {
     var response;
 
     response = await ApiProvider.sendRequest(
@@ -86,8 +81,7 @@ class ReportsServices {
     if (response.statusCode == SUCCESS_CODE) {
       String dailyProfit;
       if (response.data["success"].toString() == "true") {
-        dailyProfit =
-            dailyProfitModelFromJson(jsonEncode(response.data)).profit;
+        dailyProfit = dailyProfitModelFromJson(jsonEncode(response.data)).profit;
         return dailyProfit;
       } else
         return dailyProfit;
@@ -96,10 +90,8 @@ class ReportsServices {
     }
   }
 
-  static financialDues(
-      {@required BuildContext context, @required String shopperId}) async {
-    FinancialDuesModel financialDues =
-        await getShopperFinancialDues(shopperId: shopperId);
+  static financialDues({@required BuildContext context, @required String shopperId}) async {
+    FinancialDuesModel financialDues = await getShopperFinancialDues(shopperId: shopperId);
     Widget content;
     if (financialDues == null)
       content = AlertMessages(
@@ -118,13 +110,8 @@ class ReportsServices {
                 style: mainStyle,
               ),
               Text(
-                StringUtils()
-                    .oCcy
-                    .format(int.parse(financialDues.totalShopperProfits).abs())
-                    .toString(),
-                style: int.parse(financialDues.totalShopperProfits).isNegative
-                    ? loseStyle
-                    : profitStyle,
+                StringUtils().oCcy.format(int.parse(financialDues.totalShopperProfits).abs()).toString(),
+                style: int.parse(financialDues.totalShopperProfits).isNegative ? loseStyle : profitStyle,
               ),
             ],
           ),
@@ -135,13 +122,8 @@ class ReportsServices {
                 style: mainStyle,
               ),
               Text(
-                StringUtils()
-                    .oCcy
-                    .format(int.parse(financialDues.companyDues).abs())
-                    .toString(),
-                style: int.parse(financialDues.companyDues).isNegative
-                    ? loseStyle
-                    : profitStyle,
+                StringUtils().oCcy.format(int.parse(financialDues.companyDues).abs()).toString(),
+                style: int.parse(financialDues.companyDues).isNegative ? loseStyle : profitStyle,
               ),
             ],
           ),
@@ -179,8 +161,7 @@ class ReportsServices {
       method: httpMethods.get,
     );
 
-    if (response.statusCode == SUCCESS_CODE &&
-        response.data["success"] == true) {
+    if (response.statusCode == SUCCESS_CODE && response.data["success"] == true) {
       return matchingProductsFromJson(jsonEncode(response.shopper));
     } else {
       return null;
@@ -203,9 +184,7 @@ class ReportsServices {
     };
     try {
       var response = await ApiProvider.sendRequest(
-          url: ADD_TRANSACTION,
-          method: httpMethods.post,
-          body: jsonEncode(transaction));
+          url: ADD_TRANSACTION, method: httpMethods.post, body: jsonEncode(transaction));
 
       if (response.statusCode == SUCCESS_CODE) {
         return response.data['success'];
@@ -224,13 +203,37 @@ class ReportsServices {
         url: GET_TRANSACTION_TYPES,
         method: httpMethods.get,
       );
-      if (response.statusCode == SUCCESS_CODE &&
-          response.data["success"] == true) {
+      if (response.statusCode == SUCCESS_CODE && response.data["success"] == true) {
         return transactionTypeResponseFromJson(jsonEncode(response.data)).data;
       } else {
         return null;
       }
     } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<List<SupplierAccountModel>> getSupplierAccounts({String fromDate, String toDate}) async {
+    try {
+      var response;
+      response = await ApiProvider.sendRequest(
+        url: REMAINING_MONEY_FOR_SUPPLIER,
+        queryParameters: {
+          "from_date": fromDate,
+          "to_date": toDate,
+        },
+        method: httpMethods.get,
+      );
+
+      if (response.statusCode == SUCCESS_CODE) {
+        return supplierAccountModelResponseFromJson(jsonEncode(response.data)).data;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Tools.logToConsole('message from remaining');
+      Tools.logToConsole(e.toString());
+
       return null;
     }
   }

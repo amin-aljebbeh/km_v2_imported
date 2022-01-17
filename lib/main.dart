@@ -10,27 +10,18 @@ import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'views/cart/CartViewFinal.dart';
-import 'views/inventory/inventory.dart';
-import 'views/inventory/manager_subWarehouse.dart';
-import 'views/inventory/products_filter.dart';
+import 'views/inventory/inventory_importer.dart';
 import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
 import 'views/prices_changes/prices.dart';
-import 'views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
-import 'views/products_attached_to_warehouse/views/all_products_view.dart';
-import 'views/products_attached_to_warehouse/views/view_added_products.dart';
-import 'views/products_attached_to_warehouse/views/view_not_added_products.dart';
+import 'views/products_attached_to_warehouse/views/products_attached_to_warehouse_importer.dart';
 import 'views/profile/profileScreen.dart';
-import 'views/reports/add_transaction_view.dart';
-import 'views/reports/matching_report.dart';
-import 'views/reports/sales_report.dart';
-import 'views/reports/shopper_account_statement.dart';
+import 'views/reports/reports_importer.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 void main() {
-  //BlocSupervisor.delegate = SimpleBlocDelegate();
   RenderErrorBox.backgroundColor = Colors.transparent;
   RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
   runApp(
@@ -100,12 +91,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           LoginScreen.routeName: (_) => LoginScreen(),
-          //  '/login': (_) => new LoginView(), // Login Page
           '/home': (_) => HomeView(routeIndex: 0),
           '/myApp': (_) => MyApp(),
           'loading': (_) => LoadingScreen(),
-
-          // '/home': (_) => LoginView(),
           '/favoraites': (_) => HomeView(routeIndex: 3),
           '/cartFinal': (_) => CartViewFinal(),
           OTPVerification.routeName: (_) => OTPVerification(),
@@ -118,17 +106,14 @@ class _MyAppState extends State<MyApp> {
                 routeIndex: 1,
                 isFromUpdateOrder: true,
               ),
-
           '/orders': (_) => HomeView(routeIndex: 2),
           '/profile': (_) => ProfileScreen(),
           '/statistics': (_) => DailyStatistics(),
           '/sales_reports': (_) => SalesReport(),
           '/products_added_to_warehouse': (_) => AddedProductsToWarehouse(),
-          '/products_not_added_to_warehouse': (_) =>
-              NotAddedProductsToWarehouse(),
+          '/products_not_added_to_warehouse': (_) => NotAddedProductsToWarehouse(),
           '/all_products': (_) => AllProducts(),
-          '/attach_product_to_sub_warehouse': (_) =>
-              AddProductsToSubWarehouse(),
+          '/attach_product_to_sub_warehouse': (_) => AddProductsToSubWarehouse(),
           '/matching_report': (_) => MatchingReport(),
           '/subWarehouseManagement': (_) => GetSubWarehouse(),
           '/priceChange': (_) => Prices(),
@@ -136,6 +121,7 @@ class _MyAppState extends State<MyApp> {
           '/ShopperAccountStatement': (_) => ShopperAccountStatement(),
           '/AddTransactionView': (_) => AddTransactionView(),
           '/products_filter': (_) => ProductsFilterScreen(),
+          '/SupplierAccounts': (_) => SupplierAccounts(),
         },
         theme: CustomTheme.of(context),
         home: LoadingScreen(),
