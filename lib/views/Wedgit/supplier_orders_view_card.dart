@@ -12,8 +12,7 @@ import 'widgets_importer.dart';
 class SupplierOrdersViewCard extends StatefulWidget {
   final OrdersOriginalData order;
 
-  const SupplierOrdersViewCard({Key key, @required this.order})
-      : super(key: key);
+  const SupplierOrdersViewCard({Key key, @required this.order}) : super(key: key);
 
   @override
   _SupplierOrdersViewCardState createState() => _SupplierOrdersViewCardState();
@@ -21,18 +20,15 @@ class SupplierOrdersViewCard extends StatefulWidget {
 
 class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
   int productsCount() {
-    return widget.order.products
-        .where((product) => product.pivot.deletedAt == null)
-        .length;
+    return widget.order.products.where((product) => product.pivot.deletedAt == null).length;
   }
 
   productsNetPrice() {
     double total = 0;
     for (int i = 0; i < widget.order.products.length; i++) {
       if ((widget.order.products[i].pivot.deletedAt == null)) {
-        double subTotal =
-            ((double.parse(widget.order.products[i].pivot.purchasePrice) -
-                widget.order.products[i].pivot.increaseValue));
+        double subTotal = ((double.parse(widget.order.products[i].pivot.purchasePrice) -
+            widget.order.products[i].pivot.increaseValue));
         widget.order.products[i].pivot.purchasePrice = subTotal.toString();
         subTotal *= double.parse(widget.order.products[i].pivot.quantity);
         total += subTotal;
@@ -50,8 +46,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
 
   @override
   Widget build(BuildContext context) {
-    double discountPercentage = SubWarehouse.getDiscountPercentage(
-        widget.order.products[0].subWarehouseId);
+    double discountPercentage = SubWarehouse.getDiscountPercentage(widget.order.products[0].subWarehouseId);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => {
@@ -62,14 +57,10 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
               ordersAry: widget.order.products,
               addressName: 'widget.order.address.street',
               orderId: widget.order.id,
-              subTotal: Services.kRound(int.parse(
-                  (double.parse(widget.order.total) -
-                          double.parse(widget.order.total) * discountPercentage)
-                      .toString()
-                      .split('.')[0])),
-              total:
-                  Services.kRound(int.parse(widget.order.total.split('.')[0]))
-                      .toString(),
+              subTotal: Services.kRound(
+                (double.parse(widget.order.total) - double.parse(widget.order.total) * discountPercentage),
+              ),
+              total: Services.kRound(double.parse(widget.order.total)).toString(),
               deliveryPrice: '0',
               order: widget.order,
               orderType: OrderType.myOrder,
@@ -90,16 +81,20 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                   children: <Widget>[
                     LabelRow(
                       rightSideText: StringUtils.bill,
-                      leftSideText:
-                          "${StringUtils().oCcy.format(Services.kRound(int.parse(widget.order.total.split('.')[0]))).toString()}" +
-                              " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                      leftSideText: "${StringUtils().oCcy.format(
+                                Services.kRound(
+                                  double.parse(
+                                    widget.order.total,
+                                  ),
+                                ),
+                              ).toString()}" +
+                          " ${LoadingScreenServices.companyInformation.currency.toString()}",
                       leftSideStyle: informationStyle,
                     ),
                     Container(
                       padding: EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        border: Border.all(
-                            color: ColorUtils.greyColor.withOpacity(0.2)),
+                        border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2)),
                       ),
                       child: Text(
                         productsCount().toString(),
@@ -127,30 +122,23 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                 ),
                 LabelRow(
                   rightSideText: StringUtils.orderDate,
-                  leftSideText: DateFormat('a h:mm - dd-MM-yyyy')
-                      .format(widget.order.createdAt),
+                  leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(widget.order.createdAt),
                   leftSideStyle: disableStyle,
                 ),
                 LabelRow(
                   rightSideText: StringUtils.shopperName + " ",
-                  leftSideText: widget.order.shopper != null
-                      ? widget.order.shopper.name
-                      : " ",
+                  leftSideText: widget.order.shopper != null ? widget.order.shopper.name : " ",
                   leftSideStyle: paragraphStyle,
                 ),
                 LabelRow(
                   rightSideText: StringUtils.phoneNumber,
-                  leftSideText: widget.order.shopper != null
-                      ? widget.order.shopper.admin.phone
-                      : " ",
+                  leftSideText: widget.order.shopper != null ? widget.order.shopper.admin.phone : " ",
                   leftSideStyle: paragraphStyle.copyWith(
                     color: ColorUtils.kmColors,
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => Services.makePhoneCall(
-                        widget.order.shopper != null
-                            ? widget.order.shopper.admin.phone
-                            : "0969999204"),
+                        widget.order.shopper != null ? widget.order.shopper.admin.phone : "0969999204"),
                 ),
               ],
             ),

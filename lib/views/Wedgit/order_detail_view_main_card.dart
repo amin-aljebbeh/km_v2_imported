@@ -96,14 +96,12 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
       borderColor = Colors.transparent;
     }
 
-    double discountPercentage =
-        SubWarehouse.getDiscountPercentage(widget.productsData.subWarehouseId);
+    double discountPercentage = SubWarehouse.getDiscountPercentage(widget.productsData.subWarehouseId);
     return Container(
       padding: EdgeInsets.only(
         top: 10,
       ),
-      decoration:
-          BoxDecoration(border: Border.all(color: borderColor, width: 3)),
+      decoration: BoxDecoration(border: Border.all(color: borderColor, width: 3)),
       // color: Theme.of(context).primaryColorLight,
       child: Padding(
         padding: EdgeInsets.only(left: 0, right: 0, top: 0),
@@ -142,7 +140,6 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                 SizedBox(width: 3),
                 Expanded(
                   child: Wrap(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,31 +168,20 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                             ],
                           ),
                           Text(
-                            StringUtils()
-                                    .oCcy
-                                    .format(widget.price - widget.increaseValue)
-                                    .toString() +
+                            StringUtils().oCcy.format(widget.price).toString() +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: mainStyle.copyWith(
-                                color: ColorUtils.primaryColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                                color: ColorUtils.primaryColor, fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           Services.isSupplierManager()
                               ? Text(
                                   StringUtils()
                                           .oCcy
-                                          .format((widget.price -
-                                                  widget.increaseValue) -
-                                              ((widget.price -
-                                                      widget.increaseValue) *
-                                                  discountPercentage))
+                                          .format((widget.price) - ((widget.price) * discountPercentage))
                                           .toString() +
                                       " ${LoadingScreenServices.companyInformation.currency}",
                                   style: mainStyle.copyWith(
-                                      color: ColorUtils.primaryColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                      color: ColorUtils.primaryColor, fontSize: 18, fontWeight: FontWeight.bold),
                                 )
                               : Column(
                                   children: [
@@ -204,8 +190,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                             items: subWarehouseList,
                                             onChanged: (a) {
                                               OrderDetailsServices.updateOrder(
-                                                  orderId:
-                                                      widget.orderId.toString(),
+                                                  orderId: widget.orderId.toString(),
                                                   context: context,
                                                   updateKey: "sub_warehouse_id",
                                                   updateValue: a.toString(),
@@ -215,13 +200,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                               });
                                             },
                                             hint: subWarehouseList.firstWhere(
-                                                (element) =>
-                                                    element.value ==
-                                                    widget.subWarehouseId,
-                                                orElse: () {
+                                                (element) => element.value == widget.subWarehouseId, orElse: () {
                                               subWarehouseList.clear();
-                                              return DropdownMenuItem(
-                                                  child: Text("No element"));
+                                              return DropdownMenuItem(child: Text("No element"));
                                             }).child,
                                           )
                                         : Container(),
@@ -229,8 +210,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                       height: 20,
                                       width: 70,
                                       preState: widget.active,
-                                      subWarehouseId:
-                                          widget.productsData.subWarehouseId,
+                                      subWarehouseId: widget.productsData.subWarehouseId,
                                       productId: widget.productId,
                                       onChange: (active) {
                                         widget.active = active;

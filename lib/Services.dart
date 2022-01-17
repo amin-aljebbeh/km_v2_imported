@@ -50,22 +50,13 @@ class Services {
     if (response.statusCode == SUCCESS_CODE) {
       return true;
     } else {
-      Tools.logToConsole(
-          "------------ ERROR REMOVE FROM FAVORITES --------------");
+      Tools.logToConsole("------------ ERROR REMOVE FROM FAVORITES --------------");
       return false;
     }
   }
 
-  static Future<bool> addNewAddress(
-      String city,
-      String street,
-      String building,
-      String floor,
-      String description,
-      String supportedCityId,
-      double lat,
-      double lon,
-      String entrance) async {
+  static Future<bool> addNewAddress(String city, String street, String building, String floor, String description,
+      String supportedCityId, double lat, double lon, String entrance) async {
     Map addressData = {
       'street': street,
       'building': building,
@@ -78,9 +69,7 @@ class Services {
     };
     try {
       var response = await ApiProvider.sendRequest(
-          url: USER_ADDRESS,
-          method: httpMethods.post,
-          body: jsonEncode(addressData));
+          url: USER_ADDRESS, method: httpMethods.post, body: jsonEncode(addressData));
 
       if (response.statusCode == SUCCESS_CODE) {
         final addNewAddress = addNewAddressFromJson(jsonEncode(response.data));
@@ -124,9 +113,7 @@ class Services {
     };
     try {
       var response = await ApiProvider.sendRequest(
-          url: USER_ADDRESS + "/$addressId",
-          method: httpMethods.put,
-          body: jsonEncode(addressData));
+          url: USER_ADDRESS + "/$addressId", method: httpMethods.put, body: jsonEncode(addressData));
 
       if (response.statusCode == SUCCESS_CODE) {
         Tools.logToConsole(response.data);
@@ -162,8 +149,7 @@ class Services {
     }
   }
 
-  static Future<List<OrdersOriginalData>> getAllOrders(
-      {int pageNumber = 1}) async {
+  static Future<List<OrdersOriginalData>> getAllOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
         url: API + ORDER,
@@ -172,8 +158,7 @@ class Services {
       );
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.allOrdersList =
-            ordersFromJson(jsonEncode(response.data)).data.data;
+        LoadingScreenServices.allOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
 
         return LoadingScreenServices.allOrdersList;
       } else {
@@ -186,8 +171,7 @@ class Services {
     }
   }
 
-  static Future<bool> loginUser(
-      {String phoneNumber, String signCode, String supportedCityId}) async {
+  static Future<bool> loginUser({String phoneNumber, String signCode, String supportedCityId}) async {
     if (phoneNumber == "5000000001") {
       BASE_URL = APPLE_BASE_URL;
     } else {
@@ -205,16 +189,12 @@ class Services {
     Tools.logToConsole(jsonEncode(loginBody));
     try {
       var response = await ApiProvider.sendRequest(
-          url: LOGIN_URL,
-          method: httpMethods.post,
-          body: jsonEncode(loginBody),
-          responseType: ResponseType.json);
+          url: LOGIN_URL, method: httpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
       var theResponse = response.data;
 
       Tools.logToConsole("-------- Login Response -----------");
       Tools.logToConsole(theResponse);
-      if (response.statusCode == SUCCESS_CODE &&
-          (theResponse["success"].toString() == "true")) {
+      if (response.statusCode == SUCCESS_CODE && (theResponse["success"].toString() == "true")) {
         Tools.logToConsole(theResponse["success"].toString());
 
         return true;
@@ -232,8 +212,7 @@ class Services {
   static Future<bool> verifyCode(String code) async {
     //Tools.logToConsole("------------------ LOGIN USER   --------------------");
 
-    var response = await ApiProvider.sendRequest(
-        url: OTP_VERIFICATION + code, method: httpMethods.get);
+    var response = await ApiProvider.sendRequest(url: OTP_VERIFICATION + code, method: httpMethods.get);
 
     var data = (response.data);
 
@@ -262,8 +241,7 @@ class Services {
   }
 
   static Future<List<ShopperModel>> getShoppers() async {
-    Tools.logToConsole(
-        "------------------ Get All Shoppers  --------------------");
+    Tools.logToConsole("------------------ Get All Shoppers  --------------------");
 
     try {
       var response = await ApiProvider.sendRequest(
@@ -273,8 +251,7 @@ class Services {
       Tools.logToConsole("------- shoppers data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.allShoppers =
-            shoppersFromJson(jsonEncode(response.data)).data;
+        LoadingScreenServices.allShoppers = shoppersFromJson(jsonEncode(response.data)).data;
         return LoadingScreenServices.allShoppers;
       } else {
         return LoadingScreenServices.allShoppers;
@@ -295,8 +272,7 @@ class Services {
 
       if (response.statusCode == SUCCESS_CODE) {
         Tools.logToConsole("message from get level and decode");
-        Tools.logToConsole(
-            ModelResponse.fromJson(response.data).data.id.toString());
+        Tools.logToConsole(ModelResponse.fromJson(response.data).data.id.toString());
         Level level = ModelResponse.fromJson(response.data).data;
         return level;
       } else {
@@ -310,8 +286,7 @@ class Services {
   }
 
   static Future<List<DeliveryModel>> getDeliveries() async {
-    Tools.logToConsole(
-        "------------------ Get All Deliveries  --------------------");
+    Tools.logToConsole("------------------ Get All Deliveries  --------------------");
 
     try {
       var response = await ApiProvider.sendRequest(
@@ -321,8 +296,7 @@ class Services {
       Tools.logToConsole("------- Deliveries data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.allDeliveries =
-            deliveriesFromJson(jsonEncode(response.data)).data;
+        LoadingScreenServices.allDeliveries = deliveriesFromJson(jsonEncode(response.data)).data;
 
         return LoadingScreenServices.allDeliveries;
       } else {
@@ -367,8 +341,8 @@ class Services {
       Tools.logToConsole("------- Warehouses data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.warehouses = List<Warehouse>.from(
-            response.data["data"].map((x) => Warehouse.fromJson(x)));
+        LoadingScreenServices.warehouses =
+            List<Warehouse>.from(response.data["data"].map((x) => Warehouse.fromJson(x)));
 
         return LoadingScreenServices.warehouses;
       } else {
@@ -383,9 +357,7 @@ class Services {
   }
 
   static List<DropdownMenuItem<int>> inventorySubWarehouseNames() {
-    List<String> names = LoadingScreenServices.subWarehouses
-        .map((subWarehouse) => subWarehouse.name)
-        .toList();
+    List<String> names = LoadingScreenServices.subWarehouses.map((subWarehouse) => subWarehouse.name).toList();
     names.add('الجميع');
     return dropdownStringList(names);
   }
@@ -398,8 +370,7 @@ class Services {
     return dropdownStringList(names);
   }
 
-  static List<DropdownMenuItem<String>> productSubWarehouseNames(
-      BuildContext context) {
+  static List<DropdownMenuItem<String>> productSubWarehouseNames(BuildContext context) {
     List<DropdownMenuItem<String>> names = LoadingScreenServices.subWarehouses
         .map(
           (subWarehouse) => DropdownMenuItem<String>(
@@ -437,8 +408,7 @@ class Services {
     return list;
   }
 
-  static List<DropdownMenuItem<int>> dropdownStringList(
-      List<String> inputList) {
+  static List<DropdownMenuItem<int>> dropdownStringList(List<String> inputList) {
     List<DropdownMenuItem<int>> list = inputList
         .asMap()
         .map(
@@ -495,63 +465,35 @@ class Services {
   }
 
   static bool isAdmin() {
-    return Services.roles
-            .where((element) => element.slug.contains(StringUtils.adminRole))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.adminRole)).length > 0;
   }
 
   static bool isOperationManager() {
-    return Services.roles
-            .where((element) =>
-                element.slug.contains(StringUtils.operationManager))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.operationManager)).length > 0;
   }
 
   static bool isProductsController() {
-    return Services.roles
-            .where((element) =>
-                element.slug.contains(StringUtils.productsController))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.productsController)).length > 0;
   }
 
   static bool isSuperAdmin() {
-    return Services.roles
-            .where(
-                (element) => element.slug.contains(StringUtils.superAdminRole))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.superAdminRole)).length > 0;
   }
 
   static bool isAccounting() {
-    return Services.roles
-            .where(
-                (element) => element.slug.contains(StringUtils.accountingRole))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.accountingRole)).length > 0;
   }
 
   static bool isDelivery() {
-    return Services.roles
-            .where((element) => element.slug.contains(StringUtils.deliveryRole))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.deliveryRole)).length > 0;
   }
 
   static bool isShopper() {
-    return Services.roles
-            .where((element) => element.slug.contains(StringUtils.shopperRole))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.shopperRole)).length > 0;
   }
 
   static bool isSupplierManager() {
-    return Services.roles
-            .where((element) => element.slug.contains(StringUtils.supplierRol))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.supplierRol)).length > 0;
   }
 
   static errorFlushBar(BuildContext context) {
@@ -603,8 +545,7 @@ class Services {
     )..show(context);
   }
 
-  static resultFlushBar(
-      {@required BuildContext context, @required bool result}) {
+  static resultFlushBar({@required BuildContext context, @required bool result}) {
     if (result) {
       Services.successFlushBar(context);
     } else {
@@ -627,18 +568,17 @@ class Services {
 
   static String selectedShopperId(String name) {
     return LoadingScreenServices.allShoppers
-        .firstWhere((shopper) =>
-            shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
+        .firstWhere((shopper) => shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
         .id
         .toString();
   }
 
-  static int kRound(int number) {
+  static int kRound(double number) {
     double doubleSum = number / 100;
     String stringSum = doubleSum.toString().split('.')[0];
-    number = int.parse(stringSum);
-    number *= 100;
-    return number;
+    int result = int.parse(stringSum);
+    result *= 100;
+    return result;
   }
 
   static makePhoneCall(String number) async {

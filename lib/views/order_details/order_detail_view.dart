@@ -74,11 +74,12 @@ class OrderDetailViewState extends State<OrderDetailView> {
       BottomNavigationBarItem(
         activeIcon: Icon(
           Icons.home,
-          // color: Theme.of(context).primaryColor,
           color: Color.fromARGB(255, 210, 178, 2),
         ),
-        icon: Icon(Icons.account_balance,
-            color: Color.fromARGB(255, 53, 99, 124)),
+        icon: Icon(
+          Icons.account_balance,
+          color: Color.fromARGB(255, 53, 99, 124),
+        ),
         title: Text(
           "الرئيسية",
           style: naveBarStyle,
@@ -89,11 +90,12 @@ class OrderDetailViewState extends State<OrderDetailView> {
       BottomNavigationBarItem(
         activeIcon: Icon(
           Icons.account_balance,
-          // color: Theme.of(context).primaryColor,
           color: Color.fromARGB(255, 210, 178, 2),
         ),
-        icon: Icon(Icons.account_balance,
-            color: Color.fromARGB(255, 53, 99, 124)),
+        icon: Icon(
+          Icons.account_balance,
+          color: Color.fromARGB(255, 53, 99, 124),
+        ),
         title: Text(
           "الحسابات",
           style: naveBarStyle,
@@ -102,8 +104,6 @@ class OrderDetailViewState extends State<OrderDetailView> {
     );
 
     return BottomNavigationBar(
-      // backgroundColor: Color.fromARGB(255, 53, 99, 124),
-      //backgroundColor: Color.fromARGB(255, 57, 107, 137),
       backgroundColor: Colors.white,
       items: bottomList,
       currentIndex: _selectedIndex,
@@ -116,7 +116,8 @@ class OrderDetailViewState extends State<OrderDetailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _tabs[_selectedIndex],
-        bottomNavigationBar: _bottomNavBar(context: context));
+      body: _tabs[_selectedIndex],
+      bottomNavigationBar: _bottomNavBar(context: context),
+    );
   }
 }
