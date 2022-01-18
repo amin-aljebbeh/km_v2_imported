@@ -19,6 +19,7 @@ class SupplierOrdersViewCard extends StatefulWidget {
 }
 
 class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
+  double subTotal;
   int productsCount() {
     return widget.order.products.where((product) => product.pivot.deletedAt == null).length;
   }
@@ -37,16 +38,30 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
     widget.order.total = total.toString();
   }
 
+  productsDiscountPrice() {
+    double total = 0;
+    for (int i = 0; i < widget.order.products.length; i++) {
+      if ((widget.order.products[i].pivot.deletedAt == null)) {
+        double discountPercentage = SubWarehouse.getDiscountPercentage(widget.order.products[i].subWarehouseId);
+        double subTotal = double.parse(widget.order.products[i].pivot.purchasePrice) -
+            (double.parse(widget.order.products[i].pivot.purchasePrice) * discountPercentage);
+        subTotal *= double.parse(widget.order.products[i].pivot.quantity);
+        total += subTotal;
+      }
+    }
+    subTotal = total;
+  }
+
   @override
   void initState() {
     productsCount();
     productsNetPrice();
+    productsDiscountPrice();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    double discountPercentage = SubWarehouse.getDiscountPercentage(widget.order.products[0].subWarehouseId);
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => {
@@ -57,9 +72,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
               ordersAry: widget.order.products,
               addressName: 'widget.order.address.street',
               orderId: widget.order.id,
-              subTotal: Services.kRound(
-                (double.parse(widget.order.total) - double.parse(widget.order.total) * discountPercentage),
-              ),
+              subTotal: Services.kRound(subTotal),
               total: Services.kRound(double.parse(widget.order.total)).toString(),
               deliveryPrice: '0',
               order: widget.order,

@@ -183,14 +183,14 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         shrinkWrap: true,
                         itemCount: productsAry == null ? 1 : productsAry.length,
                         itemBuilder: (BuildContext context, int index) {
-                          OrderProducts orderDetail = finalProductsAry[index];
+                          OrderProducts productDetail = finalProductsAry[index];
                           if (index < notDeletedProductsAry.length) {
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () => {},
                               child: OrderDetailViewMainCard(
-                                increaseValue: orderDetail.pivot.increaseValue,
-                                subWarehouseId: orderDetail.subWarehouseId,
+                                increaseValue: productDetail.pivot.increaseValue,
+                                subWarehouseId: productDetail.subWarehouseId,
                                 orderId: widget.orderId,
                                 onCheckbox: (a) {
                                   setState(() {
@@ -218,18 +218,18 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                     finalProductsAry.removeAt(index);
                                   });
                                 },
-                                productsData: orderDetail,
-                                supplierCode: orderDetail.supplierCode,
-                                active: orderDetail.isActive,
-                                productId: orderDetail.pivot.productId,
-                                img: orderDetail.images.length != 0
-                                    ? LoadingScreenServices.imagePrefixUrl + orderDetail.images[0].imageFileName
+                                productsData: productDetail,
+                                supplierCode: productDetail.supplierCode,
+                                active: productDetail.isActive,
+                                productId: productDetail.pivot.productId,
+                                img: productDetail.images.length != 0
+                                    ? LoadingScreenServices.imagePrefixUrl + productDetail.images[0].imageFileName
                                     : "",
-                                productName: orderDetail.name,
-                                quantity: orderDetail.quantity,
-                                price: int.parse(orderDetail.pivot.purchasePrice.split('.')[0]),
-                                unit: orderDetail.unit == null ? "" : orderDetail.unit,
-                                productCount: orderDetail.pivot.quantity.toString(),
+                                productName: productDetail.name,
+                                quantity: productDetail.quantity,
+                                price: int.parse(productDetail.pivot.purchasePrice.split('.')[0]),
+                                unit: productDetail.unit == null ? "" : productDetail.unit,
+                                productCount: productDetail.pivot.quantity.toString(),
                                 index: index,
                               ),
                             );
@@ -242,8 +242,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                 children: [
                                   BlurredWidget(
                                     child: OrderDetailViewMainCard(
-                                      increaseValue: orderDetail.pivot.increaseValue,
-                                      subWarehouseId: orderDetail.subWarehouseId,
+                                      increaseValue: productDetail.pivot.increaseValue,
+                                      subWarehouseId: productDetail.subWarehouseId,
                                       orderId: widget.orderId,
                                       onCheckbox: (a) {
                                         if (Services.isShopper())
@@ -256,19 +256,19 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                             finalProductsAry.removeAt(index);
                                           });
                                       },
-                                      productsData: orderDetail,
-                                      supplierCode: orderDetail.supplierCode,
-                                      active: orderDetail.isActive,
-                                      productId: orderDetail.pivot.productId,
-                                      img: orderDetail.images.length != 0
+                                      productsData: productDetail,
+                                      supplierCode: productDetail.supplierCode,
+                                      active: productDetail.isActive,
+                                      productId: productDetail.pivot.productId,
+                                      img: productDetail.images.length != 0
                                           ? LoadingScreenServices.imagePrefixUrl +
-                                              orderDetail.images[0].imageFileName
+                                              productDetail.images[0].imageFileName
                                           : "",
-                                      productName: orderDetail.name,
-                                      quantity: orderDetail.quantity,
-                                      price: int.parse(orderDetail.pivot.purchasePrice),
-                                      unit: orderDetail.unit == null ? "" : orderDetail.unit,
-                                      productCount: orderDetail.pivot.quantity.toString(),
+                                      productName: productDetail.name,
+                                      quantity: productDetail.quantity,
+                                      price: int.parse(productDetail.pivot.purchasePrice),
+                                      unit: productDetail.unit == null ? "" : productDetail.unit,
+                                      productCount: productDetail.pivot.quantity.toString(),
                                       index: index - (deletedProductsAry.length + 1),
                                     ),
                                   ),
@@ -280,11 +280,11 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                     child: SwitchProductStatusWidget(
                                       height: 20,
                                       width: 70,
-                                      preState: orderDetail.isActive,
-                                      subWarehouseId: orderDetail.subWarehouseId,
-                                      productId: orderDetail.pivot.productId,
+                                      preState: productDetail.isActive,
+                                      subWarehouseId: productDetail.subWarehouseId,
+                                      productId: productDetail.pivot.productId,
                                       onChange: (active) {
-                                        orderDetail.isActive = active;
+                                        productDetail.isActive = active;
                                         setState(() {});
                                       },
                                     ),
