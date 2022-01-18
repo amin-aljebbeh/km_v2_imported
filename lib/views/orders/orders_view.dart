@@ -208,7 +208,7 @@ class OrdersViewState extends State<OrdersView> {
                           child: IconButton(
                             onPressed: () {
                               setState(() {
-                                if (indexPage > 1 && indexPage < 15) {
+                                if (indexPage > 1 && indexPage <= 15) {
                                   page--;
                                 }
                                 if (indexPage > 1) indexPage--;

@@ -5,10 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'models/models_importer.dart';
+import 'views/loading/Loading.dart';
+import 'views/loading/LoadingServices.dart';
+import 'views/restart/kammunapp_restart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'core/api/api_importer.dart';
@@ -20,7 +20,6 @@ class Services {
   static ShopperModel shopper;
   static bool updateOption = false;
 
-  //static String imagePrefixUrl = "";
   static String prefixUrl = "http://kammun.com/lsapp/public/api/";
   static String googlePlayUrl = "";
   static String appStoreUrl = "";
@@ -130,7 +129,6 @@ class Services {
   }
 
   static Future<bool> removeUserAddress(String addressId) async {
-    // Tools.logToConsole("------------------ REMOVE ADDRESS  --------------------");
     try {
       var response = await ApiProvider.sendRequest(
         url: USER_ADDRESS + "/$addressId",

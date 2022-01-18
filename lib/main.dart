@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
-import 'package:kammun_app/views/home/home_view.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
-import 'package:kammun_app/views/login/login_view.dart';
-import 'package:kammun_app/views/reports/reports.dart';
-import 'package:kammun_app/views/supported_city/supported_city.dart';
-import 'package:kammun_app/views/thank_you/thank_you_view.dart';
+import 'views/deliver_to/deliver_to_view.dart';
+import 'views/home/home_view.dart';
+import 'views/loading/Loading.dart';
+import 'views/login/login_view.dart';
+import 'views/reports/reports.dart';
+import 'views/supported_city/supported_city.dart';
+import 'views/thank_you/thank_you_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'views/cart/CartViewFinal.dart';
@@ -19,7 +19,7 @@ import 'views/profile/profileScreen.dart';
 import 'views/reports/reports_importer.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'utils/utils_importer.dart';
 
 void main() {
   RenderErrorBox.backgroundColor = Colors.transparent;

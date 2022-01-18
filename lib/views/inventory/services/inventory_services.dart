@@ -37,8 +37,7 @@ class InventoryServices {
         Services.roles = result.data.roles;
         if (result.data.shopper != null) {
           Services.shopper = result.data.shopper;
-          Services.shopper.level =
-              await Services.getLevel(result.data.shopper.levelId.toString());
+          Services.shopper.level = await Services.getLevel(result.data.shopper.levelId.toString());
         }
       }
       LoadingScreenServices.name = result.data.name;
@@ -51,15 +50,13 @@ class InventoryServices {
     }
   }
 
-  static Future<List<ProductData>> getSubWarehouseProducts(
-      {String subWarehouseId}) async {
+  static Future<List<ProductData>> getSubWarehouseProducts({String subWarehouseId}) async {
     var response = await ApiProvider.sendRequest(
       url: GET_SUB_WAREHOUSE_PRODUCTS + subWarehouseId,
       method: httpMethods.get,
     );
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      final result =
-          syncCartFromJson(jsonEncode(response.data["data"]["products"]));
+      final result = syncCartFromJson(jsonEncode(response.data["data"]["products"]));
 
       return result;
     } else {
@@ -68,20 +65,12 @@ class InventoryServices {
     }
   }
 
-  static Future<List<ProductData>> getFilteredProducts(
-      {int page, int filterIndex, String number}) async {
-    Map<String, dynamic> params = {
-      StringUtils.productFilterParams[filterIndex]: number,
-      'page': page
-    };
+  static Future<List<ProductData>> getFilteredProducts({int page, int filterIndex, String number}) async {
+    Map<String, dynamic> params = {StringUtils.productFilterParams[filterIndex]: number, 'page': page};
     var response = await ApiProvider.sendRequest(
-        url: StringUtils.productFilterUrls[filterIndex],
-        method: httpMethods.get,
-        queryParameters: params);
+        url: StringUtils.productFilterUrls[filterIndex], method: httpMethods.get, queryParameters: params);
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      final result = filteredProductsModelFromJson(jsonEncode(response.data))
-          .data
-          .products;
+      final result = filteredProductsModelFromJson(jsonEncode(response.data)).data.products;
 
       return result;
     } else {
@@ -94,15 +83,11 @@ class InventoryServices {
     Map thresholdMap = {'threshold': threshold};
     try {
       var response = await ApiProvider.sendRequest(
-          url: UPDATE_PRICE_RATE_THRESHOLD,
-          method: httpMethods.put,
-          body: jsonEncode(thresholdMap));
+          url: UPDATE_PRICE_RATE_THRESHOLD, method: httpMethods.put, body: jsonEncode(thresholdMap));
 
       if (response.statusCode == SUCCESS_CODE) {
-        Tools.logToConsole(response.data);
         return true;
       } else {
-        Tools.logToConsole(response.data);
         Tools.logToConsole("------------ ERROR UPDATE ADDRESS --------------");
         return false;
       }

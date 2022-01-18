@@ -17,12 +17,12 @@ class ProfitsModelResponse {
 
   bool success;
   ProfitsModel data;
-  Date date;
+  ProfitDate date;
 
   factory ProfitsModelResponse.fromJson(Map<String, dynamic> json) => ProfitsModelResponse(
         success: json["success"] == null ? null : json["success"],
         data: json["data"] == null ? null : ProfitsModel.fromJson(json["data"]),
-        date: json["date"] == null ? null : Date.fromJson(json["date"]),
+        date: json["date"] == null ? null : ProfitDate.fromJson(json["date"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,8 +80,8 @@ class ProfitsModel {
       };
 }
 
-class Date {
-  Date({
+class ProfitDate {
+  ProfitDate({
     this.fromDate,
     this.toDate,
   });
@@ -89,7 +89,7 @@ class Date {
   DateTime fromDate;
   DateTime toDate;
 
-  factory Date.fromJson(Map<String, dynamic> json) => Date(
+  factory ProfitDate.fromJson(Map<String, dynamic> json) => ProfitDate(
         fromDate: json["from_date"] == null ? null : DateTime.parse(json["from_date"]),
         toDate: json["to_date"] == null ? null : DateTime.parse(json["to_date"]),
       );

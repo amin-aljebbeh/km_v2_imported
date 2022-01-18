@@ -30,12 +30,11 @@ class UpdateProductInfoWidget extends StatefulWidget {
     this.productData,
     this.isForSubWarehouse = true,
     this.textHint = ".",
-    this.isForPriceRate,
+    this.isForPriceRate = false,
   });
 
   @override
-  _UpdateProductInfoWidgetState createState() =>
-      _UpdateProductInfoWidgetState();
+  _UpdateProductInfoWidgetState createState() => _UpdateProductInfoWidgetState();
 }
 
 class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
@@ -73,14 +72,11 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
               ),
               onPressed: () async {
                 if (widget.isForPriceRate) {
-                  bool result =
-                      await InventoryServices.updatePriceRateThreshold(
-                          textController.text);
+                  bool result = await InventoryServices.updatePriceRateThreshold(textController.text);
                   Services.resultFlushBar(context: context, result: result);
                 } else {
                   if (widget.bodyKey == "supplier_code" &&
-                      !LoadingScreenServices.subSupplierCodeHint
-                          .hasMatch(textController.text)) {
+                      !LoadingScreenServices.subSupplierCodeHint.hasMatch(textController.text)) {
                     Flushbar(
                       backgroundColor: Colors.red,
                       messageText: Text(
@@ -110,8 +106,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                         bodyKey: widget.bodyKey,
                         value: textController.text,
                         isForSubWarehouse: widget.isForSubWarehouse,
-                        subWarehouseId:
-                            widget.productData.subWarehouseId.toString(),
+                        subWarehouseId: widget.productData.subWarehouseId.toString(),
                         productId: widget.productId.toString());
 
                     Services.resultFlushBar(context: context, result: result);

@@ -197,6 +197,14 @@ class OrdersOriginalData {
         "products": List<dynamic>.from(products.map((x) => x.toJson())),
       };
 
+  OrderAccountingRow row = OrderAccountingRow(
+    subWarehouseId: 0,
+    subWarehouseName: 'subWarehouse.name',
+    netPrice: 0,
+    payToSubWarehouse: 0,
+    increaseValuesSum: 0,
+  );
+
   orderArithmeticOperations() {
     kammunProfit = 0;
     shopperProfit = 0;
@@ -217,13 +225,23 @@ class OrdersOriginalData {
         int increaseValue = products[i].pivot.increaseValue * int.parse(products[i].pivot.quantity);
         netPrice -= increaseValue;
         orderAccountingRows
-            .firstWhere((row) => row.subWarehouseId == products[i].subWarehouseId)
+            .firstWhere(
+              (row) => row.subWarehouseId == products[i].subWarehouseId,
+              orElse: () => row,
+            )
             .increaseValuesSum += increaseValue;
-        orderAccountingRows.firstWhere((row) => row.subWarehouseId == products[i].subWarehouseId).netPrice +=
-            netPrice;
+        orderAccountingRows
+            .firstWhere(
+              (row) => row.subWarehouseId == products[i].subWarehouseId,
+              orElse: () => row,
+            )
+            .netPrice += netPrice;
         double discountPercentage = SubWarehouse.getDiscountPercentage(products[i].subWarehouseId);
         orderAccountingRows
-            .firstWhere((row) => row.subWarehouseId == products[i].subWarehouseId)
+            .firstWhere(
+              (row) => row.subWarehouseId == products[i].subWarehouseId,
+              orElse: () => row,
+            )
             .payToSubWarehouse += netPrice - (netPrice * discountPercentage);
       }
     return orderAccountingRows;

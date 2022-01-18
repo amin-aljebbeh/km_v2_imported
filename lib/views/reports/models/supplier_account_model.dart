@@ -18,14 +18,14 @@ class SupplierAccountModelResponse {
 
   bool success;
   List<SupplierAccountModel> data;
-  Date date;
+  TransactionDate date;
 
   factory SupplierAccountModelResponse.fromJson(Map<String, dynamic> json) => SupplierAccountModelResponse(
         success: json["success"] == null ? null : json["success"],
         data: json["data"] == null
             ? null
             : List<SupplierAccountModel>.from(json["data"].map((x) => SupplierAccountModel.fromJson(x))),
-        date: json["date"] == null ? null : Date.fromJson(json["date"]),
+        date: json["date"] == null ? null : TransactionDate.fromJson(json["date"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -60,8 +60,8 @@ class SupplierAccountModel {
       };
 }
 
-class Date {
-  Date({
+class TransactionDate {
+  TransactionDate({
     this.fromDate,
     this.toDate,
   });
@@ -69,7 +69,7 @@ class Date {
   DateTime fromDate;
   DateTime toDate;
 
-  factory Date.fromJson(Map<String, dynamic> json) => Date(
+  factory TransactionDate.fromJson(Map<String, dynamic> json) => TransactionDate(
         fromDate: json["from_date"] == null ? null : DateTime.parse(json["from_date"]),
         toDate: json["to_date"] == null ? null : DateTime.parse(json["to_date"]),
       );

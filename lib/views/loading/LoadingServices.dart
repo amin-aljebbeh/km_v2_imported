@@ -3,20 +3,20 @@ import 'dart:convert';
 
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/api/admin_URLs.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/views/inventory/services/inventory_services.dart';
-import 'package:kammun_app/views/reports/models/transaction_type_model.dart';
-import 'package:kammun_app/views/reports/services/reports_services.dart';
+import '../../core/api/admin_URLs.dart';
+import '../../models/models_importer.dart';
+import '../../core/api/api_URLs.dart';
+import '../../core/api/api_provider.dart';
+import '../../core/errors/error_types.dart';
+import '../../views/inventory/services/inventory_services.dart';
+import '../../views/reports/models/transaction_type_model.dart';
+import '../../views/reports/services/reports_services.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
 import 'Loading.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import '../../utils/utils_importer.dart';
 
 class LoadingScreenServices {
   static StartModel startRequest = new StartModel();
