@@ -9,7 +9,7 @@ import 'package:kammun_app/views/products_view/services/products_services.dart';
 import '../../utils/utils_importer.dart';
 
 class UpdateProductInfoWidget extends StatefulWidget {
-  final Function(bool) onSavePressed;
+  final Function(String) onSavePressed;
   final String title;
   final TextInputType inputType;
   final String textHint;
@@ -109,6 +109,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                         subWarehouseId: widget.productData.subWarehouseId.toString(),
                         productId: widget.productId.toString());
 
+                    if (result) widget.onSavePressed(textController.text);
                     Services.resultFlushBar(context: context, result: result);
                   }
                 }

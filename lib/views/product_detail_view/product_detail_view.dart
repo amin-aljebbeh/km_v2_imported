@@ -438,6 +438,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 productData: widget.product,
                                 textHint: widget.product.price,
                                 initialText: widget.product.price,
+                                onSavePressed: (newValue) {
+                                  setState(() {
+                                    widget.product.price = newValue;
+                                  });
+                                },
                               ),
                               UpdateProductInfoWidget(
                                 title: StringUtils.edit + ' ' + StringUtils.supplierCode + ':',
@@ -447,6 +452,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 bodyKey: "supplier_code",
                                 productId: widget.product.id,
                                 productData: widget.product,
+                                onSavePressed: (newValue) {
+                                  setState(() {
+                                    widget.product.supplierCode = newValue;
+                                  });
+                                },
                               ),
                               UpdateProductInfoWidget(
                                 title: StringUtils.priceFactor + ' :',
@@ -456,6 +466,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 productData: widget.product,
                                 textHint: widget.product.priceFactor,
                                 initialText: widget.product.priceFactor,
+                                onSavePressed: (newValue) {
+                                  setState(() {
+                                    widget.product.priceFactor = newValue;
+                                  });
+                                },
                               ),
                               Services.isProductsController() || Services.isAdmin() || Services.isSuperAdmin()
                                   ? Column(
@@ -469,6 +484,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           isForSubWarehouse: true,
                                           productData: widget.product,
                                           initialText: widget.product.priority.toString(),
+                                          onSavePressed: (newValue) {
+                                            setState(() {
+                                              widget.product.priority = int.parse(newValue);
+                                            });
+                                          },
                                         ),
                                         UpdateProductInfoWidget(
                                           title: StringUtils.edit + ' ' + StringUtils.name + ' :',
@@ -479,6 +499,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           initialText: widget.product.name,
                                           isForSubWarehouse: false,
                                           productData: widget.product,
+                                          onSavePressed: (newValue) {
+                                            setState(() {
+                                              widget.product.name = newValue;
+                                            });
+                                          },
                                         ),
                                         UpdateProductInfoWidget(
                                           title: StringUtils.edit + ' ' + StringUtils.unit + ' :',
@@ -489,6 +514,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           productData: widget.product,
                                           textHint: widget.product.unit,
                                           initialText: widget.product.unit,
+                                          onSavePressed: (newValue) {
+                                            setState(() {
+                                              widget.product.unit = newValue;
+                                            });
+                                          },
                                         ),
                                         UpdateProductInfoWidget(
                                           title: StringUtils.edit + ' ' + StringUtils.quantity + ' :',
@@ -499,6 +529,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           bodyKey: "quantity",
                                           productId: widget.product.id,
                                           initialText: widget.product.quantity,
+                                          onSavePressed: (newValue) {
+                                            setState(() {
+                                              widget.product.quantity = newValue;
+                                            });
+                                          },
                                         ),
                                         UpdateProductInfoWidget(
                                           title: StringUtils.edit + ' ' + StringUtils.description + ' :',
@@ -509,6 +544,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           isForSubWarehouse: false,
                                           productData: widget.product,
                                           initialText: widget.product.description,
+                                          onSavePressed: (newValue) {
+                                            setState(() {
+                                              widget.product.description = newValue;
+                                            });
+                                          },
                                         ),
                                         Container(
                                           width: MediaQuery.of(context).size.width,

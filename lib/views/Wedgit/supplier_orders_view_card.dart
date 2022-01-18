@@ -156,6 +156,27 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
               ],
             ),
           ),
+          widget.order.userNotes.toString() != "null"
+              ? KammunButton(
+                  text: StringUtils.watchNote,
+                  onTap: () {
+                    List<DialogButton> decisionButtons = [
+                      DialogButton(
+                        text: 'إغلاق',
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                      )
+                    ];
+                    showMyDialog(
+                        title: StringUtils.costumerNote,
+                        text: widget.order.userNotes,
+                        dialogButtons: decisionButtons,
+                        context: context);
+                  },
+                  color: Colors.indigoAccent,
+                )
+              : Container(),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Divider(
