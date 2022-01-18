@@ -30,31 +30,24 @@ const String DELIVERY_METHODS = API + 'supported_city/get_delivery_methods/';
 const String UPDATE_USER_SUPPORTED_CITY = API + USER + 'update_supported_city';
 
 const String ADD_TO_FAVORITE = API + USER + 'add_product_to_favorites/';
-const String REMOVE_FROM_FAVORITE =
-    API + USER + 'remove_`product`_from_favorites/';
+const String REMOVE_FROM_FAVORITE = API + USER + 'remove_`product`_from_favorites/';
 const String USER_ADDRESS = API + 'address';
 
 const String OTP_VERIFICATION = API + 'verification_code/verify_account/';
 //Orders:
 const String ORDER = 'order/';
 
-const String ORDERS_NOT_ASSIGNED_TO_DELIVERIES =
-    API + ORDER + 'get_orders_not_assigned_to_deliveries';
+const String ORDERS_NOT_ASSIGNED_TO_DELIVERIES = API + ORDER + 'get_orders_not_assigned_to_deliveries';
 
-const String GET_ORDERS_ASSIGNED_TO_DELIVERIES =
-    API + ORDER + 'get_orders_assigned_to_deliveries';
+const String GET_ORDERS_ASSIGNED_TO_DELIVERIES = API + ORDER + 'get_orders_assigned_to_deliveries';
 
-const String DELIVERY_VIEWS_HIS_OWN_ORDERS =
-    API + ORDER + 'delivery_views_his_own_orders';
+const String DELIVERY_VIEWS_HIS_OWN_ORDERS = API + ORDER + 'delivery_views_his_own_orders';
 
-const String GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS =
-    API + ORDER + 'get_orders_not_assigned_to_shoppers';
+const String GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS = API + ORDER + 'get_orders_not_assigned_to_shoppers';
 
-const String GET_ORDERS_ASSIGNED_TO_SHOPPERS =
-    API + ORDER + 'get_orders_assigned_to_shoppers';
+const String GET_ORDERS_ASSIGNED_TO_SHOPPERS = API + ORDER + 'get_orders_assigned_to_shoppers';
 
-const String SHOPPER_VIEWS_HIS_OWN_ORDERS =
-    API + ORDER + 'shopper_views_his_own_orders';
+const String SHOPPER_VIEWS_HIS_OWN_ORDERS = API + ORDER + 'shopper_views_his_own_orders';
 
 const String UNLOCK_ORDER = API + ORDER + 'unlock_order/';
 
@@ -64,16 +57,13 @@ const String LOCK_ORDER = API + ORDER + 'lock_order/';
 
 const String RATE_ORDER = API + ORDER + 'rate_order/';
 
-const String ASSIGN_DELIVERY_ORDER_HIMSELF =
-    API + ORDER + 'assign_delivery_order_himself/';
+const String ASSIGN_DELIVERY_ORDER_HIMSELF = API + ORDER + 'assign_delivery_order_himself/';
 
-const String ASSIGN_SHOPPER_ORDER_HIMSELF =
-    API + ORDER + 'assign_shopper_order_himself/';
+const String ASSIGN_SHOPPER_ORDER_HIMSELF = API + ORDER + 'assign_shopper_order_himself/';
 
 const String ASSIGN_ORDER_TO_SHOPPER = API + ORDER + 'assign_order_to_shopper';
 
-const String ASSIGN_ORDER_TO_DELIVERY =
-    API + ORDER + 'assign_order_to_delivery';
+const String ASSIGN_ORDER_TO_DELIVERY = API + ORDER + 'assign_order_to_delivery';
 
 const String CHANGE_ORDER_STATUS = API + ORDER + 'change_order_status/';
 

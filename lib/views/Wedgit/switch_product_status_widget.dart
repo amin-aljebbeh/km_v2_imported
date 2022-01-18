@@ -25,8 +25,7 @@ class SwitchProductStatusWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SwitchProductStatusWidgetState createState() =>
-      _SwitchProductStatusWidgetState();
+  _SwitchProductStatusWidgetState createState() => _SwitchProductStatusWidgetState();
 }
 
 class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
@@ -38,14 +37,10 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
       margin: const EdgeInsets.all(15.0),
       padding: const EdgeInsets.all(3.0),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-              Radius.circular(10.0) //                 <--- border radius here
+          borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
               ),
           border: Border.all(
-              color: widget.preState == 1
-                  ? ColorUtils.kmColors
-                  : ColorUtils.searchGreyColor,
-              width: 2)),
+              color: widget.preState == 1 ? ColorUtils.kmColors : ColorUtils.searchGreyColor, width: 2)),
       child: Center(
         child: Switch(
           value: widget.preState == 1 ? true : false,
@@ -61,9 +56,7 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
 
             Services.resultFlushBar(context: context, result: result);
             if (result) {
-              widget.resultFunction != null
-                  ? widget.resultFunction()
-                  : Tools.logToConsole('');
+              widget.resultFunction != null ? widget.resultFunction() : Tools.logToConsole('');
               setState(() {
                 int newStat;
                 if (widget.preState == 1) {

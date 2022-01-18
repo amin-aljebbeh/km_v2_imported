@@ -32,8 +32,7 @@ class ProductDetailView extends StatefulWidget {
   }
 }
 
-class ProductDetailViewState extends State<ProductDetailView>
-    with SingleTickerProviderStateMixin {
+class ProductDetailViewState extends State<ProductDetailView> with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation _animation;
   bool done = false;
@@ -105,9 +104,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                   iconSize: 35,
                   icon: const Icon(Icons.home),
                   tooltip: 'Back to Store Page',
-                  onPressed: () => Navigator.of(context)
-                      .pushNamedAndRemoveUntil(
-                          '/home', (Route<dynamic> route) => false),
+                  onPressed: () =>
+                      Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false),
                 ),
                 actions: <Widget>[
                   IconButton(
@@ -149,14 +147,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                                     ? Image(
                                         image: AdvImageCache(
                                           LoadingScreenServices.imagePrefixUrl +
-                                              widget.product.images[0]
-                                                  .imageFileName,
+                                              widget.product.images[0].imageFileName,
                                           useMemCache: true,
                                           diskCacheExpire: Duration(days: 400),
                                         ),
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2,
+                                        width: MediaQuery.of(context).size.width / 2,
                                         height: 120,
                                         fit: BoxFit.contain,
                                       )
@@ -173,13 +168,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   child: Image(
                                     image: AdvImageCache(
                                       LoadingScreenServices.imagePrefixUrl +
-                                          widget
-                                              .product.images[0].imageFileName,
+                                          widget.product.images[0].imageFileName,
                                       useMemCache: true,
                                       diskCacheExpire: Duration(days: 400),
                                     ),
-                                    width:
-                                        MediaQuery.of(context).size.width / 2,
+                                    width: MediaQuery.of(context).size.width / 2,
                                     height: 120,
                                     fit: BoxFit.contain,
                                   ),
@@ -200,9 +193,8 @@ class ProductDetailViewState extends State<ProductDetailView>
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20.0),
-                        topLeft: Radius.circular(20.0))),
+                    borderRadius:
+                        BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0))),
                 child: ListView(
                   shrinkWrap: true,
                   children: <Widget>[
@@ -227,14 +219,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text(StringUtils.quantity + ' :',
-                                style: paragraphStyle),
+                            Text(StringUtils.quantity + ' :', style: paragraphStyle),
                             SizedBox(width: 5),
                             Text(
                               widget.product.unit.toString() != "null"
-                                  ? widget.product.quantity.toString() +
-                                      " " +
-                                      widget.product.unit.toString()
+                                  ? widget.product.quantity.toString() + " " + widget.product.unit.toString()
                                   : widget.product.quantity.toString(),
                               style: informationStyle,
                             ),
@@ -243,8 +232,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                         Column(
                           // crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text(StringUtils.price + ' :',
-                                style: paragraphStyle),
+                            Text(StringUtils.price + ' :', style: paragraphStyle),
                             SizedBox(width: 5),
                             Text(
                                 "${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
@@ -259,9 +247,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                       children: [
                         LabelRow(
                           rightSideText: StringUtils.description + ' :',
-                          leftSideText: widget.product.description != null
-                              ? widget.product.description.split("@")[0]
-                              : "",
+                          leftSideText:
+                              widget.product.description != null ? widget.product.description.split("@")[0] : "",
                           leftSideStyle: informationStyle,
                         ),
                       ],
@@ -282,19 +269,13 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         text: StringUtils.yes,
                                         onTap: () async {
                                           Navigator.of(context).pop();
-                                          bool result = await ProductsServices
-                                              .removeProductFromCategory(
-                                                  productId: widget.product.id
-                                                      .toString(),
-                                                  categoryId: widget.product
-                                                      .categories[index].id
-                                                      .toString());
-                                          Services.resultFlushBar(
-                                              context: context, result: result);
+                                          bool result = await ProductsServices.removeProductFromCategory(
+                                              productId: widget.product.id.toString(),
+                                              categoryId: widget.product.categories[index].id.toString());
+                                          Services.resultFlushBar(context: context, result: result);
                                           if (result) {
                                             setState(() {
-                                              widget.product.categories
-                                                  .removeAt(index);
+                                              widget.product.categories.removeAt(index);
                                             });
                                           }
                                         },
@@ -315,10 +296,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                                   }
                                 },
                                 child: ShopByCategory(
-                                  img: widget
-                                      .product.categories[index].imageFileName,
-                                  categoryName:
-                                      widget.product.categories[index].name,
+                                  img: widget.product.categories[index].imageFileName,
+                                  categoryName: widget.product.categories[index].name,
                                   index: index,
                                 ),
                               ),
@@ -385,11 +364,10 @@ class ProductDetailViewState extends State<ProductDetailView>
                             width: MediaQuery.of(context).size.width,
                             padding: const EdgeInsets.all(3.0),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                        10.0) //                 <--- border radius here
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0) //                 <--- border radius here
                                     ),
-                                border: Border.all(
-                                    color: ColorUtils.primaryColor, width: 4)),
+                                border: Border.all(color: ColorUtils.primaryColor, width: 4)),
                             child: Center(
                                 child: Text(
                               StringUtils.outOfStock,
@@ -436,37 +414,24 @@ class ProductDetailViewState extends State<ProductDetailView>
                             leftBarIndicatorColor: ColorUtils.kmColors,
                           )..show(context);
 
-                          SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          for (int i = 0;
-                              i < CartServices.cartProducts.length;
-                              i++) {
-                            productsId +=
-                                CartServices.cartProducts[i].id.toString() +
-                                    ";";
-                            productsQuantity += CartServices
-                                    .cartProducts[i].productCount
-                                    .toString() +
-                                ";";
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          for (int i = 0; i < CartServices.cartProducts.length; i++) {
+                            productsId += CartServices.cartProducts[i].id.toString() + ";";
+                            productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
                           }
-                          prefs.setString(
-                              "userCart", productsId + "@" + productsQuantity);
+                          prefs.setString("userCart", productsId + "@" + productsQuantity);
                         } else {
-                          Navigator.of(context)
-                              .pushNamed(LoginScreen.routeName);
+                          Navigator.of(context).pushNamed(LoginScreen.routeName);
                         }
                       },
                     ),
-                    (LoadingScreenServices.subWarehouses.any((element) =>
-                            element.id == widget.product.subWarehouseId))
+                    (LoadingScreenServices.subWarehouses
+                            .any((element) => element.id == widget.product.subWarehouseId))
                         ? Column(
                             children: [
                               SizedBox(height: 30),
                               UpdateProductInfoWidget(
-                                title: StringUtils.edit +
-                                    ' ' +
-                                    StringUtils.price +
-                                    ' :',
+                                title: StringUtils.edit + ' ' + StringUtils.price + ' :',
                                 inputType: TextInputType.number,
                                 bodyKey: "price",
                                 productId: widget.product.id,
@@ -475,10 +440,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 initialText: widget.product.price,
                               ),
                               UpdateProductInfoWidget(
-                                title: StringUtils.edit +
-                                    ' ' +
-                                    StringUtils.supplierCode +
-                                    ':',
+                                title: StringUtils.edit + ' ' + StringUtils.supplierCode + ':',
                                 inputType: TextInputType.text,
                                 textHint: widget.product.supplierCode,
                                 initialText: widget.product.supplierCode,
@@ -495,31 +457,21 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 textHint: widget.product.priceFactor,
                                 initialText: widget.product.priceFactor,
                               ),
-                              Services.isProductsController() ||
-                                      Services.isAdmin() ||
-                                      Services.isSuperAdmin()
+                              Services.isProductsController() || Services.isAdmin() || Services.isSuperAdmin()
                                   ? Column(
                                       children: [
                                         UpdateProductInfoWidget(
-                                          title: StringUtils.edit +
-                                              ' ' +
-                                              StringUtils.priority +
-                                              ' :',
-                                          textHint: widget.product.priority
-                                              .toString(),
+                                          title: StringUtils.edit + ' ' + StringUtils.priority + ' :',
+                                          textHint: widget.product.priority.toString(),
                                           inputType: TextInputType.text,
                                           bodyKey: "priority",
                                           productId: widget.product.id,
                                           isForSubWarehouse: true,
                                           productData: widget.product,
-                                          initialText: widget.product.priority
-                                              .toString(),
+                                          initialText: widget.product.priority.toString(),
                                         ),
                                         UpdateProductInfoWidget(
-                                          title: StringUtils.edit +
-                                              ' ' +
-                                              StringUtils.name +
-                                              ' :',
+                                          title: StringUtils.edit + ' ' + StringUtils.name + ' :',
                                           textHint: widget.product.name,
                                           inputType: TextInputType.multiline,
                                           bodyKey: "name",
@@ -529,10 +481,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           productData: widget.product,
                                         ),
                                         UpdateProductInfoWidget(
-                                          title: StringUtils.edit +
-                                              ' ' +
-                                              StringUtils.unit +
-                                              ' :',
+                                          title: StringUtils.edit + ' ' + StringUtils.unit + ' :',
                                           inputType: TextInputType.multiline,
                                           bodyKey: "unit",
                                           productId: widget.product.id,
@@ -542,10 +491,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           initialText: widget.product.unit,
                                         ),
                                         UpdateProductInfoWidget(
-                                          title: StringUtils.edit +
-                                              ' ' +
-                                              StringUtils.quantity +
-                                              ' :',
+                                          title: StringUtils.edit + ' ' + StringUtils.quantity + ' :',
                                           isForSubWarehouse: false,
                                           inputType: TextInputType.text,
                                           productData: widget.product,
@@ -555,92 +501,49 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           initialText: widget.product.quantity,
                                         ),
                                         UpdateProductInfoWidget(
-                                          title: StringUtils.edit +
-                                              ' ' +
-                                              StringUtils.description +
-                                              ' :',
+                                          title: StringUtils.edit + ' ' + StringUtils.description + ' :',
                                           textHint: "الوصف الجديد",
                                           inputType: TextInputType.multiline,
                                           bodyKey: "description",
                                           productId: widget.product.id,
                                           isForSubWarehouse: false,
                                           productData: widget.product,
-                                          initialText:
-                                              widget.product.description,
+                                          initialText: widget.product.description,
                                         ),
-                                        if (Services.isAdmin() ||
-                                            Services.isSuperAdmin())
-                                          Column(
-                                            children: [
-                                              LabelRow(
-                                                rightSideText:
-                                                    'تقييم السعر :  ',
-                                                leftSideText: widget
-                                                    .product.rate
-                                                    .toString(),
-                                                leftSideStyle: paragraphStyle,
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              )
-                                            ],
-                                          ),
                                         Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          padding: EdgeInsets.only(
-                                              left: 5, right: 5),
+                                          width: MediaQuery.of(context).size.width,
+                                          padding: EdgeInsets.only(left: 5, right: 5),
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            border: Border.all(
-                                                width: 5,
-                                                color: ColorUtils.greyColor),
+                                            borderRadius: BorderRadius.circular(6),
+                                            border: Border.all(width: 5, color: ColorUtils.greyColor),
                                           ),
                                           child: Center(
                                             child: new DropdownButton(
                                               style: decisionButtonStyle,
                                               underline: Container(),
                                               isExpanded: false,
-                                              items: Services
-                                                  .productSubWarehouseNames(
-                                                      context),
-                                              iconEnabledColor:
-                                                  ColorUtils.greyColor,
+                                              items: Services.productSubWarehouseNames(context),
+                                              iconEnabledColor: ColorUtils.greyColor,
                                               value: productSubWarehouseId,
                                               hint: new Text(
-                                                LoadingScreenServices
-                                                    .subWarehouses
-                                                    .firstWhere(
-                                                        (subWarehouse) =>
-                                                            subWarehouse
-                                                                .id ==
-                                                            widget.product
-                                                                .subWarehouseId)
+                                                LoadingScreenServices.subWarehouses
+                                                    .firstWhere((subWarehouse) =>
+                                                        subWarehouse.id == widget.product.subWarehouseId)
                                                     .name,
-                                                style: decisionButtonStyle
-                                                    .copyWith(
+                                                style: decisionButtonStyle.copyWith(
                                                   color: ColorUtils.greyColor,
                                                 ),
                                               ),
                                               onChanged: (value) async {
                                                 bool result =
-                                                    await AddedProductsServices
-                                                        .changeProductSubWarehouse(
-                                                            widget.product,
-                                                            value);
+                                                    await AddedProductsServices.changeProductSubWarehouse(
+                                                        widget.product, value);
 
-                                                Services.resultFlushBar(
-                                                    context: context,
-                                                    result: result);
+                                                Services.resultFlushBar(context: context, result: result);
                                                 setState(() {
                                                   if (value != null) {
-                                                    if (result)
-                                                      productSubWarehouseId =
-                                                          value;
-                                                    widget.product
-                                                            .subWarehouseId =
-                                                        int.parse(value);
+                                                    if (result) productSubWarehouseId = value;
+                                                    widget.product.subWarehouseId = int.parse(value);
                                                   }
                                                 });
                                               },
@@ -649,16 +552,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         ),
                                         SizedBox(height: 15),
                                         Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          padding: EdgeInsets.only(
-                                              left: 5, right: 5),
+                                          width: MediaQuery.of(context).size.width,
+                                          padding: EdgeInsets.only(left: 5, right: 5),
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            border: Border.all(
-                                                width: 5,
-                                                color: ColorUtils.greyColor),
+                                            borderRadius: BorderRadius.circular(6),
+                                            border: Border.all(width: 5, color: ColorUtils.greyColor),
                                           ),
                                           child: Center(
                                             child: new SearchableDropdown(
@@ -666,46 +564,33 @@ class ProductDetailViewState extends State<ProductDetailView>
                                               closeButton: FlatButton(
                                                 child: Text(
                                                   StringUtils.close,
-                                                  style: decisionButtonStyle
-                                                      .copyWith(
+                                                  style: decisionButtonStyle.copyWith(
                                                     color: ColorUtils.greyColor,
                                                   ),
                                                 ),
-                                                onPressed: () =>
-                                                    Navigator.of(context).pop(),
+                                                onPressed: () => Navigator.of(context).pop(),
                                               ),
                                               isCaseSensitiveSearch: false,
                                               underline: Container(),
                                               isExpanded: false,
-                                              items: LoadingScreenServices
-                                                  .fullCategoryList,
-                                              iconEnabledColor:
-                                                  ColorUtils.greyColor,
+                                              items: LoadingScreenServices.fullCategoryList,
+                                              iconEnabledColor: ColorUtils.greyColor,
                                               value: selectedValueCategoryValue,
                                               hint: new Text(
                                                 'اختيار الصنف التابع له المنتج',
-                                                style: decisionButtonStyle
-                                                    .copyWith(
-                                                        color: ColorUtils
-                                                            .greyColor),
+                                                style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor),
                                               ),
                                               searchHint: new Text(
                                                 'إختيار الصنف',
-                                                style: decisionButtonStyle
-                                                    .copyWith(
+                                                style: decisionButtonStyle.copyWith(
                                                   color: ColorUtils.greyColor,
                                                 ),
                                               ),
                                               onChanged: (value) {
                                                 setState(() {
                                                   if (value != null) {
-                                                    selectedValueCategoryValue =
-                                                        value
-                                                            .toString()
-                                                            .split(";")[1];
-                                                    print(MediaQuery.of(context)
-                                                        .size
-                                                        .width);
+                                                    selectedValueCategoryValue = value.toString().split(";")[1];
+                                                    print(MediaQuery.of(context).size.width);
                                                   }
                                                 });
                                               },
@@ -715,19 +600,14 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         widget.product.images.length > 0
                                             ? KammunButton(
                                                 height: 50,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
+                                                color: Theme.of(context).primaryColor,
                                                 child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                   children: [
                                                     Text(
                                                       "حذف الصورة",
-                                                      overflow:
-                                                          TextOverflow.clip,
-                                                      style:
-                                                          decisionButtonStyle,
+                                                      overflow: TextOverflow.clip,
+                                                      style: decisionButtonStyle,
                                                     ),
                                                     Icon(
                                                       Icons.delete,
@@ -737,16 +617,9 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                   ],
                                                 ),
                                                 onTap: () async {
-                                                  bool result =
-                                                      await PricesChangesServices
-                                                          .deleteImage(
-                                                              imageId: widget
-                                                                  .product
-                                                                  .images[0]
-                                                                  .id);
-                                                  Services.resultFlushBar(
-                                                      context: context,
-                                                      result: result);
+                                                  bool result = await PricesChangesServices.deleteImage(
+                                                      imageId: widget.product.images[0].id);
+                                                  Services.resultFlushBar(context: context, result: result);
                                                 },
                                               )
                                             : Container(),
@@ -756,28 +629,20 @@ class ProductDetailViewState extends State<ProductDetailView>
                                           color: Theme.of(context).primaryColor,
                                           onTap: () async {
                                             bool result = await _saveCategory(
-                                                categoryId:
-                                                    selectedValueCategoryValue,
+                                                categoryId: selectedValueCategoryValue,
                                                 context: context,
                                                 productId: widget.product.id);
                                             if (result) {
                                               setState(() {
                                                 widget.product.categories.add(CategoryOriginalData(
-                                                    id: int.parse(
-                                                        selectedValueCategoryValue),
-                                                    name: LoadingScreenServices
-                                                        .categoryList
+                                                    id: int.parse(selectedValueCategoryValue),
+                                                    name: LoadingScreenServices.categoryList
                                                         .firstWhere((category) =>
-                                                            category.id
-                                                                .toString() ==
-                                                            selectedValueCategoryValue)
+                                                            category.id.toString() == selectedValueCategoryValue)
                                                         .name,
-                                                    imageFileName: LoadingScreenServices
-                                                        .categoryList
+                                                    imageFileName: LoadingScreenServices.categoryList
                                                         .firstWhere((category) =>
-                                                            category.id
-                                                                .toString() ==
-                                                            selectedValueCategoryValue)
+                                                            category.id.toString() == selectedValueCategoryValue)
                                                         .imageFileName));
                                               });
                                             }
@@ -786,18 +651,11 @@ class ProductDetailViewState extends State<ProductDetailView>
                                         AddImageWidget(
                                             hasImage: false,
                                             onSubmit: (image) async {
-                                              bool result =
-                                                  await ProductsServices
-                                                      .setImageToProducts(
-                                                          productId:
-                                                              widget.product.id,
-                                                          image: image);
-                                              Services.resultFlushBar(
-                                                  context: context,
-                                                  result: result);
+                                              bool result = await ProductsServices.setImageToProducts(
+                                                  productId: widget.product.id, image: image);
+                                              Services.resultFlushBar(context: context, result: result);
                                             }),
-                                        Services.isAdmin() ||
-                                                Services.isProductsController()
+                                        Services.isAdmin() || Services.isProductsController()
                                             ? Column(
                                                 children: [
                                                   KammunButton(
@@ -805,41 +663,27 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                     text: "إزالة من المستودع",
                                                     color: Colors.red,
                                                     onTap: () {
-                                                      List<DialogButton>
-                                                          dialogButtons = [
+                                                      List<DialogButton> dialogButtons = [
                                                         DialogButton(
                                                           text: StringUtils.yes,
                                                           onTap: () async {
-                                                            bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
-                                                                productsId: widget
-                                                                    .product.id
-                                                                    .toString(),
-                                                                subWarehouse: widget
-                                                                    .product
-                                                                    .subWarehouseId
-                                                                    .toString());
+                                                            bool result = await AddedProductsServices
+                                                                .unAttachProductsToSubWarehouse(
+                                                                    productsId: widget.product.id.toString(),
+                                                                    subWarehouse:
+                                                                        widget.product.subWarehouseId.toString());
                                                             if (result) {
                                                               int count = 0;
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .popUntil((_) =>
-                                                                      count++ >=
-                                                                      1);
+                                                              Navigator.of(context).popUntil((_) => count++ >= 1);
                                                             }
-                                                            Services
-                                                                .resultFlushBar(
-                                                                    context:
-                                                                        context,
-                                                                    result:
-                                                                        result);
+                                                            Services.resultFlushBar(
+                                                                context: context, result: result);
                                                           },
                                                         ),
                                                         DialogButton(
                                                           text: StringUtils.no,
                                                           onTap: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
+                                                            Navigator.of(context).pop();
                                                           },
                                                         ),
                                                       ];
@@ -848,8 +692,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                           context: context,
                                                           text:
                                                               'هل تريد إزالة ${widget.product.name} من المستودع ؟',
-                                                          dialogButtons:
-                                                              dialogButtons);
+                                                          dialogButtons: dialogButtons);
                                                     },
                                                   ),
                                                   KammunButton(
@@ -857,49 +700,32 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                     text: "حذف المنتج",
                                                     color: Colors.red,
                                                     onTap: () {
-                                                      List<DialogButton>
-                                                          dialogButtons = [
+                                                      List<DialogButton> dialogButtons = [
                                                         DialogButton(
                                                           text: StringUtils.yes,
                                                           onTap: () async {
-                                                            bool result =
-                                                                await ProductsServices
-                                                                    .deleteProduct(widget
-                                                                        .product
-                                                                        .id
-                                                                        .toString());
+                                                            bool result = await ProductsServices.deleteProduct(
+                                                                widget.product.id.toString());
                                                             if (result) {
                                                               int count = 0;
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .popUntil((_) =>
-                                                                      count++ >=
-                                                                      2);
+                                                              Navigator.of(context).popUntil((_) => count++ >= 2);
                                                             }
-                                                            Services
-                                                                .resultFlushBar(
-                                                                    context:
-                                                                        context,
-                                                                    result:
-                                                                        result);
+                                                            Services.resultFlushBar(
+                                                                context: context, result: result);
                                                           },
                                                         ),
                                                         DialogButton(
                                                           text: StringUtils.no,
                                                           onTap: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
+                                                            Navigator.of(context).pop();
                                                           },
                                                         ),
                                                       ];
                                                       showMyDialog(
                                                           title: '',
                                                           context: context,
-                                                          text:
-                                                              'هل تريد حذف ${widget.product.name} نهائياً ؟',
-                                                          dialogButtons:
-                                                              dialogButtons);
+                                                          text: 'هل تريد حذف ${widget.product.name} نهائياً ؟',
+                                                          dialogButtons: dialogButtons);
                                                     },
                                                   ),
                                                 ],
@@ -919,24 +745,14 @@ class ProductDetailViewState extends State<ProductDetailView>
                                                 text: StringUtils.yes,
                                                 onTap: () async {
                                                   bool result =
-                                                      await AddedProductsServices
-                                                          .unAttachProductsToSubWarehouse(
-                                                              productsId: widget
-                                                                  .product.id
-                                                                  .toString(),
-                                                              subWarehouse: widget
-                                                                  .product
-                                                                  .subWarehouseId
-                                                                  .toString());
+                                                      await AddedProductsServices.unAttachProductsToSubWarehouse(
+                                                          productsId: widget.product.id.toString(),
+                                                          subWarehouse: widget.product.subWarehouseId.toString());
                                                   if (result) {
                                                     int count = 0;
-                                                    Navigator.of(context)
-                                                        .popUntil((_) =>
-                                                            count++ >= 1);
+                                                    Navigator.of(context).popUntil((_) => count++ >= 1);
                                                   }
-                                                  Services.resultFlushBar(
-                                                      context: context,
-                                                      result: result);
+                                                  Services.resultFlushBar(context: context, result: result);
                                                 },
                                               ),
                                               DialogButton(
@@ -949,8 +765,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                             showMyDialog(
                                                 title: '',
                                                 context: context,
-                                                text:
-                                                    'هل تريد إزالة ${widget.product.name} من المستودع ؟',
+                                                text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
                                                 dialogButtons: dialogButtons);
                                           },
                                         )
@@ -969,12 +784,9 @@ class ProductDetailViewState extends State<ProductDetailView>
   }
 }
 
-Future<bool> _saveCategory(
-    {BuildContext context, int productId, String categoryId}) async {
+Future<bool> _saveCategory({BuildContext context, int productId, String categoryId}) async {
   bool result = await ProductsServices.updateProductsDetails(
-      bodyKey: "category_id",
-      value: categoryId,
-      productId: productId.toString());
+      bodyKey: "category_id", value: categoryId, productId: productId.toString());
 
   Services.resultFlushBar(context: context, result: result);
   return result;

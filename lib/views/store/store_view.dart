@@ -299,7 +299,7 @@ class StoreViewState extends State<StoreView> {
                                 ],
                               )
                             : Container(),
-                        Services.isSupplierManager() || Services.isProductsController()
+                        Services.isSupplierManager() || Services.isProductsController() || Services.isAdmin()
                             ? SideBarRow(
                                 icon: Icons.inventory,
                                 text: "إدارة المستودعات",
