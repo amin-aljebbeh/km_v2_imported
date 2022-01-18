@@ -158,7 +158,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                if (Services.isOperationManager())
+                if (Services.isOperationManager() && widget.orderData.userDeliveryRating != null)
                   IconButton(
                     icon: Icon(
                       Icons.star,
@@ -169,11 +169,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       showMyDialog(
                         title: StringUtils.ratingOrder,
                         context: context,
-                        text: widget.orderData.userDeliveryRating == null
-                            ? widget.orderStatus < 5
-                                ? 'لم يتم توصيل الطلب بعد'
-                                : 'لا يوجد تقييم'
-                            : widget.orderData.userDeliveryRating,
+                        text: widget.orderData.userDeliveryRating,
                         dialogButtons: [
                           DialogButton(
                             text: StringUtils.close,
