@@ -116,7 +116,7 @@ class OrdersOriginalData {
   String addressId;
   String userId;
   dynamic couponId;
-  dynamic userDeliveryRating;
+  String userDeliveryRating;
   dynamic userPriceRating;
   dynamic userComment;
   String total;
@@ -149,7 +149,7 @@ class OrdersOriginalData {
         addressId: json["address_id"].toString(),
         userId: json["user_id"].toString(),
         couponId: json["coupon_id"].toString(),
-        userDeliveryRating: json["user_delivery_rating"].toString(),
+        userDeliveryRating: json["user_delivery_rating"] == null ? null : json["user_delivery_rating"].toString(),
         userPriceRating: json["user_price_rating"].toString(),
         userComment: json["user_feedback"].toString(),
         total: json["total"].toString(),

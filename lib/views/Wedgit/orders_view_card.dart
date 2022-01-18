@@ -158,6 +158,33 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       textAlign: TextAlign.center,
                     ),
                   ),
+                if (Services.isOperationManager())
+                  IconButton(
+                    icon: Icon(
+                      Icons.star,
+                      color: ColorUtils.kmColors2,
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      showMyDialog(
+                        title: StringUtils.ratingOrder,
+                        context: context,
+                        text: widget.orderData.userDeliveryRating == null
+                            ? widget.orderStatus < 5
+                                ? 'لم يتم توصيل الطلب بعد'
+                                : 'لا يوجد تقييم'
+                            : widget.orderData.userDeliveryRating,
+                        dialogButtons: [
+                          DialogButton(
+                            text: StringUtils.close,
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                          )
+                        ],
+                      );
+                    },
+                  ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
