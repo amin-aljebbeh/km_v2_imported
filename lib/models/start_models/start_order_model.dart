@@ -221,7 +221,7 @@ class OrdersOriginalData {
             .increaseValuesSum += increaseValue;
         orderAccountingRows.firstWhere((row) => row.subWarehouseId == products[i].subWarehouseId).netPrice +=
             netPrice;
-        double discountPercentage = SubWarehouse.getDiscountPercentage(orderAccountingRows[i].subWarehouseId);
+        double discountPercentage = SubWarehouse.getDiscountPercentage(products[i].subWarehouseId);
         orderAccountingRows
             .firstWhere((row) => row.subWarehouseId == products[i].subWarehouseId)
             .payToSubWarehouse += netPrice - (netPrice * discountPercentage);
