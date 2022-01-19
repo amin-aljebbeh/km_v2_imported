@@ -90,11 +90,11 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                     onChanged: (value) {
                       setState(() {
                         transactionTypeIndex = value;
-                        transactionTypeString = StringUtils.transactionTypesMap[
-                            LoadingScreenServices.transactionTypes
-                                .where((type) => type.automatic == 0)
-                                .toList()[transactionTypeIndex]
-                                .slug];
+                        transactionTypeString = StringUtils.transactionTypesMap[LoadingScreenServices
+                            .transactionTypes
+                            .where((type) => type.automatic == 0)
+                            .toList()[transactionTypeIndex]
+                            .slug];
                       });
                     },
                   ),
@@ -113,21 +113,25 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   height: 40,
                 ),
                 if (transactionTypeString == 'خصم')
-                  TextFieldRow(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    controller: orderIdController,
-                    text: 'رقم الطلب :',
-                    inputType: TextInputType.number,
-                    width: 150,
+                  Column(
+                    children: [
+                      TextFieldRow(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        controller: orderIdController,
+                        text: 'رقم الطلب :',
+                        inputType: TextInputType.number,
+                        width: 150,
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                    ],
                   ),
-                SizedBox(
-                  height: 40,
-                ),
                 TextFieldRow(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   controller: descriptionController,
                   text: 'الوصف :',
-                  inputType: TextInputType.multiline,
+                  inputType: TextInputType.text,
                   width: MediaQuery.of(context).size.width * 0.65,
                 ),
                 SizedBox(
@@ -136,9 +140,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                 KammunButton(
                   height: 50,
                   text: 'حفظ المناقلة',
-                  color: !completeData()
-                      ? ColorUtils.searchGreyColor
-                      : ColorUtils.primaryColor,
+                  color: !completeData() ? ColorUtils.searchGreyColor : ColorUtils.primaryColor,
                   onTap: () async {
                     if (!completeData()) {
                       Toast.show("يرجى إدخال كافة البيانات", context,
@@ -150,14 +152,11 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                           onTap: () async {
                             Navigator.of(context).pop();
                             String description =
-                                descriptionController.text.isNotEmpty
-                                    ? descriptionController.text
-                                    : ' ';
+                                descriptionController.text.isNotEmpty ? descriptionController.text : ' ';
                             shopperId = Services.selectedShopperId(shopperName);
                             Tools.logToConsole('message from add transaction');
                             Tools.logToConsole(shopperId);
-                            Tools.logToConsole(LoadingScreenServices
-                                .transactionTypes
+                            Tools.logToConsole(LoadingScreenServices.transactionTypes
                                 .where((type) => type.automatic == 0)
                                 .toList()[transactionTypeIndex]
                                 .id
@@ -166,8 +165,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                             bool result = await ReportsServices.addTransaction(
                               shopperId: shopperId,
                               value: moneyController.text,
-                              transactionTypeId: LoadingScreenServices
-                                  .transactionTypes
+                              transactionTypeId: LoadingScreenServices.transactionTypes
                                   .where((type) => type.automatic == 0)
                                   .toList()[transactionTypeIndex]
                                   .id
@@ -175,8 +173,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                               description: description,
                               orderId: orderIdController.text,
                             );
-                            Services.resultFlushBar(
-                                context: context, result: result);
+                            Services.resultFlushBar(context: context, result: result);
                           },
                         ),
                         DialogButton(
@@ -195,9 +192,6 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                     }
                   },
                 ),
-                Container(
-                  height: transactionTypeString == 'خصم' ? 300 : 0,
-                ),
               ],
             ),
           ),
@@ -213,9 +207,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               .toList()[transactionTypeIndex]
               .slug] ==
           'خصم')
-        return shopperName != null &&
-            moneyController.text.isNotEmpty &&
-            descriptionController.text.isNotEmpty;
+        return shopperName != null && moneyController.text.isNotEmpty && descriptionController.text.isNotEmpty;
       else
         return shopperName != null && moneyController.text.isNotEmpty;
     } else {

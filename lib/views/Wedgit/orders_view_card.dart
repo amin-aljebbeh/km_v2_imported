@@ -87,8 +87,10 @@ openMapsSheet(context, lat, lon) async {
 
 class OrdersViewCardState extends State<OrdersViewCard> {
   String shopperName, deliveryName;
+  int deletedCount;
 
   void initState() {
+    deletedCount = widget.orderData.products.where((product) => product.pivot.deletedAt != null).length;
     shopperName = widget.shopperName != null ? widget.shopperName : null;
     deliveryName = widget.deliveryName != null ? widget.deliveryName : null;
     super.initState();
@@ -141,17 +143,14 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                if (Services.isAdmin())
+                if (Services.isAdmin() && deletedCount > 0)
                   Container(
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.red.withOpacity(0.2)),
                     ),
                     child: Text(
-                      widget.orderData.products
-                          .where((product) => product.pivot.deletedAt != null)
-                          .length
-                          .toString(),
+                      deletedCount.toString(),
                       style: loseStyle.copyWith(
                         fontSize: 18,
                       ),

@@ -173,50 +173,55 @@ class LoadingScreenServices {
     if (response.statusCode == SUCCESS_CODE) {
       categoryList.clear();
       fullCategoryList.clear();
-      final category = categoryOriginalFromJson(jsonEncode(response.data)).data;
-
-      for (int i = 0; i < category.length; i++) {
-        if (category[i].parentCategoryId == null) {
-          fullCategoryList.add(new DropdownMenuItem(
-            child: Column(
-              children: [
-                Container(
-                  width: 287,
-                  child: Text(
-                    category[i].name + " من القائمة الرئيسية",
-                    overflow: TextOverflow.visible,
-                    maxLines: 2,
-                    style: warehouseStyle,
+      final categories = categoryOriginalFromJson(jsonEncode(response.data)).data;
+      fullCategoryList = categories
+          .where((category) => category.parentCategoryId == null)
+          .toList()
+          .map(
+            (category) => DropdownMenuItem(
+              child: Column(
+                children: [
+                  Container(
+                    width: 287,
+                    child: Text(
+                      category.name + " من القائمة الرئيسية",
+                      overflow: TextOverflow.visible,
+                      maxLines: 2,
+                      style: warehouseStyle,
+                    ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Divider(
+                      thickness: 1,
+                      color: ColorUtils.greyColor,
+                    ),
+                  )
+                ],
+              ),
+              value: category.name + ";" + category.id.toString(),
+            ),
+          )
+          .toList();
+
+      fullCategoryList.addAll(
+        categories
+            .where((category) => category.parentCategoryId != null)
+            .toList()
+            .map(
+              (category) => DropdownMenuItem(
+                child: Text(
+                  category.name,
+                  style: warehouseStyle.copyWith(fontSize: 18),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Divider(
-                    thickness: 1,
-                    color: ColorUtils.greyColor,
-                  ),
-                )
-              ],
-            ),
-            value: category[i].name + ";" + category[i].id.toString(),
-          ));
-        }
-      }
-
-      for (int i = 0; i < category.length; i++) {
-        if (category[i].parentCategoryId != null) {
-          fullCategoryList.add(new DropdownMenuItem(
-            child: Text(
-              category[i].name,
-              style: warehouseStyle.copyWith(fontSize: 18),
-            ),
-            value: category[i].name + ";" + category[i].id.toString(),
-          ));
-        }
-        if (category[i].warehouses.length > 0 && category[i].warehouses[0].pivot.isActive == "1") {
-          categoryList.add(category[i]);
-        }
-      }
+                value: category.name + ";" + category.id.toString(),
+              ),
+            )
+            .toList(),
+      );
+      categoryList = categories
+          .where((category) => category.warehouses.length > 0 && category.warehouses[0].pivot.isActive == "1")
+          .toList();
 
       categoryList.sort((a, b) {
         if ((int.parse(a.warehouses[0].pivot.priority)) > (int.parse(b.warehouses[0].pivot.priority)))

@@ -630,7 +630,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                 setState(() {
                                                   if (value != null) {
                                                     selectedValueCategoryValue = value.toString().split(";")[1];
-                                                    print(MediaQuery.of(context).size.width);
                                                   }
                                                 });
                                               },

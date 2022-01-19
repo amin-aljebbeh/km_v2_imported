@@ -127,7 +127,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             border: Border.all(color: ColorUtils.primaryColor, width: 2)),
                         child: Center(
                           child: Text(
-                            StringUtils().oCcy.format(widget.productData.rate).toString(),
+                            widget.productData.rate != null
+                                ? StringUtils().oCcy.format(widget.productData.rate).toString()
+                                : '0',
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: ColorUtils.primaryColor,

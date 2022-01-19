@@ -63,18 +63,20 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
 
   @override
   void initState() {
-    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
-      subWarehouseList.add(DropdownMenuItem(
-        child: AutoSizeText(
-          LoadingScreenServices.subWarehouses[i].name,
-          overflow: TextOverflow.fade,
-          maxLines: 1,
-          maxFontSize: 15,
-          style: mainStyle,
-        ),
-        value: LoadingScreenServices.subWarehouses[i].id,
-      ));
-    }
+    subWarehouseList = LoadingScreenServices.subWarehouses
+        .map(
+          (subWarehouse) => DropdownMenuItem(
+            child: AutoSizeText(
+              subWarehouse.name,
+              overflow: TextOverflow.fade,
+              maxLines: 1,
+              maxFontSize: 15,
+              style: mainStyle,
+            ),
+            value: subWarehouse.id,
+          ),
+        )
+        .toList();
     super.initState();
   }
 
@@ -202,7 +204,10 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                             hint: subWarehouseList.firstWhere(
                                                 (element) => element.value == widget.subWarehouseId, orElse: () {
                                               subWarehouseList.clear();
-                                              return DropdownMenuItem(child: Text("No element"));
+                                              return DropdownMenuItem<int>(
+                                                child: Text("No element"),
+                                                value: 0,
+                                              );
                                             }).child,
                                           )
                                         : Container(),

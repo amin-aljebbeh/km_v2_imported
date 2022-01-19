@@ -336,7 +336,7 @@ class Services {
         url: GET_WAREHOUSE,
         method: httpMethods.get,
       );
-      Tools.logToConsole("------- Warehouses data -------");
+      Tools.logToConsole("------- Warehouses dataaaaaaaaaaaa -------");
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.warehouses =

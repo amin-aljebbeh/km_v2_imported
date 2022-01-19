@@ -15,19 +15,15 @@ class StoreViewCategory extends StatefulWidget {
 class StoreViewCategoryState extends State<StoreViewCategory> {
   double _crossAxisSpacing = 8, _mainAxisSpacing = 12, _aspectRatio = 2;
   int _crossAxisCount = 2;
-  static List<CategoryOriginalData> categoryListHome =
-      List<CategoryOriginalData>();
+  static List<CategoryOriginalData> categoryListHome = List<CategoryOriginalData>();
 
   @override
   void initState() {
     super.initState();
     setState(() {
       categoryListHome.clear();
-      for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
-        if (LoadingScreenServices.categoryList[i].parentCategoryId == null) {
-          categoryListHome.add(LoadingScreenServices.categoryList[i]);
-        }
-      }
+      categoryListHome =
+          LoadingScreenServices.categoryList.where((category) => category.parentCategoryId == null).toList();
     });
   }
 
@@ -71,14 +67,9 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
 
   // Function to be called on click
   void _onTileClicked(String index) {
-    List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
-
-    for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
-      if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() ==
-          index.toString()) {
-        subCategoryList.add(LoadingScreenServices.categoryList[i]);
-      }
-    }
+    List<CategoryOriginalData> subCategoryList = LoadingScreenServices.categoryList
+        .where((category) => category.parentCategoryId.toString() == index.toString())
+        .toList();
 
     if (subCategoryList.length > 0) {
       Navigator.push(
