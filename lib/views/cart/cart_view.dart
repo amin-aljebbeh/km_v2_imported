@@ -84,92 +84,90 @@ class CartViewState extends State<CartView> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        StringUtils.shoppingCart,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 30),
-                      ),
-                    ],
-                  ),
-                ),
-                CartServices.cartProducts.length == 0
-                    ? Padding(
-                        padding: EdgeInsets.only(top: screenHeight * 0.3),
-                        child: Center(child: ScreenMessage(message: 'سلة المشتريات فارغة')),
-                      )
-                    : Container(
-                        padding: EdgeInsets.zero,
-                      ),
-                Expanded(
-                  child: ListView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: orderArray == null ? 0 : cards.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return new GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () => _onTileClicked(index),
-                        child: Container(
-                          //  color: Theme.of(context).primaryColorLight,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 0, right: 0, top: 0),
-                            child: cardBody(index, context),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Text(StringUtils.subtotal,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          fontSize: 19.0,
-                        )),
                     Text(
-                      "${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
+                      StringUtils.shoppingCart,
                       style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          fontSize: 19),
+                          fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
-                SafeArea(
-                  child: KammunButton(
-                    width: MediaQuery.of(context).size.width,
-                    color: CartServices.cartProducts.length > 0 ? ColorUtils.primaryColor : Colors.grey[400],
-                    text: StringUtils.confirmOrder.toUpperCase(),
-                    onTap: _showConfirmOrderBtnTapped,
-                    height: 50,
-                  ),
-                  top: false,
+              ),
+              CartServices.cartProducts.length == 0
+                  ? Padding(
+                      padding: EdgeInsets.only(top: screenHeight * 0.3),
+                      child: Center(child: ScreenMessage(message: 'سلة المشتريات فارغة')),
+                    )
+                  : Container(
+                      padding: EdgeInsets.zero,
+                    ),
+              Expanded(
+                child: ListView.builder(
+                  primary: false,
+                  shrinkWrap: true,
+                  itemCount: orderArray == null ? 0 : cards.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return new GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {},
+                      child: Container(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 0, right: 0, top: 0),
+                          child: cardBody(index, context),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+              SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(StringUtils.subtotal,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).primaryColorDark,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontSize: 19.0,
+                      )),
+                  Text(
+                    "${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).primaryColorDark,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontSize: 19),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              SafeArea(
+                child: KammunButton(
+                  width: MediaQuery.of(context).size.width,
+                  color: CartServices.cartProducts.length > 0 ? ColorUtils.primaryColor : Colors.grey[400],
+                  text: StringUtils.confirmOrder.toUpperCase(),
+                  onTap: _showConfirmOrderBtnTapped,
+                  height: 50,
+                ),
+                top: false,
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   TextEditingController _priceController = new TextEditingController();
@@ -380,16 +378,6 @@ class CartViewState extends State<CartView> {
         ],
       ),
     );
-  }
-
-  // Function to be called on click
-  void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-    // Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //         builder: (context) =>
-    //             new ProductDetailView(heroIndex: index + 100)));
   }
 
   void _showConfirmOrderBtnTapped() {

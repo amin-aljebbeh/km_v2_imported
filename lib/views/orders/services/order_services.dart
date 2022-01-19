@@ -103,10 +103,8 @@ class OrderServices {
           url: API + ORDER + '/$orderId', method: httpMethods.put, body: jsonEncode(orderData));
 
       if (response.data['reason'].toString().contains('discontinued')) {
-        Tools.logToConsole('message in updating Order 1');
         return new OrderResponse(success: false, reason: 'discontinued');
       } else {
-        Tools.logToConsole('message in updating Order 2');
         var parsedJson = orderResponseFromJson(jsonEncode(response.data));
 
         return parsedJson;

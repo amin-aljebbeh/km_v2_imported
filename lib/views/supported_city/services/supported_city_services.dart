@@ -9,12 +9,8 @@ class SupportedCityServices {
     try {
       Map body = {"supported_city_id": int.parse(supportedCityId)};
       var response = await ApiProvider.sendRequest(
-          url: UPDATE_USER_SUPPORTED_CITY,
-          method: httpMethods.post,
-          body: jsonEncode(body));
-      Tools.logToConsole("THE UPDATE SUPPORTED CITY $supportedCityId");
+          url: UPDATE_USER_SUPPORTED_CITY, method: httpMethods.post, body: jsonEncode(body));
 
-      Tools.logToConsole(response.data);
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("supportedCitySelected", "true");

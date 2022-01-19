@@ -37,14 +37,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
   TextEditingController _userNotes = TextEditingController();
   TextEditingController _copouns = TextEditingController();
 
-  makeCards() {
-    cards = [];
-    for (int i = 0; i < orderArray.length; i++) {
-      cards.add(i);
-    }
-    Tools.logToConsole("Orders Length ${orderArray.length}");
-  }
-
   _reloadPrices() async {
     Navigator.of(context).pop();
 
@@ -63,22 +55,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
   @override
   void initState() {
-    printCart();
     orderArray = CartServices.cartProducts;
-    makeCards();
+    cards = List<int>.generate(orderArray.length, (i) => i + 1);
 
-    for (int i = 0; i < orderArray.length; i++) {
-      subtotal = subtotal +
-          ((int.parse(orderArray[i].price.split(".")[0])) *
-              orderArray[i].productCount);
-    }
+    subtotal =
+        orderArray.fold(0, (sum, order) => sum + (int.parse(order.price.split('.')[0]) * order.productCount));
     total = subtotal + Services.deliveryPrice;
 
-    // total = subtotal + Services.delivery_Price;
-
     OrderServices.updateOrderNote != null
-        ? WidgetsBinding.instance
-            .addPostFrameCallback((_) => _userNotesInitial())
+        ? WidgetsBinding.instance.addPostFrameCallback((_) => _userNotesInitial())
         : print('');
 
     super.initState();
@@ -97,10 +82,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
   _userNotesInitial() {
     _userNotes.text = OrderServices.updateOrderNote;
-
-    // if (CartServices.userNote != null) {
-    //   _userNotes.text = CartServices.userNote;
-    // }
     if (CartServices.userCopoun != null) {
       _copouns.text = CartServices.userCopoun;
     }
@@ -111,13 +92,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
     String productsQuantity = "";
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productsId += CartServices.cartProducts[i].id.toString() + ";";
-      productsQuantity +=
-          CartServices.cartProducts[i].productCount.toString() + ";";
-    }
-    // productsId += widget.products.id.toString();
-    // productsQuantity += widget.products.quantity.toString();
+    productsId = CartServices.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
+    productsQuantity =
+        CartServices.cartProducts.fold('', (ids, product) => ids + product.productCount.toString() + ';');
     prefs.setString("userCart", productsId + "@" + productsQuantity);
   }
 
@@ -125,7 +102,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // backgroundColor: Theme.of(context).primaryColorLight,
       body: Padding(
         padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
         child: SafeArea(
@@ -187,12 +163,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           Tools.logToConsole("Build Card Length : $index");
                           return new GestureDetector(
                             behavior: HitTestBehavior.translucent,
-                            onTap: () => _onTileClicked(index),
+                            onTap: () => {},
                             child: Container(
-                              //  color: Theme.of(context).primaryColorLight,
                               child: Padding(
-                                padding:
-                                    EdgeInsets.only(left: 0, right: 0, top: 0),
+                                padding: EdgeInsets.only(left: 0, right: 0, top: 0),
                                 child: cardBody(index, context),
                               ),
                             ),
@@ -275,13 +249,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   color: ColorUtils.primaryColor,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
                                         alignment: Alignment.center,
-                                        padding: EdgeInsets.only(
-                                            top: 0, bottom: 0, right: 15),
+                                        padding: EdgeInsets.only(top: 0, bottom: 0, right: 15),
                                         child: Icon(
                                           Icons.add_box_outlined,
                                           color: Colors.white,
@@ -297,16 +269,13 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                               textAlign: TextAlign.start,
                                               style: new TextStyle(
                                                   color: Colors.white,
-                                                  // fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
-                                                  fontFamily: StringUtils
-                                                      .fontFamilyHKGrotesk),
+                                                  fontFamily: StringUtils.fontFamilyHKGrotesk),
                                             ),
                                           ),
                                         ),
                                       ),
                                       Container(
-                                        // padding: EdgeInsets.only(top: 7, bottom: 7, right: 5),
                                         child: Icon(
                                           Icons.add,
                                           color: Colors.transparent,
@@ -337,55 +306,41 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                           ),
                                           Column(
                                             mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: <Widget>[
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
+                                                padding: const EdgeInsets.all(8.0),
                                                 child: Text(
                                                   "ملاحظات على الطلب",
                                                   style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontFamily: StringUtils
-                                                          .fontFamilyHKGrotesk,
+                                                      fontWeight: FontWeight.w700,
+                                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                                       fontSize: 18),
                                                 ),
                                               ),
                                               Container(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8, right: 8),
+                                                padding: const EdgeInsets.only(left: 8, right: 8),
                                                 decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.all(
-                                                        Radius.circular(
-                                                            5.0) //         <--- border radius here
+                                                        Radius.circular(5.0) //         <--- border radius here
                                                         ),
                                                     border: Border.all(
                                                       width: 2,
-                                                      color:
-                                                          ColorUtils.kmColors,
+                                                      color: ColorUtils.kmColors,
                                                     )),
                                                 child: new TextField(
                                                   controller: _userNotes,
                                                   textAlign: TextAlign.right,
-                                                  keyboardType:
-                                                      TextInputType.multiline,
+                                                  keyboardType: TextInputType.multiline,
                                                   maxLines: 5,
                                                   style: TextStyle(
-                                                    fontFamily: StringUtils
-                                                        .fontFamilyHKGrotesk,
+                                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                                   ),
                                                 ),
                                               ),
                                               KammunButton(
-                                                text: StringUtils.save +
-                                                    ' ' +
-                                                    StringUtils.note,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2.5,
+                                                text: StringUtils.save + ' ' + StringUtils.note,
+                                                width: MediaQuery.of(context).size.width / 2.5,
                                                 height: 40,
                                                 color: ColorUtils.primaryColor,
                                                 onTap: () {
@@ -425,7 +380,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   Widget cardBody(int index, BuildContext context) {
-    // if (orderArray[index])
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -436,8 +390,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
               new Container(
                 width: 75.0,
                 height: 75.0,
-                decoration: new BoxDecoration(
-                    borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+                decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(20.0))),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Hero(
@@ -446,10 +399,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       image: orderArray[index].images.length != 0
                           ? AdvImageCache(
                               LoadingScreenServices.imagePrefixUrl +
-                                  orderArray[index]
-                                      .images[0]
-                                      .imageFileName
-                                      .toString(),
+                                  orderArray[index].images[0].imageFileName.toString(),
                               useMemCache: true,
                               diskCacheExpire: Duration(days: 400),
                             )
@@ -481,9 +431,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             ),
                             SizedBox(height: 6),
                             Text(
-                              orderArray[index].quantity.toString() +
-                                  " " +
-                                  orderArray[index].unit.toString(),
+                              orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
@@ -513,18 +461,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
                   Container(
                     width: 30,
                     height: 30,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: ColorUtils.greyColor.withOpacity(0.2)),
+                    decoration:
+                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {
                           orderArray[index].productCount += 1;
-                          subtotal += (int.parse(
-                              orderArray[index].price.split(".")[0]));
+                          subtotal += (int.parse(orderArray[index].price.split(".")[0]));
 
-                          total += (int.parse(
-                              orderArray[index].price.split(".")[0]));
+                          total += (int.parse(orderArray[index].price.split(".")[0]));
                         });
                         _cartChanged();
                       },
@@ -546,26 +491,20 @@ class _CartViewFinalState extends State<CartViewFinal> {
                   Container(
                     width: 30,
                     height: 30,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: ColorUtils.greyColor.withOpacity(0.2)),
+                    decoration:
+                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {
                           if (orderArray[index].productCount > 1) {
-                            subtotal -= (int.parse(
-                                orderArray[index].price.split(".")[0]));
-                            orderArray[index].productCount =
-                                orderArray[index].productCount - 1;
+                            subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
+                            orderArray[index].productCount = orderArray[index].productCount - 1;
 
-                            total -= (int.parse(
-                                orderArray[index].price.split(".")[0]));
+                            total -= (int.parse(orderArray[index].price.split(".")[0]));
                           } else if (orderArray[index].productCount == 1) {
-                            subtotal -= (int.parse(
-                                orderArray[index].price.split(".")[0]));
+                            subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
 
-                            total -= (int.parse(
-                                orderArray[index].price.split(".")[0]));
+                            total -= (int.parse(orderArray[index].price.split(".")[0]));
                             onrRemove(index);
                             CartServices.cartProducts.removeAt(index);
                           }
@@ -592,32 +531,20 @@ class _CartViewFinalState extends State<CartViewFinal> {
     );
   }
 
-  // Function to be called on click
-  void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-    // Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //         builder: (context) =>
-    //             new ProductDetailView(heroIndex: index + 100)));
-  }
-
   _showBottomSheet({List<String> notActive, List<String> priceProblem}) {
     List<int> notActiveId = [];
     List<int> priceId = [];
 
-    for (int i = 0; i < orderArray.length; i++) {
-      if (notActive.contains(orderArray[i].id.toString())) {
-        notActiveId.add(orderArray[i].id);
-      }
-      if (priceProblem.contains(orderArray[i].id.toString())) {
-        priceId.add(orderArray[i].id);
-      }
-    }
-    Tools.logToConsole("------ price array ---------");
-    Tools.logToConsole(priceId);
-    Tools.logToConsole("-------- inactive array --------");
-    Tools.logToConsole(notActiveId);
+    notActiveId = orderArray
+        .where((order) => notActive.contains(order.id.toString()))
+        .toList()
+        .map((order) => order.id)
+        .toList();
+    priceId = orderArray
+        .where((order) => priceProblem.contains(order.id.toString()))
+        .toList()
+        .map((order) => order.id)
+        .toList();
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => OrderProblemBottomSheet(
@@ -635,8 +562,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   void _showConfirmOrderBtnTapped({bool checkOrderPrice = true}) async {
-    Tools.logToConsole("updating Order");
-
     setState(() {
       loadingScreen = true;
       errorCode = false;
@@ -648,14 +573,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
     OrderResponse orderResponse;
 
     if (OrderServices.orderUnderUpdateIndex != -1) {
-      orderResponse = await OrderServices.updateOrder(
-          userNotes: _userNotes.text, checkPrices: checkOrderPrice);
+      orderResponse = await OrderServices.updateOrder(userNotes: _userNotes.text, checkPrices: checkOrderPrice);
 
       setState(() {
         try {
           if (orderResponse != null) {
-            if (!orderResponse.success &&
-                orderResponse.reason.contains("discontinued")) {
+            if (!orderResponse.success && orderResponse.reason.contains("discontinued")) {
               loadingScreen = false;
               errorCode = true;
               errorMessage =
@@ -663,14 +586,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
             } else if (orderResponse.changedPriceProducts.length > 0 ||
                 orderResponse.inactiveProducts.length > 0) {
               _showBottomSheet(
-                  notActive: orderResponse.inactiveProducts,
-                  priceProblem: orderResponse.changedPriceProducts);
+                  notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
 
               loadingScreen = false;
               errorCode = false;
             } else if (orderResponse.success) {
               CartViewFinal.message = orderResponse.data;
-              // CartServices.cartProducts.clear();
               prefs.setString("orderUnderUpdateId", "-1");
               OrderServices.orderUnderUpdateIndex = -1;
             } else if (!orderResponse.success) {
@@ -678,12 +599,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
               errorCode = true;
             }
           } else {
-            // LoadingScreenServices
-            //     .myOrdersList[OrderServices.orderUnderUpdateIndex]
-            //     .underUpdate = '0';
-            // OrderServices.unlockOrder(LoadingScreenServices
-            //     .myOrdersList[OrderServices.orderUnderUpdateIndex].id
-            //     .toString());
             loadingScreen = false;
             errorCode = true;
           }
@@ -693,14 +608,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
         }
       });
     } else {
-      orderResponse = await OrderServices.submitNewOrder(
-          userNotes: _userNotes.text, checkPrices: checkOrderPrice);
+      orderResponse = await OrderServices.submitNewOrder(userNotes: _userNotes.text, checkPrices: checkOrderPrice);
 
       setState(() {
         try {
           if (orderResponse != null) {
-            if (!orderResponse.success &&
-                orderResponse.reason.contains("discontinued")) {
+            if (!orderResponse.success && orderResponse.reason.contains("discontinued")) {
               loadingScreen = false;
               errorCode = true;
               errorMessage =
@@ -708,16 +621,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
             } else if (orderResponse.changedPriceProducts.length > 0 ||
                 orderResponse.inactiveProducts.length > 0) {
               _showBottomSheet(
-                  notActive: orderResponse.inactiveProducts,
-                  priceProblem: orderResponse.changedPriceProducts);
+                  notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
 
               loadingScreen = false;
               errorCode = false;
             } else if (orderResponse.success) {
-              Tools.logToConsole("orderData is :");
-              Tools.logToConsole(orderResponse.data.toString());
               CartViewFinal.message = orderResponse.data;
-              // CartServices.cartProducts.clear();
             }
           } else {
             loadingScreen = false;
@@ -740,26 +649,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
         CartServices.userCopoun = "";
 
         Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) =>
-                    ThankYouView(orderMessage: orderResponse.data)));
+            context, new MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
       }
     } on NoSuchMethodError catch (e) {
       print(e);
     }
-  }
-
-  void printCart() {
-    Tools.logToConsole('cart final');
-    Tools.logToConsole(CartServices.cartProducts.length);
-    for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      printProducts(CartServices.cartProducts[i]);
-    }
-  }
-
-  void printProducts(ProductData product) {
-    Tools.logToConsole(product.name);
-    Tools.logToConsole(product.productCount);
   }
 }

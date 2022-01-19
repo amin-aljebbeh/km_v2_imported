@@ -14,16 +14,13 @@ class CartServices {
   static String userCopoun;
 
   static Future getUserCart() async {
-    Tools.logToConsole(
-        "------------ GET USER CART FROM SHARED  --------------");
+    Tools.logToConsole("------------ GET USER CART FROM SHARED  --------------");
 
     Map<String, String> productsIdCount = new Map<String, String>();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userCart = prefs.getString('userCart');
-    if (userCart != null &&
-        userCart.length > 2 &&
-        userCart.toString() != "null") {
+    if (userCart != null && userCart.length > 2 && userCart.toString() != "null") {
       cartProducts.clear();
       List<String> productsIds = userCart.split("@")[0].split(";");
       List<String> productsCounts = userCart.split("@")[1].split(";");
@@ -35,18 +32,13 @@ class CartServices {
       var response = await ApiProvider.sendRequest(
           url: SYNC_CART,
           method: httpMethods.post,
-          // body: jsonEncode({"product_ids": "4571"}));
-
           body: jsonEncode({
-            "product_ids": userCart.split("@")[0].replaceRange(
-                userCart.split("@")[0].length - 1,
-                userCart.split("@")[0].length,
-                "")
+            "product_ids": userCart
+                .split("@")[0]
+                .replaceRange(userCart.split("@")[0].length - 1, userCart.split("@")[0].length, "")
           }));
 
-      Tools.logToConsole(response);
-      if (response.statusCode == SUCCESS_CODE &&
-          response.data['success'] == true) {
+      if (response.statusCode == SUCCESS_CODE && response.data['success'] == true) {
         final product = syncCartFromJson(jsonEncode(response.data["data"]));
         for (int i = 0; i < product.length; i++) {
           if (product[i] != null) {
@@ -57,10 +49,7 @@ class CartServices {
 
         return true;
       } else {
-        Tools.logToConsole(response.data);
-        //   if (streamController != null) streamController.add(200);
-        Tools.logToConsole(
-            "------------ ERROR WHILE GETTING USER CART --------------");
+        Tools.logToConsole("------------ ERROR WHILE GETTING USER CART --------------");
 
         return false;
       }
