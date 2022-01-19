@@ -45,27 +45,16 @@ class AddAddressViewState extends State<AddAddressView> {
   void initState() {
     super.initState();
     if (widget.addressIndex != null) {
-      streetController.text =
-          LoadingScreenServices.userAddress[widget.addressIndex].street;
-      cityController.text =
-          LoadingScreenServices.userAddress[widget.addressIndex].building;
-      stateController.text =
-          LoadingScreenServices.userAddress[widget.addressIndex].floor;
-      countryController.text =
-          LoadingScreenServices.userAddress[widget.addressIndex].description;
-      entranceController.text =
-          LoadingScreenServices.userAddress[widget.addressIndex].entrance;
-      for (int i = 0;
-          i < LoadingScreenServices.supportedCitiesList.length;
-          i++) {
-        Tools.logToConsole(LoadingScreenServices.supportedCitiesList[i].value);
-        if (LoadingScreenServices.supportedCitiesList[i].value.split("id")[1] ==
-            LoadingScreenServices
-                .userAddress[widget.addressIndex].supportedCityId
-                .toString()) {
-          selectedValue = LoadingScreenServices.supportedCitiesList[i].value;
-        }
-      }
+      streetController.text = LoadingScreenServices.userAddress[widget.addressIndex].street;
+      cityController.text = LoadingScreenServices.userAddress[widget.addressIndex].building;
+      stateController.text = LoadingScreenServices.userAddress[widget.addressIndex].floor;
+      countryController.text = LoadingScreenServices.userAddress[widget.addressIndex].description;
+      entranceController.text = LoadingScreenServices.userAddress[widget.addressIndex].entrance;
+      selectedValue = LoadingScreenServices.supportedCitiesList
+          .firstWhere((supportedCity) =>
+              supportedCity.value.split("id")[1] ==
+              LoadingScreenServices.userAddress[widget.addressIndex].supportedCityId.toString())
+          .value;
 
       userIgnoreShareLocation = false;
     }
@@ -85,8 +74,7 @@ class AddAddressViewState extends State<AddAddressView> {
             ? Center(child: Loader())
             : SingleChildScrollView(
                 child: Container(
-                  padding:
-                      EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+                  padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,8 +104,7 @@ class AddAddressViewState extends State<AddAddressView> {
                       ),
                       isError
                           ? AlertMessages(
-                              text:
-                                  " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
+                              text: " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
                               messageType: "internetError",
                               headerText: " حدث خطأ اثناء محاولة إضافة عنوان ",
                             )
@@ -222,8 +209,7 @@ class AddAddressViewState extends State<AddAddressView> {
               ),
               searchHint: new Text(
                 'إختيار المنطقة',
-                style: new TextStyle(
-                    fontSize: 20, fontFamily: StringUtils.fontFamilyHKGrotesk),
+                style: new TextStyle(fontSize: 20, fontFamily: StringUtils.fontFamilyHKGrotesk),
               ),
               onChanged: (value) {
                 setState(() {
@@ -251,8 +237,7 @@ class AddAddressViewState extends State<AddAddressView> {
                 children: [
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.fromLTRB(
-                        0, screenHeight * 0.02, 0, screenHeight * 0.02),
+                    padding: EdgeInsets.fromLTRB(0, screenHeight * 0.02, 0, screenHeight * 0.02),
                     decoration: BoxDecoration(
                       border: Border(bottom: BorderSide()),
                     ),
@@ -279,16 +264,13 @@ class AddAddressViewState extends State<AddAddressView> {
                     margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
                     child: Text(
                       StringUtils.locationRequestNote,
-                      style: TextStyle(
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          color: Colors.red),
+                      style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, color: Colors.red),
                     ), //font color is diffrent
                   ),
                   //   _submitRating(),
 
                   Padding(
-                    padding: const EdgeInsets.only(
-                        top: 8.0, left: 8, right: 8, bottom: 3),
+                    padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8, bottom: 3),
                     child: KammunButton(
                       text: "مشاركة الموقع",
                       height: 50,
@@ -300,8 +282,7 @@ class AddAddressViewState extends State<AddAddressView> {
                     ), /*_showGetUserLocation(ctx: context)*/
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        top: 0.0, left: 8, right: 8, bottom: 40),
+                    padding: const EdgeInsets.only(top: 0.0, left: 8, right: 8, bottom: 40),
                     child: KammunButton(
                       text: StringUtils.save + ' ' + StringUtils.address,
                       height: 50,
@@ -343,10 +324,7 @@ class AddAddressViewState extends State<AddAddressView> {
           Tools.logToConsole(await location.hasPermission());
           await location.getLocation().then((onValue) {
             setState(() {
-              userLocation = {
-                "latitude": onValue.latitude,
-                "longitude": onValue.longitude
-              };
+              userLocation = {"latitude": onValue.latitude, "longitude": onValue.longitude};
               lat = onValue.latitude;
               lon = onValue.longitude;
               Tools.logToConsole("----- the lat , lon is ------");
@@ -381,13 +359,10 @@ class AddAddressViewState extends State<AddAddressView> {
     } else {
       Address newUserAddress = new Address();
 
-      newUserAddress.deliveryPrice = int.parse(
-          selectedValue.split("price")[1].split("id")[0].split(".")[0]);
+      newUserAddress.deliveryPrice = int.parse(selectedValue.split("price")[1].split("id")[0].split(".")[0]);
       newUserAddress.supportedCityName = selectedValue.split("price")[0];
       newUserAddress.street = streetController.text;
-      newUserAddress.building = cityController.text.length == 0
-          ? "لايوجد رقم بناء"
-          : cityController.text;
+      newUserAddress.building = cityController.text.length == 0 ? "لايوجد رقم بناء" : cityController.text;
       newUserAddress.floor = stateController.text;
       newUserAddress.description = countryController.text;
       newUserAddress.supportedCityId = selectedValue.split("id")[1];
@@ -396,32 +371,24 @@ class AddAddressViewState extends State<AddAddressView> {
       newUserAddress.entrance = entranceController.text;
 
       if (widget.addressIndex != null) {
-        LoadingScreenServices.userAddress[widget.addressIndex]
-            .supportedCityName = newUserAddress.supportedCityName;
-        LoadingScreenServices.userAddress[widget.addressIndex].street =
-            newUserAddress.street;
-        LoadingScreenServices.userAddress[widget.addressIndex].building =
-            newUserAddress.building;
-        LoadingScreenServices.userAddress[widget.addressIndex].floor =
-            newUserAddress.floor;
-        LoadingScreenServices.userAddress[widget.addressIndex].description =
-            newUserAddress.description;
+        LoadingScreenServices.userAddress[widget.addressIndex].supportedCityName =
+            newUserAddress.supportedCityName;
+        LoadingScreenServices.userAddress[widget.addressIndex].street = newUserAddress.street;
+        LoadingScreenServices.userAddress[widget.addressIndex].building = newUserAddress.building;
+        LoadingScreenServices.userAddress[widget.addressIndex].floor = newUserAddress.floor;
+        LoadingScreenServices.userAddress[widget.addressIndex].description = newUserAddress.description;
         LoadingScreenServices.userAddress[widget.addressIndex].supportedCityId =
             newUserAddress.supportedCityId.toString();
-        LoadingScreenServices.userAddress[widget.addressIndex].lat =
-            newUserAddress.lat;
-        LoadingScreenServices.userAddress[widget.addressIndex].lon =
-            newUserAddress.lat;
-        LoadingScreenServices.userAddress[widget.addressIndex].entrance =
-            newUserAddress.entrance;
+        LoadingScreenServices.userAddress[widget.addressIndex].lat = newUserAddress.lat;
+        LoadingScreenServices.userAddress[widget.addressIndex].lon = newUserAddress.lat;
+        LoadingScreenServices.userAddress[widget.addressIndex].entrance = newUserAddress.entrance;
         setState(() {
           isLoading = true;
           isError = false;
         });
 
         bool addressUpdated = await Services.updateAddress(
-            addressId: LoadingScreenServices.userAddress[widget.addressIndex].id
-                .toString(),
+            addressId: LoadingScreenServices.userAddress[widget.addressIndex].id.toString(),
             city: newUserAddress.supportedCityName,
             street: newUserAddress.street,
             building: newUserAddress.building,

@@ -80,6 +80,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
           Icons.account_balance,
           color: Color.fromARGB(255, 53, 99, 124),
         ),
+        // ignore: deprecated_member_use
         title: Text(
           "الرئيسية",
           style: naveBarStyle,
@@ -96,6 +97,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
           Icons.account_balance,
           color: Color.fromARGB(255, 53, 99, 124),
         ),
+        // ignore: deprecated_member_use
         title: Text(
           "الحسابات",
           style: naveBarStyle,

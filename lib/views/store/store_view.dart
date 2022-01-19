@@ -26,8 +26,6 @@ class StoreViewState extends State<StoreView> {
 
   bool isDarkThemeMode = false;
 
-  // Future getCategories;
-
   _updateApplication() async {
     String url = LoadingScreen.updateUrl;
 

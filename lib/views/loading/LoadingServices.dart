@@ -5,8 +5,7 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import '../../core/api/admin_URLs.dart';
 import '../../models/models_importer.dart';
-import '../../core/api/api_URLs.dart';
-import '../../core/api/api_provider.dart';
+import '../../core/api/api_importer.dart';
 import '../../core/errors/error_types.dart';
 import '../../views/inventory/services/inventory_services.dart';
 import '../../views/reports/models/transaction_type_model.dart';
@@ -84,7 +83,6 @@ class LoadingScreenServices {
 
   // -------------------------------------------------------//
 
-  // static String subSupplierCodeHint = 'kh';
   static RegExp subSupplierCodeHint = RegExp(".*kh");
 
   Future<bool> updateFirebaseToken(String firebaseToken) async {
@@ -106,35 +104,44 @@ class LoadingScreenServices {
   }
 
   static Future<bool> getSubWarehouse() async {
-    subWarehouses.clear();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      subWarehouses.clear();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<SubWarehouse> response = await InventoryServices.getSubWarehoused(adminId: prefs.getString("adminId"));
-    if (response != null) {
-      subWarehouses.addAll(response);
-
-      return true;
-    } else {
-      return false;
+      List<SubWarehouse> response = await InventoryServices.getSubWarehoused(adminId: prefs.getString("adminId"));
+      if (response != null) {
+        subWarehouses.addAll(response);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return null;
     }
   }
 
   Future<bool> getSupportedCity() async {
-    var response = await ApiProvider.sendRequest(
-      url: GET_SUPPORTED_CITIES,
-      method: httpMethods.get,
-    );
-    if (response.statusCode == SUCCESS_CODE) {
-      final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
-      supportedCityOriginal = supportedCitiesResponse;
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: GET_SUPPORTED_CITIES,
+        method: httpMethods.get,
+      );
+      if (response.statusCode == SUCCESS_CODE) {
+        final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
+        supportedCityOriginal = supportedCitiesResponse;
 
-      supportedCitiesListIntro.clear();
+        supportedCitiesListIntro.clear();
 
-      supportedCitiesListIntro.addAll(supportedCitiesResponse.data);
+        supportedCitiesListIntro.addAll(supportedCitiesResponse.data);
 
-      return true;
-    } else {
-      return false;
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return null;
     }
   }
 
@@ -157,7 +164,7 @@ class LoadingScreenServices {
       }
     } catch (e) {
       Tools.logToConsole(e.toString());
-      return false;
+      return null;
     }
   }
 
@@ -165,75 +172,80 @@ class LoadingScreenServices {
   int contractsLength = 0;
 
   Future<bool> getCategory() async {
-    var response = await ApiProvider.sendRequest(
-      url: GET_CATEGORY,
-      method: httpMethods.get,
-    );
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: GET_CATEGORY,
+        method: httpMethods.get,
+      );
 
-    if (response.statusCode == SUCCESS_CODE) {
-      categoryList.clear();
-      fullCategoryList.clear();
-      final categories = categoryOriginalFromJson(jsonEncode(response.data)).data;
-      fullCategoryList = categories
-          .where((category) => category.parentCategoryId == null)
-          .toList()
-          .map(
-            (category) => DropdownMenuItem(
-              child: Column(
-                children: [
-                  Container(
-                    width: 287,
-                    child: Text(
-                      category.name + " من القائمة الرئيسية",
-                      overflow: TextOverflow.visible,
-                      maxLines: 2,
-                      style: warehouseStyle,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Divider(
-                      thickness: 1,
-                      color: ColorUtils.greyColor,
-                    ),
-                  )
-                ],
-              ),
-              value: category.name + ";" + category.id.toString(),
-            ),
-          )
-          .toList();
-
-      fullCategoryList.addAll(
-        categories
-            .where((category) => category.parentCategoryId != null)
+      if (response.statusCode == SUCCESS_CODE) {
+        categoryList.clear();
+        fullCategoryList.clear();
+        final categories = categoryOriginalFromJson(jsonEncode(response.data)).data;
+        fullCategoryList = categories
+            .where((category) => category.parentCategoryId == null)
             .toList()
             .map(
               (category) => DropdownMenuItem(
-                child: Text(
-                  category.name,
-                  style: warehouseStyle.copyWith(fontSize: 18),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 287,
+                      child: Text(
+                        category.name + " من القائمة الرئيسية",
+                        overflow: TextOverflow.visible,
+                        maxLines: 2,
+                        style: warehouseStyle,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Divider(
+                        thickness: 1,
+                        color: ColorUtils.greyColor,
+                      ),
+                    )
+                  ],
                 ),
                 value: category.name + ";" + category.id.toString(),
               ),
             )
-            .toList(),
-      );
-      categoryList = categories
-          .where((category) => category.warehouses.length > 0 && category.warehouses[0].pivot.isActive == "1")
-          .toList();
+            .toList();
 
-      categoryList.sort((a, b) {
-        if ((int.parse(a.warehouses[0].pivot.priority)) > (int.parse(b.warehouses[0].pivot.priority)))
-          return 1;
-        else if ((int.parse(a.warehouses[0].pivot.priority) < (int.parse(b.warehouses[0].pivot.priority))))
-          return -1;
-        else
-          return 0;
-      });
-      return true;
-    } else {
-      return false;
+        fullCategoryList.addAll(
+          categories
+              .where((category) => category.parentCategoryId != null)
+              .toList()
+              .map(
+                (category) => DropdownMenuItem(
+                  child: Text(
+                    category.name,
+                    style: warehouseStyle.copyWith(fontSize: 18),
+                  ),
+                  value: category.name + ";" + category.id.toString(),
+                ),
+              )
+              .toList(),
+        );
+        categoryList = categories
+            .where((category) => category.warehouses.length > 0 && category.warehouses[0].pivot.isActive == "1")
+            .toList();
+
+        categoryList.sort((a, b) {
+          if ((int.parse(a.warehouses[0].pivot.priority)) > (int.parse(b.warehouses[0].pivot.priority)))
+            return 1;
+          else if ((int.parse(a.warehouses[0].pivot.priority) < (int.parse(b.warehouses[0].pivot.priority))))
+            return -1;
+          else
+            return 0;
+        });
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return null;
     }
   }
 

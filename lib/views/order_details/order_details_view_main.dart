@@ -72,11 +72,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
       deletedProductsAry = List<OrderProducts>();
       notDeletedProductsAry = List<OrderProducts>();
       finalProductsAry = List<OrderProducts>();
-      for (int i = 0; i < productsAry.length; i++)
-        if (productsAry[i].pivot.deletedAt != null)
-          deletedProductsAry.add(productsAry[i]);
-        else
-          notDeletedProductsAry.add(productsAry[i]);
+      deletedProductsAry = productsAry.where((product) => product.pivot.deletedAt != null).toList();
+      notDeletedProductsAry = productsAry.where((product) => product.pivot.deletedAt == null).toList();
       if (notDeletedProductsAry.length != 0) finalProductsAry.addAll(notDeletedProductsAry);
       if (deletedProductsAry.length != 0) finalProductsAry.addAll(deletedProductsAry);
     } catch (e) {}

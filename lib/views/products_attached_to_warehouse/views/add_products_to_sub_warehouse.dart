@@ -12,13 +12,10 @@ class AddProductsToSubWarehouse extends StatefulWidget {
   AddProductsToSubWarehouse({this.productData});
 
   @override
-  _AddProductsToSubWarehouseState createState() =>
-      _AddProductsToSubWarehouseState();
+  _AddProductsToSubWarehouseState createState() => _AddProductsToSubWarehouseState();
 }
 
 class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
-  List<DropdownMenuItem> listSubWarehouses = new List<DropdownMenuItem>();
-
   int _selectedValue = -1;
 
   Widget _entryField(
@@ -36,9 +33,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       children: <Widget>[
         Text(
           title,
-          style: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-              fontWeight: FontWeight.bold),
+          style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold),
         ),
         subTitle == null
             ? Container(width: 0, height: 0)
@@ -78,13 +73,11 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       "supplier_code": supplierCodeController.text,
       "min_threshold": "0",
       "increase_percentage": "0",
-      "price_factor":
-          priceFactorController.text != null ? priceFactorController.text : "1",
+      "price_factor": priceFactorController.text != null ? priceFactorController.text : "1",
       "automatic_activation": "0",
     };
 
-    bool response = await AddedProductsServices.attachProductsToSubWarehouse(
-        fullRequestBody: body);
+    bool response = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: body);
     Services.resultFlushBar(context: context, result: response);
     if (response) {
       setState(() {
@@ -109,13 +102,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
 
   @override
   void initState() {
-    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
-      listSubWarehouses.add(DropdownMenuItem(
-        child: Text(LoadingScreenServices.subWarehouses[i].name),
-        value: LoadingScreenServices.subWarehouses[i].id,
-      ));
-    }
-
     super.initState();
   }
 
@@ -125,13 +111,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 210, 178, 2),
         automaticallyImplyLeading: false,
-        // hides leading widget
-
         flexibleSpace: SafeArea(
-          // top: true,
-          // left: false,
-          // bottom: false,
-          // right: false,
           child: Column(
             children: <Widget>[
               Row(
@@ -183,8 +163,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
+          padding: const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
           child: isLoading
               ? Center(child: Loader())
               : ListView(
@@ -198,8 +177,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       ),
                     ),
                     ListTile(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
                         children: LoadingScreenServices.subWarehouses
                             .map((data) => Container(
@@ -207,14 +185,12 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                     color: Colors.white,
                                   ),
                                   child: RadioListTile(
-                                    controlAffinity:
-                                        ListTileControlAffinity.trailing,
+                                    controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedValue,
@@ -262,11 +238,10 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                             margin: const EdgeInsets.all(15.0),
                             padding: const EdgeInsets.all(3.0),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                        10.0) //                 <--- border radius here
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0) //                 <--- border radius here
                                     ),
-                                border: Border.all(
-                                    color: ColorUtils.primaryColor, width: 2)),
+                                border: Border.all(color: ColorUtils.primaryColor, width: 2)),
                             child: Switch(
                               value: switchController,
                               onChanged: (value) {
@@ -284,24 +259,19 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                     KammunButton(
                         text: StringUtils.save,
                         height: 50,
-                        color: completeData()
-                            ? ColorUtils.kmColors
-                            : ColorUtils.searchGreyColor,
+                        color: completeData() ? ColorUtils.kmColors : ColorUtils.searchGreyColor,
                         onTap: () async {
                           if (completeData()) {
                             bool result = await _addNewProduct();
 
                             if (result) {
                               int count = 0;
-                              Navigator.of(context)
-                                  .popUntil((_) => count++ >= 1);
+                              Navigator.of(context).popUntil((_) => count++ >= 1);
                             }
-                            Services.resultFlushBar(
-                                context: context, result: result);
+                            Services.resultFlushBar(context: context, result: result);
                           } else {
                             Toast.show("يرجى إدخال كافة البيانات", context,
-                                duration: Toast.LENGTH_LONG,
-                                gravity: Toast.CENTER);
+                                duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                           }
                         }),
                   ],

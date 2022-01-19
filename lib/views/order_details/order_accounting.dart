@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/views/Wedgit/text_field_row.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -139,7 +138,6 @@ class _OrderAccountingState extends State<OrderAccounting> {
     return Scaffold(
       body: SafeArea(
         child: ListView(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: subWarehouseTotal,

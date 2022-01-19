@@ -51,38 +51,7 @@ class OrdersViewCard extends StatefulWidget {
 }
 
 openMapsSheet(context, lat, lon) async {
-  try {
-    // final coords = Coords(lat, lon);
-    // final title = "Ocean Beach";
-    // final availableMaps = await MapLauncher.installedMaps;
-
-    // showModalBottomSheet(
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return SafeArea(
-    //       child: SingleChildScrollView(
-    //         child: Container(
-    //           child: Wrap(
-    //             children: <Widget>[
-    //               for (var map in availableMaps)
-    //                 ListTile(
-    //                   onTap: () => map.showMarker(
-    //                     coords: coords,
-    //                     title: title,
-    //                   ),
-    //                   title: Text(map.mapName),
-    //                   leading: Icon(Icons.map),
-    //                 ),
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //     );
-    // },
-    // );
-  } catch (e) {
-    print(e);
-  }
+  try {} catch (e) {}
 }
 
 class OrdersViewCardState extends State<OrdersViewCard> {

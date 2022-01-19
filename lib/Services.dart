@@ -336,9 +336,8 @@ class Services {
         url: GET_WAREHOUSE,
         method: httpMethods.get,
       );
-      Tools.logToConsole("------- Warehouses dataaaaaaaaaaaa -------");
 
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == SUCCESS_CODE && response.data['success'].toString() == 'true') {
         LoadingScreenServices.warehouses =
             List<Warehouse>.from(response.data["data"].map((x) => Warehouse.fromJson(x)));
 
@@ -347,7 +346,6 @@ class Services {
         return LoadingScreenServices.warehouses;
       }
     } catch (e) {
-      Tools.logToConsole("------------ ERROR GET WAREHOUSES --------------");
       Tools.logToConsole(e.toString());
 
       return null;

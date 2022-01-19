@@ -415,10 +415,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           )..show(context);
 
                           SharedPreferences prefs = await SharedPreferences.getInstance();
-                          for (int i = 0; i < CartServices.cartProducts.length; i++) {
-                            productsId += CartServices.cartProducts[i].id.toString() + ";";
-                            productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
-                          }
+                          productsId =
+                              CartServices.cartProducts.fold('', (ids, product) => product.id.toString() + ';');
+                          productsQuantity = CartServices.cartProducts
+                              .fold('', (counts, product) => product.productCount.toString() + ';');
                           prefs.setString("userCart", productsId + "@" + productsQuantity);
                         } else {
                           Navigator.of(context).pushNamed(LoginScreen.routeName);

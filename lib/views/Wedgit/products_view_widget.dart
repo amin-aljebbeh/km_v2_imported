@@ -54,11 +54,10 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
     if (widget.productData.subWarehouseId != null)
       id = widget.productData.subWarehouseId.toString();
     else {
-      List<int> warehousesIds = List<int>();
-      for (int i = 0; i < LoadingScreenServices.warehouses.length; i++)
-        warehousesIds.add(LoadingScreenServices.warehouses[i].id);
+      List<int> warehousesIds = LoadingScreenServices.warehouses.map((warehouse) => warehouse.id).toList();
       id = widget.productData.warehouses
-          .firstWhere((warehouse) => warehousesIds.contains(warehouse.id))
+          .firstWhere((warehouse) => warehousesIds.contains(warehouse.id),
+              orElse: () => LoadingScreenServices.warehouses[0])
           .pivot
           .subWarehouseId
           .toString();
@@ -81,8 +80,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
         padding: EdgeInsets.only(left: 0, right: 0, top: 10),
         child: GestureDetector(
           onTap: () {
-            if (widget.productData != null &&
-                widget.productData.supplierCode != null)
+            if (widget.productData != null && widget.productData.supplierCode != null)
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -122,8 +120,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                     widget.productName,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontFamily:
-                                          StringUtils.fontFamilyHKGrotesk,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       fontSize: 18,
                                     ),
                                   ),
@@ -144,16 +141,11 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                 children: [
                                   widget.price != null
                                       ? Text(
-                                          StringUtils()
-                                                  .oCcy
-                                                  .format(widget.price)
-                                                  .toString() +
-                                              "  ",
+                                          StringUtils().oCcy.format(widget.price).toString() + "  ",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                             color: ColorUtils.primaryColor,
-                                            fontFamily:
-                                                StringUtils.fontFamilyHKGrotesk,
+                                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                                             fontSize: 18,
                                           ),
                                         )
@@ -163,14 +155,10 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                           text: new TextSpan(
                                             children: <TextSpan>[
                                               new TextSpan(
-                                                text: StringUtils()
-                                                    .oCcy
-                                                    .format(widget.oldPrice)
-                                                    .toString(),
+                                                text: StringUtils().oCcy.format(widget.oldPrice).toString(),
                                                 style: new TextStyle(
                                                   color: Colors.grey,
-                                                  decoration: TextDecoration
-                                                      .lineThrough,
+                                                  decoration: TextDecoration.lineThrough,
                                                 ),
                                               ),
                                             ],
@@ -189,13 +177,11 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                     child: Column(
                       children: [
                         widget.supplierCode != null &&
-                                LoadingScreenServices.subSupplierCodeHint
-                                    .hasMatch(widget.supplierCode) &&
+                                LoadingScreenServices.subSupplierCodeHint.hasMatch(widget.supplierCode) &&
                                 widget.active != null
                             ? SwitchProductStatusWidget(
                                 preState: widget.active,
-                                subWarehouseId:
-                                    widget.productData.subWarehouseId,
+                                subWarehouseId: widget.productData.subWarehouseId,
                                 productId: widget.productData.id.toString(),
                                 onChange: (active) {
                                   setState(() {
@@ -213,14 +199,11 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                           margin: const EdgeInsets.all(15.0),
                           padding: const EdgeInsets.all(3.0),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(
-                                      10.0) //                 <--- border radius here
-                                  ),
-                              border: Border.all(
-                                  color: ColorUtils.primaryColor, width: 2)),
-                          child: widget.attached &&
-                                  widget.supplierCode != null &&
-                                  !widget.fromInventory
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+                                      ),
+                              border: Border.all(color: ColorUtils.primaryColor, width: 2)),
+                          child: widget.attached && widget.supplierCode != null && !widget.fromInventory
                               ? IconButton(
                                   icon: Icon(
                                     Icons.close_sharp,
@@ -244,8 +227,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                     ];
                                     showMyDialog(
                                       title: "حذف منتج من المستودع",
-                                      text:
-                                          "هل أنت متأكد أنك تريد إزالة ${widget.productName} من المستودع",
+                                      text: "هل أنت متأكد أنك تريد إزالة ${widget.productName} من المستودع",
                                       dialogButtons: dialogButtons,
                                       context: context,
                                     );
@@ -261,8 +243,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                         Navigator.push(
                                           context,
                                           new MaterialPageRoute(
-                                            builder: (context) =>
-                                                new AddProductsToSubWarehouse(
+                                            builder: (context) => new AddProductsToSubWarehouse(
                                               productData: widget.productData,
                                             ),
                                           ),
@@ -275,19 +256,13 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                         color: Colors.green,
                                       ),
                                       onPressed: () async {
-                                        bool result = await ProductsServices
-                                            .updateProductsDetails(
-                                                bodyKey:
-                                                    "under_check_availability",
-                                                value: "0",
-                                                isForSubWarehouse: true,
-                                                subWarehouseId: widget
-                                                    .productData.subWarehouseId
-                                                    .toString(),
-                                                productId: widget.productData.id
-                                                    .toString());
-                                        Services.resultFlushBar(
-                                            context: context, result: result);
+                                        bool result = await ProductsServices.updateProductsDetails(
+                                            bodyKey: "under_check_availability",
+                                            value: "0",
+                                            isForSubWarehouse: true,
+                                            subWarehouseId: widget.productData.subWarehouseId.toString(),
+                                            productId: widget.productData.id.toString());
+                                        Services.resultFlushBar(context: context, result: result);
 
                                         if (result) {
                                           widget.onChangeStatus(true);

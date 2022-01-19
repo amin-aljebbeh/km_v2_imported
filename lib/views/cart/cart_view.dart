@@ -31,10 +31,9 @@ class CartViewState extends State<CartView> {
     String productsId = "";
     String productsQuantity = "";
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productsId += CartServices.cartProducts[i].id.toString() + ";";
-      productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
-    }
+    productsId = CartServices.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
+    productsQuantity =
+        CartServices.cartProducts.fold('', (counts, product) => product.productCount.toString() + ';');
     prefs.setString("userCart", productsId + "@" + productsQuantity);
   }
 
@@ -72,8 +71,7 @@ class CartViewState extends State<CartView> {
       });
     }
     cards = List<int>.generate(orderArray.length, (i) => i + 1);
-    subtotal =
-        orderArray.fold(0, (sum, order) => sum + ((int.parse(order.price.split(".")[0])) * order.productCount));
+    _calculateTotal();
   }
 
   void onrRemove(item) {
