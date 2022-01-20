@@ -27,30 +27,38 @@ class Services {
   static int deliveryPrice = 50;
 
   static Future<bool> addToFavorites(String productsId) async {
-    var response = await ApiProvider.sendRequest(
-      url: ADD_TO_FAVORITE + productsId,
-      method: httpMethods.put,
-    );
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: ADD_TO_FAVORITE + productsId,
+        method: httpMethods.put,
+      );
 
-    if (response.statusCode == SUCCESS_CODE) {
-      return true;
-    } else {
-      Tools.logToConsole("------------ ERROR ADD TO FAVORITES --------------");
-      return false;
+      if (response.statusCode == SUCCESS_CODE) {
+        return true;
+      } else {
+        Tools.logToConsole("------------ ERROR ADD TO FAVORITES --------------");
+        return false;
+      }
+    } catch (e) {
+      return null;
     }
   }
 
   static Future<bool> removeFromFavorites(String productsId) async {
-    var response = await ApiProvider.sendRequest(
-      url: REMOVE_FROM_FAVORITE + productsId,
-      method: httpMethods.put,
-    );
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: REMOVE_FROM_FAVORITE + productsId,
+        method: httpMethods.put,
+      );
 
-    if (response.statusCode == SUCCESS_CODE) {
-      return true;
-    } else {
-      Tools.logToConsole("------------ ERROR REMOVE FROM FAVORITES --------------");
-      return false;
+      if (response.statusCode == SUCCESS_CODE) {
+        return true;
+      } else {
+        Tools.logToConsole("------------ ERROR REMOVE FROM FAVORITES --------------");
+        return false;
+      }
+    } catch (e) {
+      return null;
     }
   }
 
@@ -199,23 +207,27 @@ class Services {
   }
 
   static Future<bool> verifyCode(String code) async {
-    var response = await ApiProvider.sendRequest(url: OTP_VERIFICATION + code, method: httpMethods.get);
+    try {
+      var response = await ApiProvider.sendRequest(url: OTP_VERIFICATION + code, method: httpMethods.get);
 
-    var data = (response.data);
+      var data = (response.data);
 
-    if (response.statusCode == SUCCESS_CODE && data["success"] == true) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("userToken", data["api_token"]);
-      LoadingScreen.userToken = "Bearer " + data["api_token"];
-      if (data["api_token"] == "APPLE_VERIFICATION") {
-        BASE_URL = APPLE_BASE_URL;
+      if (response.statusCode == SUCCESS_CODE && data["success"] == true) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("userToken", data["api_token"]);
+        LoadingScreen.userToken = "Bearer " + data["api_token"];
+        if (data["api_token"] == "APPLE_VERIFICATION") {
+          BASE_URL = APPLE_BASE_URL;
+        } else {
+          BASE_URL = PRODUCTION_BASE_URL;
+        }
+        return true;
       } else {
-        BASE_URL = PRODUCTION_BASE_URL;
+        Tools.logToConsole("------------ ERROR OTP VERIFICATION --------------");
+        return false;
       }
-      return true;
-    } else {
-      Tools.logToConsole("------------ ERROR OTP VERIFICATION --------------");
-      return false;
+    } catch (e) {
+      return null;
     }
   }
 
@@ -226,14 +238,11 @@ class Services {
   }
 
   static Future<List<ShopperModel>> getShoppers() async {
-    Tools.logToConsole("------------------ Get All Shoppers  --------------------");
-
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_SHOPPER,
         method: httpMethods.get,
       );
-      Tools.logToConsole("------- shoppers data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.allShoppers = shoppersFromJson(jsonEncode(response.data)).data;
@@ -264,30 +273,6 @@ class Services {
     } catch (e) {
       Tools.logToConsole(e.toString());
       Tools.logToConsole('e.toString()');
-      return null;
-    }
-  }
-
-  static Future<List<DeliveryModel>> getDeliveries() async {
-    Tools.logToConsole("------------------ Get All Deliveries  --------------------");
-
-    try {
-      var response = await ApiProvider.sendRequest(
-        url: GET_DELIVERIES,
-        method: httpMethods.get,
-      );
-      Tools.logToConsole("------- Deliveries data -------");
-
-      if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.allDeliveries = deliveriesFromJson(jsonEncode(response.data)).data;
-
-        return LoadingScreenServices.allDeliveries;
-      } else {
-        return LoadingScreenServices.allDeliveries;
-      }
-    } catch (e) {
-      Tools.logToConsole("------------ ERROR GET DELIVERIES --------------");
-      Tools.logToConsole(e.toString());
       return null;
     }
   }

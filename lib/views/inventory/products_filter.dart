@@ -42,8 +42,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
 
   getProducts() async {
     if (filter == 0 && int.parse(valueController.text) <= 14) {
-      Toast.show("يرجى إدخال عدد أيام أكبر من 14", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      Toast.show("يرجى إدخال عدد أيام أكبر من 14", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
       return;
     }
     setState(() {
@@ -51,8 +50,8 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
       loading = true;
       if (productsList != null) productsList.clear();
     });
-    var products = await InventoryServices.getFilteredProducts(
-        page: page, filterIndex: filter, number: valueController.text);
+    var products =
+        await InventoryServices.getFilteredProducts(page: page, filterIndex: filter, number: valueController.text);
     setState(() {
       loading = false;
       if (products != null) {
@@ -73,14 +72,11 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
         title: Container(
           padding: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(
-                      10.0) //                 <--- border radius here
+              borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                   ),
               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
+            style: TextStyle(color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: ColorUtils.kmColors),
@@ -214,21 +210,18 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                   ),
                                 )
                               : ListView.builder(
-                                  physics: const AlwaysScrollableScrollPhysics(
-                                      parent: BouncingScrollPhysics()),
+                                  physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                                   primary: false,
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
                                   itemCount: productsList.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    ProductData eachProduct =
-                                        productsList[index];
+                                  itemBuilder: (BuildContext context, int index) {
+                                    ProductData eachProduct = productsList[index];
                                     if (searchFilter == null ||
                                         searchFilter == "" ||
-                                        eachProduct.name.toLowerCase().contains(
-                                            searchFilter.toLowerCase())) {
+                                        eachProduct.name.toLowerCase().contains(searchFilter.toLowerCase())) {
                                       return InventoryProductsViewCard(
+                                        attached: eachProduct.warehouses.isNotEmpty,
                                         fromInventory: false,
                                         productData: eachProduct,
                                         onChangeStatus: (result) {
@@ -238,30 +231,23 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                             });
                                           }
                                         },
-                                        supplierCode: eachProduct.supplierCode,
+                                        supplierCode: eachProduct.warehouses.isNotEmpty
+                                            ? eachProduct.warehouses[0].pivot.supplierCode
+                                            : null,
                                         productId: eachProduct.id.toString(),
-                                        active:
-                                            eachProduct.warehouses.isNotEmpty
-                                                ? int.parse(eachProduct
-                                                    .warehouses[0].isActive)
-                                                : 0,
+                                        active: eachProduct.warehouses.isNotEmpty
+                                            ? int.parse(eachProduct.warehouses[0].isActive)
+                                            : 0,
                                         img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices
-                                                    .imagePrefixUrl +
-                                                eachProduct
-                                                    .images[0].imageFileName
+                                            ? LoadingScreenServices.imagePrefixUrl +
+                                                eachProduct.images[0].imageFileName
                                             : "",
                                         productName: eachProduct.name,
-                                        quantity: eachProduct.unit.toString() !=
-                                                "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
+                                        quantity: eachProduct.unit.toString() != "null"
+                                            ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
                                             : eachProduct.quantity.toString(),
                                         price: eachProduct.warehouses.isNotEmpty
-                                            ? int.parse(eachProduct
-                                                .warehouses[0].pivot.price
-                                                .split(".")[0])
+                                            ? int.parse(eachProduct.warehouses[0].pivot.price.split(".")[0])
                                             : 0,
                                         index: index,
                                       );

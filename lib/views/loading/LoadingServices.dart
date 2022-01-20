@@ -86,15 +86,19 @@ class LoadingScreenServices {
   static RegExp subSupplierCodeHint = RegExp(".*kh");
 
   Future<bool> updateFirebaseToken(String firebaseToken) async {
-    Map body = {
-      "firebase_token": firebaseToken,
-    };
-    await ApiProvider.sendRequest(
-      url: UPDATE_ADMIN_FIREBASE_TOKEN,
-      method: httpMethods.post,
-      body: jsonEncode(body),
-    );
-    return true;
+    try {
+      Map body = {
+        "firebase_token": firebaseToken,
+      };
+      await ApiProvider.sendRequest(
+        url: UPDATE_ADMIN_FIREBASE_TOKEN,
+        method: httpMethods.post,
+        body: jsonEncode(body),
+      );
+      return true;
+    } catch (e) {
+      return null;
+    }
   }
 
   static setPreferLeftSide(bool side) async {
@@ -308,9 +312,7 @@ class LoadingScreenServices {
           useMemCache: true,
           diskCacheExpire: Duration(days: 400),
         ),
-        // width: MediaQuery.of(context).size.width,
         fadeInDuration: const Duration(seconds: 1),
-        // fadeInCurve: Curves.fastOutSlowIn,
         fadeInCurve: Curves.fastOutSlowIn,
         placeholder: AssetImage("assets/kmlogoo.png"),
         fit: BoxFit.cover,

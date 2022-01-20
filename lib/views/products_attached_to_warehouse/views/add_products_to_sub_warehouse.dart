@@ -59,6 +59,8 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
   bool isError = false;
 
   Future<bool> _addNewProduct() async {
+    Tools.logToConsole('message');
+    Tools.logToConsole(widget.productData.id);
     setState(() {
       isLoading = true;
       isError = false;
