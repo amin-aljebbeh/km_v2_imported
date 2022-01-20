@@ -221,7 +221,11 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                         searchFilter == "" ||
                                         eachProduct.name.toLowerCase().contains(searchFilter.toLowerCase())) {
                                       return InventoryProductsViewCard(
-                                        attached: eachProduct.warehouses.isNotEmpty,
+                                        attached: eachProduct.warehouses.isNotEmpty
+                                            ? eachProduct.warehouses[0].pivot.supplierCode != null
+                                                ? true
+                                                : false
+                                            : false,
                                         fromInventory: false,
                                         productData: eachProduct,
                                         onChangeStatus: (result) {
@@ -236,7 +240,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                             : null,
                                         productId: eachProduct.id.toString(),
                                         active: eachProduct.warehouses.isNotEmpty
-                                            ? int.parse(eachProduct.warehouses[0].isActive)
+                                            ? int.parse(eachProduct.warehouses[0].pivot.isActive)
                                             : 0,
                                         img: eachProduct.images.length > 0
                                             ? LoadingScreenServices.imagePrefixUrl +

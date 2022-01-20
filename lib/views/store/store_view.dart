@@ -219,13 +219,24 @@ class StoreViewState extends State<StoreView> {
                           onTap: () => Navigator.of(context).pop(),
                           child: Container(
                             width: MediaQuery.of(context).size.width / 1.5,
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                //color: Colors.white,
-                                color: ColorUtils.kmColors,
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Icon(
+                                    Icons.arrow_back_ios,
+                                    color: ColorUtils.kmColors,
+                                  ),
+                                ),
+                                Text(
+                                  LoadingScreenServices.name,
+                                  style: userNameStyle.copyWith(
+                                    fontSize: 30,
+                                    color: ColorUtils.kmColors,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -234,17 +245,13 @@ class StoreViewState extends State<StoreView> {
                   ),
                   Container(
                       child: Image.asset(
-                        //  "assets/logobw.png",
                         "assets/kmlogoo.png",
                         width: 250,
                         height: 200,
                       ),
-
-                      //color: ColorUtils.kmColors,
                       color: Colors.white),
                   Divider(
                     color: ColorUtils.kmColors,
-                    // height: 20,
                   ),
                   Container(
                     height: 550,
@@ -436,14 +443,12 @@ class StoreViewState extends State<StoreView> {
         child: AppBar(
           actions: [],
           iconTheme: new IconThemeData(color: Colors.transparent),
-
           backgroundColor: Services.isShopper()
               ? Services.shopper.status == 1
                   ? Color.fromARGB(255, 210, 178, 2)
                   : ColorUtils.searchGreyColor
               : Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false,
-          // hides leading widget
           flexibleSpace: SafeArea(
             top: true,
             left: false,
@@ -605,9 +610,7 @@ class StoreViewState extends State<StoreView> {
 
   Widget _imageCarousel() {
     return new Container(
-      // height: 200.0,
       height: MediaQuery.of(context).size.height * 0.30,
-
       decoration: new BoxDecoration(
           color: ColorUtils.searchGreyColor, borderRadius: new BorderRadius.all(Radius.circular(20.0))),
       child: new Carousel(

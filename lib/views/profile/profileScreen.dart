@@ -11,8 +11,7 @@ class ProfileScreen extends StatefulWidget {
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen>
-    with SingleTickerProviderStateMixin {
+class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
   bool isLoading = false;
   bool isError = false;
   AnimationController animationController;
@@ -26,8 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       duration: Duration(seconds: 5),
       vsync: this,
     );
-    animation =
-        CurvedAnimation(parent: animationController, curve: Curves.decelerate);
+    animation = CurvedAnimation(parent: animationController, curve: Curves.decelerate);
     animationController.forward();
     animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -65,18 +63,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                   children: [
                     TextSpan(
                       text: LoadingScreenServices.name,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          fontSize: 30),
+                      style: userNameStyle.copyWith(fontSize: 30),
                     ),
                     TextSpan(text: '\n'),
                     TextSpan(
                       text: LoadingScreenServices.userName,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          fontSize: 15),
+                      style: userNameStyle,
                     ),
                   ],
                 ),
@@ -158,8 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       "المستودع",
                                       style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20,
                                       ),
                                     ),
@@ -181,28 +172,25 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   ),
                                   child: Center(
                                     child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children:
-                                          LoadingScreenServices.subWarehouses
-                                              .map(
-                                                (subWarehouse) => Container(
-                                                  padding: EdgeInsets.all(5),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                  ),
-                                                  child: Text(
-                                                    "${subWarehouse.name}",
-                                                    style: TextStyle(
-                                                      fontFamily: StringUtils
-                                                          .fontFamilyHKGrotesk,
-                                                      fontSize: 25,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: LoadingScreenServices.subWarehouses
+                                          .map(
+                                            (subWarehouse) => Container(
+                                              padding: EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                              ),
+                                              child: Text(
+                                                "${subWarehouse.name}",
+                                                style: TextStyle(
+                                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                                  fontSize: 25,
+                                                  color: Colors.black,
                                                 ),
-                                              )
-                                              .toList(),
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
                                     ),
                                   ),
                                 ),
@@ -214,8 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                     "الجهة المفضلة لاستخدام الهاتف",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontFamily:
-                                          StringUtils.fontFamilyHKGrotesk,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       fontSize: 20,
                                     ),
                                   ),
@@ -235,22 +222,19 @@ class _ProfileScreenState extends State<ProfileScreen>
                                     ],
                                   ),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
                                       IconButton(
                                         icon: Icon(
                                           Icons.library_add_check_outlined,
-                                          color: LoadingScreenServices
-                                                  .preferLeftSide
+                                          color: LoadingScreenServices.preferLeftSide
                                               ? ColorUtils.searchGreyColor
                                               : ColorUtils.kmColors2,
                                         ),
                                         onPressed: () {
                                           setState(() {
                                             LoadingScreenServices.preferLeftSide
-                                                ? LoadingScreenServices
-                                                    .setPreferLeftSide(false)
+                                                ? LoadingScreenServices.setPreferLeftSide(false)
                                                 : Tools.logToConsole('');
                                           });
                                         },
@@ -258,8 +242,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       IconButton(
                                         icon: Icon(
                                           Icons.library_add_check_outlined,
-                                          color: LoadingScreenServices
-                                                  .preferLeftSide
+                                          color: LoadingScreenServices.preferLeftSide
                                               ? ColorUtils.kmColors2
                                               : ColorUtils.searchGreyColor,
                                         ),
@@ -267,8 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           setState(() {
                                             LoadingScreenServices.preferLeftSide
                                                 ? Tools.logToConsole('')
-                                                : LoadingScreenServices
-                                                    .setPreferLeftSide(true);
+                                                : LoadingScreenServices.setPreferLeftSide(true);
                                           });
                                         },
                                       ), //left side

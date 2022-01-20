@@ -12,6 +12,7 @@ class SwitchProductStatusWidget extends StatefulWidget {
   final String productId;
   final Function resultFunction;
   final Function onChange;
+  final bool isForSubWarehouse;
 
   const SwitchProductStatusWidget({
     Key key,
@@ -22,6 +23,7 @@ class SwitchProductStatusWidget extends StatefulWidget {
     @required this.onChange,
     @required this.height,
     @required this.width,
+    this.isForSubWarehouse,
   }) : super(key: key);
 
   @override
@@ -50,7 +52,7 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
               bodyKey: "is_active",
               value: value ? "1" : "0",
               subWarehouseId: widget.subWarehouseId.toString(),
-              isForSubWarehouse: true,
+              isForSubWarehouse: widget.isForSubWarehouse,
               productId: widget.productId,
             );
 

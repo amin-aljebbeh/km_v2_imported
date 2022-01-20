@@ -280,6 +280,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                       top: 127,
                                     ),
                                     child: SwitchProductStatusWidget(
+                                      isForSubWarehouse: true,
                                       height: 20,
                                       width: 70,
                                       preState: productDetail.isActive,

@@ -142,18 +142,18 @@ class ProductsViewState extends State<ProductsView> {
               controller: _searchController,
               onSubmitted: (_) {
                 setState(() {
-                  // searchLoading = true;
                   productsList.clear();
-                  // _loadData(_searchController.text, "search");
                   Navigator.of(context).pop();
 
                   Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new ProductsView(
-                                queryString: _searchController.text,
-                                categoryId: "0",
-                              )));
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new ProductsView(
+                        queryString: _searchController.text,
+                        categoryId: "0",
+                      ),
+                    ),
+                  );
                 });
               },
               cursorColor: ColorUtils.primaryColor,
@@ -333,6 +333,7 @@ class ProductsViewState extends State<ProductsView> {
                           ),
                         ),
                         Container(
+                          width: MediaQuery.of(context).size.width,
                           height: isLoading ? 50.0 : 0,
                           color: Colors.transparent,
                           child: Center(

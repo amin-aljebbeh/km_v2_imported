@@ -180,6 +180,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                 LoadingScreenServices.subSupplierCodeHint.hasMatch(widget.supplierCode) &&
                                 widget.active != null
                             ? SwitchProductStatusWidget(
+                                isForSubWarehouse: widget.fromInventory,
                                 preState: widget.active,
                                 subWarehouseId: widget.productData.subWarehouseId,
                                 productId: widget.productData.id.toString(),
