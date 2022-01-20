@@ -9,12 +9,7 @@ class ShopByCategory extends StatefulWidget {
   final String categoryName;
   final int index;
 
-  ShopByCategory(
-      {kKey,
-      key,
-      @required this.img,
-      @required this.categoryName,
-      @required this.index})
+  ShopByCategory({kKey, key, @required this.img, @required this.categoryName, @required this.index})
       : super(key: key);
 
   @override
@@ -46,7 +41,6 @@ class ShopByCategoryState extends State<ShopByCategory> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  // Add one stop for each color. Stops should increase from 0 to 1
                   stops: [0.2, 0.7],
                   colors: [
                     Color.fromARGB(100, 0, 0, 0),

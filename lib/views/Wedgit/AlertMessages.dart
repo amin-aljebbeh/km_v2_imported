@@ -9,12 +9,7 @@ class AlertMessages extends StatelessWidget {
   String headerText = " ";
   Color textColor = Colors.black;
   Color outsideBorderColor = Color.fromRGBO(61, 49, 19, 1);
-  Color insideBorderColor = Color.fromARGB(
-    255,
-    246,
-    233,
-    181,
-  );
+  Color insideBorderColor = Color.fromARGB(255, 246, 233, 181);
   Color headerTextColor = Colors.green[800];
   double headerTextSize = 15;
   double messageTextSize = 13;
@@ -122,15 +117,8 @@ class AlertTextView extends StatelessWidget {
   final double headerTextSize;
   final double messageTextSize;
 
-  AlertTextView(
-      this.text,
-      this.textColor,
-      this.insideBorderColor,
-      this.textWeight,
-      this.successText,
-      this.headerTextColor,
-      this.headerTextSize,
-      this.messageTextSize);
+  AlertTextView(this.text, this.textColor, this.insideBorderColor, this.textWeight, this.successText,
+      this.headerTextColor, this.headerTextSize, this.messageTextSize);
 
   @override
   Widget build(BuildContext context) {
@@ -158,9 +146,7 @@ class AlertTextView extends StatelessWidget {
                     text: text,
                     style: TextStyle(
                         color: textColor,
-                        fontSize: messageTextSize != null
-                            ? messageTextSize
-                            : textSize,
+                        fontSize: messageTextSize != null ? messageTextSize : textSize,
                         height: 1.5,
                         fontWeight: FontWeight.w400,
                         fontFamily: StringUtils.fontFamilyHKGrotesk),

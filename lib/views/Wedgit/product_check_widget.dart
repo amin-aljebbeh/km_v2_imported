@@ -34,16 +34,16 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                 Container(
                   padding: const EdgeInsets.all(3.0),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(
-                              10.0) //                 <--- border radius here
-                          ),
-                      border:
-                          Border.all(color: ColorUtils.primaryColor, width: 2)),
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+                              ),
+                      border: Border.all(color: ColorUtils.primaryColor, width: 2)),
                   child: Center(
-                      child: Text(
-                    widget.productCount,
-                    style: mainStyle.copyWith(fontSize: 30),
-                  )),
+                    child: Text(
+                      widget.productCount,
+                      style: mainStyle.copyWith(fontSize: 30),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 15,
@@ -73,8 +73,7 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                         ];
                         showMyDialog(
                             title: "تحقق من الكمية",
-                            text:
-                                "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
+                            text: "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
                             dialogButtons: decisionButtons,
                             context: context);
                         // _showDialog();

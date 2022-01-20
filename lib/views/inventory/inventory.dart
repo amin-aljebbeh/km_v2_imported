@@ -40,15 +40,10 @@ class _InventoryState extends State<Inventory> {
         method: httpMethods.get,
       );
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-        productsListToActive.addAll(
-            productsToReviewFromJson(jsonEncode(response.data))
-                .productsToActivate);
-        productsListToInactive.addAll(
-            productsToReviewFromJson(jsonEncode(response.data))
-                .productsToDeactivate);
+        productsListToActive.addAll(productsToReviewFromJson(jsonEncode(response.data)).productsToActivate);
+        productsListToInactive.addAll(productsToReviewFromJson(jsonEncode(response.data)).productsToDeactivate);
 
-        if (LoadingScreenServices.subWarehouses.length == 0)
-          await LoadingScreenServices.getSubWarehouse();
+        if (LoadingScreenServices.subWarehouses.length == 0) await LoadingScreenServices.getSubWarehouse();
         if (isActiveFilter == 0) {
           productsList = productsListToActive;
         } else if (isActiveFilter == 1) {
@@ -57,11 +52,9 @@ class _InventoryState extends State<Inventory> {
           productsList = productsListToActive;
           productsList.addAll(productsListToInactive);
         }
-        List<ProductData> sortedProductsList =
-            Services.productListSort(productsList);
+        List<ProductData> sortedProductsList = Services.productListSort(productsList);
         productsList = sortedProductsList;
-        productsList.removeWhere((data) =>
-            !warehouseFilter[filterIndex].hasMatch(data.supplierCode ?? "0"));
+        productsList.removeWhere((data) => !warehouseFilter[filterIndex].hasMatch(data.supplierCode ?? "0"));
 
         setState(() {
           isLoading = false;
@@ -132,14 +125,11 @@ class _InventoryState extends State<Inventory> {
         title: Container(
           padding: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(
-                      10.0) //                 <--- border radius here
+              borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                   ),
               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
+            style: TextStyle(color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: ColorUtils.kmColors),
@@ -196,8 +186,7 @@ class _InventoryState extends State<Inventory> {
                     setState(() {
                       filterProducts = value;
                       if (value != LoadingScreenServices.subWarehouses.length)
-                        selectedSubWarehouseId =
-                            LoadingScreenServices.subWarehouses[value].id;
+                        selectedSubWarehouseId = LoadingScreenServices.subWarehouses[value].id;
                       else
                         selectedSubWarehouseId = -1;
                     });
@@ -208,9 +197,7 @@ class _InventoryState extends State<Inventory> {
                   value: isActiveFilter,
                   items: Services.dropdownStringList(activeNotActive),
                   onChanged: (value) {
-                    Tools.logToConsole("The Value is :$value");
                     isActiveFilter = value;
-                    Tools.logToConsole("The filterIndex is :$filterProducts");
 
                     _loadData(filterIndex: filterProducts);
                   },
@@ -242,8 +229,7 @@ class _InventoryState extends State<Inventory> {
                                   fontWeight: FontWeight.bold,
                                   fontFamily: StringUtils.fontFamilyHKGrotesk),
                             ),
-                            onPressed: () =>
-                                _loadData(filterIndex: filterProducts),
+                            onPressed: () => _loadData(filterIndex: filterProducts),
                           ),
                         ],
                       ),
@@ -257,32 +243,26 @@ class _InventoryState extends State<Inventory> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk))
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk))
                                 : Text("لا يوجد منتجات بحاجة إلغاء تفعيل",
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk)),
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk)),
                           ),
                         )
                       : Expanded(
                           child: ListView.builder(
-                            physics: const AlwaysScrollableScrollPhysics(
-                                parent: BouncingScrollPhysics()),
+                            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                             primary: false,
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            itemCount:
-                                productsList == null ? 0 : productsList.length,
+                            itemCount: productsList == null ? 0 : productsList.length,
                             itemBuilder: (BuildContext context, int index) {
                               var eachProduct = productsList[index];
                               if (filter == null ||
                                   filter == "" ||
-                                  eachProduct.name
-                                      .toLowerCase()
-                                      .contains(filter.toLowerCase())) {
+                                  eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
                                 if (selectedSubWarehouseId == -1) {
                                   return GestureDetector(
                                     behavior: HitTestBehavior.translucent,
@@ -301,26 +281,19 @@ class _InventoryState extends State<Inventory> {
                                       productId: eachProduct.id.toString(),
                                       active: int.parse(eachProduct.isActive),
                                       img: eachProduct.images.length > 0
-                                          ? LoadingScreenServices
-                                                  .imagePrefixUrl +
-                                              eachProduct
-                                                  .images[0].imageFileName
+                                          ? LoadingScreenServices.imagePrefixUrl +
+                                              eachProduct.images[0].imageFileName
                                           : "",
                                       productName: eachProduct.name,
-                                      quantity: eachProduct.unit.toString() !=
-                                              "null"
-                                          ? eachProduct.quantity.toString() +
-                                              " " +
-                                              eachProduct.unit.toString()
+                                      quantity: eachProduct.unit.toString() != "null"
+                                          ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
                                           : eachProduct.quantity.toString(),
-                                      price: int.parse(
-                                          eachProduct.price.split(".")[0]),
+                                      price: int.parse(eachProduct.price.split(".")[0]),
                                       index: index,
                                     ),
                                   );
                                 }
-                                if (eachProduct.subWarehouseId ==
-                                    selectedSubWarehouseId)
+                                if (eachProduct.subWarehouseId == selectedSubWarehouseId)
                                   return GestureDetector(
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () => () {},
@@ -329,8 +302,6 @@ class _InventoryState extends State<Inventory> {
                                       productData: eachProduct,
                                       onChangeStatus: (result) {
                                         if (result) {
-                                          Tools.logToConsole(
-                                              "the result : $result");
                                           setState(() {
                                             productsList.removeAt(index);
                                           });
@@ -340,20 +311,14 @@ class _InventoryState extends State<Inventory> {
                                       productId: eachProduct.id.toString(),
                                       active: int.parse(eachProduct.isActive),
                                       img: eachProduct.images.length > 0
-                                          ? LoadingScreenServices
-                                                  .imagePrefixUrl +
-                                              eachProduct
-                                                  .images[0].imageFileName
+                                          ? LoadingScreenServices.imagePrefixUrl +
+                                              eachProduct.images[0].imageFileName
                                           : "",
                                       productName: eachProduct.name,
-                                      quantity: eachProduct.unit.toString() !=
-                                              "null"
-                                          ? eachProduct.quantity.toString() +
-                                              " " +
-                                              eachProduct.unit.toString()
+                                      quantity: eachProduct.unit.toString() != "null"
+                                          ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
                                           : eachProduct.quantity.toString(),
-                                      price: int.parse(
-                                          eachProduct.price.split(".")[0]),
+                                      price: int.parse(eachProduct.price.split(".")[0]),
                                       index: index,
                                     ),
                                   );

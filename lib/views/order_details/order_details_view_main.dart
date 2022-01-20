@@ -11,6 +11,8 @@ import 'package:kammun_app/utils/utils_importer.dart';
 class OrderDetailViewMain extends StatefulWidget {
   List<OrderProducts> ordersAry;
   int subTotal;
+  double remaining;
+  double totalDiscount;
   String total;
   String deliveryPrice;
   int orderId;
@@ -18,15 +20,18 @@ class OrderDetailViewMain extends StatefulWidget {
   OrdersOriginalData order;
   final OrderType orderType;
 
-  OrderDetailViewMain(
-      {this.ordersAry,
-      this.subTotal,
-      this.total,
-      this.deliveryPrice,
-      this.orderId,
-      this.addressName,
-      this.order,
-      @required this.orderType});
+  OrderDetailViewMain({
+    this.ordersAry,
+    this.subTotal,
+    this.total,
+    this.deliveryPrice,
+    this.orderId,
+    this.addressName,
+    this.order,
+    @required this.orderType,
+    this.remaining,
+    this.totalDiscount,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -127,10 +132,11 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         IconButton(
-                            icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).primaryColorDark, size: 45),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            }),
+                          icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).primaryColorDark, size: 45),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                         InkWell(
                           onTap: () {
                             Navigator.of(context).pop();
@@ -141,8 +147,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                       ? widget.addressName.substring(0, 37)
                                       : widget.addressName,
                                   maxLines: 1,
-
-                                  // maxFontSize: 20,
                                   overflow: TextOverflow.clip,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
@@ -159,10 +163,11 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                 ),
                         ),
                         IconButton(
-                            icon: Icon(Icons.refresh, color: Theme.of(context).primaryColor, size: 30),
-                            onPressed: () {
-                              _refillProducts();
-                            }),
+                          icon: Icon(Icons.refresh, color: Theme.of(context).primaryColor, size: 30),
+                          onPressed: () {
+                            _refillProducts();
+                          },
+                        ),
                       ],
                     ),
                     errorAlert
@@ -293,6 +298,55 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         },
                       ),
                     ),
+                    if (Services.isSupplierManager())
+                      Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 20, top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'الزوائد',
+                                  style: darkBold,
+                                ),
+                                Text(
+                                  "${StringUtils().oCcy.format(widget.remaining)}" +
+                                      " ${LoadingScreenServices.companyInformation.currency}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).primaryColorDark,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 17.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 20, top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'إجمالي الحسم',
+                                  style: darkBold,
+                                ),
+                                Text(
+                                  "${StringUtils().oCcy.format(widget.totalDiscount)}" +
+                                      " ${LoadingScreenServices.companyInformation.currency}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).primaryColorDark,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 17.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     Padding(
                       padding: EdgeInsets.only(left: 20, top: 5),
                       child: Row(
@@ -306,10 +360,11 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             "${StringUtils().oCcy.format(widget.subTotal)}" +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 17.0),
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 17.0,
+                            ),
                           ),
                         ],
                       ),
@@ -321,15 +376,10 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         children: <Widget>[
                           Text(
                             StringUtils.total,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 19.0,
-                            ),
+                            style: informationStyle,
                           ),
                           Text(
-                            "${StringUtils().oCcy.format(int.parse(widget.total))}" +
+                            "${StringUtils().oCcy.format(int.parse(widget.total.split('.')[0]))}" +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
                               fontWeight: FontWeight.w700,

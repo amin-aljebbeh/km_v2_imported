@@ -160,7 +160,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         shrinkWrap: true,
                         itemCount: orderArray == null ? 0 : cards.length,
                         itemBuilder: (BuildContext context, int index) {
-                          Tools.logToConsole("Build Card Length : $index");
                           return new GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () => {},
@@ -636,7 +635,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
           loadingScreen = false;
           errorCode = true;
           Tools.logToConsole(e.toString());
-          Tools.logToConsole("I'm in catch");
         }
       });
     }

@@ -154,14 +154,6 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                             String description =
                                 descriptionController.text.isNotEmpty ? descriptionController.text : ' ';
                             shopperId = Services.selectedShopperId(shopperName);
-                            Tools.logToConsole('message from add transaction');
-                            Tools.logToConsole(shopperId);
-                            Tools.logToConsole(LoadingScreenServices.transactionTypes
-                                .where((type) => type.automatic == 0)
-                                .toList()[transactionTypeIndex]
-                                .id
-                                .toString());
-                            Tools.logToConsole(moneyController.text);
                             bool result = await ReportsServices.addTransaction(
                               shopperId: shopperId,
                               value: moneyController.text,

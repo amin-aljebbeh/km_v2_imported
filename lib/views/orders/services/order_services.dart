@@ -55,8 +55,6 @@ class OrderServices {
         body: jsonEncode(orderData),
       );
 
-      Tools.logToConsole(response.data['reason']);
-
       if (response.data['reason'].toString().contains('discontinued')) {
         return new OrderResponse(success: false, reason: 'discontinued');
       } else {
@@ -227,7 +225,6 @@ class OrderServices {
         url: UNLOCK_ORDER + orderId,
         method: httpMethods.put,
       );
-      Tools.logToConsole(response);
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         return true;
       } else {
@@ -245,7 +242,6 @@ class OrderServices {
         method: httpMethods.get,
         queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.notAssignedOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
@@ -293,13 +289,10 @@ class OrderServices {
         method: httpMethods.get,
         queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.shoppersAssignedOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
 
-        print('getOrdersAssignedToShoppers');
-        print(LoadingScreenServices.shoppersAssignedOrdersList.length);
         return LoadingScreenServices.shoppersAssignedOrdersList;
       } else {
         return LoadingScreenServices.shoppersAssignedOrdersList;
@@ -318,7 +311,6 @@ class OrderServices {
         method: httpMethods.get,
         queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.myOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
@@ -341,13 +333,10 @@ class OrderServices {
         method: httpMethods.get,
         queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.notAssignedOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
 
-        Tools.logToConsole('getOrdersNotAssignedToShoppers');
-        Tools.logToConsole(LoadingScreenServices.notAssignedOrdersList.length);
         return LoadingScreenServices.notAssignedOrdersList;
       } else {
         return LoadingScreenServices.notAssignedOrdersList;
@@ -366,7 +355,6 @@ class OrderServices {
         method: httpMethods.get,
         queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
@@ -421,7 +409,6 @@ class OrderServices {
         url: url + orderId,
         method: httpMethods.put,
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         return true;
@@ -450,11 +437,9 @@ class OrderServices {
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         return true;
       } else {
-        Tools.logToConsole('------------NOT ASSIGNED --------------');
         return false;
       }
     } catch (e) {
-      Tools.logToConsole('here in the wanted null');
       return false;
     }
   }
@@ -472,14 +457,11 @@ class OrderServices {
         body: jsonEncode(assignOrderBody),
       );
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
-        Tools.logToConsole('------------ ASSIGNED --------------');
         return true;
       } else {
-        Tools.logToConsole('------------NOT ASSIGNED --------------');
         return false;
       }
     } catch (e) {
-      print('');
       return false;
     }
   }

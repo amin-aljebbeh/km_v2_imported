@@ -76,7 +76,6 @@ class Services {
 
         return true;
       } else {
-        Tools.logToConsole(response.data);
         Tools.logToConsole("------------ ERROR ADD NEW ADDRESS --------------");
         return false;
       }
@@ -98,7 +97,6 @@ class Services {
       double lat,
       double lon,
       String entrance}) async {
-    Tools.logToConsole("------- ID: $addressId");
     Map addressData = {
       'city': city,
       'street': street,
@@ -115,10 +113,8 @@ class Services {
           url: USER_ADDRESS + "/$addressId", method: httpMethods.put, body: jsonEncode(addressData));
 
       if (response.statusCode == SUCCESS_CODE) {
-        Tools.logToConsole(response.data);
         return true;
       } else {
-        Tools.logToConsole(response.data);
         Tools.logToConsole("------------ ERROR UPDATE ADDRESS --------------");
         return false;
       }
@@ -184,17 +180,12 @@ class Services {
       'platform_type': Platform.isAndroid ? "android" : "ios"
     };
 
-    Tools.logToConsole(jsonEncode(loginBody));
     try {
       var response = await ApiProvider.sendRequest(
           url: LOGIN_URL, method: httpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
       var theResponse = response.data;
 
-      Tools.logToConsole("-------- Login Response -----------");
-      Tools.logToConsole(theResponse);
       if (response.statusCode == SUCCESS_CODE && (theResponse["success"].toString() == "true")) {
-        Tools.logToConsole(theResponse["success"].toString());
-
         return true;
       } else {
         Tools.logToConsole("------------ ERROR LOGIN USER --------------");
@@ -208,15 +199,11 @@ class Services {
   }
 
   static Future<bool> verifyCode(String code) async {
-    //Tools.logToConsole("------------------ LOGIN USER   --------------------");
-
     var response = await ApiProvider.sendRequest(url: OTP_VERIFICATION + code, method: httpMethods.get);
 
     var data = (response.data);
 
     if (response.statusCode == SUCCESS_CODE && data["success"] == true) {
-      Tools.logToConsole("The Token from VerifyCode is");
-      Tools.logToConsole(data["success"].toString());
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("userToken", data["api_token"]);
       LoadingScreen.userToken = "Bearer " + data["api_token"];
@@ -269,8 +256,6 @@ class Services {
       );
 
       if (response.statusCode == SUCCESS_CODE) {
-        Tools.logToConsole("message from get level and decode");
-        Tools.logToConsole(ModelResponse.fromJson(response.data).data.id.toString());
         Level level = ModelResponse.fromJson(response.data).data;
         return level;
       } else {
@@ -317,10 +302,8 @@ class Services {
           body: jsonEncode(changeStatus));
 
       if (response.statusCode == SUCCESS_CODE) {
-        Tools.logToConsole(response.data);
         return true;
       } else {
-        Tools.logToConsole(response.data);
         Tools.logToConsole("------------ ERROR UPDATE ADDRESS --------------");
         return false;
       }

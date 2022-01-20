@@ -214,7 +214,6 @@ class AddAddressViewState extends State<AddAddressView> {
               onChanged: (value) {
                 setState(() {
                   selectedValue = value;
-                  Tools.logToConsole(value);
                 });
               },
             ),
@@ -309,9 +308,6 @@ class AddAddressViewState extends State<AddAddressView> {
   // bool bottomSheetLoading = false;
 
   Future<void> _getUserLocation() async {
-    Tools.logToConsole("---- _getUserLocation function ----");
-
-    // var location = new Location();
     var location;
 
     setState(() {
@@ -321,15 +317,11 @@ class AddAddressViewState extends State<AddAddressView> {
     try {
       if (true && await location.requestService() == true) {
         try {
-          Tools.logToConsole(await location.hasPermission());
           await location.getLocation().then((onValue) {
             setState(() {
               userLocation = {"latitude": onValue.latitude, "longitude": onValue.longitude};
               lat = onValue.latitude;
               lon = onValue.longitude;
-              Tools.logToConsole("----- the lat , lon is ------");
-              Tools.logToConsole(lat);
-              Tools.logToConsole(lon);
             });
           });
 
@@ -338,13 +330,8 @@ class AddAddressViewState extends State<AddAddressView> {
           Tools.logToConsole("error getting user location");
           Tools.logToConsole(e.toString());
         }
-      } else {
-        Tools.logToConsole("---- address no granted ----");
-        // await location.requestPermission().then((onValue) =>
-        //     onValue == PermissionStatus.granted ? _getUserLocation() : {});
-      }
+      } else {}
     } catch (e) {
-      Tools.logToConsole("----- error before if --------");
       Tools.logToConsole(e.toString());
     }
   }

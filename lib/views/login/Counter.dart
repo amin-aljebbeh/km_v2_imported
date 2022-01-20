@@ -25,8 +25,6 @@ class _CounterOtpState extends State<CounterOtp> {
   String finalCode = "";
   String x = "";
   bool loadingScreen = false;
-  // int counter = 59;
-  // int counterMin = 4;
   int alertMessageState = 0;
 
   int counter;
@@ -48,9 +46,7 @@ class _CounterOtpState extends State<CounterOtp> {
       }
 
       bool response = await Services.loginUser(
-          phoneNumber: LoginScreen.phoneNumber,
-          signCode: signature,
-          supportedCityId: LoginScreen.supportedCityId);
+          phoneNumber: LoginScreen.phoneNumber, signCode: signature, supportedCityId: LoginScreen.supportedCityId);
 
       if (response) {
         await SmsAutoFill().listenForCode;
@@ -129,9 +125,7 @@ class _CounterOtpState extends State<CounterOtp> {
                         child: Text(
                           "إعادة إرسال رمز التفعيل",
                           style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk),
+                              color: Colors.black, fontSize: 17, fontFamily: StringUtils.fontFamilyHKGrotesk),
                           softWrap: true,
                         ),
                       ),
@@ -139,8 +133,7 @@ class _CounterOtpState extends State<CounterOtp> {
                   ),
                   trailing: Container(
                     child: Text(
-                      "0$counterMin:" +
-                          "${counter < 10 ? "0" + "$counter" : "$counter"}",
+                      "0$counterMin:" + "${counter < 10 ? "0" + "$counter" : "$counter"}",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
@@ -182,8 +175,7 @@ class _CounterOtpState extends State<CounterOtp> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 17,
-                                    fontFamily:
-                                        StringUtils.fontFamilyHKGrotesk),
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
                                 softWrap: true,
                               ),
                             ),

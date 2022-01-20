@@ -63,8 +63,7 @@ class ProductsViewState extends State<ProductsView> {
             method: httpMethods.get,
           );
           if (response.statusCode == SUCCESS_CODE) {
-            if (!response.data["success"] &&
-                response.data["reason"] == "No results") {
+            if (!response.data["success"] && response.data["reason"] == "No results") {
               setState(() {
                 searchLoading = false;
                 if (firstLoading == true) firstLoading = false;
@@ -74,8 +73,7 @@ class ProductsViewState extends State<ProductsView> {
                 }
               });
             } else {
-              final products =
-                  categoryProductFromJson(jsonEncode(response.data));
+              final products = categoryProductFromJson(jsonEncode(response.data));
               productsList.addAll(products.data.data);
 
               if (this.mounted) {
@@ -95,10 +93,8 @@ class ProductsViewState extends State<ProductsView> {
             else
               return false;
           } else {
-            Tools.logToConsole("------ the error code is 503 --------");
             setState(() {
-              errorMessage =
-                  "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
+              errorMessage = "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
               isLoading = false;
               searchLoading = false;
               firstLoading = false;
@@ -140,9 +136,8 @@ class ProductsViewState extends State<ProductsView> {
           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
           child: new Container(
             height: 40.0,
-            decoration: new BoxDecoration(
-                color: Colors.white,
-                borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            decoration:
+                new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
             child: TextField(
               controller: _searchController,
               onSubmitted: (_) {
@@ -176,8 +171,7 @@ class ProductsViewState extends State<ProductsView> {
       );
 
       return new Padding(
-          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-          child: searchButtonWithGesture);
+          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
     }
 
     return Scaffold(
@@ -222,8 +216,7 @@ class ProductsViewState extends State<ProductsView> {
                           color: Colors.white,
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/cart', (Route<dynamic> route) => false);
+                          Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
                         },
                       ),
                     ),
@@ -281,14 +274,11 @@ class ProductsViewState extends State<ProductsView> {
                     : Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
-                          child: Text(errorMessage,
-                              style: TextStyle(
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                          child: Text(errorMessage, style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
                         ),
                       )
                 : Padding(
-                    padding: EdgeInsets.only(
-                        left: 15, top: 10, right: 15, bottom: 0),
+                    padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -296,16 +286,13 @@ class ProductsViewState extends State<ProductsView> {
                         Expanded(
                           child: NotificationListener<ScrollNotification>(
                             onNotification: (ScrollNotification scrollInfo) {
-                              if (!isLoading &&
-                                  scrollInfo.metrics.pixels ==
-                                      scrollInfo.metrics.maxScrollExtent) {
+                              if (!isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
                                 setState(() {
                                   page++;
                                   isLoading = true;
                                 });
                                 _searchController.text != ""
-                                    ? _loadData(
-                                        _searchController.text, "search")
+                                    ? _loadData(_searchController.text, "search")
                                     : _loadData(widget.categoryId, "category");
                                 // start loading data
 
@@ -313,14 +300,11 @@ class ProductsViewState extends State<ProductsView> {
                               return;
                             },
                             child: ListView.builder(
-                              physics: const AlwaysScrollableScrollPhysics(
-                                  parent: BouncingScrollPhysics()),
+                              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                               primary: false,
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              itemCount: productsList == null
-                                  ? 0
-                                  : productsList.length,
+                              itemCount: productsList == null ? 0 : productsList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 var eachProduct = productsList[index];
                                 return new GestureDetector(
@@ -337,14 +321,10 @@ class ProductsViewState extends State<ProductsView> {
                                             eachProduct.images[0].imageFileName
                                         : "",
                                     productName: eachProduct.name,
-                                    quantity:
-                                        eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                    price: int.parse(
-                                        eachProduct.price.split(".")[0]),
+                                    quantity: eachProduct.unit.toString() != "null"
+                                        ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
+                                        : eachProduct.quantity.toString(),
+                                    price: int.parse(eachProduct.price.split(".")[0]),
                                     index: index,
                                   ),
                                 );
@@ -361,8 +341,7 @@ class ProductsViewState extends State<ProductsView> {
                                     "تم جلب جميع المنتجات",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontFamily:
-                                          StringUtils.fontFamilyHKGrotesk,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     ),
                                   )
                                 : Loader(),

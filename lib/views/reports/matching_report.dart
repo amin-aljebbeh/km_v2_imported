@@ -38,8 +38,6 @@ class _MatchingReportState extends State<MatchingReport> {
         isError = false;
         _matchingProducts = response;
       });
-      Tools.logToConsole(
-          "THE Result is ${response.countProductsNotIncludedInKammun}");
     } else {
       setState(() {
         isLoading = false;
@@ -52,8 +50,7 @@ class _MatchingReportState extends State<MatchingReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("إحصائيات المبيعات",
-            style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
+        title: Text("إحصائيات المبيعات", style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
       ),
       body: SafeArea(
         child: Container(
@@ -61,32 +58,23 @@ class _MatchingReportState extends State<MatchingReport> {
             child: ListView(
               shrinkWrap: true,
               children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text("التاريخ",
-                          style: TextStyle(
-                              fontFamily: StringUtils.fontFamilyHKGrotesk)),
-                      IconButton(
-                        icon: Icon(Icons.timer),
-                        onPressed: () {
-                          DatePicker.showDatePicker(context,
-                              showTitleActions: true,
-                              onChanged: (date) {}, onConfirm: (date) {
-                            setState(() {
-                              _reportDate = date.toString().split(" ")[0];
-                              Tools.logToConsole(_reportDate);
-                            });
-                          }, currentTime: DateTime.now(), locale: 'en');
-                        },
-                      ),
-                      Text(_reportDate,
-                          style: TextStyle(
-                              fontFamily: StringUtils.fontFamilyHKGrotesk))
-                    ]),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                  Text("التاريخ", style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                  IconButton(
+                    icon: Icon(Icons.timer),
+                    onPressed: () {
+                      DatePicker.showDatePicker(context, showTitleActions: true, onChanged: (date) {},
+                          onConfirm: (date) {
+                        setState(() {
+                          _reportDate = date.toString().split(" ")[0];
+                        });
+                      }, currentTime: DateTime.now(), locale: 'en');
+                    },
+                  ),
+                  Text(_reportDate, style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk))
+                ]),
                 ListTile(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                   title: Column(
                     children: LoadingScreenServices.subWarehouses
                         .map((data) => Container(
@@ -94,8 +82,7 @@ class _MatchingReportState extends State<MatchingReport> {
                                 color: Colors.white,
                               ),
                               child: RadioListTile(
-                                controlAffinity:
-                                    ListTileControlAffinity.trailing,
+                                controlAffinity: ListTileControlAffinity.trailing,
                                 activeColor: Theme.of(context).primaryColor,
                                 title: Text(
                                   "${data.name}",
@@ -117,9 +104,7 @@ class _MatchingReportState extends State<MatchingReport> {
                 ),
                 KammunButton(
                   text: StringUtils.send,
-                  color: validDates()
-                      ? Theme.of(context).primaryColor
-                      : ColorUtils.searchGreyColor,
+                  color: validDates() ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
                   onTap: () {
                     if (validDates())
                       _getMatchingReport();
@@ -133,20 +118,15 @@ class _MatchingReportState extends State<MatchingReport> {
                   height: 20,
                 ),
                 isError
-                    ? AlertMessages(
-                        text: "حطأ أثناء جلب البيانات",
-                        messageType: "internetError")
+                    ? AlertMessages(text: "حطأ أثناء جلب البيانات", messageType: "internetError")
                     : Container(),
                 isLoading ? Loader() : Column(children: []),
                 _matchingProducts != null
                     ? Column(children: [
                         Text("المنتجات المختلفة بالكمية"),
-                        ListView.builder(
-                            itemBuilder: (BuildContext ctxt, int index) {
+                        ListView.builder(itemBuilder: (BuildContext ctxt, int index) {
                           return Column(children: [
-                            Text(_matchingProducts
-                                .productsThatVaryInQuantity[index]
-                                .kammunNameProducts),
+                            Text(_matchingProducts.productsThatVaryInQuantity[index].kammunNameProducts),
                           ]);
                         })
                       ])

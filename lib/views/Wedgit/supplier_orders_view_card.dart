@@ -73,10 +73,12 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
               addressName: 'widget.order.address.street',
               orderId: widget.order.id,
               subTotal: Services.kRound(subTotal),
-              total: Services.kRound(double.parse(widget.order.total)).toString(),
+              total: widget.order.total,
               deliveryPrice: '0',
               order: widget.order,
               orderType: OrderType.myOrder,
+              remaining: subTotal - Services.kRound(subTotal),
+              totalDiscount: double.parse(widget.order.total) - Services.kRound(subTotal),
             ),
           ),
         ),
@@ -95,10 +97,8 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                     LabelRow(
                       rightSideText: StringUtils.bill,
                       leftSideText: "${StringUtils().oCcy.format(
-                                Services.kRound(
-                                  double.parse(
-                                    widget.order.total,
-                                  ),
+                                int.parse(
+                                  widget.order.total.split('.')[0],
                                 ),
                               ).toString()}" +
                           " ${LoadingScreenServices.companyInformation.currency.toString()}",

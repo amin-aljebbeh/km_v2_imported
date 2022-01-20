@@ -12,7 +12,6 @@ class PricesChangesServices {
     );
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      Tools.logToConsole(response.data["count"]);
       return pricesChangesFromJson(jsonEncode(response.data));
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
@@ -29,8 +28,7 @@ class PricesChangesServices {
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         return true;
       } else {
-        Tools.logToConsole(
-            "------------ IMAGE IS DELETED ALREADY --------------");
+        Tools.logToConsole("------------ IMAGE IS DELETED ALREADY --------------");
         return false;
       }
     } catch (e) {

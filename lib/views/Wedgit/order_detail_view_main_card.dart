@@ -162,18 +162,14 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                             children: [
                               Text(
                                 widget.quantity + " " + widget.unit,
-                                style: mainStyle.copyWith(
-                                  color: ColorUtils.primaryColor,
-                                  fontSize: 17,
-                                ),
+                                style: darkBold,
                               ),
                             ],
                           ),
                           Text(
                             StringUtils().oCcy.format(widget.price).toString() +
                                 " ${LoadingScreenServices.companyInformation.currency}",
-                            style: mainStyle.copyWith(
-                                color: ColorUtils.primaryColor, fontSize: 18, fontWeight: FontWeight.bold),
+                            style: paragraphStyle,
                           ),
                           Services.isSupplierManager()
                               ? Text(
@@ -182,8 +178,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                           .format((widget.price) - ((widget.price) * discountPercentage))
                                           .toString() +
                                       " ${LoadingScreenServices.companyInformation.currency}",
-                                  style: mainStyle.copyWith(
-                                      color: ColorUtils.primaryColor, fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: paragraphStyle,
                                 )
                               : Column(
                                   children: [

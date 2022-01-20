@@ -10,7 +10,6 @@ import 'package:kammun_app/utils/utils_importer.dart';
 class SubCategory extends StatefulWidget {
   int heroIndex;
   static int cartCount = 0;
-  //String category_name;
   List<CategoryOriginalData> subCategory = [];
 
   SubCategory({this.heroIndex, this.subCategory});
@@ -104,16 +103,9 @@ class _SubCategoryState extends State<SubCategory> {
               },
             ),
           ),
-
           backgroundColor: Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false,
-          // hides leading widget
-
           flexibleSpace: SafeArea(
-            // top: true,
-            // left: false,
-            // bottom: false,
-            // right: false,
             child: Column(
               children: <Widget>[
                 Row(
@@ -216,30 +208,15 @@ class _SubCategoryState extends State<SubCategory> {
                                   diskCacheExpire: Duration(days: 400),
                                 ),
                                 width: MediaQuery.of(context).size.width,
-                                //fadeInDuration: const Duration(microseconds: 1),
                                 height: MediaQuery.of(context).size.height * 0.25,
-                                // fadeInCurve: Curves.fastOutSlowIn,
-                                // fadeInCurve: Curves.fastOutSlowIn,
-
-                                // placeholder: AssetImage("assets/kmlogoo.png"),
                                 fit: BoxFit.cover,
                               ),
-
-                              // Image.asset(
-                              //   eachProduct.image_file_name,
-                              //   height: 150,
-                              //   width: double.infinity,
-                              //   fit: BoxFit.cover,
-                              // ),
                             ),
                             ClipRRect(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
                               ),
                               child: Container(
-                                // width: double.infinity,
-                                //  height: ,
-                                //constraints: BoxConstraints.expand(),
                                 height: MediaQuery.of(context).size.height * 0.25,
                                 width: double.infinity,
                                 color: Colors.black54,

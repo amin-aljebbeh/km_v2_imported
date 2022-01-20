@@ -54,16 +54,13 @@ class HomeViewState extends State<HomeView> {
               // _showNotificationDialog(ctx: context);
             },
           )
-        : Tools.logToConsole('do no thing');
+        : Tools.logToConsole('');
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _initializeNotification(ctx: context));
     super.initState();
   }
 
   _initializeNotification({BuildContext ctx}) {
-    Tools.logToConsole("====== Starting initializing Firebase ======");
-    //checkUpdate = _checkAppVersion();
-
 // Here you can write your code
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -107,7 +104,6 @@ class HomeViewState extends State<HomeView> {
       },
       onResume: (Map<String, dynamic> message) async {
         final notification = message['data'];
-        Tools.logToConsole("onResume: $message");
 
         if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
 
@@ -129,7 +125,6 @@ class HomeViewState extends State<HomeView> {
     _firebaseMessaging
         .requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
     getToken();
-    Tools.logToConsole("====== End initializing Firebase ======");
   }
 
   Future getToken() async {

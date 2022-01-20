@@ -48,9 +48,7 @@ class _RatingViewState extends State<RatingView> {
             isLoading = true;
           });
           bool response = await OrderServices.rateOrder(
-              orderId: widget.orderId,
-              userFeedback: _textFieldController.text + ".",
-              rating: rateValue);
+              orderId: widget.orderId, userFeedback: _textFieldController.text + ".", rating: rateValue);
           if (response) {
             Navigator.of(context).pop();
 
@@ -71,9 +69,8 @@ class _RatingViewState extends State<RatingView> {
       },
       child: new Container(
         height: 40.0,
-        decoration: new BoxDecoration(
-            color: Colors.green,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        decoration:
+            new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
             StringUtils.submitFeedback.toUpperCase(),
@@ -109,8 +106,7 @@ class _RatingViewState extends State<RatingView> {
                   children: [
                     Container(
                       width: double.infinity,
-                      padding: EdgeInsets.fromLTRB(
-                          0, screenHeight * 0.02, 0, screenHeight * 0.02),
+                      padding: EdgeInsets.fromLTRB(0, screenHeight * 0.02, 0, screenHeight * 0.02),
                       decoration: BoxDecoration(
                         border: Border(bottom: BorderSide()),
                       ),
@@ -131,20 +127,16 @@ class _RatingViewState extends State<RatingView> {
                             // padding: EdgeInsets.zero,
                             ),
                     Container(
-                      margin:
-                          EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
+                      margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
                       child: Text(
                         "كيف كانت تجربة طلبك في كمّون؟ ( تقييمك وملاحظاتك تساعدنا في تطوير خدمة كمّون )",
                         style: TextStyle(
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 18,
-                            color: Colors.black),
+                            fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 18, color: Colors.black),
                       ), //font color is different
                     ),
                     Container(
                       alignment: Alignment.center,
-                      margin: EdgeInsets.fromLTRB(
-                          0, screenHeight * 0.07, 17, screenHeight * 0.07),
+                      margin: EdgeInsets.fromLTRB(0, screenHeight * 0.07, 17, screenHeight * 0.07),
                       child: RatingBar.builder(
                         initialRating: 0,
                         minRating: 1,
@@ -159,14 +151,12 @@ class _RatingViewState extends State<RatingView> {
                         onRatingUpdate: (rating) {
                           setState(() {
                             rateValue = rating;
-                            Tools.logToConsole(rateValue);
                           });
                         },
                       ),
                     ),
                     Container(
-                      margin:
-                          EdgeInsets.fromLTRB(17, 0, 17, screenHeight * 0.03),
+                      margin: EdgeInsets.fromLTRB(17, 0, 17, screenHeight * 0.03),
                       child: AutoSizeTextField(
                         textAlign: TextAlign.start,
                         textAlignVertical: TextAlignVertical.top,
@@ -191,9 +181,7 @@ class _RatingViewState extends State<RatingView> {
                           ),
                           labelStyle: TextStyle(
                               fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              color: _focusNode.hasFocus
-                                  ? Colors.orange
-                                  : Colors.grey),
+                              color: _focusNode.hasFocus ? Colors.orange : Colors.grey),
                           alignLabelWithHint: true,
                           labelText: 'شاركنا بأفكارك (إختياري)',
                         ),

@@ -33,8 +33,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       isError = false;
     });
     try {
-      var response = await InventoryServices.getSubWarehouseProducts(
-          subWarehouseId: widget.subWarehouseId);
+      var response = await InventoryServices.getSubWarehouseProducts(subWarehouseId: widget.subWarehouseId);
       if (response != null) {
         productsList.addAll(response);
         setState(() {
@@ -76,11 +75,9 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
     });
   }
 
-  int filterIndex =
-      0; // 1 soft by not active // 2 sort as newer // 0 active first;
+  int filterIndex = 0; // 1 soft by not active // 2 sort as newer // 0 active first;
 
   _filterProducts() {
-    Tools.logToConsole("FilterIndex : $filterIndex");
     if (filterIndex == 0) {
       // sort not active first
       setState(() {
@@ -94,12 +91,10 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       });
       Flushbar(
         backgroundColor: Colors.green,
-        // titleText: Text("تمت الإضافة بنجاح"),
         messageText: Text(
           "فرز حسب المواد الغير مفعلة",
           style: flushBarStyle,
         ),
-
         boxShadows: [
           BoxShadow(
             color: ColorUtils.primaryColor,
@@ -183,14 +178,11 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
           //margin: const EdgeInsets.all(15.0),
           padding: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(
-                      10.0) //                 <--- border radius here
+              borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                   ),
               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
+            style: TextStyle(color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: ColorUtils.kmColors),
@@ -258,8 +250,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk)),
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk)),
                                 onPressed: () {
                                   _loadData();
                                 }),
@@ -269,13 +260,11 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                     )
                   : Expanded(
                       child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(
-                            parent: BouncingScrollPhysics()),
+                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                         primary: false,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount:
-                            productsList == null ? 0 : productsList.length,
+                        itemCount: productsList == null ? 0 : productsList.length,
                         itemBuilder: (BuildContext context, int index) {
                           var eachProduct = productsList[index];
                           return filter == null || filter == ""
@@ -294,8 +283,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                                     onChangeStatus: (result) {
                                       if (result) {
                                         setState(() {
-                                          if (productsList[index].isActive ==
-                                              "1") {
+                                          if (productsList[index].isActive == "1") {
                                             productsList[index].isActive = "0";
                                           } else {
                                             productsList[index].isActive = "1";
@@ -311,20 +299,14 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                                             eachProduct.images[0].imageFileName
                                         : "",
                                     productName: eachProduct.name,
-                                    quantity:
-                                        eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                    price: int.parse(
-                                        eachProduct.price.split(".")[0]),
+                                    quantity: eachProduct.unit.toString() != "null"
+                                        ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
+                                        : eachProduct.quantity.toString(),
+                                    price: int.parse(eachProduct.price.split(".")[0]),
                                     index: index,
                                   ),
                                 )
-                              : eachProduct.name
-                                      .toLowerCase()
-                                      .contains(filter.toLowerCase())
+                              : eachProduct.name.toLowerCase().contains(filter.toLowerCase())
                                   ? GestureDetector(
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => () {},
@@ -341,20 +323,14 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                                         productId: eachProduct.id.toString(),
                                         active: int.parse(eachProduct.isActive),
                                         img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices
-                                                    .imagePrefixUrl +
-                                                eachProduct
-                                                    .images[0].imageFileName
+                                            ? LoadingScreenServices.imagePrefixUrl +
+                                                eachProduct.images[0].imageFileName
                                             : "",
                                         productName: eachProduct.name,
-                                        quantity: eachProduct.unit.toString() !=
-                                                "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
+                                        quantity: eachProduct.unit.toString() != "null"
+                                            ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
                                             : eachProduct.quantity.toString(),
-                                        price: int.parse(
-                                            eachProduct.price.split(".")[0]),
+                                        price: int.parse(eachProduct.price.split(".")[0]),
                                         index: index,
                                       ),
                                     )

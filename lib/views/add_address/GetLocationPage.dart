@@ -48,21 +48,10 @@ class _GetLocationPageState extends State<GetLocationPage> {
   }
 
   Future<Map<String, double>> _getLocation() async {
-    // LocationData currentLocation;
-
     await location.requestPermission();
     if (true) {
-      try {
-        // currentLocation = await location.getLocation();
-      } catch (e) {
-        // currentLocation = null;
-      }
-      Map<String, double> userLocation = {
-        // "latitude": currentLocation.latitude,
-        // "longitude": currentLocation.longitude
-      };
-      // Tools.logToConsole(currentLocation.latitude);
-      // Tools.logToConsole(currentLocation.longitude);
+      try {} catch (e) {}
+      Map<String, double> userLocation = {};
       return userLocation;
     }
   }

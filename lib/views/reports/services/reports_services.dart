@@ -146,10 +146,6 @@ class ReportsServices {
   static Future<MatchingProducts> getMatchingReport(
       {String reportDate, String toDate, String subWarehouseId}) async {
     var response;
-    Tools.logToConsole({
-      "sub_warehouse_id": subWarehouseId,
-      "report_date": reportDate,
-    });
     response = await ApiProvider.sendRequest(
       url: GET_MATCHING_REPORT,
       queryParameters: {
@@ -229,7 +225,6 @@ class ReportsServices {
         return null;
       }
     } catch (e) {
-      Tools.logToConsole('message from remaining');
       Tools.logToConsole(e.toString());
 
       return null;

@@ -36,9 +36,8 @@ TextStyle naveBarStyle = mainStyle.copyWith(
 );
 
 TextStyle darkBold = mainStyle.copyWith(
-  fontWeight: FontWeight.w600,
-  color: ColorUtils.greyColor,
-  fontSize: 17.5,
+  color: ColorUtils.primaryColor,
+  fontSize: 17,
 );
 
 TextStyle dropdownItemStyle = mainStyle.copyWith(
