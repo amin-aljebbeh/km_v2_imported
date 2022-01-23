@@ -27,7 +27,7 @@ class OrderAccounting extends StatefulWidget {
 
 class _OrderAccountingState extends State<OrderAccounting> {
   List<Widget> subWarehouseTotal = [];
-  List<Widget> imageWidgets = [];
+  List<InkWell> imageWidgets = [];
 
   getImages() {
     for (int i = 0; i < widget.orderData.images.length; i++) {
@@ -47,14 +47,11 @@ class _OrderAccountingState extends State<OrderAccounting> {
                     result: result,
                   );
                   if (result)
-                    setState(
-                      () {
-                        widget.orderData.images.removeWhere(
-                          (image) => image.id == widget.orderData.images[i].id,
-                        );
-                        imageWidgets.clear();
-                      },
-                    );
+                    setState(() {
+                      widget.orderData.images.removeWhere(
+                        (image) => image.id == widget.orderData.images[i].id,
+                      );
+                    });
                 },
               ),
               DialogButton(
@@ -84,7 +81,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
           },
           child: widget.orderData.images != null && widget.orderData.images.length > 0
               ? KCacheImage(
-                  tag: i + 100,
+                  tag: widget.orderData.images[i].imageFileName,
                   image:
                       LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName)
               : AssetImage("assets/kmIcon.png"),
@@ -158,13 +155,28 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 children: imageWidgets,
               ),
             ),
-            AddImageWidget(
-              hasImage: widget.orderData.images != null,
-              onSubmit: (image) async {
-                bool result =
-                    await OrderDetailsServices.addImageToOrder(image: image, orderId: widget.orderId.toString());
-                Services.resultFlushBar(context: context, result: result);
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 1,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: AddImageWidget(
+                    hasImage: widget.orderData.images != null,
+                    onSubmit: (image) async {
+                      bool result = await OrderDetailsServices.addImageToOrder(
+                          image: image, orderId: widget.orderId.toString());
+                      Services.resultFlushBar(context: context, result: result);
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 1,
+                ),
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
