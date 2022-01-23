@@ -52,7 +52,11 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
         transactions.clear();
       }
     });
-    var tempTransactions = await ReportsServices.getShopperTransactions(shopperId: shopperId, pageNumber: page);
+    var tempTransactions;
+    if (Services.isShopper())
+      tempTransactions = await ReportsServices.getShopperTransaction();
+    else
+      tempTransactions = await ReportsServices.getTransactions(shopperId: shopperId, pageNumber: page);
     setState(() {
       loading = false;
       if (tempTransactions != null) {
@@ -100,28 +104,29 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
             children: [
               Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          size: 40,
-                          color: ColorUtils.primaryColor,
-                        ),
-                        onPressed: () {
-                          if (selected && !empty) {
-                            setState(() {
-                              page++;
-                              loading = true;
-                            });
-                            getTransaction(Services.isAccounting() ? shopperId : Services.shopper.id.toString());
-                          }
-                        },
-                      ),
-                      Services.isAccounting()
-                          ? Container(
+                  Services.isAccounting()
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_back,
+                                size: 40,
+                                color: ColorUtils.primaryColor,
+                              ),
+                              onPressed: () {
+                                if (selected && !empty) {
+                                  setState(() {
+                                    page++;
+                                    loading = true;
+                                  });
+                                  getTransaction(
+                                      Services.isAccounting() ? shopperId : Services.shopper.id.toString());
+                                }
+                              },
+                            ),
+                            Container(
                               width: MediaQuery.of(context).size.width * 0.5,
                               child: KSearchableDropdown(
                                 hint: StringUtils.chooseShopper,
@@ -142,41 +147,42 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                                   getDailyProfit(shopperId);
                                 },
                               ),
-                            )
-                          : Padding(
-                              padding: const EdgeInsets.only(top: 20.0),
-                              child: LabelRow(
-                                rightSideText: 'مرابح اليوم : ',
-                                leftSideText: profit != null
-                                    ? StringUtils().oCcy.format(int.parse(profit).abs()).toString()
-                                    : 'error',
-                                leftSideStyle: profit != null
-                                    ? int.parse(profit).isNegative
-                                        ? loseStyle
-                                        : profitStyle
-                                    : loseStyle,
-                              ),
                             ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          size: 40,
-                          color: ColorUtils.primaryColor,
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_forward,
+                                size: 40,
+                                color: ColorUtils.primaryColor,
+                              ),
+                              onPressed: () {
+                                if (selected) {
+                                  setState(() {
+                                    if (page > 1) {
+                                      page--;
+                                      loading = true;
+                                    }
+                                  });
+                                  getTransaction(
+                                      Services.isAccounting() ? shopperId : Services.shopper.id.toString());
+                                }
+                              },
+                            ),
+                          ],
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: LabelRow(
+                            rightSideText: 'مرابح اليوم : ',
+                            leftSideText: profit != null
+                                ? StringUtils().oCcy.format(int.parse(profit).abs()).toString()
+                                : 'error',
+                            leftSideStyle: profit != null
+                                ? int.parse(profit).isNegative
+                                    ? loseStyle
+                                    : profitStyle
+                                : loseStyle,
+                          ),
                         ),
-                        onPressed: () {
-                          if (selected) {
-                            setState(() {
-                              if (page > 1) {
-                                page--;
-                                loading = true;
-                              }
-                            });
-                            getTransaction(Services.isAccounting() ? shopperId : Services.shopper.id.toString());
-                          }
-                        },
-                      ),
-                    ],
-                  ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.043,
                     child: selected

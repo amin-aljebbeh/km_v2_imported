@@ -155,7 +155,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                 )
                               : Text(
                                   widget.orderId.toString().length >= 3
-                                      ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
+                                      ? "#${widget.orderId.toString().substring(widget.orderId.toString().length - 3, widget.orderId.toString().length)}"
                                       : '#${widget.orderId.toString()}',
                                   style: profitStyle.copyWith(
                                     color: Colors.purple,

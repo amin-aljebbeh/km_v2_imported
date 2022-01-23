@@ -27,23 +27,53 @@ class ReportsServices {
     }
   }
 
-  static Future<List<TransactionModel>> getShopperTransactions({String shopperId, int pageNumber}) async {
-    var response;
+  static Future<List<TransactionModel>> getTransactions({String shopperId, int pageNumber}) async {
+    try {
+      var response;
 
-    response = await ApiProvider.sendRequest(
-      url: GET_SHOPPER_TRANSACTIONS + shopperId,
-      method: httpMethods.get,
-      queryParameters: {"page": pageNumber},
-    );
+      response = await ApiProvider.sendRequest(
+        url: GET_SHOPPER_TRANSACTIONS + shopperId,
+        method: httpMethods.get,
+        queryParameters: {"page": pageNumber},
+      );
 
-    if (response.statusCode == SUCCESS_CODE) {
-      List<TransactionModel> transactions = List<TransactionModel>();
-      if (response.data["success"].toString() == "true") {
-        transactions = transactionResponseFromJson(jsonEncode(response.data)).data.data;
-        return transactions;
-      } else
-        return transactions;
-    } else {
+      if (response.statusCode == SUCCESS_CODE) {
+        List<TransactionModel> transactions = List<TransactionModel>();
+        if (response.data["success"].toString() == "true") {
+          transactions = transactionResponseFromJson(jsonEncode(response.data)).data.data;
+          return transactions;
+        } else
+          return transactions;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<List<TransactionModel>> getShopperTransaction() async {
+    try {
+      var response;
+
+      response = await ApiProvider.sendRequest(
+        url: SHOPPER_VIEWS_HIS_OWN_TRANSACTION,
+        method: httpMethods.get,
+      );
+
+      if (response.statusCode == SUCCESS_CODE) {
+        List<TransactionModel> transactions = List<TransactionModel>();
+        if (response.data["success"].toString() == "true") {
+          transactions = shopperTransactionResponseFromJson(jsonEncode(response.data)).data;
+          return transactions;
+        } else
+          return transactions;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Tools.logToConsole('message from transaction error');
+      Tools.logToConsole(e.toString());
       return null;
     }
   }

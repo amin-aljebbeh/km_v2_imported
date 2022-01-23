@@ -53,14 +53,14 @@ class Transaction extends StatelessWidget {
               KTableRow(
                 children: [
                   KTableElement(
-                    text: StringUtils().oCcy.format(transaction.valueShopper.abs()).toString(),
-                    style: transaction.valueShopper >= 0
+                    text: StringUtils().oCcy.format(int.parse(transaction.valueShopper).abs()).toString(),
+                    style: int.parse(transaction.valueShopper) >= 0
                         ? mainStyle.copyWith(color: Colors.green)
                         : mainStyle.copyWith(color: Colors.red),
                   ),
                   KTableElement(
-                    text: StringUtils().oCcy.format(transaction.valueCompany.abs()).toString(),
-                    style: transaction.valueCompany >= 0
+                    text: StringUtils().oCcy.format(int.parse(transaction.valueCompany).abs()).toString(),
+                    style: int.parse(transaction.valueCompany) >= 0
                         ? mainStyle.copyWith(color: Colors.green)
                         : mainStyle.copyWith(color: Colors.red),
                   ),
@@ -68,7 +68,7 @@ class Transaction extends StatelessWidget {
                     children: [
                       KTableElement(
                         text: StringUtils.transactionTypesMap[LoadingScreenServices.transactionTypes
-                            .firstWhere((type) => type.id == transaction.transactionTypeId)
+                            .firstWhere((type) => type.id == int.parse(transaction.transactionTypeId))
                             .slug],
                       ),
                       transaction.description != null
@@ -92,7 +92,7 @@ class Transaction extends StatelessWidget {
                   KTableElement(
                     text: transaction.orderId != null
                         ? transaction.orderId.toString().length >= 3
-                            ? "#${transaction.orderId.toString().substring(2, transaction.orderId.toString().length)}"
+                            ? "#${transaction.orderId.toString().substring(transaction.orderId.toString().length - 3, transaction.orderId.toString().length)}"
                             : '#${transaction.orderId.toString()}'
                         : 'null',
                     style: mainStyle.copyWith(
@@ -101,7 +101,7 @@ class Transaction extends StatelessWidget {
                   ),
                   KTableElement(
                     text: transaction.id.toString().length >= 3
-                        ? "#${transaction.id.toString().substring(2, transaction.id.toString().length)}"
+                        ? "#${transaction.id.toString().substring(transaction.id.toString().length - 3, transaction.id.toString().length)}"
                         : '#${transaction.id.toString()}',
                     style: mainStyle,
                   ),
