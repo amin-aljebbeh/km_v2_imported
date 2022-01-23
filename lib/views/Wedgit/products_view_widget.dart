@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -49,8 +50,10 @@ class InventoryProductsViewCard extends StatefulWidget {
 }
 
 class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
+  String subWarehouseName = '';
+  String id;
+
   _unAttachProduct() async {
-    String id;
     if (widget.productData.subWarehouseId != null)
       id = widget.productData.subWarehouseId.toString();
     else {
@@ -59,8 +62,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
           .firstWhere((warehouse) => warehousesIds.contains(warehouse.id),
               orElse: () => LoadingScreenServices.warehouses[0])
           .pivot
-          .subWarehouseId
-          .toString();
+          .subWarehouseId;
     }
     bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
       productsId: widget.productId,
@@ -100,7 +102,6 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                 color: Colors.grey[800],
               ),
               Row(
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   KCacheImage(
                     tag: widget.productId,
@@ -226,9 +227,14 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                         },
                                       ),
                                     ];
+                                    subWarehouseName = LoadingScreenServices.subWarehouses
+                                        .firstWhere((subWarehouse) => subWarehouse.id.toString() == id,
+                                            orElse: () => SubWarehouse(name: 'المستودع'))
+                                        .name;
                                     showMyDialog(
                                       title: "حذف منتج من المستودع",
-                                      text: "هل أنت متأكد أنك تريد إزالة ${widget.productName} من المستودع",
+                                      text:
+                                          "هل أنت متأكد أنك تريد إزالة ${widget.productName} من $subWarehouseName",
                                       dialogButtons: dialogButtons,
                                       context: context,
                                     );

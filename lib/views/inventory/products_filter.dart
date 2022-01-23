@@ -254,6 +254,11 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                             ? int.parse(eachProduct.warehouses[0].pivot.price.split(".")[0])
                                             : 0,
                                         index: index,
+                                        onDelete: (bool) {
+                                          setState(() {
+                                            eachProduct.warehouses[0].pivot.supplierCode = null;
+                                          });
+                                        },
                                       );
                                     }
                                     return Container();
