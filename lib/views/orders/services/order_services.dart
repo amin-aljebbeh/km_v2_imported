@@ -98,7 +98,10 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: API + ORDER + '/$orderId', method: httpMethods.put, body: jsonEncode(orderData));
+        url: API + ORDER + '/$orderId',
+        method: httpMethods.put,
+        body: jsonEncode(orderData),
+      );
 
       if (response.data['reason'].toString().contains('discontinued')) {
         return new OrderResponse(success: false, reason: 'discontinued');

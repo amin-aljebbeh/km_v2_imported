@@ -33,7 +33,9 @@ class CartViewState extends State<CartView> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     productsId = CartServices.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
     productsQuantity =
-        CartServices.cartProducts.fold('', (counts, product) => product.productCount.toString() + ';');
+        CartServices.cartProducts.fold('', (counts, product) => counts + product.productCount.toString() + ';');
+    Tools.logToConsole('message from cart');
+    Tools.logToConsole(productsQuantity);
     prefs.setString("userCart", productsId + "@" + productsQuantity);
   }
 

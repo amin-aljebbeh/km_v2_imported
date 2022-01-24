@@ -94,7 +94,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     productsId = CartServices.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
     productsQuantity =
-        CartServices.cartProducts.fold('', (ids, product) => ids + product.productCount.toString() + ';');
+        CartServices.cartProducts.fold('', (counts, product) => counts + product.productCount.toString() + ';');
     prefs.setString("userCart", productsId + "@" + productsQuantity);
   }
 
@@ -360,13 +360,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                       ? ColorUtils.primaryColor
                                       : Colors.grey[400],
                                   text: StringUtils.confirmOrder.toUpperCase(),
-                                  onTap: _showConfirmOrderBtnTapped,
+                                  onTap: () {
+                                    _cartChanged();
+                                    _showConfirmOrderBtnTapped();
+                                  },
                                   height: 50,
                                 ),
                                 SizedBox(
                                   height: 10,
                                 )
-                                // _showConfirmOrderButton(),
                               ],
                             ),
                       top: false,
