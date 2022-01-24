@@ -495,7 +495,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                                   context: context);
                                             },
                                           ),
-                                          // _showCancelOrderButton(idOrder),
                                         ],
                                       ),
                                     )

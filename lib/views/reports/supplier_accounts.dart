@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:intl/intl.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 
 import 'models/supplier_account_model.dart';
 import 'services/reports_services.dart';
@@ -34,6 +36,11 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
     );
     if (response != null) {
       accounts = response;
+      if (Services.isSupplierManager())
+        accounts.removeWhere((account) => !LoadingScreenServices.subWarehouses
+            .map((subWarehouse) => subWarehouse.id)
+            .toList()
+            .contains(account.subWarehouseId));
       setState(() {
         isLoading = false;
       });
@@ -58,7 +65,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'أرصدة الموردين',
+          'كشف حساب مورد',
           style: mainStyle,
         ),
       ),

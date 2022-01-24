@@ -304,6 +304,14 @@ class StoreViewState extends State<StoreView> {
                                 ],
                               )
                             : Container(),
+                        if (Services.isSupplierManager())
+                          SideBarRow(
+                            icon: Icons.account_balance,
+                            text: "كشف حساب المورد",
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/SupplierAccounts');
+                            },
+                          ),
                         Services.isSupplierManager() || Services.isProductsController() || Services.isAdmin()
                             ? SideBarRow(
                                 icon: Icons.inventory,

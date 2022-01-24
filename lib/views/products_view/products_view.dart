@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/models_importer.dart';
@@ -116,7 +117,6 @@ class ProductsViewState extends State<ProductsView> {
     if (this.mounted) {
       super.initState();
     }
-    // Add listeners to this class
     if (widget.queryString != null) {
       _loadData(widget.queryString, "search");
       _searchController.text = widget.queryString;
@@ -175,7 +175,8 @@ class ProductsViewState extends State<ProductsView> {
     }
 
     return Scaffold(
-      floatingActionButton: widget.queryString == null
+      floatingActionButton: widget.queryString == null &&
+              (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
           ? FloatingActionButton(
               backgroundColor: ColorUtils.kmColors2,
               onPressed: () {
