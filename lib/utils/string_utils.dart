@@ -165,6 +165,7 @@ class StringUtils {
   //Messages:
   static String noInternetConnection = 'لايوجد إتصال بالإنترنت';
   static String chooseShopper = 'اختر متسوق';
+  static String errorMessage = 'حدث خطأ اثناء محاولة جلب البيانات';
   final oCcy = new NumberFormat("#,##0", "en_US");
 
   static Map<String, String> transactionTypesMap = {

@@ -59,14 +59,11 @@ class _PricesState extends State<Prices> {
           //margin: const EdgeInsets.all(15.0),
           padding: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(
-                      10.0) //                 <--- border radius here
+              borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                   ),
               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
+            style: TextStyle(color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: ColorUtils.kmColors),
@@ -118,17 +115,12 @@ class _PricesState extends State<Prices> {
                         child: Column(
                           children: [
                             AlertMessages(
-                              text: "حدث خطأ أثناء محاولة جلب البيانات",
+                              text: StringUtils.errorMessage,
                               messageType: "internetError",
                               headerText: "حدث خطأ",
                             ),
                             RaisedButton(
-                              child: Text("المحاولة من جديد",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily:
-                                          StringUtils.fontFamilyHKGrotesk)),
+                              child: Text(StringUtils.tryAgain, style: blackBold),
                               onPressed: () => _loadData(),
                             ),
                           ],
@@ -143,94 +135,63 @@ class _PricesState extends State<Prices> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    fontFamily:
-                                        StringUtils.fontFamilyHKGrotesk)),
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk)),
                           ),
                         )
                       : Expanded(
                           child: ListView.builder(
-                            physics: const AlwaysScrollableScrollPhysics(
-                                parent: BouncingScrollPhysics()),
+                            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                             primary: false,
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            itemCount: productsList == null
-                                ? 0
-                                : productsList.prouctsPriceChange.length,
+                            itemCount: productsList == null ? 0 : productsList.prouctsPriceChange.length,
                             itemBuilder: (BuildContext context, int index) {
-                              var eachProduct =
-                                  productsList.prouctsPriceChange[index];
+                              var eachProduct = productsList.prouctsPriceChange[index];
                               return filter == null || filter == ""
                                   ? GestureDetector(
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => () {},
                                       child: InventoryProductsViewCard(
                                         productData: eachProduct,
-                                        oldPrice: int.parse(eachProduct.price
-                                                .split(".")[0]) -
-                                            int.parse(eachProduct.priceChange
-                                                .toString()
-                                                .split(".")[0]),
+                                        oldPrice: int.parse(eachProduct.price.split(".")[0]) -
+                                            int.parse(eachProduct.priceChange.toString().split(".")[0]),
                                         supplierCode: eachProduct.supplierCode,
                                         productId: eachProduct.id.toString(),
                                         img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices
-                                                    .imagePrefixUrl +
-                                                eachProduct
-                                                    .images[0].imageFileName
+                                            ? LoadingScreenServices.imagePrefixUrl +
+                                                eachProduct.images[0].imageFileName
                                             : "",
                                         productName: eachProduct.name,
                                         active: int.parse(eachProduct.isActive),
-                                        quantity: eachProduct.unit.toString() !=
-                                                "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
+                                        quantity: eachProduct.unit.toString() != "null"
+                                            ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
                                             : eachProduct.quantity.toString(),
-                                        price: int.parse(
-                                            eachProduct.price.split(".")[0]),
+                                        price: int.parse(eachProduct.price.split(".")[0]),
                                         index: index,
                                       ),
                                     )
-                                  : eachProduct.name
-                                          .toLowerCase()
-                                          .contains(filter.toLowerCase())
+                                  : eachProduct.name.toLowerCase().contains(filter.toLowerCase())
                                       ? GestureDetector(
                                           behavior: HitTestBehavior.translucent,
                                           onTap: () => () {},
                                           child: InventoryProductsViewCard(
                                             productData: eachProduct,
-                                            oldPrice: int.parse(eachProduct
-                                                    .price
-                                                    .split(".")[0]) -
-                                                int.parse(eachProduct
-                                                    .priceChange
-                                                    .toString()
-                                                    .split(".")[0]),
-                                            supplierCode:
-                                                eachProduct.supplierCode,
-                                            productId:
-                                                eachProduct.id.toString(),
+                                            oldPrice: int.parse(eachProduct.price.split(".")[0]) -
+                                                int.parse(eachProduct.priceChange.toString().split(".")[0]),
+                                            supplierCode: eachProduct.supplierCode,
+                                            productId: eachProduct.id.toString(),
                                             img: eachProduct.images.length > 0
-                                                ? LoadingScreenServices
-                                                        .imagePrefixUrl +
-                                                    eachProduct
-                                                        .images[0].imageFileName
+                                                ? LoadingScreenServices.imagePrefixUrl +
+                                                    eachProduct.images[0].imageFileName
                                                 : "",
                                             productName: eachProduct.name,
-                                            active:
-                                                int.parse(eachProduct.isActive),
-                                            quantity: eachProduct.unit
-                                                        .toString() !=
-                                                    "null"
-                                                ? eachProduct.quantity
-                                                        .toString() +
+                                            active: int.parse(eachProduct.isActive),
+                                            quantity: eachProduct.unit.toString() != "null"
+                                                ? eachProduct.quantity.toString() +
                                                     " " +
                                                     eachProduct.unit.toString()
-                                                : eachProduct.quantity
-                                                    .toString(),
-                                            price: int.parse(eachProduct.price
-                                                .split(".")[0]),
+                                                : eachProduct.quantity.toString(),
+                                            price: int.parse(eachProduct.price.split(".")[0]),
                                             index: index,
                                           ),
                                         )

@@ -210,7 +210,7 @@ class _ShopperAccountStatementState extends State<ShopperAccountStatement> {
                         ? error
                             ? Center(
                                 child: AlertMessages(
-                                  text: "حدث خطأ اثناء محاولة جلب البيانات",
+                                  text: StringUtils.errorMessage,
                                   messageType: "internetError",
                                   headerText: "حدث خطأ",
                                 ),

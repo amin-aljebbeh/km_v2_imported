@@ -147,17 +147,11 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                         child: Column(
                           children: [
                             AlertMessages(
-                              text: "حدث خطأ أثناء محاولة جلب البيانات",
+                              text: StringUtils.errorMessage,
                               messageType: "internetError",
                               headerText: "حدث خطأ",
                             ),
-                            RaisedButton(
-                                child: Text("المحاولة من جديد",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk)),
-                                onPressed: () {}),
+                            RaisedButton(child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () {}),
                           ],
                         ),
                       ),

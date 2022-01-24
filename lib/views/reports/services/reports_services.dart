@@ -123,7 +123,7 @@ class ReportsServices {
     Widget content;
     if (financialDues == null)
       content = AlertMessages(
-        text: "حدث خطأ اثناء محاولة جلب البيانات",
+        text: StringUtils.errorMessage,
         messageType: "internetError",
         headerText: "حدث خطأ",
       );

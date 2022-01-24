@@ -79,3 +79,7 @@ TextStyle loseStyle = warehouseStyle.copyWith(
 );
 
 TextStyle userNameStyle = mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 15);
+
+TextStyle blackBold = flushBarStyle.copyWith(
+  color: Colors.black,
+);

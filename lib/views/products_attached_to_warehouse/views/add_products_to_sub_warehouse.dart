@@ -18,43 +18,6 @@ class AddProductsToSubWarehouse extends StatefulWidget {
 class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
   int _selectedValue = -1;
 
-  Widget _entryField(
-      {bool canBeEmpty = true,
-      TextEditingController controller,
-      String hint,
-      @required String title,
-      String subTitle,
-      @required TextInputType fieldType,
-      bool isAddress = false,
-      double width,
-      bool isPhoneNumber = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          title,
-          style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold),
-        ),
-        subTitle == null
-            ? Container(width: 0, height: 0)
-            : Text(
-                subTitle,
-              ),
-        SizedBox(height: 8),
-        EntryField(
-          width: width ?? MediaQuery.of(context).size.width,
-          isPhoneNumber: isPhoneNumber,
-          isAddress: isAddress,
-          canBeEmpty: canBeEmpty,
-          hint: hint,
-          fieldType: fieldType,
-          controller: controller,
-        ),
-        SizedBox(height: 20),
-      ],
-    );
-  }
-
   bool isLoading = false;
   bool isError = false;
 
@@ -210,13 +173,13 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _entryField(
+                        ProductEntryField(
                             controller: supplierCodeController,
                             title: StringUtils.supplierCode,
                             fieldType: TextInputType.name,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
-                        _entryField(
+                        ProductEntryField(
                             controller: priceController,
                             title: StringUtils.price,
                             fieldType: TextInputType.number,
@@ -227,7 +190,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _entryField(
+                        ProductEntryField(
                             controller: priceFactorController,
                             title: StringUtils.priceFactor,
                             fieldType: TextInputType.number,

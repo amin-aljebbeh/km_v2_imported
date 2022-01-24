@@ -118,12 +118,10 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       });
       Flushbar(
         backgroundColor: Colors.green,
-        // titleText: Text("تمت الإضافة بنجاح"),
         messageText: Text(
           "فرز حسب المواد  المفعلة",
           style: flushBarStyle,
         ),
-
         boxShadows: [
           BoxShadow(
             color: ColorUtils.primaryColor,
@@ -150,12 +148,10 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
 
       Flushbar(
         backgroundColor: Colors.green,
-        // titleText: Text("تمت الإضافة بنجاح"),
         messageText: Text(
           "فرز حسب المواد المضافة حديثاً",
           style: flushBarStyle,
         ),
-
         boxShadows: [
           BoxShadow(
             color: ColorUtils.primaryColor,
@@ -241,16 +237,12 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                         child: Column(
                           children: [
                             AlertMessages(
-                              text: "حدث خطأ أثناء محاولة جلب البيانات",
+                              text: StringUtils.errorMessage,
                               messageType: "internetError",
                               headerText: "حدث خطأ",
                             ),
                             RaisedButton(
-                                child: Text("المحاولة من جديد",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                                child: Text(StringUtils.tryAgain, style: blackBold),
                                 onPressed: () {
                                   _loadData();
                                 }),

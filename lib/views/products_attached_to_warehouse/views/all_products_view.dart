@@ -79,14 +79,11 @@ class _AllProductsState extends State<AllProducts> {
           //margin: const EdgeInsets.all(15.0),
           padding: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(
-                      10.0) //                 <--- border radius here
+              borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                   ),
               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
+            style: TextStyle(color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: ColorUtils.kmColors),
@@ -144,17 +141,12 @@ class _AllProductsState extends State<AllProducts> {
                         child: Column(
                           children: [
                             AlertMessages(
-                              text: "حدث خطأ أثناء محاولة جلب البيانات",
+                              text: StringUtils.errorMessage,
                               messageType: "internetError",
                               headerText: "حدث خطأ",
                             ),
                             RaisedButton(
-                                child: Text("المحاولة من جديد",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk)),
+                                child: Text(StringUtils.tryAgain, style: blackBold),
                                 onPressed: () {
                                   _loadData();
                                 }),
@@ -164,13 +156,11 @@ class _AllProductsState extends State<AllProducts> {
                     )
                   : Expanded(
                       child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(
-                            parent: BouncingScrollPhysics()),
+                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                         primary: false,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount:
-                            productsList == null ? 0 : productsList.length,
+                        itemCount: productsList == null ? 0 : productsList.length,
                         itemBuilder: (BuildContext context, int index) {
                           var eachProduct = productsList[index];
                           return filter == null || filter == ""
@@ -179,20 +169,13 @@ class _AllProductsState extends State<AllProducts> {
                                   onTap: () => () {},
                                   child: InventoryProductsViewCard(
                                     attached: eachProduct.warehouses.isNotEmpty
-                                        ? eachProduct.warehouses[0].pivot
-                                                    .supplierCode !=
-                                                null
+                                        ? eachProduct.warehouses[0].pivot.supplierCode != null
                                             ? true
                                             : false
                                         : false,
                                     fromInventory: false,
-                                    active: int.parse(productsList[index]
-                                            .warehouses
-                                            .isNotEmpty
-                                        ? productsList[index]
-                                            .warehouses[0]
-                                            .pivot
-                                            .isActive
+                                    active: int.parse(productsList[index].warehouses.isNotEmpty
+                                        ? productsList[index].warehouses[0].pivot.isActive
                                         : "0"),
                                     onDelete: (result) {
                                       if (result) {
@@ -205,8 +188,7 @@ class _AllProductsState extends State<AllProducts> {
                                     onChangeStatus: (result) {
                                       if (result) {
                                         setState(() {
-                                          if (productsList[index].isActive ==
-                                              "1") {
+                                          if (productsList[index].isActive == "1") {
                                             productsList[index].isActive = "0";
                                           } else {
                                             productsList[index].isActive = "1";
@@ -214,48 +196,34 @@ class _AllProductsState extends State<AllProducts> {
                                         });
                                       }
                                     },
-                                    supplierCode:
-                                        eachProduct.warehouses.isNotEmpty
-                                            ? eachProduct.warehouses[0].pivot
-                                                .supplierCode
-                                            : null,
+                                    supplierCode: eachProduct.warehouses.isNotEmpty
+                                        ? eachProduct.warehouses[0].pivot.supplierCode
+                                        : null,
                                     productId: eachProduct.id.toString(),
                                     img: eachProduct.images.length > 0
                                         ? LoadingScreenServices.imagePrefixUrl +
                                             eachProduct.images[0].imageFileName
                                         : "",
                                     productName: eachProduct.name,
-                                    quantity:
-                                        eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
+                                    quantity: eachProduct.unit.toString() != "null"
+                                        ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
+                                        : eachProduct.quantity.toString(),
                                     price: eachProduct.warehouses.isNotEmpty
-                                        ? int.parse(eachProduct
-                                            .warehouses[0].pivot.price
-                                            .split(".")[0])
+                                        ? int.parse(eachProduct.warehouses[0].pivot.price.split(".")[0])
                                         : 0,
                                     index: index,
                                   ),
                                 )
-                              : eachProduct.name
-                                      .toLowerCase()
-                                      .contains(filter.toLowerCase())
+                              : eachProduct.name.toLowerCase().contains(filter.toLowerCase())
                                   ? GestureDetector(
                                       behavior: HitTestBehavior.translucent,
                                       onTap: () => () {},
                                       child: InventoryProductsViewCard(
-                                        attached:
-                                            eachProduct.warehouses.isNotEmpty
-                                                ? eachProduct
-                                                            .warehouses[0]
-                                                            .pivot
-                                                            .supplierCode !=
-                                                        null
-                                                    ? true
-                                                    : false
-                                                : false,
+                                        attached: eachProduct.warehouses.isNotEmpty
+                                            ? eachProduct.warehouses[0].pivot.supplierCode != null
+                                                ? true
+                                                : false
+                                            : false,
                                         fromInventory: false,
                                         onDelete: (result) {
                                           if (result) {
@@ -265,37 +233,23 @@ class _AllProductsState extends State<AllProducts> {
                                           }
                                         },
                                         productData: eachProduct,
-                                        supplierCode:
-                                            eachProduct.warehouses.isNotEmpty
-                                                ? eachProduct.warehouses[0]
-                                                    .pivot.supplierCode
-                                                : null,
+                                        supplierCode: eachProduct.warehouses.isNotEmpty
+                                            ? eachProduct.warehouses[0].pivot.supplierCode
+                                            : null,
                                         productId: eachProduct.id.toString(),
-                                        active: int.parse(productsList[index]
-                                                .warehouses
-                                                .isNotEmpty
-                                            ? productsList[index]
-                                                .warehouses[0]
-                                                .pivot
-                                                .isActive
+                                        active: int.parse(productsList[index].warehouses.isNotEmpty
+                                            ? productsList[index].warehouses[0].pivot.isActive
                                             : "0"),
                                         img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices
-                                                    .imagePrefixUrl +
-                                                eachProduct
-                                                    .images[0].imageFileName
+                                            ? LoadingScreenServices.imagePrefixUrl +
+                                                eachProduct.images[0].imageFileName
                                             : "",
                                         productName: eachProduct.name,
-                                        quantity: eachProduct.unit.toString() !=
-                                                "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
+                                        quantity: eachProduct.unit.toString() != "null"
+                                            ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
                                             : eachProduct.quantity.toString(),
                                         price: eachProduct.warehouses.isNotEmpty
-                                            ? int.parse(eachProduct
-                                                .warehouses[0].pivot.price
-                                                .split(".")[0])
+                                            ? int.parse(eachProduct.warehouses[0].pivot.price.split(".")[0])
                                             : 0,
                                         index: index,
                                       ),

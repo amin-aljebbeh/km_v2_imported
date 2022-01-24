@@ -217,7 +217,7 @@ class _InventoryState extends State<Inventory> {
                       child: Column(
                         children: [
                           AlertMessages(
-                            text: "حدث خطأ أثناء محاولة جلب البيانات",
+                            text: StringUtils.errorMessage,
                             messageType: "internetError",
                             headerText: "حدث خطأ",
                           ),

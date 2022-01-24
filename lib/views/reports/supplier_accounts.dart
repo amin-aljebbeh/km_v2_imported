@@ -100,7 +100,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
                     child: isError
                         ? Center(
                             child: AlertMessages(
-                              text: "حطأ أثناء جلب البيانات",
+                              text: StringUtils.errorMessage,
                               messageType: "internetError",
                               headerText: "حدث خطأ",
                             ),

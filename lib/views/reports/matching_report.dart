@@ -117,7 +117,7 @@ class _MatchingReportState extends State<MatchingReport> {
                   height: 20,
                 ),
                 isError
-                    ? AlertMessages(text: "حطأ أثناء جلب البيانات", messageType: "internetError")
+                    ? AlertMessages(text: StringUtils.errorMessage, messageType: "internetError")
                     : Container(),
                 isLoading ? Loader() : Column(children: []),
                 _matchingProducts != null

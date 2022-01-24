@@ -207,7 +207,7 @@ class _SalesReportState extends State<SalesReport> {
               SizedBox(
                 height: 20,
               ),
-              isError ? AlertMessages(text: "حطأ أثناء جلب البيانات", messageType: "internetError") : Container(),
+              isError ? AlertMessages(text: StringUtils.errorMessage, messageType: "internetError") : Container(),
               isLoading
                   ? Loader()
                   : totalSubWarehouses.length > 0

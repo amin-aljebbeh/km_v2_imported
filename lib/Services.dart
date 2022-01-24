@@ -486,12 +486,10 @@ class Services {
   static successFlushBar(BuildContext context) {
     return Flushbar(
       backgroundColor: Colors.green,
-      // titleText: Text("تمت الإضافة بنجاح"),
       messageText: Text(
         "تمت العملية بنجاح",
         style: flushBarStyle,
       ),
-
       boxShadows: [
         BoxShadow(
           color: ColorUtils.primaryColor,
