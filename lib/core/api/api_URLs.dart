@@ -67,6 +67,12 @@ const String ASSIGN_ORDER_TO_DELIVERY = API + ORDER + 'assign_order_to_delivery'
 
 const String CHANGE_ORDER_STATUS = API + ORDER + 'change_order_status/';
 
+// BareCode
+
+const String PRODUCT_BARCODE = API + 'product_barcode/';
+
+const String SEARCH_PRODUCT_BY_BARCODE = PRODUCT_BARCODE + 'search/';
+
 /// NEW Version ///
 
 const String GET_START_REQUEST = API + 'mobile/startup';

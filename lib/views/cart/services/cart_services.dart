@@ -20,8 +20,6 @@ class CartServices {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userCart = prefs.getString('userCart');
-    Tools.logToConsole('message from cart');
-    Tools.logToConsole(userCart);
     if (userCart != null && userCart.length > 2 && userCart.toString() != "null") {
       cartProducts.clear();
       List<String> productsIds = userCart.split("@")[0].split(";");

@@ -151,12 +151,14 @@ class FavoritesViewState extends State<Favorites> {
               controller: _searchController,
               onSubmitted: (_) {
                 Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new ProductsView(
-                              queryString: _searchController.text,
-                              categoryId: "0",
-                            )));
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new ProductsView(
+                      queryString: _searchController.text,
+                      categoryId: "0",
+                    ),
+                  ),
+                );
               },
               cursorColor: ColorUtils.primaryColor,
               decoration: InputDecoration(
@@ -211,25 +213,19 @@ class FavoritesViewState extends State<Favorites> {
                               ),
                             ),
                           ),
-                          // decoration: BoxDecoration(
-                          //   color: ColorUtils.primarycolor,
-                          // ),
                         ),
                       ),
                     ),
                     Container(
-                        child: Image.asset(
-                          //  "assets/logobw.png",
-                          "assets/kmlogoo.png",
-                          width: 250,
-                          height: 200,
-                        ),
-
-                        //color: ColorUtils.kmColors,
-                        color: Colors.white),
+                      child: Image.asset(
+                        "assets/kmlogoo.png",
+                        width: 250,
+                        height: 200,
+                      ),
+                      color: Colors.white,
+                    ),
                     Divider(
                       color: ColorUtils.kmColors,
-                      // height: 20,
                     ),
                     ListTile(
                       leading: Padding(
@@ -247,7 +243,6 @@ class FavoritesViewState extends State<Favorites> {
                       onTap: () => _openUrl("number"),
                     ),
                     InkWell(
-                      // onTap: _sendEmailToKammun,
                       child: ListTile(
                         leading: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
@@ -261,14 +256,6 @@ class FavoritesViewState extends State<Favorites> {
                           "إرسال التطبيق للأصدقاء",
                           style: mainStyle,
                         ),
-                        // subtitle: Text(
-                        //   //'support@kammun.com',
-                        //   "بدعمكم نستمر",
-
-                        //   style: TextStyle(
-                        //       fontFamily: StringUtils.HKGrotesk,
-                        //       fontWeight: FontWeight.bold),
-                        // ),
                         onTap: () => _shareApp(),
                       ),
                     ),
@@ -285,15 +272,6 @@ class FavoritesViewState extends State<Favorites> {
                         "الملف الشخصي",
                         style: mainStyle,
                       ),
-                      // subtitle: Text(
-                      //   // 'www.kammun.com',
-                      //   LoadingScreenServices
-                      //       .companyInformation.websiteUrl,
-
-                      //   style: TextStyle(
-                      //       fontFamily: StringUtils.HKGrotesk,
-                      //       fontWeight: FontWeight.bold),
-                      // ),
                       onTap: () {
                         Navigator.of(context).pushNamed('/profile');
                       },

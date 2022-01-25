@@ -46,6 +46,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
   @override
   void initState() {
+    Tools.logToConsole('widget.productId');
+    Tools.logToConsole(widget.product.id);
     super.initState();
 
     Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));

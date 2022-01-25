@@ -76,7 +76,6 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Container(
-          //margin: const EdgeInsets.all(15.0),
           padding: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here

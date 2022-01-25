@@ -11,6 +11,8 @@ enum MyThemeKeys { LIGHT, DARK, DARKER }
 
 enum OrderType { myOrder, allOrder, orders }
 
+enum BarcodeRequestType { add, search }
+
 class MyThemes {
   static final ThemeData lightTheme = ThemeData(
     primaryColor: ColorUtils.primaryColor,

@@ -11,6 +11,7 @@ import 'dart:io' show Platform;
 import '../../Services.dart';
 import 'package:share/share.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import '../../views/products_view/barcode_screen.dart';
 
 class StoreView extends StatefulWidget {
   @override
@@ -594,16 +595,42 @@ class StoreViewState extends State<StoreView> {
             controller: _searchController,
             onSubmitted: (_) {
               Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new ProductsView(
-                            queryString: _searchController.text,
-                            categoryId: "0",
-                          )));
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => new ProductsView(
+                    queryString: _searchController.text,
+                    categoryId: "0",
+                  ),
+                ),
+              );
             },
             cursorColor: ColorUtils.primaryColor,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
+              prefixIcon: Container(
+                width: MediaQuery.of(context).size.width * 0.19,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        BareCodeIcon.barcode_2,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BarCodeScreen(
+                              requestType: BarcodeRequestType.search,
+                              productId: 0,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    Icon(Icons.search),
+                  ],
+                ),
+              ),
               contentPadding: const EdgeInsets.only(bottom: 0.5),
               hintText: StringUtils.search,
               hintStyle: mainStyle,

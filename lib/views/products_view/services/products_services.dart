@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:http/http.dart' as http;
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
@@ -85,8 +86,11 @@ class ProductsServices {
     };
 
     try {
-      var response =
-          await ApiProvider.sendRequest(url: GET_PRODUCT, method: httpMethods.post, body: jsonEncode(productBody));
+      var response = await ApiProvider.sendRequest(
+        url: GET_PRODUCT,
+        method: httpMethods.post,
+        body: jsonEncode(productBody),
+      );
 
       if (response.statusCode == SUCCESS_CODE && response.data["success"] == true) {
         var subWarehouseBody = {
@@ -130,6 +134,41 @@ class ProductsServices {
     } else {
       print(response.reasonPhrase);
       return false;
+    }
+  }
+
+  static Future<bool> setBarcodeToProduct({@required int bareCode, @required int productId}) async {
+    var requestBody = {
+      "product_id": productId,
+      "barcode": bareCode,
+    };
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: PRODUCT_BARCODE,
+        method: httpMethods.post,
+        body: jsonEncode(requestBody),
+      );
+      if (response.statusCode == SUCCESS_CODE) {
+        return true;
+      } else
+        return false;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<List<ProductData>> searchProductByBarcode({@required String bareCode}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: SEARCH_PRODUCT_BY_BARCODE + bareCode,
+        method: httpMethods.get,
+      );
+      if (response.statusCode == SUCCESS_CODE) {
+        return syncCartFromJson(jsonEncode(response.data["data"]));
+      } else
+        return null;
+    } catch (e) {
+      return null;
     }
   }
 
