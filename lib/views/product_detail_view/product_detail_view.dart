@@ -46,8 +46,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
   @override
   void initState() {
-    Tools.logToConsole('widget.productId');
-    Tools.logToConsole(widget.product.id);
     super.initState();
 
     Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));
@@ -58,7 +56,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
     );
     _animation = Tween(begin: 1.5, end: 0.0).animate(_animationController);
 
-    //  CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
     _animationController.forward();
   }
 
@@ -78,8 +75,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
       done = true;
     });
   }
-
-  // curve: Curves.linear, duration: Duration(milliseconds: 500));
 
   bool isLoading = false;
   bool isError = false;
@@ -124,8 +119,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                 pinned: true,
                 title: Container(
                   alignment: Alignment.bottomCenter,
-                  //padding: EdgeInsets.only(top: 15),
-                  //   width: MediaQuery.of(context).size.width * 0.65,
                   child: done
                       ? AutoSizeText(
                           widget.product.name,
@@ -689,13 +682,31 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             }
                                           },
                                         ),
-                                        AddImageWidget(
-                                            hasImage: false,
-                                            onSubmit: (image) async {
-                                              bool result = await ProductsServices.setImageToProducts(
-                                                  productId: widget.product.id, image: image);
-                                              Services.resultFlushBar(context: context, result: result);
-                                            }),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SizedBox(
+                                              width: 1,
+                                            ),
+                                            if (Services.isProductsController())
+                                              BarcodeIcon(
+                                                color: ColorUtils.kmColors,
+                                                requestType: BarcodeRequestType.add,
+                                                productId: widget.product.id,
+                                              ),
+                                            AddImageWidget(
+                                              hasImage: false,
+                                              onSubmit: (image) async {
+                                                bool result = await ProductsServices.setImageToProducts(
+                                                    productId: widget.product.id, image: image);
+                                                Services.resultFlushBar(context: context, result: result);
+                                              },
+                                            ),
+                                            SizedBox(
+                                              width: 1,
+                                            ),
+                                          ],
+                                        ),
                                         Services.isAdmin() || Services.isProductsController()
                                             ? Column(
                                                 children: [
