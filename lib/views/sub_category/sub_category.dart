@@ -1,6 +1,7 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/views/Wedgit/store_search_text_field.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
@@ -19,7 +20,7 @@ class SubCategory extends StatefulWidget {
 }
 
 class _SubCategoryState extends State<SubCategory> {
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,43 +51,6 @@ class _SubCategoryState extends State<SubCategory> {
       }
     }
 
-    Widget _showSearchTxtFld() {
-      final GestureDetector searchButtonWithGesture = new GestureDetector(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: new Container(
-            height: 40.0,
-            decoration:
-                new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-            child: TextField(
-              controller: _searchController,
-              onSubmitted: (_) {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new ProductsView(
-                              queryString: _searchController.text,
-                              categoryId: "0",
-                            )));
-              },
-              cursorColor: ColorUtils.primaryColor,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                contentPadding: const EdgeInsets.only(bottom: 0.5),
-                hintText: "بحث",
-                hintStyle: TextStyle(
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-
-      return new Padding(
-          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
-    }
-
     return Scaffold(
       appBar: PreferredSize(
         child: AppBar(
@@ -109,48 +73,51 @@ class _SubCategoryState extends State<SubCategory> {
             child: Column(
               children: <Widget>[
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Opacity(
-                        opacity: 0.0,
-                        child: Icon(
-                          Icons.home,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Opacity(
+                      opacity: 0.0,
+                      child: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Transform.scale(
+                        scale: 2,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/home',
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: Image.asset(
+                            "assets/logobw.png",
+                            width: 150,
+                            height: 50,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0, left: 0),
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
                           color: Colors.white,
                           size: 40,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: Transform.scale(
-                          scale: 2,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                '/home',
-                                (Route<dynamic> route) => false,
-                              );
-                            },
-                            child: Image.asset(
-                              "assets/logobw.png",
-                              width: 150,
-                              height: 50,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.only(top: 5.0, left: 0),
-                          child: IconButton(
-                              onPressed: () => Navigator.of(context).pop(true),
-                              icon: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.white,
-                                size: 40,
-                              ))),
-                    ]),
-                _showSearchTxtFld(),
+                    ),
+                  ],
+                ),
+                StoreSearchTextField(searchController: searchController),
               ],
             ),
           ),

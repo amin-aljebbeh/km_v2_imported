@@ -39,7 +39,6 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
             padding: EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
             itemCount: categoryListHome.length,
 
-            // itemCount: categoriesListArray.length,
             physics: new NeverScrollableScrollPhysics(),
             gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: _crossAxisCount,

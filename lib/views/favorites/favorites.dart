@@ -7,7 +7,6 @@ import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/favorites/services/product_favorites_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
-import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -21,7 +20,7 @@ class Favorites extends StatefulWidget {
 
 class FavoritesViewState extends State<Favorites> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   _shareApp() {
     String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
@@ -138,45 +137,6 @@ class FavoritesViewState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-
-    Widget _showSearchTxtFld() {
-      final GestureDetector searchButtonWithGesture = new GestureDetector(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: new Container(
-            height: 40.0,
-            decoration:
-                new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-            child: TextField(
-              controller: _searchController,
-              onSubmitted: (_) {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                    builder: (context) => new ProductsView(
-                      queryString: _searchController.text,
-                      categoryId: "0",
-                    ),
-                  ),
-                );
-              },
-              cursorColor: ColorUtils.primaryColor,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                contentPadding: const EdgeInsets.only(bottom: 0.5),
-                hintText: "بحث",
-                hintStyle: TextStyle(
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-
-      return new Padding(
-          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
-    }
 
     return Scaffold(
       drawer: SafeArea(
@@ -342,57 +302,57 @@ class FavoritesViewState extends State<Favorites> {
             child: Column(
               children: <Widget>[
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                          padding: const EdgeInsets.only(top: 12.0),
-                          child: InkWell(
-                            onTap: () {
-                              _scaffoldKey.currentState.openDrawer();
-                            },
-                            child: Icon(
-                              Icons.menu,
-                              color: Colors.white,
-                              size: 40,
-                            ),
-                          )),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: Transform.scale(
-                          scale: 2,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                '/home',
-                                (Route<dynamic> route) => false,
-                              );
-                            },
-                            child: Image.asset(
-                              "assets/logobw.png",
-                              width: 150,
-                              height: 50,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.shopping_cart,
-                            size: 35,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: InkWell(
+                          onTap: () {
+                            _scaffoldKey.currentState.openDrawer();
                           },
+                          child: Icon(
+                            Icons.menu,
+                            color: Colors.white,
+                            size: 40,
+                          ),
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Transform.scale(
+                        scale: 2,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/home',
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: Image.asset(
+                            "assets/logobw.png",
+                            width: 150,
+                            height: 50,
+                          ),
                         ),
                       ),
-                    ]),
-                _showSearchTxtFld(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.shopping_cart,
+                          size: 35,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                StoreSearchTextField(searchController: searchController),
               ],
             ),
           ),

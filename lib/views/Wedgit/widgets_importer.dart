@@ -1,5 +1,6 @@
 export 'add_image_widget.dart';
 export 'AlertMessages.dart';
+export 'barcode_icon.dart';
 export 'blurred_widget.dart';
 export 'dialog_button.dart';
 export 'entry_field.dart';
@@ -23,6 +24,7 @@ export 'products_view_card.dart';
 export 'products_view_widget.dart';
 export 'screen_message.dart';
 export 'side_bar_row.dart';
+export 'store_search_text_field.dart';
 export 'supplier_orders_view_card.dart';
 export 'switch_product_status_widget.dart';
 export 'text_field_row.dart';

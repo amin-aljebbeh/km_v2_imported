@@ -26,7 +26,7 @@ class ProductsView extends StatefulWidget {
 }
 
 class ProductsViewState extends State<ProductsView> {
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   bool isLoading = false;
   bool firstLoading = false;
@@ -119,7 +119,7 @@ class ProductsViewState extends State<ProductsView> {
     }
     if (widget.queryString != null) {
       _loadData(widget.queryString, "search");
-      _searchController.text = widget.queryString;
+      searchController.text = widget.queryString;
     } else {
       _loadData(widget.categoryId, "category");
     }
@@ -130,50 +130,6 @@ class ProductsViewState extends State<ProductsView> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _showSearchTxtFld() {
-      final GestureDetector searchButtonWithGesture = new GestureDetector(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: new Container(
-            height: 40.0,
-            decoration:
-                new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-            child: TextField(
-              controller: _searchController,
-              onSubmitted: (_) {
-                setState(() {
-                  productsList.clear();
-                  Navigator.of(context).pop();
-
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new ProductsView(
-                        queryString: _searchController.text,
-                        categoryId: "0",
-                      ),
-                    ),
-                  );
-                });
-              },
-              cursorColor: ColorUtils.primaryColor,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                contentPadding: const EdgeInsets.only(bottom: 0.5),
-                hintText: "بحث",
-                hintStyle: TextStyle(
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-
-      return new Padding(
-          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
-    }
-
     return Scaffold(
       floatingActionButton: widget.queryString == null &&
               (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
@@ -254,7 +210,15 @@ class ProductsViewState extends State<ProductsView> {
                     ),
                   ],
                 ),
-                _showSearchTxtFld(),
+                StoreSearchTextField(
+                  searchController: searchController,
+                  onSubmit: () {
+                    setState(() {
+                      productsList.clear();
+                      Navigator.of(context).pop();
+                    });
+                  },
+                ),
               ],
             ),
           ),
@@ -292,8 +256,8 @@ class ProductsViewState extends State<ProductsView> {
                                   page++;
                                   isLoading = true;
                                 });
-                                _searchController.text != ""
-                                    ? _loadData(_searchController.text, "search")
+                                searchController.text != ""
+                                    ? _loadData(searchController.text, "search")
                                     : _loadData(widget.categoryId, "category");
                                 // start loading data
 

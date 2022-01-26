@@ -4,7 +4,6 @@ import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import '../../views/products_view/barcode_screen.dart';
 
 // ignore: must_be_immutable
 class ProductsViewCard extends StatefulWidget {
@@ -92,27 +91,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                       if (Services.isProductsController())
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.05,
-                            width: MediaQuery.of(context).size.width * 0.11,
-                            padding: const EdgeInsets.all(3.0),
-                            child: IconButton(
-                              icon: Icon(
-                                BareCodeIcon.barcode_2,
-                                size: 35,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BarCodeScreen(
-                                      requestType: BarcodeRequestType.add,
-                                      productId: int.parse(widget.productId),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
+                          child: BarcodeIcon(
+                            requestType: BarcodeRequestType.add,
+                            productId: int.parse(widget.productId),
                           ),
                         ),
                     ],

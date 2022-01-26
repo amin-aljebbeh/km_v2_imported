@@ -46,11 +46,9 @@ class ShopByCategoryState extends State<ShopByCategory> {
                     Color.fromARGB(100, 0, 0, 0),
                     Color.fromARGB(100, 0, 0, 0),
                   ],
-                  // stops: [0.0, 0.1],
                 ),
               ),
               width: MediaQuery.of(context).size.width / 2,
-              // height: ,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,

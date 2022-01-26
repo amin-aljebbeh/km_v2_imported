@@ -4,14 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
 import 'package:share/share.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import '../../views/products_view/barcode_screen.dart';
 
 class StoreView extends StatefulWidget {
   @override
@@ -21,9 +19,8 @@ class StoreView extends StatefulWidget {
 }
 
 class StoreViewState extends State<StoreView> {
-  TextEditingController searchController = new TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   bool isDarkThemeMode = false;
 
@@ -523,7 +520,7 @@ class StoreViewState extends State<StoreView> {
                           ),
                   ],
                 ),
-                _showSearchTxtFld(),
+                StoreSearchTextField(searchController: searchController),
               ],
             ),
           ),
@@ -580,67 +577,6 @@ class StoreViewState extends State<StoreView> {
         ),
       ),
     );
-  }
-
-  // 1
-  Widget _showSearchTxtFld() {
-    final GestureDetector searchButtonWithGesture = new GestureDetector(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-        child: new Container(
-          height: 40.0,
-          decoration:
-              new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: TextField(
-            controller: _searchController,
-            onSubmitted: (_) {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => new ProductsView(
-                    queryString: _searchController.text,
-                    categoryId: "0",
-                  ),
-                ),
-              );
-            },
-            cursorColor: ColorUtils.primaryColor,
-            decoration: InputDecoration(
-              prefixIcon: Container(
-                width: MediaQuery.of(context).size.width * 0.19,
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        BareCodeIcon.barcode_2,
-                        size: 30,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BarCodeScreen(
-                              requestType: BarcodeRequestType.search,
-                              productId: 0,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    Icon(Icons.search),
-                  ],
-                ),
-              ),
-              contentPadding: const EdgeInsets.only(bottom: 0.5),
-              hintText: StringUtils.search,
-              hintStyle: mainStyle,
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
   }
 
   Widget _imageCarousel() {
