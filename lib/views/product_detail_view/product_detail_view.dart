@@ -225,7 +225,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           ],
                         ),
                         Column(
-                          // crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(StringUtils.price + ' :', style: paragraphStyle),
                             SizedBox(width: 5),
@@ -251,53 +250,54 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                     Container(
                       height: 74,
                       child: ListView.builder(
-                          itemCount: widget.product.categories.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width * 0.45,
-                              child: GestureDetector(
-                                onLongPress: () {
-                                  if (Services.isProductsController()) {
-                                    List<DialogButton> dialogButtons = [
-                                      DialogButton(
-                                        text: StringUtils.yes,
-                                        onTap: () async {
-                                          Navigator.of(context).pop();
-                                          bool result = await ProductsServices.removeProductFromCategory(
-                                              productId: widget.product.id.toString(),
-                                              categoryId: widget.product.categories[index].id.toString());
-                                          Services.resultFlushBar(context: context, result: result);
-                                          if (result) {
-                                            setState(() {
-                                              widget.product.categories.removeAt(index);
-                                            });
-                                          }
-                                        },
-                                      ),
-                                      DialogButton(
-                                        text: StringUtils.no,
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ];
-                                    showMyDialog(
-                                        title: '',
-                                        context: context,
-                                        text:
-                                            'هل تريد إزالة ${widget.product.name} من ${widget.product.categories[index].name} ؟',
-                                        dialogButtons: dialogButtons);
-                                  }
-                                },
-                                child: ShopByCategory(
-                                  img: widget.product.categories[index].imageFileName,
-                                  categoryName: widget.product.categories[index].name,
-                                  index: index,
-                                ),
+                        itemCount: widget.product.categories.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            child: GestureDetector(
+                              onLongPress: () {
+                                if (Services.isProductsController()) {
+                                  List<DialogButton> dialogButtons = [
+                                    DialogButton(
+                                      text: StringUtils.yes,
+                                      onTap: () async {
+                                        Navigator.of(context).pop();
+                                        bool result = await ProductsServices.removeProductFromCategory(
+                                            productId: widget.product.id.toString(),
+                                            categoryId: widget.product.categories[index].id.toString());
+                                        Services.resultFlushBar(context: context, result: result);
+                                        if (result) {
+                                          setState(() {
+                                            widget.product.categories.removeAt(index);
+                                          });
+                                        }
+                                      },
+                                    ),
+                                    DialogButton(
+                                      text: StringUtils.no,
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ];
+                                  showMyDialog(
+                                      title: '',
+                                      context: context,
+                                      text:
+                                          'هل تريد إزالة ${widget.product.name} من ${widget.product.categories[index].name} ؟',
+                                      dialogButtons: dialogButtons);
+                                }
+                              },
+                              child: ShopByCategory(
+                                img: widget.product.categories[index].imageFileName,
+                                categoryName: widget.product.categories[index].name,
+                                index: index,
                               ),
-                            );
-                          }),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     SizedBox(height: 15),
                     Row(
@@ -364,13 +364,14 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     ),
                                 border: Border.all(color: ColorUtils.primaryColor, width: 4)),
                             child: Center(
-                                child: Text(
-                              StringUtils.outOfStock,
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk),
-                            )),
+                              child: Text(
+                                StringUtils.outOfStock,
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
+                              ),
+                            ),
                           )
                         : Container(),
                     KammunButton(

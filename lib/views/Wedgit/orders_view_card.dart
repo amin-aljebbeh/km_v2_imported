@@ -5,42 +5,14 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/order_details/order_detail_view.dart';
+import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class OrdersViewCard extends StatefulWidget {
-  int orderId;
-  final String userNumber;
-  final int deliveryMethodId;
-  String deliveryName;
-  String shopperName;
-  int orderQuantity;
-  String orderTotalPrice;
-  int orderStatus;
-  String orderCreatedDate;
-  int underUpdate;
-  String supportedCityId;
-  final String address;
-  final double lat;
-  final double lon;
-  final String entrance;
   final OrdersOriginalData orderData;
 
   OrdersViewCard({
-    @required this.orderId,
-    this.orderQuantity,
-    this.orderTotalPrice,
-    this.orderStatus,
-    this.orderCreatedDate,
-    this.supportedCityId,
-    this.address,
-    this.lat,
-    this.lon,
-    this.userNumber,
-    this.deliveryMethodId,
-    @required this.entrance,
-    this.underUpdate,
-    this.shopperName,
-    this.deliveryName,
     @required this.orderData,
   });
 
@@ -55,13 +27,10 @@ openMapsSheet(context, lat, lon) async {
 }
 
 class OrdersViewCardState extends State<OrdersViewCard> {
-  String shopperName, deliveryName;
   int deletedCount;
 
   void initState() {
     deletedCount = widget.orderData.products.where((product) => product.pivot.deletedAt != null).length;
-    shopperName = widget.shopperName != null ? widget.shopperName : null;
-    deliveryName = widget.deliveryName != null ? widget.deliveryName : null;
     super.initState();
   }
 
@@ -69,151 +38,179 @@ class OrdersViewCardState extends State<OrdersViewCard> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.orderStatus == 2) orderStatus = "تم قبول الطلب ✅";
-    if (widget.orderStatus == 3) orderStatus = "تم تجهيز الطلب 😎";
-    if (widget.orderStatus == 4) orderStatus = "تم إرسال الطلب مع كابتن التوصيل";
-    if (widget.underUpdate == 1) orderStatus = "الطلب معلق حتى يأكد الزبون التعديل";
+    if (widget.orderData.orderStatusId == '2') orderStatus = "تم قبول الطلب ✅";
+    if (widget.orderData.orderStatusId == '3') orderStatus = "تم تجهيز الطلب 😎";
+    if (widget.orderData.orderStatusId == '4') orderStatus = "تم إرسال الطلب مع كابتن التوصيل";
+    if (widget.orderData.underUpdate == '1') orderStatus = "الطلب معلق حتى يأكد الزبون التعديل";
 
-    if (widget.underUpdate == 2) orderStatus = "الطلب معلق حتى تقوم بتأكيد التعديل";
+    if (widget.orderData.underUpdate == '2') orderStatus = "الطلب معلق حتى تقوم بتأكيد التعديل";
 
-    if (widget.orderStatus == 5) orderStatus = "تم توصيل الطلب بنجاح";
-    if (widget.orderStatus == 6) orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
-    if (widget.orderStatus == 7) orderStatus = "😔 لم نستطع تأمين الطلب 😔";
+    if (widget.orderData.orderStatusId == '5') orderStatus = "تم توصيل الطلب بنجاح";
+    if (widget.orderData.orderStatusId == '6') orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
+    if (widget.orderData.orderStatusId == '7') orderStatus = "😔 لم نستطع تأمين الطلب 😔";
 
-    return Container(
-      decoration: widget.deliveryMethodId == 2
-          ? BoxDecoration(border: Border.all(color: Colors.red, width: 5))
-          : widget.deliveryMethodId == 3
-              ? BoxDecoration(border: Border.all(color: Colors.green, width: 5))
-              : BoxDecoration(border: Border.all(color: Colors.transparent, width: 5)),
-      child: Padding(
-        padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                LabelRow(
-                  rightSideText: StringUtils.bill,
-                  leftSideText: "${StringUtils().oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
-                      " ${LoadingScreenServices.companyInformation.currency.toString()}",
-                  leftSideStyle: informationStyle,
-                ),
-                Container(
-                  padding: EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2)),
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (context) => new OrderDetailView(
+              orderData: widget.orderData,
+              subTotal: int.parse(widget.orderData.total.toString().split(".")[0]) -
+                  int.parse(widget.orderData.supportedCityCost.toString().split(".")[0]) -
+                  int.parse(widget.orderData.deliveryCost.split(".")[0]),
+              total: widget.orderData.total.toString(),
+              orderType: OrderTypes.orders,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        decoration: int.parse(widget.orderData.deliveryMethodId) == 2
+            ? BoxDecoration(border: Border.all(color: Colors.red, width: 5))
+            : int.parse(widget.orderData.deliveryMethodId) == 3
+                ? BoxDecoration(border: Border.all(color: Colors.green, width: 5))
+                : BoxDecoration(border: Border.all(color: Colors.transparent, width: 5)),
+        child: Padding(
+          padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  LabelRow(
+                    rightSideText: StringUtils.bill,
+                    leftSideText: "${StringUtils().oCcy.format(int.parse(widget.orderData.total)).toString()}" +
+                        " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                    leftSideStyle: informationStyle,
                   ),
-                  child: Text(
-                    widget.orderQuantity.toString(),
-                    style: paragraphStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                if (Services.isAdmin() && deletedCount > 0)
                   Container(
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.red.withOpacity(0.2)),
+                      border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2)),
                     ),
                     child: Text(
-                      deletedCount.toString(),
-                      style: loseStyle.copyWith(
-                        fontSize: 18,
-                      ),
+                      widget.orderData.products
+                          .where((product) => product.pivot.deletedAt == null)
+                          .length
+                          .toString(),
+                      style: paragraphStyle,
                       textAlign: TextAlign.center,
                     ),
                   ),
-                if (Services.isOperationManager() && widget.orderData.userDeliveryRating != null)
-                  IconButton(
-                    icon: Icon(
-                      Icons.star,
-                      color: ColorUtils.kmColors2,
-                      size: 30,
-                    ),
-                    onPressed: () {
-                      showMyDialog(
-                        title: StringUtils.ratingOrder,
-                        context: context,
-                        text: widget.orderData.userDeliveryRating,
-                        dialogButtons: [
-                          DialogButton(
-                            text: StringUtils.close,
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          )
-                        ],
-                      );
-                    },
-                  ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      widget.orderId.toString().length >= 3
-                          ? "#${widget.orderId.toString().substring(widget.orderId.toString().length - 3, widget.orderId.toString().length)}"
-                          : '#${widget.orderId.toString()}',
-                      style: profitStyle.copyWith(
-                        color: Colors.purple,
+                  if (Services.isAdmin() && deletedCount > 0)
+                    Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.red.withOpacity(0.2)),
+                      ),
+                      child: Text(
+                        deletedCount.toString(),
+                        style: loseStyle.copyWith(
+                          fontSize: 18,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                    if (Services.isShopper())
-                      RichText(
-                        text: TextSpan(
-                          text: "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
-                          style: profitStyle,
+                  if (Services.isOperationManager() && widget.orderData.userDeliveryRating != null)
+                    IconButton(
+                      icon: Icon(
+                        Icons.star,
+                        color: ColorUtils.kmColors2,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        showMyDialog(
+                          title: StringUtils.ratingOrder,
+                          context: context,
+                          text: widget.orderData.userDeliveryRating,
+                          dialogButtons: [
+                            DialogButton(
+                              text: StringUtils.close,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        );
+                      },
+                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.orderData.id.toString().length >= 3
+                            ? "#${widget.orderData.id.toString().substring(widget.orderData.id.toString().length - 3, widget.orderData.id.toString().length)}"
+                            : '#${widget.orderData.id.toString()}',
+                        style: profitStyle.copyWith(
+                          color: Colors.purple,
                         ),
                       ),
-                  ],
-                )
-              ],
-            ),
-            LabelRow(
-              rightSideText: StringUtils.phoneNumber,
-              leftSideText: widget.userNumber,
-              leftSideStyle: paragraphStyle.copyWith(
-                color: ColorUtils.kmColors,
+                      if (Services.isShopper())
+                        RichText(
+                          text: TextSpan(
+                            text: "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
+                            style: profitStyle,
+                          ),
+                        ),
+                    ],
+                  )
+                ],
               ),
-              recognizer: TapGestureRecognizer()..onTap = () => Services.makePhoneCall(widget.userNumber),
-            ),
-            LabelRow(
-              rightSideText: StringUtils.address + " : ",
-              leftSideText: widget.address,
-              leftSideStyle: informationStyle,
-            ),
-            LabelRow(
-              rightSideText: StringUtils.city,
-              leftSideText: LoadingScreenServices.supportedCitiesListIntro
-                      .where((supportedCity) => supportedCity.id == widget.supportedCityId)
-                      .first
-                      .name +
-                  "   ",
-              leftSideStyle: informationStyle,
-            ),
-            LabelRow(
-              rightSideText: StringUtils.entrance,
-              leftSideText: widget.entrance,
-              leftSideStyle: informationStyle,
-            ),
-            LabelRow(
-              rightSideText: StringUtils.orderDate,
-              leftSideText: widget.orderCreatedDate,
-              leftSideStyle: disableStyle,
-            ),
-            LabelRow(
-              rightSideText: orderStatus,
-              leftSideText: '',
-              leftSideStyle: informationStyle,
-            ),
-            LabelRow(
-              rightSideText: StringUtils.shopperName + " ",
-              leftSideText: shopperName != null ? shopperName : " ",
-              leftSideStyle: paragraphStyle,
-            ),
-          ],
+              LabelRow(
+                rightSideText: StringUtils.phoneNumber,
+                leftSideText: widget.orderData.userData.phone,
+                leftSideStyle: paragraphStyle.copyWith(
+                  color: ColorUtils.kmColors,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => Services.makePhoneCall(widget.orderData.userData.phone),
+              ),
+              LabelRow(
+                rightSideText: StringUtils.address + " : ",
+                leftSideText: widget.orderData.address.street +
+                    " " +
+                    widget.orderData.address.building +
+                    " طابق " +
+                    widget.orderData.address.floor +
+                    " " +
+                    widget.orderData.address.description,
+                leftSideStyle: informationStyle,
+              ),
+              LabelRow(
+                rightSideText: StringUtils.city,
+                leftSideText: LoadingScreenServices.supportedCitiesListIntro
+                        .where((supportedCity) => supportedCity.id == widget.orderData.supportedCityId)
+                        .first
+                        .name +
+                    "   ",
+                leftSideStyle: informationStyle,
+              ),
+              LabelRow(
+                rightSideText: StringUtils.entrance,
+                leftSideText: widget.orderData.address.entrance,
+                leftSideStyle: informationStyle,
+              ),
+              LabelRow(
+                rightSideText: StringUtils.orderDate,
+                leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(widget.orderData.createdAt),
+                leftSideStyle: disableStyle,
+              ),
+              LabelRow(
+                rightSideText: orderStatus,
+                leftSideText: '',
+                leftSideStyle: informationStyle,
+              ),
+              LabelRow(
+                rightSideText: StringUtils.shopperName + " ",
+                leftSideText: widget.orderData.shopper != null ? widget.orderData.shopper.name : " ",
+                leftSideStyle: paragraphStyle,
+              ),
+            ],
+          ),
         ),
       ),
     );

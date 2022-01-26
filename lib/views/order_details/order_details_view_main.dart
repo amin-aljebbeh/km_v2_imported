@@ -9,24 +9,16 @@ import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class OrderDetailViewMain extends StatefulWidget {
-  List<OrderProducts> ordersAry;
   int subTotal;
   double remaining;
   double totalDiscount;
   String total;
-  String deliveryPrice;
-  int orderId;
-  String addressName;
   OrdersOriginalData order;
   final OrderTypes orderType;
 
   OrderDetailViewMain({
-    this.ordersAry,
     this.subTotal,
     this.total,
-    this.deliveryPrice,
-    this.orderId,
-    this.addressName,
     this.order,
     @required this.orderType,
     this.remaining,
@@ -51,8 +43,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
 
     try {
       setState(() {
-        productsAry = widget.ordersAry;
-        idOrder = widget.orderId;
+        productsAry = widget.order.products;
 
         if (LoadingScreenServices.subWarehouses.length == 1) {
           productsAry.sort((a, b) {
@@ -86,8 +77,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
 
   _refillProducts() {
     setState(() {
-      productsAry = widget.ordersAry;
-      idOrder = widget.orderId;
+      productsAry = widget.order.products;
 
       if (LoadingScreenServices.subWarehouses.length == 1) {
         productsAry.sort((a, b) {
@@ -111,7 +101,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
     });
   }
 
-  int idOrder;
   bool isLoading = false;
   bool errorAlert = false;
 
@@ -143,9 +132,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                           },
                           child: !Services.isSupplierManager()
                               ? AutoSizeText(
-                                  widget.addressName.length > 37
-                                      ? widget.addressName.substring(0, 37)
-                                      : widget.addressName,
+                                  widget.order.address.street.length > 37
+                                      ? widget.order.address.street.substring(0, 37)
+                                      : widget.order.address.street,
                                   maxLines: 1,
                                   overflow: TextOverflow.clip,
                                   style: TextStyle(
@@ -154,9 +143,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                   ),
                                 )
                               : Text(
-                                  widget.orderId.toString().length >= 3
-                                      ? "#${widget.orderId.toString().substring(widget.orderId.toString().length - 3, widget.orderId.toString().length)}"
-                                      : '#${widget.orderId.toString()}',
+                                  widget.order.id.toString().length >= 3
+                                      ? "#${widget.order.id.toString().substring(widget.order.id.toString().length - 3, widget.order.id.toString().length)}"
+                                      : '#${widget.order.id.toString()}',
                                   style: profitStyle.copyWith(
                                     color: Colors.purple,
                                   ),
@@ -191,27 +180,24 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                               behavior: HitTestBehavior.translucent,
                               onTap: () => {},
                               child: OrderDetailViewMainCard(
-                                increaseValue: productDetail.pivot.increaseValue,
-                                subWarehouseId: productDetail.subWarehouseId,
-                                orderId: widget.orderId,
                                 onCheckbox: (a) {
                                   setState(() {
                                     switch (widget.orderType) {
                                       case OrderTypes.myOrder:
                                         LoadingScreenServices.myOrdersList
-                                            .firstWhere((order) => order.id == widget.orderId)
+                                            .firstWhere((order) => order.id == widget.order.id)
                                             .products
                                             .removeWhere((product) => product.id == notDeletedProductsAry[a].id);
                                         break;
                                       case OrderTypes.allOrder:
                                         LoadingScreenServices.allOrdersList
-                                            .firstWhere((order) => order.id == widget.orderId)
+                                            .firstWhere((order) => order.id == widget.order.id)
                                             .products
                                             .removeWhere((product) => product.id == notDeletedProductsAry[a].id);
                                         break;
                                       case OrderTypes.orders:
                                         LoadingScreenServices.notAssignedOrdersList
-                                            .firstWhere((order) => order.id == widget.orderId)
+                                            .firstWhere((order) => order.id == widget.order.id)
                                             .products
                                             .removeWhere((product) => product.id == notDeletedProductsAry[a].id);
                                         break;
@@ -220,18 +206,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                     finalProductsAry.removeAt(index);
                                   });
                                 },
-                                productsData: productDetail,
-                                supplierCode: productDetail.supplierCode,
-                                active: productDetail.isActive,
-                                productId: productDetail.pivot.productId,
-                                img: productDetail.images.length != 0
-                                    ? LoadingScreenServices.imagePrefixUrl + productDetail.images[0].imageFileName
-                                    : "",
-                                productName: productDetail.name,
-                                quantity: productDetail.quantity,
-                                price: int.parse(productDetail.pivot.purchasePrice.split('.')[0]),
-                                unit: productDetail.unit == null ? "" : productDetail.unit,
-                                productCount: productDetail.pivot.quantity.toString(),
+                                productData: productDetail,
                                 index: index,
                               ),
                             );
@@ -244,33 +219,18 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                 children: [
                                   BlurredWidget(
                                     child: OrderDetailViewMainCard(
-                                      increaseValue: productDetail.pivot.increaseValue,
-                                      subWarehouseId: productDetail.subWarehouseId,
-                                      orderId: widget.orderId,
                                       onCheckbox: (a) {
                                         if (Services.isShopper())
                                           setState(() {
                                             LoadingScreenServices.myOrdersList
-                                                .firstWhere((order) => order.id == widget.orderId)
+                                                .firstWhere((order) => order.id == widget.order.id)
                                                 .products
                                                 .removeWhere((product) => product.id == deletedProductsAry[a].id);
                                             deletedProductsAry.removeAt(a);
                                             finalProductsAry.removeAt(index);
                                           });
                                       },
-                                      productsData: productDetail,
-                                      supplierCode: productDetail.supplierCode,
-                                      active: productDetail.isActive,
-                                      productId: productDetail.pivot.productId,
-                                      img: productDetail.images.length != 0
-                                          ? LoadingScreenServices.imagePrefixUrl +
-                                              productDetail.images[0].imageFileName
-                                          : "",
-                                      productName: productDetail.name,
-                                      quantity: productDetail.quantity,
-                                      price: int.parse(productDetail.pivot.purchasePrice),
-                                      unit: productDetail.unit == null ? "" : productDetail.unit,
-                                      productCount: productDetail.pivot.quantity.toString(),
+                                      productData: productDetail,
                                       index: index - (deletedProductsAry.length + 1),
                                     ),
                                   ),
@@ -432,7 +392,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                               else if (widget.order.orderStatusId == "4") changeStatus = 5;
 
                                               bool x = await OrderServices.changeOrderStatus(
-                                                  widget.orderId.toString(), changeStatus);
+                                                  widget.order.id.toString(), changeStatus);
 
                                               if (x) {
                                                 setState(() {
@@ -466,7 +426,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                                     changeStatus = 6;
 
                                                     bool x = await OrderServices.changeOrderStatus(
-                                                        widget.orderId.toString(), changeStatus);
+                                                        widget.order.id.toString(), changeStatus);
 
                                                     if (x) {
                                                       setState(() {
@@ -529,7 +489,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                                         changeStatus = 1;
 
                                                         bool result = await OrderServices.changeOrderStatus(
-                                                            widget.orderId.toString(), changeStatus);
+                                                            widget.order.id.toString(), changeStatus);
                                                         Services.resultFlushBar(context: context, result: result);
 
                                                         if (result) {

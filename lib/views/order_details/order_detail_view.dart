@@ -7,22 +7,14 @@ import 'order_details_view_main.dart';
 
 // ignore: must_be_immutable
 class OrderDetailView extends StatefulWidget {
-  List<OrderProducts> ordersAry;
   int subTotal;
   String total;
-  String deliveryPrice;
-  int orderId;
-  String addressName;
   OrdersOriginalData orderData;
   final OrderTypes orderType;
 
   OrderDetailView({
-    this.ordersAry,
     this.subTotal,
     this.total,
-    this.deliveryPrice,
-    this.orderId,
-    this.addressName,
     this.orderData,
     @required this.orderType,
   });
@@ -41,12 +33,8 @@ class OrderDetailViewState extends State<OrderDetailView> {
   void initState() {
     _tabs.add(
       OrderDetailViewMain(
-        ordersAry: widget.ordersAry,
-        addressName: widget.addressName,
-        orderId: widget.orderId,
         subTotal: widget.subTotal,
         total: widget.total.split('.')[0],
-        deliveryPrice: widget.deliveryPrice,
         order: widget.orderData,
         orderType: widget.orderType,
       ),
@@ -54,8 +42,6 @@ class OrderDetailViewState extends State<OrderDetailView> {
     _tabs.add(
       OrderAccounting(
         orderData: widget.orderData,
-        ordersAry: widget.ordersAry,
-        orderId: widget.orderId,
       ),
     );
     super.initState();

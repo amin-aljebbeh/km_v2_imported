@@ -14,39 +14,16 @@ import 'k_cache_image.dart';
 
 // ignore: must_be_immutable
 class OrderDetailViewMainCard extends StatefulWidget {
-  final String img;
-  final String productName;
-  String quantity;
-  final int price;
-  final int increaseValue;
   final int index;
-  final String unit;
-  final String productCount;
-  int active;
-  final String productId;
-  final String supplierCode;
-  final OrderProducts productsData;
-  int subWarehouseId;
-  final int orderId;
+  final OrderProducts productData;
 
   Function(int) onCheckbox;
 
-  OrderDetailViewMainCard(
-      {this.img,
-      this.productName,
-      this.quantity,
-      this.price,
-      this.increaseValue,
-      this.index,
-      this.unit,
-      this.active,
-      this.productCount,
-      this.supplierCode,
-      this.productId,
-      this.productsData,
-      this.onCheckbox,
-      @required this.orderId,
-      @required this.subWarehouseId});
+  OrderDetailViewMainCard({
+    this.index,
+    this.productData,
+    this.onCheckbox,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -82,23 +59,23 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.subWarehouseId == 2 || widget.subWarehouseId == 6) {
+    if (widget.productData.subWarehouseId == 2 || widget.productData.subWarehouseId == 6) {
       borderColor = ColorUtils().khawajaColor;
-    } else if (widget.subWarehouseId == 3) {
+    } else if (widget.productData.subWarehouseId == 3) {
       borderColor = ColorUtils().vegetableColor;
-    } else if (widget.subWarehouseId == 4) {
+    } else if (widget.productData.subWarehouseId == 4) {
       borderColor = ColorUtils().libraryColor;
-    } else if (widget.subWarehouseId == 7) {
+    } else if (widget.productData.subWarehouseId == 7) {
       borderColor = ColorUtils().meetColor;
-    } else if (widget.subWarehouseId == 8) {
+    } else if (widget.productData.subWarehouseId == 8) {
       borderColor = ColorUtils().pharmaColor;
-    } else if (widget.subWarehouseId == 9) {
+    } else if (widget.productData.subWarehouseId == 9) {
       borderColor = ColorUtils().amourColor;
     } else {
       borderColor = Colors.transparent;
     }
 
-    double discountPercentage = SubWarehouse.getDiscountPercentage(widget.productsData.subWarehouseId);
+    double discountPercentage = SubWarehouse.getDiscountPercentage(widget.productData.subWarehouseId);
     return Container(
       padding: EdgeInsets.only(
         top: 10,
@@ -115,8 +92,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
               children: <Widget>[
                 ProductCheckWidget(
                   preferLeftSide: !LoadingScreenServices.preferLeftSide,
-                  productCount: widget.productCount,
-                  productName: widget.productName,
+                  productCount: widget.productData.pivot.quantity,
+                  productName: widget.productData.name,
                   index: widget.index,
                   onCheckbox: (index) => widget.onCheckbox(index),
                 ), //right side
@@ -127,7 +104,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                       MaterialPageRoute(
                         builder: (_) {
                           return FullScreenImage(
-                            imageUrl: widget.img,
+                            imageUrl: widget.productData.images.length != 0
+                                ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
+                                : "",
                             tag: "generate_a_unique_tag",
                           );
                         },
@@ -135,8 +114,10 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     );
                   },
                   child: KCacheImage(
-                    tag: widget.index + int.parse(widget.productId),
-                    image: widget.img,
+                    tag: widget.index + int.parse(widget.productData.pivot.productId),
+                    image: widget.productData.images.length != 0
+                        ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
+                        : "",
                   ),
                 ),
                 SizedBox(width: 3),
@@ -149,7 +130,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                           Wrap(
                             children: <Widget>[
                               Text(
-                                widget.productName,
+                                widget.productData.name,
                                 style: mainStyle.copyWith(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -161,13 +142,18 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                           Wrap(
                             children: [
                               Text(
-                                widget.quantity + " " + widget.unit,
+                                widget.productData.quantity + " " + widget.productData.unit == null
+                                    ? ''
+                                    : widget.productData.unit,
                                 style: darkBold,
                               ),
                             ],
                           ),
                           Text(
-                            StringUtils().oCcy.format(widget.price).toString() +
+                            StringUtils()
+                                    .oCcy
+                                    .format(int.parse(widget.productData.pivot.purchasePrice))
+                                    .toString() +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: paragraphStyle,
                           ),
@@ -175,7 +161,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                               ? Text(
                                   StringUtils()
                                           .oCcy
-                                          .format((widget.price) - ((widget.price) * discountPercentage))
+                                          .format((int.parse(widget.productData.pivot.purchasePrice)) -
+                                              ((int.parse(widget.productData.pivot.purchasePrice)) *
+                                                  discountPercentage))
                                           .toString() +
                                       " ${LoadingScreenServices.companyInformation.currency}",
                                   style: paragraphStyle,
@@ -187,17 +175,19 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                             items: subWarehouseList,
                                             onChanged: (a) {
                                               OrderDetailsServices.updateOrder(
-                                                  orderId: widget.orderId.toString(),
-                                                  context: context,
-                                                  updateKey: "sub_warehouse_id",
-                                                  updateValue: a.toString(),
-                                                  productId: widget.productId);
+                                                orderId: widget.productData.pivot.orderId,
+                                                context: context,
+                                                updateKey: "sub_warehouse_id",
+                                                updateValue: a.toString(),
+                                                productId: widget.productData.pivot.productId,
+                                              );
                                               setState(() {
-                                                widget.subWarehouseId = a;
+                                                widget.productData.subWarehouseId = a;
                                               });
                                             },
                                             hint: subWarehouseList.firstWhere(
-                                                (element) => element.value == widget.subWarehouseId, orElse: () {
+                                                (element) => element.value == widget.productData.subWarehouseId,
+                                                orElse: () {
                                               subWarehouseList.clear();
                                               return DropdownMenuItem<int>(
                                                 child: Text("No element"),
@@ -210,12 +200,13 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                       isForSubWarehouse: true,
                                       height: 20,
                                       width: 70,
-                                      preState: widget.active,
-                                      subWarehouseId: widget.productsData.subWarehouseId,
-                                      productId: widget.productId,
+                                      preState: widget.productData.isActive,
+                                      subWarehouseId: widget.productData.subWarehouseId,
+                                      productId: widget.productData.pivot.productId,
                                       onChange: (active) {
-                                        widget.active = active;
-                                        setState(() {});
+                                        setState(() {
+                                          widget.productData.isActive = active;
+                                        });
                                       },
                                     ),
                                   ],
@@ -227,8 +218,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                 ),
                 ProductCheckWidget(
                   preferLeftSide: LoadingScreenServices.preferLeftSide,
-                  productCount: widget.productCount,
-                  productName: widget.productName,
+                  productCount: widget.productData.pivot.quantity,
+                  productName: widget.productData.name,
                   index: widget.index,
                   onCheckbox: (index) => widget.onCheckbox(index),
                 ),

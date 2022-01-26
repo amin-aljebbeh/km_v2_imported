@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/order_details/order_detail_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
-import 'package:intl/intl.dart';
 import 'services/order_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -257,49 +254,11 @@ class OrdersViewState extends State<OrdersView> {
                             orderDataList[index].orderProfits();
                           }
                           String shopper;
-                          String dateTime =
-                              DateFormat('a h:mm - dd-MM-yyyy').format(orderDataList[index].createdAt);
                           if (orderDataList[index].shopper != null) {}
                           return Column(
                             children: <Widget>[
-                              new GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => _onTileClicked(index),
-                                child: OrdersViewCard(
-                                  orderData: orderDataList[index],
-                                  deliveryName: orderDataList[index].delivery != null
-                                      ? orderDataList[index].delivery.name
-                                      : null,
-                                  shopperName: orderDataList[index].shopper != null
-                                      ? orderDataList[index].shopper.name
-                                      : null,
-                                  orderId: orderDataList[index].id,
-                                  entrance: orderDataList[index].address.entrance,
-                                  deliveryMethodId: int.parse(orderDataList[index].deliveryMethodId),
-                                  lat: orderDataList[index].address.lat != "null"
-                                      ? double.parse(orderDataList[index].address.lat)
-                                      : null,
-                                  lon: orderDataList[index].address.lon != "null"
-                                      ? double.parse(orderDataList[index].address.lon)
-                                      : null,
-                                  userNumber: orderDataList[index].userData.phone,
-                                  address: orderDataList[index].address.street +
-                                      " " +
-                                      orderDataList[index].address.building +
-                                      " طابق " +
-                                      orderDataList[index].address.floor +
-                                      " " +
-                                      orderDataList[index].address.description,
-                                  supportedCityId: orderDataList[index].supportedCityId,
-                                  underUpdate: int.parse(orderDataList[index].underUpdate),
-                                  orderTotalPrice: orderDataList[index].total.toString(),
-                                  orderStatus: int.parse(orderDataList[index].orderStatusId),
-                                  orderQuantity: orderDataList[index]
-                                      .products
-                                      .where((product) => product.pivot.deletedAt == null)
-                                      .length,
-                                  orderCreatedDate: dateTime,
-                                ),
+                              OrdersViewCard(
+                                orderData: orderDataList[index],
                               ),
                               if (Services.isAdmin() || Services.isOperationManager())
                                 KSearchableDropdown(
@@ -413,7 +372,6 @@ class OrdersViewState extends State<OrdersView> {
                                             },
                                           )
                                         ];
-
                                         showMyDialog(
                                             title: StringUtils.unLock,
                                             text: StringUtils.unLockConfirm,
@@ -491,28 +449,6 @@ class OrdersViewState extends State<OrdersView> {
     Navigator.of(context).pushNamedAndRemoveUntil(
       '/cartFromUpdate',
       (Route<dynamic> route) => false,
-    );
-  }
-
-  void _onTileClicked(int index) {
-    Navigator.push(
-      context,
-      new MaterialPageRoute(
-        builder: (context) => new OrderDetailView(
-          orderData: orderDataList[index],
-          orderId: orderDataList[index].id,
-          ordersAry: orderDataList[index].products,
-          addressName: orderDataList[index].address.street,
-          subTotal: int.parse(orderDataList[index].total.toString().split(".")[0]) -
-              int.parse(orderDataList[index].supportedCityCost.toString().split(".")[0]) -
-              int.parse(orderDataList[index].deliveryCost.split(".")[0]),
-          total: orderDataList[index].total.toString(),
-          deliveryPrice: (int.parse(orderDataList[index].supportedCityCost.split(".")[0]) +
-                  int.parse(orderDataList[index].deliveryCost.split(".")[0]))
-              .toString(),
-          orderType: OrderTypes.allOrder,
-        ),
-      ),
     );
   }
 }

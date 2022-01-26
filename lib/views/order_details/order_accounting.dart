@@ -10,14 +10,10 @@ import 'full_screen_image.dart';
 import 'services/order_details_services.dart';
 
 class OrderAccounting extends StatefulWidget {
-  final int orderId;
-  final List<OrderProducts> ordersAry;
   final OrdersOriginalData orderData;
 
   const OrderAccounting({
     Key key,
-    @required this.ordersAry,
-    @required this.orderId,
     @required this.orderData,
   }) : super(key: key);
 
@@ -168,7 +164,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                     hasImage: widget.orderData.images != null,
                     onSubmit: (image) async {
                       bool result = await OrderDetailsServices.addImageToOrder(
-                          image: image, orderId: widget.orderId.toString());
+                          image: image, orderId: widget.orderData.id.toString());
                       Services.resultFlushBar(context: context, result: result);
                     },
                   ),
@@ -212,7 +208,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                           .toString(),
                                       value: moneyController.text,
                                       description: descriptionController.text,
-                                      orderId: widget.orderId.toString(),
+                                      orderId: widget.orderData.id.toString(),
                                     );
                                     Services.resultFlushBar(context: context, result: result);
                                   }

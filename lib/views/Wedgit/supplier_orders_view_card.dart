@@ -69,12 +69,8 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
           context,
           new MaterialPageRoute(
             builder: (context) => new OrderDetailViewMain(
-              ordersAry: widget.order.products,
-              addressName: 'widget.order.address.street',
-              orderId: widget.order.id,
               subTotal: Services.kRound(subTotal),
               total: widget.order.total,
-              deliveryPrice: '0',
               order: widget.order,
               orderType: OrderTypes.myOrder,
               remaining: subTotal - Services.kRound(subTotal),
