@@ -76,7 +76,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
               total: widget.order.total,
               deliveryPrice: '0',
               order: widget.order,
-              orderType: OrderType.myOrder,
+              orderType: OrderTypes.myOrder,
               remaining: subTotal - Services.kRound(subTotal),
               totalDiscount: double.parse(widget.order.total) - Services.kRound(subTotal),
             ),

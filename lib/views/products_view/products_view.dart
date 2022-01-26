@@ -13,11 +13,11 @@ import 'package:kammun_app/views/products_view/add_products.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class ProductsView extends StatefulWidget {
-  final int heroIndex;
   final String categoryId;
   final String queryString;
+  final String barcode;
 
-  ProductsView({this.heroIndex, @required this.categoryId, this.queryString});
+  ProductsView({@required this.categoryId, this.queryString, this.barcode});
 
   @override
   State<StatefulWidget> createState() {
@@ -40,7 +40,7 @@ class ProductsViewState extends State<ProductsView> {
 
   bool badWordMatched = false;
 
-  Future<bool> _loadData(String query, String type) async {
+  Future<bool> _loadData(String query, ProductsViewTypes type) async {
     setState(() {
       badWordMatched = false;
     });
@@ -51,10 +51,16 @@ class ProductsViewState extends State<ProductsView> {
       });
     }
     if (!badWordMatched) {
-      if (type == "search") {
-        url = "/api/product/search/$query?page=" + page.toString();
-      } else {
-        url = "/api/category/$query?page=$page";
+      switch (type) {
+        case ProductsViewTypes.search:
+          url = "/api/product/search/$query?page=" + page.toString();
+          break;
+        case ProductsViewTypes.category:
+          url = "/api/category/$query?page=$page";
+          break;
+        case ProductsViewTypes.barcode:
+          url = SEARCH_PRODUCT_BY_BARCODE + query;
+          break;
       }
 
       if (!theEndOfProducts) {
@@ -74,12 +80,26 @@ class ProductsViewState extends State<ProductsView> {
                 }
               });
             } else {
-              final products = categoryProductFromJson(jsonEncode(response.data));
-              productsList.addAll(products.data.data);
+              var products;
+              switch (type) {
+                case ProductsViewTypes.search:
+                case ProductsViewTypes.category:
+                  products = categoryProductFromJson(jsonEncode(response.data));
+                  productsList.addAll(products.data.data);
+                  break;
+                case ProductsViewTypes.barcode:
+                  products = syncCartFromJson(jsonEncode(response.data['data']));
+                  setState(() {
+                    productsList.clear();
+                    productsList = syncCartFromJson(jsonEncode(response.data['data']));
+                  });
+                  break;
+              }
 
               if (this.mounted) {
+                Tools.logToConsole('message from mounted');
                 setState(() {
-                  if (page - 1 == products.data.lastPage) {
+                  if (type != ProductsViewTypes.barcode && page - 1 == products.data.lastPage) {
                     theEndOfProducts = true;
                   }
                   searchLoading = false;
@@ -117,11 +137,13 @@ class ProductsViewState extends State<ProductsView> {
     if (this.mounted) {
       super.initState();
     }
-    if (widget.queryString != null) {
-      _loadData(widget.queryString, "search");
+    if (widget.barcode != null) {
+      _loadData(widget.barcode, ProductsViewTypes.barcode);
+    } else if (widget.queryString != null) {
+      _loadData(widget.queryString, ProductsViewTypes.search);
       searchController.text = widget.queryString;
     } else {
-      _loadData(widget.categoryId, "category");
+      _loadData(widget.categoryId, ProductsViewTypes.category);
     }
     setState(() {
       firstLoading = true;
@@ -234,12 +256,12 @@ class ProductsViewState extends State<ProductsView> {
                 ),
               )
             : productsList.length == 0
-                ? searchLoading || firstLoading
+                ? (searchLoading || firstLoading)
                     ? FacebookLoader()
                     : Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
-                          child: Text(errorMessage, style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                          child: Text(errorMessage, style: mainStyle),
                         ),
                       )
                 : Padding(
@@ -257,10 +279,8 @@ class ProductsViewState extends State<ProductsView> {
                                   isLoading = true;
                                 });
                                 searchController.text != ""
-                                    ? _loadData(searchController.text, "search")
-                                    : _loadData(widget.categoryId, "category");
-                                // start loading data
-
+                                    ? _loadData(searchController.text, ProductsViewTypes.search)
+                                    : _loadData(widget.categoryId, ProductsViewTypes.category);
                               }
                               return;
                             },

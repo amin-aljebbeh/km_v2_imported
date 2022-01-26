@@ -357,7 +357,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
           deliveryPrice: (int.parse(orderDataList[index].supportedCityCost.split(".")[0]) +
                   int.parse(orderDataList[index].deliveryCost.split(".")[0]))
               .toString(),
-          orderType: OrderType.orders,
+          orderType: OrderTypes.orders,
         ),
       ),
     );

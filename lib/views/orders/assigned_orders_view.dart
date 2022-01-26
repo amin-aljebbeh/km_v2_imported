@@ -446,7 +446,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
           deliveryPrice: (int.parse(orderDataList[index].supportedCityCost.split(".")[0]) +
                   int.parse(orderDataList[index].deliveryCost.split(".")[0]))
               .toString(),
-          orderType: OrderType.myOrder,
+          orderType: OrderTypes.myOrder,
         ),
       ),
     );

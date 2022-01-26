@@ -18,7 +18,7 @@ class OrderDetailViewMain extends StatefulWidget {
   int orderId;
   String addressName;
   OrdersOriginalData order;
-  final OrderType orderType;
+  final OrderTypes orderType;
 
   OrderDetailViewMain({
     this.ordersAry,
@@ -197,19 +197,19 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                 onCheckbox: (a) {
                                   setState(() {
                                     switch (widget.orderType) {
-                                      case OrderType.myOrder:
+                                      case OrderTypes.myOrder:
                                         LoadingScreenServices.myOrdersList
                                             .firstWhere((order) => order.id == widget.orderId)
                                             .products
                                             .removeWhere((product) => product.id == notDeletedProductsAry[a].id);
                                         break;
-                                      case OrderType.allOrder:
+                                      case OrderTypes.allOrder:
                                         LoadingScreenServices.allOrdersList
                                             .firstWhere((order) => order.id == widget.orderId)
                                             .products
                                             .removeWhere((product) => product.id == notDeletedProductsAry[a].id);
                                         break;
-                                      case OrderType.orders:
+                                      case OrderTypes.orders:
                                         LoadingScreenServices.notAssignedOrdersList
                                             .firstWhere((order) => order.id == widget.orderId)
                                             .products

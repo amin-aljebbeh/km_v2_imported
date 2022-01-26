@@ -14,7 +14,7 @@ class OrderDetailView extends StatefulWidget {
   int orderId;
   String addressName;
   OrdersOriginalData orderData;
-  final OrderType orderType;
+  final OrderTypes orderType;
 
   OrderDetailView({
     this.ordersAry,

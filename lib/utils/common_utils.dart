@@ -9,9 +9,11 @@ class CommonUtils {
 
 enum MyThemeKeys { LIGHT, DARK, DARKER }
 
-enum OrderType { myOrder, allOrder, orders }
+enum OrderTypes { myOrder, allOrder, orders }
 
 enum BarcodeRequestType { add, search }
+
+enum ProductsViewTypes { search, category, barcode }
 
 class MyThemes {
   static final ThemeData lightTheme = ThemeData(
