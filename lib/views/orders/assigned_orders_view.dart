@@ -223,51 +223,52 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                               OrdersViewCard(
                                 orderData: orderDataList[index],
                               ),
-                              KammunButton(
-                                text: StringUtils.editOrder,
-                                onTap: () async {
-                                  setState(
-                                    () {
-                                      orderLoaded = false;
-                                      errorMessage = false;
-                                    },
-                                  );
-                                  LockOrder response = await OrderServices.lockOrder(
-                                      orderId: orderDataList[index].id.toString(),
-                                      userNote: orderDataList[index].userNotes,
-                                      supportedCityCost: orderDataList[index].supportedCityCost,
-                                      deliveryMethodCost: orderDataList[index].deliveryCost,
-                                      deliveryMethodId:
-                                          int.parse(orderDataList[index].deliveryMethodId.toString()));
-                                  if (response != null) {
-                                    if (response.success) {
-                                      setState(() {
-                                        orderLoaded = true;
+                              if (!['5', '6', '7'].contains(orderDataList[index].orderStatusId))
+                                KammunButton(
+                                  text: StringUtils.editOrder,
+                                  onTap: () async {
+                                    setState(
+                                      () {
+                                        orderLoaded = false;
                                         errorMessage = false;
-                                      });
-                                      _moveOrderProductsToCart(
-                                          orderIndex: index, orderProducts: response.products);
-                                      orderDataList[index].underUpdate = "1";
-                                    } else if (!response.success) {
+                                      },
+                                    );
+                                    LockOrder response = await OrderServices.lockOrder(
+                                        orderId: orderDataList[index].id.toString(),
+                                        userNote: orderDataList[index].userNotes,
+                                        supportedCityCost: orderDataList[index].supportedCityCost,
+                                        deliveryMethodCost: orderDataList[index].deliveryCost,
+                                        deliveryMethodId:
+                                            int.parse(orderDataList[index].deliveryMethodId.toString()));
+                                    if (response != null) {
+                                      if (response.success) {
+                                        setState(() {
+                                          orderLoaded = true;
+                                          errorMessage = false;
+                                        });
+                                        _moveOrderProductsToCart(
+                                            orderIndex: index, orderProducts: response.products);
+                                        orderDataList[index].underUpdate = "1";
+                                      } else if (!response.success) {
+                                        setState(() {
+                                          orderDataList[index].underUpdate = "2";
+                                          orderLoaded = true;
+                                          errorMessage = true;
+                                          errorMessageValue =
+                                              "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
+                                        });
+                                      }
+                                    } else {
                                       setState(() {
-                                        orderDataList[index].underUpdate = "2";
                                         orderLoaded = true;
                                         errorMessage = true;
                                         errorMessageValue =
-                                            "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
+                                            "حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت";
                                       });
                                     }
-                                  } else {
-                                    setState(() {
-                                      orderLoaded = true;
-                                      errorMessage = true;
-                                      errorMessageValue =
-                                          "حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت";
-                                    });
-                                  }
-                                },
-                                color: Colors.green,
-                              ),
+                                  },
+                                  color: Colors.green,
+                                ),
                               orderDataList[index].userNotes.toString() != "null"
                                   ? KammunButton(
                                       text: StringUtils.watchNote,
