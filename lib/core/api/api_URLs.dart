@@ -7,6 +7,8 @@ const String API = '/api/';
 
 const String USER = 'user/';
 
+const String SEARCH = 'search/';
+
 // ignore: non_constant_identifier_names
 String BASE_URL = TEST_URL;
 
@@ -71,7 +73,7 @@ const String CHANGE_ORDER_STATUS = API + ORDER + 'change_order_status/';
 
 const String PRODUCT_BARCODE = API + 'product_barcode/';
 
-const String SEARCH_PRODUCT_BY_BARCODE = PRODUCT_BARCODE + 'search/';
+const String SEARCH_PRODUCT_BY_BARCODE = PRODUCT_BARCODE + SEARCH;
 
 /// NEW Version ///
 
@@ -82,3 +84,7 @@ const String GET_SUPPORTED_CITIES = API + 'supported_city';
 const String LOGIN_URL = API + 'auth/user_signin';
 
 const String UPDATE_FIREBASE_TOKEN = API + USER + 'update_firebase_token';
+
+// Products:
+
+const String SEARCH_PRODUCTS = API + PRODUCT + SEARCH;

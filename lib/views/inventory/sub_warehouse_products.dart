@@ -4,7 +4,6 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class SubWarehouseProducts extends StatefulWidget {
@@ -259,74 +258,33 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                         itemCount: productsList == null ? 0 : productsList.length,
                         itemBuilder: (BuildContext context, int index) {
                           var eachProduct = productsList[index];
-                          return filter == null || filter == ""
-                              ? GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () => () {},
-                                  child: InventoryProductsViewCard(
-                                    onDelete: (result) {
-                                      if (result) {
-                                        setState(() {
-                                          productsList.removeAt(index);
-                                        });
-                                      }
-                                    },
-                                    productData: eachProduct,
-                                    onChangeStatus: (result) {
-                                      if (result) {
-                                        setState(() {
-                                          if (productsList[index].isActive == "1") {
-                                            productsList[index].isActive = "0";
-                                          } else {
-                                            productsList[index].isActive = "1";
-                                          }
-                                        });
-                                      }
-                                    },
-                                    supplierCode: eachProduct.supplierCode,
-                                    productId: eachProduct.id.toString(),
-                                    active: int.parse(eachProduct.isActive),
-                                    img: eachProduct.images.length > 0
-                                        ? LoadingScreenServices.imagePrefixUrl +
-                                            eachProduct.images[0].imageFileName
-                                        : "",
-                                    productName: eachProduct.name,
-                                    quantity: eachProduct.unit.toString() != "null"
-                                        ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                        : eachProduct.quantity.toString(),
-                                    price: int.parse(eachProduct.price.split(".")[0]),
-                                    index: index,
-                                  ),
-                                )
-                              : eachProduct.name.toLowerCase().contains(filter.toLowerCase())
-                                  ? GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () => () {},
-                                      child: InventoryProductsViewCard(
-                                        onDelete: (result) {
-                                          if (result) {
-                                            setState(() {
-                                              productsList.removeAt(index);
-                                            });
-                                          }
-                                        },
-                                        productData: eachProduct,
-                                        supplierCode: eachProduct.supplierCode,
-                                        productId: eachProduct.id.toString(),
-                                        active: int.parse(eachProduct.isActive),
-                                        img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices.imagePrefixUrl +
-                                                eachProduct.images[0].imageFileName
-                                            : "",
-                                        productName: eachProduct.name,
-                                        quantity: eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                        price: int.parse(eachProduct.price.split(".")[0]),
-                                        index: index,
-                                      ),
-                                    )
-                                  : Container();
+                          if (filter == null ||
+                              filter == "" ||
+                              eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
+                            return InventoryProductsViewCard(
+                              onDelete: (result) {
+                                if (result) {
+                                  setState(() {
+                                    productsList.removeAt(index);
+                                  });
+                                }
+                              },
+                              productData: eachProduct,
+                              onChangeStatus: (result) {
+                                if (result) {
+                                  setState(() {
+                                    if (productsList[index].isActive == "1") {
+                                      productsList[index].isActive = "0";
+                                    } else {
+                                      productsList[index].isActive = "1";
+                                    }
+                                  });
+                                }
+                              },
+                              active: int.parse(eachProduct.isActive),
+                            );
+                          }
+                          return Container();
                         },
                       ),
                     ),

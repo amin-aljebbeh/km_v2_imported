@@ -28,12 +28,21 @@ class ProductsServices {
             url: ADD_PRODUCTS_TO_CATEGORY + productId, method: httpMethods.post, body: jsonEncode(body));
       } else if (!isForSubWarehouse) {
         response = await ApiProvider.sendRequest(
-            url: GET_PRODUCT + productId, method: httpMethods.put, body: jsonEncode(body));
+          url: GET_PRODUCT + productId,
+          method: httpMethods.put,
+          body: jsonEncode(body),
+        );
       } else {
         response = await ApiProvider.sendRequest(
-            url: UPDATE_SUB_WAREHOUSE_PRODUCTS + productId,
-            method: httpMethods.put,
-            body: jsonEncode({"sub_warehouse_id": subWarehouseId, bodyKey: value}));
+          url: UPDATE_SUB_WAREHOUSE_PRODUCTS + productId,
+          method: httpMethods.put,
+          body: jsonEncode(
+            {
+              "sub_warehouse_id": subWarehouseId,
+              bodyKey: value,
+            },
+          ),
+        );
       }
       if (response.statusCode == SUCCESS_CODE) {
         return true;

@@ -3,7 +3,6 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 
 import '../../Services.dart';
 
@@ -235,25 +234,9 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                             });
                                           }
                                         },
-                                        supplierCode: eachProduct.warehouses.isNotEmpty
-                                            ? eachProduct.warehouses[0].pivot.supplierCode
-                                            : null,
-                                        productId: eachProduct.id.toString(),
                                         active: eachProduct.warehouses.isNotEmpty
                                             ? int.parse(eachProduct.warehouses[0].pivot.isActive)
                                             : 0,
-                                        img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices.imagePrefixUrl +
-                                                eachProduct.images[0].imageFileName
-                                            : "",
-                                        productName: eachProduct.name,
-                                        quantity: eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                        price: eachProduct.warehouses.isNotEmpty
-                                            ? int.parse(eachProduct.warehouses[0].pivot.price.split(".")[0])
-                                            : 0,
-                                        index: index,
                                         onDelete: (bool) {
                                           setState(() {
                                             eachProduct.warehouses[0].pivot.supplierCode = null;

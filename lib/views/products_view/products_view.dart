@@ -8,7 +8,6 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/funny_images.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -53,10 +52,10 @@ class ProductsViewState extends State<ProductsView> {
     if (!badWordMatched) {
       switch (type) {
         case ProductsViewTypes.search:
-          url = "/api/product/search/$query?page=" + page.toString();
+          url = SEARCH_PRODUCTS + "$query?page=" + page.toString();
           break;
         case ProductsViewTypes.category:
-          url = "/api/category/$query?page=$page";
+          url = GET_CATEGORY + "$query?page=$page";
           break;
         case ProductsViewTypes.barcode:
           url = SEARCH_PRODUCT_BY_BARCODE + query;
@@ -292,26 +291,21 @@ class ProductsViewState extends State<ProductsView> {
                               itemCount: productsList == null ? 0 : productsList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 var eachProduct = productsList[index];
-                                return new GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () => _onTileClicked(index),
-                                  child: ProductsViewCard(
-                                    subWarehouseId: eachProduct.subWarehouseId,
-                                    productData: eachProduct,
-                                    supplierCode: eachProduct.supplierCode,
-                                    productId: eachProduct.id.toString(),
-                                    active: int.parse(eachProduct.isActive),
-                                    img: eachProduct.images.length > 0
-                                        ? LoadingScreenServices.imagePrefixUrl +
-                                            eachProduct.images[0].imageFileName
-                                        : "",
-                                    productName: eachProduct.name,
-                                    quantity: eachProduct.unit.toString() != "null"
-                                        ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                        : eachProduct.quantity.toString(),
-                                    price: int.parse(eachProduct.price.split(".")[0]),
-                                    index: index,
-                                  ),
+                                return ProductsViewCard(
+                                  subWarehouseId: eachProduct.subWarehouseId,
+                                  productData: eachProduct,
+                                  supplierCode: eachProduct.supplierCode,
+                                  productId: eachProduct.id.toString(),
+                                  active: int.parse(eachProduct.isActive),
+                                  img: eachProduct.images.length > 0
+                                      ? LoadingScreenServices.imagePrefixUrl + eachProduct.images[0].imageFileName
+                                      : "",
+                                  productName: eachProduct.name,
+                                  quantity: eachProduct.unit.toString() != "null"
+                                      ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
+                                      : eachProduct.quantity.toString(),
+                                  price: int.parse(eachProduct.price.split(".")[0]),
+                                  index: index,
                                 );
                               },
                             ),
@@ -336,20 +330,6 @@ class ProductsViewState extends State<ProductsView> {
                       ],
                     ),
                   ),
-      ),
-    );
-  }
-
-  void _onTileClicked(int index) {
-    ProductData productsDic = productsList[index];
-
-    Navigator.push(
-      context,
-      new MaterialPageRoute(
-        builder: (context) => new ProductDetailView(
-          product: productsDic,
-          isFromFavoriteScreen: false,
-        ),
       ),
     );
   }

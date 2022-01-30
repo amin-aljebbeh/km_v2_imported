@@ -10,7 +10,6 @@ class SwitchProductStatusWidget extends StatefulWidget {
   final int preState;
   final int subWarehouseId;
   final String productId;
-  final Function resultFunction;
   final Function onChange;
   final bool isForSubWarehouse;
 
@@ -19,7 +18,6 @@ class SwitchProductStatusWidget extends StatefulWidget {
     @required this.preState,
     @required this.subWarehouseId,
     @required this.productId,
-    this.resultFunction,
     @required this.onChange,
     @required this.height,
     @required this.width,
@@ -58,7 +56,6 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
 
             Services.resultFlushBar(context: context, result: result);
             if (result) {
-              widget.resultFunction != null ? widget.resultFunction() : Tools.logToConsole('');
               setState(() {
                 int newStat;
                 if (widget.preState == 1) {

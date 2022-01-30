@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'model/prices_changes_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -56,7 +55,6 @@ class _PricesState extends State<Prices> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Container(
-          //margin: const EdgeInsets.all(15.0),
           padding: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
@@ -144,58 +142,29 @@ class _PricesState extends State<Prices> {
                             primary: false,
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            itemCount: productsList == null ? 0 : productsList.prouctsPriceChange.length,
+                            itemCount: productsList == null ? 0 : productsList.productsPriceChange.length,
                             itemBuilder: (BuildContext context, int index) {
-                              var eachProduct = productsList.prouctsPriceChange[index];
-                              return filter == null || filter == ""
-                                  ? GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () => () {},
-                                      child: InventoryProductsViewCard(
-                                        productData: eachProduct,
-                                        oldPrice: int.parse(eachProduct.price.split(".")[0]) -
-                                            int.parse(eachProduct.priceChange.toString().split(".")[0]),
-                                        supplierCode: eachProduct.supplierCode,
-                                        productId: eachProduct.id.toString(),
-                                        img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices.imagePrefixUrl +
-                                                eachProduct.images[0].imageFileName
-                                            : "",
-                                        productName: eachProduct.name,
-                                        active: int.parse(eachProduct.isActive),
-                                        quantity: eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                        price: int.parse(eachProduct.price.split(".")[0]),
-                                        index: index,
-                                      ),
-                                    )
-                                  : eachProduct.name.toLowerCase().contains(filter.toLowerCase())
-                                      ? GestureDetector(
-                                          behavior: HitTestBehavior.translucent,
-                                          onTap: () => () {},
-                                          child: InventoryProductsViewCard(
-                                            productData: eachProduct,
-                                            oldPrice: int.parse(eachProduct.price.split(".")[0]) -
-                                                int.parse(eachProduct.priceChange.toString().split(".")[0]),
-                                            supplierCode: eachProduct.supplierCode,
-                                            productId: eachProduct.id.toString(),
-                                            img: eachProduct.images.length > 0
-                                                ? LoadingScreenServices.imagePrefixUrl +
-                                                    eachProduct.images[0].imageFileName
-                                                : "",
-                                            productName: eachProduct.name,
-                                            active: int.parse(eachProduct.isActive),
-                                            quantity: eachProduct.unit.toString() != "null"
-                                                ? eachProduct.quantity.toString() +
-                                                    " " +
-                                                    eachProduct.unit.toString()
-                                                : eachProduct.quantity.toString(),
-                                            price: int.parse(eachProduct.price.split(".")[0]),
-                                            index: index,
-                                          ),
-                                        )
-                                      : Container();
+                              var eachProduct = productsList.productsPriceChange[index];
+                              if (filter == null ||
+                                  filter == "" ||
+                                  eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
+                                return InventoryProductsViewCard(
+                                  onChangeStatus: (result) {},
+                                  onDelete: (result) {
+                                    if (result) {
+                                      setState(() {
+                                        productsList.productsPriceChange.removeAt(index);
+                                      });
+                                    }
+                                  },
+                                  fromInventory: true,
+                                  productData: eachProduct,
+                                  oldPrice: int.parse(eachProduct.price.split(".")[0]) -
+                                      int.parse(eachProduct.priceChange.toString().split(".")[0]),
+                                  active: int.parse(eachProduct.isActive),
+                                );
+                              }
+                              return Container();
                             },
                           ),
                         ),

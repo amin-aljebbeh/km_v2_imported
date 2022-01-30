@@ -263,65 +263,22 @@ class _InventoryState extends State<Inventory> {
                               if (filter == null ||
                                   filter == "" ||
                                   eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
-                                if (selectedSubWarehouseId == -1) {
-                                  return GestureDetector(
-                                    behavior: HitTestBehavior.translucent,
-                                    onTap: () => () {},
-                                    child: InventoryProductsViewCard(
-                                      fromInventory: true,
-                                      productData: eachProduct,
-                                      onChangeStatus: (result) {
-                                        if (result) {
-                                          setState(() {
-                                            productsList.removeAt(index);
-                                          });
-                                        }
-                                      },
-                                      supplierCode: eachProduct.supplierCode,
-                                      productId: eachProduct.id.toString(),
-                                      active: int.parse(eachProduct.isActive),
-                                      img: eachProduct.images.length > 0
-                                          ? LoadingScreenServices.imagePrefixUrl +
-                                              eachProduct.images[0].imageFileName
-                                          : "",
-                                      productName: eachProduct.name,
-                                      quantity: eachProduct.unit.toString() != "null"
-                                          ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                          : eachProduct.quantity.toString(),
-                                      price: int.parse(eachProduct.price.split(".")[0]),
-                                      index: index,
-                                    ),
+                                if (selectedSubWarehouseId == -1 ||
+                                    eachProduct.subWarehouseId == selectedSubWarehouseId) {
+                                  return InventoryProductsViewCard(
+                                    fromInventory: true,
+                                    productData: eachProduct,
+                                    onChangeStatus: (result) {
+                                      if (result) {
+                                        setState(() {
+                                          productsList.removeAt(index);
+                                        });
+                                      }
+                                    },
+                                    active: int.parse(eachProduct.isActive),
                                   );
                                 }
-                                if (eachProduct.subWarehouseId == selectedSubWarehouseId)
-                                  return GestureDetector(
-                                    behavior: HitTestBehavior.translucent,
-                                    onTap: () => () {},
-                                    child: InventoryProductsViewCard(
-                                      fromInventory: true,
-                                      productData: eachProduct,
-                                      onChangeStatus: (result) {
-                                        if (result) {
-                                          setState(() {
-                                            productsList.removeAt(index);
-                                          });
-                                        }
-                                      },
-                                      supplierCode: eachProduct.supplierCode,
-                                      productId: eachProduct.id.toString(),
-                                      active: int.parse(eachProduct.isActive),
-                                      img: eachProduct.images.length > 0
-                                          ? LoadingScreenServices.imagePrefixUrl +
-                                              eachProduct.images[0].imageFileName
-                                          : "",
-                                      productName: eachProduct.name,
-                                      quantity: eachProduct.unit.toString() != "null"
-                                          ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                          : eachProduct.quantity.toString(),
-                                      price: int.parse(eachProduct.price.split(".")[0]),
-                                      index: index,
-                                    ),
-                                  );
+                                return Container();
                               }
                               return Container();
                             },

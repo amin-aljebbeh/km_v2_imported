@@ -74,7 +74,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
     } else {
       borderColor = Colors.transparent;
     }
-
+    int purchasePrice = int.parse(widget.productData.pivot.purchasePrice.split('.')[0]);
     double discountPercentage = SubWarehouse.getDiscountPercentage(widget.productData.subWarehouseId);
     return Container(
       padding: EdgeInsets.only(
@@ -150,10 +150,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                             ],
                           ),
                           Text(
-                            StringUtils()
-                                    .oCcy
-                                    .format(int.parse(widget.productData.pivot.purchasePrice))
-                                    .toString() +
+                            StringUtils().oCcy.format(purchasePrice).toString() +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: paragraphStyle,
                           ),
@@ -161,9 +158,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                               ? Text(
                                   StringUtils()
                                           .oCcy
-                                          .format((int.parse(widget.productData.pivot.purchasePrice)) -
-                                              ((int.parse(widget.productData.pivot.purchasePrice)) *
-                                                  discountPercentage))
+                                          .format(purchasePrice - (purchasePrice * discountPercentage))
                                           .toString() +
                                       " ${LoadingScreenServices.companyInformation.currency}",
                                   style: paragraphStyle,

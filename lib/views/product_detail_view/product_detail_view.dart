@@ -84,6 +84,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
   @override
   Widget build(BuildContext context) {
+    String price = widget.product.price;
+    if (Services.isSupplierManager()) {
+      price = (int.parse(widget.product.price.split('.')[0]) - widget.product.increasePercentage).toString();
+    }
     return SafeArea(
       top: true,
       left: false,
@@ -432,8 +436,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 bodyKey: "price",
                                 productId: widget.product.id,
                                 productData: widget.product,
-                                textHint: widget.product.price,
-                                initialText: widget.product.price,
+                                textHint: price,
+                                increasePercentage: widget.product.increasePercentage,
+                                priceFactor: double.parse(widget.product.priceFactor),
+                                initialText: price,
                                 onSavePressed: (newValue) {
                                   setState(() {
                                     widget.product.price = newValue;

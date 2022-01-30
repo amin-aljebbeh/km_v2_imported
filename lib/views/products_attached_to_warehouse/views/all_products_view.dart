@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -163,98 +162,41 @@ class _AllProductsState extends State<AllProducts> {
                         itemCount: productsList == null ? 0 : productsList.length,
                         itemBuilder: (BuildContext context, int index) {
                           var eachProduct = productsList[index];
-                          return filter == null || filter == ""
-                              ? GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () => () {},
-                                  child: InventoryProductsViewCard(
-                                    attached: eachProduct.warehouses.isNotEmpty
-                                        ? eachProduct.warehouses[0].pivot.supplierCode != null
-                                            ? true
-                                            : false
-                                        : false,
-                                    fromInventory: false,
-                                    active: int.parse(productsList[index].warehouses.isNotEmpty
-                                        ? productsList[index].warehouses[0].pivot.isActive
-                                        : "0"),
-                                    onDelete: (result) {
-                                      if (result) {
-                                        setState(() {
-                                          productsList.removeAt(index);
-                                        });
-                                      }
-                                    },
-                                    productData: eachProduct,
-                                    onChangeStatus: (result) {
-                                      if (result) {
-                                        setState(() {
-                                          if (productsList[index].isActive == "1") {
-                                            productsList[index].isActive = "0";
-                                          } else {
-                                            productsList[index].isActive = "1";
-                                          }
-                                        });
-                                      }
-                                    },
-                                    supplierCode: eachProduct.warehouses.isNotEmpty
-                                        ? eachProduct.warehouses[0].pivot.supplierCode
-                                        : null,
-                                    productId: eachProduct.id.toString(),
-                                    img: eachProduct.images.length > 0
-                                        ? LoadingScreenServices.imagePrefixUrl +
-                                            eachProduct.images[0].imageFileName
-                                        : "",
-                                    productName: eachProduct.name,
-                                    quantity: eachProduct.unit.toString() != "null"
-                                        ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                        : eachProduct.quantity.toString(),
-                                    price: eachProduct.warehouses.isNotEmpty
-                                        ? int.parse(eachProduct.warehouses[0].pivot.price.split(".")[0])
-                                        : 0,
-                                    index: index,
-                                  ),
-                                )
-                              : eachProduct.name.toLowerCase().contains(filter.toLowerCase())
-                                  ? GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () => () {},
-                                      child: InventoryProductsViewCard(
-                                        attached: eachProduct.warehouses.isNotEmpty
-                                            ? eachProduct.warehouses[0].pivot.supplierCode != null
-                                                ? true
-                                                : false
-                                            : false,
-                                        fromInventory: false,
-                                        onDelete: (result) {
-                                          if (result) {
-                                            setState(() {
-                                              productsList.removeAt(index);
-                                            });
-                                          }
-                                        },
-                                        productData: eachProduct,
-                                        supplierCode: eachProduct.warehouses.isNotEmpty
-                                            ? eachProduct.warehouses[0].pivot.supplierCode
-                                            : null,
-                                        productId: eachProduct.id.toString(),
-                                        active: int.parse(productsList[index].warehouses.isNotEmpty
-                                            ? productsList[index].warehouses[0].pivot.isActive
-                                            : "0"),
-                                        img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices.imagePrefixUrl +
-                                                eachProduct.images[0].imageFileName
-                                            : "",
-                                        productName: eachProduct.name,
-                                        quantity: eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                        price: eachProduct.warehouses.isNotEmpty
-                                            ? int.parse(eachProduct.warehouses[0].pivot.price.split(".")[0])
-                                            : 0,
-                                        index: index,
-                                      ),
-                                    )
-                                  : Container();
+                          if (filter == null ||
+                              filter == "" ||
+                              eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
+                            return InventoryProductsViewCard(
+                              attached: eachProduct.warehouses.isNotEmpty
+                                  ? eachProduct.warehouses[0].pivot.supplierCode != null
+                                      ? true
+                                      : false
+                                  : false,
+                              fromInventory: false,
+                              active: int.parse(productsList[index].warehouses.isNotEmpty
+                                  ? productsList[index].warehouses[0].pivot.isActive
+                                  : "0"),
+                              onDelete: (result) {
+                                if (result) {
+                                  setState(() {
+                                    productsList.removeAt(index);
+                                  });
+                                }
+                              },
+                              productData: eachProduct,
+                              onChangeStatus: (result) {
+                                if (result) {
+                                  setState(() {
+                                    if (productsList[index].isActive == "1") {
+                                      productsList[index].isActive = "0";
+                                    } else {
+                                      productsList[index].isActive = "1";
+                                    }
+                                  });
+                                }
+                              },
+                            );
+                          }
+                          return Container();
                         },
                       ),
                     ),

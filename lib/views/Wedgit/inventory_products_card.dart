@@ -12,14 +12,7 @@ import '../../utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class InventoryProductsViewCard extends StatefulWidget {
-  final String img;
-  final String productName;
-  final String quantity;
-  final int price;
-  final int index;
   int active;
-  final String productId;
-  final String supplierCode;
   Function(bool) onChangeStatus;
   final int oldPrice;
   final bool attached;
@@ -27,21 +20,15 @@ class InventoryProductsViewCard extends StatefulWidget {
   final Function(bool) onDelete;
   final bool fromInventory;
 
-  InventoryProductsViewCard(
-      {this.img,
-      this.productName,
-      this.quantity,
-      this.price,
-      this.index,
-      this.productId,
-      this.supplierCode,
-      this.onChangeStatus,
-      this.oldPrice,
-      this.active,
-      this.productData,
-      this.onDelete,
-      this.fromInventory = false,
-      this.attached = true});
+  InventoryProductsViewCard({
+    this.onChangeStatus,
+    this.oldPrice,
+    this.active,
+    this.productData,
+    this.onDelete,
+    this.fromInventory = false,
+    this.attached = true,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -52,6 +39,7 @@ class InventoryProductsViewCard extends StatefulWidget {
 class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   String subWarehouseName = '';
   String id;
+  String supplierCode;
 
   _unAttachProduct() async {
     if (widget.productData.subWarehouseId != null)
@@ -65,7 +53,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
           .subWarehouseId;
     }
     bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
-      productsId: widget.productId,
+      productsId: widget.productData.id.toString(),
       subWarehouse: id,
     );
     Services.resultFlushBar(context: context, result: result);
@@ -75,14 +63,34 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   }
 
   @override
+  void initState() {
+    if (widget.productData.supplierCode != null)
+      supplierCode = widget.productData.supplierCode;
+    else if (widget.productData.warehouses.isNotEmpty)
+      supplierCode = widget.productData.warehouses[0].pivot.supplierCode;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    String price = widget.productData.price;
+    if (price == 'null') {
+      if (widget.productData.warehouses.isNotEmpty)
+        price = widget.productData.warehouses[0].pivot.price;
+      else
+        price = '0';
+    }
+    if (Services.isSupplierManager() && price != '0') {
+      price =
+          (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
+    }
     return Container(
       color: Theme.of(context).primaryColorLight,
       child: Padding(
         padding: EdgeInsets.only(left: 0, right: 0, top: 10),
         child: GestureDetector(
           onTap: () {
-            if (widget.productData != null && widget.productData.supplierCode != null)
+            if (widget.productData != null && supplierCode != null)
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -104,8 +112,10 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
               Row(
                 children: <Widget>[
                   KCacheImage(
-                    tag: widget.productId,
-                    image: widget.img,
+                    tag: widget.productData.id,
+                    image: widget.productData.images.length > 0
+                        ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
+                        : "",
                   ),
                   SizedBox(width: 10),
                   Expanded(
@@ -118,7 +128,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                               Wrap(
                                 children: <Widget>[
                                   Text(
-                                    widget.productName,
+                                    widget.productData.name,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontFamily: StringUtils.fontFamilyHKGrotesk,
@@ -129,7 +139,9 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                               ),
                               SizedBox(height: 6),
                               Text(
-                                widget.quantity,
+                                widget.productData.quantity + ' ' + widget.productData.unit != 'null'
+                                    ? widget.productData.unit
+                                    : '',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
@@ -140,9 +152,10 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                               SizedBox(height: 8),
                               Wrap(
                                 children: [
-                                  widget.price != null
+                                  price != null
                                       ? Text(
-                                          StringUtils().oCcy.format(widget.price).toString() + "  ",
+                                          StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() +
+                                              "  ",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                             color: ColorUtils.primaryColor,
@@ -156,7 +169,11 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                           text: new TextSpan(
                                             children: <TextSpan>[
                                               new TextSpan(
-                                                text: StringUtils().oCcy.format(widget.oldPrice).toString(),
+                                                text: StringUtils()
+                                                    .oCcy
+                                                    .format(
+                                                        widget.oldPrice - widget.productData.increasePercentage)
+                                                    .toString(),
                                                 style: new TextStyle(
                                                   color: Colors.grey,
                                                   decoration: TextDecoration.lineThrough,
@@ -177,8 +194,8 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                   Center(
                     child: Column(
                       children: [
-                        widget.supplierCode != null &&
-                                LoadingScreenServices.subSupplierCodeHint.hasMatch(widget.supplierCode) &&
+                        supplierCode != null &&
+                                LoadingScreenServices.subSupplierCodeHint.hasMatch(supplierCode) &&
                                 widget.active != null
                             ? SwitchProductStatusWidget(
                                 isForSubWarehouse: widget.fromInventory,
@@ -205,7 +222,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                                       ),
                               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
-                          child: widget.attached && widget.supplierCode != null && !widget.fromInventory
+                          child: widget.attached && supplierCode != null && !widget.fromInventory
                               ? IconButton(
                                   icon: Icon(
                                     Icons.close_sharp,
@@ -234,7 +251,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                     showMyDialog(
                                       title: "حذف منتج من المستودع",
                                       text:
-                                          "هل أنت متأكد أنك تريد إزالة ${widget.productName} من $subWarehouseName",
+                                          "هل أنت متأكد أنك تريد إزالة ${widget.productData.name} من $subWarehouseName",
                                       dialogButtons: dialogButtons,
                                       context: context,
                                     );
