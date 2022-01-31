@@ -161,32 +161,34 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                         itemCount: productsList == null ? 0 : productsList.length,
                         itemBuilder: (BuildContext context, int index) {
                           var eachProduct = productsList[index];
-                          if (filter == null ||
-                              filter == "" ||
-                              eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
-                            return InventoryProductsViewCard(
-                              onDelete: (result) {
-                                if (result) {
-                                  setState(() {
-                                    productsList.removeAt(index);
-                                  });
-                                }
-                              },
-                              productData: eachProduct,
-                              onChangeStatus: (result) {
-                                if (result) {
-                                  setState(() {
-                                    if (productsList[index].isActive == "1") {
-                                      productsList[index].isActive = "0";
-                                    } else {
-                                      productsList[index].isActive = "1";
-                                    }
-                                  });
-                                }
-                              },
-                              active: int.parse(eachProduct.isActive),
-                            );
-                          }
+                          try {
+                            if (filter == null ||
+                                filter == "" ||
+                                eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
+                              return InventoryProductsViewCard(
+                                fromInventory: false,
+                                onDelete: (result) {
+                                  if (result) {
+                                    setState(() {
+                                      productsList.removeAt(index);
+                                    });
+                                  }
+                                },
+                                productData: eachProduct,
+                                onChangeStatus: (result) {
+                                  if (result) {
+                                    setState(() {
+                                      if (productsList[index].isActive == "1") {
+                                        productsList[index].isActive = "0";
+                                      } else {
+                                        productsList[index].isActive = "1";
+                                      }
+                                    });
+                                  }
+                                },
+                              );
+                            }
+                          } catch (e) {}
                           return Container();
                         },
                       ),

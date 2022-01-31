@@ -149,7 +149,13 @@ class _PricesState extends State<Prices> {
                                   filter == "" ||
                                   eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
                                 return InventoryProductsViewCard(
-                                  onChangeStatus: (result) {},
+                                  onChangeStatus: (result) {
+                                    if (productsList.productsPriceChange[index].isActive == "1") {
+                                      productsList.productsPriceChange[index].isActive = "0";
+                                    } else {
+                                      productsList.productsPriceChange[index].isActive = "1";
+                                    }
+                                  },
                                   onDelete: (result) {
                                     if (result) {
                                       setState(() {
@@ -161,7 +167,6 @@ class _PricesState extends State<Prices> {
                                   productData: eachProduct,
                                   oldPrice: int.parse(eachProduct.price.split(".")[0]) -
                                       int.parse(eachProduct.priceChange.toString().split(".")[0]),
-                                  active: int.parse(eachProduct.isActive),
                                 );
                               }
                               return Container();

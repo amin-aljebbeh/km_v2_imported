@@ -198,9 +198,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                       preState: widget.productData.isActive,
                                       subWarehouseId: widget.productData.subWarehouseId,
                                       productId: widget.productData.pivot.productId,
-                                      onChange: (active) {
+                                      onChange: (int active, bool result) {
                                         setState(() {
-                                          widget.productData.isActive = active;
+                                          if (result) widget.productData.isActive = active;
                                         });
                                       },
                                     ),

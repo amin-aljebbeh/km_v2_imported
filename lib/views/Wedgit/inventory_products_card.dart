@@ -12,10 +12,8 @@ import '../../utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class InventoryProductsViewCard extends StatefulWidget {
-  int active;
   Function(bool) onChangeStatus;
   final int oldPrice;
-  final bool attached;
   final ProductData productData;
   final Function(bool) onDelete;
   final bool fromInventory;
@@ -23,11 +21,9 @@ class InventoryProductsViewCard extends StatefulWidget {
   InventoryProductsViewCard({
     this.onChangeStatus,
     this.oldPrice,
-    this.active,
     this.productData,
     this.onDelete,
     this.fromInventory = false,
-    this.attached = true,
   });
 
   @override
@@ -40,18 +36,11 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   String subWarehouseName = '';
   String id;
   String supplierCode;
+  int isActive;
+  String price;
+  bool attached;
 
   _unAttachProduct() async {
-    if (widget.productData.subWarehouseId != null)
-      id = widget.productData.subWarehouseId.toString();
-    else {
-      List<int> warehousesIds = LoadingScreenServices.warehouses.map((warehouse) => warehouse.id).toList();
-      id = widget.productData.warehouses
-          .firstWhere((warehouse) => warehousesIds.contains(warehouse.id),
-              orElse: () => LoadingScreenServices.warehouses[0])
-          .pivot
-          .subWarehouseId;
-    }
     bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
       productsId: widget.productData.id.toString(),
       subWarehouse: id,
@@ -64,26 +53,56 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
 
   @override
   void initState() {
+    if (widget.productData.subWarehouseId != null)
+      id = widget.productData.subWarehouseId.toString();
+    else {
+      List<int> subWarehousesIds = LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
+      List<int> productIds =
+          widget.productData.warehouses.map((warehouse) => int.parse(warehouse.pivot.subWarehouseId)).toList();
+      subWarehousesIds.removeWhere((id) => !productIds.contains(id));
+      if (subWarehousesIds.length > 0)
+        id = subWarehousesIds[0].toString();
+      else
+        id = LoadingScreenServices.subWarehouses[0].id.toString();
+    }
     if (widget.productData.supplierCode != null)
       supplierCode = widget.productData.supplierCode;
     else if (widget.productData.warehouses.isNotEmpty)
-      supplierCode = widget.productData.warehouses[0].pivot.supplierCode;
+      supplierCode = widget.productData.warehouses
+          .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
+          .pivot
+          .supplierCode;
+    if (widget.productData.isActive != 'null') {
+      isActive = int.parse(widget.productData.isActive);
+    } else if (widget.productData.warehouses.isNotEmpty) {
+      isActive = int.parse(widget.productData.warehouses[0].pivot.isActive);
+    }
+    if (widget.productData.price != 'null')
+      price = widget.productData.price;
+    else if (widget.productData.warehouses.isNotEmpty)
+      price = widget.productData.warehouses[0].pivot.price;
+    else
+      price = '0';
+    if (Services.isSupplierManager() && price != '0') {
+      price =
+          (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
+    }
+    attached = false;
+    if (widget.productData.supplierCode != null)
+      attached = true;
+    else if (widget.productData.warehouses.isNotEmpty)
+      attached = widget.productData.warehouses
+              .map((warehouse) => warehouse.pivot.supplierCode)
+              .toList()
+              .where((code) => code != 'null')
+              .toList()
+              .length >
+          0;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    String price = widget.productData.price;
-    if (price == 'null') {
-      if (widget.productData.warehouses.isNotEmpty)
-        price = widget.productData.warehouses[0].pivot.price;
-      else
-        price = '0';
-    }
-    if (Services.isSupplierManager() && price != '0') {
-      price =
-          (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
-    }
     return Container(
       color: Theme.of(context).primaryColorLight,
       child: Padding(
@@ -152,18 +171,15 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                               SizedBox(height: 8),
                               Wrap(
                                 children: [
-                                  price != null
-                                      ? Text(
-                                          StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() +
-                                              "  ",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            color: ColorUtils.primaryColor,
-                                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                            fontSize: 18,
-                                          ),
-                                        )
-                                      : Container(),
+                                  Text(
+                                    StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() + "  ",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: ColorUtils.primaryColor,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                      fontSize: 18,
+                                    ),
+                                  ),
                                   widget.oldPrice != null
                                       ? RichText(
                                           text: new TextSpan(
@@ -196,17 +212,17 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                       children: [
                         supplierCode != null &&
                                 LoadingScreenServices.subSupplierCodeHint.hasMatch(supplierCode) &&
-                                widget.active != null
+                                isActive != null
                             ? SwitchProductStatusWidget(
-                                isForSubWarehouse: widget.fromInventory,
-                                preState: widget.active,
-                                subWarehouseId: widget.productData.subWarehouseId,
+                                isForSubWarehouse: true,
+                                preState: isActive,
+                                subWarehouseId: int.parse(id),
                                 productId: widget.productData.id.toString(),
-                                onChange: (active) {
+                                onChange: (int active, bool result) {
                                   setState(() {
-                                    widget.active = active;
+                                    if (result) isActive = active;
                                   });
-                                  widget.onChangeStatus(true);
+                                  widget.onChangeStatus(result);
                                 },
                                 height: 58,
                                 width: 69,
@@ -222,7 +238,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                                       ),
                               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
-                          child: widget.attached && supplierCode != null && !widget.fromInventory
+                          child: attached && supplierCode != null && !widget.fromInventory
                               ? IconButton(
                                   icon: Icon(
                                     Icons.close_sharp,
@@ -283,13 +299,12 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                         bool result = await ProductsServices.updateProductsDetails(
                                             bodyKey: "under_check_availability",
                                             value: "0",
-                                            isForSubWarehouse: true,
-                                            subWarehouseId: widget.productData.subWarehouseId.toString(),
+                                            subWarehouseId: id,
                                             productId: widget.productData.id.toString());
                                         Services.resultFlushBar(context: context, result: result);
 
                                         if (result) {
-                                          widget.onChangeStatus(true);
+                                          widget.onDelete(true);
                                         }
                                       },
                                     ),

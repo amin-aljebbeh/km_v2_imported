@@ -246,9 +246,10 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                       preState: productDetail.isActive,
                                       subWarehouseId: productDetail.subWarehouseId,
                                       productId: productDetail.pivot.productId,
-                                      onChange: (active) {
-                                        productDetail.isActive = active;
-                                        setState(() {});
+                                      onChange: (int active, bool result) {
+                                        setState(() {
+                                          if (result) productDetail.isActive = active;
+                                        });
                                       },
                                     ),
                                   ),

@@ -220,26 +220,25 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                         searchFilter == "" ||
                                         eachProduct.name.toLowerCase().contains(searchFilter.toLowerCase())) {
                                       return InventoryProductsViewCard(
-                                        attached: eachProduct.warehouses.isNotEmpty
-                                            ? eachProduct.warehouses[0].pivot.supplierCode != null
-                                                ? true
-                                                : false
-                                            : false,
                                         fromInventory: false,
                                         productData: eachProduct,
                                         onChangeStatus: (result) {
                                           if (result) {
                                             setState(() {
-                                              productsList.removeAt(index);
+                                              if (productsList[index].isActive == "1") {
+                                                productsList[index].isActive = "0";
+                                              } else {
+                                                productsList[index].isActive = "1";
+                                              }
                                             });
                                           }
                                         },
-                                        active: eachProduct.warehouses.isNotEmpty
-                                            ? int.parse(eachProduct.warehouses[0].pivot.isActive)
-                                            : 0,
                                         onDelete: (bool) {
                                           setState(() {
-                                            eachProduct.warehouses[0].pivot.supplierCode = null;
+                                            if (bool) {
+                                              eachProduct.warehouses[0].pivot.supplierCode = null;
+                                              productsList.removeAt(index);
+                                            }
                                           });
                                         },
                                       );

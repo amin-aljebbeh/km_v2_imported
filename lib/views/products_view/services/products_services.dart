@@ -33,6 +33,7 @@ class ProductsServices {
           body: jsonEncode(body),
         );
       } else {
+        Tools.logToConsole('shosho' + productId);
         response = await ApiProvider.sendRequest(
           url: UPDATE_SUB_WAREHOUSE_PRODUCTS + productId,
           method: httpMethods.put,

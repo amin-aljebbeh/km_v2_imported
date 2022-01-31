@@ -275,7 +275,13 @@ class _InventoryState extends State<Inventory> {
                                         });
                                       }
                                     },
-                                    active: int.parse(eachProduct.isActive),
+                                    onDelete: (result) {
+                                      if (result) {
+                                        setState(() {
+                                          productsList.removeAt(index);
+                                        });
+                                      }
+                                    },
                                   );
                                 }
                                 return Container();

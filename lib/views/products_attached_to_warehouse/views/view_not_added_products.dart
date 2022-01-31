@@ -168,6 +168,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                               filter == "" ||
                               eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
                             return InventoryProductsViewCard(
+                              fromInventory: false,
                               onDelete: (result) {
                                 if (result) {
                                   setState(() {
@@ -179,7 +180,11 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                               onChangeStatus: (result) {
                                 if (result) {
                                   setState(() {
-                                    productsList.removeAt(index);
+                                    if (productsList[index].isActive == "1") {
+                                      productsList[index].isActive = "0";
+                                    } else {
+                                      productsList[index].isActive = "1";
+                                    }
                                   });
                                 }
                               },

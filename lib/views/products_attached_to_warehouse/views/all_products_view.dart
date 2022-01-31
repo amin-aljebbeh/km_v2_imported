@@ -166,15 +166,7 @@ class _AllProductsState extends State<AllProducts> {
                               filter == "" ||
                               eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
                             return InventoryProductsViewCard(
-                              attached: eachProduct.warehouses.isNotEmpty
-                                  ? eachProduct.warehouses[0].pivot.supplierCode != null
-                                      ? true
-                                      : false
-                                  : false,
                               fromInventory: false,
-                              active: int.parse(productsList[index].warehouses.isNotEmpty
-                                  ? productsList[index].warehouses[0].pivot.isActive
-                                  : "0"),
                               onDelete: (result) {
                                 if (result) {
                                   setState(() {

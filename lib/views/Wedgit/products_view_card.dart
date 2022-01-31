@@ -128,9 +128,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                       preState: widget.active,
                       subWarehouseId: widget.productData.subWarehouseId,
                       productId: widget.productId,
-                      onChange: (active) {
+                      onChange: (int active, bool result) {
                         setState(() {
-                          widget.active = active;
+                          if (result) widget.active = active;
                         });
                       },
                     ),

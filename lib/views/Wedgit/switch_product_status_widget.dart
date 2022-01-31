@@ -10,7 +10,7 @@ class SwitchProductStatusWidget extends StatefulWidget {
   final int preState;
   final int subWarehouseId;
   final String productId;
-  final Function onChange;
+  final Function(int newStat, bool result) onChange;
   final bool isForSubWarehouse;
 
   const SwitchProductStatusWidget({
@@ -63,9 +63,9 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
                 } else {
                   newStat = 1;
                 }
-                widget.onChange(newStat);
+                widget.onChange(newStat, result);
               });
-            } else {}
+            }
           },
           activeTrackColor: ColorUtils.kmColors2,
           activeColor: ColorUtils.kmColors,

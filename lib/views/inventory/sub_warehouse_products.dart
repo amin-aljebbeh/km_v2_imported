@@ -262,6 +262,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                               filter == "" ||
                               eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
                             return InventoryProductsViewCard(
+                              fromInventory: false,
                               onDelete: (result) {
                                 if (result) {
                                   setState(() {
@@ -281,7 +282,6 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                                   });
                                 }
                               },
-                              active: int.parse(eachProduct.isActive),
                             );
                           }
                           return Container();

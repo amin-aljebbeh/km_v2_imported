@@ -22,22 +22,14 @@ class Warehouse {
   AdminModel admin;
 
   factory Warehouse.fromJson(Map<String, dynamic> json) => Warehouse(
-        pivot: json["pivot"] == null
-            ? null
-            : WarehousePivot.fromJson(json["pivot"]),
+        pivot: json["pivot"] == null ? null : WarehousePivot.fromJson(json["pivot"]),
         id: json["id"] == null ? null : json["id"],
         name: json["name"] == null ? null : json["name"],
         description: json["description"] == null ? null : json["description"],
-        numberOfWorkers: json["number_of_workers"] == null
-            ? null
-            : json["number_of_workers"].toString(),
-        shopperAlgorithmId: json["shopper_algorithm_id"] == null
-            ? null
-            : json["shopper_algorithm_id"],
-        isActive:
-            json["is_active"] == null ? null : json["is_active"].toString(),
-        admin:
-            json["admin"] == null ? null : AdminModel.fromJson(json["admin"]),
+        numberOfWorkers: json["number_of_workers"] == null ? null : json["number_of_workers"].toString(),
+        shopperAlgorithmId: json["shopper_algorithm_id"] == null ? null : json["shopper_algorithm_id"],
+        isActive: json["is_active"] == null ? null : json["is_active"].toString(),
+        admin: json["admin"] == null ? null : AdminModel.fromJson(json["admin"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -79,7 +71,7 @@ class WarehousePivot {
         isFeatured: json["is_featured"].toString(),
         priority: json["priority"].toString(),
         numberOfVisits: json["number_of_visits"].toString(),
-        supplierCode: json['supplier_code'].toString(),
+        supplierCode: json['supplier_code'] != null ? json['supplier_code'].toString() : 'null',
       );
 
   Map<String, dynamic> toJson() => {
