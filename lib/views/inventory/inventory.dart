@@ -54,7 +54,8 @@ class _InventoryState extends State<Inventory> {
         }
         List<ProductData> sortedProductsList = Services.productListSort(productsList);
         productsList = sortedProductsList;
-        productsList.removeWhere((data) => !warehouseFilter[filterIndex].hasMatch(data.supplierCode ?? "0"));
+        if (filterIndex < warehouseFilter.length - 1)
+          productsList.removeWhere((data) => !warehouseFilter[filterIndex].hasMatch(data.supplierCode ?? "0"));
 
         setState(() {
           isLoading = false;
