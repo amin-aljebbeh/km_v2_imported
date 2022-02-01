@@ -7,6 +7,7 @@ export 'entry_field.dart';
 export 'facebook_loader.dart';
 export 'favorite_products_view_card.dart';
 export 'inventory_products_card.dart';
+export 'inventory_search_text_field.dart';
 export 'k_cache_image.dart';
 export 'k_date_picker.dart';
 export 'k_searchable_dropdown.dart';

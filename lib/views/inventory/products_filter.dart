@@ -67,44 +67,12 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Container(
-          padding: const EdgeInsets.only(bottom: 10.0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                  ),
-              border: Border.all(color: ColorUtils.primaryColor, width: 2)),
-          child: TextField(
-            style: TextStyle(color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
-            decoration: InputDecoration(
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: ColorUtils.kmColors),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: ColorUtils.kmColors),
-              ),
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(color: ColorUtils.kmColors),
-              ),
-            ),
-            cursorColor: ColorUtils.kmColors,
-            controller: searchController,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: IconButton(
-              onPressed: () {
-                if (valueController.text.isNotEmpty && selected) getProducts();
-              },
-              icon: Icon(
-                Icons.refresh,
-                size: 35,
-              ),
-            ),
-          )
-        ],
+      appBar: InventorySearchTextField(
+        onReload: () {
+          if (valueController.text.isNotEmpty && selected) getProducts();
+        },
+        controller: searchController,
+        context: context,
       ),
       body: SafeArea(
         child: ListView(
