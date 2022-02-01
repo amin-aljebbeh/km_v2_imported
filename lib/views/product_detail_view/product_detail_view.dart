@@ -438,7 +438,9 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 productData: widget.product,
                                 textHint: price,
                                 increasePercentage: widget.product.increasePercentage,
-                                priceFactor: double.parse(widget.product.priceFactor),
+                                priceFactor: widget.product.priceFactor != null
+                                    ? double.parse(widget.product.priceFactor)
+                                    : 1,
                                 initialText: price,
                                 onSavePressed: (newValue) {
                                   setState(() {

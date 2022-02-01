@@ -62,8 +62,8 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
       subWarehousesIds.removeWhere((id) => !productIds.contains(id));
       if (subWarehousesIds.length > 0)
         id = subWarehousesIds[0].toString();
-      else
-        id = LoadingScreenServices.subWarehouses[0].id.toString();
+      else if (widget.productData.warehouses.isNotEmpty)
+        id = widget.productData.warehouses[0].pivot.subWarehouseId;
     }
     if (widget.productData.supplierCode != null)
       supplierCode = widget.productData.supplierCode;
@@ -109,7 +109,8 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
         padding: EdgeInsets.only(left: 0, right: 0, top: 10),
         child: GestureDetector(
           onTap: () {
-            if (widget.productData != null && supplierCode != null)
+            if (widget.productData != null && supplierCode != null) {
+              widget.productData.isActive = isActive.toString();
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -119,6 +120,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                   ),
                 ),
               );
+            }
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -212,7 +214,8 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                       children: [
                         supplierCode != null &&
                                 LoadingScreenServices.subSupplierCodeHint.hasMatch(supplierCode) &&
-                                isActive != null
+                                isActive != null &&
+                                id != null
                             ? SwitchProductStatusWidget(
                                 isForSubWarehouse: true,
                                 preState: isActive,
