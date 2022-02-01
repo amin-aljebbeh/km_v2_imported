@@ -3,31 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class OrderDetailViewMain extends StatefulWidget {
-  List<OrderProducts> ordersAry;
   int subTotal;
+  double remaining;
+  double totalDiscount;
   String total;
-  String deliveryPrice;
-  int orderId;
-  String addressName;
   OrdersOriginalData order;
-  final OrderType orderType;
+  final OrderTypes orderType;
 
-  OrderDetailViewMain(
-      {this.ordersAry,
-      this.subTotal,
-      this.total,
-      this.deliveryPrice,
-      this.orderId,
-      this.addressName,
-      this.order,
-      @required this.orderType});
+  OrderDetailViewMain({
+    this.subTotal,
+    this.total,
+    this.order,
+    @required this.orderType,
+    this.remaining,
+    this.totalDiscount,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -47,8 +43,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
 
     try {
       setState(() {
-        productsAry = widget.ordersAry;
-        idOrder = widget.orderId;
+        productsAry = widget.order.products;
 
         if (LoadingScreenServices.subWarehouses.length == 1) {
           productsAry.sort((a, b) {
@@ -73,22 +68,16 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
       deletedProductsAry = List<OrderProducts>();
       notDeletedProductsAry = List<OrderProducts>();
       finalProductsAry = List<OrderProducts>();
-      for (int i = 0; i < productsAry.length; i++)
-        if (productsAry[i].pivot.deletedAt != null)
-          deletedProductsAry.add(productsAry[i]);
-        else
-          notDeletedProductsAry.add(productsAry[i]);
-      if (notDeletedProductsAry.length != 0)
-        finalProductsAry.addAll(notDeletedProductsAry);
-      if (deletedProductsAry.length != 0)
-        finalProductsAry.addAll(deletedProductsAry);
+      deletedProductsAry = productsAry.where((product) => product.pivot.deletedAt != null).toList();
+      notDeletedProductsAry = productsAry.where((product) => product.pivot.deletedAt == null).toList();
+      if (notDeletedProductsAry.length != 0) finalProductsAry.addAll(notDeletedProductsAry);
+      if (deletedProductsAry.length != 0) finalProductsAry.addAll(deletedProductsAry);
     } catch (e) {}
   }
 
   _refillProducts() {
     setState(() {
-      productsAry = widget.ordersAry;
-      idOrder = widget.orderId;
+      productsAry = widget.order.products;
 
       if (LoadingScreenServices.subWarehouses.length == 1) {
         productsAry.sort((a, b) {
@@ -112,7 +101,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
     });
   }
 
-  int idOrder;
   bool isLoading = false;
   bool errorAlert = false;
 
@@ -133,24 +121,21 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         IconButton(
-                            icon: Icon(Icons.arrow_back_ios,
-                                color: Theme.of(context).primaryColorDark,
-                                size: 45),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            }),
+                          icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).primaryColorDark, size: 45),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                         InkWell(
                           onTap: () {
                             Navigator.of(context).pop();
                           },
                           child: !Services.isSupplierManager()
                               ? AutoSizeText(
-                                  widget.addressName.length > 37
-                                      ? widget.addressName.substring(0, 37)
-                                      : widget.addressName,
+                                  widget.order.address.street.length > 37
+                                      ? widget.order.address.street.substring(0, 37)
+                                      : widget.order.address.street,
                                   maxLines: 1,
-
-                                  // maxFontSize: 20,
                                   overflow: TextOverflow.clip,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
@@ -158,21 +143,20 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                   ),
                                 )
                               : Text(
-                                  widget.orderId.toString().length >= 3
-                                      ? "#${widget.orderId.toString().substring(2, widget.orderId.toString().length)}"
-                                      : '#${widget.orderId.toString()}',
+                                  widget.order.id.toString().length >= 3
+                                      ? "#${widget.order.id.toString().substring(widget.order.id.toString().length - 3, widget.order.id.toString().length)}"
+                                      : '#${widget.order.id.toString()}',
                                   style: profitStyle.copyWith(
                                     color: Colors.purple,
                                   ),
                                 ),
                         ),
                         IconButton(
-                            icon: Icon(Icons.refresh,
-                                color: Theme.of(context).primaryColor,
-                                size: 30),
-                            onPressed: () {
-                              _refillProducts();
-                            }),
+                          icon: Icon(Icons.refresh, color: Theme.of(context).primaryColor, size: 30),
+                          onPressed: () {
+                            _refillProducts();
+                          },
+                        ),
                       ],
                     ),
                     errorAlert
@@ -190,68 +174,39 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         shrinkWrap: true,
                         itemCount: productsAry == null ? 1 : productsAry.length,
                         itemBuilder: (BuildContext context, int index) {
-                          OrderProducts orderDetail = finalProductsAry[index];
+                          OrderProducts productDetail = finalProductsAry[index];
                           if (index < notDeletedProductsAry.length) {
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () => {},
                               child: OrderDetailViewMainCard(
-                                increaseValue: orderDetail.pivot.increaseValue,
-                                subWarehouseId: orderDetail.subWarehouseId,
-                                orderId: widget.orderId,
                                 onCheckbox: (a) {
                                   setState(() {
                                     switch (widget.orderType) {
-                                      case OrderType.myOrder:
+                                      case OrderTypes.myOrder:
                                         LoadingScreenServices.myOrdersList
-                                            .firstWhere((order) =>
-                                                order.id == widget.orderId)
+                                            .firstWhere((order) => order.id == widget.order.id)
                                             .products
-                                            .removeWhere((product) =>
-                                                product.id ==
-                                                notDeletedProductsAry[a].id);
+                                            .removeWhere((product) => product.id == notDeletedProductsAry[a].id);
                                         break;
-                                      case OrderType.allOrder:
+                                      case OrderTypes.allOrder:
                                         LoadingScreenServices.allOrdersList
-                                            .firstWhere((order) =>
-                                                order.id == widget.orderId)
+                                            .firstWhere((order) => order.id == widget.order.id)
                                             .products
-                                            .removeWhere((product) =>
-                                                product.id ==
-                                                notDeletedProductsAry[a].id);
+                                            .removeWhere((product) => product.id == notDeletedProductsAry[a].id);
                                         break;
-                                      case OrderType.orders:
-                                        LoadingScreenServices
-                                            .notAssignedOrdersList
-                                            .firstWhere((order) =>
-                                                order.id == widget.orderId)
+                                      case OrderTypes.orders:
+                                        LoadingScreenServices.notAssignedOrdersList
+                                            .firstWhere((order) => order.id == widget.order.id)
                                             .products
-                                            .removeWhere((product) =>
-                                                product.id ==
-                                                notDeletedProductsAry[a].id);
+                                            .removeWhere((product) => product.id == notDeletedProductsAry[a].id);
                                         break;
                                     }
                                     notDeletedProductsAry.removeAt(a);
                                     finalProductsAry.removeAt(index);
                                   });
                                 },
-                                productsData: orderDetail,
-                                supplierCode: orderDetail.supplierCode,
-                                active: orderDetail.isActive,
-                                productId: orderDetail.pivot.productId,
-                                img: orderDetail.images.length != 0
-                                    ? LoadingScreenServices.imagePrefixUrl +
-                                        orderDetail.images[0].imageFileName
-                                    : "",
-                                productName: orderDetail.name,
-                                quantity: orderDetail.quantity,
-                                price: int.parse(orderDetail.pivot.purchasePrice
-                                    .split('.')[0]),
-                                unit: orderDetail.unit == null
-                                    ? ""
-                                    : orderDetail.unit,
-                                productCount:
-                                    orderDetail.pivot.quantity.toString(),
+                                productData: productDetail,
                                 index: index,
                               ),
                             );
@@ -264,46 +219,19 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                 children: [
                                   BlurredWidget(
                                     child: OrderDetailViewMainCard(
-                                      increaseValue:
-                                          orderDetail.pivot.increaseValue,
-                                      subWarehouseId:
-                                          orderDetail.subWarehouseId,
-                                      orderId: widget.orderId,
                                       onCheckbox: (a) {
                                         if (Services.isShopper())
                                           setState(() {
                                             LoadingScreenServices.myOrdersList
-                                                .firstWhere((order) =>
-                                                    order.id == widget.orderId)
+                                                .firstWhere((order) => order.id == widget.order.id)
                                                 .products
-                                                .removeWhere((product) =>
-                                                    product.id ==
-                                                    deletedProductsAry[a].id);
+                                                .removeWhere((product) => product.id == deletedProductsAry[a].id);
                                             deletedProductsAry.removeAt(a);
                                             finalProductsAry.removeAt(index);
                                           });
                                       },
-                                      productsData: orderDetail,
-                                      supplierCode: orderDetail.supplierCode,
-                                      active: orderDetail.isActive,
-                                      productId: orderDetail.pivot.productId,
-                                      img: orderDetail.images.length != 0
-                                          ? LoadingScreenServices
-                                                  .imagePrefixUrl +
-                                              orderDetail
-                                                  .images[0].imageFileName
-                                          : "",
-                                      productName: orderDetail.name,
-                                      quantity: orderDetail.quantity,
-                                      price: int.parse(
-                                          orderDetail.pivot.purchasePrice),
-                                      unit: orderDetail.unit == null
-                                          ? ""
-                                          : orderDetail.unit,
-                                      productCount:
-                                          orderDetail.pivot.quantity.toString(),
-                                      index: index -
-                                          (deletedProductsAry.length + 1),
+                                      productData: productDetail,
+                                      index: index - (deletedProductsAry.length + 1),
                                     ),
                                   ),
                                   Padding(
@@ -312,15 +240,16 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                       top: 127,
                                     ),
                                     child: SwitchProductStatusWidget(
+                                      isForSubWarehouse: true,
                                       height: 20,
                                       width: 70,
-                                      preState: orderDetail.isActive,
-                                      subWarehouseId:
-                                          orderDetail.subWarehouseId,
-                                      productId: orderDetail.pivot.productId,
-                                      onChange: (active) {
-                                        orderDetail.isActive = active;
-                                        setState(() {});
+                                      preState: productDetail.isActive,
+                                      subWarehouseId: productDetail.subWarehouseId,
+                                      productId: productDetail.pivot.productId,
+                                      onChange: (int active, bool result) {
+                                        setState(() {
+                                          if (result) productDetail.isActive = active;
+                                        });
                                       },
                                     ),
                                   ),
@@ -331,6 +260,55 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         },
                       ),
                     ),
+                    if (Services.isSupplierManager())
+                      Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 20, top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'الزوائد',
+                                  style: darkBold,
+                                ),
+                                Text(
+                                  "${StringUtils().oCcy.format(widget.remaining)}" +
+                                      " ${LoadingScreenServices.companyInformation.currency}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).primaryColorDark,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 17.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 20, top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'إجمالي الحسم',
+                                  style: darkBold,
+                                ),
+                                Text(
+                                  "${StringUtils().oCcy.format(widget.totalDiscount)}" +
+                                      " ${LoadingScreenServices.companyInformation.currency}",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context).primaryColorDark,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 17.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     Padding(
                       padding: EdgeInsets.only(left: 20, top: 5),
                       child: Row(
@@ -344,10 +322,11 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                             "${StringUtils().oCcy.format(widget.subTotal)}" +
                                 " ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).primaryColorDark,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 17.0),
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 17.0,
+                            ),
                           ),
                         ],
                       ),
@@ -359,12 +338,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         children: <Widget>[
                           Text(
                             StringUtils.total,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 19.0,
-                            ),
+                            style: informationStyle,
                           ),
                           Text(
                             "${StringUtils().oCcy.format(int.parse(widget.total.split('.')[0]))}" +
@@ -386,33 +360,22 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                               int.parse(widget.order.orderStatusId) <= 4 &&
                                       int.parse(widget.order.underUpdate) != 1
                                   ? Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 10.0),
+                                      padding: const EdgeInsets.only(left: 10.0),
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
                                           KammunButton(
-                                            text: widget.order.orderStatusId ==
-                                                    "1"
+                                            text: widget.order.orderStatusId == "1"
                                                 ? "قبول الطلب"
-                                                : widget.order.orderStatusId ==
-                                                        "2"
+                                                : widget.order.orderStatusId == "2"
                                                     ? "الطلب جاهز"
-                                                    : widget.order
-                                                                .orderStatusId ==
-                                                            "3"
+                                                    : widget.order.orderStatusId == "3"
                                                         ? "مع التوصيل"
                                                         : "تم التوصيل",
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.4,
-                                            color: widget.order.orderStatusId ==
-                                                    "1"
+                                            width: MediaQuery.of(context).size.width * 0.4,
+                                            color: widget.order.orderStatusId == "1"
                                                 ? Colors.green[700]
-                                                : widget.order.orderStatusId ==
-                                                        "2"
+                                                : widget.order.orderStatusId == "2"
                                                     ? Colors.yellow[700]
                                                     : Colors.cyan[700],
                                             onTap: () async {
@@ -421,30 +384,20 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                                 isLoading = true;
                                                 errorAlert = false;
                                               });
-                                              if (widget.order.orderStatusId ==
-                                                  "1")
+                                              if (widget.order.orderStatusId == "1")
                                                 changeStatus = 2;
-                                              else if (widget
-                                                      .order.orderStatusId ==
-                                                  "2")
+                                              else if (widget.order.orderStatusId == "2")
                                                 changeStatus = 3;
-                                              else if (widget
-                                                      .order.orderStatusId ==
-                                                  "3")
+                                              else if (widget.order.orderStatusId == "3")
                                                 changeStatus = 4;
-                                              else if (widget
-                                                      .order.orderStatusId ==
-                                                  "4") changeStatus = 5;
+                                              else if (widget.order.orderStatusId == "4") changeStatus = 5;
 
-                                              bool x = await OrderServices
-                                                  .changeOrderStatus(
-                                                      widget.orderId.toString(),
-                                                      changeStatus);
+                                              bool x = await OrderServices.changeOrderStatus(
+                                                  widget.order.id.toString(), changeStatus);
 
                                               if (x) {
                                                 setState(() {
-                                                  widget.order.orderStatusId =
-                                                      changeStatus.toString();
+                                                  widget.order.orderStatusId = changeStatus.toString();
                                                   isLoading = false;
                                                 });
                                               } else {
@@ -457,14 +410,10 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                           ),
                                           KammunButton(
                                             text: "إلغاء الطلب",
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.4,
+                                            width: MediaQuery.of(context).size.width * 0.4,
                                             color: Colors.red,
                                             onTap: () {
-                                              List<DialogButton>
-                                                  decisionButton = [
+                                              List<DialogButton> decisionButton = [
                                                 DialogButton(
                                                   text: 'نعم',
                                                   onTap: () async {
@@ -477,18 +426,12 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                                     });
                                                     changeStatus = 6;
 
-                                                    bool x = await OrderServices
-                                                        .changeOrderStatus(
-                                                            widget.orderId
-                                                                .toString(),
-                                                            changeStatus);
+                                                    bool x = await OrderServices.changeOrderStatus(
+                                                        widget.order.id.toString(), changeStatus);
 
                                                     if (x) {
                                                       setState(() {
-                                                        widget.order
-                                                                .orderStatusId =
-                                                            changeStatus
-                                                                .toString();
+                                                        widget.order.orderStatusId = changeStatus.toString();
                                                         isLoading = false;
                                                       });
                                                     } else {
@@ -508,17 +451,79 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                               ];
                                               showMyDialog(
                                                   title: "إلغاء الطلب",
-                                                  text:
-                                                      "هل أنت متأكد انك تريد إلغاء الطلب ؟",
+                                                  text: "هل أنت متأكد انك تريد إلغاء الطلب ؟",
                                                   dialogButtons: decisionButton,
                                                   context: context);
                                             },
                                           ),
-                                          // _showCancelOrderButton(idOrder),
                                         ],
                                       ),
                                     )
-                                  : Container(),
+                                  : ['6', '7'].contains(widget.order.orderStatusId)
+                                      ? Column(
+                                          children: [
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            LabelRow(
+                                                rightSideText: 'تم إلغاء الطلب من قبل ابو الزين',
+                                                leftSideText: '',
+                                                leftSideStyle: mainStyle),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 15.0),
+                                              child: KammunButton(
+                                                text: "استعادة الطلب",
+                                                width: MediaQuery.of(context).size.width,
+                                                color: ColorUtils.kmColors,
+                                                onTap: () {
+                                                  List<DialogButton> decisionButton = [
+                                                    DialogButton(
+                                                      text: 'نعم',
+                                                      onTap: () async {
+                                                        int changeStatus = 0;
+                                                        Navigator.of(context).pop();
+
+                                                        setState(() {
+                                                          isLoading = true;
+                                                          errorAlert = false;
+                                                        });
+                                                        changeStatus = 1;
+
+                                                        bool result = await OrderServices.changeOrderStatus(
+                                                            widget.order.id.toString(), changeStatus);
+                                                        Services.resultFlushBar(context: context, result: result);
+
+                                                        if (result) {
+                                                          setState(() {
+                                                            widget.order.orderStatusId = changeStatus.toString();
+                                                            isLoading = false;
+                                                          });
+                                                        } else {
+                                                          setState(() {
+                                                            isLoading = false;
+                                                            errorAlert = true;
+                                                          });
+                                                        }
+                                                      },
+                                                    ),
+                                                    DialogButton(
+                                                      text: 'لا',
+                                                      onTap: () {
+                                                        Navigator.of(context).pop();
+                                                      },
+                                                    ),
+                                                  ];
+                                                  showMyDialog(
+                                                      title: "استعادة الطلب",
+                                                      text: "هل أنت متأكد انك تريد استعادة الطلب ؟",
+                                                      dialogButtons: decisionButton,
+                                                      context: context);
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Container(),
                             ],
                           )
                         : SizedBox(

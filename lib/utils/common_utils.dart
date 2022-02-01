@@ -5,19 +5,15 @@ class CommonUtils {
   Size deviceScreenSize(BuildContext context) {
     return MediaQuery.of(context).size;
   }
-
-  void showToast(String message, BuildContext context) {
-//    Toast.show(message, context,
-//        duration: Toast.LENGTH_LONG,
-//        gravity: Toast.BOTTOM,
-//        backgroundColor: Colors.black,
-//        textColor: Colors.white);
-  }
 }
 
 enum MyThemeKeys { LIGHT, DARK, DARKER }
 
-enum OrderType { myOrder, allOrder, orders }
+enum OrderTypes { myOrder, allOrder, orders }
+
+enum BarcodeRequestType { add, search }
+
+enum ProductsViewTypes { search, category, barcode }
 
 class MyThemes {
   static final ThemeData lightTheme = ThemeData(
@@ -26,8 +22,7 @@ class MyThemes {
     primaryColorDark: Colors.black,
     brightness: Brightness.light,
     inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: ColorUtils.primaryColor))),
+        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.primaryColor))),
   );
 
   static final ThemeData darkTheme = ThemeData(
@@ -36,8 +31,7 @@ class MyThemes {
     primaryColorDark: Colors.white,
     brightness: Brightness.dark,
     inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: ColorUtils.primaryColor))),
+        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.primaryColor))),
   );
 
   static final ThemeData darkerTheme = ThemeData(
@@ -88,14 +82,14 @@ class CustomTheme extends StatefulWidget {
   CustomThemeState createState() => new CustomThemeState();
 
   static ThemeData of(BuildContext context) {
-    _CustomTheme inherited =
-        (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
+    // ignore: deprecated_member_use
+    _CustomTheme inherited = (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
     return inherited.data.theme;
   }
 
   static CustomThemeState instanceOf(BuildContext context) {
-    _CustomTheme inherited =
-        (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
+    // ignore: deprecated_member_use
+    _CustomTheme inherited = (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
     return inherited.data;
   }
 }

@@ -5,18 +5,19 @@ class KTableElement extends StatelessWidget {
   final String text;
   final TextStyle style;
 
-  const KTableElement({Key key, @required this.text, this.style})
-      : super(key: key);
+  const KTableElement({Key key, @required this.text, this.style}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(10),
-      child: Text(
-        text,
-        textDirection: TextDirection.ltr,
-        textAlign: TextAlign.center,
-        style: style == null ? mainStyle : style,
+    return Center(
+      child: Container(
+        margin: EdgeInsets.all(10),
+        child: Text(
+          text,
+          textDirection: TextDirection.ltr,
+          textAlign: TextAlign.center,
+          style: style == null ? mainStyle : style,
+        ),
       ),
     );
   }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/views/blocked_user/blocked_user.dart';
-import 'package:kammun_app/views/errors_screen/internet_error.dart';
-import 'package:kammun_app/views/home/home_view.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/login/login_view.dart';
-import 'package:kammun_app/views/server_update/server_update.dart';
-import 'package:kammun_app/views/supported_city/supported_city.dart';
-import 'package:kammun_app/views/update_screen/updateRequiredScreen.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import '../../models/models_importer.dart';
+import '../../views/blocked_user/blocked_user.dart';
+import '../../views/errors_screen/internet_error.dart';
+import '../../views/home/home_view.dart';
+import '../../views/loading/LoadingServices.dart';
+import '../../views/login/login_view.dart';
+import '../../views/server_update/server_update.dart';
+import '../../views/supported_city/supported_city.dart';
+import '../../views/update_screen/updateRequiredScreen.dart';
+import '../../utils/utils_importer.dart';
 
 class LoadingScreen extends StatefulWidget {
   static String userToken = "Bearer ";
@@ -36,7 +36,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   _getClientInfo() async {
     bool userLoggedIn = await LoadingScreenServices().checkIfUserLoadedIn();
-    // if (userLoggedIn == null) return "userNotSelectSupportedCity";
     if (userLoggedIn) {
       bool x = await LoadingScreenServices().fetchStartInformation();
       if (x) {
@@ -45,9 +44,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
         return false;
       }
     } else {
-      // check application version //
-      // get supported cities //
-      //  LoadingScreenServices().getSupportedCity();
       return "userNotLoggedIn";
     }
   }
@@ -64,19 +60,19 @@ class _LoadingScreenState extends State<LoadingScreen> {
             fit: BoxFit.contain,
           ),
         ),
-        child: Stack(children: <Widget>[
-          Positioned(
-            left: MediaQuery.of(context).size.width - 80,
-            bottom: MediaQuery.of(context).size.height / 2 - 37,
-            height: 100,
-            width: 100,
-            child: Image.asset(
-              "assets/Loading.gif",
-              // width: 20,
-              // color: Colors.transparent,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              left: MediaQuery.of(context).size.width - 80,
+              bottom: MediaQuery.of(context).size.height / 2 - 37,
+              height: 100,
+              width: 100,
+              child: Image.asset(
+                "assets/Loading.gif",
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }
@@ -86,7 +82,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return FutureBuilder(
       future: fetchInformation,
       builder: (context, snapShot) {
-        // Tools.logToConsole("---------- THE SNAPSHOT ----------");
         if (snapShot.data == "userNotLoggedIn") {
           return LoginScreen();
         }

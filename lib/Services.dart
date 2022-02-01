@@ -5,11 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'models/models_importer.dart';
+import 'views/loading/Loading.dart';
+import 'views/loading/LoadingServices.dart';
+import 'views/restart/kammunapp_restart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'core/api/api_importer.dart';
@@ -21,7 +20,6 @@ class Services {
   static ShopperModel shopper;
   static bool updateOption = false;
 
-  //static String imagePrefixUrl = "";
   static String prefixUrl = "http://kammun.com/lsapp/public/api/";
   static String googlePlayUrl = "";
   static String appStoreUrl = "";
@@ -29,44 +27,43 @@ class Services {
   static int deliveryPrice = 50;
 
   static Future<bool> addToFavorites(String productsId) async {
-    var response = await ApiProvider.sendRequest(
-      url: ADD_TO_FAVORITE + productsId,
-      method: httpMethods.put,
-    );
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: ADD_TO_FAVORITE + productsId,
+        method: httpMethods.put,
+      );
 
-    if (response.statusCode == SUCCESS_CODE) {
-      return true;
-    } else {
-      Tools.logToConsole("------------ ERROR ADD TO FAVORITES --------------");
-      return false;
+      if (response.statusCode == SUCCESS_CODE) {
+        return true;
+      } else {
+        Tools.logToConsole("------------ ERROR ADD TO FAVORITES --------------");
+        return false;
+      }
+    } catch (e) {
+      return null;
     }
   }
 
   static Future<bool> removeFromFavorites(String productsId) async {
-    var response = await ApiProvider.sendRequest(
-      url: REMOVE_FROM_FAVORITE + productsId,
-      method: httpMethods.put,
-    );
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: REMOVE_FROM_FAVORITE + productsId,
+        method: httpMethods.put,
+      );
 
-    if (response.statusCode == SUCCESS_CODE) {
-      return true;
-    } else {
-      Tools.logToConsole(
-          "------------ ERROR REMOVE FROM FAVORITES --------------");
-      return false;
+      if (response.statusCode == SUCCESS_CODE) {
+        return true;
+      } else {
+        Tools.logToConsole("------------ ERROR REMOVE FROM FAVORITES --------------");
+        return false;
+      }
+    } catch (e) {
+      return null;
     }
   }
 
-  static Future<bool> addNewAddress(
-      String city,
-      String street,
-      String building,
-      String floor,
-      String description,
-      String supportedCityId,
-      double lat,
-      double lon,
-      String entrance) async {
+  static Future<bool> addNewAddress(String city, String street, String building, String floor, String description,
+      String supportedCityId, double lat, double lon, String entrance) async {
     Map addressData = {
       'street': street,
       'building': building,
@@ -79,9 +76,7 @@ class Services {
     };
     try {
       var response = await ApiProvider.sendRequest(
-          url: USER_ADDRESS,
-          method: httpMethods.post,
-          body: jsonEncode(addressData));
+          url: USER_ADDRESS, method: httpMethods.post, body: jsonEncode(addressData));
 
       if (response.statusCode == SUCCESS_CODE) {
         final addNewAddress = addNewAddressFromJson(jsonEncode(response.data));
@@ -89,7 +84,6 @@ class Services {
 
         return true;
       } else {
-        Tools.logToConsole(response.data);
         Tools.logToConsole("------------ ERROR ADD NEW ADDRESS --------------");
         return false;
       }
@@ -111,7 +105,6 @@ class Services {
       double lat,
       double lon,
       String entrance}) async {
-    Tools.logToConsole("------- ID: $addressId");
     Map addressData = {
       'city': city,
       'street': street,
@@ -125,15 +118,11 @@ class Services {
     };
     try {
       var response = await ApiProvider.sendRequest(
-          url: USER_ADDRESS + "/$addressId",
-          method: httpMethods.put,
-          body: jsonEncode(addressData));
+          url: USER_ADDRESS + "/$addressId", method: httpMethods.put, body: jsonEncode(addressData));
 
       if (response.statusCode == SUCCESS_CODE) {
-        Tools.logToConsole(response.data);
         return true;
       } else {
-        Tools.logToConsole(response.data);
         Tools.logToConsole("------------ ERROR UPDATE ADDRESS --------------");
         return false;
       }
@@ -144,7 +133,6 @@ class Services {
   }
 
   static Future<bool> removeUserAddress(String addressId) async {
-    // Tools.logToConsole("------------------ REMOVE ADDRESS  --------------------");
     try {
       var response = await ApiProvider.sendRequest(
         url: USER_ADDRESS + "/$addressId",
@@ -163,8 +151,7 @@ class Services {
     }
   }
 
-  static Future<List<OrdersOriginalData>> getAllOrders(
-      {int pageNumber = 1}) async {
+  static Future<List<OrdersOriginalData>> getAllOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
         url: API + ORDER,
@@ -173,8 +160,7 @@ class Services {
       );
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.allOrdersList =
-            ordersFromJson(jsonEncode(response.data)).data.data;
+        LoadingScreenServices.allOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
 
         return LoadingScreenServices.allOrdersList;
       } else {
@@ -187,8 +173,7 @@ class Services {
     }
   }
 
-  static Future<bool> loginUser(
-      {String phoneNumber, String signCode, String supportedCityId}) async {
+  static Future<bool> loginUser({String phoneNumber, String signCode, String supportedCityId}) async {
     if (phoneNumber == "5000000001") {
       BASE_URL = APPLE_BASE_URL;
     } else {
@@ -203,21 +188,12 @@ class Services {
       'platform_type': Platform.isAndroid ? "android" : "ios"
     };
 
-    Tools.logToConsole(jsonEncode(loginBody));
     try {
       var response = await ApiProvider.sendRequest(
-          url: LOGIN_URL,
-          method: httpMethods.post,
-          body: jsonEncode(loginBody),
-          responseType: ResponseType.json);
+          url: LOGIN_URL, method: httpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
       var theResponse = response.data;
 
-      Tools.logToConsole("-------- Login Response -----------");
-      Tools.logToConsole(theResponse);
-      if (response.statusCode == SUCCESS_CODE &&
-          (theResponse["success"].toString() == "true")) {
-        Tools.logToConsole(theResponse["success"].toString());
-
+      if (response.statusCode == SUCCESS_CODE && (theResponse["success"].toString() == "true")) {
         return true;
       } else {
         Tools.logToConsole("------------ ERROR LOGIN USER --------------");
@@ -231,28 +207,27 @@ class Services {
   }
 
   static Future<bool> verifyCode(String code) async {
-    //Tools.logToConsole("------------------ LOGIN USER   --------------------");
+    try {
+      var response = await ApiProvider.sendRequest(url: OTP_VERIFICATION + code, method: httpMethods.get);
 
-    var response = await ApiProvider.sendRequest(
-        url: OTP_VERIFICATION + code, method: httpMethods.get);
+      var data = (response.data);
 
-    var data = (response.data);
-
-    if (response.statusCode == SUCCESS_CODE && data["success"] == true) {
-      Tools.logToConsole("The Token from VerifyCode is");
-      Tools.logToConsole(data["success"].toString());
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("userToken", data["api_token"]);
-      LoadingScreen.userToken = "Bearer " + data["api_token"];
-      if (data["api_token"] == "APPLE_VERIFICATION") {
-        BASE_URL = APPLE_BASE_URL;
+      if (response.statusCode == SUCCESS_CODE && data["success"] == true) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("userToken", data["api_token"]);
+        LoadingScreen.userToken = "Bearer " + data["api_token"];
+        if (data["api_token"] == "APPLE_VERIFICATION") {
+          BASE_URL = APPLE_BASE_URL;
+        } else {
+          BASE_URL = PRODUCTION_BASE_URL;
+        }
+        return true;
       } else {
-        BASE_URL = PRODUCTION_BASE_URL;
+        Tools.logToConsole("------------ ERROR OTP VERIFICATION --------------");
+        return false;
       }
-      return true;
-    } else {
-      Tools.logToConsole("------------ ERROR OTP VERIFICATION --------------");
-      return false;
+    } catch (e) {
+      return null;
     }
   }
 
@@ -263,19 +238,14 @@ class Services {
   }
 
   static Future<List<ShopperModel>> getShoppers() async {
-    Tools.logToConsole(
-        "------------------ Get All Shoppers  --------------------");
-
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_SHOPPER,
         method: httpMethods.get,
       );
-      Tools.logToConsole("------- shoppers data -------");
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.allShoppers =
-            shoppersFromJson(jsonEncode(response.data)).data;
+        LoadingScreenServices.allShoppers = shoppersFromJson(jsonEncode(response.data)).data;
         return LoadingScreenServices.allShoppers;
       } else {
         return LoadingScreenServices.allShoppers;
@@ -295,9 +265,6 @@ class Services {
       );
 
       if (response.statusCode == SUCCESS_CODE) {
-        Tools.logToConsole("message from get level and decode");
-        Tools.logToConsole(
-            ModelResponse.fromJson(response.data).data.id.toString());
         Level level = ModelResponse.fromJson(response.data).data;
         return level;
       } else {
@@ -306,32 +273,6 @@ class Services {
     } catch (e) {
       Tools.logToConsole(e.toString());
       Tools.logToConsole('e.toString()');
-      return null;
-    }
-  }
-
-  static Future<List<DeliveryModel>> getDeliveries() async {
-    Tools.logToConsole(
-        "------------------ Get All Deliveries  --------------------");
-
-    try {
-      var response = await ApiProvider.sendRequest(
-        url: GET_DELIVERIES,
-        method: httpMethods.get,
-      );
-      Tools.logToConsole("------- Deliveries data -------");
-
-      if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.allDeliveries =
-            deliveriesFromJson(jsonEncode(response.data)).data;
-
-        return LoadingScreenServices.allDeliveries;
-      } else {
-        return LoadingScreenServices.allDeliveries;
-      }
-    } catch (e) {
-      Tools.logToConsole("------------ ERROR GET DELIVERIES --------------");
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -346,10 +287,8 @@ class Services {
           body: jsonEncode(changeStatus));
 
       if (response.statusCode == SUCCESS_CODE) {
-        Tools.logToConsole(response.data);
         return true;
       } else {
-        Tools.logToConsole(response.data);
         Tools.logToConsole("------------ ERROR UPDATE ADDRESS --------------");
         return false;
       }
@@ -365,184 +304,160 @@ class Services {
         url: GET_WAREHOUSE,
         method: httpMethods.get,
       );
-      Tools.logToConsole("------- Warehouses data -------");
 
-      if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.warehouses = List<Warehouse>.from(
-            response.data["data"].map((x) => Warehouse.fromJson(x)));
+      if (response.statusCode == SUCCESS_CODE && response.data['success'].toString() == 'true') {
+        LoadingScreenServices.warehouses =
+            List<Warehouse>.from(response.data["data"].map((x) => Warehouse.fromJson(x)));
 
         return LoadingScreenServices.warehouses;
       } else {
         return LoadingScreenServices.warehouses;
       }
     } catch (e) {
-      Tools.logToConsole("------------ ERROR GET WAREHOUSES --------------");
       Tools.logToConsole(e.toString());
+
       return null;
     }
   }
 
   static List<DropdownMenuItem<int>> inventorySubWarehouseNames() {
-    List<String> names = [];
-    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
-      names.add(LoadingScreenServices.subWarehouses[i].name);
-    }
+    List<String> names = LoadingScreenServices.subWarehouses.map((subWarehouse) => subWarehouse.name).toList();
     names.add('الجميع');
     return dropdownStringList(names);
   }
 
-  static List<DropdownMenuItem<String>> productSubWarehouseNames(
-      BuildContext context) {
-    List<DropdownMenuItem<String>> names = [];
-    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
-      names.add(
-        DropdownMenuItem<String>(
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.68,
-            child: Text(
-              LoadingScreenServices.subWarehouses[i].name,
-              style: warehouseStyle,
+  static List<DropdownMenuItem<int>> transactionTypesNames() {
+    List<String> names = LoadingScreenServices.transactionTypes
+        .where((type) => type.automatic == 0)
+        .map((type) => StringUtils.transactionTypesMap[type.slug])
+        .toList();
+    return dropdownStringList(names);
+  }
+
+  static List<DropdownMenuItem<String>> productSubWarehouseNames(BuildContext context) {
+    List<DropdownMenuItem<String>> names = LoadingScreenServices.subWarehouses
+        .map(
+          (subWarehouse) => DropdownMenuItem<String>(
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.68,
+              child: Text(
+                subWarehouse.name,
+                style: warehouseStyle,
+              ),
             ),
+            value: subWarehouse.id.toString(),
           ),
-          value: LoadingScreenServices.subWarehouses[i].id.toString(),
-        ),
-      );
-    }
+        )
+        .toList();
     return names;
   }
 
   static List<DropdownMenuItem<int>> dropdownIntList(List<String> inputList) {
-    List<DropdownMenuItem<int>> list = List();
-    for (int i = 0; i < inputList.length; i++) {
-      list.add(
-        DropdownMenuItem<int>(
-          child: Text(
-            inputList[i],
-            style: dropdownItemStyle,
+    List<DropdownMenuItem<int>> list = inputList
+        .asMap()
+        .map(
+          (value, string) => MapEntry(
+            value,
+            DropdownMenuItem<int>(
+              child: Text(
+                string,
+                style: dropdownItemStyle,
+              ),
+              value: value + 1,
+            ),
           ),
-          value: i + 1,
-        ),
-      );
-    }
+        )
+        .values
+        .toList();
     return list;
   }
 
-  static List<DropdownMenuItem<int>> dropdownStringList(
-      List<String> inputList) {
-    List<DropdownMenuItem<int>> list = List();
-    for (int i = 0; i < inputList.length; i++) {
-      list.add(
-        DropdownMenuItem<int>(
-          child: Center(
-            child: Text(
-              inputList[i],
-              style: dropdownItemStyle,
+  static List<DropdownMenuItem<int>> dropdownStringList(List<String> inputList) {
+    List<DropdownMenuItem<int>> list = inputList
+        .asMap()
+        .map(
+          (value, string) => MapEntry(
+            value,
+            DropdownMenuItem<int>(
+              child: Center(
+                child: Text(
+                  string,
+                  style: dropdownItemStyle,
+                ),
+              ),
+              value: value,
             ),
           ),
-          value: i,
-        ),
-      );
-    }
+        )
+        .values
+        .toList();
     return list;
   }
 
-  static List<DropdownMenuItem> shoppersNameList() {
-    List<DropdownMenuItem> list = List();
-    for (int i = 0; i < LoadingScreenServices.allShoppers.length; i++) {
-      if (LoadingScreenServices.allShoppers[i].status == 1) {
-        list.add(DropdownMenuItem<String>(
-          child: Center(
-            child: Text(
-              LoadingScreenServices.allShoppers[i].name + ' ✅',
-              style: dropdownItemStyle,
+  static List<DropdownMenuItem<String>> shoppersNameList() {
+    List<DropdownMenuItem<String>> list = LoadingScreenServices.allShoppers
+        .where((shopper) => shopper.status == 1)
+        .map(
+          (shopper) => DropdownMenuItem<String>(
+            child: Center(
+              child: Text(
+                shopper.name + ' ✅',
+                style: dropdownItemStyle,
+              ),
             ),
+            value: shopper.name,
           ),
-          value: LoadingScreenServices.allShoppers[i].name,
-        ));
-      }
-    }
-    for (int i = 0; i < LoadingScreenServices.allShoppers.length; i++) {
-      if (LoadingScreenServices.allShoppers[i].status == 0) {
-        list.add(DropdownMenuItem<String>(
-          child: Center(
-            child: Text(
-              LoadingScreenServices.allShoppers[i].name + ' ❌',
-              style: dropdownItemStyle,
+        )
+        .toList();
+    list.addAll(
+      LoadingScreenServices.allShoppers
+          .where((shopper) => shopper.status == 0)
+          .map(
+            (shopper) => DropdownMenuItem<String>(
+              child: Center(
+                child: Text(
+                  shopper.name + ' ❌',
+                  style: dropdownItemStyle,
+                ),
+              ),
+              value: shopper.name,
             ),
-          ),
-          value: LoadingScreenServices.allShoppers[i].name,
-        ));
-      }
-    }
+          )
+          .toList(),
+    );
     return list;
-  }
-
-  static List<DropdownMenuItem> deliveriesNameList() {
-    List<DropdownMenuItem> itemList = List();
-    for (int i = 0; i < LoadingScreenServices.allDeliveries.length; i++) {
-      itemList.add(DropdownMenuItem<String>(
-        child: Center(
-          child: Text(
-            LoadingScreenServices.allDeliveries[i].name,
-            style: dropdownItemStyle,
-          ),
-        ),
-        value: LoadingScreenServices.allDeliveries[i].name,
-      ));
-    }
-    return itemList;
   }
 
   static bool isAdmin() {
-    return Services.roles
-            .where((element) => element.slug.contains(StringUtils.adminRole))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.adminRole)).length > 0;
   }
 
   static bool isOperationManager() {
-    return Services.roles
-            .where((element) =>
-                element.slug.contains(StringUtils.operationManager))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.operationManager)).length > 0;
   }
 
   static bool isProductsController() {
-    return Services.roles
-            .where((element) =>
-                element.slug.contains(StringUtils.productsController))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.productsController)).length > 0;
   }
 
   static bool isSuperAdmin() {
-    return Services.roles
-            .where(
-                (element) => element.slug.contains(StringUtils.superAdminRole))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.superAdminRole)).length > 0;
+  }
+
+  static bool isAccounting() {
+    return Services.roles.where((element) => element.slug.contains(StringUtils.accountingRole)).length > 0;
   }
 
   static bool isDelivery() {
-    return Services.roles
-            .where((element) => element.slug.contains(StringUtils.deliveryRole))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.deliveryRole)).length > 0;
   }
 
   static bool isShopper() {
-    return Services.roles
-            .where((element) => element.slug.contains(StringUtils.shopperRole))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.shopperRole)).length > 0;
   }
 
   static bool isSupplierManager() {
-    return Services.roles
-            .where((element) => element.slug.contains(StringUtils.supplierRol))
-            .length >
-        0;
+    return Services.roles.where((element) => element.slug.contains(StringUtils.supplierRol)).length > 0;
   }
 
   static errorFlushBar(BuildContext context) {
@@ -571,12 +486,10 @@ class Services {
   static successFlushBar(BuildContext context) {
     return Flushbar(
       backgroundColor: Colors.green,
-      // titleText: Text("تمت الإضافة بنجاح"),
       messageText: Text(
         "تمت العملية بنجاح",
         style: flushBarStyle,
       ),
-
       boxShadows: [
         BoxShadow(
           color: ColorUtils.primaryColor,
@@ -594,8 +507,7 @@ class Services {
     )..show(context);
   }
 
-  static resultFlushBar(
-      {@required BuildContext context, @required bool result}) {
+  static resultFlushBar({@required BuildContext context, @required bool result}) {
     if (result) {
       Services.successFlushBar(context);
     } else {
@@ -616,23 +528,19 @@ class Services {
     return productsList;
   }
 
-  static List<OrderProducts> orderProductsSort(
-      List<OrderProducts> productsList) {
-    productsList.sort((a, b) {
-      if (a.subWarehouseId > b.subWarehouseId)
-        return 1;
-      else
-        return -1;
-    });
-    return productsList;
-  }
-
   static String selectedShopperId(String name) {
     return LoadingScreenServices.allShoppers
-        .firstWhere((shopper) =>
-            shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
+        .firstWhere((shopper) => shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
         .id
         .toString();
+  }
+
+  static int kRound(double number) {
+    double doubleSum = number / 100;
+    String stringSum = doubleSum.toString().split('.')[0];
+    int result = int.parse(stringSum);
+    result *= 100;
+    return result;
   }
 
   static makePhoneCall(String number) async {

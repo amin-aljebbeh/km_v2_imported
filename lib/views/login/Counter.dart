@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/Loader.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'login_view.dart';
@@ -26,8 +25,6 @@ class _CounterOtpState extends State<CounterOtp> {
   String finalCode = "";
   String x = "";
   bool loadingScreen = false;
-  // int counter = 59;
-  // int counterMin = 4;
   int alertMessageState = 0;
 
   int counter;
@@ -47,13 +44,9 @@ class _CounterOtpState extends State<CounterOtp> {
       if (signature.toString().length != 11) {
         signature = "";
       }
-      Tools.logToConsole(
-          "Signature: ###################" + signature.toString());
 
       bool response = await Services.loginUser(
-          phoneNumber: LoginScreen.phoneNumber,
-          signCode: signature,
-          supportedCityId: LoginScreen.supportedCityId);
+          phoneNumber: LoginScreen.phoneNumber, signCode: signature, supportedCityId: LoginScreen.supportedCityId);
 
       if (response) {
         await SmsAutoFill().listenForCode;
@@ -75,7 +68,7 @@ class _CounterOtpState extends State<CounterOtp> {
         widget.onRequestSent(false);
       });
       Tools.logToConsole(
-          "---------------------------------- FEATCH OTP EXCEPTION ----------------------------------");
+          "---------------------------------- FETCH OTP EXCEPTION ----------------------------------");
       throw new Exception(e.toString());
     }
   }
@@ -132,9 +125,7 @@ class _CounterOtpState extends State<CounterOtp> {
                         child: Text(
                           "إعادة إرسال رمز التفعيل",
                           style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk),
+                              color: Colors.black, fontSize: 17, fontFamily: StringUtils.fontFamilyHKGrotesk),
                           softWrap: true,
                         ),
                       ),
@@ -142,8 +133,7 @@ class _CounterOtpState extends State<CounterOtp> {
                   ),
                   trailing: Container(
                     child: Text(
-                      "0$counterMin:" +
-                          "${counter < 10 ? "0" + "$counter" : "$counter"}",
+                      "0$counterMin:" + "${counter < 10 ? "0" + "$counter" : "$counter"}",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
@@ -185,8 +175,7 @@ class _CounterOtpState extends State<CounterOtp> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 17,
-                                    fontFamily:
-                                        StringUtils.fontFamilyHKGrotesk),
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
                                 softWrap: true,
                               ),
                             ),

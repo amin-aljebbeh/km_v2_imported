@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:http/http.dart' as http;
+import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 
@@ -24,28 +25,27 @@ class ProductsServices {
       var response;
       if (bodyKey == "category_id") {
         response = await ApiProvider.sendRequest(
-            url: ADD_PRODUCTS_TO_CATEGORY + productId,
-            method: httpMethods.post,
-            body: jsonEncode(body));
+            url: ADD_PRODUCTS_TO_CATEGORY + productId, method: httpMethods.post, body: jsonEncode(body));
       } else if (!isForSubWarehouse) {
-        Tools.logToConsole("Updating Products information $body");
         response = await ApiProvider.sendRequest(
-            url: GET_PRODUCT + productId,
-            method: httpMethods.put,
-            body: jsonEncode(body));
+          url: GET_PRODUCT + productId,
+          method: httpMethods.put,
+          body: jsonEncode(body),
+        );
       } else {
-        Tools.logToConsole("Updating warehouse information $body");
+        Tools.logToConsole('shosho' + productId);
         response = await ApiProvider.sendRequest(
-            url: UPDATE_SUB_WAREHOUSE_PRODUCTS + productId,
-            method: httpMethods.put,
-            body: jsonEncode(
-                {"sub_warehouse_id": subWarehouseId, bodyKey: value}));
+          url: UPDATE_SUB_WAREHOUSE_PRODUCTS + productId,
+          method: httpMethods.put,
+          body: jsonEncode(
+            {
+              "sub_warehouse_id": subWarehouseId,
+              bodyKey: value,
+            },
+          ),
+        );
       }
       if (response.statusCode == SUCCESS_CODE) {
-        print('response.statusCode');
-        print(response.statusCode);
-        print('update response');
-        print(response);
         return true;
       } else {
         return false;
@@ -56,8 +56,7 @@ class ProductsServices {
     }
   }
 
-  static Future<bool> removeProductFromCategory(
-      {@required String productId, @required String categoryId}) async {
+  static Future<bool> removeProductFromCategory({@required String productId, @required String categoryId}) async {
     try {
       var response = await ApiProvider.sendRequest(
         queryParameters: {'category_id': categoryId},
@@ -97,17 +96,13 @@ class ProductsServices {
     };
 
     try {
-      Tools.logToConsole('judge sub warehouse id if guilty');
-      Tools.logToConsole(subWarehouseId);
       var response = await ApiProvider.sendRequest(
-          url: GET_PRODUCT,
-          method: httpMethods.post,
-          body: jsonEncode(productBody));
+        url: GET_PRODUCT,
+        method: httpMethods.post,
+        body: jsonEncode(productBody),
+      );
 
-      if (response.statusCode == SUCCESS_CODE &&
-          response.data["success"] == true) {
-        Tools.logToConsole(
-            "THE Product Id from Add Product is : ${response.data["data"]["id"]}");
+      if (response.statusCode == SUCCESS_CODE && response.data["success"] == true) {
         var subWarehouseBody = {
           "product_id": response.data["data"]["id"].toString(),
           "sub_warehouse_id": subWarehouseId,
@@ -121,8 +116,7 @@ class ProductsServices {
           "price_factor": priceFactor,
           "automatic_activation": autoActivation,
         };
-        bool result = await AddedProductsServices.attachProductsToSubWarehouse(
-            fullRequestBody: subWarehouseBody);
+        bool result = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: subWarehouseBody);
         if (result) {
           return int.parse(response.data["data"]["id"].toString());
         } else {
@@ -133,21 +127,15 @@ class ProductsServices {
       }
     } catch (e) {
       Tools.logToConsole(e.toString());
-
       return 0;
     }
   }
 
   static Future<bool> setImageToProducts({File image, int productId}) async {
-    var headers = {
-      'Authorization':
-          LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""
-    };
-    var request = http.MultipartRequest(
-        'POST', Uri.parse(BASE_URL + ADD_IMAGE_TO_PRODUCTS));
+    var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
+    var request = http.MultipartRequest('POST', Uri.parse(BASE_URL + ADD_IMAGE_TO_PRODUCTS));
     request.fields.addAll({'product_id': '$productId'});
-    request.files
-        .add(await http.MultipartFile.fromPath('image', '${image.path}'));
+    request.files.add(await http.MultipartFile.fromPath('image', '${image.path}'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -156,6 +144,41 @@ class ProductsServices {
     } else {
       print(response.reasonPhrase);
       return false;
+    }
+  }
+
+  static Future<bool> setBarcodeToProduct({@required int bareCode, @required int productId}) async {
+    var requestBody = {
+      "product_id": productId,
+      "barcode": bareCode,
+    };
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: PRODUCT_BARCODE,
+        method: httpMethods.post,
+        body: jsonEncode(requestBody),
+      );
+      if (response.statusCode == SUCCESS_CODE) {
+        return true;
+      } else
+        return false;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<List<ProductData>> searchProductByBarcode({@required String bareCode}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: SEARCH_PRODUCT_BY_BARCODE + bareCode,
+        method: httpMethods.get,
+      );
+      if (response.statusCode == SUCCESS_CODE) {
+        return syncCartFromJson(jsonEncode(response.data["data"]));
+      } else
+        return null;
+    } catch (e) {
+      return null;
     }
   }
 

@@ -6,6 +6,7 @@ class TextFieldRow extends StatefulWidget {
   final TextEditingController controller;
   final MainAxisAlignment mainAxisAlignment;
   final String text;
+  final hint;
   final TextInputType inputType;
   final double width;
 
@@ -16,6 +17,7 @@ class TextFieldRow extends StatefulWidget {
     @required this.inputType,
     @required this.width,
     @required this.mainAxisAlignment,
+    this.hint,
   }) : super(key: key);
 
   @override
@@ -34,6 +36,7 @@ class _TextFieldRowState extends State<TextFieldRow> {
           style: paragraphStyle,
         ),
         EntryField(
+          hint: widget.hint,
           controller: widget.controller,
           fieldType: widget.inputType,
           width: widget.width,

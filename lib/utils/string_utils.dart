@@ -100,12 +100,10 @@ class StringUtils {
   static String onBoardingTitle2 = 'Pick Up or Delivery';
   static String onBoardingTitle3 = 'Pay quick and easy';
 
-  static String onBoardingDescribe1 =
-      'Easily find your grocery items and you will get delivery in wide range';
+  static String onBoardingDescribe1 = 'Easily find your grocery items and you will get delivery in wide range';
   static String onBoardingDescribe2 =
       'We make ordering fast, simple and free-no matter if you order online or cash';
-  static String onBoardingDescribe3 =
-      'Pay for order using credit or debit card';
+  static String onBoardingDescribe3 = 'Pay for order using credit or debit card';
 
   //Roles:
   static String shopperRole = 'shopper';
@@ -115,6 +113,7 @@ class StringUtils {
   static String operationManager = 'operation-manager';
   static String productsController = 'product-management';
   static String supplierRol = 'supplier-role';
+  static String accountingRole = 'accounting-role';
 
   //Orders types:
   static String myOrder = 'assigned';
@@ -122,7 +121,7 @@ class StringUtils {
 
   //Order icons:
   static String myOrders = 'طلباتي';
-  static String inventory = 'جرد منتجات';
+  static String inventory = 'جرد المنتجات';
   static String prices = 'الأسعار';
 
   //Buttons text:
@@ -166,48 +165,40 @@ class StringUtils {
   //Messages:
   static String noInternetConnection = 'لايوجد إتصال بالإنترنت';
   static String chooseShopper = 'اختر متسوق';
+  static String errorMessage = 'حدث خطأ اثناء محاولة جلب البيانات';
   final oCcy = new NumberFormat("#,##0", "en_US");
 
-  static List<String> transactionTableTypes = [
-    'تسوق', //1
-    'توصيل', //2
-    'طريقة التوصيل', //3
-    'تحديث الطلب', //4
-    'خصم', //5
-    'إقراض', //6
-    'تسديد', //7
+  static Map<String, String> transactionTypesMap = {
+    'shopping': 'تسوق', //1
+    'delivery': 'توصيل', //2
+    'delivery-method': 'طريقة التوصيل', //3
+    'update-order': 'تحديث الطلب', //4
+    'deduct': 'خصم', //5
+    'lend-mony': 'إقراض', //6
+    'repayment': 'تسديد', //7
+    'compensation': 'تعويض', //8
+    'bonus': 'بونص', //9
+    'remaining-money': 'زوائد', //10
+  };
+
+  static List<String> shopperLevels = ['مبتدئ', 'متوسط', 'متقدم', 'خبير', 'معلم'];
+
+  static List<String> productFilter = [
+    'الغير مفعلة',
+    'عدد مرات البيع',
+    'عدد مرات العرض',
   ];
 
-  static List<String> singleTransactionTypes = [
-    'خصم', //1
-    'إقراض', //2
-    'تسديد', //3
+  static List<String> productFilterUrls = [
+    FILTER_BY_LAST_ACTIVATION_DATE,
+    FILTER_BY_NUMBER_OF_SALES,
+    FILTER_BY_NUMBER_OF_VISITS,
   ];
 
-  static List<String> singleTransactionUrls = [
-    DEDUCT_FROM_SHOPPER_PROFIT,
-    LEND_MONEY_TO_SHOPPER,
-    REPAYMENT_BY_SHOPPER,
-  ];
-
-  static List<String> singleTransactionValue = [
-    'deduct_value',
-    'loan_value',
-    'repayment_value',
-  ];
-
-  static List<String> singleTransactionDescription = [
-    'deduct_reason',
-    'description',
-    'description',
-  ];
-
-  static List<String> shopperLevels = [
-    'مبتدئ',
-    'متوسط',
-    'متقدم',
-    'خبير',
-    'معلم'
+  static List<String> productFilterParams = [
+    'number_of_days',
+    'number_of_sale',
+    'number_of_visit',
   ];
 
   static List<String> orderTypes = [

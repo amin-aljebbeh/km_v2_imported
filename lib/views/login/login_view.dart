@@ -1,9 +1,7 @@
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
@@ -16,8 +14,6 @@ class LoginScreen extends StatefulWidget {
   static String routeName = "/login";
   static String phoneNumber = "";
   static String supportedCityId;
-
-  // static String selectedValue;
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -35,11 +31,6 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   void initState() {
-    // if (LoadingScreenServices.supportedCitiesListIntro.length == 0) {
-    //   Navigator.push(context,
-    //       new MaterialPageRoute(builder: (context) => new InternetError()));
-    // }
-
     super.initState();
   }
 
@@ -63,7 +54,8 @@ class _LoginScreenState extends State<LoginScreen>
       });
     } else {
       bool response = await LoginServices.loginAdmin(
-          username: _usernameController.text, password: _passwordController.text);
+          username: _usernameController.text,
+          password: _passwordController.text);
       if (response) {
         //dima
         TextInput.finishAutofillContext();
@@ -98,14 +90,12 @@ class _LoginScreenState extends State<LoginScreen>
 
         String signature = await SmsAutoFill().getAppSignature;
 
-        Tools.logToConsole(
-            "Signature: ###################" + signature.toString());
         if (signature.toString().length != 11) {
           signature = "no";
         }
         bool response = await Services.loginUser(
-            phoneNumber:
-                LoginServices.replaceFarsiNumber(_usernameController.text.toString()),
+            phoneNumber: LoginServices.replaceFarsiNumber(
+                _usernameController.text.toString()),
             signCode: signature,
             supportedCityId: "1");
 
@@ -113,14 +103,14 @@ class _LoginScreenState extends State<LoginScreen>
           await SmsAutoFill().listenForCode;
           setState(() {
             loadingScreen = false;
-            LoginScreen.phoneNumber =
-                LoginServices.replaceFarsiNumber(_usernameController.text.toString());
+            LoginScreen.phoneNumber = LoginServices.replaceFarsiNumber(
+                _usernameController.text.toString());
           });
-          Navigator.of(context)
-              .pushReplacementNamed(OTPVerification.routeName, arguments: {
-            "phone":
-                LoginServices.replaceFarsiNumber(_usernameController.text.toString())
-          });
+          Navigator.of(context).pushReplacementNamed(OTPVerification.routeName,
+              arguments: {
+                "phone": LoginServices.replaceFarsiNumber(
+                    _usernameController.text.toString())
+              });
         } else {
           setState(() {
             loadingScreen = false;
@@ -132,7 +122,6 @@ class _LoginScreenState extends State<LoginScreen>
           loadingScreen = false;
           errorCode = true;
         });
-        Tools.logToConsole("----------------- FEATCH OTP EXCEPTION ------");
         throw new Exception(e.toString());
       }
     }
@@ -143,10 +132,6 @@ class _LoginScreenState extends State<LoginScreen>
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: TextFormField(
         textDirection: TextDirection.ltr,
-        // maxLengthEnforced: true,
-        // maxLength: 20,
-
-        // keyboardType: TextInputType.multiline,
         maxLines: 1,
         controller: _passwordController,
         keyboardType: TextInputType.text,

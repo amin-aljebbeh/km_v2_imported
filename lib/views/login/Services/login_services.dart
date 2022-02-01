@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -90,7 +90,6 @@ class LoginServices {
       'password': password,
     };
 
-    Tools.logToConsole(jsonEncode(loginBody));
     try {
       var response = await ApiProvider.sendRequest(
           url: LOGIN_ADMIN,
@@ -99,14 +98,8 @@ class LoginServices {
           responseType: ResponseType.json);
       var theResponse = response.data;
 
-      Tools.logToConsole("----- Login Response -----");
-      Tools.logToConsole(theResponse);
-      if (response.statusCode == SUCCESS_CODE &&
-          (theResponse["success"].toString() == "true")) {
-        Tools.logToConsole(theResponse["success"].toString());
-
-        final newResponse =
-            adminLoginResponseFromJson(jsonEncode(response.data));
+      if (response.statusCode == SUCCESS_CODE && (theResponse["success"].toString() == "true")) {
+        final newResponse = adminLoginResponseFromJson(jsonEncode(response.data));
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("userToken", newResponse.data.apiToken);
         prefs.setString("adminRoll", username);
@@ -122,7 +115,7 @@ class LoginServices {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole('e.toString()');
+      Tools.logToConsole(e.toString());
       return false;
     }
   }

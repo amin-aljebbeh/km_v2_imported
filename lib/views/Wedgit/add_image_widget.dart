@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'widgets_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -10,8 +9,7 @@ class AddImageWidget extends StatefulWidget {
   final bool hasImage;
   final Function onSubmit;
 
-  AddImageWidget({Key key, @required this.onSubmit, @required this.hasImage})
-      : super(key: key);
+  AddImageWidget({Key key, @required this.onSubmit, @required this.hasImage}) : super(key: key);
 
   @override
   _AddImageWidgetState createState() => _AddImageWidgetState();
@@ -93,13 +91,12 @@ class _AddImageWidgetState extends State<AddImageWidget> {
   }
 
   Future getImage(ImageSource imageSource) async {
-    final pickedFile = await picker.getImage(
-        source: imageSource, imageQuality: 100, maxHeight: 600, maxWidth: 500);
+    final pickedFile =
+        await picker.getImage(source: imageSource, imageQuality: 100, maxHeight: 600, maxWidth: 500);
 
     setState(() {
       if (pickedFile != null) {
         image = File(pickedFile.path);
-        // _uploadedFile = uploadedFile;
       }
     });
   }

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/common_utils.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/order_details/order_detail_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
-import 'package:intl/intl.dart';
 import 'services/order_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -58,12 +54,9 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     });
     var orderList;
     if (LoadingScreenServices.myOrdersList.length == 0) {
-      if (Services.isDelivery())
-        orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
-      if (Services.isShopper())
-        orderList = await OrderServices.getShopperOrders(pageNumber: page);
-      if (Services.isSupplierManager())
-        orderList = await OrderServices.getSupplierOrders(pageNumber: page);
+      if (Services.isDelivery()) orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
+      if (Services.isShopper()) orderList = await OrderServices.getShopperOrders(pageNumber: page);
+      if (Services.isSupplierManager()) orderList = await OrderServices.getSupplierOrders(pageNumber: page);
     } else {
       orderList = LoadingScreenServices.myOrdersList;
     }
@@ -71,8 +64,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       if (orderList.length == 0) {
         setState(() {
           LoadingScreenServices.myOrdersList = orderDataList;
-          if (LoadingScreenServices.myOrdersList.length != 0)
-            theEndOfOrders = true;
+          if (LoadingScreenServices.myOrdersList.length != 0) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -81,11 +73,9 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
         setState(() {
           orderDataList = orderList;
           if (filterOrders == 0) {
-            orderDataList
-                .removeWhere((order) => int.parse(order.orderStatusId) > 4);
+            orderDataList.removeWhere((order) => int.parse(order.orderStatusId) > 4);
           } else {
-            orderDataList.removeWhere(
-                (order) => int.parse(order.orderStatusId) != filterOrders);
+            orderDataList.removeWhere((order) => int.parse(order.orderStatusId) != filterOrders);
           }
 
           orderDataList.removeWhere((order) => order.products.length == 0);
@@ -135,8 +125,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                       children: <Widget>[
                         DropdownButton(
                           value: filterOrders,
-                          items: Services.dropdownStringList(
-                              StringUtils.orderStatus),
+                          items: Services.dropdownStringList(StringUtils.orderStatus),
                           onChanged: (value) {
                             setState(() {
                               filterOrders = value;
@@ -165,8 +154,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         ),
                         DropdownButton(
                           value: page,
-                          items: Services.dropdownIntList(
-                              StringUtils.dropdownValues),
+                          items: Services.dropdownIntList(StringUtils.dropdownValues),
                           onChanged: (value) {
                             setState(() {
                               page = value;
@@ -218,132 +206,70 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                           ),
                     Expanded(
                       child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(
-                            parent: BouncingScrollPhysics()),
+                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                         primary: false,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount:
-                            orderDataList == null ? 0 : orderDataList.length,
+                        itemCount: orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          orderDataList[index].initOrderRow();
-                          if (Services.isShopper())
-                            orderDataList[index].accountOrderRows();
-                          String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
-                              .format(orderDataList[index].createdAt);
+                          orderDataList[index].orderArithmeticOperations();
+                          if (Services.isShopper()) orderDataList[index].orderProfits();
                           if (Services.isSupplierManager())
                             return SupplierOrdersViewCard(
                               order: orderDataList[index],
                             );
                           return Column(
                             children: <Widget>[
-                              new GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => _onTileClicked(index),
-                                child: OrdersViewCard(
-                                  orderData: orderDataList[index],
-                                  deliveryName:
-                                      orderDataList[index].delivery != null
-                                          ? orderDataList[index].delivery.name
-                                          : null,
-                                  shopperName:
-                                      orderDataList[index].shopper != null
-                                          ? orderDataList[index].shopper.name
-                                          : null,
-                                  orderId: orderDataList[index].id,
-                                  entrance:
-                                      orderDataList[index].address.entrance,
-                                  deliveryMethodId: int.parse(
-                                      orderDataList[index].deliveryMethodId),
-                                  lat:
-                                      orderDataList[index].address.lat != "null"
-                                          ? double.parse(
-                                              orderDataList[index].address.lat)
-                                          : null,
-                                  lon:
-                                      orderDataList[index].address.lon != "null"
-                                          ? double.parse(
-                                              orderDataList[index].address.lon)
-                                          : null,
-                                  userNumber:
-                                      orderDataList[index].userData.phone,
-                                  address: orderDataList[index].address.street +
-                                      " " +
-                                      orderDataList[index].address.building +
-                                      " طابق " +
-                                      orderDataList[index].address.floor +
-                                      " " +
-                                      orderDataList[index].address.description,
-                                  supportedCityId:
-                                      orderDataList[index].supportedCityId,
-                                  underUpdate: int.parse(
-                                      orderDataList[index].underUpdate),
-                                  orderTotalPrice:
-                                      orderDataList[index].total.toString(),
-                                  orderStatus: int.parse(
-                                      orderDataList[index].orderStatusId),
-                                  orderQuantity:
-                                      orderDataList[index].products.length,
-                                  orderCreatedDate: dateTime,
-                                ),
+                              OrdersViewCard(
+                                orderData: orderDataList[index],
                               ),
-                              KammunButton(
-                                text: StringUtils.editOrder,
-                                onTap: () async {
-                                  setState(
-                                    () {
-                                      orderLoaded = false;
-                                      errorMessage = false;
-                                    },
-                                  );
-                                  LockOrder response =
-                                      await OrderServices.lockOrder(
-                                          orderId: orderDataList[index]
-                                              .id
-                                              .toString(),
-                                          userNote:
-                                              orderDataList[index].userNotes,
-                                          supportedCityCost:
-                                              orderDataList[index]
-                                                  .supportedCityCost,
-                                          deliveryMethodCost:
-                                              orderDataList[index].deliveryCost,
-                                          deliveryMethodId: int.parse(
-                                              orderDataList[index]
-                                                  .deliveryMethodId
-                                                  .toString()));
-                                  if (response != null) {
-                                    if (response.success) {
-                                      setState(() {
-                                        orderLoaded = true;
+                              if (!['5', '6', '7'].contains(orderDataList[index].orderStatusId))
+                                KammunButton(
+                                  text: StringUtils.editOrder,
+                                  onTap: () async {
+                                    setState(
+                                      () {
+                                        orderLoaded = false;
                                         errorMessage = false;
-                                      });
-                                      _moveOrderProductsToCart(
-                                          orderIndex: index,
-                                          orderProducts: response.products);
-                                      orderDataList[index].underUpdate = "1";
-                                    } else if (!response.success) {
+                                      },
+                                    );
+                                    LockOrder response = await OrderServices.lockOrder(
+                                        orderId: orderDataList[index].id.toString(),
+                                        userNote: orderDataList[index].userNotes,
+                                        supportedCityCost: orderDataList[index].supportedCityCost,
+                                        deliveryMethodCost: orderDataList[index].deliveryCost,
+                                        deliveryMethodId:
+                                            int.parse(orderDataList[index].deliveryMethodId.toString()));
+                                    if (response != null) {
+                                      if (response.success) {
+                                        setState(() {
+                                          orderLoaded = true;
+                                          errorMessage = false;
+                                        });
+                                        _moveOrderProductsToCart(
+                                            orderIndex: index, orderProducts: response.products);
+                                        orderDataList[index].underUpdate = "1";
+                                      } else if (!response.success) {
+                                        setState(() {
+                                          orderDataList[index].underUpdate = "2";
+                                          orderLoaded = true;
+                                          errorMessage = true;
+                                          errorMessageValue =
+                                              "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
+                                        });
+                                      }
+                                    } else {
                                       setState(() {
-                                        orderDataList[index].underUpdate = "2";
                                         orderLoaded = true;
                                         errorMessage = true;
                                         errorMessageValue =
-                                            "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
+                                            "حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت";
                                       });
                                     }
-                                  } else {
-                                    setState(() {
-                                      orderLoaded = true;
-                                      errorMessage = true;
-                                      errorMessageValue =
-                                          "حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت";
-                                    });
-                                  }
-                                },
-                                color: Colors.green,
-                              ),
-                              orderDataList[index].userNotes.toString() !=
-                                      "null"
+                                  },
+                                  color: Colors.green,
+                                ),
+                              orderDataList[index].userNotes.toString() != "null"
                                   ? KammunButton(
                                       text: StringUtils.watchNote,
                                       onTap: () {
@@ -357,8 +283,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                         ];
                                         showMyDialog(
                                             title: 'ملاحظة العميل',
-                                            text:
-                                                orderDataList[index].userNotes,
+                                            text: orderDataList[index].userNotes,
                                             dialogButtons: decisionButtons,
                                             context: context);
                                       },
@@ -375,16 +300,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                             text: 'نعم',
                                             onTap: () async {
                                               Navigator.of(context).pop();
-                                              bool result = await OrderServices
-                                                  .unlockOrder(
-                                                      orderId.toString());
-                                              Services.resultFlushBar(
-                                                  context: context,
-                                                  result: result);
+                                              bool result = await OrderServices.unlockOrder(orderId.toString());
+                                              Services.resultFlushBar(context: context, result: result);
                                               setState(() {
-                                                if (result)
-                                                  orderDataList[index]
-                                                      .underUpdate = '0';
+                                                if (result) orderDataList[index].underUpdate = '0';
                                               });
                                             },
                                           ),
@@ -424,8 +343,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                     theEndOfOrders
                         ? Padding(
                             padding: EdgeInsets.only(top: screenHeight * 0.4),
-                            child: ScreenMessage(
-                                message: 'لا يوجد أي طلبات سابقة'),
+                            child: ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
                           )
                         : Container(),
                   ],
@@ -435,8 +353,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     );
   }
 
-  _moveOrderProductsToCart(
-      {int orderIndex, List<OrderProducts> orderProducts}) async {
+  _moveOrderProductsToCart({int orderIndex, List<OrderProducts> orderProducts}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     CartServices.cartProducts.clear();
     String productsId = "";
@@ -463,41 +380,13 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
 
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
       productsId += CartServices.cartProducts[i].id.toString() + ";";
-      productsQuantity +=
-          CartServices.cartProducts[i].productCount.toString() + ";";
+      productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
     }
     prefs.setString("userCart", productsId + "@" + productsQuantity);
 
     Navigator.of(context).pushNamedAndRemoveUntil(
       '/cartFromUpdate',
       (Route<dynamic> route) => false,
-    );
-  }
-
-  void _onTileClicked(int index) {
-    Navigator.push(
-      context,
-      new MaterialPageRoute(
-        builder: (context) => new OrderDetailView(
-          orderData: orderDataList[index],
-          orderId: orderDataList[index].id,
-          ordersAry: orderDataList[index].products,
-          addressName: orderDataList[index].address.street,
-          subTotal:
-              int.parse(orderDataList[index].total.toString().split(".")[0]) -
-                  int.parse(orderDataList[index]
-                      .supportedCityCost
-                      .toString()
-                      .split(".")[0]) -
-                  int.parse(orderDataList[index].deliveryCost.split(".")[0]),
-          total: orderDataList[index].total.toString(),
-          deliveryPrice: (int.parse(
-                      orderDataList[index].supportedCityCost.split(".")[0]) +
-                  int.parse(orderDataList[index].deliveryCost.split(".")[0]))
-              .toString(),
-          orderType: OrderType.myOrder,
-        ),
-      ),
     );
   }
 }

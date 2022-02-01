@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:kammun_app/utils/Loader.dart';
-import 'package:intl/intl.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
-import 'package:toast/toast.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 import 'models/sales_reports_model.dart';
@@ -17,15 +13,8 @@ class SalesReport extends StatefulWidget {
 class _SalesReportState extends State<SalesReport> {
   String _fromDateTimeValue = "يرجى أختيار تاريخ البداية";
   String _toDateTimeValue = "يرجى إختيار تاريخ النهاية";
-  final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   bool isLoading = false;
   bool isError = false;
-  int vegetables = 0;
-  int toaster = 0;
-  int library = 0;
-  int seed = 0;
-  int all = 0;
-
   List<Widget> totalSubWarehouses = [];
 
   _reportCard(GetDailyStatistics response) {
@@ -49,8 +38,7 @@ class _SalesReportState extends State<SalesReport> {
         totalSubWarehouses.add(
           Center(
             child: Table(
-              border: TableBorder.all(
-                  color: Colors.black, style: BorderStyle.solid, width: 2),
+              border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
               children: [
                 TableRow(children: [
                   KTableElement(text: "إجمالي المبيعات"),
@@ -60,24 +48,16 @@ class _SalesReportState extends State<SalesReport> {
                 TableRow(
                   children: [
                     KTableElement(
-                      text: StringUtils()
-                          .oCcy
-                          .format(
-                              response.data[i].statisticsWarehouses.totalSales)
-                          .toString(),
+                      text: StringUtils().oCcy.format(response.data[i].statisticsWarehouses.totalSales).toString(),
                     ),
                     KTableElement(
                       text: StringUtils()
                           .oCcy
-                          .format(response
-                              .data[i].statisticsWarehouses.deliveryIncome)
+                          .format(response.data[i].statisticsWarehouses.deliveryIncome)
                           .toString(),
                     ),
                     KTableElement(
-                      text: StringUtils()
-                          .oCcy
-                          .format(response.data[i].statisticsWarehouses.total)
-                          .toString(),
+                      text: StringUtils().oCcy.format(response.data[i].statisticsWarehouses.total).toString(),
                     ),
                   ],
                 ),
@@ -86,9 +66,7 @@ class _SalesReportState extends State<SalesReport> {
           ),
         );
         if (response.data[i].statisticsSubWarehouses != null) {
-          for (int j = 0;
-              j < response.data[i].statisticsSubWarehouses.length;
-              j++) {
+          for (int j = 0; j < response.data[i].statisticsSubWarehouses.length; j++) {
             totalSubWarehouses.add(
               KTableRow(
                 children: [
@@ -98,8 +76,7 @@ class _SalesReportState extends State<SalesReport> {
                   KTableElement(
                     text: StringUtils()
                         .oCcy
-                        .format(int.parse(response.data[i]
-                            .statisticsSubWarehouses[j].sumPurchasePrice))
+                        .format(int.parse(response.data[i].statisticsSubWarehouses[j].sumPurchasePrice))
                         .toString(),
                   ),
                 ],
@@ -109,9 +86,7 @@ class _SalesReportState extends State<SalesReport> {
         }
 
         if (response.data[i].statisticsSupportedCities != null) {
-          for (int j = 0;
-              j < response.data[i].statisticsSupportedCities.length;
-              j++) {
+          for (int j = 0; j < response.data[i].statisticsSupportedCities.length; j++) {
             totalSubWarehouses.add(
               KTableRow(
                 children: [
@@ -133,9 +108,8 @@ class _SalesReportState extends State<SalesReport> {
                   KTableElement(
                     text: StringUtils()
                         .oCcy
-                        .format(int.parse(response
-                            .data[i].statisticsSupportedCities[j].deliveryIncome
-                            .split(".")[0]))
+                        .format(
+                            int.parse(response.data[i].statisticsSupportedCities[j].deliveryIncome.split(".")[0]))
                         .toString(),
                   ),
                   KTableElement(
@@ -143,9 +117,7 @@ class _SalesReportState extends State<SalesReport> {
                         .oCcy
                         .format(
                           int.parse(
-                            response.data[i].statisticsSupportedCities[j]
-                                .ordersCount
-                                .toString(),
+                            response.data[i].statisticsSupportedCities[j].ordersCount.toString(),
                           ),
                         )
                         .toString(),
@@ -155,10 +127,7 @@ class _SalesReportState extends State<SalesReport> {
                         .oCcy
                         .format(
                           int.parse(
-                            response.data[i].statisticsSupportedCities[j]
-                                .deliveryPrice
-                                .split(".")[0]
-                                .toString(),
+                            response.data[i].statisticsSupportedCities[j].deliveryPrice.split(".")[0].toString(),
                           ),
                         )
                         .toString(),
@@ -202,7 +171,7 @@ class _SalesReportState extends State<SalesReport> {
       appBar: AppBar(
         title: Text(
           "إحصائيات المبيعات",
-          style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
+          style: mainStyle,
         ),
       ),
       body: SafeArea(
@@ -211,69 +180,21 @@ class _SalesReportState extends State<SalesReport> {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text(
-                    "من تاريخ",
-                    style:
-                        TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.timer),
-                    onPressed: () {
-                      DatePicker.showDateTimePicker(context,
-                          showTitleActions: true,
-                          onChanged: (date) {}, onConfirm: (date) {
-                        setState(
-                          () {
-                            _fromDateTimeValue =
-                                fullDateFormatter.format(date).toString();
-                          },
-                        );
-                      }, currentTime: DateTime.now(), locale: 'en');
-                    },
-                  ),
-                  Text(
-                    _fromDateTimeValue,
-                    style:
-                        TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Text("إلى تاريخ",
-                      style: TextStyle(
-                          fontFamily: StringUtils.fontFamilyHKGrotesk)),
-                  IconButton(
-                    icon: Icon(Icons.timeline),
-                    onPressed: () {
-                      DatePicker.showDateTimePicker(context,
-                          showTitleActions: true,
-                          onChanged: (date) {}, onConfirm: (date) {
-                        setState(
-                          () {
-                            _toDateTimeValue =
-                                fullDateFormatter.format(date).toString();
-                          },
-                        );
-                      }, currentTime: DateTime.now(), locale: 'en');
-                    },
-                  ),
-                  Text(
-                    _toDateTimeValue,
-                    style:
-                        TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-                  )
-                ],
+              KDatePicker(
+                onConfirmStart: (date) {
+                  setState(() {
+                    _fromDateTimeValue = date;
+                  });
+                },
+                onConfirmEnd: (date) {
+                  setState(() {
+                    _toDateTimeValue = date;
+                  });
+                },
               ),
               KammunButton(
                 text: StringUtils.send,
-                color: validDates()
-                    ? Theme.of(context).primaryColor
-                    : ColorUtils.searchGreyColor,
+                color: validDates() ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
                 onTap: () {
                   if (validDates())
                     _getSailsReport();
@@ -286,16 +207,11 @@ class _SalesReportState extends State<SalesReport> {
               SizedBox(
                 height: 20,
               ),
-              isError
-                  ? AlertMessages(
-                      text: "حطأ أثناء جلب البيانات",
-                      messageType: "internetError")
-                  : Container(),
+              isError ? AlertMessages(text: StringUtils.errorMessage, messageType: "internetError") : Container(),
               isLoading
                   ? Loader()
                   : totalSubWarehouses.length > 0
                       ? Column(
-                          // shrinkWrap: true,
                           children: totalSubWarehouses,
                         )
                       : Container(),
@@ -307,7 +223,6 @@ class _SalesReportState extends State<SalesReport> {
   }
 
   bool validDates() {
-    return _fromDateTimeValue != "يرجى أختيار تاريخ البداية" &&
-        _toDateTimeValue != "يرجى إختيار تاريخ النهاية";
+    return _fromDateTimeValue != "يرجى أختيار تاريخ البداية" && _toDateTimeValue != "يرجى إختيار تاريخ النهاية";
   }
 }

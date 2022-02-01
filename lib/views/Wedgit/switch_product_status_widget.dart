@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -11,23 +10,22 @@ class SwitchProductStatusWidget extends StatefulWidget {
   final int preState;
   final int subWarehouseId;
   final String productId;
-  final Function resultFunction;
-  final Function onChange;
+  final Function(int newStat, bool result) onChange;
+  final bool isForSubWarehouse;
 
   const SwitchProductStatusWidget({
     Key key,
     @required this.preState,
     @required this.subWarehouseId,
     @required this.productId,
-    this.resultFunction,
     @required this.onChange,
     @required this.height,
     @required this.width,
+    this.isForSubWarehouse,
   }) : super(key: key);
 
   @override
-  _SwitchProductStatusWidgetState createState() =>
-      _SwitchProductStatusWidgetState();
+  _SwitchProductStatusWidgetState createState() => _SwitchProductStatusWidgetState();
 }
 
 class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
@@ -39,14 +37,10 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
       margin: const EdgeInsets.all(15.0),
       padding: const EdgeInsets.all(3.0),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(
-              Radius.circular(10.0) //                 <--- border radius here
+          borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
               ),
           border: Border.all(
-              color: widget.preState == 1
-                  ? ColorUtils.kmColors
-                  : ColorUtils.searchGreyColor,
-              width: 2)),
+              color: widget.preState == 1 ? ColorUtils.kmColors : ColorUtils.searchGreyColor, width: 2)),
       child: Center(
         child: Switch(
           value: widget.preState == 1 ? true : false,
@@ -56,15 +50,12 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
               bodyKey: "is_active",
               value: value ? "1" : "0",
               subWarehouseId: widget.subWarehouseId.toString(),
-              isForSubWarehouse: true,
+              isForSubWarehouse: widget.isForSubWarehouse,
               productId: widget.productId,
             );
 
             Services.resultFlushBar(context: context, result: result);
             if (result) {
-              widget.resultFunction != null
-                  ? widget.resultFunction()
-                  : Tools.logToConsole('');
               setState(() {
                 int newStat;
                 if (widget.preState == 1) {
@@ -72,9 +63,9 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
                 } else {
                   newStat = 1;
                 }
-                widget.onChange(newStat);
+                widget.onChange(newStat, result);
               });
-            } else {}
+            }
           },
           activeTrackColor: ColorUtils.kmColors2,
           activeColor: ColorUtils.kmColors,

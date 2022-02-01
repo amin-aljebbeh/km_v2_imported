@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/common_utils.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/order_details/order_detail_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
-import 'package:intl/intl.dart';
 import 'services/order_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -71,8 +67,7 @@ class OrdersViewState extends State<OrdersView> {
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
-          if (LoadingScreenServices.allOrdersList.length != 0)
-            theEndOfOrders = true;
+          if (LoadingScreenServices.allOrdersList.length != 0) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -82,11 +77,9 @@ class OrdersViewState extends State<OrdersView> {
           orderDataList.addAll(orderList);
           if (generalLoaded) {
             if (ordersFilter == 0) {
-              orderDataList
-                  .removeWhere((order) => int.parse(order.orderStatusId) > 4);
+              orderDataList.removeWhere((order) => int.parse(order.orderStatusId) > 4);
             } else {
-              orderDataList.removeWhere(
-                  (order) => int.parse(order.orderStatusId) != ordersFilter);
+              orderDataList.removeWhere((order) => int.parse(order.orderStatusId) != ordersFilter);
             }
           } else
             switch (ordersTypeFilter) {
@@ -153,8 +146,7 @@ class OrdersViewState extends State<OrdersView> {
                           children: [
                             DropdownButton(
                               value: ordersFilter,
-                              items: Services.dropdownStringList(
-                                  StringUtils.orderStatus),
+                              items: Services.dropdownStringList(StringUtils.orderStatus),
                               onChanged: (value) {
                                 setState(() {
                                   generalLoaded = true;
@@ -167,8 +159,7 @@ class OrdersViewState extends State<OrdersView> {
                             ),
                             DropdownButton(
                               value: ordersTypeFilter,
-                              items: Services.dropdownStringList(
-                                  StringUtils.orderTypes),
+                              items: Services.dropdownStringList(StringUtils.orderTypes),
                               onChanged: (value) {
                                 setState(() {
                                   generalLoaded = false;
@@ -200,8 +191,7 @@ class OrdersViewState extends State<OrdersView> {
                         ),
                         DropdownButton(
                           value: page,
-                          items: Services.dropdownIntList(
-                              StringUtils.dropdownValues),
+                          items: Services.dropdownIntList(StringUtils.dropdownValues),
                           onChanged: (value) {
                             setState(() {
                               page = value;
@@ -215,7 +205,7 @@ class OrdersViewState extends State<OrdersView> {
                           child: IconButton(
                             onPressed: () {
                               setState(() {
-                                if (indexPage > 1 && indexPage < 15) {
+                                if (indexPage > 1 && indexPage <= 15) {
                                   page--;
                                 }
                                 if (indexPage > 1) indexPage--;
@@ -253,83 +243,24 @@ class OrdersViewState extends State<OrdersView> {
                           ),
                     Expanded(
                       child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(
-                            parent: BouncingScrollPhysics()),
+                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                         primary: false,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount:
-                            orderDataList == null ? 0 : orderDataList.length,
+                        itemCount: orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          if (LoadingScreenServices.subWarehouses[0].warehouseId
-                              .toString()
-                              .contains(orderDataList[index].warehouseId)) {
-                            orderDataList[index].initOrderRow();
-                            orderDataList[index].accountOrderRows();
+                          orderDataList[index].orderArithmeticOperations();
+                          if (Services.isShopper()) {
+                            orderDataList[index].orderProfits();
                           }
-
                           String shopper;
-                          String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
-                              .format(orderDataList[index].createdAt);
-                          if (orderDataList[index].shopper != null) {
-                            Tools.logToConsole('shopper name : ');
-                            Tools.logToConsole(
-                                orderDataList[index].shopper.name);
-                          }
+                          if (orderDataList[index].shopper != null) {}
                           return Column(
                             children: <Widget>[
-                              new GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => _onTileClicked(index),
-                                child: OrdersViewCard(
-                                  orderData: orderDataList[index],
-                                  deliveryName:
-                                      orderDataList[index].delivery != null
-                                          ? orderDataList[index].delivery.name
-                                          : null,
-                                  shopperName:
-                                      orderDataList[index].shopper != null
-                                          ? orderDataList[index].shopper.name
-                                          : null,
-                                  orderId: orderDataList[index].id,
-                                  entrance:
-                                      orderDataList[index].address.entrance,
-                                  deliveryMethodId: int.parse(
-                                      orderDataList[index].deliveryMethodId),
-                                  lat:
-                                      orderDataList[index].address.lat != "null"
-                                          ? double.parse(
-                                              orderDataList[index].address.lat)
-                                          : null,
-                                  lon:
-                                      orderDataList[index].address.lon != "null"
-                                          ? double.parse(
-                                              orderDataList[index].address.lon)
-                                          : null,
-                                  userNumber:
-                                      orderDataList[index].userData.phone,
-                                  address: orderDataList[index].address.street +
-                                      " " +
-                                      orderDataList[index].address.building +
-                                      " طابق " +
-                                      orderDataList[index].address.floor +
-                                      " " +
-                                      orderDataList[index].address.description,
-                                  supportedCityId:
-                                      orderDataList[index].supportedCityId,
-                                  underUpdate: int.parse(
-                                      orderDataList[index].underUpdate),
-                                  orderTotalPrice:
-                                      orderDataList[index].total.toString(),
-                                  orderStatus: int.parse(
-                                      orderDataList[index].orderStatusId),
-                                  orderQuantity:
-                                      orderDataList[index].products.length,
-                                  orderCreatedDate: dateTime,
-                                ),
+                              OrdersViewCard(
+                                orderData: orderDataList[index],
                               ),
-                              if (Services.isAdmin() ||
-                                  Services.isOperationManager())
+                              if (Services.isAdmin() || Services.isOperationManager())
                                 KSearchableDropdown(
                                   hint: orderDataList[index].shopper != null
                                       ? orderDataList[index].shopper.name
@@ -338,25 +269,16 @@ class OrdersViewState extends State<OrdersView> {
                                   items: Services.shoppersNameList(),
                                   onChanged: (value) async {
                                     if (value != null) {
-                                      String shopperId =
-                                          Services.selectedShopperId(value);
+                                      String shopperId = Services.selectedShopperId(value);
                                       setState(() {
                                         shopper = value;
-                                        orderDataList[index].shopper =
-                                            new Assigned(
-                                                name: value
-                                                    .replaceAll(' ✅', '')
-                                                    .replaceAll(' ❌', ''),
-                                                id: int.parse(shopperId));
+                                        orderDataList[index].shopper = new Assigned(
+                                            name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''),
+                                            id: int.parse(shopperId));
                                       });
-                                      bool result = await OrderServices
-                                          .assignOrderToShopper(
-                                              shopperId,
-                                              orderDataList[index]
-                                                  .id
-                                                  .toString());
-                                      Services.resultFlushBar(
-                                          context: context, result: result);
+                                      bool result = await OrderServices.assignOrderToShopper(
+                                          shopperId, orderDataList[index].id.toString());
+                                      Services.resultFlushBar(context: context, result: result);
                                     }
                                   },
                                 ),
@@ -369,22 +291,13 @@ class OrdersViewState extends State<OrdersView> {
                                       errorMessage = false;
                                     },
                                   );
-                                  LockOrder response =
-                                      await OrderServices.lockOrder(
-                                          orderId: orderDataList[index]
-                                              .id
-                                              .toString(),
-                                          userNote:
-                                              orderDataList[index].userNotes,
-                                          supportedCityCost:
-                                              orderDataList[index]
-                                                  .supportedCityCost,
-                                          deliveryMethodCost:
-                                              orderDataList[index].deliveryCost,
-                                          deliveryMethodId: int.parse(
-                                              orderDataList[index]
-                                                  .deliveryMethodId
-                                                  .toString()));
+                                  LockOrder response = await OrderServices.lockOrder(
+                                      orderId: orderDataList[index].id.toString(),
+                                      userNote: orderDataList[index].userNotes,
+                                      supportedCityCost: orderDataList[index].supportedCityCost,
+                                      deliveryMethodCost: orderDataList[index].deliveryCost,
+                                      deliveryMethodId:
+                                          int.parse(orderDataList[index].deliveryMethodId.toString()));
                                   if (response != null) {
                                     if (response.success) {
                                       setState(() {
@@ -392,8 +305,7 @@ class OrdersViewState extends State<OrdersView> {
                                         errorMessage = false;
                                       });
                                       _moveOrderProductsToCart(
-                                          orderIndex: index,
-                                          orderProducts: response.products);
+                                          orderIndex: index, orderProducts: response.products);
                                       orderDataList[index].underUpdate = "1";
                                     } else if (!response.success) {
                                       setState(() {
@@ -415,8 +327,7 @@ class OrdersViewState extends State<OrdersView> {
                                 },
                                 color: Colors.green,
                               ),
-                              orderDataList[index].userNotes.toString() !=
-                                      "null"
+                              orderDataList[index].userNotes.toString() != "null"
                                   ? KammunButton(
                                       text: StringUtils.watchNote,
                                       onTap: () {
@@ -430,8 +341,7 @@ class OrdersViewState extends State<OrdersView> {
                                         ];
                                         showMyDialog(
                                             title: StringUtils.costumerNote,
-                                            text:
-                                                orderDataList[index].userNotes,
+                                            text: orderDataList[index].userNotes,
                                             dialogButtons: decisionButtons,
                                             context: context);
                                       },
@@ -448,16 +358,10 @@ class OrdersViewState extends State<OrdersView> {
                                             text: 'نعم',
                                             onTap: () async {
                                               Navigator.of(context).pop();
-                                              bool result = await OrderServices
-                                                  .unlockOrder(
-                                                      orderId.toString());
-                                              Services.resultFlushBar(
-                                                  context: context,
-                                                  result: result);
+                                              bool result = await OrderServices.unlockOrder(orderId.toString());
+                                              Services.resultFlushBar(context: context, result: result);
                                               setState(() {
-                                                if (result)
-                                                  orderDataList[index]
-                                                      .underUpdate = '0';
+                                                if (result) orderDataList[index].underUpdate = '0';
                                               });
                                             },
                                           ),
@@ -468,19 +372,14 @@ class OrdersViewState extends State<OrdersView> {
                                             },
                                           )
                                         ];
-
                                         showMyDialog(
                                             title: StringUtils.unLock,
                                             text: StringUtils.unLockConfirm,
                                             dialogButtons: decisionButtons,
                                             context: context);
-                                        // _showDialog(
-                                        //     body: orderDataList[index]
-                                        //         .userNotes);
                                       },
                                       color: Colors.blue[800],
                                     )
-                                  // _showUnlockOrderButton(index)
                                   : Container(),
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
@@ -516,8 +415,7 @@ class OrdersViewState extends State<OrdersView> {
     );
   }
 
-  _moveOrderProductsToCart(
-      {int orderIndex, List<OrderProducts> orderProducts}) async {
+  _moveOrderProductsToCart({int orderIndex, List<OrderProducts> orderProducts}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     CartServices.cartProducts.clear();
     String productsId = "";
@@ -544,41 +442,13 @@ class OrdersViewState extends State<OrdersView> {
 
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
       productsId += CartServices.cartProducts[i].id.toString() + ";";
-      productsQuantity +=
-          CartServices.cartProducts[i].productCount.toString() + ";";
+      productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
     }
     prefs.setString("userCart", productsId + "@" + productsQuantity);
 
     Navigator.of(context).pushNamedAndRemoveUntil(
       '/cartFromUpdate',
       (Route<dynamic> route) => false,
-    );
-  }
-
-  void _onTileClicked(int index) {
-    Navigator.push(
-      context,
-      new MaterialPageRoute(
-        builder: (context) => new OrderDetailView(
-          orderData: orderDataList[index],
-          orderId: orderDataList[index].id,
-          ordersAry: orderDataList[index].products,
-          addressName: orderDataList[index].address.street,
-          subTotal:
-              int.parse(orderDataList[index].total.toString().split(".")[0]) -
-                  int.parse(orderDataList[index]
-                      .supportedCityCost
-                      .toString()
-                      .split(".")[0]) -
-                  int.parse(orderDataList[index].deliveryCost.split(".")[0]),
-          total: orderDataList[index].total.toString(),
-          deliveryPrice: (int.parse(
-                      orderDataList[index].supportedCityCost.split(".")[0]) +
-                  int.parse(orderDataList[index].deliveryCost.split(".")[0]))
-              .toString(),
-          orderType: OrderType.allOrder,
-        ),
-      ),
     );
   }
 }

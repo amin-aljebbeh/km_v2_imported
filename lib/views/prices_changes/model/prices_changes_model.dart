@@ -6,8 +6,7 @@ import 'dart:convert';
 
 import 'package:kammun_app/models/models_importer.dart';
 
-PricesChanges pricesChangesFromJson(String str) =>
-    PricesChanges.fromJson(json.decode(str));
+PricesChanges pricesChangesFromJson(String str) => PricesChanges.fromJson(json.decode(str));
 
 String pricesChangesToJson(PricesChanges data) => json.encode(data.toJson());
 
@@ -15,30 +14,29 @@ class PricesChanges {
   PricesChanges({
     this.success,
     this.count,
-    this.prouctsPriceChange,
+    this.productsPriceChange,
   });
 
   bool success;
   int count;
-  List<ProductData> prouctsPriceChange;
+  List<ProductData> productsPriceChange;
 
   factory PricesChanges.fromJson(Map<String, dynamic> json) => PricesChanges(
         success: json["success"],
         count: json["count"],
-        prouctsPriceChange: List<ProductData>.from(
-            json["proucts_price_change"].map((x) => ProductData.fromJson(x))),
+        productsPriceChange:
+            List<ProductData>.from(json["proucts_price_change"].map((x) => ProductData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
         "count": count,
-        "proucts_price_change":
-            List<dynamic>.from(prouctsPriceChange.map((x) => x.toJson())),
+        "proucts_price_change": List<dynamic>.from(productsPriceChange.map((x) => x.toJson())),
       };
 }
 
-class ProuctsPriceChange {
-  ProuctsPriceChange({
+class ProductsPriceChange {
+  ProductsPriceChange({
     this.id,
     this.name,
     this.description,
@@ -82,8 +80,7 @@ class ProuctsPriceChange {
   DateTime updateAt;
   List<Image> images;
 
-  factory ProuctsPriceChange.fromJson(Map<String, dynamic> json) =>
-      ProuctsPriceChange(
+  factory ProductsPriceChange.fromJson(Map<String, dynamic> json) => ProductsPriceChange(
         id: json["id"],
         name: json["name"],
         description: json["description"],

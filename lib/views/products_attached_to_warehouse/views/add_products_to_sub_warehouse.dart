@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
-import 'package:toast/toast.dart';
 import '../../../utils/utils_importer.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
@@ -14,58 +12,18 @@ class AddProductsToSubWarehouse extends StatefulWidget {
   AddProductsToSubWarehouse({this.productData});
 
   @override
-  _AddProductsToSubWarehouseState createState() =>
-      _AddProductsToSubWarehouseState();
+  _AddProductsToSubWarehouseState createState() => _AddProductsToSubWarehouseState();
 }
 
 class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
-  List<DropdownMenuItem> listSubWarehouses = new List<DropdownMenuItem>();
-
   int _selectedValue = -1;
-
-  Widget _entryField(
-      {bool canBeEmpty = true,
-      TextEditingController controller,
-      String hint,
-      @required String title,
-      String subTitle,
-      @required TextInputType fieldType,
-      bool isAddress = false,
-      double width,
-      bool isPhoneNumber = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          title,
-          style: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-              fontWeight: FontWeight.bold),
-        ),
-        subTitle == null
-            ? Container(width: 0, height: 0)
-            : Text(
-                subTitle,
-              ),
-        SizedBox(height: 8),
-        EntryField(
-          width: width ?? MediaQuery.of(context).size.width,
-          isPhoneNumber: isPhoneNumber,
-          isAddress: isAddress,
-          canBeEmpty: canBeEmpty,
-          hint: hint,
-          fieldType: fieldType,
-          controller: controller,
-        ),
-        SizedBox(height: 20),
-      ],
-    );
-  }
 
   bool isLoading = false;
   bool isError = false;
 
   Future<bool> _addNewProduct() async {
+    Tools.logToConsole('message');
+    Tools.logToConsole(widget.productData.id);
     setState(() {
       isLoading = true;
       isError = false;
@@ -80,13 +38,11 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       "supplier_code": supplierCodeController.text,
       "min_threshold": "0",
       "increase_percentage": "0",
-      "price_factor":
-          priceFactorController.text != null ? priceFactorController.text : "1",
+      "price_factor": priceFactorController.text != null ? priceFactorController.text : "1",
       "automatic_activation": "0",
     };
 
-    bool response = await AddedProductsServices.attachProductsToSubWarehouse(
-        fullRequestBody: body);
+    bool response = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: body);
     Services.resultFlushBar(context: context, result: response);
     if (response) {
       setState(() {
@@ -111,13 +67,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
 
   @override
   void initState() {
-    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
-      listSubWarehouses.add(DropdownMenuItem(
-        child: Text(LoadingScreenServices.subWarehouses[i].name),
-        value: LoadingScreenServices.subWarehouses[i].id,
-      ));
-    }
-
     super.initState();
   }
 
@@ -127,13 +76,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 210, 178, 2),
         automaticallyImplyLeading: false,
-        // hides leading widget
-
         flexibleSpace: SafeArea(
-          // top: true,
-          // left: false,
-          // bottom: false,
-          // right: false,
           child: Column(
             children: <Widget>[
               Row(
@@ -185,8 +128,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
+          padding: const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
           child: isLoading
               ? Center(child: Loader())
               : ListView(
@@ -200,8 +142,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       ),
                     ),
                     ListTile(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
                         children: LoadingScreenServices.subWarehouses
                             .map((data) => Container(
@@ -209,14 +150,12 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                     color: Colors.white,
                                   ),
                                   child: RadioListTile(
-                                    controlAffinity:
-                                        ListTileControlAffinity.trailing,
+                                    controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedValue,
@@ -234,13 +173,13 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _entryField(
+                        ProductEntryField(
                             controller: supplierCodeController,
                             title: StringUtils.supplierCode,
                             fieldType: TextInputType.name,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
-                        _entryField(
+                        ProductEntryField(
                             controller: priceController,
                             title: StringUtils.price,
                             fieldType: TextInputType.number,
@@ -251,7 +190,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _entryField(
+                        ProductEntryField(
                             controller: priceFactorController,
                             title: StringUtils.priceFactor,
                             fieldType: TextInputType.text,
@@ -264,11 +203,10 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                             margin: const EdgeInsets.all(15.0),
                             padding: const EdgeInsets.all(3.0),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                        10.0) //                 <--- border radius here
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0) //                 <--- border radius here
                                     ),
-                                border: Border.all(
-                                    color: ColorUtils.primaryColor, width: 2)),
+                                border: Border.all(color: ColorUtils.primaryColor, width: 2)),
                             child: Switch(
                               value: switchController,
                               onChanged: (value) {
@@ -286,24 +224,19 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                     KammunButton(
                         text: StringUtils.save,
                         height: 50,
-                        color: completeData()
-                            ? ColorUtils.kmColors
-                            : ColorUtils.searchGreyColor,
+                        color: completeData() ? ColorUtils.kmColors : ColorUtils.searchGreyColor,
                         onTap: () async {
                           if (completeData()) {
                             bool result = await _addNewProduct();
 
                             if (result) {
                               int count = 0;
-                              Navigator.of(context)
-                                  .popUntil((_) => count++ >= 1);
+                              Navigator.of(context).popUntil((_) => count++ >= 1);
                             }
-                            Services.resultFlushBar(
-                                context: context, result: result);
+                            Services.resultFlushBar(context: context, result: result);
                           } else {
                             Toast.show("يرجى إدخال كافة البيانات", context,
-                                duration: Toast.LENGTH_LONG,
-                                gravity: Toast.CENTER);
+                                duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                           }
                         }),
                   ],

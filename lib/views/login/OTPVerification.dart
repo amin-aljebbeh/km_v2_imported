@@ -1,8 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -26,27 +24,20 @@ class _OTPVerificationState extends State<OTPVerification> {
 
   Future checkOtpValidation(String verificationCode) async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
-    Tools.logToConsole(
-        LoginServices.replaceFarsiNumber(verificationCode.toString()));
     try {
       setState(() {
         loadingScreen = true;
       });
       bool response = await Services.verifyCode(
-          LoginServices.replaceFarsiNumber(
-              LoginServices.replaceFarsiNumber(verificationCode.toString())));
-      Tools.logToConsole(response.toString());
+          LoginServices.replaceFarsiNumber(LoginServices.replaceFarsiNumber(verificationCode.toString())));
       if (response) {
-        await Navigator.of(context).pushNamedAndRemoveUntil(
-            '/supportedCity', (Route<dynamic> route) => false);
-        // KammunRestart.restartApp(context);
+        await Navigator.of(context).pushNamedAndRemoveUntil('/supportedCity', (Route<dynamic> route) => false);
       } else {
         setState(() {
           errorCode = true;
           loadingScreen = false;
           _textController.text = "";
         });
-        Tools.logToConsole("Error");
       }
     } catch (e) {
       setState(() {
@@ -54,15 +45,13 @@ class _OTPVerificationState extends State<OTPVerification> {
         errorCode = true;
         _textController.text = "";
       });
-      Tools.logToConsole(
-          "--------------------- Cehck OTP EXCEption ----------------------");
+      Tools.logToConsole("--------------------- Check OTP Exception ----------------------");
       Tools.logToConsole(e.toString());
     }
   }
 
   @override
   void dispose() {
-    // SmsAutoFill().unregisterListener();
     super.dispose();
   }
 
@@ -106,8 +95,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                   color: Colors.white),
               Container(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 50.0, right: 10, left: 10),
+                    padding: const EdgeInsets.only(top: 50.0, right: 10, left: 10),
                     child: Center(
                       child: RichText(
                         text: TextSpan(
@@ -141,8 +129,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                             ),
                             TextSpan(
                               recognizer: TapGestureRecognizer()
-                                ..onTap = () =>
-                                    Navigator.of(context).pushReplacementNamed(
+                                ..onTap = () => Navigator.of(context).pushReplacementNamed(
                                       LoginScreen.routeName,
                                     ),
                               text: " تغيير الرقم ",
@@ -161,8 +148,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                   ),
                   color: Colors.white),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 5.0, bottom: 5.0, right: 15, left: 15.0),
+                padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 15, left: 15.0),
                 child: PinFieldAutoFill(
                   currentCode: _textController.text,
                   onCodeChanged: (finalCode) {
@@ -172,16 +158,14 @@ class _OTPVerificationState extends State<OTPVerification> {
                         ? checkOtpValidation(_textController.text)
                         : Tools.logToConsole('');
                   },
-                  onCodeSubmitted: (finalCode) =>
-                      _textController.text = finalCode,
+                  onCodeSubmitted: (finalCode) => _textController.text = finalCode,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: loadingScreen
                     ? Padding(
-                        padding:
-                            EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+                        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
                         child: Loader(),
                       )
                     : KammunButton(

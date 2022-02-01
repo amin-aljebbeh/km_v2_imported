@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/common_utils.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/order_details/order_detail_view.dart';
 import '../../Services.dart';
-import 'package:intl/intl.dart';
 import 'services/order_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -53,12 +48,9 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
     });
     List<OrdersOriginalData> orderList = new List<OrdersOriginalData>();
     if (LoadingScreenServices.notAssignedOrdersList.length == 0) {
-      if (Services.isShopper())
-        orderList = await OrderServices.getOrdersNotAssignedToShoppers(
-            pageNumber: page);
+      if (Services.isShopper()) orderList = await OrderServices.getOrdersNotAssignedToShoppers(pageNumber: page);
       if (Services.isDelivery())
-        orderList = await OrderServices.getOrdersNotAssignedToDeliveries(
-            pageNumber: page);
+        orderList = await OrderServices.getOrdersNotAssignedToDeliveries(pageNumber: page);
     } else {
       orderList = LoadingScreenServices.notAssignedOrdersList;
     }
@@ -78,18 +70,12 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
         setState(() {
           orderDataList = orderList;
           if (filterOrders == 0) {
-            orderDataList
-                .removeWhere((order) => int.parse(order.orderStatusId) > 4);
+            orderDataList.removeWhere((order) => int.parse(order.orderStatusId) > 4);
           } else {
-            orderDataList.removeWhere(
-                (order) => int.parse(order.orderStatusId) != filterOrders);
+            orderDataList.removeWhere((order) => int.parse(order.orderStatusId) != filterOrders);
           }
-          Tools.logToConsole("orderDataList before filtering");
-          Tools.logToConsole(orderDataList.length);
 
           orderDataList.removeWhere((order) => order.products.length == 0);
-          Tools.logToConsole("orderDataList After filtering");
-          Tools.logToConsole(orderDataList.length);
           LoadingScreenServices.notAssignedOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
@@ -136,8 +122,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                       children: <Widget>[
                         DropdownButton(
                           value: filterOrders,
-                          items: Services.dropdownStringList(
-                              StringUtils.orderStatus),
+                          items: Services.dropdownStringList(StringUtils.orderStatus),
                           onChanged: (value) {
                             setState(() {
                               filterOrders = value;
@@ -166,8 +151,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                         ),
                         DropdownButton(
                           value: page,
-                          items: Services.dropdownIntList(
-                              StringUtils.dropdownValues),
+                          items: Services.dropdownIntList(StringUtils.dropdownValues),
                           onChanged: (value) {
                             setState(() {
                               page = value;
@@ -175,7 +159,6 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                             _getOrder();
                           },
                         ),
-                        //Text("$pageNumber"),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15),
                           child: IconButton(
@@ -200,86 +183,32 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                     orderDataList.length == 0
                         ? Padding(
                             padding: EdgeInsets.only(top: screenHeight * 0.4),
-                            child: ScreenMessage(
-                                message: 'لا يوجد أي طلبات سابقة'),
+                            child: ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
                           )
                         : Container(
                             padding: EdgeInsets.zero,
                           ),
                     Expanded(
                       child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(
-                            parent: BouncingScrollPhysics()),
+                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                         primary: false,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount:
-                            orderDataList == null ? 0 : orderDataList.length,
+                        itemCount: orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          orderDataList[index].initOrderRow();
-                          if (Services.isShopper())
-                            orderDataList[index].accountOrderRows();
-                          String dateTime = DateFormat('a h:mm - dd-MM-yyyy')
-                              .format(orderDataList[index].createdAt);
+                          orderDataList[index].orderArithmeticOperations();
+                          if (Services.isShopper()) orderDataList[index].orderProfits();
                           return Column(
                             children: <Widget>[
-                              new GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => _onTileClicked(index),
-                                child: OrdersViewCard(
-                                  orderData: orderDataList[index],
-                                  deliveryName:
-                                      orderDataList[index].delivery != null
-                                          ? orderDataList[index].delivery.name
-                                          : null,
-                                  shopperName:
-                                      orderDataList[index].shopper != null
-                                          ? orderDataList[index].shopper.name
-                                          : null,
-                                  orderId: orderDataList[index].id,
-                                  entrance:
-                                      orderDataList[index].address.entrance,
-                                  deliveryMethodId: int.parse(
-                                      orderDataList[index].deliveryMethodId),
-                                  lat:
-                                      orderDataList[index].address.lat != "null"
-                                          ? double.parse(
-                                              orderDataList[index].address.lat)
-                                          : null,
-                                  lon:
-                                      orderDataList[index].address.lon != "null"
-                                          ? double.parse(
-                                              orderDataList[index].address.lon)
-                                          : null,
-                                  userNumber:
-                                      orderDataList[index].userData.phone,
-                                  address: orderDataList[index].address.street +
-                                      " " +
-                                      orderDataList[index].address.building +
-                                      " طابق " +
-                                      orderDataList[index].address.floor +
-                                      " " +
-                                      orderDataList[index].address.description,
-                                  supportedCityId:
-                                      orderDataList[index].supportedCityId,
-                                  underUpdate: int.parse(
-                                      orderDataList[index].underUpdate),
-                                  orderTotalPrice:
-                                      orderDataList[index].total.toString(),
-                                  orderStatus: int.parse(
-                                      orderDataList[index].orderStatusId),
-                                  orderQuantity:
-                                      orderDataList[index].products.length,
-                                  orderCreatedDate: dateTime,
-                                ),
+                              OrdersViewCard(
+                                orderData: orderDataList[index],
                               ),
                               if (Services.isDelivery() || Services.isShopper())
                                 KammunButton(
                                   text: StringUtils.getOrder,
                                   color: Colors.green[800],
                                   onTap: () {
-                                    OrderServices.assignOrder(
-                                        orderDataList[index].id.toString());
+                                    OrderServices.assignOrder(orderDataList[index].id.toString());
                                     setState(() {
                                       orderDataList.removeAt(index);
                                     });
@@ -288,8 +217,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                               SizedBox(
                                 width: 10,
                               ),
-                              orderDataList[index].userNotes.toString() !=
-                                      "null"
+                              orderDataList[index].userNotes.toString() != "null"
                                   ? KammunButton(
                                       text: StringUtils.watchNote,
                                       onTap: () {
@@ -303,8 +231,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                         ];
                                         showMyDialog(
                                             title: StringUtils.costumerNote,
-                                            text:
-                                                orderDataList[index].userNotes,
+                                            text: orderDataList[index].userNotes,
                                             dialogButtons: decisionButtons,
                                             context: context);
                                       },
@@ -321,8 +248,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                                             text: StringUtils.yes,
                                             onTap: () {
                                               Navigator.of(context).pop();
-                                              unLockOrder(orderId.toString(),
-                                                  isSpendingApi: false);
+                                              unLockOrder(orderId.toString(), isSpendingApi: false);
                                             },
                                           ),
                                           DialogButton(
@@ -372,32 +298,5 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
 
   void unLockOrder(String orderId, {bool isSpendingApi = true}) async {
     await OrderServices.unlockOrder(orderId);
-  }
-
-  void _onTileClicked(int index) {
-    Navigator.push(
-      context,
-      new MaterialPageRoute(
-        builder: (context) => new OrderDetailView(
-          orderData: orderDataList[index],
-          orderId: orderDataList[index].id,
-          ordersAry: orderDataList[index].products,
-          addressName: orderDataList[index].address.street,
-          subTotal:
-              int.parse(orderDataList[index].total.toString().split(".")[0]) -
-                  int.parse(orderDataList[index]
-                      .supportedCityCost
-                      .toString()
-                      .split(".")[0]) -
-                  int.parse(orderDataList[index].deliveryCost.split(".")[0]),
-          total: orderDataList[index].total.toString(),
-          deliveryPrice: (int.parse(
-                      orderDataList[index].supportedCityCost.split(".")[0]) +
-                  int.parse(orderDataList[index].deliveryCost.split(".")[0]))
-              .toString(),
-          orderType: OrderType.orders,
-        ),
-      ),
-    );
   }
 }

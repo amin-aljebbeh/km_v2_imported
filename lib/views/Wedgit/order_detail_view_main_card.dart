@@ -14,39 +14,16 @@ import 'k_cache_image.dart';
 
 // ignore: must_be_immutable
 class OrderDetailViewMainCard extends StatefulWidget {
-  final String img;
-  final String productName;
-  String quantity;
-  final int price;
-  final int increaseValue;
   final int index;
-  final String unit;
-  final String productCount;
-  int active;
-  final String productId;
-  final String supplierCode;
-  final OrderProducts productsData;
-  int subWarehouseId;
-  final int orderId;
+  final OrderProducts productData;
 
   Function(int) onCheckbox;
 
-  OrderDetailViewMainCard(
-      {this.img,
-      this.productName,
-      this.quantity,
-      this.price,
-      this.increaseValue,
-      this.index,
-      this.unit,
-      this.active,
-      this.productCount,
-      this.supplierCode,
-      this.productId,
-      this.productsData,
-      this.onCheckbox,
-      @required this.orderId,
-      @required this.subWarehouseId});
+  OrderDetailViewMainCard({
+    this.index,
+    this.productData,
+    this.onCheckbox,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -63,47 +40,47 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
 
   @override
   void initState() {
-    for (int i = 0; i < LoadingScreenServices.subWarehouses.length; i++) {
-      subWarehouseList.add(DropdownMenuItem(
-        child: AutoSizeText(
-          LoadingScreenServices.subWarehouses[i].name,
-          overflow: TextOverflow.fade,
-          maxLines: 1,
-          maxFontSize: 15,
-          style: mainStyle,
-        ),
-        value: LoadingScreenServices.subWarehouses[i].id,
-      ));
-    }
+    subWarehouseList = LoadingScreenServices.subWarehouses
+        .map(
+          (subWarehouse) => DropdownMenuItem(
+            child: AutoSizeText(
+              subWarehouse.name,
+              overflow: TextOverflow.fade,
+              maxLines: 1,
+              maxFontSize: 15,
+              style: mainStyle,
+            ),
+            value: subWarehouse.id,
+          ),
+        )
+        .toList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.subWarehouseId == 2 || widget.subWarehouseId == 6) {
+    if (widget.productData.subWarehouseId == 2 || widget.productData.subWarehouseId == 6) {
       borderColor = ColorUtils().khawajaColor;
-    } else if (widget.subWarehouseId == 3) {
+    } else if (widget.productData.subWarehouseId == 3) {
       borderColor = ColorUtils().vegetableColor;
-    } else if (widget.subWarehouseId == 4) {
+    } else if (widget.productData.subWarehouseId == 4) {
       borderColor = ColorUtils().libraryColor;
-    } else if (widget.subWarehouseId == 7) {
+    } else if (widget.productData.subWarehouseId == 7) {
       borderColor = ColorUtils().meetColor;
-    } else if (widget.subWarehouseId == 8) {
+    } else if (widget.productData.subWarehouseId == 8) {
       borderColor = ColorUtils().pharmaColor;
-    } else if (widget.subWarehouseId == 9) {
+    } else if (widget.productData.subWarehouseId == 9) {
       borderColor = ColorUtils().amourColor;
     } else {
       borderColor = Colors.transparent;
     }
-
-    double discountPercentage =
-        SubWarehouse.getDiscountPercentage(widget.productsData.subWarehouseId);
+    int purchasePrice = int.parse(widget.productData.pivot.purchasePrice.split('.')[0]);
+    double discountPercentage = SubWarehouse.getDiscountPercentage(widget.productData.subWarehouseId);
     return Container(
       padding: EdgeInsets.only(
         top: 10,
       ),
-      decoration:
-          BoxDecoration(border: Border.all(color: borderColor, width: 3)),
+      decoration: BoxDecoration(border: Border.all(color: borderColor, width: 3)),
       // color: Theme.of(context).primaryColorLight,
       child: Padding(
         padding: EdgeInsets.only(left: 0, right: 0, top: 0),
@@ -115,8 +92,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
               children: <Widget>[
                 ProductCheckWidget(
                   preferLeftSide: !LoadingScreenServices.preferLeftSide,
-                  productCount: widget.productCount,
-                  productName: widget.productName,
+                  productCount: widget.productData.pivot.quantity,
+                  productName: widget.productData.name,
                   index: widget.index,
                   onCheckbox: (index) => widget.onCheckbox(index),
                 ), //right side
@@ -127,7 +104,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                       MaterialPageRoute(
                         builder: (_) {
                           return FullScreenImage(
-                            imageUrl: widget.img,
+                            imageUrl: widget.productData.images.length != 0
+                                ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
+                                : "",
                             tag: "generate_a_unique_tag",
                           );
                         },
@@ -135,14 +114,15 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     );
                   },
                   child: KCacheImage(
-                    tag: widget.index + int.parse(widget.productId),
-                    image: widget.img,
+                    tag: widget.index + int.parse(widget.productData.pivot.productId),
+                    image: widget.productData.images.length != 0
+                        ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
+                        : "",
                   ),
                 ),
                 SizedBox(width: 3),
                 Expanded(
                   child: Wrap(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +130,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                           Wrap(
                             children: <Widget>[
                               Text(
-                                widget.productName,
+                                widget.productData.name,
                                 style: mainStyle.copyWith(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -162,40 +142,26 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                           Wrap(
                             children: [
                               Text(
-                                widget.quantity + " " + widget.unit,
-                                style: mainStyle.copyWith(
-                                  color: ColorUtils.primaryColor,
-                                  fontSize: 17,
-                                ),
+                                widget.productData.quantity + " " + widget.productData.unit == null
+                                    ? ''
+                                    : widget.productData.unit,
+                                style: darkBold,
                               ),
                             ],
                           ),
                           Text(
-                            StringUtils()
-                                    .oCcy
-                                    .format(widget.price - widget.increaseValue)
-                                    .toString() +
+                            StringUtils().oCcy.format(purchasePrice).toString() +
                                 " ${LoadingScreenServices.companyInformation.currency}",
-                            style: mainStyle.copyWith(
-                                color: ColorUtils.primaryColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                            style: paragraphStyle,
                           ),
                           Services.isSupplierManager()
                               ? Text(
                                   StringUtils()
                                           .oCcy
-                                          .format((widget.price -
-                                                  widget.increaseValue) -
-                                              ((widget.price -
-                                                      widget.increaseValue) *
-                                                  discountPercentage))
+                                          .format(purchasePrice - (purchasePrice * discountPercentage))
                                           .toString() +
                                       " ${LoadingScreenServices.companyInformation.currency}",
-                                  style: mainStyle.copyWith(
-                                      color: ColorUtils.primaryColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                  style: paragraphStyle,
                                 )
                               : Column(
                                   children: [
@@ -204,37 +170,38 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                             items: subWarehouseList,
                                             onChanged: (a) {
                                               OrderDetailsServices.updateOrder(
-                                                  orderId:
-                                                      widget.orderId.toString(),
-                                                  context: context,
-                                                  updateKey: "sub_warehouse_id",
-                                                  updateValue: a.toString(),
-                                                  productId: widget.productId);
+                                                orderId: widget.productData.pivot.orderId,
+                                                context: context,
+                                                updateKey: "sub_warehouse_id",
+                                                updateValue: a.toString(),
+                                                productId: widget.productData.pivot.productId,
+                                              );
                                               setState(() {
-                                                widget.subWarehouseId = a;
+                                                widget.productData.subWarehouseId = a;
                                               });
                                             },
                                             hint: subWarehouseList.firstWhere(
-                                                (element) =>
-                                                    element.value ==
-                                                    widget.subWarehouseId,
+                                                (element) => element.value == widget.productData.subWarehouseId,
                                                 orElse: () {
                                               subWarehouseList.clear();
-                                              return DropdownMenuItem(
-                                                  child: Text("No element"));
+                                              return DropdownMenuItem<int>(
+                                                child: Text("No element"),
+                                                value: 0,
+                                              );
                                             }).child,
                                           )
                                         : Container(),
                                     SwitchProductStatusWidget(
+                                      isForSubWarehouse: true,
                                       height: 20,
                                       width: 70,
-                                      preState: widget.active,
-                                      subWarehouseId:
-                                          widget.productsData.subWarehouseId,
-                                      productId: widget.productId,
-                                      onChange: (active) {
-                                        widget.active = active;
-                                        setState(() {});
+                                      preState: widget.productData.isActive,
+                                      subWarehouseId: widget.productData.subWarehouseId,
+                                      productId: widget.productData.pivot.productId,
+                                      onChange: (int active, bool result) {
+                                        setState(() {
+                                          if (result) widget.productData.isActive = active;
+                                        });
                                       },
                                     ),
                                   ],
@@ -246,8 +213,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                 ),
                 ProductCheckWidget(
                   preferLeftSide: LoadingScreenServices.preferLeftSide,
-                  productCount: widget.productCount,
-                  productName: widget.productName,
+                  productCount: widget.productData.pivot.quantity,
+                  productName: widget.productData.name,
                   index: widget.index,
                   onCheckbox: (index) => widget.onCheckbox(index),
                 ),

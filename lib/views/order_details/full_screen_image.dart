@@ -17,23 +17,12 @@ class FullScreenImage extends StatelessWidget {
           child: Hero(
               tag: tag,
               child: Image(
-                // fadeInCurve: Curves.fastOutSlowIn,
-                // placeholder: AssetImage("assets/kmIcon.png"),
-                // fit: BoxFit.fitWidth,
                 image: AdvImageCache(
                   imageUrl,
                   useMemCache: true,
                   diskCacheExpire: Duration(days: 400),
                 ),
-                //   width: MediaQuery.of(context).size.width,
-                //  height: 120,
-              )
-              //  CachedNetworkImage(
-              //   width: MediaQuery.of(context).size.width,
-              //   fit: BoxFit.contain,
-              //   imageUrl: imageUrl,
-              // ),
-              ),
+              )),
         ),
         onTap: () {
           Navigator.pop(context);

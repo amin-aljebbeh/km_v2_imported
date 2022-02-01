@@ -1,8 +1,7 @@
 import 'dart:convert';
-
 import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/prices_changes/model/prices_changes_model.dart';
 
 class PricesChangesServices {
@@ -13,8 +12,6 @@ class PricesChangesServices {
     );
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      Tools.logToConsole(response.data["count"]);
-      Tools.logToConsole(response.data["count"]);
       return pricesChangesFromJson(jsonEncode(response.data));
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
@@ -31,8 +28,7 @@ class PricesChangesServices {
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         return true;
       } else {
-        Tools.logToConsole(
-            "------------ IMAGE IS DELETED ALREADY --------------");
+        Tools.logToConsole("------------ IMAGE IS DELETED ALREADY --------------");
         return false;
       }
     } catch (e) {

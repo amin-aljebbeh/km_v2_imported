@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
@@ -7,7 +6,6 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 import 'services/cart_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -29,22 +27,15 @@ class CartViewState extends State<CartView> {
   static List<int> cards = [];
   int indexToEdit = -1;
 
-  makeCards() {
-    cards = [];
-    for (int i = 0; i < orderArray.length; i++) {
-      cards.add(i);
-    }
-  }
-
   _cartChanged() async {
     String productsId = "";
     String productsQuantity = "";
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productsId += CartServices.cartProducts[i].id.toString() + ";";
-      productsQuantity +=
-          CartServices.cartProducts[i].productCount.toString() + ";";
-    }
+    productsId = CartServices.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
+    productsQuantity =
+        CartServices.cartProducts.fold('', (counts, product) => counts + product.productCount.toString() + ';');
+    Tools.logToConsole('message from cart');
+    Tools.logToConsole(productsQuantity);
     prefs.setString("userCart", productsId + "@" + productsQuantity);
   }
 
@@ -52,17 +43,13 @@ class CartViewState extends State<CartView> {
     subtotal = 0;
 
     setState(() {
-      for (int i = 0; i < orderArray.length; i++) {
-        subtotal = subtotal +
-            ((int.parse(orderArray[i].price.split(".")[0])) *
-                orderArray[i].productCount);
-      }
+      subtotal =
+          orderArray.fold(0, (sum, order) => sum + ((int.parse(order.price.split(".")[0])) * order.productCount));
     });
   }
 
   @override
   void initState() {
-    printCart();
     super.initState();
     orderArray = CartServices.cartProducts;
 
@@ -85,19 +72,8 @@ class CartViewState extends State<CartView> {
           return 0;
       });
     }
-    makeCards();
-
-    for (int i = 0; i < orderArray.length; i++) {
-      subtotal = subtotal +
-          ((int.parse(orderArray[i].price.split(".")[0])) *
-              orderArray[i].productCount);
-    }
-
-    // Tools.logToConsole(widget.isFromUpdateOrder);
-    // widget.isFromUpdateOrder
-    //     ? WidgetsBinding.instance.addPostFrameCallback(
-    //         (_) => _showUpdateOrderInstruction(context: context))
-    //     : {};
+    cards = List<int>.generate(orderArray.length, (i) => i + 1);
+    _calculateTotal();
   }
 
   void onrRemove(item) {
@@ -110,96 +86,90 @@ class CartViewState extends State<CartView> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        StringUtils.shoppingCart,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 30),
-                      ),
-                    ],
-                  ),
-                ),
-                CartServices.cartProducts.length == 0
-                    ? Padding(
-                        padding: EdgeInsets.only(top: screenHeight * 0.3),
-                        child: Center(
-                            child:
-                                ScreenMessage(message: 'سلة المشتريات فارغة')),
-                      )
-                    : Container(
-                        padding: EdgeInsets.zero,
-                      ),
-                Expanded(
-                  child: ListView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: orderArray == null ? 0 : cards.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return new GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () => _onTileClicked(index),
-                        child: Container(
-                          //  color: Theme.of(context).primaryColorLight,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 0, right: 0, top: 0),
-                            child: cardBody(index, context),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Text(StringUtils.subtotal,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          fontSize: 19.0,
-                        )),
                     Text(
-                      "${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
+                      StringUtils.shoppingCart,
                       style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          fontSize: 19),
+                          fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
-                SafeArea(
-                  child: KammunButton(
-                    width: MediaQuery.of(context).size.width,
-                    color: CartServices.cartProducts.length > 0
-                        ? ColorUtils.primaryColor
-                        : Colors.grey[400],
-                    text: StringUtils.confirmOrder.toUpperCase(),
-                    onTap: _showConfirmOrderBtnTapped,
-                    height: 50,
-                  ),
-                  top: false,
+              ),
+              CartServices.cartProducts.length == 0
+                  ? Padding(
+                      padding: EdgeInsets.only(top: screenHeight * 0.3),
+                      child: Center(child: ScreenMessage(message: 'سلة المشتريات فارغة')),
+                    )
+                  : Container(
+                      padding: EdgeInsets.zero,
+                    ),
+              Expanded(
+                child: ListView.builder(
+                  primary: false,
+                  shrinkWrap: true,
+                  itemCount: orderArray == null ? 0 : cards.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return new GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {},
+                      child: Container(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 0, right: 0, top: 0),
+                          child: cardBody(index, context),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+              SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(StringUtils.subtotal,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).primaryColorDark,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontSize: 19.0,
+                      )),
+                  Text(
+                    "${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).primaryColorDark,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontSize: 19),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              SafeArea(
+                child: KammunButton(
+                  width: MediaQuery.of(context).size.width,
+                  color: CartServices.cartProducts.length > 0 ? ColorUtils.primaryColor : Colors.grey[400],
+                  text: StringUtils.confirmOrder.toUpperCase(),
+                  onTap: _showConfirmOrderBtnTapped,
+                  height: 50,
+                ),
+                top: false,
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   TextEditingController _priceController = new TextEditingController();
@@ -215,8 +185,9 @@ class CartViewState extends State<CartView> {
             children: <Widget>[
               KCacheImage(
                 tag: index + 100,
-                image: LoadingScreenServices.imagePrefixUrl +
-                    orderArray[index].images[0].imageFileName,
+                image: orderArray[index].images.isNotEmpty
+                    ? LoadingScreenServices.imagePrefixUrl + orderArray[index].images[0].imageFileName
+                    : '',
               ),
               SizedBox(width: 10),
               Expanded(
@@ -234,17 +205,14 @@ class CartViewState extends State<CartView> {
                                   orderArray[index].name,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontFamily:
-                                          StringUtils.fontFamilyHKGrotesk,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       fontSize: 18),
                                 ),
                               ],
                             ),
                             SizedBox(height: 6),
                             Text(
-                              orderArray[index].quantity.toString() +
-                                  " " +
-                                  orderArray[index].unit.toString(),
+                              orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
@@ -268,9 +236,7 @@ class CartViewState extends State<CartView> {
                                               hintText: "السعر الجديد",
                                               fillColor: Colors.white,
                                               border: new OutlineInputBorder(
-                                                borderRadius:
-                                                    new BorderRadius.circular(
-                                                        10.0),
+                                                borderRadius: new BorderRadius.circular(10.0),
                                                 borderSide: new BorderSide(),
                                               ),
                                             ),
@@ -282,8 +248,7 @@ class CartViewState extends State<CartView> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                             color: ColorUtils.primaryColor,
-                                            fontFamily:
-                                                StringUtils.fontFamilyHKGrotesk,
+                                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                                             fontSize: 18)),
                                 indexToEdit == index
                                     ? IconButton(
@@ -293,39 +258,23 @@ class CartViewState extends State<CartView> {
                                           setState(() {
                                             indexToEdit = -1;
 
-                                            double priceFactor = double.parse(
-                                                    orderArray[index]
-                                                        .quantity) /
-                                                double.parse(
-                                                    orderArray[index].price);
+                                            double priceFactor = double.parse(orderArray[index].quantity) /
+                                                double.parse(orderArray[index].price);
 
-                                            if (_priceController.text.length >
-                                                0) {
-                                              orderArray[index].price =
-                                                  _priceController.text;
+                                            if (_priceController.text.length > 0) {
+                                              orderArray[index].price = _priceController.text;
 
                                               orderArray[index].quantity =
-                                                  (priceFactor *
-                                                          double.parse(
-                                                              _priceController
-                                                                  .text))
+                                                  (priceFactor * double.parse(_priceController.text))
                                                       .toStringAsFixed(2);
 
                                               OrderDetailsServices.updateOrder(
-                                                  orderId: OrderServices
-                                                      .orderUnderUpdateId,
+                                                  orderId: OrderServices.orderUnderUpdateId,
                                                   context: context,
                                                   updateKey: "product_quantity",
-                                                  updateValue: (priceFactor *
-                                                          double.parse(
-                                                              _priceController
-                                                                  .text))
+                                                  updateValue: (priceFactor * double.parse(_priceController.text))
                                                       .toStringAsFixed(2),
-                                                  productId: orderArray[index]
-                                                      .id
-                                                      .toString());
-
-                                              // asdsa ads das sda a
+                                                  productId: orderArray[index].id.toString());
                                             }
                                           });
 
@@ -363,15 +312,13 @@ class CartViewState extends State<CartView> {
                   Container(
                     width: 30,
                     height: 30,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: ColorUtils.greyColor.withOpacity(0.2)),
+                    decoration:
+                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {
                           orderArray[index].productCount += 1;
-                          subtotal += (int.parse(
-                              orderArray[index].price.split(".")[0]));
+                          subtotal += (int.parse(orderArray[index].price.split(".")[0]));
                         });
                         _cartChanged();
                       },
@@ -393,20 +340,16 @@ class CartViewState extends State<CartView> {
                   Container(
                     width: 30,
                     height: 30,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: ColorUtils.greyColor.withOpacity(0.2)),
+                    decoration:
+                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {
                           if (orderArray[index].productCount > 1) {
-                            subtotal -= (int.parse(
-                                orderArray[index].price.split(".")[0]));
-                            orderArray[index].productCount =
-                                orderArray[index].productCount - 1;
+                            subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
+                            orderArray[index].productCount = orderArray[index].productCount - 1;
                           } else if (orderArray[index].productCount == 1) {
-                            subtotal -= (int.parse(
-                                orderArray[index].price.split(".")[0]));
+                            subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
                             onrRemove(index);
                             CartServices.cartProducts.removeAt(index);
                           }
@@ -439,39 +382,13 @@ class CartViewState extends State<CartView> {
     );
   }
 
-  // Function to be called on click
-  void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-    // Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //         builder: (context) =>
-    //             new ProductDetailView(heroIndex: index + 100)));
-  }
-
-  void printCart() {
-    Tools.logToConsole('cart');
-    Tools.logToConsole(CartServices.cartProducts.length);
-    for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      printProducts(CartServices.cartProducts[i]);
-    }
-  }
-
-  void printProducts(ProductData product) {
-    Tools.logToConsole(product.name);
-    Tools.logToConsole(product.productCount);
-  }
-
   void _showConfirmOrderBtnTapped() {
     if (CartServices.cartProducts.length > 0) {
-      Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => new CartViewFinal()))
-          .then((onValue) {
+      Navigator.push(context, new MaterialPageRoute(builder: (context) => new CartViewFinal())).then((onValue) {
         _calculateTotal();
       });
     } else {
-      Toast.show("يرجى إضافة منتج واحد على الأقل", context,
-          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      Toast.show("يرجى إضافة منتج واحد على الأقل", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     }
   }
 }

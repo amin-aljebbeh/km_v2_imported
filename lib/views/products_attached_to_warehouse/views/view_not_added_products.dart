@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class NotAddedProductsToWarehouse extends StatefulWidget {
   @override
-  _NotAddedProductsToWarehouseState createState() =>
-      _NotAddedProductsToWarehouseState();
+  _NotAddedProductsToWarehouseState createState() => _NotAddedProductsToWarehouseState();
 }
 
-class _NotAddedProductsToWarehouseState
-    extends State<NotAddedProductsToWarehouse> {
+class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehouse> {
   List<ProductData> productsList = List<ProductData>();
   bool isLoading = false;
   bool isError = false;
@@ -32,8 +27,7 @@ class _NotAddedProductsToWarehouseState
       isError = false;
     });
     try {
-      var response =
-          await AddedProductsServices.getNotAddedProductsToWarehouse();
+      var response = await AddedProductsServices.getNotAddedProductsToWarehouse();
       if (response != null) {
         productsList.addAll(response);
         productsList.sort((a, b) {
@@ -74,6 +68,7 @@ class _NotAddedProductsToWarehouseState
     filterProducts = 0;
     isActiveFilter = 0;
 
+    filter = '';
     _controller.addListener(() {
       setState(() {
         filter = _controller.text;
@@ -87,17 +82,13 @@ class _NotAddedProductsToWarehouseState
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Container(
-          //margin: const EdgeInsets.all(15.0),
           padding: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(
-                      10.0) //                 <--- border radius here
+              borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                   ),
               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
+            style: TextStyle(color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: ColorUtils.kmColors),
@@ -155,130 +146,51 @@ class _NotAddedProductsToWarehouseState
                         child: Column(
                           children: [
                             AlertMessages(
-                              text: "حدث خطأ أثناء محاولة جلب البيانات",
+                              text: StringUtils.errorMessage,
                               messageType: "internetError",
                               headerText: "حدث خطأ",
                             ),
-                            RaisedButton(
-                                child: Text("المحاولة من جديد",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk)),
-                                onPressed: () {}),
+                            RaisedButton(child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () {}),
                           ],
                         ),
                       ),
                     )
                   : Expanded(
                       child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(
-                            parent: BouncingScrollPhysics()),
+                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                         primary: false,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount:
-                            productsList == null ? 0 : productsList.length,
+                        itemCount: productsList == null ? 0 : productsList.length,
                         itemBuilder: (BuildContext context, int index) {
                           var eachProduct = productsList[index];
-                          return filter == null || filter == ""
-                              ? GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () => () {},
-                                  child: InventoryProductsViewCard(
-                                    onDelete: (result) {
-                                      if (result) {
-                                        setState(() {
-                                          productsList.removeAt(index);
-                                        });
-                                      }
-                                    },
-                                    productData: eachProduct,
-                                    onChangeStatus: (result) {
-                                      if (result) {
-                                        Tools.logToConsole(
-                                            "the result : $result");
-                                        setState(() {
-                                          productsList.removeAt(index);
-                                        });
-                                      }
-                                    },
-                                    supplierCode: eachProduct.supplierCode,
-                                    productId: eachProduct.id.toString(),
-                                    // active: eachProduct.isActive != null
-                                    //     ? int.parse(eachProduct.isActive)
-                                    //     : eachProduct.isActive,
-                                    img: eachProduct.images.length > 0
-                                        ? LoadingScreenServices.imagePrefixUrl +
-                                            eachProduct.images[0].imageFileName
-                                        : "",
-                                    productName: eachProduct.name,
-                                    quantity:
-                                        eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                    price:
-                                        eachProduct.price.toString() != "null"
-                                            ? int.parse(
-                                                eachProduct.price.split(".")[0])
-                                            : null,
-                                    index: index,
-                                  ),
-                                )
-                              : eachProduct.description
-                                      .toLowerCase()
-                                      .contains(filter.toLowerCase())
-                                  ? GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () => () {},
-                                      child: InventoryProductsViewCard(
-                                        onDelete: (result) {
-                                          if (result) {
-                                            setState(() {
-                                              productsList.removeAt(index);
-                                            });
-                                          }
-                                        },
-                                        productData: eachProduct,
-                                        onChangeStatus: (result) {
-                                          if (result) {
-                                            Tools.logToConsole(
-                                                "the result : $result");
-                                            setState(() {
-                                              productsList.removeAt(index);
-                                            });
-                                          }
-                                        },
-                                        supplierCode: eachProduct.supplierCode,
-                                        productId: eachProduct.id.toString(),
-                                        // active: eachProduct.isActive != null
-                                        //     ? int.parse(eachProduct.isActive)
-                                        //     : null,
-                                        img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices
-                                                    .imagePrefixUrl +
-                                                eachProduct
-                                                    .images[0].imageFileName
-                                            : "",
-                                        productName: eachProduct.name,
-                                        quantity: eachProduct.unit.toString() !=
-                                                "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                        price: eachProduct.price.toString() !=
-                                                "null"
-                                            ? int.parse(
-                                                eachProduct.price.split(".")[0])
-                                            : null,
-                                        index: index,
-                                      ),
-                                    )
-                                  : Container();
+                          if (filter == null ||
+                              filter == "" ||
+                              eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
+                            return InventoryProductsViewCard(
+                              fromInventory: false,
+                              onDelete: (result) {
+                                if (result) {
+                                  setState(() {
+                                    productsList.removeAt(index);
+                                  });
+                                }
+                              },
+                              productData: eachProduct,
+                              onChangeStatus: (result) {
+                                if (result) {
+                                  setState(() {
+                                    if (productsList[index].isActive == "1") {
+                                      productsList[index].isActive = "0";
+                                    } else {
+                                      productsList[index].isActive = "1";
+                                    }
+                                  });
+                                }
+                              },
+                            );
+                          }
+                          return Container();
                         },
                       ),
                     ),

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/sub_warehouse_model.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/inventory/sub_warehouse_products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 import 'services/inventory_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -29,8 +28,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<SubWarehouse> response = await InventoryServices.getSubWarehoused(
-        adminId: prefs.getString("adminId"));
+    List<SubWarehouse> response = await InventoryServices.getSubWarehoused(adminId: prefs.getString("adminId"));
     if (response != null) {
       setState(() {
         listOfWubWarehouse.addAll(response);
@@ -82,23 +80,18 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                       ),
                     ),
                     ListTile(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
                         children: listOfWubWarehouse
                             .map((data) => Container(
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .scaffoldBackgroundColor),
+                                  decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
                                   child: RadioListTile(
-                                    controlAffinity:
-                                        ListTileControlAffinity.trailing,
+                                    controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedSubWarehouseValue,
@@ -114,32 +107,39 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                             .toList(),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
                     KammunButton(
                       height: 50,
                       text: StringUtils.next,
-                      color: selected
-                          ? Theme.of(context).primaryColor
-                          : ColorUtils.searchGreyColor,
+                      color: selected ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
                       onTap: () {
                         if (selected)
                           Navigator.push(
                             context,
                             new MaterialPageRoute(
                               builder: (context) => new SubWarehouseProducts(
-                                subWarehouseId:
-                                    _selectedSubWarehouseValue.toString(),
+                                subWarehouseId: _selectedSubWarehouseValue.toString(),
                               ),
                             ),
                           );
                         else
                           Toast.show('يرجى اختيار المستودع', context,
-                              duration: Toast.LENGTH_LONG,
-                              gravity: Toast.CENTER);
+                              duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                       },
                     ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    if (Services.isAdmin())
+                      UpdateProductInfoWidget(
+                        isForPriceRate: true,
+                        title: ' عتبة التقييم:',
+                        textHint: "تقييم الأسعار",
+                        inputType: TextInputType.number,
+                        bodyKey: "rate",
+                        productId: 0,
+                        isForSubWarehouse: false,
+                        initialText: '50',
+                      )
                   ],
                 ),
               ),

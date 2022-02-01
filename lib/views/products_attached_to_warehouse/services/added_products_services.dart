@@ -1,11 +1,8 @@
 import 'dart:convert';
-
-import 'package:kammun_app/core/api/admin_URLs.dart';
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
+import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class AddedProductsServices {
   static Future<List<ProductData>> getAddedProductsToWarehouse() async {
@@ -47,8 +44,6 @@ class AddedProductsServices {
       return true;
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
-      Tools.logToConsole(response.data);
-
       return false;
     }
   }
@@ -56,20 +51,19 @@ class AddedProductsServices {
   static Future<bool> attachProductsToSubWarehouse({
     dynamic fullRequestBody,
   }) async {
-    Tools.logToConsole('print link');
-    var response = await ApiProvider.sendRequest(
-        url: ATTACH_PRODUCTS_TO_SUB_WAREHOUSE,
-        method: httpMethods.post,
-        body: jsonEncode(fullRequestBody));
+    try {
+      var response = await ApiProvider.sendRequest(
+          url: ATTACH_PRODUCTS_TO_SUB_WAREHOUSE, method: httpMethods.post, body: jsonEncode(fullRequestBody));
 
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      Tools.logToConsole("Product Attached to products successfully");
-      return true;
-    } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
-      Tools.logToConsole(response.data);
-
-      return false;
+      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+        return true;
+      } else {
+        Tools.logToConsole(response.data['reason']);
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return null;
     }
   }
 
@@ -79,11 +73,6 @@ class AddedProductsServices {
       method: httpMethods.get,
     );
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      Tools.logToConsole('message');
-      Tools.logToConsole(syncCartFromJson(jsonEncode(response.data["data"]))[0]
-          .warehouses[0]
-          .pivot
-          .subWarehouseId);
       return syncCartFromJson(jsonEncode(response.data["data"]));
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
@@ -91,8 +80,7 @@ class AddedProductsServices {
     }
   }
 
-  static Future<bool> changeProductSubWarehouse(
-      ProductData product, String productSubWarehouseId) async {
+  static Future<bool> changeProductSubWarehouse(ProductData product, String productSubWarehouseId) async {
     var subWarehouseBody = {
       "product_id": product.id.toString(),
       "sub_warehouse_id": productSubWarehouseId,
@@ -108,12 +96,10 @@ class AddedProductsServices {
     };
     try {
       bool remove = await AddedProductsServices.unAttachProductsToSubWarehouse(
-          productsId: product.id.toString(),
-          subWarehouse: product.subWarehouseId.toString());
+          productsId: product.id.toString(), subWarehouse: product.subWarehouseId.toString());
       bool add = false;
       if (remove)
-        add = await AddedProductsServices.attachProductsToSubWarehouse(
-            fullRequestBody: subWarehouseBody);
+        add = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: subWarehouseBody);
       if (!add && remove) {
         var subWarehouseBody = {
           "product_id": product.id.toString(),
@@ -128,8 +114,7 @@ class AddedProductsServices {
           "price_factor": product.priceFactor,
           "automatic_activation": product.automaticActivation.toString(),
         };
-        await AddedProductsServices.attachProductsToSubWarehouse(
-            fullRequestBody: subWarehouseBody);
+        await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: subWarehouseBody);
       }
       return remove && add;
     } catch (e) {

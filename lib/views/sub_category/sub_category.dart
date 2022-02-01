@@ -1,6 +1,7 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/views/Wedgit/store_search_text_field.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
@@ -10,7 +11,6 @@ import 'package:kammun_app/utils/utils_importer.dart';
 class SubCategory extends StatefulWidget {
   int heroIndex;
   static int cartCount = 0;
-  //String category_name;
   List<CategoryOriginalData> subCategory = [];
 
   SubCategory({this.heroIndex, this.subCategory});
@@ -20,19 +20,14 @@ class SubCategory extends StatefulWidget {
 }
 
 class _SubCategoryState extends State<SubCategory> {
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     void _onTileClicked(int index) {
-      List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
-
-      for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
-        if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() ==
-            index.toString()) {
-          subCategoryList.add(LoadingScreenServices.categoryList[i]);
-        }
-      }
+      List<CategoryOriginalData> subCategoryList = LoadingScreenServices.categoryList
+          .where((category) => category.parentCategoryId.toString() == index.toString())
+          .toList();
 
       if (subCategoryList.length > 0) {
         Navigator.push(
@@ -48,51 +43,11 @@ class _SubCategoryState extends State<SubCategory> {
           context,
           new MaterialPageRoute(
             builder: (context) => new ProductsView(
-              heroIndex: (index),
               categoryId: index.toString(),
             ),
           ),
         );
       }
-    }
-
-    Widget _showSearchTxtFld() {
-      final GestureDetector searchButtonWithGesture = new GestureDetector(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: new Container(
-            height: 40.0,
-            decoration: new BoxDecoration(
-                color: Colors.white,
-                borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-            child: TextField(
-              controller: _searchController,
-              onSubmitted: (_) {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new ProductsView(
-                              queryString: _searchController.text,
-                              categoryId: "0",
-                            )));
-              },
-              cursorColor: ColorUtils.primaryColor,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                contentPadding: const EdgeInsets.only(bottom: 0.5),
-                hintText: "بحث",
-                hintStyle: TextStyle(
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-
-      return new Padding(
-          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-          child: searchButtonWithGesture);
     }
 
     return Scaffold(
@@ -107,66 +62,61 @@ class _SubCategoryState extends State<SubCategory> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/cart', (Route<dynamic> route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
               },
             ),
           ),
-
           backgroundColor: Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false,
-          // hides leading widget
-
           flexibleSpace: SafeArea(
-            // top: true,
-            // left: false,
-            // bottom: false,
-            // right: false,
             child: Column(
               children: <Widget>[
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Opacity(
-                        opacity: 0.0,
-                        child: Icon(
-                          Icons.home,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Opacity(
+                      opacity: 0.0,
+                      child: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Transform.scale(
+                        scale: 2,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/home',
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: Image.asset(
+                            "assets/logobw.png",
+                            width: 150,
+                            height: 50,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0, left: 0),
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
                           color: Colors.white,
                           size: 40,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: Transform.scale(
-                          scale: 2,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                '/home',
-                                (Route<dynamic> route) => false,
-                              );
-                            },
-                            child: Image.asset(
-                              "assets/logobw.png",
-                              width: 150,
-                              height: 50,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.only(top: 5.0, left: 0),
-                          child: IconButton(
-                              onPressed: () => Navigator.of(context).pop(true),
-                              icon: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.white,
-                                size: 40,
-                              ))),
-                    ]),
-                _showSearchTxtFld(),
+                    ),
+                  ],
+                ),
+                StoreSearchTextField(searchController: searchController),
               ],
             ),
           ),
@@ -179,8 +129,7 @@ class _SubCategoryState extends State<SubCategory> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 75.0, right: 90.0),
                 child: Center(
-                  child: Text(
-                      "لا يوجد اصناف متوفرة حالياً، سيتم إضافة اصناف في المستقبل",
+                  child: Text("لا يوجد اصناف متوفرة حالياً، سيتم إضافة اصناف في المستقبل",
                       style: TextStyle(
                           color: ColorUtils.primaryColor,
                           fontSize: ResponsiveFlutter.of(context).fontSize(3),
@@ -193,8 +142,7 @@ class _SubCategoryState extends State<SubCategory> {
               primary: false,
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              itemCount:
-                  widget.subCategory == null ? 0 : widget.subCategory.length,
+              itemCount: widget.subCategory == null ? 0 : widget.subCategory.length,
               itemBuilder: (BuildContext context, int index) {
                 var eachProduct = widget.subCategory[index];
 
@@ -221,39 +169,21 @@ class _SubCategoryState extends State<SubCategory> {
                               ),
                               child: Image(
                                 image: AdvImageCache(
-                                  LoadingScreenServices.imagePrefixUrl +
-                                      eachProduct.imageFileName,
+                                  LoadingScreenServices.imagePrefixUrl + eachProduct.imageFileName,
                                   useMemCache: true,
                                   diskCacheExpire: Duration(days: 400),
                                 ),
                                 width: MediaQuery.of(context).size.width,
-                                //fadeInDuration: const Duration(microseconds: 1),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.25,
-                                // fadeInCurve: Curves.fastOutSlowIn,
-                                // fadeInCurve: Curves.fastOutSlowIn,
-
-                                // placeholder: AssetImage("assets/kmlogoo.png"),
+                                height: MediaQuery.of(context).size.height * 0.25,
                                 fit: BoxFit.cover,
                               ),
-
-                              // Image.asset(
-                              //   eachProduct.image_file_name,
-                              //   height: 150,
-                              //   width: double.infinity,
-                              //   fit: BoxFit.cover,
-                              // ),
                             ),
                             ClipRRect(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30),
                               ),
                               child: Container(
-                                // width: double.infinity,
-                                //  height: ,
-                                //constraints: BoxConstraints.expand(),
-                                height:
-                                    MediaQuery.of(context).size.height * 0.25,
+                                height: MediaQuery.of(context).size.height * 0.25,
                                 width: double.infinity,
                                 color: Colors.black54,
                                 padding: EdgeInsets.symmetric(
@@ -265,11 +195,9 @@ class _SubCategoryState extends State<SubCategory> {
                                   child: Text(
                                     eachProduct.name,
                                     style: TextStyle(
-                                      fontSize: ResponsiveFlutter.of(context)
-                                          .fontSize(4),
+                                      fontSize: ResponsiveFlutter.of(context).fontSize(4),
                                       color: Colors.white,
-                                      fontFamily:
-                                          StringUtils.fontFamilyHKGrotesk,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     ),
                                     softWrap: true,
                                     overflow: TextOverflow.fade,

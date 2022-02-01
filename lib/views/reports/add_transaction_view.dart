@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:intl/intl.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'services/reports_services.dart';
-import 'package:toast/toast.dart';
 import '../../Services.dart';
 
 // ignore: must_be_immutable
@@ -18,9 +18,9 @@ class AddTransactionView extends StatefulWidget {
 
 class _AddTransactionViewState extends State<AddTransactionView> {
   bool start;
-  int transactionType;
+  int transactionTypeIndex;
+  String transactionTypeString;
   final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
-  String transactionDate = '';
   final moneyController = TextEditingController();
   final orderIdController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -31,7 +31,6 @@ class _AddTransactionViewState extends State<AddTransactionView> {
   void initState() {
     start = true;
     shopperName = widget.shopperName;
-    transactionDate = fullDateFormatter.format(DateTime.now()).toString();
     super.initState();
   }
 
@@ -86,12 +85,16 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                         style: dropdownItemStyle,
                       ),
                     ),
-                    value: transactionType,
-                    items: Services.dropdownStringList(
-                        StringUtils.singleTransactionTypes),
+                    value: transactionTypeIndex,
+                    items: Services.transactionTypesNames(),
                     onChanged: (value) {
                       setState(() {
-                        transactionType = value;
+                        transactionTypeIndex = value;
+                        transactionTypeString = StringUtils.transactionTypesMap[LoadingScreenServices
+                            .transactionTypes
+                            .where((type) => type.automatic == 0)
+                            .toList()[transactionTypeIndex]
+                            .slug];
                       });
                     },
                   ),
@@ -109,23 +112,26 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                 SizedBox(
                   height: 40,
                 ),
-                transactionType == 0
-                    ? TextFieldRow(
+                if (transactionTypeString == 'خصم')
+                  Column(
+                    children: [
+                      TextFieldRow(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         controller: orderIdController,
                         text: 'رقم الطلب :',
                         inputType: TextInputType.number,
                         width: 150,
-                      )
-                    : Container(),
-                SizedBox(
-                  height: 40,
-                ),
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                    ],
+                  ),
                 TextFieldRow(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   controller: descriptionController,
                   text: 'الوصف :',
-                  inputType: TextInputType.multiline,
+                  inputType: TextInputType.text,
                   width: MediaQuery.of(context).size.width * 0.65,
                 ),
                 SizedBox(
@@ -134,31 +140,49 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                 KammunButton(
                   height: 50,
                   text: 'حفظ المناقلة',
-                  color: !completeData()
-                      ? ColorUtils.searchGreyColor
-                      : ColorUtils.primaryColor,
+                  color: !completeData() ? ColorUtils.searchGreyColor : ColorUtils.primaryColor,
                   onTap: () async {
                     if (!completeData()) {
                       Toast.show("يرجى إدخال كافة البيانات", context,
                           duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                     } else {
-                      String description = descriptionController.text.isNotEmpty
-                          ? descriptionController.text
-                          : ' ';
-                      shopperId = Services.selectedShopperId(shopperName);
-                      bool result = await ReportsServices.addTransaction(
-                        shopperId: shopperId,
-                        value: moneyController.text,
-                        transactionType: transactionType,
-                        description: description,
-                        orderId: orderIdController.text,
+                      List<DialogButton> decisionButton = [
+                        DialogButton(
+                          text: 'نعم',
+                          onTap: () async {
+                            Navigator.of(context).pop();
+                            String description =
+                                descriptionController.text.isNotEmpty ? descriptionController.text : ' ';
+                            shopperId = Services.selectedShopperId(shopperName);
+                            bool result = await ReportsServices.addTransaction(
+                              shopperId: shopperId,
+                              value: moneyController.text,
+                              transactionTypeId: LoadingScreenServices.transactionTypes
+                                  .where((type) => type.automatic == 0)
+                                  .toList()[transactionTypeIndex]
+                                  .id
+                                  .toString(),
+                              description: description,
+                              orderId: orderIdController.text,
+                            );
+                            Services.resultFlushBar(context: context, result: result);
+                          },
+                        ),
+                        DialogButton(
+                          text: 'لا',
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ];
+                      showMyDialog(
+                        title: transactionTypeString,
+                        context: context,
+                        text: 'هل تريد تأكيد إتمام العملية ؟',
+                        dialogButtons: decisionButton,
                       );
-                      Services.resultFlushBar(context: context, result: result);
                     }
                   },
-                ),
-                Container(
-                  height: transactionType == 0 ? 300 : 0,
                 ),
               ],
             ),
@@ -169,11 +193,13 @@ class _AddTransactionViewState extends State<AddTransactionView> {
   }
 
   bool completeData() {
-    if (transactionType != null) {
-      if (transactionType == 0)
-        return shopperName != null &&
-            moneyController.text.isNotEmpty &&
-            descriptionController.text.isNotEmpty;
+    if (transactionTypeIndex != null) {
+      if (StringUtils.transactionTypesMap[LoadingScreenServices.transactionTypes
+              .where((type) => type.automatic == 0)
+              .toList()[transactionTypeIndex]
+              .slug] ==
+          'خصم')
+        return shopperName != null && moneyController.text.isNotEmpty && descriptionController.text.isNotEmpty;
       else
         return shopperName != null && moneyController.text.isNotEmpty;
     } else {

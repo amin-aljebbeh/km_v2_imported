@@ -2,13 +2,10 @@ import 'dart:io';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:toast/toast.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 import '../../Services.dart';
@@ -25,7 +22,6 @@ class AddProductsView extends StatefulWidget {
 class _AddProductsViewState extends State<AddProductsView> {
   File _image;
 
-  // File _uploadedFile;
   int _selectedSubWarehouseValue = -1;
   final picker = ImagePicker();
   List<String> productData = [
@@ -41,22 +37,11 @@ class _AddProductsViewState extends State<AddProductsView> {
   ];
 
   Future getImageCamera() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.camera,
-        imageQuality: 100,
-        maxHeight: 600,
-        maxWidth: 500);
-    // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
-    Tools.logToConsole("Image Path");
-    // Tools.logToConsole(File(pickedFile.path));
-    // Tools.logToConsole("Compressed Image Path");
-    // Tools.logToConsole(uploadedFile);
-    // Tools.logToConsole(uploadedFile.path);
-
+    final pickedFile =
+        await picker.getImage(source: ImageSource.camera, imageQuality: 100, maxHeight: 600, maxWidth: 500);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        // _uploadedFile = uploadedFile;
       } else {
         print('No image selected.');
       }
@@ -64,22 +49,11 @@ class _AddProductsViewState extends State<AddProductsView> {
   }
 
   Future getImageGallery() async {
-    final pickedFile = await picker.getImage(
-        source: ImageSource.gallery,
-        imageQuality: 100,
-        maxHeight: 600,
-        maxWidth: 500);
-    // File uploadedFile = await testCompressAndGetFile(File(pickedFile.path));
-    Tools.logToConsole("Image Path");
-    // Tools.logToConsole(File(pickedFile.path));
-    // Tools.logToConsole("Compressed Image Path");
-    // Tools.logToConsole(uploadedFile);
-    // Tools.logToConsole(uploadedFile.path);
-
+    final pickedFile =
+        await picker.getImage(source: ImageSource.gallery, imageQuality: 100, maxHeight: 600, maxWidth: 500);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        // _uploadedFile = uploadedFile;
       } else {
         print('No image selected.');
       }
@@ -92,104 +66,13 @@ class _AddProductsViewState extends State<AddProductsView> {
       padding: EdgeInsets.only(top: 10),
       child: SelectedFileToUpload(
         image: _image,
-        name: 'Product Image}',
+        name: '',
         close: () {
           setState(() {
             _image = null;
-            // _uploadedFile = null;
           });
         },
       ),
-    );
-  }
-
-  Widget _entryField(
-      {bool canBeEmpty = true,
-      TextEditingController controller,
-      String hint,
-      @required String title,
-      String subTitle,
-      @required TextInputType fieldType,
-      bool isAddress = false,
-      double width,
-      bool isPhoneNumber = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          title,
-          style: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-              fontWeight: FontWeight.bold),
-        ),
-        subTitle == null
-            ? Container(width: 0, height: 0)
-            : Text(
-                subTitle,
-              ),
-        SizedBox(height: 8),
-        Container(
-            alignment: Alignment.centerLeft,
-            width: width ?? MediaQuery.of(context).size.width,
-            //height: height ?? 54.0,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5.0),
-              color: Colors.white,
-              border: Border.all(width: 1.0, color: Colors.green[700]),
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.16),
-                    offset: Offset(0, 3.0),
-                    blurRadius: 6.0),
-              ],
-            ),
-            child: TextFormField(
-              onChanged: (value) {
-                setState(() {});
-              },
-              validator: (value) {
-                RegExp regExp = new RegExp("^(?:9)?[0-9]{3}(?:-)[0-9]{9}\$");
-
-                if (value.isEmpty && !canBeEmpty)
-                  return "This field can not be empty";
-                if (isPhoneNumber && !regExp.hasMatch(controller.text))
-                  return "Please make sure you enter a 9-digit number (e.g. 5503394244)";
-                else
-                  return null;
-              },
-              controller: controller,
-              keyboardType: fieldType,
-              maxLines: isAddress ? null : 1,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: hint,
-                hintStyle: TextStyle(
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                ),
-                fillColor: Colors.white,
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                    borderSide: BorderSide(
-                      color: Colors.white,
-                      width: 3.0,
-                    )),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                    borderSide: BorderSide(
-                      color: Color(0xFF999999),
-                      width: 1.0,
-                    )),
-                /*errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                      width: 1.0,
-                    )),*/
-              ),
-            )),
-        SizedBox(height: 20),
-      ],
     );
   }
 
@@ -214,12 +97,10 @@ class _AddProductsViewState extends State<AddProductsView> {
         minThreshold: "0",
         autoActivation: autoActivationController,
         isActive: switchController ? "1" : "0");
-    Services.resultFlushBar(
-        context: context, result: productIds != null && productIds != 0);
+    Services.resultFlushBar(context: context, result: productIds != null && productIds != 0);
 
     if (productIds != null && productIds != 0) {
-      bool result = await ProductsServices.setImageToProducts(
-          productId: productIds, image: _image);
+      bool result = await ProductsServices.setImageToProducts(productId: productIds, image: _image);
       if (result) {
         setState(() {
           isLoading = false;
@@ -237,9 +118,7 @@ class _AddProductsViewState extends State<AddProductsView> {
           messageText: Text(
             "فشل في إضافة المنتج",
             style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
+                color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
           boxShadows: [
             BoxShadow(
@@ -254,7 +133,6 @@ class _AddProductsViewState extends State<AddProductsView> {
             color: Colors.white,
           ),
           duration: Duration(seconds: 1),
-          // leftBarIndicatorColor: ColorUtils.kmColors,
         )..show(context);
       }
     } else if (productIds == null) {
@@ -263,9 +141,7 @@ class _AddProductsViewState extends State<AddProductsView> {
         messageText: Text(
           "!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!",
           style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: StringUtils.fontFamilyHKGrotesk),
+              color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
         ),
         boxShadows: [
           BoxShadow(
@@ -312,54 +188,53 @@ class _AddProductsViewState extends State<AddProductsView> {
         // hides leading widget
 
         flexibleSpace: SafeArea(
-          // top: true,
-          // left: false,
-          // bottom: false,
-          // right: false,
           child: Column(
             children: <Widget>[
               Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Opacity(
-                      opacity: 0.0,
-                      child: Icon(
-                        Icons.home,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Opacity(
+                    opacity: 0.0,
+                    child: Icon(
+                      Icons.home,
+                      color: Colors.white,
+                      size: 40,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Transform.scale(
+                      scale: 2,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            '/home',
+                            (Route<dynamic> route) => false,
+                          );
+                        },
+                        child: Image.asset(
+                          "assets/logobw.png",
+                          width: 150,
+                          height: 50,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.0, left: 0),
+                    child: IconButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      icon: Icon(
+                        Icons.arrow_forward_ios,
                         color: Colors.white,
                         size: 40,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Transform.scale(
-                        scale: 2,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/home',
-                              (Route<dynamic> route) => false,
-                            );
-                          },
-                          child: Image.asset(
-                            "assets/logobw.png",
-                            width: 150,
-                            height: 50,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.only(top: 5.0, left: 0),
-                        child: IconButton(
-                            onPressed: () => Navigator.of(context).pop(true),
-                            icon: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.white,
-                              size: 40,
-                            ))),
-                  ]),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -367,8 +242,7 @@ class _AddProductsViewState extends State<AddProductsView> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
+          padding: const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
           child: isLoading
               ? Center(child: Loader())
               : ListView(
@@ -382,8 +256,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                       ),
                     ),
                     ListTile(
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
                         children: LoadingScreenServices.subWarehouses
                             .map((data) => Container(
@@ -391,14 +264,12 @@ class _AddProductsViewState extends State<AddProductsView> {
                                     color: Colors.white,
                                   ),
                                   child: RadioListTile(
-                                    controlAffinity:
-                                        ListTileControlAffinity.trailing,
+                                    controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
                                     title: Text(
                                       "${data.name}",
                                       style: TextStyle(
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       ),
                                     ),
                                     groupValue: _selectedSubWarehouseValue,
@@ -413,7 +284,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                             .toList(),
                       ),
                     ),
-                    _entryField(
+                    ProductEntryField(
                         controller: nameController,
                         title: "اسم المنتج",
                         fieldType: TextInputType.name,
@@ -421,19 +292,19 @@ class _AddProductsViewState extends State<AddProductsView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _entryField(
+                        ProductEntryField(
                             controller: quantityController,
                             title: "الكمية",
                             fieldType: TextInputType.number,
                             hint: "100",
                             width: MediaQuery.of(context).size.width / 4),
-                        _entryField(
+                        ProductEntryField(
                             controller: unitController,
                             title: "الوحدة",
                             fieldType: TextInputType.name,
                             hint: "لتر",
                             width: MediaQuery.of(context).size.width / 4),
-                        _entryField(
+                        ProductEntryField(
                             controller: priceFactorController,
                             title: "معدل الضرب",
                             fieldType: TextInputType.text,
@@ -441,7 +312,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                             width: MediaQuery.of(context).size.width / 4),
                       ],
                     ),
-                    _entryField(
+                    ProductEntryField(
                         controller: descriptionController,
                         title: "الوصف",
                         fieldType: TextInputType.multiline,
@@ -449,13 +320,13 @@ class _AddProductsViewState extends State<AddProductsView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _entryField(
+                        ProductEntryField(
                             controller: supplierCodeController,
                             title: "رمز المادة ",
                             fieldType: TextInputType.name,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
-                        _entryField(
+                        ProductEntryField(
                             controller: priceController,
                             title: "السعر",
                             fieldType: TextInputType.number,
@@ -491,13 +362,11 @@ class _AddProductsViewState extends State<AddProductsView> {
                             margin: const EdgeInsets.all(15.0),
                             padding: const EdgeInsets.all(3.0),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                        10.0) //                 <--- border radius here
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0) //                 <--- border radius here
                                     ),
                                 border: Border.all(
-                                    color: switchController
-                                        ? ColorUtils.kmColors2
-                                        : ColorUtils.searchGreyColor,
+                                    color: switchController ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,
                                     width: 2)),
                             child: Switch(
                               value: switchController,
@@ -513,51 +382,43 @@ class _AddProductsViewState extends State<AddProductsView> {
                         ),
                       ],
                     ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            "السماح بتفعيل المنتاج تلقائيا",
-                            style: TextStyle(
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            width: 110,
-                            // height: 100,
-                            child: Container(
-                              margin: const EdgeInsets.all(15.0),
-                              padding: const EdgeInsets.all(3.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(
-                                          10.0) //                 <--- border radius here
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                      Text(
+                        "السماح بتفعيل المنتاج تلقائيا",
+                        style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 110,
+                        // height: 100,
+                        child: Container(
+                          margin: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(3.0),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                                       ),
-                                  border: Border.all(
-                                      color: autoActivationController
-                                          ? ColorUtils.kmColors2
-                                          : ColorUtils.searchGreyColor,
-                                      width: 2)),
-                              child: Switch(
-                                value: autoActivationController,
-                                onChanged: (value) {
-                                  setState(() {
-                                    autoActivationController = value;
-                                  });
-                                },
-                                activeTrackColor: ColorUtils.kmColors2,
-                                activeColor: ColorUtils.kmColors,
-                              ),
-                            ),
+                              border: Border.all(
+                                  color:
+                                      autoActivationController ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,
+                                  width: 2)),
+                          child: Switch(
+                            value: autoActivationController,
+                            onChanged: (value) {
+                              setState(() {
+                                autoActivationController = value;
+                              });
+                            },
+                            activeTrackColor: ColorUtils.kmColors2,
+                            activeColor: ColorUtils.kmColors,
                           ),
-                        ]),
+                        ),
+                      ),
+                    ]),
                     _image != null ? imagesBody() : Container(),
                     KammunButton(
                       height: 50,
                       text: StringUtils.save,
-                      color: toastList() == 0
-                          ? ColorUtils.kmColors2
-                          : ColorUtils.searchGreyColor,
+                      color: toastList() == 0 ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,
                       onTap: () {
                         if (toastList() == 0) {
                           _addNewProduct();

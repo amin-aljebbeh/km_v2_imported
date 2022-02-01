@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/api/api_importer.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/views/cart/services/cart_services.dart';
-import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import '../../../core/api/api_importer.dart';
+import '../../../core/errors/error_types.dart';
+import '../../../models/models_importer.dart';
+import '../../../utils/utils_importer.dart';
+import '../../../views/cart/services/cart_services.dart';
+import '../../../views/deliver_to/deliver_to_view.dart';
+import '../../../views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Services.dart';
@@ -20,26 +20,19 @@ class OrderServices {
 
   static String orderUnderAddressId = '';
 
-  static Future<OrderResponse> submitNewOrder(
-      {String userNotes, bool checkPrices = true}) async {
+  static Future<OrderResponse> submitNewOrder({String userNotes, bool checkPrices = true}) async {
     String productIds = '';
     String quantities = '';
     String productPrices = '';
 
     int purchasePrices = 0;
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productIds =
-          productIds + CartServices.cartProducts[i].id.toString() + ';';
-      quantities = quantities +
-          CartServices.cartProducts[i].productCount.toString() +
-          ';';
+      productIds = productIds + CartServices.cartProducts[i].id.toString() + ';';
+      quantities = quantities + CartServices.cartProducts[i].productCount.toString() + ';';
       purchasePrices = purchasePrices +
           (int.parse(CartServices.cartProducts[i].price.split('.')[0]) *
               CartServices.cartProducts[i].productCount);
-      productPrices = productPrices +
-          int.parse(CartServices.cartProducts[i].price.split('.')[0])
-              .toString() +
-          ';';
+      productPrices = productPrices + int.parse(CartServices.cartProducts[i].price.split('.')[0]).toString() + ';';
     }
 
     Map orderData = {
@@ -62,8 +55,6 @@ class OrderServices {
         body: jsonEncode(orderData),
       );
 
-      Tools.logToConsole(response.data['reason']);
-
       if (response.data['reason'].toString().contains('discontinued')) {
         return new OrderResponse(success: false, reason: 'discontinued');
       } else {
@@ -77,8 +68,7 @@ class OrderServices {
     }
   }
 
-  static Future<OrderResponse> updateOrder(
-      {String userNotes, bool checkPrices = true}) async {
+  static Future<OrderResponse> updateOrder({String userNotes, bool checkPrices = true}) async {
     String productIds = '';
     String quantities = '';
     String productPrices = '';
@@ -86,18 +76,12 @@ class OrderServices {
 
     int purchasePrices = 0;
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productIds =
-          productIds + CartServices.cartProducts[i].id.toString() + ';';
-      quantities = quantities +
-          CartServices.cartProducts[i].productCount.toString() +
-          ';';
+      productIds = productIds + CartServices.cartProducts[i].id.toString() + ';';
+      quantities = quantities + CartServices.cartProducts[i].productCount.toString() + ';';
       purchasePrices = purchasePrices +
           (int.parse(CartServices.cartProducts[i].price.split('.')[0]) *
               CartServices.cartProducts[i].productCount);
-      productPrices = productPrices +
-          int.parse(CartServices.cartProducts[i].price.split('.')[0])
-              .toString() +
-          ';';
+      productPrices = productPrices + int.parse(CartServices.cartProducts[i].price.split('.')[0]).toString() + ';';
     }
 
     Map orderData = {
@@ -114,15 +98,14 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: API + ORDER + '/$orderId',
-          method: httpMethods.put,
-          body: jsonEncode(orderData));
+        url: API + ORDER + '/$orderId',
+        method: httpMethods.put,
+        body: jsonEncode(orderData),
+      );
 
       if (response.data['reason'].toString().contains('discontinued')) {
-        Tools.logToConsole('message in updating Order 1');
         return new OrderResponse(success: false, reason: 'discontinued');
       } else {
-        Tools.logToConsole('message in updating Order 2');
         var parsedJson = orderResponseFromJson(jsonEncode(response.data));
 
         return parsedJson;
@@ -151,8 +134,7 @@ class OrderServices {
     }
   }
 
-  static Future<bool> rateOrder(
-      {String orderId, String userFeedback, double rating}) async {
+  static Future<bool> rateOrder({String orderId, String userFeedback, double rating}) async {
     Map ratingOrderBody = {
       'user_feedback': userFeedback,
       'user_delivery_rating': rating.toString(),
@@ -187,8 +169,8 @@ class OrderServices {
         return null;
       }
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
-        orderUnderUpdateIndex = LoadingScreenServices.myOrdersList
-            .indexWhere((order) => order.id == int.parse(orderId));
+        orderUnderUpdateIndex =
+            LoadingScreenServices.myOrdersList.indexWhere((order) => order.id == int.parse(orderId));
         if (orderUnderUpdateIndex == -1) {
           orderUnderUpdateIndex = 0;
         }
@@ -203,8 +185,8 @@ class OrderServices {
 
         //! Order Under Update Delivery Price !//
 
-        Services.deliveryPrice = int.parse(supportedCityCost.split('.')[0]) +
-            int.parse(deliveryMethodCost.split('.')[0]);
+        Services.deliveryPrice =
+            int.parse(supportedCityCost.split('.')[0]) + int.parse(deliveryMethodCost.split('.')[0]);
 
         //! Order Under Update Note !//
 
@@ -246,7 +228,6 @@ class OrderServices {
         url: UNLOCK_ORDER + orderId,
         method: httpMethods.put,
       );
-      Tools.logToConsole(response);
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         return true;
       } else {
@@ -257,35 +238,32 @@ class OrderServices {
     }
   }
 
-  static Future<List<OrdersOriginalData>> getOrdersNotAssignedToDeliveries(
-      {int pageNumber = 1}) async {
+  static Future<List<OrdersOriginalData>> getOrdersNotAssignedToDeliveries({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
         url: ORDERS_NOT_ASSIGNED_TO_DELIVERIES,
         method: httpMethods.get,
         queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.notAssignedOrdersList.addAll(
-            ordersFromJson(jsonEncode(response.data)).data.data.where((order) =>
-                !LoadingScreenServices.notAssignedOrdersList.contains(order)));
+        LoadingScreenServices.notAssignedOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
+            .data
+            .data
+            .where((order) => !LoadingScreenServices.notAssignedOrdersList.contains(order)));
 
         return LoadingScreenServices.notAssignedOrdersList;
       } else {
         return LoadingScreenServices.notAssignedOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole(
-          '------------ ERROR GET NotAssignedToDeliveries ORDER --------------');
+      Tools.logToConsole('------------ ERROR GET NotAssignedToDeliveries ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
   }
 
-  static Future<List<OrdersOriginalData>> getOrdersAssignedToDeliveries(
-      {int pageNumber = 1}) async {
+  static Future<List<OrdersOriginalData>> getOrdersAssignedToDeliveries({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_ORDERS_ASSIGNED_TO_DELIVERIES,
@@ -294,132 +272,111 @@ class OrderServices {
       );
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.deliveriesAssignedOrdersList =
-            ordersFromJson(jsonEncode(response.data)).data.data;
+        LoadingScreenServices.deliveriesAssignedOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
 
         return LoadingScreenServices.deliveriesAssignedOrdersList;
       } else {
         return LoadingScreenServices.deliveriesAssignedOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole(
-          '------------ ERROR GET NotAssignedToDeliveries ORDER --------------');
+      Tools.logToConsole('------------ ERROR GET NotAssignedToDeliveries ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
   }
 
-  static Future<List<OrdersOriginalData>> getOrdersAssignedToShoppers(
-      {int pageNumber = 1}) async {
+  static Future<List<OrdersOriginalData>> getOrdersAssignedToShoppers({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_ORDERS_ASSIGNED_TO_SHOPPERS,
         method: httpMethods.get,
         queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.shoppersAssignedOrdersList =
-            ordersFromJson(jsonEncode(response.data)).data.data;
+        LoadingScreenServices.shoppersAssignedOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
 
-        print('getOrdersAssignedToShoppers');
-        print(LoadingScreenServices.shoppersAssignedOrdersList.length);
         return LoadingScreenServices.shoppersAssignedOrdersList;
       } else {
         return LoadingScreenServices.shoppersAssignedOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole(
-          '------------ ERROR GET NotAssignedToDeliveries ORDER --------------');
+      Tools.logToConsole('------------ ERROR GET NotAssignedToDeliveries ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
   }
 
-  static Future<List<OrdersOriginalData>> getDeliveryOrders(
-      {int pageNumber = 1}) async {
+  static Future<List<OrdersOriginalData>> getDeliveryOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
         url: DELIVERY_VIEWS_HIS_OWN_ORDERS,
         method: httpMethods.get,
         queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.myOrdersList =
-            ordersFromJson(jsonEncode(response.data)).data.data;
+        LoadingScreenServices.myOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
 
         return LoadingScreenServices.myOrdersList;
       } else {
         return LoadingScreenServices.myOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole(
-          '------------ ERROR GET getDeliveryOrders ORDER --------------');
+      Tools.logToConsole('------------ ERROR GET getDeliveryOrders ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
   }
 
-  static Future<List<OrdersOriginalData>> getOrdersNotAssignedToShoppers(
-      {int pageNumber = 1}) async {
+  static Future<List<OrdersOriginalData>> getOrdersNotAssignedToShoppers({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS,
         method: httpMethods.get,
         queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.notAssignedOrdersList =
-            ordersFromJson(jsonEncode(response.data)).data.data;
+        LoadingScreenServices.notAssignedOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
 
-        Tools.logToConsole('getOrdersNotAssignedToShoppers');
-        Tools.logToConsole(LoadingScreenServices.notAssignedOrdersList.length);
         return LoadingScreenServices.notAssignedOrdersList;
       } else {
         return LoadingScreenServices.notAssignedOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole(
-          '------------ ERROR GET NotAssignedToShoppers ORDER --------------');
+      Tools.logToConsole('------------ ERROR GET NotAssignedToShoppers ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
   }
 
-  static Future<List<OrdersOriginalData>> getShopperOrders(
-      {int pageNumber = 1}) async {
+  static Future<List<OrdersOriginalData>> getShopperOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
         url: SHOPPER_VIEWS_HIS_OWN_ORDERS,
         method: httpMethods.get,
         queryParameters: {'page': pageNumber},
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.myOrdersList.addAll(
-            ordersFromJson(jsonEncode(response.data)).data.data.where((order) =>
-                !LoadingScreenServices.myOrdersList.contains(order)));
+        LoadingScreenServices.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
+            .data
+            .data
+            .where((order) => !LoadingScreenServices.myOrdersList.contains(order)));
 
         return LoadingScreenServices.myOrdersList;
       } else {
         return LoadingScreenServices.myOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole(
-          '------------ ERROR GET ShopperOrders ORDER --------------');
+      Tools.logToConsole('------------ ERROR GET ShopperOrders ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
   }
 
-  static Future<List<OrdersOriginalData>> getSupplierOrders(
-      {int pageNumber = 1}) async {
+  static Future<List<OrdersOriginalData>> getSupplierOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_SUPPLIER_ORDER,
@@ -428,17 +385,17 @@ class OrderServices {
       );
 
       if (response.statusCode == SUCCESS_CODE) {
-        LoadingScreenServices.myOrdersList.addAll(
-            ordersFromJson(jsonEncode(response.data)).data.data.where((order) =>
-                !LoadingScreenServices.myOrdersList.contains(order)));
+        LoadingScreenServices.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
+            .data
+            .data
+            .where((order) => !LoadingScreenServices.myOrdersList.contains(order)));
 
         return LoadingScreenServices.myOrdersList;
       } else {
         return LoadingScreenServices.myOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole(
-          '------------ ERROR GET SUPPLIER ORDERS --------------');
+      Tools.logToConsole('------------ ERROR GET SUPPLIER ORDERS --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
@@ -455,7 +412,6 @@ class OrderServices {
         url: url + orderId,
         method: httpMethods.put,
       );
-      Tools.logToConsole('------- orders data -------');
 
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         return true;
@@ -463,15 +419,13 @@ class OrderServices {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(
-          '------------ ERROR GET ShopperOrders ORDER --------------');
+      Tools.logToConsole('------------ ERROR GET ShopperOrders ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
   }
 
-  static Future<bool> assignOrderToShopper(
-      String assignedId, String orderId) async {
+  static Future<bool> assignOrderToShopper(String assignedId, String orderId) async {
     Map assignOrderBody = {
       'order_id': orderId,
       'shopper_id': assignedId,
@@ -486,17 +440,14 @@ class OrderServices {
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         return true;
       } else {
-        Tools.logToConsole('------------NOT ASSIGNED --------------');
         return false;
       }
     } catch (e) {
-      Tools.logToConsole('here in the wanted null');
       return false;
     }
   }
 
-  static Future<bool> assignOrderToDelivery(
-      String assignedId, String orderId) async {
+  static Future<bool> assignOrderToDelivery(String assignedId, String orderId) async {
     Map assignOrderBody = {
       'order_id': orderId,
       'delivery_id': assignedId,
@@ -509,14 +460,11 @@ class OrderServices {
         body: jsonEncode(assignOrderBody),
       );
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
-        Tools.logToConsole('------------ ASSIGNED --------------');
         return true;
       } else {
-        Tools.logToConsole('------------NOT ASSIGNED --------------');
         return false;
       }
     } catch (e) {
-      print('');
       return false;
     }
   }

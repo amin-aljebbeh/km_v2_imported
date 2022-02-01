@@ -1,6 +1,5 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
@@ -14,13 +13,10 @@ class OrderProblemBottomSheet extends StatefulWidget {
   final Function(bool updatePrice) applyChanges;
 
   OrderProblemBottomSheet(
-      {@required this.notActiveProducts,
-      @required this.pricesChangesProducts,
-      @required this.applyChanges});
+      {@required this.notActiveProducts, @required this.pricesChangesProducts, @required this.applyChanges});
 
   @override
-  _OrderProblemBottomSheetState createState() =>
-      _OrderProblemBottomSheetState();
+  _OrderProblemBottomSheetState createState() => _OrderProblemBottomSheetState();
 }
 
 class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
@@ -30,9 +26,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
 
   bool loadingScreen = false;
   bool errorCode = false;
-
-  // List<ProductsData> notActive;
-  // List<ProductsData> priceChanged;
 
   String dialogText;
 
@@ -78,10 +71,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
               )
             ];
             showMyDialog(
-                title: "حدث خطأ بالطلب",
-                text: "$dialogText",
-                dialogButtons: dialogButtons,
-                context: context);
+                title: "حدث خطأ بالطلب", text: "$dialogText", dialogButtons: dialogButtons, context: context);
           })
         : Tools.logToConsole('');
 
@@ -113,9 +103,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                           child: Text(
                         "منتجات نفذت أثناء التسوق",
                         style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk),
+                            fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
                       )),
                     )
                   : Container(),
@@ -123,25 +111,19 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   ? Expanded(
                       flex: 1,
                       child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 5, color: ColorUtils.kmColors)),
+                        decoration: BoxDecoration(border: Border.all(width: 5, color: ColorUtils.kmColors)),
                         child: ListView.builder(
                           primary: false,
                           shrinkWrap: true,
-                          itemCount:
-                              orderArray == null ? 0 : notActiveCards.length,
+                          itemCount: orderArray == null ? 0 : notActiveCards.length,
                           itemBuilder: (BuildContext context, int index) {
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
-                              onTap: () => _onTileClicked(index),
+                              onTap: () {},
                               child: Container(
-                                //  color: Theme.of(context).primaryColorLight,
                                 child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 0, right: 0, top: 0),
-                                  child: cardBodyNotActive(
-                                      notActiveCards[index], context),
+                                  padding: EdgeInsets.only(left: 0, right: 0, top: 0),
+                                  child: cardBodyNotActive(notActiveCards[index], context),
                                 ),
                               ),
                             );
@@ -150,10 +132,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       ),
                     )
                   : Container(),
-
-              widget.notActiveProducts.length > 0
-                  ? SizedBox(height: 10)
-                  : Container(),
+              widget.notActiveProducts.length > 0 ? SizedBox(height: 10) : Container(),
               widget.pricesChangesProducts.length > 0
                   ? Container(
                       padding: EdgeInsets.all(10),
@@ -167,21 +146,15 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                           child: Text(
                         "منتجات تغير سعرها أثناء التسوق",
                         style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk),
+                            fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
                       )),
                     )
                   : Container(),
-
-              // SizedBox(height: 10),
               widget.pricesChangesProducts.length > 0
                   ? Expanded(
                       flex: 1,
                       child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 5, color: ColorUtils.primaryColor)),
+                        decoration: BoxDecoration(border: Border.all(width: 5, color: ColorUtils.primaryColor)),
                         child: ListView.builder(
                           primary: false,
                           shrinkWrap: true,
@@ -189,14 +162,12 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                           itemBuilder: (BuildContext context, int index) {
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
-                              onTap: () => _onTileClicked(index),
+                              onTap: () => {},
                               child: Container(
                                 //  color: Theme.of(context).primaryColorLight,
                                 child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 0, right: 0, top: 0),
-                                  child: cardBodyPriceProblem(
-                                      priceCards[index], context),
+                                  padding: EdgeInsets.only(left: 0, right: 0, top: 0),
+                                  child: cardBodyPriceProblem(priceCards[index], context),
                                 ),
                               ),
                             );
@@ -251,8 +222,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
             children: <Widget>[
               KCacheImage(
                 tag: index + 100,
-                image: LoadingScreenServices.imagePrefixUrl +
-                    orderArray[index].images[0].imageFileName.toString(),
+                image: LoadingScreenServices.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
               ),
               SizedBox(width: 10),
               Expanded(
@@ -271,11 +241,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                                   fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18),
                             ),
-                            // SizedBox(height: 6),
                             Text(
-                              orderArray[index].quantity.toString() +
-                                  " " +
-                                  orderArray[index].unit.toString(),
+                              orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
@@ -310,8 +277,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
               new Container(
                 width: 75.0,
                 height: 75.0,
-                decoration: new BoxDecoration(
-                    borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+                decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(20.0))),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Hero(
@@ -320,10 +286,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       image: orderArray[index].images.length != 0
                           ? AdvImageCache(
                               LoadingScreenServices.imagePrefixUrl +
-                                  orderArray[index]
-                                      .images[0]
-                                      .imageFileName
-                                      .toString(),
+                                  orderArray[index].images[0].imageFileName.toString(),
                               useMemCache: true,
                               diskCacheExpire: Duration(days: 400),
                             )
@@ -355,9 +318,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                             ),
                             SizedBox(height: 6),
                             Text(
-                              orderArray[index].quantity.toString() +
-                                  " " +
-                                  orderArray[index].unit.toString(),
+                              orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
@@ -388,15 +349,5 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
         ],
       ),
     );
-  }
-
-  // Function to be called on click
-  void _onTileClicked(int index) {
-    Tools.logToConsole("You tapped on item $index");
-    // Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //         builder: (context) =>
-    //             new ProductDetailView(heroIndex: index + 100)));
   }
 }

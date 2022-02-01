@@ -3,18 +3,19 @@ import 'dart:convert';
 
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/api/admin_URLs.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/views/inventory/services/inventory_services.dart';
+import '../../core/api/admin_URLs.dart';
+import '../../models/models_importer.dart';
+import '../../core/api/api_importer.dart';
+import '../../core/errors/error_types.dart';
+import '../../views/inventory/services/inventory_services.dart';
+import '../../views/reports/models/transaction_type_model.dart';
+import '../../views/reports/services/reports_services.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
 import 'Loading.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import '../../utils/utils_importer.dart';
 
 class LoadingScreenServices {
   static StartModel startRequest = new StartModel();
@@ -60,18 +61,14 @@ class LoadingScreenServices {
   static List<Address> userAddress = List<Address>();
   static List<ProductData> userFavoriteProducts = List<ProductData>();
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> allOrdersList =
-      new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> allOrdersList = new List<OrdersOriginalData>();
   static List<ShopperModel> allShoppers = List<ShopperModel>();
   static List<DeliveryModel> allDeliveries = List<DeliveryModel>();
-  static List<OrdersOriginalData> shoppersAssignedOrdersList =
-      new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> deliveriesAssignedOrdersList =
-      new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> notAssignedOrdersList =
-      new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> supplierOrderList =
-      new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> shoppersAssignedOrdersList = new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> deliveriesAssignedOrdersList = new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> notAssignedOrdersList = new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> supplierOrderList = new List<OrdersOriginalData>();
+  static List<TransactionTypeModel> transactionTypes = List<TransactionTypeModel>();
   static String phoneNumber = "لم تقم بتسجيل رقم";
   static String name;
   static String userName;
@@ -86,19 +83,22 @@ class LoadingScreenServices {
 
   // -------------------------------------------------------//
 
-  // static String subSupplierCodeHint = 'kh';
   static RegExp subSupplierCodeHint = RegExp(".*kh");
 
   Future<bool> updateFirebaseToken(String firebaseToken) async {
-    Map body = {
-      "firebase_token": firebaseToken,
-    };
-    await ApiProvider.sendRequest(
-      url: UPDATE_ADMIN_FIREBASE_TOKEN,
-      method: httpMethods.post,
-      body: jsonEncode(body),
-    );
-    return true;
+    try {
+      Map body = {
+        "firebase_token": firebaseToken,
+      };
+      await ApiProvider.sendRequest(
+        url: UPDATE_ADMIN_FIREBASE_TOKEN,
+        method: httpMethods.post,
+        body: jsonEncode(body),
+      );
+      return true;
+    } catch (e) {
+      return null;
+    }
   }
 
   static setPreferLeftSide(bool side) async {
@@ -108,39 +108,44 @@ class LoadingScreenServices {
   }
 
   static Future<bool> getSubWarehouse() async {
-    subWarehouses.clear();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    try {
+      subWarehouses.clear();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<SubWarehouse> response = await InventoryServices.getSubWarehoused(
-        adminId: prefs.getString("adminId"));
-    Tools.logToConsole("Admin response");
-    Tools.logToConsole(response);
-    if (response != null) {
-      subWarehouses.addAll(response);
-
-      return true;
-    } else {
-      return false;
+      List<SubWarehouse> response = await InventoryServices.getSubWarehoused(adminId: prefs.getString("adminId"));
+      if (response != null) {
+        subWarehouses.addAll(response);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return null;
     }
   }
 
   Future<bool> getSupportedCity() async {
-    var response = await ApiProvider.sendRequest(
-      url: GET_SUPPORTED_CITIES,
-      method: httpMethods.get,
-    );
-    if (response.statusCode == SUCCESS_CODE) {
-      final supportedCitiesResponse =
-          supportedCityOriginalFromJson(jsonEncode(response.data));
-      supportedCityOriginal = supportedCitiesResponse;
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: GET_SUPPORTED_CITIES,
+        method: httpMethods.get,
+      );
+      if (response.statusCode == SUCCESS_CODE) {
+        final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
+        supportedCityOriginal = supportedCitiesResponse;
 
-      supportedCitiesListIntro.clear();
+        supportedCitiesListIntro.clear();
 
-      supportedCitiesListIntro.addAll(supportedCitiesResponse.data);
+        supportedCitiesListIntro.addAll(supportedCitiesResponse.data);
 
-      return true;
-    } else {
-      return false;
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return null;
     }
   }
 
@@ -163,7 +168,7 @@ class LoadingScreenServices {
       }
     } catch (e) {
       Tools.logToConsole(e.toString());
-      return false;
+      return null;
     }
   }
 
@@ -171,73 +176,80 @@ class LoadingScreenServices {
   int contractsLength = 0;
 
   Future<bool> getCategory() async {
-    var response = await ApiProvider.sendRequest(
-      url: GET_CATEGORY,
-      method: httpMethods.get,
-    );
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: GET_CATEGORY,
+        method: httpMethods.get,
+      );
 
-    if (response.statusCode == SUCCESS_CODE) {
-      categoryList.clear();
-      fullCategoryList.clear();
-      final category = categoryOriginalFromJson(jsonEncode(response.data)).data;
-
-      for (int i = 0; i < category.length; i++) {
-        if (category[i].parentCategoryId == null) {
-          fullCategoryList.add(new DropdownMenuItem(
-            child: Column(
-              children: [
-                Container(
-                  width: 287,
-                  child: Text(
-                    category[i].name + " من القائمة الرئيسية",
-                    overflow: TextOverflow.visible,
-                    maxLines: 2,
-                    style: warehouseStyle,
-                  ),
+      if (response.statusCode == SUCCESS_CODE) {
+        categoryList.clear();
+        fullCategoryList.clear();
+        final categories = categoryOriginalFromJson(jsonEncode(response.data)).data;
+        fullCategoryList = categories
+            .where((category) => category.parentCategoryId == null)
+            .toList()
+            .map(
+              (category) => DropdownMenuItem(
+                child: Column(
+                  children: [
+                    Container(
+                      width: 287,
+                      child: Text(
+                        category.name + " من القائمة الرئيسية",
+                        overflow: TextOverflow.visible,
+                        maxLines: 2,
+                        style: warehouseStyle,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Divider(
+                        thickness: 1,
+                        color: ColorUtils.greyColor,
+                      ),
+                    )
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Divider(
-                    thickness: 1,
-                    color: ColorUtils.greyColor,
+                value: category.name + ";" + category.id.toString(),
+              ),
+            )
+            .toList();
+
+        fullCategoryList.addAll(
+          categories
+              .where((category) => category.parentCategoryId != null)
+              .toList()
+              .map(
+                (category) => DropdownMenuItem(
+                  child: Text(
+                    category.name,
+                    style: warehouseStyle.copyWith(fontSize: 18),
                   ),
-                )
-              ],
-            ),
-            value: category[i].name + ";" + category[i].id.toString(),
-          ));
-        }
-      }
+                  value: category.name + ";" + category.id.toString(),
+                ),
+              )
+              .toList(),
+        );
+        categoryList = categories
+            .where((category) => category.warehouses.length > 0 && category.warehouses[0].pivot.isActive == "1")
+            .toList();
 
-      for (int i = 0; i < category.length; i++) {
-        if (category[i].parentCategoryId != null) {
-          fullCategoryList.add(new DropdownMenuItem(
-            child: Text(
-              category[i].name,
-              style: warehouseStyle.copyWith(fontSize: 18),
-            ),
-            value: category[i].name + ";" + category[i].id.toString(),
-          ));
-        }
-        if (category[i].warehouses.length > 0 &&
-            category[i].warehouses[0].pivot.isActive == "1") {
-          categoryList.add(category[i]);
-        }
+        categoryList.sort((a, b) {
+          if ((int.parse(a.warehouses[0].pivot.priority)) > (int.parse(b.warehouses[0].pivot.priority)))
+            return 1;
+          else if ((int.parse(a.warehouses[0].pivot.priority) < (int.parse(b.warehouses[0].pivot.priority))))
+            return -1;
+          else
+            return 0;
+        });
+        return true;
+      } else {
+        return false;
       }
-
-      categoryList.sort((a, b) {
-        if ((int.parse(a.warehouses[0].pivot.priority)) >
-            (int.parse(b.warehouses[0].pivot.priority)))
-          return 1;
-        else if ((int.parse(a.warehouses[0].pivot.priority) <
-            (int.parse(b.warehouses[0].pivot.priority))))
-          return -1;
-        else
-          return 0;
-      });
-      return true;
-    } else {
-      return false;
+    } catch (e) {
+      Tools.logToConsole(e.toString());
+      return null;
     }
   }
 
@@ -266,30 +278,24 @@ class LoadingScreenServices {
     // Mobile Configuration
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("adminRoll") != null &&
-        prefs.getString("adminRoll").contains("@")) {
-      subSupplierCodeHint =
-          RegExp(".*${prefs.getString("adminRoll").split("@")[1]}");
+    if (prefs.getString("adminRoll") != null && prefs.getString("adminRoll").contains("@")) {
+      subSupplierCodeHint = RegExp(".*${prefs.getString("adminRoll").split("@")[1]}");
     } else {
       subSupplierCodeHint = RegExp(".*");
     }
 
-    androidShareUrl =
-        "https://play.google.com/store/apps/details?id=com.kammun.app";
-    iOSShareUrl =
-        "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
+    androidShareUrl = "https://play.google.com/store/apps/details?id=com.kammun.app";
+    iOSShareUrl = "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
 
     if (Platform.isIOS) {
       lastSupported = 100;
       currentVersion = 100;
 
-      LoadingScreen.updateUrl =
-          "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
+      LoadingScreen.updateUrl = "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
     } else {
       lastSupported = 100;
       currentVersion = 100;
-      LoadingScreen.updateUrl =
-          "https://play.google.com/store/apps/details?id=com.kammun.app";
+      LoadingScreen.updateUrl = "https://play.google.com/store/apps/details?id=com.kammun.app";
     }
 
     if (int.parse(buildNumber) < lastSupported) {
@@ -306,9 +312,7 @@ class LoadingScreenServices {
           useMemCache: true,
           diskCacheExpire: Duration(days: 400),
         ),
-        // width: MediaQuery.of(context).size.width,
         fadeInDuration: const Duration(seconds: 1),
-        // fadeInCurve: Curves.fastOutSlowIn,
         fadeInCurve: Curves.fastOutSlowIn,
         placeholder: AssetImage("assets/kmlogoo.png"),
         fit: BoxFit.cover,
@@ -324,23 +328,26 @@ class LoadingScreenServices {
 
   Future<bool> fetchStartInformation() async {
     try {
-      Tools.logToConsole(
-          "------------- get Start Screen Information returns ---------");
       bool userLoggedIn = await checkIfUserLoadedIn();
       if (userLoggedIn) {
         try {
           List responses;
           try {
             responses = await Future.wait([
-              //CartServices.getUserCart(),
               getSupportedCity(),
               getSubWarehouse(),
               getCategory(),
               Services.getWarehouses(),
               fetchAdminInformation(),
             ]);
-            if (Services.isOperationManager()) {
+            if (Services.isOperationManager() ||
+                Services.isSuperAdmin() ||
+                Services.isAdmin() ||
+                Services.isAccounting()) {
               await Services.getShoppers();
+            }
+            if (Services.isAccounting() || Services.isSuperAdmin() || Services.isAdmin() || Services.isShopper()) {
+              transactionTypes = await ReportsServices.getTransactionTypes();
             }
           } catch (e) {
             Tools.logToConsole("--------- error call -----");

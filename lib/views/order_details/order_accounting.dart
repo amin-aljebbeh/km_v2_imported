@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/views/Wedgit/text_field_row.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -11,14 +10,10 @@ import 'full_screen_image.dart';
 import 'services/order_details_services.dart';
 
 class OrderAccounting extends StatefulWidget {
-  final int orderId;
-  final List<OrderProducts> ordersAry;
   final OrdersOriginalData orderData;
 
   const OrderAccounting({
     Key key,
-    @required this.ordersAry,
-    @required this.orderId,
     @required this.orderData,
   }) : super(key: key);
 
@@ -28,7 +23,7 @@ class OrderAccounting extends StatefulWidget {
 
 class _OrderAccountingState extends State<OrderAccounting> {
   List<Widget> subWarehouseTotal = [];
-  List<Widget> imageWidgets = [];
+  List<InkWell> imageWidgets = [];
 
   getImages() {
     for (int i = 0; i < widget.orderData.images.length; i++) {
@@ -48,14 +43,11 @@ class _OrderAccountingState extends State<OrderAccounting> {
                     result: result,
                   );
                   if (result)
-                    setState(
-                      () {
-                        widget.orderData.images.removeWhere(
-                          (image) => image.id == widget.orderData.images[i].id,
-                        );
-                        imageWidgets.clear();
-                      },
-                    );
+                    setState(() {
+                      widget.orderData.images.removeWhere(
+                        (image) => image.id == widget.orderData.images[i].id,
+                      );
+                    });
                 },
               ),
               DialogButton(
@@ -66,10 +58,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
               ),
             ];
             showMyDialog(
-                title: '',
-                context: context,
-                text: 'هل تريد حذف الفاتورة ؟',
-                dialogButtons: dialogButtons);
+                title: '', context: context, text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
           },
           onTap: () {
             Navigator.push(
@@ -86,13 +75,11 @@ class _OrderAccountingState extends State<OrderAccounting> {
               ),
             );
           },
-          child: widget.orderData.images != null &&
-                  widget.orderData.images.length > 0
+          child: widget.orderData.images != null && widget.orderData.images.length > 0
               ? KCacheImage(
-                  tag: i + 100,
-                  image: LoadingScreenServices.imagePrefixUrl +
-                      'orders/' +
-                      widget.orderData.images[i].imageFileName)
+                  tag: widget.orderData.images[i].imageFileName,
+                  image:
+                      LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName)
               : AssetImage("assets/kmIcon.png"),
         ),
       );
@@ -108,7 +95,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
             children: [
               KTableElement(text: 'المورد'),
               KTableElement(text: 'الدفع للمورد'),
-              KTableElement(text: 'القبض من الزبون'),
+              KTableElement(text: 'السعر الصافي'),
             ],
           ),
         );
@@ -117,17 +104,16 @@ class _OrderAccountingState extends State<OrderAccounting> {
             KTableRow(
               children: [
                 KTableElement(
-                  text:
-                      widget.orderData.orderAccountingRows[i].subWarehouseName,
-                ),
-                KTableElement(
-                  text: _sumSubWarehouse(
-                    widget.orderData.orderAccountingRows[i].subWarehouseId,
-                  ),
+                  text: widget.orderData.orderAccountingRows[i].subWarehouseName,
                 ),
                 KTableElement(
                   text: StringUtils().oCcy.format(
-                        widget.orderData.orderAccountingRows[i].customerPay,
+                        Services.kRound(widget.orderData.orderAccountingRows[i].payToSubWarehouse),
+                      ),
+                ),
+                KTableElement(
+                  text: StringUtils().oCcy.format(
+                        widget.orderData.orderAccountingRows[i].netPrice,
                       ),
                 ),
               ],
@@ -138,23 +124,6 @@ class _OrderAccountingState extends State<OrderAccounting> {
     );
   }
 
-  String _sumSubWarehouse(int subWarehouseId) {
-    int sum = 0;
-
-    for (int i = 0; i < widget.ordersAry.length; i++) {
-      if (widget.ordersAry[i].pivot.deletedAt != null) {
-      } else {
-        if (widget.ordersAry[i].subWarehouseId == subWarehouseId) {
-          sum = sum +
-              ((int.parse(widget.ordersAry[i].pivot.purchasePrice) -
-                      widget.ordersAry[i].pivot.increaseValue) *
-                  int.parse(widget.ordersAry[i].pivot.quantity));
-        }
-      }
-    }
-    return StringUtils().oCcy.format(sum);
-  }
-
   @override
   Widget build(BuildContext context) {
     _calculate();
@@ -162,7 +131,6 @@ class _OrderAccountingState extends State<OrderAccounting> {
     return Scaffold(
       body: SafeArea(
         child: ListView(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: subWarehouseTotal,
@@ -183,13 +151,28 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 children: imageWidgets,
               ),
             ),
-            AddImageWidget(
-              hasImage: widget.orderData.images != null,
-              onSubmit: (image) async {
-                bool result = await OrderDetailsServices.addImageToOrder(
-                    image: image, orderId: widget.orderId.toString());
-                Services.resultFlushBar(context: context, result: result);
-              },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 1,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: AddImageWidget(
+                    hasImage: widget.orderData.images != null,
+                    onSubmit: (image) async {
+                      bool result = await OrderDetailsServices.addImageToOrder(
+                          image: image, orderId: widget.orderData.id.toString());
+                      Services.resultFlushBar(context: context, result: result);
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 1,
+                ),
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -203,11 +186,9 @@ class _OrderAccountingState extends State<OrderAccounting> {
                         onTap: () {
                           if (widget.orderData.shopper != null) {
                             final moneyController = TextEditingController();
-                            final descriptionController =
-                                TextEditingController();
+                            final descriptionController = TextEditingController();
                             bool completeData() {
-                              return moneyController.text.isNotEmpty &&
-                                  descriptionController.text.isNotEmpty;
+                              return moneyController.text.isNotEmpty && descriptionController.text.isNotEmpty;
                             }
 
                             List<DialogButton> decisionButtons = [
@@ -215,23 +196,21 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                 text: StringUtils.addDeduct,
                                 onTap: () async {
                                   if (!completeData()) {
-                                    Toast.show(
-                                        "يرجى إدخال كافة البيانات", context,
-                                        duration: Toast.LENGTH_LONG,
-                                        gravity: Toast.CENTER);
+                                    Toast.show("يرجى إدخال كافة البيانات", context,
+                                        duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                                   } else {
                                     Navigator.of(context).pop();
-                                    bool result =
-                                        await ReportsServices.addTransaction(
-                                      shopperId: widget.orderData.shopper.id
+                                    bool result = await ReportsServices.addTransaction(
+                                      shopperId: widget.orderData.shopper.id.toString(),
+                                      transactionTypeId: LoadingScreenServices.transactionTypes
+                                          .firstWhere((transactionType) => transactionType.slug == 'deduct')
+                                          .id
                                           .toString(),
-                                      transactionType: 0,
                                       value: moneyController.text,
                                       description: descriptionController.text,
-                                      orderId: widget.orderId.toString(),
+                                      orderId: widget.orderData.id.toString(),
                                     );
-                                    Services.resultFlushBar(
-                                        context: context, result: result);
+                                    Services.resultFlushBar(context: context, result: result);
                                   }
                                 },
                               ),
@@ -248,8 +227,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                               content: Column(
                                 children: [
                                   TextFieldRow(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     controller: moneyController,
                                     text: 'المبلغ :',
                                     inputType: TextInputType.number,
@@ -259,13 +237,11 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                     height: 40,
                                   ),
                                   TextFieldRow(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     controller: descriptionController,
                                     text: 'الوصف :',
                                     inputType: TextInputType.multiline,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.5,
+                                    width: MediaQuery.of(context).size.width * 0.5,
                                   ),
                                 ],
                               ),
@@ -273,8 +249,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                             );
                           } else {
                             Toast.show("هذا الطلب غير مسند لمتسوق", context,
-                                duration: Toast.LENGTH_LONG,
-                                gravity: Toast.CENTER);
+                                duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                           }
                         },
                         text: StringUtils.addDeduct,

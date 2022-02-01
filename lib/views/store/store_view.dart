@@ -1,13 +1,10 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
-import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
@@ -22,13 +19,10 @@ class StoreView extends StatefulWidget {
 }
 
 class StoreViewState extends State<StoreView> {
-  TextEditingController searchController = new TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   bool isDarkThemeMode = false;
-
-  // Future getCategories;
 
   _updateApplication() async {
     String url = LoadingScreen.updateUrl;
@@ -63,8 +57,7 @@ class StoreViewState extends State<StoreView> {
               bottomRight: Radius.circular(2.0),
             ),
           ),
-          contentPadding:
-              EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
+          contentPadding: EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
           titlePadding: EdgeInsets.all(0),
           title: Container(
             width: double.infinity,
@@ -164,13 +157,11 @@ class StoreViewState extends State<StoreView> {
   _openUrl(String selected) async {
     String url = "";
     if (selected == "whatsapp") {
-      url = 'whatsapp://send?phone=' +
-          LoadingScreenServices.companyInformation.whatsappNumber;
+      url = 'whatsapp://send?phone=' + LoadingScreenServices.companyInformation.whatsappNumber;
     } else if (selected == "messenger") {
       url = LoadingScreenServices.companyInformation.messengerUrl;
     } else if (selected == "facebook") {
-      url = "fb://page/" +
-          LoadingScreenServices.companyInformation.facebookUrl.toString();
+      url = "fb://page/" + LoadingScreenServices.companyInformation.facebookUrl.toString();
     } else if (selected == "instagram") {
       url = LoadingScreenServices.companyInformation.instagramUrl.toString();
     } else if (selected == "website") {
@@ -183,8 +174,6 @@ class StoreViewState extends State<StoreView> {
       url =
           "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
     } else if (selected == "number") {
-      Tools.logToConsole("-------- Support number ----------");
-
       url = "tel:${LoadingScreenServices.supportPhoneNumber}";
     }
 
@@ -192,8 +181,7 @@ class StoreViewState extends State<StoreView> {
   }
 
   _shareApp() {
-    String infoMessage =
-        "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
+    String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
     String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
 
     String androidUrl = androidGrating + LoadingScreenServices.iOSShareUrl;
@@ -223,20 +211,30 @@ class StoreViewState extends State<StoreView> {
                     child: Align(
                       alignment: Alignment.topRight,
                       child: DrawerHeader(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: ColorUtils.kmColors)),
+                        decoration:
+                            BoxDecoration(color: Colors.white, border: Border.all(color: ColorUtils.kmColors)),
                         child: InkWell(
                           onTap: () => Navigator.of(context).pop(),
                           child: Container(
                             width: MediaQuery.of(context).size.width / 1.5,
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                //color: Colors.white,
-                                color: ColorUtils.kmColors,
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Icon(
+                                    Icons.arrow_back_ios,
+                                    color: ColorUtils.kmColors,
+                                  ),
+                                ),
+                                Text(
+                                  LoadingScreenServices.name,
+                                  style: userNameStyle.copyWith(
+                                    fontSize: 30,
+                                    color: ColorUtils.kmColors,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -245,17 +243,13 @@ class StoreViewState extends State<StoreView> {
                   ),
                   Container(
                       child: Image.asset(
-                        //  "assets/logobw.png",
                         "assets/kmlogoo.png",
                         width: 250,
                         height: 200,
                       ),
-
-                      //color: ColorUtils.kmColors,
                       color: Colors.white),
                   Divider(
                     color: ColorUtils.kmColors,
-                    // height: 20,
                   ),
                   Container(
                     height: 550,
@@ -279,34 +273,49 @@ class StoreViewState extends State<StoreView> {
                             Navigator.of(context).pushNamed('/profile');
                           },
                         ),
-                        Services.isShopper() || Services.isOperationManager()
+                        Services.isShopper() || Services.isAccounting()
                             ? SideBarRow(
                                 icon: Icons.featured_play_list,
                                 text: "كشف حساب المتسوق",
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed('/ShopperAccountStatement');
+                                  Navigator.of(context).pushNamed('/ShopperAccountStatement');
                                 },
                               )
                             : Container(),
-                        Services.isOperationManager()
-                            ? SideBarRow(
-                                icon: Icons.money,
-                                text: "إضافة مناقلة",
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed('/AddTransactionView');
-                                },
+                        Services.isAccounting()
+                            ? Column(
+                                children: [
+                                  SideBarRow(
+                                    icon: Icons.money,
+                                    text: "إضافة مناقلة",
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed('/AddTransactionView');
+                                    },
+                                  ),
+                                  SideBarRow(
+                                    icon: Icons.account_balance,
+                                    text: "أرصدة الموردين",
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed('/SupplierAccounts');
+                                    },
+                                  ),
+                                ],
                               )
                             : Container(),
-                        Services.isSupplierManager() ||
-                                Services.isProductsController()
+                        if (Services.isSupplierManager())
+                          SideBarRow(
+                            icon: Icons.account_balance,
+                            text: "كشف حساب المورد",
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/SupplierAccounts');
+                            },
+                          ),
+                        Services.isSupplierManager() || Services.isProductsController() || Services.isAdmin()
                             ? SideBarRow(
                                 icon: Icons.inventory,
                                 text: "إدارة المستودعات",
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed('/subWarehouseManagement');
+                                  Navigator.of(context).pushNamed('/subWarehouseManagement');
                                 },
                               )
                             : Container(),
@@ -317,16 +326,14 @@ class StoreViewState extends State<StoreView> {
                                     icon: Icons.category,
                                     text: "المنتجات المضافة للمستودع",
                                     onTap: () {
-                                      Navigator.of(context).pushNamed(
-                                          '/products_added_to_warehouse');
+                                      Navigator.of(context).pushNamed('/products_added_to_warehouse');
                                     },
                                   ),
                                   SideBarRow(
                                     icon: Icons.category_outlined,
                                     text: "المنتجات الغير مضافة للمستودع",
                                     onTap: () {
-                                      Navigator.of(context).pushNamed(
-                                          '/products_not_added_to_warehouse');
+                                      Navigator.of(context).pushNamed('/products_not_added_to_warehouse');
                                     },
                                   ),
                                   Services.isAdmin()
@@ -334,8 +341,7 @@ class StoreViewState extends State<StoreView> {
                                           icon: Icons.category_rounded,
                                           text: "جميع المنتجات",
                                           onTap: () {
-                                            Navigator.of(context)
-                                                .pushNamed('/all_products');
+                                            Navigator.of(context).pushNamed('/all_products');
                                           },
                                         )
                                       : Container(),
@@ -343,8 +349,14 @@ class StoreViewState extends State<StoreView> {
                                     icon: Icons.fact_check,
                                     text: StringUtils.inventory,
                                     onTap: () {
-                                      Navigator.of(context)
-                                          .pushNamed('/Inventory');
+                                      Navigator.of(context).pushNamed('/Inventory');
+                                    },
+                                  ),
+                                  SideBarRow(
+                                    icon: Icons.filter_list_sharp,
+                                    text: 'فلترة المنتجات',
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed('/products_filter');
                                     },
                                   ),
                                 ],
@@ -355,8 +367,7 @@ class StoreViewState extends State<StoreView> {
                                 icon: Icons.report_sharp,
                                 text: "إحصائيات",
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed('/statistics');
+                                  Navigator.of(context).pushNamed('/statistics');
                                 },
                               )
                             : Container(),
@@ -365,8 +376,7 @@ class StoreViewState extends State<StoreView> {
                                 icon: Icons.attach_money,
                                 text: "تغير الأسعار",
                                 onTap: () {
-                                  Navigator.of(context)
-                                      .pushNamed('/priceChange');
+                                  Navigator.of(context).pushNamed('/priceChange');
                                 },
                               )
                             : Container(),
@@ -439,14 +449,12 @@ class StoreViewState extends State<StoreView> {
         child: AppBar(
           actions: [],
           iconTheme: new IconThemeData(color: Colors.transparent),
-
           backgroundColor: Services.isShopper()
               ? Services.shopper.status == 1
                   ? Color.fromARGB(255, 210, 178, 2)
                   : ColorUtils.searchGreyColor
               : Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false,
-          // hides leading widget
           flexibleSpace: SafeArea(
             top: true,
             left: false,
@@ -487,15 +495,12 @@ class StoreViewState extends State<StoreView> {
                             activeColor: Colors.white,
                             value: Services.shopper.status == 1,
                             onChanged: (value) async {
-                              bool success =
-                                  await Services.changeShopperStatus();
+                              bool success = await Services.changeShopperStatus();
                               if (success)
-                                Services.shopper.status =
-                                    Services.shopper.status == 1 ? 0 : 1;
+                                Services.shopper.status = Services.shopper.status == 1 ? 0 : 1;
                               else
                                 Toast.show("يرجى الاتصال بالإنترنت", context,
-                                    duration: Toast.LENGTH_LONG,
-                                    gravity: Toast.CENTER);
+                                    duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                               setState(() {});
                             },
                           )
@@ -508,14 +513,14 @@ class StoreViewState extends State<StoreView> {
                                 color: Colors.white,
                               ),
                               onPressed: () {
-                                Navigator.of(context).pushNamedAndRemoveUntil(
-                                    '/cart', (Route<dynamic> route) => false);
+                                Navigator.of(context)
+                                    .pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
                               },
                             ),
                           ),
                   ],
                 ),
-                _showSearchTxtFld(),
+                StoreSearchTextField(searchController: searchController),
               ],
             ),
           ),
@@ -538,8 +543,7 @@ class StoreViewState extends State<StoreView> {
                       child: Container(
                         decoration: new BoxDecoration(
                           color: ColorUtils.kmColors,
-                          border:
-                              new Border.all(color: Colors.white, width: 2.0),
+                          border: new Border.all(color: Colors.white, width: 2.0),
                           borderRadius: new BorderRadius.circular(10.0),
                         ),
                         height: 10,
@@ -557,8 +561,7 @@ class StoreViewState extends State<StoreView> {
                       child: Container(
                         decoration: new BoxDecoration(
                           color: ColorUtils.kmColors,
-                          border:
-                              new Border.all(color: Colors.white, width: 2.0),
+                          border: new Border.all(color: Colors.white, width: 2.0),
                           borderRadius: new BorderRadius.circular(10.0),
                         ),
                         height: 10,
@@ -576,52 +579,11 @@ class StoreViewState extends State<StoreView> {
     );
   }
 
-  // 1
-  Widget _showSearchTxtFld() {
-    final GestureDetector searchButtonWithGesture = new GestureDetector(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-        child: new Container(
-          height: 40.0,
-          decoration: new BoxDecoration(
-              color: Colors.white,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: TextField(
-            controller: _searchController,
-            onSubmitted: (_) {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new ProductsView(
-                            queryString: _searchController.text,
-                            categoryId: "0",
-                          )));
-            },
-            cursorColor: ColorUtils.primaryColor,
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
-              contentPadding: const EdgeInsets.only(bottom: 0.5),
-              hintText: StringUtils.search,
-              hintStyle: mainStyle,
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: searchButtonWithGesture);
-  }
-
   Widget _imageCarousel() {
     return new Container(
-      // height: 200.0,
       height: MediaQuery.of(context).size.height * 0.30,
-
       decoration: new BoxDecoration(
-          color: ColorUtils.searchGreyColor,
-          borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+          color: ColorUtils.searchGreyColor, borderRadius: new BorderRadius.all(Radius.circular(20.0))),
       child: new Carousel(
         borderRadius: true,
         boxFit: BoxFit.fill,

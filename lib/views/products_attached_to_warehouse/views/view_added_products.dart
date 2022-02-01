@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/products_view_widget.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class AddedProductsToWarehouse extends StatefulWidget {
   @override
-  _AddedProductsToWarehouseState createState() =>
-      _AddedProductsToWarehouseState();
+  _AddedProductsToWarehouseState createState() => _AddedProductsToWarehouseState();
 }
 
 class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
@@ -79,17 +75,13 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Container(
-          //margin: const EdgeInsets.all(15.0),
           padding: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(
-                      10.0) //                 <--- border radius here
+              borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                   ),
               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
           child: TextField(
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
+            style: TextStyle(color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: ColorUtils.kmColors),
@@ -147,17 +139,12 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                         child: Column(
                           children: [
                             AlertMessages(
-                              text: "حدث خطأ أثناء محاولة جلب البيانات",
+                              text: StringUtils.errorMessage,
                               messageType: "internetError",
                               headerText: "حدث خطأ",
                             ),
                             RaisedButton(
-                                child: Text("المحاولة من جديد",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily:
-                                            StringUtils.fontFamilyHKGrotesk)),
+                                child: Text(StringUtils.tryAgain, style: blackBold),
                                 onPressed: () {
                                   _loadData();
                                 }),
@@ -167,96 +154,42 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                     )
                   : Expanded(
                       child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(
-                            parent: BouncingScrollPhysics()),
+                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                         primary: false,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount:
-                            productsList == null ? 0 : productsList.length,
+                        itemCount: productsList == null ? 0 : productsList.length,
                         itemBuilder: (BuildContext context, int index) {
                           var eachProduct = productsList[index];
-                          return filter == null || filter == ""
-                              ? GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () => () {},
-                                  child: InventoryProductsViewCard(
-                                    onDelete: (result) {
-                                      if (result) {
-                                        setState(() {
-                                          productsList.removeAt(index);
-                                        });
+                          try {
+                            if (filter == null ||
+                                filter == "" ||
+                                eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
+                              return InventoryProductsViewCard(
+                                fromInventory: false,
+                                onDelete: (result) {
+                                  if (result) {
+                                    setState(() {
+                                      productsList.removeAt(index);
+                                    });
+                                  }
+                                },
+                                productData: eachProduct,
+                                onChangeStatus: (result) {
+                                  if (result) {
+                                    setState(() {
+                                      if (productsList[index].isActive == "1") {
+                                        productsList[index].isActive = "0";
+                                      } else {
+                                        productsList[index].isActive = "1";
                                       }
-                                    },
-                                    productData: eachProduct,
-                                    onChangeStatus: (result) {
-                                      if (result) {
-                                        setState(() {
-                                          if (productsList[index].isActive ==
-                                              "1") {
-                                            productsList[index].isActive = "0";
-                                          } else {
-                                            productsList[index].isActive = "1";
-                                          }
-                                        });
-                                      }
-                                    },
-                                    supplierCode: eachProduct.supplierCode,
-                                    productId: eachProduct.id.toString(),
-                                    active: int.parse(eachProduct.isActive),
-                                    img: eachProduct.images.length > 0
-                                        ? LoadingScreenServices.imagePrefixUrl +
-                                            eachProduct.images[0].imageFileName
-                                        : "",
-                                    productName: eachProduct.name,
-                                    quantity:
-                                        eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                    price: int.parse(
-                                        eachProduct.price.split(".")[0]),
-                                    index: index,
-                                  ),
-                                )
-                              : eachProduct.name
-                                      .toLowerCase()
-                                      .contains(filter.toLowerCase())
-                                  ? GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () => () {},
-                                      child: InventoryProductsViewCard(
-                                        onDelete: (result) {
-                                          if (result) {
-                                            setState(() {
-                                              productsList.removeAt(index);
-                                            });
-                                          }
-                                        },
-                                        productData: eachProduct,
-                                        supplierCode: eachProduct.supplierCode,
-                                        productId: eachProduct.id.toString(),
-                                        active: int.parse(eachProduct.isActive),
-                                        img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices
-                                                    .imagePrefixUrl +
-                                                eachProduct
-                                                    .images[0].imageFileName
-                                            : "",
-                                        productName: eachProduct.name,
-                                        quantity: eachProduct.unit.toString() !=
-                                                "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                        price: int.parse(
-                                            eachProduct.price.split(".")[0]),
-                                        index: index,
-                                      ),
-                                    )
-                                  : Container();
+                                    });
+                                  }
+                                },
+                              );
+                            }
+                          } catch (e) {}
+                          return Container();
                         },
                       ),
                     ),

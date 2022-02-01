@@ -1,17 +1,14 @@
 import 'dart:convert';
 import 'package:kammun_app/models/models_importer.dart';
 
-CategoryProduct categoryProductFromJson(String str) =>
-    CategoryProduct.fromJson(json.decode(str));
+CategoryProduct categoryProductFromJson(String str) => CategoryProduct.fromJson(json.decode(str));
 
-String categoryProductToJson(CategoryProduct data) =>
-    json.encode(data.toJson());
+String categoryProductToJson(CategoryProduct data) => json.encode(data.toJson());
 
-List<ProductData> syncCartFromJson(String str) => List<ProductData>.from(
-    json.decode(str).map((x) => ProductData.fromJson(x)));
+List<ProductData> syncCartFromJson(String str) =>
+    List<ProductData>.from(json.decode(str).map((x) => ProductData.fromJson(x)));
 
-ProductResponse favoritesProductFromJson(String str) =>
-    ProductResponse.fromJson(json.decode(str));
+ProductResponse favoritesProductFromJson(String str) => ProductResponse.fromJson(json.decode(str));
 
 // CategoryProduct publicParameterFromJson(String str) =>
 //     CategoryProduct.fromJson(json.decode(str));
@@ -25,8 +22,7 @@ class CategoryProduct {
   bool success;
   ProductResponse data;
 
-  factory CategoryProduct.fromJson(Map<String, dynamic> json) =>
-      CategoryProduct(
+  factory CategoryProduct.fromJson(Map<String, dynamic> json) => CategoryProduct(
         success: json["success"],
         data: ProductResponse.fromJson(json["data"]),
       );
@@ -69,8 +65,7 @@ class ProductResponse {
   factory ProductResponse.fromJson(Map<String, dynamic> json) {
     return ProductResponse(
       currentPage: json["current_page"],
-      data: List<ProductData>.from(
-          json["data"].map((x) => x == null ? null : ProductData.fromJson(x))),
+      data: List<ProductData>.from(json["data"].map((x) => x == null ? null : ProductData.fromJson(x))),
       firstPageUrl: json["first_page_url"],
       from: json["from"],
       lastPage: json["last_page"],
@@ -86,8 +81,7 @@ class ProductResponse {
 
   Map<String, dynamic> toJson() => {
         "current_page": currentPage,
-        "data":
-            List<dynamic>.from(data.map((x) => x == null ? null : x.toJson())),
+        "data": List<dynamic>.from(data.map((x) => x == null ? null : x.toJson())),
         "first_page_url": firstPageUrl,
         "from": from,
         "last_page": lastPage,
@@ -126,6 +120,8 @@ class ProductData {
     this.categories,
     this.warehouses,
     this.automaticActivation,
+    this.rate,
+    this.numberOfSales,
   });
 
   int id;
@@ -154,6 +150,8 @@ class ProductData {
   int subWarehouseId;
   String priceChange;
   int automaticActivation;
+  int rate;
+  int numberOfSales;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -164,46 +162,33 @@ class ProductData {
       name: json["name"],
       description: json["description"],
       unit: json["unit"].toString(),
-      price: json["price"].toString(),
-      priceChange:
-          json["price_change"] == null ? null : json["price_change"].toString(),
-      isActive: json["is_active"].toString(),
+      price: json["price"] != null ? json["price"].toString() : '0',
+      priceChange: json["price_change"] == null ? null : json["price_change"].toString(),
+      isActive: json["is_active"] != null ? json["is_active"].toString() : 'null',
       quantity: json["quantity"],
       productCount: json["productCount"],
-      supplierCode:
-          json["supplier_code"] == null ? null : json["supplier_code"],
+      supplierCode: json["supplier_code"] == null ? null : json["supplier_code"],
       warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"],
-      subWarehouseId:
-          json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
+      subWarehouseId: json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
       isFeatured: json["is_featured"] == null ? null : json["is_featured"],
       priority: json["priority"] == null ? null : json["priority"],
-      numberOfVisits:
-          json["number_of_visits"] == null ? null : json["number_of_visits"],
-      minThreshold: json["min_threshold"] == null
-          ? null
-          : json["min_threshold"].toDouble(),
-      increasePercentage: json["increase_percentage"] == null
-          ? null
-          : json["increase_percentage"],
+      numberOfVisits: json["number_of_visits"] == null ? null : json["number_of_visits"],
+      minThreshold: json["min_threshold"] == null ? null : json["min_threshold"].toDouble(),
+      increasePercentage: json["increase_percentage"] == null ? 0 : json["increase_percentage"],
       priceFactor: json["price_factor"] == null ? null : json["price_factor"],
-      automaticActivation: json["automatic_activation"] == null
-          ? null
-          : json["automatic_activation"],
-      underCheckAvailability: json["under_check_availability"] == null
-          ? null
-          : json["under_check_availability"],
+      automaticActivation: json["automatic_activation"] == null ? null : json["automatic_activation"],
+      underCheckAvailability: json["under_check_availability"] == null ? null : json["under_check_availability"],
       images: json["images"] == null
           ? new List<ProductImage>()
-          : List<ProductImage>.from(
-              json["images"].map((x) => ProductImage.fromJson(x))),
+          : List<ProductImage>.from(json["images"].map((x) => ProductImage.fromJson(x))),
       categories: json["categories"] == null
           ? new List<CategoryOriginalData>()
-          : List<CategoryOriginalData>.from(
-              json["categories"].map((x) => CategoryOriginalData.fromJson(x))),
+          : List<CategoryOriginalData>.from(json["categories"].map((x) => CategoryOriginalData.fromJson(x))),
       warehouses: json["warehouses"] == null
           ? new List<Warehouse>()
-          : List<Warehouse>.from(
-              json["warehouses"].map((x) => Warehouse.fromJson(x))),
+          : List<Warehouse>.from(json["warehouses"].map((x) => Warehouse.fromJson(x))),
+      rate: json['rate'] != null ? json['rate'] : null,
+      numberOfSales: json['number_of_sale'] != null ? json['number_of_sale'] : null,
     );
     return productData;
   }

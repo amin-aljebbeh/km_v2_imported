@@ -1,24 +1,22 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/funny_images.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class ProductsView extends StatefulWidget {
-  final int heroIndex;
   final String categoryId;
   final String queryString;
+  final String barcode;
 
-  ProductsView({this.heroIndex, @required this.categoryId, this.queryString});
+  ProductsView({@required this.categoryId, this.queryString, this.barcode});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,7 +25,7 @@ class ProductsView extends StatefulWidget {
 }
 
 class ProductsViewState extends State<ProductsView> {
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   bool isLoading = false;
   bool firstLoading = false;
@@ -41,7 +39,7 @@ class ProductsViewState extends State<ProductsView> {
 
   bool badWordMatched = false;
 
-  Future<bool> _loadData(String query, String type) async {
+  Future<bool> _loadData(String query, ProductsViewTypes type) async {
     setState(() {
       badWordMatched = false;
     });
@@ -52,10 +50,16 @@ class ProductsViewState extends State<ProductsView> {
       });
     }
     if (!badWordMatched) {
-      if (type == "search") {
-        url = "/api/product/search/$query?page=" + page.toString();
-      } else {
-        url = "/api/category/$query?page=$page";
+      switch (type) {
+        case ProductsViewTypes.search:
+          url = SEARCH_PRODUCTS + "$query?page=" + page.toString();
+          break;
+        case ProductsViewTypes.category:
+          url = GET_CATEGORY + "$query?page=$page";
+          break;
+        case ProductsViewTypes.barcode:
+          url = SEARCH_PRODUCT_BY_BARCODE + query;
+          break;
       }
 
       if (!theEndOfProducts) {
@@ -65,8 +69,7 @@ class ProductsViewState extends State<ProductsView> {
             method: httpMethods.get,
           );
           if (response.statusCode == SUCCESS_CODE) {
-            if (!response.data["success"] &&
-                response.data["reason"] == "No results") {
+            if (!response.data["success"] && response.data["reason"] == "No results") {
               setState(() {
                 searchLoading = false;
                 if (firstLoading == true) firstLoading = false;
@@ -76,13 +79,26 @@ class ProductsViewState extends State<ProductsView> {
                 }
               });
             } else {
-              final products =
-                  categoryProductFromJson(jsonEncode(response.data));
-              productsList.addAll(products.data.data);
+              var products;
+              switch (type) {
+                case ProductsViewTypes.search:
+                case ProductsViewTypes.category:
+                  products = categoryProductFromJson(jsonEncode(response.data));
+                  productsList.addAll(products.data.data);
+                  break;
+                case ProductsViewTypes.barcode:
+                  products = syncCartFromJson(jsonEncode(response.data['data']));
+                  setState(() {
+                    productsList.clear();
+                    productsList = syncCartFromJson(jsonEncode(response.data['data']));
+                  });
+                  break;
+              }
 
               if (this.mounted) {
+                Tools.logToConsole('message from mounted');
                 setState(() {
-                  if (page - 1 == products.data.lastPage) {
+                  if (type != ProductsViewTypes.barcode && page - 1 == products.data.lastPage) {
                     theEndOfProducts = true;
                   }
                   searchLoading = false;
@@ -97,10 +113,8 @@ class ProductsViewState extends State<ProductsView> {
             else
               return false;
           } else {
-            Tools.logToConsole("------ the error code is 503 --------");
             setState(() {
-              errorMessage =
-                  "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
+              errorMessage = "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
               isLoading = false;
               searchLoading = false;
               firstLoading = false;
@@ -122,12 +136,13 @@ class ProductsViewState extends State<ProductsView> {
     if (this.mounted) {
       super.initState();
     }
-    // Add listeners to this class
-    if (widget.queryString != null) {
-      _loadData(widget.queryString, "search");
-      _searchController.text = widget.queryString;
+    if (widget.barcode != null) {
+      _loadData(widget.barcode, ProductsViewTypes.barcode);
+    } else if (widget.queryString != null) {
+      _loadData(widget.queryString, ProductsViewTypes.search);
+      searchController.text = widget.queryString;
     } else {
-      _loadData(widget.categoryId, "category");
+      _loadData(widget.categoryId, ProductsViewTypes.category);
     }
     setState(() {
       firstLoading = true;
@@ -136,54 +151,9 @@ class ProductsViewState extends State<ProductsView> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _showSearchTxtFld() {
-      final GestureDetector searchButtonWithGesture = new GestureDetector(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: new Container(
-            height: 40.0,
-            decoration: new BoxDecoration(
-                color: Colors.white,
-                borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-            child: TextField(
-              controller: _searchController,
-              onSubmitted: (_) {
-                setState(() {
-                  // searchLoading = true;
-                  productsList.clear();
-                  // _loadData(_searchController.text, "search");
-                  Navigator.of(context).pop();
-
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new ProductsView(
-                                queryString: _searchController.text,
-                                categoryId: "0",
-                              )));
-                });
-              },
-              cursorColor: ColorUtils.primaryColor,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                contentPadding: const EdgeInsets.only(bottom: 0.5),
-                hintText: "بحث",
-                hintStyle: TextStyle(
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-
-      return new Padding(
-          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-          child: searchButtonWithGesture);
-    }
-
     return Scaffold(
-      floatingActionButton: widget.queryString == null
+      floatingActionButton: widget.queryString == null &&
+              (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
           ? FloatingActionButton(
               backgroundColor: ColorUtils.kmColors2,
               onPressed: () {
@@ -224,8 +194,7 @@ class ProductsViewState extends State<ProductsView> {
                           color: Colors.white,
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/cart', (Route<dynamic> route) => false);
+                          Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
                         },
                       ),
                     ),
@@ -262,7 +231,15 @@ class ProductsViewState extends State<ProductsView> {
                     ),
                   ],
                 ),
-                _showSearchTxtFld(),
+                StoreSearchTextField(
+                  searchController: searchController,
+                  onSubmit: () {
+                    setState(() {
+                      productsList.clear();
+                      Navigator.of(context).pop();
+                    });
+                  },
+                ),
               ],
             ),
           ),
@@ -278,19 +255,16 @@ class ProductsViewState extends State<ProductsView> {
                 ),
               )
             : productsList.length == 0
-                ? searchLoading || firstLoading
+                ? (searchLoading || firstLoading)
                     ? FacebookLoader()
                     : Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
-                          child: Text(errorMessage,
-                              style: TextStyle(
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                          child: Text(errorMessage, style: mainStyle),
                         ),
                       )
                 : Padding(
-                    padding: EdgeInsets.only(
-                        left: 15, top: 10, right: 15, bottom: 0),
+                    padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,63 +272,47 @@ class ProductsViewState extends State<ProductsView> {
                         Expanded(
                           child: NotificationListener<ScrollNotification>(
                             onNotification: (ScrollNotification scrollInfo) {
-                              if (!isLoading &&
-                                  scrollInfo.metrics.pixels ==
-                                      scrollInfo.metrics.maxScrollExtent) {
+                              if (!isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
                                 setState(() {
                                   page++;
                                   isLoading = true;
                                 });
-                                _searchController.text != ""
-                                    ? _loadData(
-                                        _searchController.text, "search")
-                                    : _loadData(widget.categoryId, "category");
-                                // start loading data
-
+                                searchController.text != ""
+                                    ? _loadData(searchController.text, ProductsViewTypes.search)
+                                    : _loadData(widget.categoryId, ProductsViewTypes.category);
                               }
                               return;
                             },
                             child: ListView.builder(
-                              physics: const AlwaysScrollableScrollPhysics(
-                                  parent: BouncingScrollPhysics()),
+                              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                               primary: false,
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              itemCount: productsList == null
-                                  ? 0
-                                  : productsList.length,
+                              itemCount: productsList == null ? 0 : productsList.length,
                               itemBuilder: (BuildContext context, int index) {
                                 var eachProduct = productsList[index];
-                                return new GestureDetector(
-                                  behavior: HitTestBehavior.translucent,
-                                  onTap: () => _onTileClicked(index),
-                                  child: ProductsViewCard(
-                                    subWarehouseId: eachProduct.subWarehouseId,
-                                    productData: eachProduct,
-                                    supplierCode: eachProduct.supplierCode,
-                                    productId: eachProduct.id.toString(),
-                                    active: int.parse(eachProduct.isActive),
-                                    img: eachProduct.images.length > 0
-                                        ? LoadingScreenServices.imagePrefixUrl +
-                                            eachProduct.images[0].imageFileName
-                                        : "",
-                                    productName: eachProduct.name,
-                                    quantity:
-                                        eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                    price: int.parse(
-                                        eachProduct.price.split(".")[0]),
-                                    index: index,
-                                  ),
+                                return ProductsViewCard(
+                                  subWarehouseId: eachProduct.subWarehouseId,
+                                  productData: eachProduct,
+                                  supplierCode: eachProduct.supplierCode,
+                                  productId: eachProduct.id.toString(),
+                                  active: int.parse(eachProduct.isActive),
+                                  img: eachProduct.images.length > 0
+                                      ? LoadingScreenServices.imagePrefixUrl + eachProduct.images[0].imageFileName
+                                      : "",
+                                  productName: eachProduct.name,
+                                  quantity: eachProduct.unit.toString() != "null"
+                                      ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
+                                      : eachProduct.quantity.toString(),
+                                  price: int.parse(eachProduct.price.split(".")[0]),
+                                  index: index,
                                 );
                               },
                             ),
                           ),
                         ),
                         Container(
+                          width: MediaQuery.of(context).size.width,
                           height: isLoading ? 50.0 : 0,
                           color: Colors.transparent,
                           child: Center(
@@ -363,8 +321,7 @@ class ProductsViewState extends State<ProductsView> {
                                     "تم جلب جميع المنتجات",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontFamily:
-                                          StringUtils.fontFamilyHKGrotesk,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     ),
                                   )
                                 : Loader(),
@@ -373,20 +330,6 @@ class ProductsViewState extends State<ProductsView> {
                       ],
                     ),
                   ),
-      ),
-    );
-  }
-
-  void _onTileClicked(int index) {
-    ProductData productsDic = productsList[index];
-
-    Navigator.push(
-      context,
-      new MaterialPageRoute(
-        builder: (context) => new ProductDetailView(
-          product: productsDic,
-          isFromFavoriteScreen: false,
-        ),
       ),
     );
   }

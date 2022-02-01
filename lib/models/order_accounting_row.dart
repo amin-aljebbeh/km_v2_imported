@@ -1,13 +1,15 @@
 class OrderAccountingRow {
   int subWarehouseId;
   String subWarehouseName;
-  double customerPay;
+  double netPrice;
   double payToSubWarehouse;
+  double increaseValuesSum;
 
-  OrderAccountingRow(
+  OrderAccountingRow({
     this.subWarehouseId,
     this.subWarehouseName,
-    this.customerPay,
+    this.netPrice,
     this.payToSubWarehouse,
-  );
+    this.increaseValuesSum,
+  });
 }
