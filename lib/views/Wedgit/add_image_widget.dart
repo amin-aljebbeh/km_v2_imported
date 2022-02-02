@@ -92,7 +92,7 @@ class _AddImageWidgetState extends State<AddImageWidget> {
 
   Future getImage(ImageSource imageSource) async {
     final pickedFile =
-        await picker.getImage(source: imageSource, imageQuality: 100, maxHeight: 600, maxWidth: 500);
+        await picker.getImage(source: imageSource, imageQuality: 25, maxHeight: 1500, maxWidth: 1500);
 
     setState(() {
       if (pickedFile != null) {
