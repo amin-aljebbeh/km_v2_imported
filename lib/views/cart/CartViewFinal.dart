@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
@@ -31,7 +32,7 @@ class CartViewFinal extends StatefulWidget {
 class _CartViewFinalState extends State<CartViewFinal> {
   List<ProductData> orderArray;
   int subtotal = 0;
-  int delivaryCost = 10;
+  int deliveryCost = 10;
   List<int> cards = [];
   bool loadingScreen = false;
   bool errorCode = false;
@@ -82,7 +83,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
     OrderServices.updateOrderNote != null && OrderServices.orderUnderUpdateIndex != -1
         ? WidgetsBinding.instance.addPostFrameCallback((_) => _userNotesInitial())
-        : {};
+        : Tools.logToConsole('');
 
     super.initState();
   }

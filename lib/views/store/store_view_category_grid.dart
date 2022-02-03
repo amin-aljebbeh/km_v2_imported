@@ -119,8 +119,7 @@ class ShopByCategory extends StatefulWidget {
   final String categoryName;
   final int index;
 
-  ShopByCategory({Key, key, @required this.img, @required this.categoryName, @required this.index})
-      : super(key: key);
+  ShopByCategory({key, @required this.img, @required this.categoryName, @required this.index}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

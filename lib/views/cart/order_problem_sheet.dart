@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -100,7 +101,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
 
     OrderServices.updateOrderNote != null
         ? WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog())
-        : {};
+        : Tools.logToConsole('');
 
     super.initState();
   }

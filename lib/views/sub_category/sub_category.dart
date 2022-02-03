@@ -6,6 +6,7 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 
+// ignore: must_be_immutable
 class SubCategory extends StatefulWidget {
   int heroIndex;
   static int cartCount = 0;

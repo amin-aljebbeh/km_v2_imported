@@ -9,17 +9,18 @@ import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'login_view.dart';
 
+// ignore: must_be_immutable
 class CounterOtp extends StatefulWidget {
   static const routeName = '/otp-counter';
 
-  int counterr;
+  int counter;
   int counterMinn;
   Function(bool success) onRequestSent;
 
-  CounterOtp(this.counterr, this.counterMinn, this.onRequestSent);
+  CounterOtp(this.counter, this.counterMinn, this.onRequestSent);
 
   @override
-  _CounterOtpState createState() => _CounterOtpState(counterr, counterMinn);
+  _CounterOtpState createState() => _CounterOtpState(counter, counterMinn);
 }
 
 class _CounterOtpState extends State<CounterOtp> {
@@ -27,15 +28,13 @@ class _CounterOtpState extends State<CounterOtp> {
   String finalCode = "";
   String x = "";
   bool loadingScreen = false;
-  // int counter = 59;
-  // int counterMin = 4;
   int alertMessageState = 0;
 
-  int counter;
+  int counter2;
   int counterMin;
-  _CounterOtpState(this.counter, this.counterMin);
+  _CounterOtpState(this.counter2, this.counterMin);
 
-  Future featchOtp() async {
+  Future fetchOtp() async {
     try {
       setState(() {
         loadingScreen = true;
@@ -56,7 +55,7 @@ class _CounterOtpState extends State<CounterOtp> {
         await SmsAutoFill().listenForCode;
         setState(() {
           loadingScreen = false;
-          counter = 59;
+          counter2 = 59;
           counterMin = 0;
         });
         widget.onRequestSent(true);
@@ -77,16 +76,16 @@ class _CounterOtpState extends State<CounterOtp> {
 
   void startTimer() {
     Timer(Duration(seconds: 1), () {
-      if (counter == 0 && counterMin > 0) {
+      if (counter2 == 0 && counterMin > 0) {
         if (this.mounted) {
           setState(() {
             counterMin--;
-            counter = 59;
+            counter2 = 59;
           });
         }
-      } else if (counter > 0) if (this.mounted) {
+      } else if (counter2 > 0) if (this.mounted) {
         setState(() {
-          counter--;
+          counter2--;
         });
       }
     });
@@ -109,7 +108,7 @@ class _CounterOtpState extends State<CounterOtp> {
               ),
             ],
           )
-        : counter > 0 || counterMin > 0
+        : counter2 > 0 || counterMin > 0
             ? Container(
                 //  margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -137,7 +136,7 @@ class _CounterOtpState extends State<CounterOtp> {
                   ),
                   trailing: Container(
                     child: Text(
-                      "0$counterMin:" + "${counter < 10 ? "0" + "$counter" : "$counter"}",
+                      "0$counterMin:" + "${counter2 < 10 ? "0" + "$counter2" : "$counter2"}",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
@@ -160,7 +159,7 @@ class _CounterOtpState extends State<CounterOtp> {
                     ],
                   )
                 : InkWell(
-                    onTap: featchOtp,
+                    onTap: fetchOtp,
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(

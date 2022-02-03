@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
@@ -81,7 +82,7 @@ class OrdersViewState extends State<OrdersView> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHight = MediaQuery.of(context).size.height;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
         backgroundColor: Theme.of(context).primaryColorLight,
@@ -137,7 +138,7 @@ class OrdersViewState extends State<OrdersView> {
                       orderDataList.length == 0
                           ? Container(
                               child: Padding(
-                                padding: EdgeInsets.only(top: screenHight * 0.4),
+                                padding: EdgeInsets.only(top: screenHeight * 0.4),
                                 child: Center(
                                   child: Text(
                                     "لا يوجد أي طلبات سابقة",
@@ -161,8 +162,10 @@ class OrdersViewState extends State<OrdersView> {
                               setState(() {
                                 page++;
                               });
-                              !theEndOfOrders ? _getOrder() : {};
+                              !theEndOfOrders ? _getOrder() : Tools.logToConsole('');
+                              return true;
                             }
+                            return false;
                           },
                           child: ListView.builder(
                             physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -180,11 +183,11 @@ class OrdersViewState extends State<OrdersView> {
                                     onTap: () => _onTileClicked(index),
                                     child: OrdersViewCard(
                                       underUpdate: int.parse(orderDataList[index].underUpdate),
-                                      order_title: "",
-                                      order_total_price: orderDataList[index].total.toString(),
-                                      order_status: int.parse(orderDataList[index].orderStatusId),
-                                      order_quantity: orderDataList[index].products.length,
-                                      order_created_date: dateTime,
+                                      orderTitle: "",
+                                      orderTotalPrice: orderDataList[index].total.toString(),
+                                      orderStatus: int.parse(orderDataList[index].orderStatusId),
+                                      orderQuantity: orderDataList[index].products.length,
+                                      orderCreatedDate: dateTime,
                                     ),
                                   ),
                                   int.parse(orderDataList[index].orderStatusId) == 1
@@ -196,7 +199,7 @@ class OrdersViewState extends State<OrdersView> {
                                       : Container(),
                                   int.parse(orderDataList[index].orderStatusId) == 5
                                       ? orderDataList[index].userDeliveryRating == null
-                                          ? _showRatingButton(context, index, screenHight)
+                                          ? _showRatingButton(context, index, screenHeight)
                                           : Container()
                                       : Container(),
                                   Padding(
@@ -294,19 +297,14 @@ class OrdersViewState extends State<OrdersView> {
   _moveOrderProductsToCart({int orderIndex}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     CartServices.cartProducts.clear();
-    String products_Id = "";
-    String products_quantity = "";
+    String productsId = "";
+    String productsQuantity = "";
 
     for (int i = 0; i < LoadingScreenServices.myOrdersList[orderIndex].products.length; i++) {
       ProductData product = new ProductData();
-      // Warehouse warehouses = new Warehouse();
-      // List<Warehouse> listWarehouses = [];
-
-      //  WarehousePivot warehousePivot = new WarehousePivot();
 
       product.id = LoadingScreenServices.myOrdersList[orderIndex].products[i].id;
       product.images = LoadingScreenServices.myOrdersList[orderIndex].products[i].images;
-      // product.isActive = Services.myOrdersList[index].products[i].
       product.name = LoadingScreenServices.myOrdersList[orderIndex].products[i].name;
 
       product.price = LoadingScreenServices.myOrdersList[orderIndex].products[i].pivot.purchasePrice;
@@ -326,10 +324,10 @@ class OrdersViewState extends State<OrdersView> {
     }
 
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      products_Id += CartServices.cartProducts[i].id.toString() + ";";
-      products_quantity += CartServices.cartProducts[i].productCount.toString() + ";";
+      productsId += CartServices.cartProducts[i].id.toString() + ";";
+      productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
     }
-    prefs.setString("userCart", products_Id + "@" + products_quantity);
+    prefs.setString("userCart", productsId + "@" + productsQuantity);
 
     Navigator.of(context).pushNamedAndRemoveUntil(
       '/cartFromUpdate',
@@ -467,20 +465,21 @@ class OrdersViewState extends State<OrdersView> {
   }
 }
 
+// ignore: must_be_immutable
 class OrdersViewCard extends StatefulWidget {
-  int order_quantity;
-  String order_title;
-  String order_total_price;
-  int order_status;
-  String order_created_date;
+  int orderQuantity;
+  String orderTitle;
+  String orderTotalPrice;
+  int orderStatus;
+  String orderCreatedDate;
   int underUpdate;
 
   OrdersViewCard(
-      {this.order_quantity,
-      this.order_title,
-      this.order_total_price,
-      this.order_status,
-      this.order_created_date,
+      {this.orderQuantity,
+      this.orderTitle,
+      this.orderTotalPrice,
+      this.orderStatus,
+      this.orderCreatedDate,
       this.underUpdate});
 
   @override
@@ -493,18 +492,18 @@ class OrdersViewCardState extends State<OrdersViewCard> {
   String orderStatus = "طلبك قيد المعالجة ⌛️";
   @override
   Widget build(BuildContext context) {
-    if (widget.order_status == 2) orderStatus = "تم قبول طلبك ✅";
+    if (widget.orderStatus == 2) orderStatus = "تم قبول طلبك ✅";
     if (widget.underUpdate == 1) {
       orderStatus = "طلبك معلق حتى تأكيد التعديل";
     }
     if (widget.underUpdate == 2) {
       orderStatus = "يقوم مسؤول الطلب بتعديل طلبكم";
     }
-    if (widget.order_status == 3) orderStatus = "تم تجهيز الطلب 😎";
-    if (widget.order_status == 4) orderStatus = "تم إرسال طلبك مع كابتن التوصيل";
-    if (widget.order_status == 5) orderStatus = "تم توصيل طلبك بنجاح ";
-    if (widget.order_status == 6) orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
-    if (widget.order_status == 7) orderStatus = "😔 لم نستطع تأمين الطلب 😔";
+    if (widget.orderStatus == 3) orderStatus = "تم تجهيز الطلب 😎";
+    if (widget.orderStatus == 4) orderStatus = "تم إرسال طلبك مع كابتن التوصيل";
+    if (widget.orderStatus == 5) orderStatus = "تم توصيل طلبك بنجاح ";
+    if (widget.orderStatus == 6) orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
+    if (widget.orderStatus == 7) orderStatus = "😔 لم نستطع تأمين الطلب 😔";
 
     return Container(
       child: Padding(
@@ -523,7 +522,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       border: Border.all(color: UtilsImporter().colorUtils.greycolor.withOpacity(0.2)),
                     ),
                     child: Text(
-                      widget.order_quantity.toString(),
+                      widget.orderQuantity.toString(),
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w400,
@@ -559,7 +558,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                     ),
                                     TextSpan(
                                       text:
-                                          "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.order_total_price)).toString()}" +
+                                          "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
                                               " ${LoadingScreenServices.companyInformation.currency.toString()}",
                                       style: TextStyle(
                                         color: Colors.black87,
@@ -586,7 +585,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: widget.order_created_date,
+                                    text: widget.orderCreatedDate,
                                     style: TextStyle(
                                       color: Colors.black38,
                                       fontSize: 18,

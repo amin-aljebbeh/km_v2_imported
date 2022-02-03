@@ -34,7 +34,7 @@ class ProductsViewState extends State<ProductsView> {
   int page = 1;
   List<ProductData> productsList = List<ProductData>();
   bool searchLoading = false;
-  bool theEndOfProducs = false;
+  bool theEndOfProducts = false;
   String errorMessage = "لم يتم العثور على المنتج";
 
   final _random = new Random();
@@ -58,7 +58,7 @@ class ProductsViewState extends State<ProductsView> {
         url = "/api/category/$query?page=$page";
       }
 
-      if (!theEndOfProducs) {
+      if (!theEndOfProducts) {
         try {
           var response = await ApiProvider.sendRequest(
             url: url,
@@ -72,7 +72,7 @@ class ProductsViewState extends State<ProductsView> {
                 if (firstLoading == true) firstLoading = false;
                 isLoading = false;
                 if (productsList.length != 0) {
-                  theEndOfProducs = true;
+                  theEndOfProducts = true;
                 }
               });
             } else {
@@ -81,7 +81,7 @@ class ProductsViewState extends State<ProductsView> {
               if (this.mounted) {
                 setState(() {
                   if (page - 1 == products.data.lastPage) {
-                    theEndOfProducs = true;
+                    theEndOfProducts = true;
                   }
                   searchLoading = false;
 
@@ -279,9 +279,9 @@ class ProductsViewState extends State<ProductsView> {
                                     _searchController.text != ""
                                         ? _loadData(_searchController.text, "search")
                                         : _loadData(widget.categoryId, "category");
-                                    // start loading data
-
+                                    return;
                                   }
+                                  return;
                                 },
                                 child: ListView.builder(
                                   physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -316,7 +316,7 @@ class ProductsViewState extends State<ProductsView> {
                               height: isLoading ? 50.0 : 0,
                               color: Colors.transparent,
                               child: Center(
-                                child: theEndOfProducs
+                                child: theEndOfProducts
                                     ? Text("تم جلب جميع المنتجات",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,

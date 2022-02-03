@@ -137,9 +137,9 @@ class LoadingScreenServices {
       if (userToken != null) {
         LoadingScreen.userToken = "Bearer " + userToken;
         if (userToken.contains("APPLE_VERIFICATION")) {
-          BaseUrl = APPLE_BASEURL;
+          BASE_URL = APPLE_BASE_URL;
         } else {
-          BaseUrl = PRODUCTION_BASE_URL;
+          BASE_URL = PRODUCTION_BASE_URL;
         }
         if (userSelectSupportedCity == null) {
           return null;

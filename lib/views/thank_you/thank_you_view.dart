@@ -67,6 +67,7 @@ class ThankYouViewState extends State<ThankYouView> {
     return WillPopScope(
       onWillPop: () {
         KammunRestart.restartApp(context);
+        return;
       },
       child: Scaffold(
           backgroundColor: Theme.of(context).primaryColorLight,

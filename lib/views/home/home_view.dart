@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/favoraites/favoraites.dart';
@@ -8,6 +9,7 @@ import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: must_be_immutable
 class HomeView extends StatefulWidget {
   final int routeIndex;
   final bool isFromUpdateOrder;
@@ -33,7 +35,7 @@ class HomeViewState extends State<HomeView> {
   void initState() {
     widget.notificationValue != null
         ? WidgetsBinding.instance.addPostFrameCallback((_) => _showNotificationDialog(ctx: context))
-        : {};
+        : Tools.logToConsole('');
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _initializeNotificaiton(ctx: context));
     super.initState();

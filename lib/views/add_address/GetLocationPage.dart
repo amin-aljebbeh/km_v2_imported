@@ -64,5 +64,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
       };
       return userLocation;
     }
+    return null;
   }
 }

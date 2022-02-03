@@ -1,7 +1,7 @@
-// String BaseUrl = "https://kammunapp.com";
-String BaseUrl = "https://kammun.app";
+// ignore: non_constant_identifier_names
+String BASE_URL = "https://kammun.app";
 
-const String APPLE_BASEURL = "http://kmbe.kammun.com";
+const String APPLE_BASE_URL = "http://kmbe.kammun.com";
 const String PRODUCTION_BASE_URL = "https://kammun.app";
 
 ////////////////////////////////////////////////////////////////////

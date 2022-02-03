@@ -3,6 +3,7 @@ import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 
+// ignore: must_be_immutable
 class OrderDetailView extends StatefulWidget {
   List<OrderProducts> ordersAry;
   int subTotal;
@@ -78,7 +79,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                         img: orderDetail.images.length != 0
                             ? LoadingScreenServices.imagePrefixUrl + orderDetail.images[0].imageFileName
                             : "",
-                        product_name: orderDetail.name,
+                        productName: orderDetail.name,
                         quantity: orderDetail.quantity,
                         price: int.parse(orderDetail.pivot.purchasePrice),
                         unit: orderDetail.unit == null ? "" : orderDetail.unit,
@@ -176,7 +177,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
 
 class OrderDetailViewCard extends StatefulWidget {
   final String img;
-  final String product_name;
+  final String productName;
   final String quantity;
   final int price;
   final int index;
@@ -184,7 +185,7 @@ class OrderDetailViewCard extends StatefulWidget {
   final String productCount;
 
   OrderDetailViewCard(
-      {this.img, this.product_name, this.quantity, this.price, this.index, this.unit, this.productCount});
+      {this.img, this.productName, this.quantity, this.price, this.index, this.unit, this.productCount});
 
   @override
   State<StatefulWidget> createState() {
@@ -194,8 +195,6 @@ class OrderDetailViewCard extends StatefulWidget {
 }
 
 class OrderDetailViewCardState extends State<OrderDetailViewCard> {
-  int no_of_orders = 1;
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -239,7 +238,7 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                           Wrap(
                             children: <Widget>[
                               Text(
-                                widget.product_name,
+                                widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,

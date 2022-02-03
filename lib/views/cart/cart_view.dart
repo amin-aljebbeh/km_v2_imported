@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
@@ -123,7 +124,7 @@ class CartViewState extends State<CartView> {
 
     widget.isFromUpdateOrder
         ? WidgetsBinding.instance.addPostFrameCallback((_) => _showUpdateOrderInstruction(context: context))
-        : {};
+        : Tools.logToConsole('');
   }
 
   void onrRemove(item) {
@@ -134,7 +135,7 @@ class CartViewState extends State<CartView> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHight = MediaQuery.of(context).size.height;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -160,7 +161,7 @@ class CartViewState extends State<CartView> {
                 ),
                 CartServices.cartProducts.length == 0
                     ? Padding(
-                        padding: EdgeInsets.only(top: screenHight * 0.3),
+                        padding: EdgeInsets.only(top: screenHeight * 0.3),
                         child: Center(
                           child: Text(
                             "سلة المشتريات فارغة",

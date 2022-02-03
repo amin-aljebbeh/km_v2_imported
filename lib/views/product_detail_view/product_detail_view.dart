@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 
+// ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
   int heroIndex;
   ProductData products;
@@ -49,7 +50,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
     );
     _animation = Tween(begin: 1.5, end: 0.0).animate(_animationController);
 
-    //  CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
     _animationController.forward();
   }
 
@@ -70,8 +70,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
     });
   }
 
-  // curve: Curves.linear, duration: Duration(milliseconds: 500));
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -80,7 +78,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
       right: false,
       bottom: true,
       child: Scaffold(
-        //backgroundColor: UtilsImporter().colorUtils.primarycolor,
         backgroundColor: Theme.of(context).primaryColorLight,
         body: NestedScrollView(
           controller: _controller,
@@ -110,8 +107,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                 pinned: true,
                 title: Container(
                   alignment: Alignment.bottomCenter,
-                  //padding: EdgeInsets.only(top: 15),
-                  //   width: MediaQuery.of(context).size.width * 0.65,
                   child: done
                       ? AutoSizeText(
                           widget.products.name,
@@ -176,7 +171,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0))),
                 child: ListView(
                   shrinkWrap: true,
-                  //    mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -326,7 +320,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           ),
                     int.parse(widget.products.isActive) != 0 ? SizedBox(height: 30) : Container(),
                     int.parse(widget.products.isActive) != 0 ? _showAddToOrderButton(context) : Container(),
-                    Builder(builder: (context) => _showAddToFavorait(context)),
+                    Builder(builder: (context) => _showAddToFavorite(context)),
                   ],
                 ),
               ),
@@ -340,8 +334,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   Widget _showAddToOrderButton(BuildContext ctx) {
     final GestureDetector addAddToOrderButtonWithGesture = new GestureDetector(
       onTap: () async {
-        String products_Id = "";
-        String products_quantity = "";
+        String productsId = "";
+        String productsQuantity = "";
         if (LoadingScreen.userToken.length > 5) {
           Navigator.of(context).pop(true);
 
@@ -349,12 +343,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
           CartServices.addProductToCart(widget.products);
 
-          // Toast.show("تم إضافة ${productToAdd.name} لسلة المشتريات", context,
-          //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
-
           Flushbar(
             backgroundColor: Colors.green,
-            // titleText: Text("تمت الإضافة بنجاح"),
             messageText: Text(
               "تم إضافة ${widget.products.name} لسلة المشتريات",
               style: TextStyle(
@@ -362,7 +352,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                   fontWeight: FontWeight.bold,
                   fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
             ),
-
             boxShadows: [
               BoxShadow(
                 color: UtilsImporter().colorUtils.primarycolor,
@@ -381,14 +370,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
           for (int i = 0; i < CartServices.cartProducts.length; i++) {
-            products_Id += CartServices.cartProducts[i].id.toString() + ";";
-            products_quantity += CartServices.cartProducts[i].productCount.toString() + ";";
+            productsId += CartServices.cartProducts[i].id.toString() + ";";
+            productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
           }
-          // products_Id += widget.products.id.toString();
-          // products_quantity += widget.products.quantity.toString();
-          prefs.setString("userCart", products_Id + "@" + products_quantity);
-
-          // CartServices.save("cart", Services.cartProducts);
+          prefs.setString("userCart", productsId + "@" + productsQuantity);
         } else {
           Navigator.of(context).pushNamed(LoginScreen.routeName);
         }
@@ -415,10 +400,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
         child: addAddToOrderButtonWithGesture);
   }
 
-  Widget _showAddToFavorait(BuildContext ctx) {
+  Widget _showAddToFavorite(BuildContext ctx) {
     final GestureDetector addAddToOrderButtonWithGesture = new GestureDetector(
       onTap: () {
-        _addToFavoraitBtnTapped(ctx);
+        _addToFavoriteBtnTapped(ctx);
         if (LoadingScreenServices.userFavoriteProducts.any((productId) => productId.id == widget.products.id)) {
           Flushbar(
             backgroundColor: Colors.red[900],
@@ -442,7 +427,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
               color: Colors.white,
             ),
             duration: Duration(seconds: 3),
-            // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
           )..show(context);
         } else {
           Flushbar(
@@ -467,7 +451,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
               color: Colors.white,
             ),
             duration: Duration(seconds: 3),
-            // leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
           )..show(context);
         }
       },
@@ -499,10 +482,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
         child: addAddToOrderButtonWithGesture);
   }
 
-  void _addToFavoraitBtnTapped(context) {
-    // Scaffold.of(context).showSnackBar(SnackBar(
-    //   content: Text("Item Addes"),
-    // ));
+  void _addToFavoriteBtnTapped(context) {
     if (LoadingScreen.userToken.length > 5) {
       LoadingScreenServices.userFavoriteProducts
                   .where(
@@ -510,8 +490,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                   )
                   .length ==
               0
-          ? _addFavoraite(context, widget.products)
-          : _removeFavoraite();
+          ? _addFavorite(context, widget.products)
+          : _removeFavorite();
       if (widget.isFromFavoraiteScreen) {
         Navigator.of(context).pushNamedAndRemoveUntil('/favoraites', (Route<dynamic> route) => false);
       } else {
@@ -522,21 +502,18 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
     }
   }
 
-  void _addFavoraite(BuildContext ctx, ProductData product) {
+  void _addFavorite(BuildContext ctx, ProductData product) {
     Services.addToFavorites(widget.products.id.toString());
     LoadingScreenServices.userFavoriteProducts.add(product);
 
     // Navigator.of(context).pop();
   }
 
-  void _removeFavoraite() {
+  void _removeFavorite() {
     for (int i = 0; i < LoadingScreenServices.userFavoriteProducts.length; i++)
       if (LoadingScreenServices.userFavoriteProducts[i].id == widget.products.id)
         LoadingScreenServices.userFavoriteProducts.removeAt(i);
 
     Services.removeFromFavorites(widget.products.id.toString());
-
-    // Toast.show("تم إزالة ${widget.products.name}  من المفضلة", context,
-    //     duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:location/location.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
@@ -12,6 +12,7 @@ import 'package:toast/toast.dart';
 
 import '../../Services.dart';
 
+// ignore: must_be_immutable
 class AddAddressView extends StatefulWidget {
   int addressIndex;
   bool isFromDeliveryScreen;
@@ -114,11 +115,11 @@ class AddAddressViewState extends State<AddAddressView> {
                                     )
                                   : Container(),
                               _showStreetInput(),
-                              _ShowSupportedCities(),
-                              _ShowCityInput(),
-                              _ShowStateInput(),
-                              _ShowEntranceInput(),
-                              _ShowCountryInput(),
+                              _showSupportedCities(),
+                              _showCityInput(),
+                              _showStateInput(),
+                              _showEntranceInput(),
+                              _showCountryInput(),
                               _showAddAddressButton(ctx: context)
                             ])))));
   }
@@ -172,7 +173,7 @@ class AddAddressViewState extends State<AddAddressView> {
     );
   }
 
-  Widget _ShowSupportedCities() {
+  Widget _showSupportedCities() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
       child: new AutoSizeTextField(
@@ -210,7 +211,7 @@ class AddAddressViewState extends State<AddAddressView> {
     );
   }
 
-  Widget _ShowCityInput() {
+  Widget _showCityInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: new AutoSizeTextField(
@@ -247,7 +248,7 @@ class AddAddressViewState extends State<AddAddressView> {
     );
   }
 
-  Widget _ShowStateInput() {
+  Widget _showStateInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: new AutoSizeTextField(
@@ -284,7 +285,7 @@ class AddAddressViewState extends State<AddAddressView> {
     );
   }
 
-  Widget _ShowEntranceInput() {
+  Widget _showEntranceInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: new AutoSizeTextField(
@@ -321,7 +322,7 @@ class AddAddressViewState extends State<AddAddressView> {
     );
   }
 
-  Widget _ShowCountryInput() {
+  Widget _showCountryInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: new AutoSizeTextField(

@@ -161,9 +161,9 @@ class Services {
 
   static Future<bool> loginUser({String phoneNumber, String signCode, String supportedCityId}) async {
     if (phoneNumber == "5000000001") {
-      BaseUrl = APPLE_BASEURL;
+      BASE_URL = APPLE_BASE_URL;
     } else {
-      BaseUrl = PRODUCTION_BASE_URL;
+      BASE_URL = PRODUCTION_BASE_URL;
     }
 
     Map loginBody = {
@@ -199,9 +199,9 @@ class Services {
       prefs.setString("userToken", data["api_token"]);
       LoadingScreen.userToken = "Bearer " + data["api_token"];
       if (data["api_token"].toString().contains("APPLE_VERIFICATION")) {
-        BaseUrl = APPLE_BASEURL;
+        BASE_URL = APPLE_BASE_URL;
       } else {
-        BaseUrl = PRODUCTION_BASE_URL;
+        BASE_URL = PRODUCTION_BASE_URL;
       }
       return true;
     } else {

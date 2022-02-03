@@ -2,8 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
+import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
@@ -194,7 +195,9 @@ class _OTPVerificationState extends State<OTPVerification> {
                   onCodeChanged: (finalCode) {
                     _textController.text = finalCode;
 
-                    finalCode.length == 6 && errorCode != true ? checkOtpValidation(_textController.text) : {};
+                    finalCode.length == 6 && errorCode != true
+                        ? checkOtpValidation(_textController.text)
+                        : Tools.logToConsole('');
                   },
                   onCodeSubmitted: (finalCode) => _textController.text = finalCode,
                 ),
