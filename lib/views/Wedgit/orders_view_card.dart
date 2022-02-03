@@ -67,7 +67,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
         break;
     }
 
-    Color color = widget.orderData.userData.orderCount <= 3
+    Color color = widget.orderData.userData.orderCount <= 3 && !widget.orderData.userData.orderCount.isNegative
         ? ColorUtils.kmColors2
         : widget.orderData.deliveryMethodId == '2'
             ? Colors.red

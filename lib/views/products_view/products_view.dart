@@ -152,8 +152,7 @@ class ProductsViewState extends State<ProductsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: widget.queryString == null &&
-              (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
+      floatingActionButton: (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
           ? FloatingActionButton(
               backgroundColor: ColorUtils.kmColors2,
               onPressed: () {

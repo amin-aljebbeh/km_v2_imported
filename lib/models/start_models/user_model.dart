@@ -90,7 +90,7 @@ class UserData {
         warehouseId: json["warehouse_id"].toString(),
         supportedCityId: json["supported_city_id"].toString(),
         coupon: json["coupon"] == null ? null : json['coupon'],
-        orderCount: json['order_count'] != null ? json['order_count'] : 0,
+        orderCount: json['order_count'] != null ? json['order_count'] : -1,
       );
 
   Map<String, dynamic> toJson() => {
