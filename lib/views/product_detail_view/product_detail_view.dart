@@ -703,7 +703,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                 productId: widget.product.id,
                                               ),
                                             AddImageWidget(
-                                              hasImage: false,
                                               onSubmit: (image) async {
                                                 bool result = await ProductsServices.setImageToProducts(
                                                     productId: widget.product.id, image: image);

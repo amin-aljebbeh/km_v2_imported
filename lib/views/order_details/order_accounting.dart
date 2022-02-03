@@ -161,7 +161,6 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: AddImageWidget(
-                    hasImage: widget.orderData.images != null,
                     onSubmit: (image) async {
                       bool result = await OrderDetailsServices.addImageToOrder(
                           image: image, orderId: widget.orderData.id.toString());
