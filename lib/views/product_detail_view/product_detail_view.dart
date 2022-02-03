@@ -12,7 +12,6 @@ import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:kammun_app/views/shop_by_category/shop_by_category_view.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';

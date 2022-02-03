@@ -2,6 +2,7 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Wedgit/store_search_text_field.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
@@ -75,34 +76,10 @@ class _SubCategoryState extends State<SubCategory> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Opacity(
-                      opacity: 0.0,
-                      child: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                        size: 40,
-                      ),
+                    SizedBox(
+                      width: 40,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Transform.scale(
-                        scale: 2,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/home',
-                              (Route<dynamic> route) => false,
-                            );
-                          },
-                          child: Image.asset(
-                            "assets/logobw.png",
-                            width: 150,
-                            height: 50,
-                          ),
-                        ),
-                      ),
-                    ),
+                    AppBarKammunImage(),
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0, left: 0),
                       child: IconButton(
