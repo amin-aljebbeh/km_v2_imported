@@ -1,12 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/login/login_view.dart';
-import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
 import 'Counter.dart';
@@ -33,12 +31,10 @@ class _OTPVerificationState extends State<OTPVerification> {
         loadingScreen = true;
       });
       bool response = await Services.verifyCode(
-          LoginServices.replaceFarsiNumber(
-              LoginServices.replaceFarsiNumber(verificationCode.toString())));
+          LoginServices.replaceFarsiNumber(LoginServices.replaceFarsiNumber(verificationCode.toString())));
 
       if (response) {
-        await Navigator.of(context).pushNamedAndRemoveUntil(
-            '/supportedCity', (Route<dynamic> route) => false);
+        await Navigator.of(context).pushNamedAndRemoveUntil('/supportedCity', (Route<dynamic> route) => false);
         // KammunRestart.restartApp(context);
       } else {
         setState(() {
@@ -91,7 +87,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
             ),
           ),
         ),
@@ -102,9 +98,7 @@ class _OTPVerificationState extends State<OTPVerification> {
               padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
               child: Loader(),
             )
-          : Padding(
-              padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-              child: loginButtonWithGesture);
+          : Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
     }
 
     return Scaffold(
@@ -141,8 +135,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                   color: Colors.white),
               Container(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 50.0, right: 10, left: 10),
+                    padding: const EdgeInsets.only(top: 50.0, right: 10, left: 10),
                     child: Center(
                       child: RichText(
                         text: TextSpan(
@@ -151,8 +144,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                               text: "سوف يتم إرسال رسالة تفعيل إلى الرقم ",
                               style: TextStyle(
                                 color: Colors.grey[900],
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -161,8 +153,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                               text: " ${LoginScreen.phoneNumber} ",
                               style: TextStyle(
                                 color: UtilsImporter().colorUtils.primarycolor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -171,23 +162,20 @@ class _OTPVerificationState extends State<OTPVerification> {
                               text: "عبر رسالة (SMS)",
                               style: TextStyle(
                                 color: Colors.grey[900],
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                             TextSpan(
                               recognizer: TapGestureRecognizer()
-                                ..onTap = () =>
-                                    Navigator.of(context).pushReplacementNamed(
+                                ..onTap = () => Navigator.of(context).pushReplacementNamed(
                                       LoginScreen.routeName,
                                     ),
                               text: " تغيير الرقم ",
                               style: TextStyle(
                                 color: UtilsImporter().colorUtils.kmColors,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.underline,
@@ -200,19 +188,15 @@ class _OTPVerificationState extends State<OTPVerification> {
                   ),
                   color: Colors.white),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 5.0, bottom: 5.0, right: 15, left: 15.0),
+                padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 15, left: 15.0),
                 child: PinFieldAutoFill(
                   currentCode: _textController.text,
                   onCodeChanged: (finalCode) {
                     _textController.text = finalCode;
 
-                    finalCode.length == 6 && errorCode != true
-                        ? checkOtpValidation(_textController.text)
-                        : {};
+                    finalCode.length == 6 && errorCode != true ? checkOtpValidation(_textController.text) : {};
                   },
-                  onCodeSubmitted: (finalCode) =>
-                      _textController.text = finalCode,
+                  onCodeSubmitted: (finalCode) => _textController.text = finalCode,
                 ),
               ),
               Padding(

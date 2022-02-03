@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class CommonUtils {
@@ -24,9 +24,8 @@ class MyThemes {
     primaryColorDark: Colors.black,
     brightness: Brightness.light,
     inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: UnderlineInputBorder(
-            borderSide:
-                BorderSide(color: UtilsImporter().colorUtils.primarycolor))),
+        focusedBorder:
+            UnderlineInputBorder(borderSide: BorderSide(color: UtilsImporter().colorUtils.primarycolor))),
   );
 
   static final ThemeData darkTheme = ThemeData(
@@ -35,9 +34,8 @@ class MyThemes {
     primaryColorDark: Colors.white,
     brightness: Brightness.dark,
     inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: UnderlineInputBorder(
-            borderSide:
-                BorderSide(color: UtilsImporter().colorUtils.primarycolor))),
+        focusedBorder:
+            UnderlineInputBorder(borderSide: BorderSide(color: UtilsImporter().colorUtils.primarycolor))),
   );
 
   static final ThemeData darkerTheme = ThemeData(
@@ -89,12 +87,14 @@ class CustomTheme extends StatefulWidget {
 
   static ThemeData of(BuildContext context) {
     _CustomTheme inherited =
+        // ignore: deprecated_member_use
         (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
     return inherited.data.theme;
   }
 
   static CustomThemeState instanceOf(BuildContext context) {
     _CustomTheme inherited =
+        // ignore: deprecated_member_use
         (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
     return inherited.data;
   }

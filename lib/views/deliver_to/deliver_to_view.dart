@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
@@ -30,15 +29,13 @@ class DeliverToViewState extends State<DeliverToView> {
       isLoading = true;
       isError = false;
     });
-    bool addressDeleted = await Services.removeUserAddress(
-        LoadingScreenServices.userAddress[item].id.toString());
+    bool addressDeleted = await Services.removeUserAddress(LoadingScreenServices.userAddress[item].id.toString());
 
     if (addressDeleted) {
       setState(() {
         LoadingScreenServices.userAddress.removeAt(item);
 
-        if (DeliverToView.selectedIndex != null &&
-            DeliverToView.selectedIndex > 0) {
+        if (DeliverToView.selectedIndex != null && DeliverToView.selectedIndex > 0) {
           DeliverToView.selectedIndex--;
         }
       });
@@ -55,9 +52,8 @@ class DeliverToViewState extends State<DeliverToView> {
   void changeSelectedAddress(item) {
     setState(() {
       DeliverToView.selectedIndex = item;
-      OrderServices.delivery_supported_City_id = LoadingScreenServices
-          .userAddress[DeliverToView.selectedIndex].supportedCityId
-          .toString();
+      OrderServices.deliverySupportedCityId =
+          LoadingScreenServices.userAddress[DeliverToView.selectedIndex].supportedCityId.toString();
       // Services.delivery_Price = LoadingScreenServices
       //             .userAddress[DeliverToView.selectedIndex].deliveryPrice ==
       //         null
@@ -77,8 +73,7 @@ class DeliverToViewState extends State<DeliverToView> {
           padding: EdgeInsets.only(left: 20, top: 10),
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                    Radius.circular(5.0) //         <--- border radius here
+                borderRadius: BorderRadius.all(Radius.circular(5.0) //         <--- border radius here
                     ),
                 border: Border.all(
                   width: 2,
@@ -116,61 +111,43 @@ class DeliverToViewState extends State<DeliverToView> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      LoadingScreenServices
-                                          .userAddress[index].supportedCityName,
+                                      LoadingScreenServices.userAddress[index].supportedCityName,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
+                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                           fontSize: 20),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      LoadingScreenServices
-                                          .userAddress[index].street,
+                                      LoadingScreenServices.userAddress[index].street,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w400,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greycolor,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
+                                          color: UtilsImporter().colorUtils.greycolor,
+                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                           fontSize: 20),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      LoadingScreenServices
-                                          .userAddress[index].building,
+                                      LoadingScreenServices.userAddress[index].building,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w400,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greycolor,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
+                                          color: UtilsImporter().colorUtils.greycolor,
+                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                           fontSize: 20),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
-                                      LoadingScreenServices
-                                          .userAddress[index].description,
+                                      LoadingScreenServices.userAddress[index].description,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w400,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .greycolor,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
+                                          color: UtilsImporter().colorUtils.greycolor,
+                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                           fontSize: 20),
                                     ),
                                   ),
@@ -242,8 +219,7 @@ class DeliverToViewState extends State<DeliverToView> {
         child: isLoading
             ? Loader()
             : Padding(
-                padding:
-                    EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
+                padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,9 +229,7 @@ class DeliverToViewState extends State<DeliverToView> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         IconButton(
-                            icon: Icon(Icons.arrow_back_ios,
-                                color: Theme.of(context).primaryColorDark,
-                                size: 45),
+                            icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).primaryColorDark, size: 45),
                             onPressed: () {
                               Navigator.of(context).pop();
                             }),
@@ -264,11 +238,10 @@ class DeliverToViewState extends State<DeliverToView> {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              UtilsImporter().stringUtils.deliverto,
+                              UtilsImporter().stringUtils.deliverTo,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                   fontSize: 30),
                             )),
                       ],
@@ -277,8 +250,7 @@ class DeliverToViewState extends State<DeliverToView> {
                         ? Padding(
                             padding: EdgeInsets.only(left: 10, top: 0),
                             child: AlertMessages(
-                              text:
-                                  " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
+                              text: " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
                               messageType: "internetError",
                               headerText: " حدث خطأ اثناء محاولة حذف العنوان ",
                             ),
@@ -300,8 +272,7 @@ class DeliverToViewState extends State<DeliverToView> {
                                 onTap: () => _onAddressClicked(index),
                                 child: Container(
                                   child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 0, right: 0, top: 0),
+                                    padding: EdgeInsets.only(left: 0, right: 0, top: 0),
                                     child: cardBody(index, context),
                                   ),
                                 ),
@@ -312,23 +283,17 @@ class DeliverToViewState extends State<DeliverToView> {
                               alignment: Alignment.center,
                               child: FlatButton(
                                 padding: EdgeInsets.only(left: 30.0, top: 10.0),
-                                child: Text(
-                                    UtilsImporter().stringUtils.add_new_address,
+                                child: Text(UtilsImporter().stringUtils.addNewAddress,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greycolor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        color: UtilsImporter().colorUtils.greycolor,
+                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                         fontSize: 17)),
                                 onPressed: () {
                                   Navigator.push(
                                       context,
                                       new MaterialPageRoute(
-                                          builder: (context) =>
-                                              new AddAddressView(
+                                          builder: (context) => new AddAddressView(
                                                 isFromDeliveryScreen: true,
                                               )));
                                 },
@@ -352,45 +317,38 @@ class DeliverToViewState extends State<DeliverToView> {
   }
 
   Widget _showProceedToPayButton() {
-    final GestureDetector showProceedToPayButtonWithGesture =
-        new GestureDetector(
+    final GestureDetector showProceedToPayButtonWithGesture = new GestureDetector(
       onTap: _showProceedToPayBtnTapped,
       child: new Container(
         margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
         height: 50.0,
         decoration: new BoxDecoration(
-            color: DeliverToView.selectedIndex != null
-                ? UtilsImporter().colorUtils.primarycolor
-                : Colors.grey[400],
+            color:
+                DeliverToView.selectedIndex != null ? UtilsImporter().colorUtils.primarycolor : Colors.grey[400],
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.proceed_to_pay.toUpperCase(),
+            UtilsImporter().stringUtils.proceedToPay.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
     );
 
     return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showProceedToPayButtonWithGesture);
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showProceedToPayButtonWithGesture);
   }
 
   void _showProceedToPayBtnTapped() {
     if (DeliverToView.selectedIndex != null) {
       if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => new DeliveryMethodView()));
+        Navigator.push(context, new MaterialPageRoute(builder: (context) => new DeliveryMethodView()));
       } else {
-        Navigator.push(context,
-            new MaterialPageRoute(builder: (context) => new CartViewFinal()));
+        Navigator.push(context, new MaterialPageRoute(builder: (context) => new CartViewFinal()));
       }
     } else {
       Toast.show("يرجى إختيار أو إضافة عنوان للتوصيل", context,
@@ -416,15 +374,14 @@ class DeliverToViewState extends State<DeliverToView> {
                 color: Colors.white,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
     );
 
     return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5),
-        child: showConfirmButtonWithGesture);
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5), child: showConfirmButtonWithGesture);
   }
 
   Widget _showEidte({int index}) {
@@ -446,19 +403,18 @@ class DeliverToViewState extends State<DeliverToView> {
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.edit_address.toUpperCase(),
+            UtilsImporter().stringUtils.editAddress.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
     );
 
     return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5),
-        child: showConfirmButtonWithGesture);
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5), child: showConfirmButtonWithGesture);
   }
 }

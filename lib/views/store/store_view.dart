@@ -1,6 +1,5 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
@@ -25,11 +24,7 @@ class StoreViewState extends State<StoreView> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _searchController = TextEditingController();
 
-  final FocusNode _searchNameFocus = FocusNode();
-// Color.fromARGB(255, 210, 178, 2) كموني
-//Color.fromARGB(255, 53, 99, 124) كجلي
   bool isDarkThemeMode = false;
-  // Future getCategories;
 
   _updateApplication() async {
     String url = LoadingScreen.updateUrl;
@@ -57,12 +52,10 @@ class StoreViewState extends State<StoreView> {
         isThereOrderUnderUbdate = true;
       }
     }
-    if (Services.updateOption)
-      WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog());
+    if (Services.updateOption) WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog());
 
     if (isThereOrderUnderUbdate) {
-      WidgetsBinding.instance.addPostFrameCallback(
-          (_) => _showUpdateOrderInstruction(context: context));
+      WidgetsBinding.instance.addPostFrameCallback((_) => _showUpdateOrderInstruction(context: context));
     }
   }
 
@@ -72,8 +65,7 @@ class StoreViewState extends State<StoreView> {
       child: new Container(
         height: 50.0,
         decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.kmColors,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: UtilsImporter().colorUtils.kmColors, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
             " التحديث الآن ",
@@ -81,15 +73,13 @@ class StoreViewState extends State<StoreView> {
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
     );
 
-    return Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-        child: loginButtonWithGesture);
+    return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
   }
 
   Widget _okButton() {
@@ -107,15 +97,13 @@ class StoreViewState extends State<StoreView> {
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
     );
 
-    return Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-        child: loginButtonWithGesture);
+    return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
   }
 
   Widget _cancelButton() {
@@ -128,9 +116,8 @@ class StoreViewState extends State<StoreView> {
       },
       child: new Container(
         height: 50.0,
-        decoration: new BoxDecoration(
-            color: Colors.grey[700],
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        decoration:
+            new BoxDecoration(color: Colors.grey[700], borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
             " التحديث لاحقاً ",
@@ -138,15 +125,13 @@ class StoreViewState extends State<StoreView> {
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
     );
 
-    return Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-        child: loginButtonWithGesture);
+    return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
   }
 
   void showUpdateDialog() {
@@ -162,8 +147,7 @@ class StoreViewState extends State<StoreView> {
               bottomRight: Radius.circular(2.0),
             ),
           ),
-          contentPadding:
-              EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
+          contentPadding: EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
           titlePadding: EdgeInsets.all(0),
           title: Container(
             width: double.infinity,
@@ -182,7 +166,7 @@ class StoreViewState extends State<StoreView> {
                             fontSize: 17,
                             color: UtilsImporter().colorUtils.primarycolor,
                             fontWeight: FontWeight.bold,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                       ),
                     ),
                     IconButton(
@@ -213,7 +197,7 @@ class StoreViewState extends State<StoreView> {
                             color: Colors.grey[900],
                             fontSize: 20,
                             fontWeight: FontWeight.normal,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                       ),
                     ],
                   ),
@@ -264,7 +248,7 @@ class StoreViewState extends State<StoreView> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 18),
                       ),
                     ),
@@ -275,7 +259,7 @@ class StoreViewState extends State<StoreView> {
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: Colors.grey[800],
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 18),
                       ),
                     ),
@@ -291,17 +275,14 @@ class StoreViewState extends State<StoreView> {
   _openUrl(String selected) async {
     String url = "";
     if (selected == "whatsapp") {
-      url = 'whatsapp://send?phone=' +
-          LoadingScreenServices.supportPhoneNumber.toString();
+      url = 'whatsapp://send?phone=' + LoadingScreenServices.supportPhoneNumber.toString();
     } else if (selected == "messenger") {
       url = LoadingScreenServices.companyInformation.messengerUrl;
     } else if (selected == "facebook") {
       if (Platform.isIOS) {
-        url =
-            'fb://profile/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
+        url = 'fb://profile/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
       } else {
-        url =
-            'fb://page/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
+        url = 'fb://page/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
       }
       // url = "fb://page/" +
       // LoadingScreenServices.companyInformation.facebookUrl.toString();
@@ -329,8 +310,7 @@ class StoreViewState extends State<StoreView> {
   }
 
   _shareApp() {
-    String infoMessage =
-        "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
+    String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
     String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
 
     String androidUrl = androidGrating + LoadingScreenServices.iOSShareUrl;
@@ -364,9 +344,7 @@ class StoreViewState extends State<StoreView> {
                         alignment: Alignment.topRight,
                         child: DrawerHeader(
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                  color: UtilsImporter().colorUtils.kmColors)),
+                              color: Colors.white, border: Border.all(color: UtilsImporter().colorUtils.kmColors)),
                           child: InkWell(
                             onTap: () => Navigator.of(context).pop(),
                             child: Container(
@@ -413,7 +391,7 @@ class StoreViewState extends State<StoreView> {
                       title: Text(
                         "الإتصال بكمون",
                         style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                         ),
                       ),
                       // subtitle: Text(
@@ -437,9 +415,7 @@ class StoreViewState extends State<StoreView> {
                           ),
                         ),
                         title: Text("إرسال التطبيق للأصدقاء",
-                            style: TextStyle(
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk)),
+                            style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
                         // subtitle: Text(
                         //   //'support@kammun.com',
                         //   "بدعمكم نستمر",
@@ -461,9 +437,7 @@ class StoreViewState extends State<StoreView> {
                         ),
                       ),
                       title: Text("الملف الشخصي",
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk)),
+                          style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
                       // subtitle: Text(
                       //   // 'www.kammun.com',
                       //   LoadingScreenServices
@@ -487,12 +461,9 @@ class StoreViewState extends State<StoreView> {
                         ),
                       ),
                       title: Text("سياسة الإستخدام",
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk)),
+                          style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
                       onTap: () {
-                        launch('http://kammun.com/privacy-policy.html',
-                            enableJavaScript: false);
+                        launch('http://kammun.com/privacy-policy.html', enableJavaScript: false);
                       },
                     ),
                     Divider(
@@ -597,8 +568,8 @@ class StoreViewState extends State<StoreView> {
                             color: Colors.white,
                           ),
                           onPressed: () {
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/cart', (Route<dynamic> route) => false);
+                            Navigator.of(context)
+                                .pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
                           },
                         ),
                       ),
@@ -617,7 +588,7 @@ class StoreViewState extends State<StoreView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _ImageCarousel(),
+                  _imageCarousel(),
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -626,29 +597,25 @@ class StoreViewState extends State<StoreView> {
                         child: Container(
                           decoration: new BoxDecoration(
                             color: UtilsImporter().colorUtils.kmColors,
-                            border:
-                                new Border.all(color: Colors.white, width: 2.0),
+                            border: new Border.all(color: Colors.white, width: 2.0),
                             borderRadius: new BorderRadius.circular(10.0),
                           ),
                           height: 10,
                         ),
                       ),
                       Text(
-                        "  " +
-                            UtilsImporter().stringUtils.shopbycategory +
-                            "  ",
+                        "  " + UtilsImporter().stringUtils.shopByCategory + "  ",
                         style: TextStyle(
                             color: UtilsImporter().colorUtils.primarycolor,
                             fontWeight: FontWeight.w900,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 22),
                       ),
                       Expanded(
                         child: Container(
                           decoration: new BoxDecoration(
                             color: UtilsImporter().colorUtils.kmColors,
-                            border:
-                                new Border.all(color: Colors.white, width: 2.0),
+                            border: new Border.all(color: Colors.white, width: 2.0),
                             borderRadius: new BorderRadius.circular(10.0),
                           ),
                           height: 10,
@@ -665,36 +632,6 @@ class StoreViewState extends State<StoreView> {
     );
   }
 
-  Widget _ShowSearchInput() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-      child: new TextField(
-        controller: searchController,
-        maxLines: 1,
-        focusNode: _searchNameFocus,
-        textInputAction: TextInputAction.next,
-        autofocus: true,
-        onSubmitted: (term) {
-          _searchNameFocus.unfocus();
-        },
-        style: new TextStyle(
-            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            fontWeight: FontWeight.w500,
-            fontSize: 16.0,
-            color: Theme.of(context).primaryColorDark),
-        decoration: InputDecoration(
-            labelText: UtilsImporter().stringUtils.full_name,
-            labelStyle: TextStyle(
-              color: UtilsImporter().colorUtils.greycolor,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-            ),
-            border: new UnderlineInputBorder(
-                borderSide: new BorderSide(
-                    color: UtilsImporter().colorUtils.primarycolor))),
-      ),
-    );
-  }
-
   // 1
   Widget _showSearchTxtFld() {
     final GestureDetector searchButtonWithGesture = new GestureDetector(
@@ -702,9 +639,8 @@ class StoreViewState extends State<StoreView> {
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: new Container(
           height: 40.0,
-          decoration: new BoxDecoration(
-              color: Colors.white,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          decoration:
+              new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: TextField(
             controller: _searchController,
             onSubmitted: (_) {
@@ -724,7 +660,7 @@ class StoreViewState extends State<StoreView> {
               contentPadding: const EdgeInsets.only(bottom: 0.5),
               hintText: "بحث",
               hintStyle: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
               ),
             ),
           ),
@@ -732,16 +668,12 @@ class StoreViewState extends State<StoreView> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: searchButtonWithGesture);
+    return new Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
   }
 
-  Widget _ImageCarousel() {
+  Widget _imageCarousel() {
     return new Container(
-      // height: 200.0,
       height: MediaQuery.of(context).size.height * 0.25,
-
       decoration: new BoxDecoration(
           color: UtilsImporter().colorUtils.searchgreycolor,
           borderRadius: new BorderRadius.all(Radius.circular(20.0))),

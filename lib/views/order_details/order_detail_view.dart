@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -8,10 +7,9 @@ class OrderDetailView extends StatefulWidget {
   List<OrderProducts> ordersAry;
   int subTotal;
   String total;
-  String delivery_price;
+  String deliveryPrice;
 
-  OrderDetailView(
-      {this.ordersAry, this.subTotal, this.total, this.delivery_price});
+  OrderDetailView({this.ordersAry, this.subTotal, this.total, this.deliveryPrice});
 
   @override
   State<StatefulWidget> createState() {
@@ -47,8 +45,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   IconButton(
-                      icon: Icon(Icons.arrow_back_ios,
-                          color: Theme.of(context).primaryColorDark, size: 45),
+                      icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).primaryColorDark, size: 45),
                       onPressed: () {
                         Navigator.of(context).pop();
                       }),
@@ -57,10 +54,10 @@ class OrderDetailViewState extends State<OrderDetailView> {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        UtilsImporter().stringUtils.order_detail,
+                        UtilsImporter().stringUtils.orderDetail,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 30),
                       )),
                 ],
@@ -79,8 +76,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                       onTap: () => _onTileClicked(index),
                       child: OrderDetailViewCard(
                         img: orderDetail.images.length != 0
-                            ? LoadingScreenServices.imagePrefixUrl +
-                                orderDetail.images[0].imageFileName
+                            ? LoadingScreenServices.imagePrefixUrl + orderDetail.images[0].imageFileName
                             : "",
                         product_name: orderDetail.name,
                         quantity: orderDetail.quantity,
@@ -102,20 +98,16 @@ class OrderDetailViewState extends State<OrderDetailView> {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                           fontSize: 17.0,
                         )),
                     Text(
-                      UtilsImporter()
-                              .stringUtils
-                              .oCcy
-                              .format(widget.subTotal)
-                              .toString() +
+                      UtilsImporter().stringUtils.oCcy.format(widget.subTotal).toString() +
                           " ${LoadingScreenServices.companyInformation.currency}",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                           fontSize: 17.0),
                     ),
                   ],
@@ -131,16 +123,15 @@ class OrderDetailViewState extends State<OrderDetailView> {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                           fontSize: 16.0,
                         )),
                     Text(
-                      widget.delivery_price +
-                          " ${LoadingScreenServices.companyInformation.currency}",
+                      widget.deliveryPrice + " ${LoadingScreenServices.companyInformation.currency}",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                           fontSize: 16),
                     ),
                   ],
@@ -156,7 +147,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                           fontSize: 19.0,
                         )),
                     Text(
@@ -165,7 +156,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                           fontSize: 19),
                     ),
                   ],
@@ -180,64 +171,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
     );
   }
 
-  void _onTileClicked(int index) {
-//    Navigator.push(context,
-//        new MaterialPageRoute(builder: (context) => new ProductDetailView(heroIndex: index + 100)));
-  }
-
-  Widget _showReOrderButton() {
-    final GestureDetector showRepeatButtonWithGesture = new GestureDetector(
-      onTap: _showRepeatOrderBtnTapped,
-      child: new Container(
-        margin: EdgeInsets.only(left: 20),
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            UtilsImporter().stringUtils.repeat_order.toUpperCase(),
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showRepeatButtonWithGesture);
-  }
-
-  //  img: orderDetail['product_img'],
-  //                       product_name: orderDetail['product_name'],
-  //                       quantity: orderDetail['product_quantity'],
-  //                       price: orderDetail['product_price'],
-
-  void _showRepeatOrderBtnTapped() {
-    // for (int i = 0; i < productsAry.length; i++) {
-    //   Map orderDetail = productsAry[i];
-    //   String x = orderDetail[''];
-    // }
-    // productsAry = widget.ordersAry['products_ary'];
-    // DateFormat dateFormat = DateFormat("MM-dd-yyyy ");
-
-    // ordersAry.insert(0, {
-    //   "products_ary": productsAry,
-    //   "order_title": widget.ordersAry['order_title'],
-    //   "order_quantity": widget.ordersAry['order_quantity'],
-    //   "subtotal_price": widget.ordersAry['subtotal_price'],
-    //   "total_price": widget.ordersAry['total_price'],
-    //   "created_date": dateFormat.format(DateTime.now()),
-    //   "order_status": "بإنتظار الموافقة",
-    // });
-    Navigator.pop(context);
-//    Navigator.push(context,
-//        new MaterialPageRoute(builder: (context) => new DeliverToView()));
-  }
+  void _onTileClicked(int index) {}
 }
 
 class OrderDetailViewCard extends StatefulWidget {
@@ -250,13 +184,7 @@ class OrderDetailViewCard extends StatefulWidget {
   final String productCount;
 
   OrderDetailViewCard(
-      {this.img,
-      this.product_name,
-      this.quantity,
-      this.price,
-      this.index,
-      this.unit,
-      this.productCount});
+      {this.img, this.product_name, this.quantity, this.price, this.index, this.unit, this.productCount});
 
   @override
   State<StatefulWidget> createState() {
@@ -284,9 +212,7 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                 new Container(
                   width: 100.0,
                   height: 100.0,
-                  decoration: new BoxDecoration(
-                      borderRadius:
-                          new BorderRadius.all(Radius.circular(20.0))),
+                  decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(20.0))),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Hero(
@@ -295,9 +221,8 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                             fadeInCurve: Curves.fastOutSlowIn,
                             placeholder: AssetImage("assets/kmIcon.png"),
                             fit: BoxFit.contain,
-                            image: widget.img.length > 0
-                                ? NetworkImage(widget.img)
-                                : AssetImage("assets/kmIcon.png"),
+                            image:
+                                widget.img.length > 0 ? NetworkImage(widget.img) : AssetImage("assets/kmIcon.png"),
                             width: MediaQuery.of(context).size.width,
                             height: 120,
                           ))),
@@ -317,8 +242,7 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                                 widget.product_name,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -329,24 +253,17 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: UtilsImporter().colorUtils.greycolor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
                           Text(
-                              UtilsImporter()
-                                      .stringUtils
-                                      .oCcy
-                                      .format(widget.price)
-                                      .toString() +
+                              UtilsImporter().stringUtils.oCcy.format(widget.price).toString() +
                                   " ${LoadingScreenServices.companyInformation.currency}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  color: UtilsImporter().colorUtils.primarycolor,
+                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),
@@ -357,12 +274,10 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                   margin: const EdgeInsets.all(15.0),
                   padding: const EdgeInsets.all(3.0),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(
-                              10.0) //                 <--- border radius here
-                          ),
-                      border: Border.all(
-                          color: UtilsImporter().colorUtils.primarycolor,
-                          width: 2)),
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+                              ),
+                      border: Border.all(color: UtilsImporter().colorUtils.primarycolor, width: 2)),
                   child: Center(
                       child: Text(
                     widget.productCount,

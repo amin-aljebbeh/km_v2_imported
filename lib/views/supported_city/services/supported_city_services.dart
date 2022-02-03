@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SupportedCityServices {
@@ -11,9 +10,7 @@ class SupportedCityServices {
     try {
       Map body = {"supported_city_id": int.parse(supportedCityId)};
       var response = await ApiProvider.sendRequest(
-          url: UPDATE_USER_SUPPORTED_CITY,
-          method: httpMethods.post,
-          body: jsonEncode(body));
+          url: UPDATE_USER_SUPPORTED_CITY, method: httpMethods.post, body: jsonEncode(body));
 
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         SharedPreferences prefs = await SharedPreferences.getInstance();

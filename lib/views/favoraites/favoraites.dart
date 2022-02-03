@@ -1,7 +1,6 @@
 import 'dart:io' show Platform;
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -33,8 +32,7 @@ class FavoraitesViewState extends State<Favoraites> {
   TextEditingController _searchController = TextEditingController();
 
   _shareApp() {
-    String infoMessage =
-        "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
+    String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
     String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
 
     String androidUrl = androidGrating + LoadingScreenServices.iOSShareUrl;
@@ -47,17 +45,14 @@ class FavoraitesViewState extends State<Favoraites> {
   _openUrl(String selected) async {
     String url = "";
     if (selected == "whatsapp") {
-      url = 'whatsapp://send?phone=' +
-          LoadingScreenServices.supportPhoneNumber.toString();
+      url = 'whatsapp://send?phone=' + LoadingScreenServices.supportPhoneNumber.toString();
     } else if (selected == "messenger") {
       url = LoadingScreenServices.companyInformation.messengerUrl;
     } else if (selected == "facebook") {
       if (Platform.isIOS) {
-        url =
-            'fb://profile/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
+        url = 'fb://profile/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
       } else {
-        url =
-            'fb://page/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
+        url = 'fb://page/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
       }
       // url = "fb://page/" +
       // LoadingScreenServices.companyInformation.facebookUrl.toString();
@@ -101,8 +96,7 @@ class FavoraitesViewState extends State<Favoraites> {
       errorMessage = false;
     });
 
-    final productList =
-        await FavoraitesProductsServices.getUserFavoraites(pageNumber: page);
+    final productList = await FavoraitesProductsServices.getUserFavoraites(pageNumber: page);
     if (productList != null) {
       if (productList.data == null) {
         setState(() {
@@ -188,9 +182,8 @@ class FavoraitesViewState extends State<Favoraites> {
           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
           child: new Container(
             height: 40.0,
-            decoration: new BoxDecoration(
-                color: Colors.white,
-                borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            decoration:
+                new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
             child: TextField(
               controller: _searchController,
               onSubmitted: (_) {
@@ -210,7 +203,7 @@ class FavoraitesViewState extends State<Favoraites> {
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                 ),
               ),
             ),
@@ -219,8 +212,7 @@ class FavoraitesViewState extends State<Favoraites> {
       );
 
       return new Padding(
-          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-          child: searchButtonWithGesture);
+          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
     }
 
     return Scaffold(
@@ -244,9 +236,7 @@ class FavoraitesViewState extends State<Favoraites> {
                           child: DrawerHeader(
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(
-                                    color:
-                                        UtilsImporter().colorUtils.kmColors)),
+                                border: Border.all(color: UtilsImporter().colorUtils.kmColors)),
                             child: InkWell(
                               onTap: () => Navigator.of(context).pop(),
                               child: Container(
@@ -293,7 +283,7 @@ class FavoraitesViewState extends State<Favoraites> {
                         title: Text(
                           "الإتصال بكمون",
                           style: TextStyle(
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                           ),
                         ),
                         // subtitle: Text(
@@ -317,9 +307,7 @@ class FavoraitesViewState extends State<Favoraites> {
                             ),
                           ),
                           title: Text("إرسال التطبيق للأصدقاء",
-                              style: TextStyle(
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk)),
+                              style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
                           // subtitle: Text(
                           //   //'support@kammun.com',
                           //   "بدعمكم نستمر",
@@ -341,9 +329,7 @@ class FavoraitesViewState extends State<Favoraites> {
                           ),
                         ),
                         title: Text("الملف الشخصي",
-                            style: TextStyle(
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk)),
+                            style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
                         // subtitle: Text(
                         //   // 'www.kammun.com',
                         //   LoadingScreenServices
@@ -367,12 +353,9 @@ class FavoraitesViewState extends State<Favoraites> {
                           ),
                         ),
                         title: Text("سياسة الإستخدام",
-                            style: TextStyle(
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk)),
+                            style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
                         onTap: () {
-                          launch('http://kammun.com/privacy-policy.html',
-                              enableJavaScript: false);
+                          launch('http://kammun.com/privacy-policy.html', enableJavaScript: false);
                         },
                       ),
                       Divider(
@@ -389,8 +372,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                 onTap: () => _openUrl("facebook"),
                                 child: Icon(
                                   FontAwesomeIcons.facebookF,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
+                                  color: UtilsImporter().colorUtils.primarycolor,
                                   size: 30,
                                 ),
                               ),
@@ -398,8 +380,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                 onTap: () => _openUrl("instagram"),
                                 child: Icon(
                                   FontAwesomeIcons.instagram,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
+                                  color: UtilsImporter().colorUtils.primarycolor,
                                   size: 30,
                                 ),
                               ),
@@ -407,8 +388,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                 onTap: () => _openUrl("messenger"),
                                 child: Icon(
                                   FontAwesomeIcons.facebookMessenger,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
+                                  color: UtilsImporter().colorUtils.primarycolor,
                                   size: 30,
                                 ),
                               ),
@@ -416,8 +396,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                 onTap: () => _openUrl("whatsapp"),
                                 child: Icon(
                                   FontAwesomeIcons.whatsapp,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
+                                  color: UtilsImporter().colorUtils.primarycolor,
                                   size: 30,
                                 ),
                               ),
@@ -489,8 +468,8 @@ class FavoraitesViewState extends State<Favoraites> {
                               color: Colors.white,
                             ),
                             onPressed: () {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/cart', (Route<dynamic> route) => false);
+                              Navigator.of(context)
+                                  .pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
                             },
                           ),
                         ),
@@ -515,8 +494,7 @@ class FavoraitesViewState extends State<Favoraites> {
                             child: NotificationListener(
                               onNotification: (ScrollNotification scrollInfo) {
                                 if (!isLoading &&
-                                    scrollInfo.metrics.pixels ==
-                                        scrollInfo.metrics.maxScrollExtent) {
+                                    scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
                                   setState(() {
                                     page++;
                                   });
@@ -524,17 +502,13 @@ class FavoraitesViewState extends State<Favoraites> {
                                 }
                               },
                               child: ListView.builder(
-                                physics: const AlwaysScrollableScrollPhysics(
-                                    parent: BouncingScrollPhysics()),
+                                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                                 primary: false,
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
-                                itemCount: favoraitesProductData == null
-                                    ? 0
-                                    : favoraitesProductData.length,
+                                itemCount: favoraitesProductData == null ? 0 : favoraitesProductData.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  var eachProduct =
-                                      favoraitesProductData[index];
+                                  var eachProduct = favoraitesProductData[index];
 
                                   return new GestureDetector(
                                     behavior: HitTestBehavior.translucent,
@@ -542,20 +516,14 @@ class FavoraitesViewState extends State<Favoraites> {
                                     child: ProductsViewCard(
                                       active: int.parse(eachProduct.isActive),
                                       img: eachProduct.images.length > 0
-                                          ? LoadingScreenServices
-                                                  .imagePrefixUrl +
-                                              eachProduct
-                                                  .images[0].imageFileName
+                                          ? LoadingScreenServices.imagePrefixUrl +
+                                              eachProduct.images[0].imageFileName
                                           : "",
-                                      product_name: eachProduct.name,
-                                      quantity: eachProduct.unit.toString() !=
-                                              "null"
-                                          ? eachProduct.quantity.toString() +
-                                              " " +
-                                              eachProduct.unit.toString()
+                                      productName: eachProduct.name,
+                                      quantity: eachProduct.unit.toString() != "null"
+                                          ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
                                           : eachProduct.quantity.toString(),
-                                      price: int.parse(
-                                          eachProduct.price.split(".")[0]),
+                                      price: int.parse(eachProduct.price.split(".")[0]),
                                       index: index,
                                     ),
                                   );
@@ -568,14 +536,11 @@ class FavoraitesViewState extends State<Favoraites> {
                               padding: EdgeInsets.only(top: screenHight * 0.3),
                               child: Center(
                                 child: Text(
-                                  !isLoading
-                                      ? "لم تقم بإضافة أي عنصر للمفضلة"
-                                      : "",
+                                  !isLoading ? "لم تقم بإضافة أي عنصر للمفضلة" : "",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: UtilsImporter().colorUtils.greycolor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                     fontSize: 20.0,
                                   ),
                                 ),
@@ -590,9 +555,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                 child: Text("تم جلب جميع المنتجات",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk))))
+                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk))))
                         : Container(),
                     isLoading
                         ? Container(
@@ -610,19 +573,13 @@ class FavoraitesViewState extends State<Favoraites> {
 
 class ProductsViewCard extends StatefulWidget {
   final String img;
-  final String product_name;
+  final String productName;
   final String quantity;
   final int price;
   final int index;
   final int active;
 
-  ProductsViewCard(
-      {this.img,
-      this.product_name,
-      this.quantity,
-      this.price,
-      this.index,
-      this.active});
+  ProductsViewCard({this.img, this.productName, this.quantity, this.price, this.index, this.active});
 
   @override
   State<StatefulWidget> createState() {
@@ -649,9 +606,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 Container(
                   width: 100.0,
                   height: 100.0,
-                  decoration: new BoxDecoration(
-                      borderRadius:
-                          new BorderRadius.all(Radius.circular(20.0))),
+                  decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(20.0))),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Hero(
@@ -677,11 +632,10 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           Wrap(
                             children: <Widget>[
                               Text(
-                                widget.product_name,
+                                widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -692,24 +646,17 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: UtilsImporter().colorUtils.greycolor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
                           Text(
-                              UtilsImporter()
-                                      .stringUtils
-                                      .oCcy
-                                      .format(widget.price)
-                                      .toString() +
+                              UtilsImporter().stringUtils.oCcy.format(widget.price).toString() +
                                   " ${LoadingScreenServices.companyInformation.currency}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  color: UtilsImporter().colorUtils.primarycolor,
+                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),
@@ -734,8 +681,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     fontSize: 15,
 
                                     //fontWeight: FontWeight.w500,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                               ),
                               Text(
                                 'المستودعات',
@@ -743,8 +689,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     color: Colors.white,
                                     fontSize: 15,
                                     //   fontWeight: FontWeight.w500,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                               ),
                             ],
                           ),

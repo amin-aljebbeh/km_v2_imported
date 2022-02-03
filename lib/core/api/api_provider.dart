@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import '../../core/errors/error_handler.dart';
 import 'api_URLs.dart';
@@ -20,9 +19,7 @@ class ApiProvider {
         baseUrl: mapService ? "" : BaseUrl,
         connectTimeout: 30000,
         receiveTimeout: 30000,
-        contentType: isUrlEncodedFormat
-            ? Headers.formUrlEncodedContentType
-            : Headers.jsonContentType);
+        contentType: isUrlEncodedFormat ? Headers.formUrlEncodedContentType : Headers.jsonContentType);
 
     var dio = new Dio(options);
 
@@ -37,8 +34,7 @@ class ApiProvider {
     Map<String, String> header = {
       // 'Authorization': "Bearer user",
 
-      'Authorization':
-          LoadingScreen.user_token.length > 10 ? LoadingScreen.user_token : "",
+      'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : "",
     };
 
     Response response;
@@ -77,9 +73,7 @@ class ApiProvider {
         case httpMethods.post:
           {
             response = await dio.post(url,
-                queryParameters: queryParameters,
-                options: Options(headers: header),
-                data: body);
+                queryParameters: queryParameters, options: Options(headers: header), data: body);
             break;
           }
       }

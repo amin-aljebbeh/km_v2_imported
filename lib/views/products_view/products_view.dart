@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -40,19 +39,19 @@ class ProductsViewState extends State<ProductsView> {
 
   final _random = new Random();
 
-  bool badWordmatched = false;
+  bool badWordMatched = false;
 
-  Future<bool> _loadData(String query, String type) async {
+  _loadData(String query, String type) async {
     setState(() {
-      badWordmatched = false;
+      badWordMatched = false;
     });
     String url = "";
     if (badWord.contains(query)) {
       setState(() {
-        badWordmatched = true;
+        badWordMatched = true;
       });
     }
-    if (!badWordmatched) {
+    if (!badWordMatched) {
       if (type == "search") {
         url = "/api/product/search/$query?page=" + page.toString();
       } else {
@@ -67,8 +66,7 @@ class ProductsViewState extends State<ProductsView> {
           );
 
           if (response.statusCode == SUCCESS_CODE) {
-            if (!response.data["success"] &&
-                response.data["reason"] == "No results") {
+            if (!response.data["success"] && response.data["reason"] == "No results") {
               setState(() {
                 searchLoading = false;
                 if (firstLoading == true) firstLoading = false;
@@ -78,9 +76,7 @@ class ProductsViewState extends State<ProductsView> {
                 }
               });
             } else {
-              final products =
-                  categoryProductFromJson(jsonEncode(response.data));
-              //productsList.addAll(products.data.data);
+              final products = categoryProductFromJson(jsonEncode(response.data));
               productsList.addAll(products.data.data);
               if (this.mounted) {
                 setState(() {
@@ -100,8 +96,7 @@ class ProductsViewState extends State<ProductsView> {
               return false;
           } else {
             setState(() {
-              errorMessage =
-                  "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
+              errorMessage = "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
               isLoading = false;
               searchLoading = false;
               firstLoading = false;
@@ -140,9 +135,8 @@ class ProductsViewState extends State<ProductsView> {
           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
           child: new Container(
             height: 40.0,
-            decoration: new BoxDecoration(
-                color: Colors.white,
-                borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            decoration:
+                new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
             child: TextField(
               controller: _searchController,
               onSubmitted: (_) {
@@ -169,7 +163,7 @@ class ProductsViewState extends State<ProductsView> {
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                 ),
               ),
             ),
@@ -178,8 +172,7 @@ class ProductsViewState extends State<ProductsView> {
       );
 
       return new Padding(
-          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-          child: searchButtonWithGesture);
+          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
     }
 
 // Color.fromARGB(255, 210, 178, 2) كموني
@@ -209,8 +202,8 @@ class ProductsViewState extends State<ProductsView> {
                               color: Colors.white,
                             ),
                             onPressed: () {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/cart', (Route<dynamic> route) => false);
+                              Navigator.of(context)
+                                  .pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
                             },
                           ),
                         ),
@@ -253,7 +246,7 @@ class ProductsViewState extends State<ProductsView> {
         ),
         backgroundColor: Theme.of(context).primaryColorLight,
         body: SafeArea(
-          child: badWordmatched
+          child: badWordMatched
               ? Container(
                   child: Center(
                   child: funnyImages[_random.nextInt(funnyImages.length)],
@@ -265,49 +258,38 @@ class ProductsViewState extends State<ProductsView> {
                           padding: const EdgeInsets.all(8.0),
                           child: Center(
                             child: Text(errorMessage,
-                                style: TextStyle(
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk)),
+                                style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
                           ),
                         )
                   : Padding(
-                      padding: EdgeInsets.only(
-                          left: 15, top: 10, right: 15, bottom: 0),
+                      padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 0),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Expanded(
                               child: NotificationListener<ScrollNotification>(
-                                onNotification:
-                                    (ScrollNotification scrollInfo) {
+                                onNotification: (ScrollNotification scrollInfo) {
                                   if (!isLoading &&
-                                      scrollInfo.metrics.pixels ==
-                                          scrollInfo.metrics.maxScrollExtent) {
+                                      scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
                                     setState(() {
                                       page++;
                                       isLoading = true;
                                     });
                                     _searchController.text != ""
-                                        ? _loadData(
-                                            _searchController.text, "search")
-                                        : _loadData(
-                                            widget.categoryId, "category");
+                                        ? _loadData(_searchController.text, "search")
+                                        : _loadData(widget.categoryId, "category");
                                     // start loading data
 
                                   }
                                 },
                                 child: ListView.builder(
-                                  physics: const AlwaysScrollableScrollPhysics(
-                                      parent: BouncingScrollPhysics()),
+                                  physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                                   primary: false,
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
-                                  itemCount: productsList == null
-                                      ? 0
-                                      : productsList.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
+                                  itemCount: productsList == null ? 0 : productsList.length,
+                                  itemBuilder: (BuildContext context, int index) {
                                     var eachProduct = productsList[index];
                                     return new GestureDetector(
                                       behavior: HitTestBehavior.translucent,
@@ -315,20 +297,14 @@ class ProductsViewState extends State<ProductsView> {
                                       child: ProductsViewCard(
                                         active: int.parse(eachProduct.isActive),
                                         img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices
-                                                    .imagePrefixUrl +
-                                                eachProduct
-                                                    .images[0].imageFileName
+                                            ? LoadingScreenServices.imagePrefixUrl +
+                                                eachProduct.images[0].imageFileName
                                             : "",
-                                        product_name: eachProduct.name,
-                                        quantity: eachProduct.unit.toString() !=
-                                                "null"
-                                            ? eachProduct.quantity.toString() +
-                                                " " +
-                                                eachProduct.unit.toString()
+                                        productName: eachProduct.name,
+                                        quantity: eachProduct.unit.toString() != "null"
+                                            ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
                                             : eachProduct.quantity.toString(),
-                                        price: int.parse(
-                                            eachProduct.price.split(".")[0]),
+                                        price: int.parse(eachProduct.price.split(".")[0]),
                                         index: index,
                                       ),
                                     );
@@ -344,9 +320,7 @@ class ProductsViewState extends State<ProductsView> {
                                     ? Text("تم جلب جميع المنتجات",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: UtilsImporter()
-                                                .stringUtils
-                                                .HKGrotesk))
+                                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk))
                                     : Loader(),
                               ),
                             ),
@@ -384,19 +358,13 @@ class ProductsViewState extends State<ProductsView> {
 
 class ProductsViewCard extends StatefulWidget {
   final String img;
-  final String product_name;
+  final String productName;
   final String quantity;
   final int price;
   final int index;
   final int active;
 
-  ProductsViewCard(
-      {this.img,
-      this.product_name,
-      this.quantity,
-      this.price,
-      this.index,
-      this.active});
+  ProductsViewCard({this.img, this.productName, this.quantity, this.price, this.index, this.active});
 
   @override
   State<StatefulWidget> createState() {
@@ -423,9 +391,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 Container(
                   width: 100.0,
                   height: 100.0,
-                  decoration: new BoxDecoration(
-                      borderRadius:
-                          new BorderRadius.all(Radius.circular(20.0))),
+                  decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(20.0))),
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Hero(
@@ -451,11 +417,10 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           Wrap(
                             children: <Widget>[
                               Text(
-                                widget.product_name,
+                                widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -466,24 +431,17 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: UtilsImporter().colorUtils.greycolor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
                           Text(
-                              UtilsImporter()
-                                      .stringUtils
-                                      .oCcy
-                                      .format(widget.price)
-                                      .toString() +
+                              UtilsImporter().stringUtils.oCcy.format(widget.price).toString() +
                                   " ${LoadingScreenServices.companyInformation.currency}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  color: UtilsImporter().colorUtils.primarycolor,
+                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),
@@ -508,8 +466,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     fontSize: 15,
 
                                     //fontWeight: FontWeight.w500,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                               ),
                               Text(
                                 'المستودعات',
@@ -517,8 +474,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     color: Colors.white,
                                     fontSize: 15,
                                     //   fontWeight: FontWeight.w500,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                               ),
                             ],
                           ),

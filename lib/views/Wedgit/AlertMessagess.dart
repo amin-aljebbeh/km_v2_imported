@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'; 
-import 'package:kammun_app/utils/tools.dart';
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class AlertMessages extends StatelessWidget {
@@ -124,15 +123,8 @@ class AlertTextView extends StatelessWidget {
   final double headerTextSize;
   final double messageTextSize;
 
-  AlertTextView(
-      this.text,
-      this.textColor,
-      this.insideBordercolor,
-      this.textWeight,
-      this.sucsessText,
-      this.headerTextColler,
-      this.headerTextSize,
-      this.messageTextSize);
+  AlertTextView(this.text, this.textColor, this.insideBordercolor, this.textWeight, this.sucsessText,
+      this.headerTextColler, this.headerTextSize, this.messageTextSize);
 
   @override
   Widget build(BuildContext context) {
@@ -154,18 +146,16 @@ class AlertTextView extends StatelessWidget {
                         fontSize: headerTextSize != null ? headerTextSize : 15,
                         fontWeight: FontWeight.w700,
                         height: 1.5,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                   ),
                   TextSpan(
                     text: text,
                     style: TextStyle(
                         color: textColor,
-                        fontSize: messageTextSize != null
-                            ? messageTextSize
-                            : textSize,
+                        fontSize: messageTextSize != null ? messageTextSize : textSize,
                         height: 1.5,
                         fontWeight: FontWeight.w400,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                   ),
                 ],
               ),

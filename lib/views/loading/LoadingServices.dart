@@ -2,9 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:adv_image_cache/adv_image_cache.dart';
-// import 'package:cache_image/cache_image.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
@@ -49,8 +47,7 @@ class LoadingScreenServices {
   // Supported City variables
 
   static List<DropdownMenuItem> supportedCitiesList = List<DropdownMenuItem>();
-  static List<DropdownMenuItem> supportedCitiesListIntro =
-      List<DropdownMenuItem>();
+  static List<DropdownMenuItem> supportedCitiesListIntro = List<DropdownMenuItem>();
 
   // -------------------------------------------------------//
 
@@ -89,8 +86,7 @@ class LoadingScreenServices {
       method: httpMethods.get,
     );
     if (response.statusCode == SUCCESS_CODE) {
-      final supportedCitiesResponse =
-          supportedCityOriginalFromJson(jsonEncode(response.data));
+      final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
       supportedCityOriginal = supportedCitiesResponse;
 
       supportedCityOriginal.data.removeWhere((city) => city.isActive == "0");
@@ -106,13 +102,13 @@ class LoadingScreenServices {
             title: Text(
               '${supportedCitiesResponse.data[i].name} ',
               style: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
               ),
             ),
             trailing: Text(
               "${supportedCitiesResponse.data[i].deliveryPrice.split(".")[0]}",
               style: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
               ),
             ),
           ),
@@ -139,7 +135,7 @@ class LoadingScreenServices {
       // prefs.remove('supportedCitySelected');
 
       if (userToken != null) {
-        LoadingScreen.user_token = "Bearer " + userToken;
+        LoadingScreen.userToken = "Bearer " + userToken;
         if (userToken.contains("APPLE_VERIFICATION")) {
           BaseUrl = APPLE_BASEURL;
         } else {
@@ -224,26 +220,18 @@ class LoadingScreenServices {
 
       // Mobile Configuration
 
-      androidShareUrl =
-          startRequest.mobileAppConfigs.original.data[0].appStoreUrl;
-      iOSShareUrl =
-          startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
+      androidShareUrl = startRequest.mobileAppConfigs.original.data[0].appStoreUrl;
+      iOSShareUrl = startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
 
       if (Platform.isIOS) {
-        lastSupported = int.parse(startRequest
-            .mobileAppConfigs.original.data[0].iosLastSupportedVersion);
-        currenVersion = int.parse(
-            startRequest.mobileAppConfigs.original.data[0].iosCurrentVersion);
+        lastSupported = int.parse(startRequest.mobileAppConfigs.original.data[0].iosLastSupportedVersion);
+        currenVersion = int.parse(startRequest.mobileAppConfigs.original.data[0].iosCurrentVersion);
 
-        LoadingScreen.updateUrl =
-            startRequest.mobileAppConfigs.original.data[0].appStoreUrl;
+        LoadingScreen.updateUrl = startRequest.mobileAppConfigs.original.data[0].appStoreUrl;
       } else {
-        lastSupported = int.parse(startRequest
-            .mobileAppConfigs.original.data[0].androidLastSupportedVersion);
-        currenVersion = int.parse(startRequest
-            .mobileAppConfigs.original.data[0].androidCurrentVersion);
-        LoadingScreen.updateUrl =
-            startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
+        lastSupported = int.parse(startRequest.mobileAppConfigs.original.data[0].androidLastSupportedVersion);
+        currenVersion = int.parse(startRequest.mobileAppConfigs.original.data[0].androidCurrentVersion);
+        LoadingScreen.updateUrl = startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
       }
 
       if (startRequest.mobileAppConfigs.original.data[0].id == 0) {
@@ -260,19 +248,16 @@ class LoadingScreenServices {
       categoryList.clear();
       final category = startRequest.category.original.data;
       for (int i = 0; i < category.length; i++) {
-        if (category[i].warehouses.length > 0 &&
-            category[i].warehouses[0].pivot.isActive == "1") {
+        if (category[i].warehouses.length > 0 && category[i].warehouses[0].pivot.isActive == "1") {
           categoryList.add(category[i]);
         }
       }
       //  categoryList.addAll(category);
 
       categoryList.sort((a, b) {
-        if ((int.parse(a.warehouses[0].pivot.priority)) >
-            (int.parse(b.warehouses[0].pivot.priority)))
+        if ((int.parse(a.warehouses[0].pivot.priority)) > (int.parse(b.warehouses[0].pivot.priority)))
           return 1;
-        else if ((int.parse(a.warehouses[0].pivot.priority) <
-            (int.parse(b.warehouses[0].pivot.priority))))
+        else if ((int.parse(a.warehouses[0].pivot.priority) < (int.parse(b.warehouses[0].pivot.priority))))
           return -1;
         else
           return 0;
@@ -305,16 +290,13 @@ class LoadingScreenServices {
             );
       } else {
         for (int i = 0; i < startRequest.banner.original.data.length; i++) {
-          if (!startRequest.banner.original.data[i].expirationDate
-              .isBefore(now)) {
-            bannerList.add(
-                AssetImage(startRequest.banner.original.data[i].imageFileName));
+          if (!startRequest.banner.original.data[i].expirationDate.isBefore(now)) {
+            bannerList.add(AssetImage(startRequest.banner.original.data[i].imageFileName));
 
             bannerListNetwork.add(
               Image(
                 image: AdvImageCache(
-                  LoadingScreenServices.imagePrefixUrl +
-                      startRequest.banner.original.data[i].imageFileName,
+                  LoadingScreenServices.imagePrefixUrl + startRequest.banner.original.data[i].imageFileName,
                   useMemCache: true,
                   diskCacheExpire: Duration(seconds: 0),
                 ),
@@ -357,13 +339,12 @@ class LoadingScreenServices {
         if (myOrdersList[i].underUpdate == "1") {
           OrderServices.orderUnderUpdateIndex = i;
 
-          OrderServices.delivery_supported_City_id =
-              myOrdersList[i].supportedCityId.toString();
+          OrderServices.deliverySupportedCityId = myOrdersList[i].supportedCityId.toString();
 
           OrderServices.updateOrderNote = myOrdersList[i].userNotes;
 
-          DeliverToView.selectedIndex = myOrdersList.indexWhere(
-              (order) => order.addressId == myOrdersList[i].addressId);
+          DeliverToView.selectedIndex =
+              myOrdersList.indexWhere((order) => order.addressId == myOrdersList[i].addressId);
         }
       }
 
@@ -380,47 +361,28 @@ class LoadingScreenServices {
       supportedCityOriginal = supportedCitiesResponse;
 
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
-        if (supportedCitiesResponse.data[i].id.toString() ==
-            startRequest.user.original.data.supportedCityId) {
-          supportPhoneNumber =
-              supportedCitiesResponse.data[i].supportPhoneNumber;
+        if (supportedCitiesResponse.data[i].id.toString() == startRequest.user.original.data.supportedCityId) {
+          supportPhoneNumber = supportedCitiesResponse.data[i].supportPhoneNumber;
 
           if (supportedCitiesResponse.data[i].isActive == "2" ||
-              (Platform.isIOS &&
-                  startRequest.mobileAppConfigs.original.data[0].iosIsActive ==
-                      "0") ||
-              Platform.isAndroid &&
-                  startRequest
-                          .mobileAppConfigs.original.data[0].androidIsActive ==
-                      "0") {
+              (Platform.isIOS && startRequest.mobileAppConfigs.original.data[0].iosIsActive == "0") ||
+              Platform.isAndroid && startRequest.mobileAppConfigs.original.data[0].androidIsActive == "0") {
             serverMaintain = true;
-            if (Platform.isIOS &&
-                    startRequest
-                            .mobileAppConfigs.original.data[0].iosIsActive ==
-                        "0" ||
-                Platform.isAndroid &&
-                    startRequest.mobileAppConfigs.original.data[0]
-                            .androidIsActive ==
-                        "0") {
-              systemMaintenanceMessages = startRequest
-                  .mobileAppConfigs.original.data[0].maintenanceMessages;
+            if (Platform.isIOS && startRequest.mobileAppConfigs.original.data[0].iosIsActive == "0" ||
+                Platform.isAndroid && startRequest.mobileAppConfigs.original.data[0].androidIsActive == "0") {
+              systemMaintenanceMessages = startRequest.mobileAppConfigs.original.data[0].maintenanceMessages;
             } else {
-              systemMaintenanceMessages =
-                  supportedCitiesResponse.data[i].maintenanceMessages;
+              systemMaintenanceMessages = supportedCitiesResponse.data[i].maintenanceMessages;
             }
           } else {
             serverMaintain = false;
           }
         }
         for (int j = 0; j < userAddress.length; j++) {
-          if (int.parse(userAddress[j].supportedCityId) ==
-              supportedCitiesResponse.data[i].id) {
-            userAddress[j].supportedCityName =
-                supportedCitiesResponse.data[i].name;
-            userAddress[j].deliveryPrice = (int.parse(supportedCitiesResponse
-                .data[i].deliveryPrice
-                .toString()
-                .split(".")[0]));
+          if (int.parse(userAddress[j].supportedCityId) == supportedCitiesResponse.data[i].id) {
+            userAddress[j].supportedCityName = supportedCitiesResponse.data[i].name;
+            userAddress[j].deliveryPrice =
+                (int.parse(supportedCitiesResponse.data[i].deliveryPrice.toString().split(".")[0]));
           }
           if (userAddress[j].supportedCityName == null)
             userAddress[j].supportedCityName = "يرجى حذف و إضافة العنوان";
@@ -430,8 +392,7 @@ class LoadingScreenServices {
           supportedCitiesList.add(new DropdownMenuItem(
             child: Text(
               "${supportedCitiesResponse.data[i].name} - التوصيل : ${supportedCitiesResponse.data[i].deliveryPrice}",
-              style:
-                  TextStyle(fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
             ),
             value: supportedCitiesResponse.data[i].name +
                 " price" +

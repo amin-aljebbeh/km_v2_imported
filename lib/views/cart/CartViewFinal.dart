@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
@@ -16,7 +15,6 @@ import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../Services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'order_problem_sheet.dart';
@@ -73,25 +71,17 @@ class _CartViewFinalState extends State<CartViewFinal> {
     makeCards();
 
     for (int i = 0; i < orderArray.length; i++) {
-      subtotal = subtotal +
-          ((int.parse(orderArray[i].price.split(".")[0])) *
-              orderArray[i].productCount);
+      subtotal = subtotal + ((int.parse(orderArray[i].price.split(".")[0])) * orderArray[i].productCount);
     }
 
     total = subtotal +
         // Services.delivery_Price +
-        LoadingScreenServices
-            .userAddress[DeliverToView.selectedIndex].deliveryPrice +
-        int.parse(DeliveryMethodServices
-            .deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex]
-            .pivot
-            .price
+        LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice +
+        int.parse(DeliveryMethodServices.deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].pivot.price
             .split(".")[0]);
 
-    OrderServices.updateOrderNote != null &&
-            OrderServices.orderUnderUpdateIndex != -1
-        ? WidgetsBinding.instance
-            .addPostFrameCallback((_) => _userNotesInitial())
+    OrderServices.updateOrderNote != null && OrderServices.orderUnderUpdateIndex != -1
+        ? WidgetsBinding.instance.addPostFrameCallback((_) => _userNotesInitial())
         : {};
 
     super.initState();
@@ -126,18 +116,17 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   _cartChanged() async {
-    String products_Id = "";
-    String products_quantity = "";
+    String productsId = "";
+    String productsQuantity = "";
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      products_Id += CartServices.cartProducts[i].id.toString() + ";";
-      products_quantity +=
-          CartServices.cartProducts[i].productCount.toString() + ";";
+      productsId += CartServices.cartProducts[i].id.toString() + ";";
+      productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
     }
     // products_Id += widget.products.id.toString();
     // products_quantity += widget.products.quantity.toString();
-    prefs.setString("userCart", products_Id + "@" + products_quantity);
+    prefs.setString("userCart", productsId + "@" + productsQuantity);
   }
 
   @override
@@ -151,8 +140,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                   child: Loader(),
                 )
               : Padding(
-                  padding:
-                      EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
+                  padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -174,8 +162,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               padding: const EdgeInsets.only(bottom: 10.0),
                               child: IconButton(
                                   icon: Icon(Icons.arrow_back_ios,
-                                      color: Theme.of(context).primaryColorDark,
-                                      size: 45),
+                                      color: Theme.of(context).primaryColorDark, size: 45),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   }),
@@ -185,11 +172,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 Navigator.of(context).pop();
                               },
                               child: Text(
-                                UtilsImporter().stringUtils.shoppingcart,
+                                UtilsImporter().stringUtils.shoppingCart,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                     fontSize: 30),
                               ),
                             ),
@@ -208,8 +194,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               child: Container(
                                 //  color: Theme.of(context).primaryColorLight,
                                 child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 0, right: 0, top: 0),
+                                  padding: EdgeInsets.only(left: 0, right: 0, top: 0),
                                   child: cardBody(index, context),
                                 ),
                               ),
@@ -226,7 +211,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                               fontSize: 17.0,
                             ),
                           ),
@@ -235,8 +220,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17.0),
                           ),
                         ],
@@ -249,8 +233,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 16.0,
                               )),
                           Text(
@@ -258,8 +241,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 16),
                           ),
                         ],
@@ -272,8 +254,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 19.0,
                               )),
                           Text(
@@ -281,8 +262,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 19),
                           ),
                         ],
@@ -345,15 +325,14 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         "ملاحظات على الطلب",
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 18),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.only(left: 8, right: 8),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(
-                                  5.0) //         <--- border radius here
+                          borderRadius: BorderRadius.all(Radius.circular(5.0) //         <--- border radius here
                               ),
                           border: Border.all(
                             width: 2,
@@ -365,76 +344,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         keyboardType: TextInputType.multiline,
                         maxLines: 5,
                         style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                         ),
                       ),
                     ),
                     _saveNotes(context: context),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
-  _openAddCouponsAlert({BuildContext context}) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Stack(
-              overflow: Overflow.visible,
-              children: <Widget>[
-                Positioned(
-                  right: -40.0,
-                  top: -40.0,
-                  child: InkResponse(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: CircleAvatar(
-                      child: Icon(Icons.close),
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
-                ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "يرجى كتابة كود الحسم",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                            fontSize: 18),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 8, right: 8),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(
-                                  5.0) //         <--- border radius here
-                              ),
-                          border: Border.all(
-                            width: 2,
-                            color: UtilsImporter().colorUtils.kmColors,
-                          )),
-                      child: new TextField(
-                        controller: _copouns,
-                        //  keyboardType: TextInputType.multiline,
-                        //  maxLength: 500,
-                        // maxLines: 5,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        ),
-                      ),
-                    ),
-                    _submitCopoun(context: context),
                   ],
                 ),
               ],
@@ -454,20 +368,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
               new Container(
                 width: 75.0,
                 height: 75.0,
-                decoration: new BoxDecoration(
-                    borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+                decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(20.0))),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Hero(
                         tag: index + 100,
                         child: FadeInImage(
                             image: orderArray[index].images.length != 0
-                                ? NetworkImage(
-                                    LoadingScreenServices.imagePrefixUrl +
-                                        orderArray[index]
-                                            .images[0]
-                                            .imageFileName
-                                            .toString())
+                                ? NetworkImage(LoadingScreenServices.imagePrefixUrl +
+                                    orderArray[index].images[0].imageFileName.toString())
                                 : AssetImage("assets/kmIcon.png"),
                             width: MediaQuery.of(context).size.width,
                             height: 120,
@@ -490,20 +399,16 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               orderArray[index].name,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18),
                             ),
                             SizedBox(height: 6),
                             Text(
-                              orderArray[index].quantity.toString() +
-                                  " " +
-                                  orderArray[index].unit.toString(),
+                              orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: UtilsImporter().colorUtils.greycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                   fontSize: 17),
                             ),
                             SizedBox(height: 8),
@@ -511,10 +416,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color:
-                                        UtilsImporter().colorUtils.primarycolor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    color: UtilsImporter().colorUtils.primarycolor,
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18)),
                           ],
                         ),
@@ -532,20 +435,14 @@ class _CartViewFinalState extends State<CartViewFinal> {
                     width: 30,
                     height: 30,
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: UtilsImporter()
-                            .colorUtils
-                            .greycolor
-                            .withOpacity(0.2)),
+                        shape: BoxShape.circle, color: UtilsImporter().colorUtils.greycolor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {
                           orderArray[index].productCount += 1;
-                          subtotal += (int.parse(
-                              orderArray[index].price.split(".")[0]));
+                          subtotal += (int.parse(orderArray[index].price.split(".")[0]));
 
-                          total += (int.parse(
-                              orderArray[index].price.split(".")[0]));
+                          total += (int.parse(orderArray[index].price.split(".")[0]));
                         });
                         _cartChanged();
                       },
@@ -561,35 +458,26 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                           fontSize: 18)),
                   SizedBox(height: 5),
                   Container(
                     width: 30,
                     height: 30,
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: UtilsImporter()
-                            .colorUtils
-                            .greycolor
-                            .withOpacity(0.2)),
+                        shape: BoxShape.circle, color: UtilsImporter().colorUtils.greycolor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {
                           if (orderArray[index].productCount > 1) {
-                            subtotal -= (int.parse(
-                                orderArray[index].price.split(".")[0]));
-                            orderArray[index].productCount =
-                                orderArray[index].productCount - 1;
+                            subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
+                            orderArray[index].productCount = orderArray[index].productCount - 1;
 
-                            total -= (int.parse(
-                                orderArray[index].price.split(".")[0]));
+                            total -= (int.parse(orderArray[index].price.split(".")[0]));
                           } else if (orderArray[index].productCount == 1) {
-                            subtotal -= (int.parse(
-                                orderArray[index].price.split(".")[0]));
+                            subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
 
-                            total -= (int.parse(
-                                orderArray[index].price.split(".")[0]));
+                            total -= (int.parse(orderArray[index].price.split(".")[0]));
                             onrRemove(index);
                             CartServices.cartProducts.removeAt(index);
                           }
@@ -664,14 +552,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
       if (cards.length == 0) {
         KammunRestart.restartApp(context);
       } else {
-        orderResponse =
-            await OrderServices.updateOrder(userNotes: _userNotes.text);
+        orderResponse = await OrderServices.updateOrder(userNotes: _userNotes.text);
 
         setState(() {
           try {
             if (orderResponse != null) {
-              if (!orderResponse.success &&
-                  orderResponse.reason.contains("discontinued")) {
+              if (!orderResponse.success && orderResponse.reason.contains("discontinued")) {
                 loadingScreen = false;
                 errorCode = true;
                 errorMessage =
@@ -679,8 +565,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
               } else if (orderResponse.changedPriceProducts.length > 0 ||
                   orderResponse.inactiveProducts.length > 0) {
                 _showBottomSheet(
-                    notActive: orderResponse.inactiveProducts,
-                    priceProblem: orderResponse.changedPriceProducts);
+                    notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
 
                 loadingScreen = false;
                 errorCode = false;
@@ -707,14 +592,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
       if (cards.length == 0) {
         KammunRestart.restartApp(context);
       } else {
-        orderResponse =
-            await OrderServices.submitNewOrder(userNotes: _userNotes.text);
+        orderResponse = await OrderServices.submitNewOrder(userNotes: _userNotes.text);
 
         setState(() {
           try {
             if (orderResponse != null) {
-              if (!orderResponse.success &&
-                  orderResponse.reason.contains("discontinued")) {
+              if (!orderResponse.success && orderResponse.reason.contains("discontinued")) {
                 loadingScreen = false;
                 errorCode = true;
                 errorMessage =
@@ -722,8 +605,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
               } else if (orderResponse.changedPriceProducts.length > 0 ||
                   orderResponse.inactiveProducts.length > 0) {
                 _showBottomSheet(
-                    notActive: orderResponse.inactiveProducts,
-                    priceProblem: orderResponse.changedPriceProducts);
+                    notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
 
                 loadingScreen = false;
                 errorCode = false;
@@ -751,10 +633,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
       CartServices.userCopoun = "";
 
       Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (context) =>
-                  ThankYouView(orderMessage: orderResponse.data)));
+          context, new MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
 
       // Navigator.pushNamedAndRemoveUntil(
       //     context, '/thankyou', ModalRoute.withName('/home'),
@@ -770,17 +649,16 @@ class _CartViewFinalState extends State<CartViewFinal> {
         child: new Container(
           padding: const EdgeInsets.all(10.0),
           height: 50.0,
-          decoration: new BoxDecoration(
-              color: Colors.green,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          decoration:
+              new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: new Center(
             child: new Text(
-              UtilsImporter().stringUtils.confirm_order.toUpperCase(),
+              UtilsImporter().stringUtils.confirmOrder.toUpperCase(),
               style: new TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
             ),
           ),
         ),
@@ -788,8 +666,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     );
 
     return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
   }
 
   Widget _addNotesButton({BuildContext context}) {
@@ -834,7 +711,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           color: Colors.white,
                           // fontSize: 20.0,
                           fontWeight: FontWeight.bold,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                     ),
                   ),
                 ),
@@ -854,8 +731,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     );
 
     return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
   }
 
   Widget _saveNotes({BuildContext context}) {
@@ -880,7 +756,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                   color: Colors.white,
                   // fontSize: 20.0,
                   fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
             ),
           ),
         ),
@@ -888,71 +764,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
     );
 
     return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
-  }
-
-  Widget _submitCopoun({BuildContext context}) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () => Navigator.of(context).pop(),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
-          padding: const EdgeInsets.all(10.0),
-          width: MediaQuery.of(context).size.width / 2.5,
-          height: 40.0,
-          decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.primarycolor,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new AutoSizeText(
-              "تطبيق الحسم",
-              maxLines: 1,
-              style: new TextStyle(
-                  color: Colors.white,
-                  // fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
-  }
-
-  Widget _addCopouns() {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: () => _openAddCouponsAlert(context: context),
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
-          padding: const EdgeInsets.all(10.0),
-          width: MediaQuery.of(context).size.width / 2.5,
-          height: 40.0,
-          decoration: new BoxDecoration(
-              color: Colors.teal,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new AutoSizeText(
-              "إضافة كود حسم",
-              maxLines: 1,
-              style: new TextStyle(
-                  color: Colors.white,
-                  // fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showConfirmButtonWithGesture);
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
   }
 }

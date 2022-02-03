@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/Loader.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/supported_city/services/supported_city_services.dart';
 
@@ -18,8 +16,7 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
   String filter;
   bool isLoading = false;
   bool isError = false;
-  String errorMessage =
-      "حدث خطأ أثناء محاولة جلب البيانات يرجى التحقق من إتصالك بالإانترنت و المحاولة مجدداً";
+  String errorMessage = "حدث خطأ أثناء محاولة جلب البيانات يرجى التحقق من إتصالك بالإانترنت و المحاولة مجدداً";
 
   Widget _showSearchTxtFld() {
     final GestureDetector searchButtonWithGesture = new GestureDetector(
@@ -27,9 +24,8 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: new Container(
           height: 40.0,
-          decoration: new BoxDecoration(
-              color: Colors.white,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          decoration:
+              new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: TextField(
             controller: _searchBarController,
             onSubmitted: (_) {
@@ -47,7 +43,7 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
               contentPadding: const EdgeInsets.only(top: 4.0),
               hintText: "ابحث عن منطقتك",
               hintStyle: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
               ),
             ),
           ),
@@ -55,9 +51,7 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: searchButtonWithGesture);
+    return new Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
   }
 
   @override
@@ -82,14 +76,14 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
           title: new Text(
             "$title",
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
             ),
           ),
           content: new Text(
             "$body",
             // maxLines: 20,
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
             ),
           ),
           scrollable: true,
@@ -98,8 +92,7 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
             new FlatButton(
               child: new Text(
                 "إغلاق",
-                style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -131,8 +124,7 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
       setState(() {
         isLoading = false;
         isError = true;
-        errorMessage =
-            "حدث خطأ أثناء محاولة جلب البيانات يرجى التحقق من إتصالك بالإانترنت و المحاولة مجدداً";
+        errorMessage = "حدث خطأ أثناء محاولة جلب البيانات يرجى التحقق من إتصالك بالإانترنت و المحاولة مجدداً";
       });
     }
   }
@@ -142,8 +134,7 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
       isLoading = true;
     });
 
-    bool success = await SupportedCityServices.updateUserSupportedCity(
-        supportedCityId: supportedCityId);
+    bool success = await SupportedCityServices.updateUserSupportedCity(supportedCityId: supportedCityId);
     if (success) {
       setState(() {
         isLoading = false;
@@ -189,44 +180,30 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
                       : Container(),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: LoadingScreenServices
-                          .supportedCityOriginal.data.length,
+                      itemCount: LoadingScreenServices.supportedCityOriginal.data.length,
                       itemBuilder: (BuildContext context, int index) {
                         return filter == null || filter == ""
                             ? GestureDetector(
                                 onTap: () {
                                   _updateUserSupportedCity(
-                                      supportedCityId: LoadingScreenServices
-                                          .supportedCityOriginal.data[index].id
-                                          .toString());
+                                      supportedCityId:
+                                          LoadingScreenServices.supportedCityOriginal.data[index].id.toString());
                                 },
                                 behavior: HitTestBehavior.translucent,
                                 child: SupportedCityCardView(
-                                  name: LoadingScreenServices
-                                      .supportedCityOriginal.data[index].name,
-                                  id: LoadingScreenServices
-                                      .supportedCityOriginal.data[index].id,
-                                  isActive: LoadingScreenServices
-                                      .supportedCityOriginal
-                                      .data[index]
-                                      .isActive,
+                                  name: LoadingScreenServices.supportedCityOriginal.data[index].name,
+                                  id: LoadingScreenServices.supportedCityOriginal.data[index].id,
+                                  isActive: LoadingScreenServices.supportedCityOriginal.data[index].isActive,
                                   deliveryPrice: LoadingScreenServices
-                                      .supportedCityOriginal
-                                      .data[index]
-                                      .deliveryPrice
+                                      .supportedCityOriginal.data[index].deliveryPrice
                                       .split(".")[0],
-                                  supportPhoneNumber: LoadingScreenServices
-                                      .supportedCityOriginal
-                                      .data[index]
-                                      .supportPhoneNumber,
-                                  maintenanceMessages: LoadingScreenServices
-                                      .supportedCityOriginal
-                                      .data[index]
-                                      .maintenanceMessages,
+                                  supportPhoneNumber:
+                                      LoadingScreenServices.supportedCityOriginal.data[index].supportPhoneNumber,
+                                  maintenanceMessages:
+                                      LoadingScreenServices.supportedCityOriginal.data[index].maintenanceMessages,
                                 ),
                               )
-                            : LoadingScreenServices
-                                    .supportedCityOriginal.data[index].name
+                            : LoadingScreenServices.supportedCityOriginal.data[index].name
                                     .toLowerCase()
                                     .contains(filter.toLowerCase())
                                 ? GestureDetector(
@@ -254,35 +231,20 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
 
                                       _updateUserSupportedCity(
                                           supportedCityId: LoadingScreenServices
-                                              .supportedCityOriginal
-                                              .data[index]
-                                              .id
+                                              .supportedCityOriginal.data[index].id
                                               .toString());
                                     },
                                     behavior: HitTestBehavior.translucent,
                                     child: SupportedCityCardView(
-                                      name: LoadingScreenServices
-                                          .supportedCityOriginal
-                                          .data[index]
-                                          .name,
-                                      id: LoadingScreenServices
-                                          .supportedCityOriginal.data[index].id,
-                                      isActive: LoadingScreenServices
-                                          .supportedCityOriginal
-                                          .data[index]
-                                          .isActive,
-                                      deliveryPrice: LoadingScreenServices
-                                          .supportedCityOriginal
-                                          .data[index]
-                                          .deliveryPrice,
+                                      name: LoadingScreenServices.supportedCityOriginal.data[index].name,
+                                      id: LoadingScreenServices.supportedCityOriginal.data[index].id,
+                                      isActive: LoadingScreenServices.supportedCityOriginal.data[index].isActive,
+                                      deliveryPrice:
+                                          LoadingScreenServices.supportedCityOriginal.data[index].deliveryPrice,
                                       supportPhoneNumber: LoadingScreenServices
-                                          .supportedCityOriginal
-                                          .data[index]
-                                          .supportPhoneNumber,
+                                          .supportedCityOriginal.data[index].supportPhoneNumber,
                                       maintenanceMessages: LoadingScreenServices
-                                          .supportedCityOriginal
-                                          .data[index]
-                                          .maintenanceMessages,
+                                          .supportedCityOriginal.data[index].maintenanceMessages,
                                     ),
                                   )
                                 : Container();
@@ -355,8 +317,7 @@ class SupportedCityCardViewState extends State<SupportedCityCardView> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontFamily:
-                                          UtilsImporter().stringUtils.HKGrotesk,
+                                      fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                       fontSize: 18),
                                 ),
                               ),
@@ -373,12 +334,8 @@ class SupportedCityCardViewState extends State<SupportedCityCardView> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .primarycolor,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
+                                          color: UtilsImporter().colorUtils.primarycolor,
+                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                           fontSize: 18)),
                                 ),
                                 Padding(
@@ -387,12 +344,8 @@ class SupportedCityCardViewState extends State<SupportedCityCardView> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .primarycolor,
-                                          fontFamily: UtilsImporter()
-                                              .stringUtils
-                                              .HKGrotesk,
+                                          color: UtilsImporter().colorUtils.primarycolor,
+                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                           fontSize: 18)),
                                 ),
                               ],

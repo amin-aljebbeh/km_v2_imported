@@ -4,7 +4,6 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/orders_response.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
@@ -15,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../Services.dart';
 
 class OrderServices {
-  static String delivery_supported_City_id = "";
+  static String deliverySupportedCityId = "";
   static int orderUnderUpdateIndex = -1;
   static String updateOrderNote = "";
 
@@ -26,28 +25,20 @@ class OrderServices {
 
     int purchasePrices = 0;
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productIds =
-          productIds + CartServices.cartProducts[i].id.toString() + ";";
-      quantities = quantities +
-          CartServices.cartProducts[i].productCount.toString() +
-          ";";
+      productIds = productIds + CartServices.cartProducts[i].id.toString() + ";";
+      quantities = quantities + CartServices.cartProducts[i].productCount.toString() + ";";
       purchasePrices = purchasePrices +
           (int.parse(CartServices.cartProducts[i].price.split(".")[0]) *
               CartServices.cartProducts[i].productCount);
-      productPrices = productPrices +
-          int.parse(CartServices.cartProducts[i].price.split(".")[0])
-              .toString() +
-          ";";
+      productPrices = productPrices + int.parse(CartServices.cartProducts[i].price.split(".")[0]).toString() + ";";
     }
 
     Map orderData = {
       "payment_method_id": "1",
-      "delivery_method_id": DeliveryMethodServices
-          .deliveryMethodsList[(DeliveryMethodView.selectedDeliveryIndex)].id
-          .toString(),
-      "supported_city_id": delivery_supported_City_id,
-      "address_id":
-          LoadingScreenServices.userAddress[DeliverToView.selectedIndex].id,
+      "delivery_method_id":
+          DeliveryMethodServices.deliveryMethodsList[(DeliveryMethodView.selectedDeliveryIndex)].id.toString(),
+      "supported_city_id": deliverySupportedCityId,
+      "address_id": LoadingScreenServices.userAddress[DeliverToView.selectedIndex].id,
       "product_ids": productIds.substring(0, productIds.length - 1),
       "quantities": quantities.substring(0, quantities.length - 1),
       "purchase_prices": purchasePrices.toString(),
@@ -56,8 +47,8 @@ class OrderServices {
     };
 
     try {
-      var response = await ApiProvider.sendRequest(
-          url: ORDER, method: httpMethods.post, body: jsonEncode(orderData));
+      var response =
+          await ApiProvider.sendRequest(url: ORDER, method: httpMethods.post, body: jsonEncode(orderData));
 
       if (response.data["reason"].toString().contains("discontinued")) {
         return new OrderResponse(success: false, reason: "discontinued");
@@ -79,38 +70,28 @@ class OrderServices {
 
     int purchasePrices = 0;
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productIds =
-          productIds + CartServices.cartProducts[i].id.toString() + ";";
-      quantities = quantities +
-          CartServices.cartProducts[i].productCount.toString() +
-          ";";
+      productIds = productIds + CartServices.cartProducts[i].id.toString() + ";";
+      quantities = quantities + CartServices.cartProducts[i].productCount.toString() + ";";
       purchasePrices = purchasePrices +
           (int.parse(CartServices.cartProducts[i].price.split(".")[0]) *
               CartServices.cartProducts[i].productCount);
-      productPrices = productPrices +
-          int.parse(CartServices.cartProducts[i].price.split(".")[0])
-              .toString() +
-          ";";
+      productPrices = productPrices + int.parse(CartServices.cartProducts[i].price.split(".")[0]).toString() + ";";
     }
 
     Map orderData = {
-      "delivery_method_id": DeliveryMethodServices
-          .deliveryMethodsList[(DeliveryMethodView.selectedDeliveryIndex)].id,
+      "delivery_method_id":
+          DeliveryMethodServices.deliveryMethodsList[(DeliveryMethodView.selectedDeliveryIndex)].id,
       "product_ids": productIds.substring(0, productIds.length - 1),
       "quantities": quantities.substring(0, quantities.length - 1),
       "purchase_prices": purchasePrices.toString(),
       "product_prices": productPrices.substring(0, productPrices.length - 1),
       "user_notes": "$userNotes"
     };
-    orderId = LoadingScreenServices
-        .myOrdersList[OrderServices.orderUnderUpdateIndex].id
-        .toString();
+    orderId = LoadingScreenServices.myOrdersList[OrderServices.orderUnderUpdateIndex].id.toString();
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: ORDER + "/$orderId",
-          method: httpMethods.put,
-          body: jsonEncode(orderData));
+          url: ORDER + "/$orderId", method: httpMethods.put, body: jsonEncode(orderData));
 
       if (response.data["reason"].toString().contains("discontinued")) {
         return new OrderResponse(success: false, reason: "discontinued");
@@ -142,8 +123,7 @@ class OrderServices {
     }
   }
 
-  static Future<bool> rateOrder(
-      {String orderId, String userFeedback, double rating}) async {
+  static Future<bool> rateOrder({String orderId, String userFeedback, double rating}) async {
     Map ratingOrderBody = {
       'user_feedback': userFeedback,
       "user_delivery_rating": rating.toString(),
@@ -172,23 +152,19 @@ class OrderServices {
         return "null";
       }
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-        orderUnderUpdateIndex = LoadingScreenServices.myOrdersList
-            .indexWhere((order) => order.id == int.parse(orderId));
+        orderUnderUpdateIndex =
+            LoadingScreenServices.myOrdersList.indexWhere((order) => order.id == int.parse(orderId));
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("orderUnderUpdateId", orderId);
 
-        DeliverToView.selectedIndex = LoadingScreenServices.userAddress
-            .indexWhere((address) =>
-                address.id ==
-                int.parse(LoadingScreenServices
-                    .myOrdersList[orderUnderUpdateIndex].addressId));
+        DeliverToView.selectedIndex = LoadingScreenServices.userAddress.indexWhere((address) =>
+            address.id == int.parse(LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].addressId));
 
         // Services.delivery_Price = int.parse(LoadingScreenServices
         //     .myOrdersList[orderUnderUpdateIndex].supportedCityCost
         //     .split(".")[0]);
 
-        updateOrderNote =
-            LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;
+        updateOrderNote = LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;
 
         return "true";
       } else {

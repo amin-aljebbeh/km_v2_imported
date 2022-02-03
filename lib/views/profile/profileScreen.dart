@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'; 
-import 'package:kammun_app/utils/tools.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -7,7 +6,6 @@ import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/loading/user_services.dart';
 
 import '../../Services.dart';
 
@@ -25,8 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       isLoading = true;
       isError = false;
     });
-    bool success = await Services.removeUserAddress(
-        LoadingScreenServices.userAddress[item].id.toString());
+    bool success = await Services.removeUserAddress(LoadingScreenServices.userAddress[item].id.toString());
 
     if (success) {
       setState(() {
@@ -34,8 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         isError = false;
         LoadingScreenServices.userAddress.removeAt(item);
 
-        if (DeliverToView.selectedIndex != null &&
-            DeliverToView.selectedIndex > 0) DeliverToView.selectedIndex--;
+        if (DeliverToView.selectedIndex != null && DeliverToView.selectedIndex > 0) DeliverToView.selectedIndex--;
       });
     } else {
       setState(() {
@@ -63,15 +59,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Colors.white,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
     );
 
     return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5),
-        child: showConfirmButtonWithGesture);
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5), child: showConfirmButtonWithGesture);
   }
 
   Widget _showEidte({int index}) {
@@ -93,20 +88,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.edit_address.toUpperCase(),
+            UtilsImporter().stringUtils.editAddress.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
     );
 
     return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5),
-        child: showConfirmButtonWithGesture);
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5), child: showConfirmButtonWithGesture);
   }
 
   @override
@@ -125,8 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   IconButton(
-                      icon: Icon(Icons.arrow_back_ios,
-                          color: Theme.of(context).primaryColorDark, size: 45),
+                      icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).primaryColorDark, size: 45),
                       onPressed: () {
                         Navigator.of(context).pop();
                       }),
@@ -135,10 +128,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        UtilsImporter().stringUtils.profile_info,
+                        UtilsImporter().stringUtils.profileInfo,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 30),
                       )),
                 ],
@@ -151,23 +144,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       "الرقم الشخصي",
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                           fontSize: 20),
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: 30.0, right: 0, bottom: 30, top: 10),
+                padding: const EdgeInsets.only(left: 30.0, right: 0, bottom: 30, top: 10),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
                     boxShadow: [
-                      BoxShadow(
-                          color: UtilsImporter().colorUtils.primarycolor,
-                          spreadRadius: 3),
+                      BoxShadow(color: UtilsImporter().colorUtils.primarycolor, spreadRadius: 3),
                     ],
                   ),
                   child: ListTile(
@@ -184,7 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Text(
                         LoadingScreenServices.userNumber,
                         style: TextStyle(
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 25,
                             color: Colors.black),
                       ),
@@ -208,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     UtilsImporter().stringUtils.addressTitle,
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                         fontSize: 20),
                   ),
                 ),
@@ -224,14 +214,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: <Widget>[
                           isError
                               ? Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10.0, right: 0, bottom: 0, top: 10),
+                                  padding: const EdgeInsets.only(left: 10.0, right: 0, bottom: 0, top: 10),
                                   child: AlertMessages(
-                                    text:
-                                        " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
+                                    text: " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
                                     messageType: "internetError",
-                                    headerText:
-                                        " حدث خطأ اثناء محاولة حذف العنوان ",
+                                    headerText: " حدث خطأ اثناء محاولة حذف العنوان ",
                                   ),
                                 )
                               : Container(),
@@ -240,19 +227,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   primary: false,
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
-                                  itemCount:
-                                      LoadingScreenServices.userAddress == null
-                                          ? 0
-                                          : LoadingScreenServices
-                                              .userAddress.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
+                                  itemCount: LoadingScreenServices.userAddress == null
+                                      ? 0
+                                      : LoadingScreenServices.userAddress.length,
+                                  itemBuilder: (BuildContext context, int index) {
                                     return new GestureDetector(
                                       behavior: HitTestBehavior.translucent,
                                       child: Container(
                                         child: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: 0, right: 0, top: 0),
+                                          padding: EdgeInsets.only(left: 0, right: 0, top: 0),
                                           child: cardBody(index, context),
                                         ),
                                       ),
@@ -260,44 +243,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   },
                                 )
                               : Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 30.0,
-                                      right: 0,
-                                      bottom: 30,
-                                      top: 10),
+                                  padding: const EdgeInsets.only(left: 30.0, right: 0, bottom: 30, top: 10),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Colors.white,
                                       boxShadow: [
-                                        BoxShadow(
-                                            color: UtilsImporter()
-                                                .colorUtils
-                                                .primarycolor,
-                                            spreadRadius: 3),
+                                        BoxShadow(color: UtilsImporter().colorUtils.primarycolor, spreadRadius: 3),
                                       ],
                                     ),
                                     child: ListTile(
                                       leading: Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
+                                        padding: const EdgeInsets.only(top: 8.0),
                                         child: Icon(
                                           FontAwesomeIcons.addressCard,
-                                          color: UtilsImporter()
-                                              .colorUtils
-                                              .kmColors,
+                                          color: UtilsImporter().colorUtils.kmColors,
                                           size: 30,
                                         ),
                                       ),
                                       title: Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 5.0),
+                                        padding: const EdgeInsets.only(top: 5.0),
                                         child: Text(
                                           "لايوجد عنوان مسجل ",
                                           style: TextStyle(
-                                              fontFamily: UtilsImporter()
-                                                  .stringUtils
-                                                  .HKGrotesk,
+                                              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                               fontSize: 25,
                                               color: Colors.black),
                                         ),
@@ -310,23 +279,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               alignment: Alignment.center,
                               child: FlatButton(
                                 padding: EdgeInsets.only(left: 30.0, top: 10.0),
-                                child: Text(
-                                    UtilsImporter().stringUtils.add_new_address,
+                                child: Text(UtilsImporter().stringUtils.addNewAddress,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greycolor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        color: UtilsImporter().colorUtils.greycolor,
+                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                         fontSize: 17)),
                                 onPressed: () {
                                   Navigator.push(
                                       context,
                                       new MaterialPageRoute(
-                                          builder: (context) =>
-                                              new AddAddressView(
+                                          builder: (context) => new AddAddressView(
                                                 isFromDeliveryScreen: false,
                                               )));
                                 },
@@ -347,8 +310,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         padding: EdgeInsets.only(left: 20, top: 10),
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                  Radius.circular(5.0) //         <--- border radius here
+              borderRadius: BorderRadius.all(Radius.circular(5.0) //         <--- border radius here
                   ),
               border: Border.all(
                 width: 2,
@@ -373,61 +335,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    LoadingScreenServices
-                                        .userAddress[index].supportedCityName,
+                                    LoadingScreenServices.userAddress[index].supportedCityName,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    LoadingScreenServices
-                                        .userAddress[index].street,
+                                    LoadingScreenServices.userAddress[index].street,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greycolor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        color: UtilsImporter().colorUtils.greycolor,
+                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    LoadingScreenServices
-                                        .userAddress[index].building,
+                                    LoadingScreenServices.userAddress[index].building,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greycolor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        color: UtilsImporter().colorUtils.greycolor,
+                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    LoadingScreenServices
-                                        .userAddress[index].description,
+                                    LoadingScreenServices.userAddress[index].description,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter()
-                                            .colorUtils
-                                            .greycolor,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        color: UtilsImporter().colorUtils.greycolor,
+                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),

@@ -36,8 +36,7 @@ class _SubCategoryState extends State<SubCategory> {
       List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
 
       for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
-        if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() ==
-            index.toString()) {
+        if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() == index.toString()) {
           subCategoryList.add(LoadingScreenServices.categoryList[i]);
         }
       }
@@ -80,9 +79,8 @@ class _SubCategoryState extends State<SubCategory> {
           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
           child: new Container(
             height: 40.0,
-            decoration: new BoxDecoration(
-                color: Colors.white,
-                borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            decoration:
+                new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
             child: TextField(
               controller: _searchController,
               onSubmitted: (_) {
@@ -102,7 +100,7 @@ class _SubCategoryState extends State<SubCategory> {
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                 ),
               ),
             ),
@@ -111,8 +109,7 @@ class _SubCategoryState extends State<SubCategory> {
       );
 
       return new Padding(
-          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-          child: searchButtonWithGesture);
+          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
     }
 
     return Scaffold(
@@ -127,8 +124,7 @@ class _SubCategoryState extends State<SubCategory> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/cart', (Route<dynamic> route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
               },
             ),
           ),
@@ -199,13 +195,12 @@ class _SubCategoryState extends State<SubCategory> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 75.0, right: 90.0),
                 child: Center(
-                  child: Text(
-                      "لا يوجد اصناف متوفرة حالياً، سيتم إضافة اصناف في المستقبل",
+                  child: Text("لا يوجد اصناف متوفرة حالياً، سيتم إضافة اصناف في المستقبل",
                       style: TextStyle(
                           color: UtilsImporter().colorUtils.primarycolor,
                           fontSize: ResponsiveFlutter.of(context).fontSize(3),
                           fontWeight: FontWeight.bold,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk)),
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
                 ),
               ),
             )
@@ -214,8 +209,7 @@ class _SubCategoryState extends State<SubCategory> {
                 primary: false,
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount:
-                    widget.subCategory == null ? 0 : widget.subCategory.length,
+                itemCount: widget.subCategory == null ? 0 : widget.subCategory.length,
                 itemBuilder: (BuildContext context, int index) {
                   var eachProduct = widget.subCategory[index];
 
@@ -242,15 +236,13 @@ class _SubCategoryState extends State<SubCategory> {
                                 ),
                                 child: FadeInImage(
                                   image: AdvImageCache(
-                                    LoadingScreenServices.imagePrefixUrl +
-                                        eachProduct.imageFileName,
+                                    LoadingScreenServices.imagePrefixUrl + eachProduct.imageFileName,
                                     useMemCache: true,
                                     diskCacheExpire: Duration(minutes: 1),
                                   ),
                                   width: MediaQuery.of(context).size.width,
                                   fadeInDuration: const Duration(seconds: 1),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.18,
+                                  height: MediaQuery.of(context).size.height * 0.18,
                                   // fadeInCurve: Curves.fastOutSlowIn,
                                   fadeInCurve: Curves.fastOutSlowIn,
 
@@ -272,8 +264,7 @@ class _SubCategoryState extends State<SubCategory> {
                                   // width: double.infinity,
                                   //  height: ,
                                   //constraints: BoxConstraints.expand(),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.18,
+                                  height: MediaQuery.of(context).size.height * 0.18,
                                   width: double.infinity,
                                   color: Colors.black54,
                                   padding: EdgeInsets.symmetric(
@@ -285,12 +276,9 @@ class _SubCategoryState extends State<SubCategory> {
                                     child: Text(
                                       eachProduct.name,
                                       style: TextStyle(
-                                        fontSize: ResponsiveFlutter.of(context)
-                                            .fontSize(4),
+                                        fontSize: ResponsiveFlutter.of(context).fontSize(4),
                                         color: Colors.white,
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                       ),
                                       softWrap: true,
                                       overflow: TextOverflow.fade,

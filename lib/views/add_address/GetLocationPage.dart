@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:location/location.dart';
 
 class GetLocationPage extends StatefulWidget {
@@ -64,6 +63,6 @@ class _GetLocationPageState extends State<GetLocationPage> {
         "longitude": currentLocation.longitude
       };
       return userLocation;
-    } else {}
+    }
   }
 }

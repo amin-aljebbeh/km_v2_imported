@@ -4,7 +4,6 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,9 +23,7 @@ class CartServices {
       prefs.setString('userCart', "");
     }
 
-    if (userCart != null &&
-        userCart.length > 2 &&
-        userCart.toString() != "null") {
+    if (userCart != null && userCart.length > 2 && userCart.toString() != "null") {
       cartProducts.clear();
 
       List<String> productsIds = userCart.split("@")[0].split(";");
@@ -42,14 +39,12 @@ class CartServices {
           // body: jsonEncode({"product_ids": "4571"}));
 
           body: jsonEncode({
-            "product_ids": userCart.split("@")[0].replaceRange(
-                userCart.split("@")[0].length - 1,
-                userCart.split("@")[0].length,
-                ""),
+            "product_ids": userCart
+                .split("@")[0]
+                .replaceRange(userCart.split("@")[0].length - 1, userCart.split("@")[0].length, ""),
           }));
 
-      if (response.statusCode == SUCCESS_CODE &&
-          response.data['success'] == true) {
+      if (response.statusCode == SUCCESS_CODE && response.data['success'] == true) {
         final product = syncCartFromJson(jsonEncode(response.data["data"]));
         for (int i = 0; i < product.length; i++) {
           if (product[i] != null) {

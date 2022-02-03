@@ -20,9 +20,8 @@ class _UsagePolicyState extends State<UsagePolicy> {
       },
       child: new Container(
         height: 60.0,
-        decoration: new BoxDecoration(
-            color: Colors.green,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+        decoration:
+            new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
             UtilsImporter().stringUtils.approveUsagePolicy.toUpperCase(),
@@ -30,7 +29,7 @@ class _UsagePolicyState extends State<UsagePolicy> {
                 color: Colors.white,
                 fontSize: 25.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -55,15 +54,14 @@ class _UsagePolicyState extends State<UsagePolicy> {
             children: [
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.fromLTRB(
-                    0, screenHeight * 0.02, 0, screenHeight * 0.02),
+                padding: EdgeInsets.fromLTRB(0, screenHeight * 0.02, 0, screenHeight * 0.02),
                 decoration: BoxDecoration(
                   border: Border(bottom: BorderSide()),
                 ),
                 child: Text('سياسة الإستخدام',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                         color: UtilsImporter().colorUtils.primarycolor,
                         fontSize: 25)), //font color is diffrent
               ),
@@ -91,31 +89,29 @@ class _UsagePolicyState extends State<UsagePolicy> {
                           text: "تحتاج للموافقة على ",
                           style: TextStyle(
                             color: Colors.grey[900],
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         TextSpan(
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () => launch(
-                                'http://kammun.com/privacy-policy.html',
-                                enableJavaScript: false),
+                            ..onTap =
+                                () => launch('http://kammun.com/privacy-policy.html', enableJavaScript: false),
                           text: " سياسة الإستخدام ",
                           style: TextStyle(
                             color: Colors.blue[800],
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,
                           ),
                         ),
                         TextSpan(
-                          text:
-                              "الخاصة بتطبيق كمّون حتى تتمكن من إستعمال التطبيق",
+                          text: "الخاصة بتطبيق كمّون حتى تتمكن من إستعمال التطبيق",
                           style: TextStyle(
                             color: Colors.grey[900],
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                           ),
@@ -136,12 +132,11 @@ class _UsagePolicyState extends State<UsagePolicy> {
                     text: TextSpan(
                       children: <TextSpan>[
                         TextSpan(
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => Navigator.of(context).pop(),
+                          recognizer: TapGestureRecognizer()..onTap = () => Navigator.of(context).pop(),
                           text: "غير موافق",
                           style: TextStyle(
                             color: Colors.red[800],
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,

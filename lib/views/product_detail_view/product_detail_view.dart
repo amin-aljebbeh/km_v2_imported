@@ -2,9 +2,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
@@ -19,8 +17,7 @@ class ProductDetailView extends StatefulWidget {
   ProductData products;
   bool isFromFavoraiteScreen;
 
-  ProductDetailView(
-      {this.heroIndex, this.products, @required this.isFromFavoraiteScreen});
+  ProductDetailView({this.heroIndex, this.products, @required this.isFromFavoraiteScreen});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,8 +25,7 @@ class ProductDetailView extends StatefulWidget {
   }
 }
 
-class ProductDetailViewState extends State<ProductDetailView>
-    with SingleTickerProviderStateMixin {
+class ProductDetailViewState extends State<ProductDetailView> with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation _animation;
   bool done = false;
@@ -37,7 +33,7 @@ class ProductDetailViewState extends State<ProductDetailView>
   final _controller = ScrollController(initialScrollOffset: 0.0);
   final _height = 100.0;
 
-  int no_of_orders = 1;
+  int noOfOrders = 1;
   int price = 0;
   bool productOnFavoraites = false;
 
@@ -96,9 +92,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                   iconSize: 35,
                   icon: const Icon(Icons.home),
                   tooltip: 'Back to Store Page',
-                  onPressed: () => Navigator.of(context)
-                      .pushNamedAndRemoveUntil(
-                          '/home', (Route<dynamic> route) => false),
+                  onPressed: () =>
+                      Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false),
                 ),
                 actions: <Widget>[
                   IconButton(
@@ -121,9 +116,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                       ? AutoSizeText(
                           widget.products.name,
                           maxLines: 1,
-                          style: TextStyle(
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk),
+                          style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                         )
                       : Container(),
                 ),
@@ -141,11 +134,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 child: widget.products.images.length > 0
                                     ? Image.network(
                                         LoadingScreenServices.imagePrefixUrl +
-                                            widget.products.images[0]
-                                                .imageFileName,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                2,
+                                            widget.products.images[0].imageFileName,
+                                        width: MediaQuery.of(context).size.width / 2,
                                         height: 120,
                                         fit: BoxFit.contain,
                                       )
@@ -160,10 +150,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
                                   child: Image.network(
-                                    LoadingScreenServices.imagePrefixUrl +
-                                        widget.products.images[0].imageFileName,
-                                    width:
-                                        MediaQuery.of(context).size.width / 2,
+                                    LoadingScreenServices.imagePrefixUrl + widget.products.images[0].imageFileName,
+                                    width: MediaQuery.of(context).size.width / 2,
                                     height: 120,
                                     fit: BoxFit.contain,
                                   ),
@@ -184,9 +172,8 @@ class ProductDetailViewState extends State<ProductDetailView>
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20.0),
-                        topLeft: Radius.circular(20.0))),
+                    borderRadius:
+                        BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0))),
                 child: ListView(
                   shrinkWrap: true,
                   //    mainAxisAlignment: MainAxisAlignment.start,
@@ -197,7 +184,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: Colors.black,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 22,
                           )),
                     ),
@@ -211,25 +198,19 @@ class ProductDetailViewState extends State<ProductDetailView>
                             Text("الكمية",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  color: UtilsImporter().colorUtils.primarycolor,
+                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                   fontSize: 20.0,
                                 )),
                             SizedBox(height: 10),
                             Text(
                               widget.products.unit.toString() != "null"
-                                  ? widget.products.quantity.toString() +
-                                      " " +
-                                      widget.products.unit.toString()
+                                  ? widget.products.quantity.toString() + " " + widget.products.unit.toString()
                                   : widget.products.quantity.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color:
-                                      UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  color: UtilsImporter().colorUtils.primarycolor,
+                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                   fontSize: 20),
                             ),
                           ],
@@ -241,8 +222,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: UtilsImporter().colorUtils.greycolor,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk,
+                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                   fontSize: 20.0,
                                 )),
                             SizedBox(height: 10),
@@ -250,10 +230,8 @@ class ProductDetailViewState extends State<ProductDetailView>
                                 "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.products.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color:
-                                        UtilsImporter().colorUtils.primarycolor,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk,
+                                    color: UtilsImporter().colorUtils.primarycolor,
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                     fontSize: 20)),
                           ],
                         ),
@@ -268,7 +246,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: UtilsImporter().colorUtils.greycolor,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 20.0,
                           ),
                         ),
@@ -280,7 +258,7 @@ class ProductDetailViewState extends State<ProductDetailView>
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                           fontSize: 20),
                     ),
                     SizedBox(height: 10),
@@ -289,13 +267,12 @@ class ProductDetailViewState extends State<ProductDetailView>
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0),
+                                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                                 child: InkWell(
                                   onTap: () {
                                     setState(() {
-                                      if (no_of_orders > 1) {
-                                        no_of_orders = no_of_orders - 1;
+                                      if (noOfOrders > 1) {
+                                        noOfOrders = noOfOrders - 1;
                                       }
                                     });
                                   },
@@ -308,22 +285,19 @@ class ProductDetailViewState extends State<ProductDetailView>
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
-                                child: Text(no_of_orders.toString(),
+                                child: Text(noOfOrders.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         color: Colors.grey[700],
-                                        fontFamily: UtilsImporter()
-                                            .stringUtils
-                                            .HKGrotesk,
+                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                         fontSize: 30)),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8.0),
+                                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                                 child: InkWell(
                                   onTap: () {
                                     setState(() {
-                                      no_of_orders = no_of_orders + 1;
+                                      noOfOrders = noOfOrders + 1;
                                     });
                                   },
                                   child: Image.asset(
@@ -339,28 +313,19 @@ class ProductDetailViewState extends State<ProductDetailView>
                             margin: const EdgeInsets.all(10.0),
                             padding: const EdgeInsets.all(3.0),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                        10.0) //                 <--- border radius here
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(10.0) //                 <--- border radius here
                                     ),
-                                border: Border.all(
-                                    color:
-                                        UtilsImporter().colorUtils.primarycolor,
-                                    width: 4)),
+                                border: Border.all(color: UtilsImporter().colorUtils.primarycolor, width: 4)),
                             child: Center(
                                 child: Text(
                               "المنتج نفذ من المستودعات",
                               style: TextStyle(
-                                  fontSize: 25,
-                                  fontFamily:
-                                      UtilsImporter().stringUtils.HKGrotesk),
+                                  fontSize: 25, fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                             )),
                           ),
-                    int.parse(widget.products.isActive) != 0
-                        ? SizedBox(height: 30)
-                        : Container(),
-                    int.parse(widget.products.isActive) != 0
-                        ? _showAddToOrderButton(context)
-                        : Container(),
+                    int.parse(widget.products.isActive) != 0 ? SizedBox(height: 30) : Container(),
+                    int.parse(widget.products.isActive) != 0 ? _showAddToOrderButton(context) : Container(),
                     Builder(builder: (context) => _showAddToFavorait(context)),
                   ],
                 ),
@@ -377,10 +342,10 @@ class ProductDetailViewState extends State<ProductDetailView>
       onTap: () async {
         String products_Id = "";
         String products_quantity = "";
-        if (LoadingScreen.user_token.length > 5) {
+        if (LoadingScreen.userToken.length > 5) {
           Navigator.of(context).pop(true);
 
-          widget.products.productCount = no_of_orders;
+          widget.products.productCount = noOfOrders;
 
           CartServices.addProductToCart(widget.products);
 
@@ -395,7 +360,7 @@ class ProductDetailViewState extends State<ProductDetailView>
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
             ),
 
             boxShadows: [
@@ -417,8 +382,7 @@ class ProductDetailViewState extends State<ProductDetailView>
           SharedPreferences prefs = await SharedPreferences.getInstance();
           for (int i = 0; i < CartServices.cartProducts.length; i++) {
             products_Id += CartServices.cartProducts[i].id.toString() + ";";
-            products_quantity +=
-                CartServices.cartProducts[i].productCount.toString() + ";";
+            products_quantity += CartServices.cartProducts[i].productCount.toString() + ";";
           }
           // products_Id += widget.products.id.toString();
           // products_quantity += widget.products.quantity.toString();
@@ -432,16 +396,15 @@ class ProductDetailViewState extends State<ProductDetailView>
       child: new Container(
         height: 50.0,
         decoration: new BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: Theme.of(context).primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            'الإضافة لسلة المشتريات  ( ${UtilsImporter().stringUtils.oCcy.format(no_of_orders * int.parse(widget.products.price.toString().split(".")[0]))})',
+            'الإضافة لسلة المشتريات  ( ${UtilsImporter().stringUtils.oCcy.format(noOfOrders * int.parse(widget.products.price.toString().split(".")[0]))})',
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -456,8 +419,7 @@ class ProductDetailViewState extends State<ProductDetailView>
     final GestureDetector addAddToOrderButtonWithGesture = new GestureDetector(
       onTap: () {
         _addToFavoraitBtnTapped(ctx);
-        if (LoadingScreenServices.userFavoriteProducts
-            .any((productId) => productId.id == widget.products.id)) {
+        if (LoadingScreenServices.userFavoriteProducts.any((productId) => productId.id == widget.products.id)) {
           Flushbar(
             backgroundColor: Colors.red[900],
             messageText: Text(
@@ -465,7 +427,7 @@ class ProductDetailViewState extends State<ProductDetailView>
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
             ),
             boxShadows: [
               BoxShadow(
@@ -490,7 +452,7 @@ class ProductDetailViewState extends State<ProductDetailView>
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
             ),
             boxShadows: [
               BoxShadow(
@@ -511,9 +473,7 @@ class ProductDetailViewState extends State<ProductDetailView>
       },
       child: Container(
         height: 50.0,
-        decoration: BoxDecoration(
-            color: Colors.red[800],
-            borderRadius: BorderRadius.all(Radius.circular(6.0))),
+        decoration: BoxDecoration(color: Colors.red[800], borderRadius: BorderRadius.all(Radius.circular(6.0))),
         child: Center(
           child: Text(
             LoadingScreenServices.userFavoriteProducts
@@ -528,15 +488,14 @@ class ProductDetailViewState extends State<ProductDetailView>
                 color: Colors.white,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
     );
 
     return Padding(
-        padding:
-            EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0, bottom: 20.0),
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0, bottom: 20.0),
         child: addAddToOrderButtonWithGesture);
   }
 
@@ -544,7 +503,7 @@ class ProductDetailViewState extends State<ProductDetailView>
     // Scaffold.of(context).showSnackBar(SnackBar(
     //   content: Text("Item Addes"),
     // ));
-    if (LoadingScreen.user_token.length > 5) {
+    if (LoadingScreen.userToken.length > 5) {
       LoadingScreenServices.userFavoriteProducts
                   .where(
                     (productId) => productId.id == widget.products.id,
@@ -554,8 +513,7 @@ class ProductDetailViewState extends State<ProductDetailView>
           ? _addFavoraite(context, widget.products)
           : _removeFavoraite();
       if (widget.isFromFavoraiteScreen) {
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            '/favoraites', (Route<dynamic> route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil('/favoraites', (Route<dynamic> route) => false);
       } else {
         Navigator.of(context).pop();
       }
@@ -573,8 +531,7 @@ class ProductDetailViewState extends State<ProductDetailView>
 
   void _removeFavoraite() {
     for (int i = 0; i < LoadingScreenServices.userFavoriteProducts.length; i++)
-      if (LoadingScreenServices.userFavoriteProducts[i].id ==
-          widget.products.id)
+      if (LoadingScreenServices.userFavoriteProducts[i].id == widget.products.id)
         LoadingScreenServices.userFavoriteProducts.removeAt(i);
 
     Services.removeFromFavorites(widget.products.id.toString());

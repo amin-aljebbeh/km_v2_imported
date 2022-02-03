@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'; 
-import 'package:kammun_app/utils/tools.dart';
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/kammun_button.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
@@ -58,7 +57,7 @@ class InternetError extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -69,16 +68,14 @@ class InternetError extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 15,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: KammunButton(
-                  text: "إعادة المحاولة",
-                  onPress: () => KammunRestart.restartApp(context)),
+              child: KammunButton(text: "إعادة المحاولة", onPress: () => KammunRestart.restartApp(context)),
             ),
           ],
         ),

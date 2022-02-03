@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'; 
-import 'package:kammun_app/utils/tools.dart';
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
@@ -29,11 +28,10 @@ class ServerUpdate extends StatelessWidget {
                       color: Colors.black,
                       fontSize: 25.0,
                       fontWeight: FontWeight.w500,
-                      fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                      fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8.0, bottom: 10, left: 30, right: 15),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 10, left: 30, right: 15),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -44,15 +42,13 @@ class ServerUpdate extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 18,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                 ),
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: _showRestartButton(context)),
+                Padding(padding: const EdgeInsets.all(8.0), child: _showRestartButton(context)),
               ],
             ),
           ),
@@ -79,13 +75,11 @@ Widget _showRestartButton(context) {
               color: Colors.white,
               fontSize: 20.0,
               fontWeight: FontWeight.w500,
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
         ),
       ),
     ),
   );
 
-  return Padding(
-      padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-      child: loginButtonWithGesture);
+  return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
 }

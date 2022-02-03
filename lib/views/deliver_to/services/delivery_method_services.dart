@@ -4,11 +4,9 @@ import 'package:kammun_app/core/api/api_URLs.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/delivery_method_model.dart';
-import 'package:kammun_app/utils/tools.dart';
 
 class DeliveryMethodServices {
-  static List<DeliveryMethodData> deliveryMethodsList =
-      new List<DeliveryMethodData>();
+  static List<DeliveryMethodData> deliveryMethodsList = new List<DeliveryMethodData>();
 
   static Future getUserDeliveryMethod({String addressId}) async {
     var response = await ApiProvider.sendRequest(

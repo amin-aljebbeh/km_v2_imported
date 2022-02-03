@@ -1,18 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
-// import 'package:sms_autofill/sms_autofill.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 
 import '../../Services.dart';
 import 'login_view.dart';
-// import 'package:quiver/async.dart';
-
-// import 'Loader.dart';
 
 class CounterOtp extends StatefulWidget {
   static const routeName = '/otp-counter';
@@ -55,9 +50,7 @@ class _CounterOtpState extends State<CounterOtp> {
       }
 
       bool response = await Services.loginUser(
-          phoneNumber: LoginScreen.phoneNumber,
-          signCode: signature,
-          supportedCityId: LoginScreen.supportedCityId);
+          phoneNumber: LoginScreen.phoneNumber, signCode: signature, supportedCityId: LoginScreen.supportedCityId);
 
       if (response) {
         await SmsAutoFill().listenForCode;
@@ -136,8 +129,7 @@ class _CounterOtpState extends State<CounterOtp> {
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 17,
-                              fontFamily:
-                                  UtilsImporter().stringUtils.HKGrotesk),
+                              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                           softWrap: true,
                         ),
                       ),
@@ -145,8 +137,7 @@ class _CounterOtpState extends State<CounterOtp> {
                   ),
                   trailing: Container(
                     child: Text(
-                      "0$counterMin:" +
-                          "${counter < 10 ? "0" + "$counter" : "$counter"}",
+                      "0$counterMin:" + "${counter < 10 ? "0" + "$counter" : "$counter"}",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
@@ -188,8 +179,7 @@ class _CounterOtpState extends State<CounterOtp> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 17,
-                                    fontFamily:
-                                        UtilsImporter().stringUtils.HKGrotesk),
+                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
                                 softWrap: true,
                               ),
                             ),

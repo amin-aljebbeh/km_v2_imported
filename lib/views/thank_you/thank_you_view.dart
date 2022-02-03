@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart'; 
-import 'package:kammun_app/utils/tools.dart';
+import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 
@@ -15,8 +14,8 @@ class ThankYouView extends StatefulWidget {
 class ThankYouViewState extends State<ThankYouView> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) =>
-        _showDialog(title: 'ملاحظة على الطلب', body: widget.orderMessage));
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _showDialog(title: 'ملاحظة على الطلب', body: widget.orderMessage));
 
     super.initState();
   }
@@ -35,14 +34,14 @@ class ThankYouViewState extends State<ThankYouView> {
           title: new Text(
             "$title",
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
             ),
           ),
           content: new Text(
             "$body",
             // maxLines: 20,
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
             ),
           ),
           scrollable: true,
@@ -51,8 +50,7 @@ class ThankYouViewState extends State<ThankYouView> {
             new FlatButton(
               child: new Text(
                 "إغلاق",
-                style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -91,32 +89,27 @@ class ThankYouViewState extends State<ThankYouView> {
                         style: TextStyle(
                             color: UtilsImporter().colorUtils.primarycolor,
                             fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                             fontSize: 30),
                       ),
                       Padding(
-                          padding: EdgeInsets.only(
-                              left: 30, top: 10, right: 0, bottom: 10),
-                          child: Text(
-                              UtilsImporter().stringUtils.thankyoudescrip,
+                          padding: EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
+                          child: Text(UtilsImporter().stringUtils.thankYouDescribe,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: UtilsImporter().colorUtils.primarycolor,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 16.0,
                               ))),
                       Padding(
-                          padding: EdgeInsets.only(
-                              left: 30, top: 10, right: 0, bottom: 10),
+                          padding: EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
                           child: Text(widget.orderMessage.toString(),
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: UtilsImporter().colorUtils.kmColors,
-                                fontFamily:
-                                    UtilsImporter().stringUtils.HKGrotesk,
+                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                                 fontSize: 16.0,
                               ))),
                       SizedBox(height: 40),
@@ -127,35 +120,31 @@ class ThankYouViewState extends State<ThankYouView> {
   }
 
   Widget _showContinueShoppingButton() {
-    final GestureDetector showContinueShoppingButtonWithGesture =
-        new GestureDetector(
+    final GestureDetector showContinueShoppingButtonWithGesture = new GestureDetector(
       onTap: _showContinueShoppingBtnTapped,
       child: new Container(
         height: 50.0,
         decoration: new BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: Theme.of(context).primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.continue_shopping,
+            UtilsImporter().stringUtils.continueShopping,
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
     );
 
     return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showContinueShoppingButtonWithGesture);
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showContinueShoppingButtonWithGesture);
   }
 
   void _showContinueShoppingBtnTapped() {
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('/orders', (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil('/orders', (Route<dynamic> route) => false);
 
     // Navigator.push(
     //     context, new MaterialPageRoute(builder: (context) => new HomeView(2)));

@@ -1,7 +1,6 @@
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -23,12 +22,9 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
-    with TickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
   String currentText = "";
   final myController = TextEditingController();
-
-  ScrollController _scroll = new ScrollController();
 
   bool errorCode = false;
   bool loadingScreen = false;
@@ -67,8 +63,7 @@ class _LoginScreenState extends State<LoginScreen>
           signature = "";
         }
         bool response = await Services.loginUser(
-            phoneNumber:
-                LoginServices.replaceFarsiNumber(myController.text.toString()),
+            phoneNumber: LoginServices.replaceFarsiNumber(myController.text.toString()),
             signCode: signature,
             supportedCityId: "1");
 
@@ -76,14 +71,10 @@ class _LoginScreenState extends State<LoginScreen>
           await SmsAutoFill().listenForCode;
           setState(() {
             loadingScreen = false;
-            LoginScreen.phoneNumber =
-                LoginServices.replaceFarsiNumber(myController.text.toString());
+            LoginScreen.phoneNumber = LoginServices.replaceFarsiNumber(myController.text.toString());
           });
-          Navigator.of(context)
-              .pushReplacementNamed(OTPVerification.routeName, arguments: {
-            "phone":
-                LoginServices.replaceFarsiNumber(myController.text.toString())
-          });
+          Navigator.of(context).pushReplacementNamed(OTPVerification.routeName,
+              arguments: {"phone": LoginServices.replaceFarsiNumber(myController.text.toString())});
         } else {
           setState(() {
             loadingScreen = false;
@@ -102,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
-    Widget _ShowCountryInput() {
+    Widget _showCountryInput() {
       return Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
         child: TextField(
@@ -116,9 +107,7 @@ class _LoginScreenState extends State<LoginScreen>
 
           decoration: InputDecoration(
             labelText: "رقم الموبايل",
-            labelStyle: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                fontSize: 30),
+            labelStyle: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk, fontSize: 30),
             hintStyle: TextStyle(color: Colors.black45),
             border: OutlineInputBorder(
               borderSide: BorderSide(
@@ -176,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen>
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
             ),
           ),
         ),
@@ -187,9 +176,7 @@ class _LoginScreenState extends State<LoginScreen>
               padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
               child: Loader(),
             )
-          : Padding(
-              padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-              child: loginButtonWithGesture);
+          : Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
     }
 
     return Scaffold(
@@ -213,14 +200,8 @@ class _LoginScreenState extends State<LoginScreen>
                     borderRadius: BorderRadius.only(
                       // topLeft: Radius.circular(180),
                       // topRight: Radius.circular(180),
-                      bottomLeft: Radius.circular(
-                          MediaQuery.of(context).viewInsets.bottom != 0
-                              ? 0
-                              : 180),
-                      bottomRight: Radius.circular(
-                          MediaQuery.of(context).viewInsets.bottom != 0
-                              ? 0
-                              : 180),
+                      bottomLeft: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
+                      bottomRight: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
                     )),
               ),
             ),
@@ -252,15 +233,13 @@ class _LoginScreenState extends State<LoginScreen>
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.only(
-                      left: 20.0, right: 20, bottom: 0, top: 5),
+                  padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
                   //  color: Colors.white,
 
-                  child: _ShowCountryInput(),
+                  child: _showCountryInput(),
                 ),
                 Container(
-                  padding: const EdgeInsets.only(
-                      left: 20.0, right: 20, bottom: 20, top: 5),
+                  padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 20, top: 5),
                   //  color: Colors.white,
 
                   child: _showSubmit(),

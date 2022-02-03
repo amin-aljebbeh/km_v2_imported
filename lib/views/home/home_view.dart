@@ -1,6 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/favoraites/favoraites.dart';
@@ -14,10 +13,7 @@ class HomeView extends StatefulWidget {
   final bool isFromUpdateOrder;
   dynamic notificationValue;
 
-  HomeView(
-      {this.routeIndex,
-      this.isFromUpdateOrder = false,
-      this.notificationValue});
+  HomeView({this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue});
 
   @override
   State<StatefulWidget> createState() {
@@ -36,12 +32,10 @@ class HomeViewState extends State<HomeView> {
   @override
   void initState() {
     widget.notificationValue != null
-        ? WidgetsBinding.instance
-            .addPostFrameCallback((_) => _showNotificationDialog(ctx: context))
+        ? WidgetsBinding.instance.addPostFrameCallback((_) => _showNotificationDialog(ctx: context))
         : {};
 
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _initializeNotificaiton(ctx: context));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _initializeNotificaiton(ctx: context));
     super.initState();
   }
 
@@ -53,8 +47,7 @@ class HomeViewState extends State<HomeView> {
       onMessage: (Map<String, dynamic> message) async {
         final notification = message['notification'];
 
-        if (message['data']['route_name'] != null)
-          Navigator.pushNamed(context, message['data']['route_name']);
+        if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
 
         _showDialog(notification['title'], notification['body']);
 
@@ -67,8 +60,7 @@ class HomeViewState extends State<HomeView> {
       onLaunch: (Map<String, dynamic> message) async {
         final notification = message['data'];
 
-        if (message['data']['route_name'] != null)
-          Navigator.pushNamed(context, message['data']['route_name']);
+        if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
 
         if (LoadingScreenServices.showOnLucnhNotification)
           _showDialog(notification['title'], notification['body']);
@@ -80,14 +72,13 @@ class HomeViewState extends State<HomeView> {
         // Navigator.push(
         //     context, new MaterialPageRoute(builder: (context) => HomeView(2)));
 
-        if (message['data']['route_name'] != null)
-          Navigator.pushNamed(context, message['data']['route_name']);
+        if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
 
         _showDialog(notification['title'], notification['body']);
       },
     );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging
+        .requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
     getoken();
   }
 
@@ -99,8 +90,7 @@ class HomeViewState extends State<HomeView> {
     } else {
       firebaseToken = prefs.get("firebase_token");
     }
-    if (LoadingScreenServices.userOriginal.data.firebaseToken !=
-        firebaseToken) {
+    if (LoadingScreenServices.userOriginal.data.firebaseToken != firebaseToken) {
       LoadingScreenServices().updateFirebaseToken(firebaseToken);
     }
   }
@@ -114,14 +104,14 @@ class HomeViewState extends State<HomeView> {
           title: new Text(
             "$title",
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
             ),
           ),
           content: new Text(
             "$body",
             // maxLines: 20,
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
             ),
           ),
           scrollable: true,
@@ -130,8 +120,7 @@ class HomeViewState extends State<HomeView> {
             new FlatButton(
               child: new Text(
                 "إغلاق",
-                style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -155,14 +144,14 @@ class HomeViewState extends State<HomeView> {
           title: new Text(
             "$title",
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
             ),
           ),
           content: new Text(
             "$body",
             // maxLines: 20,
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
             ),
           ),
           scrollable: true,
@@ -171,8 +160,7 @@ class HomeViewState extends State<HomeView> {
             new FlatButton(
               child: new Text(
                 "إغلاق",
-                style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+                style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -208,12 +196,13 @@ class HomeViewState extends State<HomeView> {
                 color: Color.fromARGB(255, 210, 178, 2),
               ),
               icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
+              // ignore: deprecated_member_use
               title: Text(
                 UtilsImporter().stringUtils.store,
                 style: TextStyle(
                     color: Color.fromARGB(255, 53, 99, 124),
                     fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                     fontSize: 15),
               )),
           BottomNavigationBarItem(
@@ -222,14 +211,14 @@ class HomeViewState extends State<HomeView> {
                 // color: Theme.of(context).primaryColor,
                 color: Color.fromARGB(255, 210, 178, 2),
               ),
-              icon: Icon(Icons.shopping_cart,
-                  color: Color.fromARGB(255, 53, 99, 124)),
+              icon: Icon(Icons.shopping_cart, color: Color.fromARGB(255, 53, 99, 124)),
+              // ignore: deprecated_member_use
               title: Text(
                 UtilsImporter().stringUtils.cart,
                 style: TextStyle(
                     color: Color.fromARGB(255, 53, 99, 124),
                     fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                     fontSize: 15),
               )),
           BottomNavigationBarItem(
@@ -238,14 +227,14 @@ class HomeViewState extends State<HomeView> {
                 //color: Theme.of(context).primaryColor,
                 color: Color.fromARGB(255, 210, 178, 2),
               ),
-              icon:
-                  Icon(Icons.reorder, color: Color.fromARGB(255, 53, 99, 124)),
+              icon: Icon(Icons.reorder, color: Color.fromARGB(255, 53, 99, 124)),
+              // ignore: deprecated_member_use
               title: Text(
                 UtilsImporter().stringUtils.orders,
                 style: TextStyle(
                     color: Color.fromARGB(255, 53, 99, 124),
                     fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                     fontSize: 15),
               )),
           BottomNavigationBarItem(
@@ -258,12 +247,13 @@ class HomeViewState extends State<HomeView> {
                 Icons.favorite,
                 color: Color.fromARGB(255, 53, 99, 124),
               ),
+              // ignore: deprecated_member_use
               title: Text(
                 UtilsImporter().stringUtils.profile,
                 style: TextStyle(
                     color: Color.fromARGB(255, 53, 99, 124),
                     fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                     fontSize: 15),
               )),
         ],

@@ -17,8 +17,7 @@ class StoreViewCategory extends StatefulWidget {
 class StoreViewCategoryState extends State<StoreViewCategory> {
   double _crossAxisSpacing = 8, _mainAxisSpacing = 12, _aspectRatio = 2;
   int _crossAxisCount = 2;
-  static List<CategoryOriginalData> categoryListHome =
-      List<CategoryOriginalData>();
+  static List<CategoryOriginalData> categoryListHome = List<CategoryOriginalData>();
 
   @override
   void initState() {
@@ -67,7 +66,7 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
                 onTap: () => _onTileClicked(eachCategory.id.toString()),
                 child: ShopByCategory(
                   img: eachCategory.imageFileName,
-                  category_name: eachCategory.name,
+                  categoryName: eachCategory.name,
                   index: index,
                 ),
               );
@@ -87,8 +86,7 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
     List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
 
     for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
-      if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() ==
-          index.toString()) {
+      if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() == index.toString()) {
         subCategoryList.add(LoadingScreenServices.categoryList[i]);
       }
     }
@@ -118,15 +116,10 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
 
 class ShopByCategory extends StatefulWidget {
   final String img;
-  final String category_name;
+  final String categoryName;
   final int index;
 
-  ShopByCategory(
-      {Key,
-      key,
-      @required this.img,
-      @required this.category_name,
-      @required this.index})
+  ShopByCategory({Key, key, @required this.img, @required this.categoryName, @required this.index})
       : super(key: key);
 
   @override
@@ -193,12 +186,12 @@ class ShopByCategoryState extends State<ShopByCategory> {
                   child: Hero(
                     tag: widget.index,
                     child: Text(
-                      widget.category_name,
+                      widget.categoryName,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: ResponsiveFlutter.of(context).fontSize(3),
                         fontWeight: FontWeight.bold,
-                        fontFamily: UtilsImporter().stringUtils.HKGrotesk,
+                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
                       ),
                       textAlign: TextAlign.center,
                     ),
