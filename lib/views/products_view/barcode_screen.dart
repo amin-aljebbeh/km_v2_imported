@@ -12,7 +12,9 @@ class BarCodeScreen extends StatefulWidget {
   final int productId;
   final BarcodeRequestType requestType;
 
-  const BarCodeScreen({Key key, @required this.productId, @required this.requestType}) : super(key: key);
+  const BarCodeScreen(
+      {Key key, @required this.productId, @required this.requestType})
+      : super(key: key);
 
   @override
   _BarCodeScreenState createState() => _BarCodeScreenState();
@@ -36,58 +38,62 @@ class _BarCodeScreenState extends State<BarCodeScreen> {
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          child: Expanded(
-            child: QrCamera(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      height: 1,
-                    ),
-                    KammunButton(
-                      height: 50,
-                      color: barcode != null ? ColorUtils.primaryColor : ColorUtils.searchGreyColor,
-                      onTap: () async {
-                        if (barcode != null) {
-                          switch (widget.requestType) {
-                            case BarcodeRequestType.add:
-                              bool result = await ProductsServices.setBarcodeToProduct(
-                                  bareCode: int.parse(barcode), productId: widget.productId);
-                              Services.resultFlushBar(context: context, result: result);
-                              break;
-                            case BarcodeRequestType.search:
-                              Navigator.of(context).pop();
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new ProductsView(
-                                    barcode: barcode,
-                                    categoryId: "0",
-                                  ),
+          child: QrCamera(
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 1,
+                  ),
+                  KammunButton(
+                    height: 50,
+                    color: barcode != null
+                        ? ColorUtils.primaryColor
+                        : ColorUtils.searchGreyColor,
+                    onTap: () async {
+                      if (barcode != null) {
+                        switch (widget.requestType) {
+                          case BarcodeRequestType.add:
+                            bool result =
+                                await ProductsServices.setBarcodeToProduct(
+                                    bareCode: int.parse(barcode),
+                                    productId: widget.productId);
+                            Services.resultFlushBar(
+                                context: context, result: result);
+                            break;
+                          case BarcodeRequestType.search:
+                            Navigator.of(context).pop();
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                builder: (context) => new ProductsView(
+                                  barcode: barcode,
+                                  categoryId: "0",
                                 ),
-                              );
-                              break;
-                          }
+                              ),
+                            );
+                            break;
                         }
-                      },
-                      text: 'إرسال الكود',
-                    ),
-                  ],
-                ),
+                      }
+                    },
+                    text: 'إرسال الكود',
+                  ),
+                ],
               ),
-              onError: (context, error) => Text(
-                error.toString(),
-                style: TextStyle(color: Colors.red),
-              ),
-              qrCodeCallback: (code) {
-                Toast.show("تم التقاط كود جديد", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                setState(() {
-                  barcode = code;
-                });
-              },
             ),
+            onError: (context, error) => Text(
+              error.toString(),
+              style: TextStyle(color: Colors.red),
+            ),
+            qrCodeCallback: (code) {
+              Toast.show("تم التقاط كود جديد", context,
+                  duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+              setState(() {
+                barcode = code;
+              });
+            },
           ),
         ),
       ),
