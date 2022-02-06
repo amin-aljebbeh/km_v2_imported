@@ -142,9 +142,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                           Wrap(
                             children: [
                               Text(
-                                widget.productData.quantity + " " + widget.productData.unit == null
-                                    ? ''
-                                    : widget.productData.unit,
+                                widget.productData.quantity +
+                                    " " +
+                                    (widget.productData.unit == null ? '' : widget.productData.unit),
                                 style: darkBold,
                               ),
                             ],

@@ -6,10 +6,9 @@ import 'widgets_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class AddImageWidget extends StatefulWidget {
-  final bool hasImage;
   final Function onSubmit;
 
-  AddImageWidget({Key key, @required this.onSubmit, @required this.hasImage}) : super(key: key);
+  AddImageWidget({Key key, @required this.onSubmit}) : super(key: key);
 
   @override
   _AddImageWidgetState createState() => _AddImageWidgetState();
@@ -92,7 +91,7 @@ class _AddImageWidgetState extends State<AddImageWidget> {
 
   Future getImage(ImageSource imageSource) async {
     final pickedFile =
-        await picker.getImage(source: imageSource, imageQuality: 100, maxHeight: 600, maxWidth: 500);
+        await picker.getImage(source: imageSource, imageQuality: 25, maxHeight: 1500, maxWidth: 1500);
 
     setState(() {
       if (pickedFile != null) {

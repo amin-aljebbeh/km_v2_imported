@@ -12,7 +12,6 @@ import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:kammun_app/views/shop_by_category/shop_by_category_view.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
@@ -441,7 +440,9 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 productData: widget.product,
                                 textHint: price,
                                 increasePercentage: widget.product.increasePercentage,
-                                priceFactor: double.parse(widget.product.priceFactor),
+                                priceFactor: widget.product.priceFactor != null
+                                    ? double.parse(widget.product.priceFactor)
+                                    : 1,
                                 initialText: price,
                                 onSavePressed: (newValue) {
                                   setState(() {
@@ -705,7 +706,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                 productId: widget.product.id,
                                               ),
                                             AddImageWidget(
-                                              hasImage: false,
                                               onSubmit: (image) async {
                                                 bool result = await ProductsServices.setImageToProducts(
                                                     productId: widget.product.id, image: image);

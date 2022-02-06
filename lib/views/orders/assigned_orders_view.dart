@@ -222,6 +222,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             children: <Widget>[
                               OrdersViewCard(
                                 orderData: orderDataList[index],
+                                orderType: OrderTypes.myOrder,
                               ),
                               if (!['5', '6', '7'].contains(orderDataList[index].orderStatusId))
                                 KammunButton(

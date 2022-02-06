@@ -84,6 +84,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 6),
                             Text(
@@ -106,12 +107,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           ],
                         ),
                         if (Services.isProductsController())
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: BarcodeIcon(
-                              requestType: BarcodeRequestType.add,
-                              productId: int.parse(widget.productId),
-                            ),
+                          BarcodeIcon(
+                            requestType: BarcodeRequestType.add,
+                            productId: int.parse(widget.productId),
                           ),
                       ],
                     ),

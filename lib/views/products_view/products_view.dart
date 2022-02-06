@@ -6,6 +6,7 @@ import 'package:kammun_app/core/api/api_importer.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/funny_images.dart';
+import 'package:kammun_app/views/Wedgit/app_bar_kammun_image.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
@@ -152,8 +153,7 @@ class ProductsViewState extends State<ProductsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: widget.queryString == null &&
-              (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
+      floatingActionButton: (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
           ? FloatingActionButton(
               backgroundColor: ColorUtils.kmColors2,
               onPressed: () {
@@ -182,7 +182,7 @@ class ProductsViewState extends State<ProductsView> {
             child: Column(
               children: <Widget>[
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
@@ -198,26 +198,27 @@ class ProductsViewState extends State<ProductsView> {
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Transform.scale(
-                        scale: 2,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/home',
-                              (Route<dynamic> route) => false,
-                            );
-                          },
-                          child: Image.asset(
-                            "assets/logobw.png",
-                            width: 150,
-                            height: 50,
-                          ),
-                        ),
-                      ),
-                    ),
+                    AppBarKammunImage(),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 5.0),
+                    //   child: Transform.scale(
+                    //     scale: 2,
+                    //     child: InkWell(
+                    //       onTap: () {
+                    //         Navigator.pushNamedAndRemoveUntil(
+                    //           context,
+                    //           '/home',
+                    //           (Route<dynamic> route) => false,
+                    //         );
+                    //       },
+                    //       child: Image.asset(
+                    //         "assets/logobw.png",
+                    //         width: 150,
+                    //         height: 50,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: InkWell(

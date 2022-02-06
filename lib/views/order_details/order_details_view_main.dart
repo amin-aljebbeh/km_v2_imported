@@ -409,6 +409,49 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                             },
                                           ),
                                           KammunButton(
+                                            onLongPress: () {
+                                              List<DialogButton> decisionButton = [
+                                                DialogButton(
+                                                  text: 'نعم',
+                                                  onTap: () async {
+                                                    int changeStatus = 0;
+                                                    Navigator.of(context).pop();
+
+                                                    setState(() {
+                                                      isLoading = true;
+                                                      errorAlert = false;
+                                                    });
+                                                    changeStatus = 7;
+
+                                                    bool x = await OrderServices.changeOrderStatus(
+                                                        widget.order.id.toString(), changeStatus);
+
+                                                    if (x) {
+                                                      setState(() {
+                                                        widget.order.orderStatusId = changeStatus.toString();
+                                                        isLoading = false;
+                                                      });
+                                                    } else {
+                                                      setState(() {
+                                                        isLoading = false;
+                                                        errorAlert = true;
+                                                      });
+                                                    }
+                                                  },
+                                                ),
+                                                DialogButton(
+                                                  text: StringUtils.no,
+                                                  onTap: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ];
+                                              showMyDialog(
+                                                  title: "رفض الطلب",
+                                                  text: "هل أنت متأكد انك تريد رفض الطلب ؟",
+                                                  dialogButtons: decisionButton,
+                                                  context: context);
+                                            },
                                             text: "إلغاء الطلب",
                                             width: MediaQuery.of(context).size.width * 0.4,
                                             color: Colors.red,
@@ -443,7 +486,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                                   },
                                                 ),
                                                 DialogButton(
-                                                  text: 'لا',
+                                                  text: StringUtils.no,
                                                   onTap: () {
                                                     Navigator.of(context).pop();
                                                   },

@@ -103,6 +103,7 @@ class OrdersOriginalData {
     this.orderAccountingRows,
     this.shopperProfit,
     this.kammunProfit,
+    this.userFeedback,
   });
 
   int id;
@@ -120,6 +121,7 @@ class OrdersOriginalData {
   dynamic userPriceRating;
   dynamic userComment;
   String total;
+  String userFeedback;
   DateTime createdAt;
   OrderAddress address;
   UserData userData;
@@ -149,7 +151,8 @@ class OrdersOriginalData {
         addressId: json["address_id"].toString(),
         userId: json["user_id"].toString(),
         couponId: json["coupon_id"].toString(),
-        userDeliveryRating: json["user_delivery_rating"] == null ? null : json["user_delivery_rating"].toString(),
+        userDeliveryRating:
+            json["user_delivery_rating"] == null ? 'null' : json["user_delivery_rating"].toString(),
         userPriceRating: json["user_price_rating"].toString(),
         userComment: json["user_feedback"].toString(),
         total: json["total"].toString(),
@@ -169,6 +172,7 @@ class OrdersOriginalData {
         orderAccountingRows: new List<OrderAccountingRow>(),
         shopperProfit: 0,
         kammunProfit: 0,
+        userFeedback: json['user_feedback'] != null ? json['user_feedback'] : 'null',
       );
 
   Map<String, dynamic> toJson() => {

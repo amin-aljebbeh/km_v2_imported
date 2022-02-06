@@ -76,7 +76,6 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                             text: "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
                             dialogButtons: decisionButtons,
                             context: context);
-                        // _showDialog();
                       } else {
                         widget.onCheckbox(widget.index);
                       }

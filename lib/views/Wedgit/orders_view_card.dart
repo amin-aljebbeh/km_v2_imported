@@ -11,9 +11,11 @@ import 'package:intl/intl.dart';
 // ignore: must_be_immutable
 class OrdersViewCard extends StatefulWidget {
   final OrdersOriginalData orderData;
+  final OrderTypes orderType;
 
   OrdersViewCard({
     @required this.orderData,
+    @required this.orderType,
   });
 
   @override
@@ -38,17 +40,42 @@ class OrdersViewCardState extends State<OrdersViewCard> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.orderData.orderStatusId == '2') orderStatus = "تم قبول الطلب ✅";
-    if (widget.orderData.orderStatusId == '3') orderStatus = "تم تجهيز الطلب 😎";
-    if (widget.orderData.orderStatusId == '4') orderStatus = "تم إرسال الطلب مع كابتن التوصيل";
-    if (widget.orderData.underUpdate == '1') orderStatus = "الطلب معلق حتى يأكد الزبون التعديل";
+    switch (widget.orderData.orderStatusId) {
+      case '2':
+        orderStatus = "تم قبول الطلب ✅";
+        break;
+      case '3':
+        orderStatus = "تم تجهيز الطلب 😎";
+        break;
+      case '4':
+        orderStatus = "تم إرسال الطلب مع كابتن التوصيل";
+        break;
+      case '5':
+        orderStatus = "تم توصيل الطلب بنجاح";
+        break;
+      case '6':
+        orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
+        break;
+      case '7':
+        orderStatus = "😔 لم نستطع تأمين الطلب 😔";
+        break;
+    }
+    switch (widget.orderData.underUpdate) {
+      case '1':
+        orderStatus = "الطلب معلق حتى يأكد الزبون التعديل";
+        break;
+      case '2':
+        orderStatus = "الطلب معلق حتى تقوم بتأكيد التعديل";
+        break;
+    }
 
-    if (widget.orderData.underUpdate == '2') orderStatus = "الطلب معلق حتى تقوم بتأكيد التعديل";
-
-    if (widget.orderData.orderStatusId == '5') orderStatus = "تم توصيل الطلب بنجاح";
-    if (widget.orderData.orderStatusId == '6') orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
-    if (widget.orderData.orderStatusId == '7') orderStatus = "😔 لم نستطع تأمين الطلب 😔";
-
+    Color color = widget.orderData.userData.orderCount <= 3 && !widget.orderData.userData.orderCount.isNegative
+        ? ColorUtils.kmColors2
+        : widget.orderData.deliveryMethodId == '2'
+            ? Colors.red
+            : widget.orderData.deliveryMethodId == '3'
+                ? Colors.green
+                : Colors.transparent;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -61,17 +88,13 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   int.parse(widget.orderData.supportedCityCost.toString().split(".")[0]) -
                   int.parse(widget.orderData.deliveryCost.split(".")[0]),
               total: widget.orderData.total.toString(),
-              orderType: OrderTypes.orders,
+              orderType: widget.orderType,
             ),
           ),
         );
       },
       child: Container(
-        decoration: int.parse(widget.orderData.deliveryMethodId) == 2
-            ? BoxDecoration(border: Border.all(color: Colors.red, width: 5))
-            : int.parse(widget.orderData.deliveryMethodId) == 3
-                ? BoxDecoration(border: Border.all(color: Colors.green, width: 5))
-                : BoxDecoration(border: Border.all(color: Colors.transparent, width: 5)),
+        decoration: BoxDecoration(border: Border.all(color: color, width: 5)),
         child: Padding(
           padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
           child: Column(
@@ -115,7 +138,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  if (Services.isOperationManager() && widget.orderData.userDeliveryRating != null)
+                  if (Services.isOperationManager() &&
+                      (widget.orderData.userDeliveryRating != 'null' || widget.orderData.userFeedback != 'null'))
                     IconButton(
                       icon: Icon(
                         Icons.star,
@@ -126,7 +150,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         showMyDialog(
                           title: StringUtils.ratingOrder,
                           context: context,
-                          text: widget.orderData.userDeliveryRating,
+                          text: widget.orderData.userDeliveryRating != 'null'
+                              ? widget.orderData.userDeliveryRating + '\n'
+                              : '' +
+                                  (widget.orderData.userFeedback != 'null'
+                                      ? widget.orderData.userFeedback + '\n'
+                                      : ''),
                           dialogButtons: [
                             DialogButton(
                               text: StringUtils.close,

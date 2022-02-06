@@ -479,17 +479,7 @@ class StoreViewState extends State<StoreView> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Transform.scale(
-                        scale: 2,
-                        child: Image.asset(
-                          "assets/logobw.png",
-                          width: 150,
-                          height: 50,
-                        ),
-                      ),
-                    ),
+                    AppBarKammunImage(),
                     Services.isShopper()
                         ? Switch(
                             activeColor: Colors.white,

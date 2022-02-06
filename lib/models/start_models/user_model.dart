@@ -58,6 +58,7 @@ class UserData {
     this.warehouseId,
     this.supportedCityId,
     this.coupon,
+    this.orderCount,
   });
 
   int id;
@@ -74,6 +75,7 @@ class UserData {
   dynamic supportedCityId;
 
   dynamic coupon;
+  int orderCount;
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         id: json["id"] == null ? null : json["id"],
@@ -88,6 +90,7 @@ class UserData {
         warehouseId: json["warehouse_id"].toString(),
         supportedCityId: json["supported_city_id"].toString(),
         coupon: json["coupon"] == null ? null : json['coupon'],
+        orderCount: json['order_count'] != null ? json['order_count'] : -1,
       );
 
   Map<String, dynamic> toJson() => {

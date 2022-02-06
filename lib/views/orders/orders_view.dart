@@ -259,6 +259,7 @@ class OrdersViewState extends State<OrdersView> {
                             children: <Widget>[
                               OrdersViewCard(
                                 orderData: orderDataList[index],
+                                orderType: OrderTypes.allOrder,
                               ),
                               if (Services.isAdmin() || Services.isOperationManager())
                                 KSearchableDropdown(

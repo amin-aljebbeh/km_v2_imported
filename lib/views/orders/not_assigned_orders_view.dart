@@ -202,6 +202,7 @@ class _NotAssignedOrdersViewState extends State<NotAssignedOrdersView> {
                             children: <Widget>[
                               OrdersViewCard(
                                 orderData: orderDataList[index],
+                                orderType: OrderTypes.orders,
                               ),
                               if (Services.isDelivery() || Services.isShopper())
                                 KammunButton(

@@ -19,6 +19,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   bool selected;
   bool loading;
   bool error;
+  int biggerThan;
   int page;
   int filter;
   String searchFilter;
@@ -27,6 +28,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   @override
   void initState() {
     super.initState();
+    biggerThan = 1;
     empty = false;
     selected = false;
     page = 1;
@@ -40,8 +42,8 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   }
 
   getProducts() async {
-    if (filter == 0 && int.parse(valueController.text) <= 14) {
-      Toast.show("يرجى إدخال عدد أيام أكبر من 14", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+    if (filter == 0 && int.parse(valueController.text) <= 5) {
+      Toast.show("يرجى إدخال عدد أيام أكبر من 5", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
       return;
     }
     setState(() {
@@ -49,8 +51,8 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
       loading = true;
       if (productsList != null) productsList.clear();
     });
-    var products =
-        await InventoryServices.getFilteredProducts(page: page, filterIndex: filter, number: valueController.text);
+    var products = await InventoryServices.getFilteredProducts(
+        page: page, filterIndex: filter, number: valueController.text, biggerThan: biggerThan);
     setState(() {
       loading = false;
       if (products != null) {
@@ -67,44 +69,12 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Container(
-          padding: const EdgeInsets.only(bottom: 10.0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                  ),
-              border: Border.all(color: ColorUtils.primaryColor, width: 2)),
-          child: TextField(
-            style: TextStyle(color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
-            decoration: InputDecoration(
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: ColorUtils.kmColors),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: ColorUtils.kmColors),
-              ),
-              border: UnderlineInputBorder(
-                borderSide: BorderSide(color: ColorUtils.kmColors),
-              ),
-            ),
-            cursorColor: ColorUtils.kmColors,
-            controller: searchController,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: IconButton(
-              onPressed: () {
-                if (valueController.text.isNotEmpty && selected) getProducts();
-              },
-              icon: Icon(
-                Icons.refresh,
-                size: 35,
-              ),
-            ),
-          )
-        ],
+      appBar: InventorySearchTextField(
+        onReload: () {
+          if (valueController.text.isNotEmpty && selected) getProducts();
+        },
+        controller: searchController,
+        context: context,
       ),
       body: SafeArea(
         child: ListView(
@@ -147,6 +117,24 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                     }
                   },
                 ),
+                IconButton(
+                  icon: Icon(
+                    biggerThan == 1 ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                    size: 40,
+                    color: ColorUtils.primaryColor,
+                  ),
+                  onPressed: () {
+                    if (valueController.text.isNotEmpty && !empty && selected) {
+                      setState(() {
+                        if (biggerThan == 1)
+                          biggerThan = 0;
+                        else
+                          biggerThan = 1;
+                      });
+                      getProducts();
+                    }
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: EntryField(
@@ -156,7 +144,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                         getProducts();
                       }
                     },
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.2,
                     canBeEmpty: false,
                     isAddress: false,
                     isPhoneNumber: false,

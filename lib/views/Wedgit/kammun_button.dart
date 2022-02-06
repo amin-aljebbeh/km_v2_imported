@@ -8,6 +8,7 @@ class KammunButton extends StatelessWidget {
   final double height;
   final Color color;
   final Function onTap;
+  final Function onLongPress;
   final Widget child;
 
   const KammunButton({
@@ -18,6 +19,7 @@ class KammunButton extends StatelessWidget {
     @required this.onTap,
     this.height,
     this.child,
+    this.onLongPress,
   }) : super(key: key);
 
   @override
@@ -25,13 +27,12 @@ class KammunButton extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
       child: GestureDetector(
+        onLongPress: onLongPress,
         onTap: onTap,
         child: new Container(
           height: height != null ? height : 40,
           width: width,
-          decoration: new BoxDecoration(
-              color: color,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          decoration: new BoxDecoration(color: color, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: Center(
             child: child != null
                 ? child
