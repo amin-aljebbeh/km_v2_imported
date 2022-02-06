@@ -160,9 +160,9 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                               ),
                               SizedBox(height: 6),
                               Text(
-                                widget.productData.quantity + ' ' + widget.productData.unit != 'null'
-                                    ? widget.productData.unit
-                                    : '',
+                                widget.productData.quantity +
+                                    ' ' +
+                                    (widget.productData.unit != 'null' ? widget.productData.unit : ''),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,

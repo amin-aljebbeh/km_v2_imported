@@ -65,8 +65,13 @@ class InventoryServices {
     }
   }
 
-  static Future<List<ProductData>> getFilteredProducts({int page, int filterIndex, String number}) async {
-    Map<String, dynamic> params = {StringUtils.productFilterParams[filterIndex]: number, 'page': page};
+  static Future<List<ProductData>> getFilteredProducts(
+      {int page, int filterIndex, String number, int biggerThan}) async {
+    Map<String, dynamic> params = {
+      StringUtils.productFilterParams[filterIndex]: number,
+      'page': page,
+      'biggar_than': biggerThan
+    };
     var response = await ApiProvider.sendRequest(
         url: StringUtils.productFilterUrls[filterIndex], method: httpMethods.get, queryParameters: params);
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {

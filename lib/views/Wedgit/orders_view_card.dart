@@ -11,9 +11,11 @@ import 'package:intl/intl.dart';
 // ignore: must_be_immutable
 class OrdersViewCard extends StatefulWidget {
   final OrdersOriginalData orderData;
+  final OrderTypes orderType;
 
   OrdersViewCard({
     @required this.orderData,
+    @required this.orderType,
   });
 
   @override
@@ -86,7 +88,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   int.parse(widget.orderData.supportedCityCost.toString().split(".")[0]) -
                   int.parse(widget.orderData.deliveryCost.split(".")[0]),
               total: widget.orderData.total.toString(),
-              orderType: OrderTypes.orders,
+              orderType: widget.orderType,
             ),
           ),
         );
@@ -136,7 +138,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  if (Services.isOperationManager() && widget.orderData.userDeliveryRating != null)
+                  if (Services.isOperationManager() &&
+                      (widget.orderData.userDeliveryRating != 'null' || widget.orderData.userFeedback != 'null'))
                     IconButton(
                       icon: Icon(
                         Icons.star,
@@ -147,7 +150,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         showMyDialog(
                           title: StringUtils.ratingOrder,
                           context: context,
-                          text: widget.orderData.userDeliveryRating,
+                          text: widget.orderData.userDeliveryRating != 'null'
+                              ? widget.orderData.userDeliveryRating + '\n'
+                              : '' +
+                                  (widget.orderData.userFeedback != 'null'
+                                      ? widget.orderData.userFeedback + '\n'
+                                      : ''),
                           dialogButtons: [
                             DialogButton(
                               text: StringUtils.close,
