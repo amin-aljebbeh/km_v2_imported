@@ -36,12 +36,14 @@ class _BarCodeScreenState extends State<BarCodeScreen> {
         child: Container(
           height: MediaQuery.of(context).size.height,
           child: QrCamera(
+            child: Container(),
             onError: (context, error) => Text(
               error.toString(),
               style: TextStyle(color: Colors.red),
             ),
             qrCodeCallback: (code) {
               setState(() async {
+                Tools.logToConsole('message caaaaaaaaaaaaaaaaaaaaaaaallllll');
                 barcode = code;
                 if (barcode != null) {
                   switch (widget.requestType) {
