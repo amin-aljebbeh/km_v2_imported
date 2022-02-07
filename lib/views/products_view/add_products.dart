@@ -310,7 +310,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                         ProductEntryField(
                             controller: priceFactorController,
                             title: "معدل الضرب",
-                            fieldType: TextInputType.number,
+                            fieldType: TextInputType.text,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
                       ],
@@ -318,7 +318,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     ProductEntryField(
                         controller: descriptionController,
                         title: "الوصف",
-                        fieldType: TextInputType.name,
+                        fieldType: TextInputType.multiline,
                         hint: "زيت دوار الشمس الصافي @كلمات مفتاحية"),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

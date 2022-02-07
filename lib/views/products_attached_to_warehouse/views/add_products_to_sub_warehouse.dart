@@ -192,7 +192,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         ProductEntryField(
                             controller: priceFactorController,
                             title: StringUtils.priceFactor,
-                            fieldType: TextInputType.number,
+                            fieldType: TextInputType.text,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
                         SizedBox(

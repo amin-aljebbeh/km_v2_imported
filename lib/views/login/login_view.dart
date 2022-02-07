@@ -19,9 +19,10 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
   String currentText = "";
-  final myController = TextEditingController();
+  final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   bool errorCode = false;
@@ -37,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     setState(() {
       loadingScreen = true;
     });
-    if (myController.text.length == 0) {
+    if (_usernameController.text.length == 0) {
       setState(() {
         errorCode = true;
         loadingScreen = false;
@@ -52,9 +53,12 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         errorMessage = "يرجى إدخال كلمة السر";
       });
     } else {
-      bool response =
-          await LoginServices.loginAdmin(username: myController.text, password: _passwordController.text);
+      bool response = await LoginServices.loginAdmin(
+          username: _usernameController.text,
+          password: _passwordController.text);
       if (response) {
+        //dima
+        TextInput.finishAutofillContext();
         KammunRestart.restartApp(context);
       } else {
         setState(() {
@@ -70,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   Future fetchOtp() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
 
-    if (myController.text.length != 10) {
+    if (_usernameController.text.length != 10) {
       setState(() {
         errorCode = true;
         errorMessage = "يرجى إدخال رقم يتألف من عشرة خانات";
@@ -90,7 +94,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           signature = "no";
         }
         bool response = await Services.loginUser(
-            phoneNumber: LoginServices.replaceFarsiNumber(myController.text.toString()),
+            phoneNumber: LoginServices.replaceFarsiNumber(
+                _usernameController.text.toString()),
             signCode: signature,
             supportedCityId: "1");
 
@@ -98,10 +103,14 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           await SmsAutoFill().listenForCode;
           setState(() {
             loadingScreen = false;
-            LoginScreen.phoneNumber = LoginServices.replaceFarsiNumber(myController.text.toString());
+            LoginScreen.phoneNumber = LoginServices.replaceFarsiNumber(
+                _usernameController.text.toString());
           });
           Navigator.of(context).pushReplacementNamed(OTPVerification.routeName,
-              arguments: {"phone": LoginServices.replaceFarsiNumber(myController.text.toString())});
+              arguments: {
+                "phone": LoginServices.replaceFarsiNumber(
+                    _usernameController.text.toString())
+              });
         } else {
           setState(() {
             loadingScreen = false;
@@ -121,17 +130,21 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   Widget _showPasswordInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-      child: TextField(
+      child: TextFormField(
         textDirection: TextDirection.ltr,
         maxLines: 1,
         controller: _passwordController,
         keyboardType: TextInputType.text,
+        //dima
+        onEditingComplete: () => TextInput.finishAutofillContext(),
+        autofillHints: [AutofillHints.password],
         enableSuggestions: false,
         autocorrect: false,
         obscureText: true,
         decoration: InputDecoration(
           labelText: "كلمة المرور",
-          labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
+          labelStyle: TextStyle(
+              fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
@@ -150,10 +163,10 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     );
   }
 
-  Widget _showCountryInput() {
+  Widget _showUsernameInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-      child: TextField(
+      child: TextFormField(
         textDirection: TextDirection.ltr,
 
         // maxLengthEnforced: true,
@@ -161,12 +174,15 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
         // keyboardType: TextInputType.multiline,
         maxLines: 1,
-        controller: myController,
+        controller: _usernameController,
         keyboardType: TextInputType.text,
-
+        //dima
+        onEditingComplete: () => TextInput.finishAutofillContext(),
+        autofillHints: [AutofillHints.username],
         decoration: InputDecoration(
           labelText: "اسم المستخدم",
-          labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
+          labelStyle: TextStyle(
+              fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
@@ -202,8 +218,14 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     borderRadius: BorderRadius.only(
                       // topLeft: Radius.circular(180),
                       // topRight: Radius.circular(180),
-                      bottomLeft: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
-                      bottomRight: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
+                      bottomLeft: Radius.circular(
+                          MediaQuery.of(context).viewInsets.bottom != 0
+                              ? 0
+                              : 180),
+                      bottomRight: Radius.circular(
+                          MediaQuery.of(context).viewInsets.bottom != 0
+                              ? 0
+                              : 180),
                     )),
               ),
             ),
@@ -233,25 +255,37 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     ),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
-                  //  color: Colors.white,
+                //dima3
+                AutofillGroup(
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, bottom: 0, top: 5),
+                        //  color: Colors.white,
 
-                  child: _showCountryInput(),
+                        child: _showUsernameInput(),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, bottom: 0, top: 5),
+                        //  color: Colors.white,
+
+                        child: _showPasswordInput(),
+                        //dima3
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
-                  //  color: Colors.white,
-
-                  child: _showPasswordInput(),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 20, top: 5),
+                  padding: const EdgeInsets.only(
+                      left: 20.0, right: 20, bottom: 20, top: 5),
                   //  color: Colors.white,
 
                   child: loadingScreen
                       ? Padding(
-                          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+                          padding:
+                              EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
                           child: Loader(),
                         )
                       : KammunButton(

@@ -31,10 +31,16 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Can i get permission to pick image?</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>kammun want to access location to help delivery man</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>kammun want to access location to help delivery man</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Can i get permission to pick image?</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Can i get permission to pick image?</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -59,11 +65,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSCameraUsageDescription</key>
-	<string>Can i get permission to pick image?</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Can i get permission to pick image?</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Can i get permission to pick image?</string>
 </dict>
 </plist>

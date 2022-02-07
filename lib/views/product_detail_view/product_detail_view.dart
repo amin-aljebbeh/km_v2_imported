@@ -430,8 +430,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             children: [
                               SizedBox(height: 30),
                               UpdateProductInfoWidget(
-                                title: StringUtils.edit + ' ' + StringUtils.price + ' :',
-                                inputType: TextInputType.number,
+                                title: StringUtils.edit +
+                                    ' ' +
+                                    StringUtils.price +
+                                    ' :',
+                                inputType: TextInputType.text,
                                 bodyKey: "price",
                                 productId: widget.product.id,
                                 productData: widget.product,
@@ -463,7 +466,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               ),
                               UpdateProductInfoWidget(
                                 title: StringUtils.priceFactor + ' :',
-                                inputType: TextInputType.number,
+                                inputType: TextInputType.text,
                                 bodyKey: "price_factor",
                                 productId: widget.product.id,
                                 productData: widget.product,
