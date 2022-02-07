@@ -153,7 +153,9 @@ class ProductsViewState extends State<ProductsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
+      floatingActionButton: widget.queryString == null &&
+              widget.barcode == null &&
+              (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
           ? FloatingActionButton(
               backgroundColor: ColorUtils.kmColors2,
               onPressed: () {
@@ -199,26 +201,6 @@ class ProductsViewState extends State<ProductsView> {
                       ),
                     ),
                     AppBarKammunImage(),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(top: 5.0),
-                    //   child: Transform.scale(
-                    //     scale: 2,
-                    //     child: InkWell(
-                    //       onTap: () {
-                    //         Navigator.pushNamedAndRemoveUntil(
-                    //           context,
-                    //           '/home',
-                    //           (Route<dynamic> route) => false,
-                    //         );
-                    //       },
-                    //       child: Image.asset(
-                    //         "assets/logobw.png",
-                    //         width: 150,
-                    //         height: 50,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: InkWell(

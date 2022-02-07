@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/barcode_screen.dart';
+import 'package:kammun_app/views/products_view/services/products_services.dart';
+
+import '../../Services.dart';
 
 class BarcodeIcon extends StatelessWidget {
   final BarcodeRequestType requestType;
@@ -11,7 +14,7 @@ class BarcodeIcon extends StatelessWidget {
   BarcodeIcon({
     Key key,
     @required this.requestType,
-    @required this.productId,
+    this.productId,
     this.onPressed,
     this.color,
   }) : super(key: key);
@@ -32,6 +35,11 @@ class BarcodeIcon extends StatelessWidget {
             builder: (context) => BarCodeScreen(
               requestType: requestType,
               productId: productId,
+              onIgnore: (barcode) async {
+                bool result =
+                    await ProductsServices.setBarcodeToProduct(bareCode: int.parse(barcode), productId: productId);
+                Services.resultFlushBar(context: context, result: result);
+              },
             ),
           ),
         );

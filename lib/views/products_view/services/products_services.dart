@@ -72,19 +72,21 @@ class ProductsServices {
     }
   }
 
-  static Future<int> addNewProducts(
-      {String name,
-      String quantity,
-      String unit,
-      String description,
-      String categoryId,
-      String price,
-      String isActive,
-      String supplierCode,
-      String minThreshold,
-      String priceFactor,
-      bool autoActivation,
-      @required String subWarehouseId}) async {
+  static Future<int> addNewProducts({
+    String name,
+    String quantity,
+    String unit,
+    String description,
+    String categoryId,
+    String price,
+    String isActive,
+    String supplierCode,
+    String minThreshold,
+    String priceFactor,
+    bool autoActivation,
+    @required String subWarehouseId,
+    String barcode,
+  }) async {
     var productBody = {
       "name": name,
       "unit": unit,
@@ -92,6 +94,7 @@ class ProductsServices {
       "description": description,
       "category_ids": categoryId,
       "quantity": quantity,
+      'barcode': barcode
     };
 
     try {
@@ -170,6 +173,21 @@ class ProductsServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: SEARCH_PRODUCT_BY_BARCODE + bareCode,
+        method: httpMethods.get,
+      );
+      if (response.statusCode == SUCCESS_CODE) {
+        return syncCartFromJson(jsonEncode(response.data["data"]));
+      } else
+        return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<List<ProductData>> checkProductBarcode({@required String bareCode}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: CHECK_PRODUCT_BARCODE + bareCode,
         method: httpMethods.get,
       );
       if (response.statusCode == SUCCESS_CODE) {

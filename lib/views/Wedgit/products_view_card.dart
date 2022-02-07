@@ -107,9 +107,19 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           ],
                         ),
                         if (Services.isProductsController())
-                          BarcodeIcon(
-                            requestType: BarcodeRequestType.add,
-                            productId: int.parse(widget.productId),
+                          Row(
+                            children: [
+                              widget.productData.barcode == 'null'
+                                  ? Icon(
+                                      BareCodeIcon.exclamation,
+                                      size: 20,
+                                    )
+                                  : Container(),
+                              BarcodeIcon(
+                                requestType: BarcodeRequestType.addBarcode,
+                                productId: int.parse(widget.productId),
+                              ),
+                            ],
                           ),
                       ],
                     ),

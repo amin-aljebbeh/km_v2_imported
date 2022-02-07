@@ -4,6 +4,7 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
+import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import '../../../utils/utils_importer.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
@@ -22,8 +23,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
   bool isError = false;
 
   Future<bool> _addNewProduct() async {
-    Tools.logToConsole('message');
-    Tools.logToConsole(widget.productData.id);
     setState(() {
       isLoading = true;
       isError = false;
@@ -225,15 +224,25 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         text: StringUtils.save,
                         height: 50,
                         color: completeData() ? ColorUtils.kmColors : ColorUtils.searchGreyColor,
-                        onTap: () async {
+                        onTap: () {
                           if (completeData()) {
-                            bool result = await _addNewProduct();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BarCodeScreen(
+                                  requestType: BarcodeRequestType.attachProduct,
+                                  onIgnore: (barcode) async {
+                                    bool result = await _addNewProduct();
 
-                            if (result) {
-                              int count = 0;
-                              Navigator.of(context).popUntil((_) => count++ >= 1);
-                            }
-                            Services.resultFlushBar(context: context, result: result);
+                                    if (result) {
+                                      int count = 0;
+                                      Navigator.of(context).popUntil((_) => count++ >= 1);
+                                    }
+                                    Services.resultFlushBar(context: context, result: result);
+                                  },
+                                ),
+                              ),
+                            );
                           } else {
                             Toast.show("يرجى إدخال كافة البيانات", context,
                                 duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);

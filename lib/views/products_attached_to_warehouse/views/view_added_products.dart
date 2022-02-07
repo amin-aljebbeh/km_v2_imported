@@ -14,11 +14,8 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
   List<ProductData> productsList = List<ProductData>();
   bool isLoading = false;
   bool isError = false;
-  bool displayToActiveProducts = true;
   TextEditingController _controller = new TextEditingController();
   String filter;
-  int filterProducts;
-  int isActiveFilter;
 
   Future<bool> _loadData() async {
     productsList.clear();
@@ -58,9 +55,6 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
       super.initState();
     }
     _loadData();
-
-    filterProducts = 0;
-    isActiveFilter = 0;
 
     _controller.addListener(() {
       setState(() {

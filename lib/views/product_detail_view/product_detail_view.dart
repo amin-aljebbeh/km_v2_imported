@@ -699,7 +699,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             if (Services.isProductsController())
                                               BarcodeIcon(
                                                 color: ColorUtils.kmColors,
-                                                requestType: BarcodeRequestType.add,
+                                                requestType: BarcodeRequestType.addBarcode,
                                                 productId: widget.product.id,
                                               ),
                                             AddImageWidget(

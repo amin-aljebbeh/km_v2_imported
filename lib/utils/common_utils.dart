@@ -11,7 +11,7 @@ enum MyThemeKeys { LIGHT, DARK, DARKER }
 
 enum OrderTypes { myOrder, allOrder, orders }
 
-enum BarcodeRequestType { add, search }
+enum BarcodeRequestType { addBarcode, search, addProduct, attachProduct }
 
 enum ProductsViewTypes { search, category, barcode }
 

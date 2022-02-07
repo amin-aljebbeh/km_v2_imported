@@ -9,6 +9,7 @@ import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 import '../../Services.dart';
+import 'barcode_screen.dart';
 
 class AddProductsView extends StatefulWidget {
   final String categoryId;
@@ -79,24 +80,26 @@ class _AddProductsViewState extends State<AddProductsView> {
   bool isLoading = false;
   bool isError = false;
 
-  void _addNewProduct() async {
+  void _addNewProduct({String barcode = '', BuildContext context}) async {
     setState(() {
       isLoading = true;
       isError = false;
     });
     int productIds = await ProductsServices.addNewProducts(
-        subWarehouseId: _selectedSubWarehouseValue.toString(),
-        name: nameController.text,
-        quantity: quantityController.text,
-        unit: unitController.text,
-        price: priceController.text,
-        description: descriptionController.text,
-        supplierCode: supplierCodeController.text,
-        priceFactor: priceFactorController.text,
-        categoryId: widget.categoryId,
-        minThreshold: "0",
-        autoActivation: autoActivationController,
-        isActive: switchController ? "1" : "0");
+      subWarehouseId: _selectedSubWarehouseValue.toString(),
+      name: nameController.text,
+      quantity: quantityController.text,
+      unit: unitController.text,
+      price: priceController.text,
+      description: descriptionController.text,
+      supplierCode: supplierCodeController.text,
+      priceFactor: priceFactorController.text,
+      categoryId: widget.categoryId,
+      minThreshold: "0",
+      autoActivation: autoActivationController,
+      isActive: switchController ? "1" : "0",
+      barcode: barcode,
+    );
     Services.resultFlushBar(context: context, result: productIds != null && productIds != 0);
 
     if (productIds != null && productIds != 0) {
@@ -421,7 +424,17 @@ class _AddProductsViewState extends State<AddProductsView> {
                       color: toastList() == 0 ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,
                       onTap: () {
                         if (toastList() == 0) {
-                          _addNewProduct();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BarCodeScreen(
+                                requestType: BarcodeRequestType.addProduct,
+                                onIgnore: (barcode) {
+                                  _addNewProduct(barcode: barcode, context: context);
+                                },
+                              ),
+                            ),
+                          );
                         } else {
                           Toast.show(
                               "يرجى ادخال البيانات التالية:\n" +

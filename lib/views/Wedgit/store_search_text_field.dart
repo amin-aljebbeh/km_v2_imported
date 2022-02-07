@@ -41,7 +41,6 @@ class StoreSearchTextField extends StatelessWidget {
                     BarcodeIcon(
                       onPressed: onSubmit != null ? onSubmit : () {},
                       requestType: BarcodeRequestType.search,
-                      productId: 0,
                     ),
                     Icon(Icons.search),
                   ],
