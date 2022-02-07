@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/products_view/barcode_products.dart';
-import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 import 'products_view.dart';
 
