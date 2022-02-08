@@ -166,6 +166,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
             KammunButton(
               color: ColorUtils.primaryColor,
               onTap: () {
+                Navigator.pop(context);
                 widget.onIgnore(widget.barcode);
               },
               text: 'تجاهل',

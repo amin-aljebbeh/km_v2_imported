@@ -361,7 +361,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     String productsQuantity = "";
 
     for (int i = 0; i < orderProducts.length; i++) {
-      if (orderProducts[i].pivot.deletedAt == null) {
+      if (orderProducts[i].pivot.deletedAt == 'null') {
         ProductData product = new ProductData();
 
         product.id = orderProducts[i].id;

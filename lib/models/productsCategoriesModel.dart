@@ -191,7 +191,7 @@ class ProductData {
           : List<Warehouse>.from(json["warehouses"].map((x) => Warehouse.fromJson(x))),
       rate: json['rate'] != null ? json['rate'] : null,
       numberOfSales: json['number_of_sale'] != null ? json['number_of_sale'] : null,
-      barcode: json['barcode'] != null ? json['barcode'] : 'null',
+      barcode: json['barcode'] != null ? json['barcode'].toString() : 'null',
     );
     return productData;
   }

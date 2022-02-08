@@ -51,7 +51,8 @@ class _BarCodeScreenState extends State<BarCodeScreen> {
                           height: 50,
                           color: ColorUtils.primaryColor,
                           onTap: () {
-                            widget.onIgnore('');
+                            Navigator.of(context).pop();
+                            widget.onIgnore(null);
                           },
                           text: 'الإضافة بدون كود',
                         ),

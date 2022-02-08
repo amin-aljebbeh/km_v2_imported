@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
@@ -31,74 +30,39 @@ class OrderDetailViewMain extends StatefulWidget {
   }
 }
 
-class OrderDetailViewMainState extends State<OrderDetailViewMain> {
+class OrderDetailViewMainState extends State<OrderDetailViewMain>
+    with AutomaticKeepAliveClientMixin<OrderDetailViewMain> {
   static List<OrderProducts> productsAry;
-  static List<OrderProducts> deletedProductsAry;
-  static List<OrderProducts> notDeletedProductsAry;
-  static List<OrderProducts> finalProductsAry;
+  getArray() {
+    productsAry = List<OrderProducts>();
+    productsAry.addAll(widget.order.products);
+    productsAry.removeWhere((product) => product.pivot.deletedAt != 'null');
+
+    if (LoadingScreenServices.subWarehouses.length == 1) {
+      productsAry.sort((a, b) {
+        if (a.subWarehouseId > b.subWarehouseId) {
+          return -1;
+        } else if (a.subWarehouseId < b.subWarehouseId) {
+          return 1;
+        } else
+          return 0;
+      });
+    } else {
+      productsAry.sort((a, b) {
+        if (a.subWarehouseId > b.subWarehouseId) {
+          return 1;
+        } else if (a.subWarehouseId < b.subWarehouseId) {
+          return -1;
+        } else
+          return 0;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-
-    try {
-      setState(() {
-        productsAry = widget.order.products;
-
-        if (LoadingScreenServices.subWarehouses.length == 1) {
-          productsAry.sort((a, b) {
-            if (a.subWarehouseId > b.subWarehouseId) {
-              return -1;
-            } else if (a.subWarehouseId < b.subWarehouseId) {
-              return 1;
-            } else
-              return 0;
-          });
-        } else {
-          productsAry.sort((a, b) {
-            if (a.subWarehouseId > b.subWarehouseId) {
-              return 1;
-            } else if (a.subWarehouseId < b.subWarehouseId) {
-              return -1;
-            } else
-              return 0;
-          });
-        }
-      });
-      deletedProductsAry = List<OrderProducts>();
-      notDeletedProductsAry = List<OrderProducts>();
-      finalProductsAry = List<OrderProducts>();
-      deletedProductsAry = productsAry.where((product) => product.pivot.deletedAt != null).toList();
-      notDeletedProductsAry = productsAry.where((product) => product.pivot.deletedAt == null).toList();
-      if (notDeletedProductsAry.length != 0) finalProductsAry.addAll(notDeletedProductsAry);
-      if (deletedProductsAry.length != 0) finalProductsAry.addAll(deletedProductsAry);
-    } catch (e) {}
-  }
-
-  _refillProducts() {
-    setState(() {
-      productsAry = widget.order.products;
-
-      if (LoadingScreenServices.subWarehouses.length == 1) {
-        productsAry.sort((a, b) {
-          if (a.subWarehouseId > b.subWarehouseId) {
-            return -1;
-          } else if (a.subWarehouseId < b.subWarehouseId) {
-            return 1;
-          } else
-            return 0;
-        });
-      } else {
-        productsAry.sort((a, b) {
-          if (a.subWarehouseId > b.subWarehouseId) {
-            return 1;
-          } else if (a.subWarehouseId < b.subWarehouseId) {
-            return -1;
-          } else
-            return 0;
-        });
-      }
-    });
+    getArray();
   }
 
   bool isLoading = false;
@@ -106,6 +70,10 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    getArray();
+    Tools.logToConsole('not deleted');
+    Tools.logToConsole(productsAry.length);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
@@ -116,49 +84,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).primaryColorDark, size: 45),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: !Services.isSupplierManager()
-                              ? AutoSizeText(
-                                  widget.order.address.street.length > 37
-                                      ? widget.order.address.street.substring(0, 37)
-                                      : widget.order.address.street,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.clip,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  ),
-                                )
-                              : Text(
-                                  widget.order.id.toString().length >= 3
-                                      ? "#${widget.order.id.toString().substring(widget.order.id.toString().length - 3, widget.order.id.toString().length)}"
-                                      : '#${widget.order.id.toString()}',
-                                  style: profitStyle.copyWith(
-                                    color: Colors.purple,
-                                  ),
-                                ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.refresh, color: Theme.of(context).primaryColor, size: 30),
-                          onPressed: () {
-                            _refillProducts();
-                          },
-                        ),
-                      ],
-                    ),
                     errorAlert
                         ? AlertMessages(
                             text: "خطأ اثناء محاولة تغيير حالة الطلب",
@@ -174,12 +99,26 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                         shrinkWrap: true,
                         itemCount: productsAry == null ? 1 : productsAry.length,
                         itemBuilder: (BuildContext context, int index) {
-                          OrderProducts productDetail = finalProductsAry[index];
-                          if (index < notDeletedProductsAry.length) {
-                            return new GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () => {},
-                              child: OrderDetailViewMainCard(
+                          OrderProducts productDetail = productsAry[index];
+                          return Column(
+                            children: [
+                              if (newSubWarehouse(index))
+                                Column(
+                                  children: [
+                                    Divider(
+                                      thickness: 5,
+                                      color: ColorUtils.primaryColor,
+                                    ),
+                                    Text(
+                                      LoadingScreenServices.subWarehouses
+                                          .firstWhere(
+                                              (subWarehouse) => subWarehouse.id == productDetail.subWarehouseId)
+                                          .name,
+                                      style: warehouseStyle,
+                                    ),
+                                  ],
+                                ),
+                              OrderDetailViewMainCard(
                                 onCheckbox: (a) {
                                   setState(() {
                                     switch (widget.orderType) {
@@ -187,76 +126,29 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
                                         LoadingScreenServices.myOrdersList
                                             .firstWhere((order) => order.id == widget.order.id)
                                             .products
-                                            .removeWhere((product) => product.id == notDeletedProductsAry[a].id);
+                                            .removeWhere((product) => product.id == productDetail.id);
                                         break;
                                       case OrderTypes.allOrder:
                                         LoadingScreenServices.allOrdersList
                                             .firstWhere((order) => order.id == widget.order.id)
                                             .products
-                                            .removeWhere((product) => product.id == notDeletedProductsAry[a].id);
+                                            .removeWhere((product) => product.id == productDetail.id);
                                         break;
                                       case OrderTypes.orders:
                                         LoadingScreenServices.notAssignedOrdersList
                                             .firstWhere((order) => order.id == widget.order.id)
                                             .products
-                                            .removeWhere((product) => product.id == notDeletedProductsAry[a].id);
+                                            .removeWhere((product) => product.id == productDetail.id);
                                         break;
                                     }
-                                    notDeletedProductsAry.removeAt(a);
-                                    finalProductsAry.removeAt(index);
+                                    productsAry.removeAt(index);
                                   });
                                 },
                                 productData: productDetail,
                                 index: index,
                               ),
-                            );
-                          }
-                          if (Services.isAdmin())
-                            return new GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () => {},
-                              child: Stack(
-                                children: [
-                                  BlurredWidget(
-                                    child: OrderDetailViewMainCard(
-                                      onCheckbox: (a) {
-                                        if (Services.isShopper())
-                                          setState(() {
-                                            LoadingScreenServices.myOrdersList
-                                                .firstWhere((order) => order.id == widget.order.id)
-                                                .products
-                                                .removeWhere((product) => product.id == deletedProductsAry[a].id);
-                                            deletedProductsAry.removeAt(a);
-                                            finalProductsAry.removeAt(index);
-                                          });
-                                      },
-                                      productData: productDetail,
-                                      index: index - (deletedProductsAry.length + 1),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 138,
-                                      top: 127,
-                                    ),
-                                    child: SwitchProductStatusWidget(
-                                      isForSubWarehouse: true,
-                                      height: 20,
-                                      width: 70,
-                                      preState: productDetail.isActive,
-                                      subWarehouseId: productDetail.subWarehouseId,
-                                      productId: productDetail.pivot.productId,
-                                      onChange: (int active, bool result) {
-                                        setState(() {
-                                          if (result) productDetail.isActive = active;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          return Container();
+                            ],
+                          );
                         },
                       ),
                     ),
@@ -578,4 +470,12 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain> {
       ),
     );
   }
+
+  bool newSubWarehouse(int index) {
+    if (index == 0) return true;
+    return productsAry[index].subWarehouseId != productsAry[index - 1].subWarehouseId;
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }

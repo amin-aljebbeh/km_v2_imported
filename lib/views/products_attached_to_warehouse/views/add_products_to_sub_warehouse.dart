@@ -22,7 +22,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
   bool isLoading = false;
   bool isError = false;
 
-  Future<bool> _addNewProduct() async {
+  Future<bool> attachProduct(int barcode) async {
     setState(() {
       isLoading = true;
       isError = false;
@@ -39,6 +39,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       "increase_percentage": "0",
       "price_factor": priceFactorController.text != null ? priceFactorController.text : "1",
       "automatic_activation": "0",
+      'barcode': barcode,
     };
 
     bool response = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: body);
@@ -192,7 +193,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         ProductEntryField(
                             controller: priceFactorController,
                             title: StringUtils.priceFactor,
-                            fieldType: TextInputType.text,
+                            fieldType: TextInputType.number,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
                         SizedBox(
@@ -229,10 +230,15 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => BarCodeScreen(
+                                builder: (screenContext) => BarCodeScreen(
                                   requestType: BarcodeRequestType.attachProduct,
                                   onIgnore: (barcode) async {
-                                    bool result = await _addNewProduct();
+                                    int param;
+                                    if (barcode == null)
+                                      param = null;
+                                    else
+                                      param = int.parse(barcode);
+                                    bool result = await attachProduct(param);
 
                                     if (result) {
                                       int count = 0;

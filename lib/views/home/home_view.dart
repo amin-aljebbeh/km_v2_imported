@@ -51,7 +51,6 @@ class HomeViewState extends State<HomeView> {
                   text: widget.notificationValue['body'],
                   dialogButtons: decisionButtons,
                   context: context);
-              // _showNotificationDialog(ctx: context);
             },
           )
         : Tools.logToConsole('');

@@ -32,7 +32,7 @@ class BarcodeIcon extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BarCodeScreen(
+            builder: (screenContext) => BarCodeScreen(
               requestType: requestType,
               productId: productId,
               onIgnore: (barcode) async {

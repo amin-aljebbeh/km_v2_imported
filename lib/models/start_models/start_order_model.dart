@@ -224,7 +224,7 @@ class OrdersOriginalData {
         )
         .toList();
     for (int i = 0; i < products.length; i++)
-      if (products[i].pivot.deletedAt == null) {
+      if (products[i].pivot.deletedAt == 'null') {
         double netPrice = double.parse(products[i].pivot.purchasePrice) * int.parse(products[i].pivot.quantity);
         int increaseValue = products[i].pivot.increaseValue * int.parse(products[i].pivot.quantity);
         netPrice -= increaseValue;
