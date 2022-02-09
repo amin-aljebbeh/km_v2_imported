@@ -5,20 +5,15 @@ import 'package:dio/dio.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'core/api/api_URLs.dart';
-import 'core/api/api_provider.dart';
-import 'core/errors/error_types.dart';
+import 'core/core_importer.dart';
 import 'models/addAddressResponse.dart';
 import 'models/start_model.dart';
 
 class Services {
   static bool updateOption = false;
-  //static String imagePrefixUrl = "";
   static String prefixUrl = "http://kammun.com/lsapp/public/api/";
   static String googlePlayUrl = "";
   static String appStoreUrl = "";
-
-  // static int delivery_Price ;
 
   static Future<bool> addToFavorites(String productsId) async {
     var response = await ApiProvider.sendRequest(
@@ -49,14 +44,14 @@ class Services {
   static Future<bool> addNewAddress(String city, String street, String building, String floor, String description,
       String supportedCityId, double lat, double lon, String entrance) async {
     Map addressData = {
-      // 'city': city,
       'street': street,
       'building': building,
       'floor': floor,
       'description': description,
       "supported_city_id": supportedCityId,
       "latitude": lat,
-      "longitude": lon, "entrance": entrance,
+      "longitude": lon,
+      "entrance": entrance,
     };
     try {
       var response = await ApiProvider.sendRequest(
@@ -102,8 +97,6 @@ class Services {
           url: USER_ADDRESS + "/$addressId", method: httpMethods.put, body: jsonEncode(addressData));
 
       if (response.statusCode == SUCCESS_CODE) {
-        // final addNewAddress = addNewAddreFromJson(jsonEncode(response.data));
-        // userAddress[0].id = addNewAddress.addressId.id;
         return true;
       } else {
         return false;
@@ -140,15 +133,6 @@ class Services {
 
       if (response.statusCode == SUCCESS_CODE) {
         LoadingScreenServices.myOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
-
-        // LoadingScreenServices.myOrdersList.sort((a, b) {
-        //   if (a.id < b.id)
-        //     return 1;
-        //   else if (a.id > b.id)
-        //     return -1;
-        //   else
-        //     return 0;
-        // });
 
         return LoadingScreenServices.myOrdersList;
       } else {

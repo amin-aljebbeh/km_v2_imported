@@ -3,9 +3,7 @@ import 'dart:convert';
 
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -91,7 +89,6 @@ class LoadingScreenServices {
       for (int i = 0; i < supportedCitiesResponse.data.length; i++) {
         supportedCitiesListIntro.add(new DropdownMenuItem(
           child: ListTile(
-            //isThreeLine: true,
             leading: Icon(
               Icons.pin_drop,
               color: ColorUtils.kmColors,
@@ -122,14 +119,11 @@ class LoadingScreenServices {
     }
   }
 
-  Future<bool> checkIfUserloddedIn() async {
+  Future<bool> checkIfUserLoggedIn() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userToken = prefs.getString('userToken');
       String userSelectSupportedCity = prefs.getString('supportedCitySelected');
-
-      // prefs.remove('userToken');
-      // prefs.remove('supportedCitySelected');
 
       if (userToken != null) {
         LoadingScreen.userToken = "Bearer " + userToken;
@@ -154,9 +148,9 @@ class LoadingScreenServices {
   int finishedRequests = 0;
   int contractsLength = 0;
 
-  Future<bool> featchStartInformation() async {
+  Future<bool> fetchStartInformation() async {
     try {
-      bool userLoggedIn = await checkIfUserloddedIn();
+      bool userLoggedIn = await checkIfUserLoggedIn();
       if (userLoggedIn) {
         try {
           List responses;
@@ -170,7 +164,7 @@ class LoadingScreenServices {
           }
 
           if (responses[1] == null) {
-            featchStartInformation();
+            fetchStartInformation();
             return false;
           } else {
             if (responses[0] && responses[1]) {
@@ -194,7 +188,7 @@ class LoadingScreenServices {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String buildNumber = packageInfo.buildNumber;
     int lastSupported;
-    int currenVersion;
+    int currentVersion;
 
     var response = await ApiProvider.sendRequest(
       url: GET_START_REQUEST,
@@ -205,12 +199,6 @@ class LoadingScreenServices {
 
       // Get Company Information.
       companyInformation = startRequest.company.original.data[1];
-      // String oldBaseUrl = BaseUrl;
-      // BaseUrl = companyInformation.baseUrl;
-      // if (oldBaseUrl != BaseUrl) {
-      //   return null;
-      // }
-      // Get Image Url Prefix.
       imagePrefixUrl = startRequest.company.original.data[1].imageBaseUrl;
 
       // --------------------------------------------------------------------- //
@@ -222,12 +210,12 @@ class LoadingScreenServices {
 
       if (Platform.isIOS) {
         lastSupported = int.parse(startRequest.mobileAppConfigs.original.data[0].iosLastSupportedVersion);
-        currenVersion = int.parse(startRequest.mobileAppConfigs.original.data[0].iosCurrentVersion);
+        currentVersion = int.parse(startRequest.mobileAppConfigs.original.data[0].iosCurrentVersion);
 
         LoadingScreen.updateUrl = startRequest.mobileAppConfigs.original.data[0].appStoreUrl;
       } else {
         lastSupported = int.parse(startRequest.mobileAppConfigs.original.data[0].androidLastSupportedVersion);
-        currenVersion = int.parse(startRequest.mobileAppConfigs.original.data[0].androidCurrentVersion);
+        currentVersion = int.parse(startRequest.mobileAppConfigs.original.data[0].androidCurrentVersion);
         LoadingScreen.updateUrl = startRequest.mobileAppConfigs.original.data[0].googlePlayUrl;
       }
 
@@ -235,7 +223,7 @@ class LoadingScreenServices {
         serverMaintain = true;
       } else if (int.parse(buildNumber) < lastSupported) {
         updateRequired = true;
-      } else if (int.parse(buildNumber) < currenVersion) {
+      } else if (int.parse(buildNumber) < currentVersion) {
         updateOptional = true;
       }
 
@@ -249,7 +237,6 @@ class LoadingScreenServices {
           categoryList.add(category[i]);
         }
       }
-      //  categoryList.addAll(category);
 
       categoryList.sort((a, b) {
         if ((int.parse(a.warehouses[0].pivot.priority)) > (int.parse(b.warehouses[0].pivot.priority)))
@@ -273,18 +260,7 @@ class LoadingScreenServices {
             useMemCache: true,
             diskCacheExpire: Duration(seconds: 0),
           ),
-        )
-            // FadeInImage(
-            //   image:
-            //       CacheImage(LoadingScreenServices.imagePrefixUrl + "slide3.png"),
-            //   // width: MediaQuery.of(context).size.width,
-            //   fadeInDuration: const Duration(seconds: 1),
-            //   // fadeInCurve: Curves.fastOutSlowIn,
-            //   fadeInCurve: Curves.fastOutSlowIn,
-            //   placeholder: AssetImage("assets/kmlogoo.png"),
-            //   fit: BoxFit.cover,
-            // ),
-            );
+        ));
       } else {
         for (int i = 0; i < startRequest.banner.original.data.length; i++) {
           if (!startRequest.banner.original.data[i].expirationDate.isBefore(now)) {
@@ -297,14 +273,6 @@ class LoadingScreenServices {
                   useMemCache: true,
                   diskCacheExpire: Duration(seconds: 0),
                 ),
-                // image:   CacheImage(LoadingScreenServices.imagePrefixUrl +
-                //     startRequest.banner.original.data[i].imageFileName),
-                // // width: MediaQuery.of(context).size.width,
-                // fadeInDuration: const Duration(seconds: 1),
-                // // fadeInCurve: Curves.fastOutSlowIn,
-                // fadeInCurve: Curves.fastOutSlowIn,
-                // placeholder: AssetImage("assets/kmlogoo.png"),
-                // fit: BoxFit.cover,
               ),
             );
           }
@@ -344,12 +312,6 @@ class LoadingScreenServices {
               myOrdersList.indexWhere((order) => order.addressId == myOrdersList[i].addressId);
         }
       }
-
-      // -------------------------------------------------------------------- //
-      // Get Delivery Methods
-
-      // --------------------------------------------------------------------- //
-      // Get Supported Cities
 
       supportedCitiesList.clear();
       supportedCitiesListIntro.clear();

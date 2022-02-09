@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
@@ -53,9 +51,9 @@ class OrderServices {
       if (response.data["reason"].toString().contains("discontinued")) {
         return new OrderResponse(success: false, reason: "discontinued");
       } else {
-        var barsedJson = orderResponseFromJson(jsonEncode(response.data));
+        var parsedJson = orderResponseFromJson(jsonEncode(response.data));
 
-        return barsedJson;
+        return parsedJson;
       }
     } catch (e) {
       return null;
@@ -96,9 +94,9 @@ class OrderServices {
       if (response.data["reason"].toString().contains("discontinued")) {
         return new OrderResponse(success: false, reason: "discontinued");
       } else {
-        var barsedJson = orderResponseFromJson(jsonEncode(response.data));
+        var parsedJson = orderResponseFromJson(jsonEncode(response.data));
 
-        return barsedJson;
+        return parsedJson;
       }
     } catch (e) {
       return null;
@@ -159,10 +157,6 @@ class OrderServices {
 
         DeliverToView.selectedIndex = LoadingScreenServices.userAddress.indexWhere((address) =>
             address.id == int.parse(LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].addressId));
-
-        // Services.delivery_Price = int.parse(LoadingScreenServices
-        //     .myOrdersList[orderUnderUpdateIndex].supportedCityCost
-        //     .split(".")[0]);
 
         updateOrderNote = LoadingScreenServices.myOrdersList[orderUnderUpdateIndex].userNotes;
 

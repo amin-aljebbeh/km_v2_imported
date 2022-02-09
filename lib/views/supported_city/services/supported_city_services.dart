@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/core/core_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SupportedCityServices {

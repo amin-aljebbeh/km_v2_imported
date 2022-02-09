@@ -34,10 +34,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   _getClientInfo() async {
-    bool userLoggedIn = await LoadingScreenServices().checkIfUserloddedIn();
+    bool userLoggedIn = await LoadingScreenServices().checkIfUserLoggedIn();
     if (userLoggedIn == null) return "userNotSelectSupportedCity";
     if (userLoggedIn) {
-      bool x = await LoadingScreenServices().featchStartInformation();
+      bool x = await LoadingScreenServices().fetchStartInformation();
       if (x) {
         return true;
       } else {

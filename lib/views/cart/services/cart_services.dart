@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:kammun_app/core/api/api_URLs.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,8 +34,6 @@ class CartServices {
       var response = await ApiProvider.sendRequest(
           url: SYNC_CART,
           method: httpMethods.post,
-          // body: jsonEncode({"product_ids": "4571"}));
-
           body: jsonEncode({
             "product_ids": userCart
                 .split("@")[0]

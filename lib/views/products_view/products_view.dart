@@ -2,12 +2,10 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/api/api_provider.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/funny_images.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/facebook_loader.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
@@ -53,9 +51,9 @@ class ProductsViewState extends State<ProductsView> {
     }
     if (!badWordMatched) {
       if (type == "search") {
-        url = "/api/product/search/$query?page=" + page.toString();
+        url = API + PRODUCT + SEARCH + "$query?page=" + page.toString();
       } else {
-        url = "/api/category/$query?page=$page";
+        url = API + CATEGORY + "/$query?page=$page";
       }
 
       if (!theEndOfProducts) {
@@ -141,20 +139,22 @@ class ProductsViewState extends State<ProductsView> {
               controller: _searchController,
               onSubmitted: (_) {
                 if (_searchController.text.length > 0) {
-                  setState(() {
-                    // searchLoading = true;
-                    productsList.clear();
-                    // _loadData(_searchController.text, "search");
-                    Navigator.of(context).pop();
+                  setState(
+                    () {
+                      productsList.clear();
+                      Navigator.of(context).pop();
 
-                    Navigator.push(
+                      Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder: (context) => new ProductsView(
-                                  queryString: _searchController.text,
-                                  categoryId: "0",
-                                )));
-                  });
+                          builder: (context) => new ProductsView(
+                            queryString: _searchController.text,
+                            categoryId: "0",
+                          ),
+                        ),
+                      );
+                    },
+                  );
                 }
               },
               cursorColor: ColorUtils.primaryColor,
