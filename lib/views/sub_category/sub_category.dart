@@ -22,7 +22,7 @@ class SubCategory extends StatefulWidget {
 
 class _SubCategoryState extends State<SubCategory> {
   TextEditingController searchController = TextEditingController();
-
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     void _onTileClicked(int index) {
@@ -52,6 +52,7 @@ class _SubCategoryState extends State<SubCategory> {
     }
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: PreferredSize(
         child: AppBar(
           leading: Padding(
@@ -93,7 +94,10 @@ class _SubCategoryState extends State<SubCategory> {
                     ),
                   ],
                 ),
-                StoreSearchTextField(searchController: searchController),
+                StoreSearchTextField(
+                  searchController: searchController,
+                  scaffoldKey: scaffoldKey,
+                ),
               ],
             ),
           ),

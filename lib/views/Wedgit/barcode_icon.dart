@@ -10,6 +10,7 @@ class BarcodeIcon extends StatelessWidget {
   final int productId;
   final Function onPressed;
   final Color color;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   BarcodeIcon({
     Key key,
@@ -17,6 +18,7 @@ class BarcodeIcon extends StatelessWidget {
     this.productId,
     this.onPressed,
     this.color,
+    this.scaffoldKey,
   }) : super(key: key);
 
   @override
@@ -30,7 +32,7 @@ class BarcodeIcon extends StatelessWidget {
       onPressed: () {
         if (onPressed != null) onPressed();
         Navigator.push(
-          context,
+          scaffoldKey.currentContext,
           MaterialPageRoute(
             builder: (screenContext) => BarCodeScreen(
               requestType: requestType,

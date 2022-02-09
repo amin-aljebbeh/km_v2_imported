@@ -35,6 +35,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   AnimationController _animationController;
   Animation _animation;
   bool done = false;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _controller = ScrollController(initialScrollOffset: 0.0);
   final _height = 100.0;
@@ -88,6 +89,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
       price = (int.parse(widget.product.price.split('.')[0]) - widget.product.increasePercentage).toString();
     }
     return SafeArea(
+      key: scaffoldKey,
       top: true,
       left: false,
       right: false,
@@ -430,10 +432,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             children: [
                               SizedBox(height: 30),
                               UpdateProductInfoWidget(
-                                title: StringUtils.edit +
-                                    ' ' +
-                                    StringUtils.price +
-                                    ' :',
+                                title: StringUtils.edit + ' ' + StringUtils.price + ' :',
                                 inputType: TextInputType.text,
                                 bodyKey: "price",
                                 productId: widget.product.id,
@@ -704,6 +703,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                 color: ColorUtils.kmColors,
                                                 requestType: BarcodeRequestType.addBarcode,
                                                 productId: widget.product.id,
+                                                scaffoldKey: scaffoldKey,
                                               ),
                                             AddImageWidget(
                                               onSubmit: (image) async {

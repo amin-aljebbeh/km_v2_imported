@@ -28,7 +28,7 @@ class ProductsView extends StatefulWidget {
 }
 
 class ProductsViewState extends State<ProductsView> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController searchController = TextEditingController();
 
   bool isLoading = false;
@@ -156,7 +156,7 @@ class ProductsViewState extends State<ProductsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      key: scaffoldKey,
       floatingActionButton: widget.queryString == null &&
               widget.barcode == null &&
               (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
@@ -176,7 +176,7 @@ class ProductsViewState extends State<ProductsView> {
                           param = int.parse(barcode);
                         }
                         Navigator.push(
-                          _scaffoldKey.currentContext,
+                          scaffoldKey.currentContext,
                           new MaterialPageRoute(
                             builder: (screenContext) => new AddProductsView(
                               categoryId: widget.categoryId,
@@ -236,6 +236,7 @@ class ProductsViewState extends State<ProductsView> {
                   ],
                 ),
                 StoreSearchTextField(
+                  scaffoldKey: scaffoldKey,
                   searchController: searchController,
                   onSubmit: () {
                     setState(() {
@@ -310,6 +311,7 @@ class ProductsViewState extends State<ProductsView> {
                                       : eachProduct.quantity.toString(),
                                   price: int.parse(eachProduct.price.split(".")[0]),
                                   index: index,
+                                  scaffoldKey: scaffoldKey,
                                 );
                               },
                             ),

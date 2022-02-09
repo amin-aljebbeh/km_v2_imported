@@ -18,6 +18,7 @@ class ProductsViewCard extends StatefulWidget {
   final String supplierCode;
   final ProductData productData;
   final int subWarehouseId;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   ProductsViewCard({
     this.img,
@@ -30,6 +31,7 @@ class ProductsViewCard extends StatefulWidget {
     this.productData,
     this.active,
     @required this.subWarehouseId,
+    this.scaffoldKey,
   });
 
   @override
@@ -110,6 +112,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           BarcodeIcon(
                             requestType: BarcodeRequestType.addBarcode,
                             productId: int.parse(widget.productId),
+                            scaffoldKey: widget.scaffoldKey,
                           ),
                       ],
                     ),

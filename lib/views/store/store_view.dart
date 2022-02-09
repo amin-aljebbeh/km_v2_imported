@@ -19,7 +19,7 @@ class StoreView extends StatefulWidget {
 }
 
 class StoreViewState extends State<StoreView> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController searchController = TextEditingController();
 
   bool isDarkThemeMode = false;
@@ -194,7 +194,7 @@ class StoreViewState extends State<StoreView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       drawer: SafeArea(
         child: SingleChildScrollView(
@@ -470,7 +470,7 @@ class StoreViewState extends State<StoreView> {
                       padding: const EdgeInsets.only(top: 12.0),
                       child: InkWell(
                         onTap: () {
-                          _scaffoldKey.currentState.openDrawer();
+                          scaffoldKey.currentState.openDrawer();
                         },
                         child: Icon(
                           Icons.menu,
@@ -510,7 +510,10 @@ class StoreViewState extends State<StoreView> {
                           ),
                   ],
                 ),
-                StoreSearchTextField(searchController: searchController),
+                StoreSearchTextField(
+                  searchController: searchController,
+                  scaffoldKey: scaffoldKey,
+                ),
               ],
             ),
           ),

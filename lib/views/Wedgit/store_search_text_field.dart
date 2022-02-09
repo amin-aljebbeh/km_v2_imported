@@ -6,8 +6,10 @@ import 'package:kammun_app/views/products_view/products_view.dart';
 class StoreSearchTextField extends StatelessWidget {
   final TextEditingController searchController;
   final Function onSubmit;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
-  const StoreSearchTextField({Key key, @required this.searchController, this.onSubmit}) : super(key: key);
+  const StoreSearchTextField({Key key, @required this.searchController, this.onSubmit, this.scaffoldKey})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class StoreSearchTextField extends StatelessWidget {
                     BarcodeIcon(
                       onPressed: onSubmit != null ? onSubmit : () {},
                       requestType: BarcodeRequestType.search,
+                      scaffoldKey: scaffoldKey,
                     ),
                     Icon(Icons.search),
                   ],

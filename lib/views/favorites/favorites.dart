@@ -19,7 +19,7 @@ class Favorites extends StatefulWidget {
 }
 
 class FavoritesViewState extends State<Favorites> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController searchController = TextEditingController();
 
   _shareApp() {
@@ -289,7 +289,7 @@ class FavoritesViewState extends State<Favorites> {
           ),
         ),
       ),
-      key: _scaffoldKey,
+      key: scaffoldKey,
       appBar: PreferredSize(
         child: AppBar(
           backgroundColor: Color.fromARGB(255, 210, 178, 2),
@@ -309,7 +309,7 @@ class FavoritesViewState extends State<Favorites> {
                         padding: const EdgeInsets.only(top: 12.0),
                         child: InkWell(
                           onTap: () {
-                            _scaffoldKey.currentState.openDrawer();
+                            scaffoldKey.currentState.openDrawer();
                           },
                           child: Icon(
                             Icons.menu,
@@ -352,7 +352,10 @@ class FavoritesViewState extends State<Favorites> {
                     ),
                   ],
                 ),
-                StoreSearchTextField(searchController: searchController),
+                StoreSearchTextField(
+                  searchController: searchController,
+                  scaffoldKey: scaffoldKey,
+                ),
               ],
             ),
           ),
