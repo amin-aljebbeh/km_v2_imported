@@ -101,15 +101,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
   _userNotesInitial() {
     _userNotes.text = OrderServices.updateOrderNote;
 
-    // if (CartServices.userNote != null) {
-    //   _userNotes.text = CartServices.userNote;
-    // }
     if (CartServices.userCopoun != null) {
       _copouns.text = CartServices.userCopoun;
     }
-    // if (CartServices.userNote == null) {
-    //   _userNotes.text = OrderServices.updateOrderNote;
-    // }
     if (_userNotes.text == "null") {
       _userNotes.text = "";
     }

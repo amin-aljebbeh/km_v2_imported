@@ -113,6 +113,7 @@ class AlertMessages extends StatelessWidget {
   }
 }
 
+//TODO
 class AlertTextView extends StatelessWidget {
   final String text;
   final Color textColor;

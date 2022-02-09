@@ -5,14 +5,6 @@ class CommonUtils {
   Size deviceScreenSize(BuildContext context) {
     return MediaQuery.of(context).size;
   }
-
-  void showToast(String message, BuildContext context) {
-//    Toast.show(message, context,
-//        duration: Toast.LENGTH_LONG,
-//        gravity: Toast.BOTTOM,
-//        backgroundColor: Colors.black,
-//        textColor: Colors.white);
-  }
 }
 
 enum MyThemeKeys { LIGHT, DARK, DARKER }

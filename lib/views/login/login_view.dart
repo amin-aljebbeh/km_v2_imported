@@ -121,26 +121,28 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       showMaterialModalBottomSheet(
         context: context,
         builder: (context) => Container(
-            height: MediaQuery.of(context).size.height * 0.5,
-            decoration: new BoxDecoration(
-              color: Colors.white,
-              borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(25.0),
-                topRight: const Radius.circular(25.0),
-              ),
+          height: MediaQuery.of(context).size.height * 0.5,
+          decoration: new BoxDecoration(
+            color: Colors.white,
+            borderRadius: new BorderRadius.only(
+              topLeft: const Radius.circular(25.0),
+              topRight: const Radius.circular(25.0),
             ),
-            child: UsagePolicy((approve) {
+          ),
+          child: UsagePolicy(
+            (approve) {
               if (approve) {
                 Navigator.of(context).pop();
                 fetchOtp();
               }
-            })),
+            },
+          ),
+        ),
       );
     }
 
     Widget _showSubmit() {
       final GestureDetector loginButtonWithGesture = new GestureDetector(
-        //onTap: featchOtp,
         onTap: () {
           _settingModalBottomSheet(context);
         },

@@ -161,37 +161,9 @@ class DeliverToViewState extends State<DeliverToView> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       _showDeleteButton(index: index),
-                      // RaisedButton(
-                      //     child: Text(StringUtils.delete,
-                      //         style: TextStyle(
-                      //             fontWeight: FontWeight.w400,
-                      //             color: ColorUtils.greycolor,
-                      //             fontFamily:
-                      //                 StringUtils.HKGrotesk,
-                      //             fontSize: 15)),
-                      //     onPressed: () {
-                      //       onrRemove(index);
-                      //     }),
-
                       _showEdite(index: index),
-                      // RaisedButton(
-                      //   child: Text(StringUtils.edit_address,
-                      //       style: TextStyle(
-                      //           fontWeight: FontWeight.w400,
-                      //           color: ColorUtils.greycolor,
-                      //           fontFamily:
-                      //               StringUtils.HKGrotesk,
-                      //           fontSize: 15)),
-                      //   onPressed: () {
-                      //     Navigator.push(
-                      //         context,
-                      //         new MaterialPageRoute(
-                      //             builder: (context) => new AddAddressView()));
-                      //   },
-                      // )
                     ],
                   ),
                 ],

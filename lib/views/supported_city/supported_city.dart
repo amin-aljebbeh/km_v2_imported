@@ -226,6 +226,7 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
   }
 }
 
+//TODO
 class SupportedCityCardView extends StatefulWidget {
   final int id;
   final String name;
