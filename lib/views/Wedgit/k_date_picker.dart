@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:kammun_app/utils/Styles.dart';
 import 'package:intl/intl.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 class KDatePicker extends StatefulWidget {
   final Function(String) onConfirmStart;
@@ -19,7 +20,7 @@ class KDatePicker extends StatefulWidget {
 class _KDatePickerState extends State<KDatePicker> {
   String _fromDateTimeValue = "يرجى أختيار تاريخ البداية";
   String _toDateTimeValue = "يرجى إختيار تاريخ النهاية";
-  final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm');
+  final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   @override
   Widget build(BuildContext context) {
     return Column(
