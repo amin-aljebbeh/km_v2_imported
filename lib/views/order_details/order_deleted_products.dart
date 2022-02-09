@@ -94,23 +94,22 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                         return Column(
                           children: [
                             if (newSubWarehouse(index))
-                              Column(
-                                children: [
-                                  Container(
-                                    color: ColorUtils.searchGreyColor,
-                                    child: Center(
-                                      child: Text(
-                                        LoadingScreenServices.subWarehouses
-                                            .firstWhere(
-                                                (subWarehouse) => subWarehouse.id == productDetail.subWarehouseId)
-                                            .name,
-                                        style: warehouseStyle,
-                                      ),
-                                    ),
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 40,
+                              Container(
+                                margin: EdgeInsets.only(bottom: 10),
+                                color: ColorUtils.searchGreyColor,
+                                child: Center(
+                                  child: Text(
+                                    LoadingScreenServices.subWarehouses
+                                        .firstWhere(
+                                          (subWarehouse) => subWarehouse.id == productDetail.subWarehouseId,
+                                          orElse: () => SubWarehouse(name: 'No element'),
+                                        )
+                                        .name,
+                                    style: labelStyle,
                                   ),
-                                ],
+                                ),
+                                width: MediaQuery.of(context).size.width,
+                                height: 20,
                               ),
                             OrderDetailViewMainCard(
                               onCheckbox: (a) {},

@@ -261,27 +261,232 @@ class OrdersViewState extends State<OrdersView> {
                                 orderData: orderDataList[index],
                                 orderType: OrderTypes.allOrder,
                               ),
-                              if (Services.isAdmin() || Services.isOperationManager())
-                                KSearchableDropdown(
-                                  hint: orderDataList[index].shopper != null
-                                      ? orderDataList[index].shopper.name
-                                      : StringUtils.chooseShopper,
-                                  search: shopper,
-                                  items: Services.shoppersNameList(),
-                                  onChanged: (value) async {
-                                    if (value != null) {
-                                      String shopperId = Services.selectedShopperId(value);
-                                      setState(() {
-                                        shopper = value;
-                                        orderDataList[index].shopper = new Assigned(
-                                            name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''),
-                                            id: int.parse(shopperId));
-                                      });
-                                      bool result = await OrderServices.assignOrderToShopper(
-                                          shopperId, orderDataList[index].id.toString());
-                                      Services.resultFlushBar(context: context, result: result);
-                                    }
-                                  },
+                              KSearchableDropdown(
+                                hint: orderDataList[index].shopper != null
+                                    ? orderDataList[index].shopper.name
+                                    : StringUtils.chooseShopper,
+                                search: shopper,
+                                items: Services.shoppersNameList(),
+                                onChanged: (value) async {
+                                  if (value != null) {
+                                    String shopperId = Services.selectedShopperId(value);
+                                    setState(() {
+                                      shopper = value;
+                                      orderDataList[index].shopper = new Assigned(
+                                          name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''),
+                                          id: int.parse(shopperId));
+                                    });
+                                    bool result = await OrderServices.assignOrderToShopper(
+                                        shopperId, orderDataList[index].id.toString());
+                                    Services.resultFlushBar(context: context, result: result);
+                                  }
+                                },
+                              ),
+                              if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
+                                  int.parse(orderDataList[index].underUpdate) != 1)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      KammunButton(
+                                        text: orderDataList[index].orderStatusId == "1"
+                                            ? "قبول الطلب"
+                                            : orderDataList[index].orderStatusId == "2"
+                                                ? "الطلب جاهز"
+                                                : orderDataList[index].orderStatusId == "3"
+                                                    ? "مع التوصيل"
+                                                    : "تم التوصيل",
+                                        width: MediaQuery.of(context).size.width * 0.4,
+                                        color: orderDataList[index].orderStatusId == "1"
+                                            ? Colors.green[700]
+                                            : orderDataList[index].orderStatusId == "2"
+                                                ? Colors.yellow[700]
+                                                : Colors.cyan[700],
+                                        onTap: () async {
+                                          int changeStatus = 0;
+                                          setState(() {
+                                            isLoading = true;
+                                            errorMessage = false;
+                                          });
+                                          if (orderDataList[index].orderStatusId == "1")
+                                            changeStatus = 2;
+                                          else if (orderDataList[index].orderStatusId == "2")
+                                            changeStatus = 3;
+                                          else if (orderDataList[index].orderStatusId == "3")
+                                            changeStatus = 4;
+                                          else if (orderDataList[index].orderStatusId == "4") changeStatus = 5;
+
+                                          bool x = await OrderServices.changeOrderStatus(
+                                              orderDataList[index].id.toString(), changeStatus);
+
+                                          if (x) {
+                                            setState(() {
+                                              orderDataList[index].orderStatusId = changeStatus.toString();
+                                              isLoading = false;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              isLoading = false;
+                                              errorMessage = true;
+                                            });
+                                          }
+                                        },
+                                      ),
+                                      KammunButton(
+                                        onLongPress: () {
+                                          List<DialogButton> decisionButton = [
+                                            DialogButton(
+                                              text: 'نعم',
+                                              onTap: () async {
+                                                int changeStatus = 0;
+                                                Navigator.of(context).pop();
+
+                                                setState(() {
+                                                  isLoading = true;
+                                                  errorMessage = false;
+                                                });
+                                                changeStatus = 7;
+
+                                                bool x = await OrderServices.changeOrderStatus(
+                                                    orderDataList[index].id.toString(), changeStatus);
+
+                                                if (x) {
+                                                  setState(() {
+                                                    orderDataList[index].orderStatusId = changeStatus.toString();
+                                                    isLoading = false;
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    isLoading = false;
+                                                    errorMessage = true;
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                            DialogButton(
+                                              text: StringUtils.no,
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ];
+                                          showMyDialog(
+                                              title: "رفض الطلب",
+                                              text: "هل أنت متأكد انك تريد رفض الطلب ؟",
+                                              dialogButtons: decisionButton,
+                                              context: context);
+                                        },
+                                        text: "إلغاء الطلب",
+                                        width: MediaQuery.of(context).size.width * 0.4,
+                                        color: Colors.red,
+                                        onTap: () {
+                                          List<DialogButton> decisionButton = [
+                                            DialogButton(
+                                              text: 'نعم',
+                                              onTap: () async {
+                                                int changeStatus = 0;
+                                                Navigator.of(context).pop();
+
+                                                setState(() {
+                                                  isLoading = true;
+                                                  errorMessage = false;
+                                                });
+                                                changeStatus = 6;
+
+                                                bool x = await OrderServices.changeOrderStatus(
+                                                    orderDataList[index].id.toString(), changeStatus);
+
+                                                if (x) {
+                                                  setState(() {
+                                                    orderDataList[index].orderStatusId = changeStatus.toString();
+                                                    isLoading = false;
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    isLoading = false;
+                                                    errorMessage = true;
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                            DialogButton(
+                                              text: StringUtils.no,
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ];
+                                          showMyDialog(
+                                              title: "إلغاء الطلب",
+                                              text: "هل أنت متأكد انك تريد إلغاء الطلب ؟",
+                                              dialogButtons: decisionButton,
+                                              context: context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              if (['6', '7'].contains(orderDataList[index].orderStatusId))
+                                Column(
+                                  children: [
+                                    LabelRow(
+                                        rightSideText: 'تم إلغاء الطلب من قبل ابو الزين',
+                                        leftSideText: '',
+                                        leftSideStyle: mainStyle),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15.0),
+                                      child: KammunButton(
+                                        text: "استعادة الطلب",
+                                        width: MediaQuery.of(context).size.width,
+                                        color: ColorUtils.kmColors,
+                                        onTap: () {
+                                          List<DialogButton> decisionButton = [
+                                            DialogButton(
+                                              text: 'نعم',
+                                              onTap: () async {
+                                                int changeStatus = 0;
+                                                Navigator.of(context).pop();
+
+                                                setState(() {
+                                                  isLoading = true;
+                                                  errorMessage = false;
+                                                });
+                                                changeStatus = 1;
+
+                                                bool result = await OrderServices.changeOrderStatus(
+                                                    orderDataList[index].id.toString(), changeStatus);
+                                                Services.resultFlushBar(context: context, result: result);
+
+                                                if (result) {
+                                                  setState(() {
+                                                    orderDataList[index].orderStatusId = changeStatus.toString();
+                                                    isLoading = false;
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    isLoading = false;
+                                                    errorMessage = true;
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                            DialogButton(
+                                              text: 'لا',
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ];
+                                          showMyDialog(
+                                              title: "استعادة الطلب",
+                                              text: "هل أنت متأكد انك تريد استعادة الطلب ؟",
+                                              dialogButtons: decisionButton,
+                                              context: context);
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               KammunButton(
                                 text: StringUtils.editOrder,

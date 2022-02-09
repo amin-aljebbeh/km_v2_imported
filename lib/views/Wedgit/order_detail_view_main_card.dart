@@ -62,6 +62,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
         Row(
           children: <Widget>[
             ProductCheckWidget(
+              productData: widget.productData,
               preferLeftSide: !LoadingScreenServices.preferLeftSide,
               productCount: widget.productData.pivot.quantity,
               productName: widget.productData.name,
@@ -103,50 +104,23 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.productData.quantity +
-                                " " +
-                                (widget.productData.unit == null ? '' : widget.productData.unit),
-                            style: darkBold,
-                          ),
-                          Text(
-                            StringUtils().oCcy.format(purchasePrice).toString() +
-                                " ${LoadingScreenServices.companyInformation.currency}",
-                            style: paragraphStyle,
-                          ),
-                          if (Services.isSupplierManager())
-                            Text(
-                              StringUtils()
-                                      .oCcy
-                                      .format(purchasePrice - (purchasePrice * discountPercentage))
-                                      .toString() +
-                                  " ${LoadingScreenServices.companyInformation.currency}",
-                              style: paragraphStyle,
-                            ),
-                        ],
-                      ),
-                      if (!Services.isSupplierManager())
-                        SwitchProductStatusWidget(
-                          isForSubWarehouse: true,
-                          height: 20,
-                          width: 70,
-                          preState: widget.productData.isActive,
-                          subWarehouseId: widget.productData.subWarehouseId,
-                          productId: widget.productData.pivot.productId,
-                          onChange: (int active, bool result) {
-                            setState(() {
-                              if (result) widget.productData.isActive = active;
-                            });
-                          },
-                        ),
-                    ],
+                  Text(
+                    widget.productData.quantity +
+                        " " +
+                        (widget.productData.unit == null ? '' : widget.productData.unit),
+                    style: darkBold,
                   ),
+                  Text(
+                    StringUtils().oCcy.format(purchasePrice).toString() +
+                        " ${LoadingScreenServices.companyInformation.currency}",
+                    style: paragraphStyle,
+                  ),
+                  if (Services.isSupplierManager())
+                    Text(
+                      StringUtils().oCcy.format(purchasePrice - (purchasePrice * discountPercentage)).toString() +
+                          " ${LoadingScreenServices.companyInformation.currency}",
+                      style: paragraphStyle,
+                    ),
                   if ((!Services.isSupplierManager()) && subWarehouseList.length > 0)
                     DropdownButton(
                       items: subWarehouseList,
@@ -174,12 +148,17 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                 ],
               ),
             ),
-            ProductCheckWidget(
-              preferLeftSide: LoadingScreenServices.preferLeftSide,
-              productCount: widget.productData.pivot.quantity,
-              productName: widget.productData.name,
-              index: widget.index,
-              onCheckbox: (index) => widget.onCheckbox(index),
+            Row(
+              children: [
+                ProductCheckWidget(
+                  productData: widget.productData,
+                  preferLeftSide: LoadingScreenServices.preferLeftSide,
+                  productCount: widget.productData.pivot.quantity,
+                  productName: widget.productData.name,
+                  index: widget.index,
+                  onCheckbox: (index) => widget.onCheckbox(index),
+                ),
+              ],
             ),
           ],
         ),

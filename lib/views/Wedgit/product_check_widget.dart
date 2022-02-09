@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/start_models/order_product_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
+import '../../Services.dart';
 import 'widgets_importer.dart';
 
 class ProductCheckWidget extends StatefulWidget {
@@ -10,6 +12,8 @@ class ProductCheckWidget extends StatefulWidget {
   final int index;
   final Function(int) onCheckbox;
 
+  final OrderProducts productData;
+
   const ProductCheckWidget({
     Key key,
     @required this.preferLeftSide,
@@ -17,6 +21,7 @@ class ProductCheckWidget extends StatefulWidget {
     @required this.productName,
     @required this.index,
     @required this.onCheckbox,
+    @required this.productData,
   }) : super(key: key);
 
   @override
@@ -27,58 +32,76 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
   @override
   Widget build(BuildContext context) {
     return widget.preferLeftSide
-        ? Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(3.0),
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                              ),
-                      border: Border.all(color: ColorUtils.primaryColor, width: 2)),
-                  child: Center(
-                    child: Text(
-                      widget.productCount,
-                      style: mainStyle.copyWith(fontSize: 30),
-                    ),
+        ? Row(
+            children: [
+              if (!Services.isSupplierManager())
+                RotatedBox(
+                  quarterTurns: 1,
+                  child: SwitchProductStatusWidget(
+                    isForSubWarehouse: true,
+                    height: 20,
+                    width: 65,
+                    preState: widget.productData.isActive,
+                    subWarehouseId: widget.productData.subWarehouseId,
+                    productId: widget.productData.pivot.productId,
+                    onChange: (int active, bool result) {
+                      setState(() {
+                        if (result) widget.productData.isActive = active;
+                      });
+                    },
                   ),
                 ),
-                IconButton(
-                    icon: Icon(
-                      Icons.library_add_check_outlined,
-                      color: Colors.green,
+              Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(3.0),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+                                ),
+                        border: Border.all(color: ColorUtils.primaryColor, width: 2)),
+                    child: Center(
+                      child: Text(
+                        widget.productCount,
+                        style: mainStyle.copyWith(fontSize: 30),
+                      ),
                     ),
-                    onPressed: () {
-                      if (widget.productCount != "1") {
-                        List<DialogButton> decisionButtons = [
-                          DialogButton(
-                            text: 'نعم',
-                            onTap: () {
-                              Navigator.of(context).pop();
+                  ),
+                  IconButton(
+                      icon: Icon(
+                        Icons.library_add_check_outlined,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        if (widget.productCount != "1") {
+                          List<DialogButton> decisionButtons = [
+                            DialogButton(
+                              text: 'نعم',
+                              onTap: () {
+                                Navigator.of(context).pop();
 
-                              widget.onCheckbox(widget.index);
-                            },
-                          ),
-                          DialogButton(
-                            text: 'لا',
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ];
-                        showMyDialog(
-                            title: "تحقق من الكمية",
-                            text: "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
-                            dialogButtons: decisionButtons,
-                            context: context);
-                      } else {
-                        widget.onCheckbox(widget.index);
-                      }
-                    }),
-              ],
-            ),
+                                widget.onCheckbox(widget.index);
+                              },
+                            ),
+                            DialogButton(
+                              text: 'لا',
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ];
+                          showMyDialog(
+                              title: "تحقق من الكمية",
+                              text: "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
+                              dialogButtons: decisionButtons,
+                              context: context);
+                        } else {
+                          widget.onCheckbox(widget.index);
+                        }
+                      }),
+                ],
+              ),
+            ],
           )
         : Container();
   }

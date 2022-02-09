@@ -34,7 +34,6 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
     return Container(
       height: widget.height,
       width: widget.width,
-      margin: const EdgeInsets.all(15.0),
       padding: const EdgeInsets.all(3.0),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here

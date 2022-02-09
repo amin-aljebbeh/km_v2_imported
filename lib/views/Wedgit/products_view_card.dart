@@ -136,28 +136,35 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                       },
                     ),
                   if (Services.isAdmin())
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      width: MediaQuery.of(context).size.width * 0.17,
-                      padding: const EdgeInsets.all(3.0),
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                                  ),
-                          border: Border.all(color: ColorUtils.primaryColor, width: 2)),
-                      child: Center(
-                        child: Text(
-                          widget.productData.rate != null
-                              ? StringUtils().oCcy.format(widget.productData.rate).toString()
-                              : '0',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: ColorUtils.primaryColor,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 18,
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.17,
+                          padding: const EdgeInsets.all(3.0),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+                                      ),
+                              border: Border.all(color: ColorUtils.primaryColor, width: 2)),
+                          child: Center(
+                            child: Text(
+                              widget.productData.rate != null
+                                  ? StringUtils().oCcy.format(widget.productData.rate).toString()
+                                  : '0',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: ColorUtils.primaryColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                 ],
               ),

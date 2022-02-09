@@ -162,7 +162,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             _getOrder();
                           },
                         ),
-                        //Text("$pageNumber"),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15),
                           child: IconButton(
@@ -224,6 +223,51 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 orderData: orderDataList[index],
                                 orderType: OrderTypes.myOrder,
                               ),
+                              if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
+                                  int.parse(orderDataList[index].underUpdate) != 1)
+                                KammunButton(
+                                  text: orderDataList[index].orderStatusId == "1"
+                                      ? "قبول الطلب"
+                                      : orderDataList[index].orderStatusId == "2"
+                                          ? "الطلب جاهز"
+                                          : orderDataList[index].orderStatusId == "3"
+                                              ? "مع التوصيل"
+                                              : "تم التوصيل",
+                                  color: orderDataList[index].orderStatusId == "1"
+                                      ? Colors.green[700]
+                                      : orderDataList[index].orderStatusId == "2"
+                                          ? Colors.yellow[700]
+                                          : Colors.cyan[700],
+                                  onTap: () async {
+                                    int changeStatus = 0;
+                                    setState(() {
+                                      isLoading = true;
+                                      errorMessage = false;
+                                    });
+                                    if (orderDataList[index].orderStatusId == "1")
+                                      changeStatus = 2;
+                                    else if (orderDataList[index].orderStatusId == "2")
+                                      changeStatus = 3;
+                                    else if (orderDataList[index].orderStatusId == "3")
+                                      changeStatus = 4;
+                                    else if (orderDataList[index].orderStatusId == "4") changeStatus = 5;
+
+                                    bool x = await OrderServices.changeOrderStatus(
+                                        orderDataList[index].id.toString(), changeStatus);
+
+                                    if (x) {
+                                      setState(() {
+                                        orderDataList[index].orderStatusId = changeStatus.toString();
+                                        isLoading = false;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        isLoading = false;
+                                        errorMessage = true;
+                                      });
+                                    }
+                                  },
+                                ),
                               if (!['5', '6', '7'].contains(orderDataList[index].orderStatusId))
                                 KammunButton(
                                   text: StringUtils.editOrder,
