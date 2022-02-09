@@ -66,68 +66,71 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
   Widget build(BuildContext context) {
     super.build(context);
     getArray();
-    Tools.logToConsole('deleted');
-    Tools.logToConsole(productsAry.length);
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
-          child: isLoading
-              ? Center(child: Loader())
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    errorAlert
-                        ? AlertMessages(
-                            text: "خطأ اثناء محاولة تغيير حالة الطلب",
-                            messageType: "internetError",
-                            headerText: "حدث خطأ",
-                          )
-                        : Container(),
-                    Expanded(
-                      child: ListView.builder(
-                        padding: EdgeInsets.only(left: 20.0, top: 20.0),
-                        primary: false,
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: productsAry == null ? 1 : productsAry.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          OrderProducts productDetail = productsAry[index];
-                          return Column(
-                            children: [
-                              if (newSubWarehouse(index))
-                                Column(
-                                  children: [
-                                    Divider(
-                                      thickness: 5,
-                                      color: ColorUtils.primaryColor,
+      body: Padding(
+        padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
+        child: isLoading
+            ? Center(child: Loader())
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  errorAlert
+                      ? AlertMessages(
+                          text: "خطأ اثناء محاولة تغيير حالة الطلب",
+                          messageType: "internetError",
+                          headerText: "حدث خطأ",
+                        )
+                      : Container(),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(left: 20.0, top: 20.0),
+                      primary: false,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: productsAry == null ? 1 : productsAry.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        OrderProducts productDetail = productsAry[index];
+                        return Column(
+                          children: [
+                            if (newSubWarehouse(index))
+                              Column(
+                                children: [
+                                  Divider(
+                                    thickness: 5,
+                                    color: ColorUtils.primaryColor,
+                                  ),
+                                  Container(
+                                    color: ColorUtils.searchGreyColor,
+                                    child: Center(
+                                      child: Text(
+                                        LoadingScreenServices.subWarehouses
+                                            .firstWhere(
+                                                (subWarehouse) => subWarehouse.id == productDetail.subWarehouseId)
+                                            .name,
+                                        style: warehouseStyle,
+                                      ),
                                     ),
-                                    Text(
-                                      LoadingScreenServices.subWarehouses
-                                          .firstWhere(
-                                              (subWarehouse) => subWarehouse.id == productDetail.subWarehouseId)
-                                          .name,
-                                      style: warehouseStyle,
-                                    ),
-                                  ],
-                                ),
-                              OrderDetailViewMainCard(
-                                onCheckbox: (a) {},
-                                productData: productDetail,
-                                index: index,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 40,
+                                  ),
+                                ],
                               ),
-                            ],
-                          );
-                        },
-                      ),
+                            OrderDetailViewMainCard(
+                              onCheckbox: (a) {},
+                              productData: productDetail,
+                              index: index,
+                            ),
+                          ],
+                        );
+                      },
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                ),
-        ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
       ),
     );
   }
