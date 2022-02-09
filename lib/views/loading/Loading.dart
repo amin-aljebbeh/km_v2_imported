@@ -94,7 +94,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             return LoginScreen();
           }
           if (snapShot.data == "userNotSelectSupportedCity") {
-            return SupportedCityWidget();
+            return SupportedCityView();
           }
 
           if (snapShot.connectionState == ConnectionState.done) {

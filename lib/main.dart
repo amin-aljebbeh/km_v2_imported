@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
           '/cartFinal': (_) => CartViewFinal(),
           OTPVerification.routeName: (_) => OTPVerification(),
           ServerUpdate.routeName: (_) => ServerUpdate(),
-          '/supportedCity': (_) => SupportedCityWidget(),
+          '/supportedCity': (_) => SupportedCityView(),
           '/thankyou': (_) => new ThankYouView(),
           '/delivery': (_) => DeliverToView(),
           '/cart': (_) => new HomeView(routeIndex: 1),
