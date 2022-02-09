@@ -19,7 +19,7 @@ class KDatePicker extends StatefulWidget {
 class _KDatePickerState extends State<KDatePicker> {
   String _fromDateTimeValue = "يرجى أختيار تاريخ البداية";
   String _toDateTimeValue = "يرجى إختيار تاريخ النهاية";
-  final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd');
+  final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm');
   @override
   Widget build(BuildContext context) {
     return Column(

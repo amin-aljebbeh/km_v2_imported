@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -16,7 +15,6 @@ class MatchingReport extends StatefulWidget {
 class _MatchingReportState extends State<MatchingReport> {
   String _reportDate = "يرجى أختيار تاريخ التقرير ";
 
-  final DateFormat fullDateFormat = DateFormat('yyyy-MM-dd');
   bool isLoading = false;
   bool isError = false;
   int _selectedValue = -1;

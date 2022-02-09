@@ -5,8 +5,8 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/order_details/order_detail_view.dart';
 import 'package:intl/intl.dart';
+import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
 
 // ignore: must_be_immutable
 class OrdersViewCard extends StatefulWidget {
@@ -82,7 +82,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
         Navigator.push(
           context,
           new MaterialPageRoute(
-            builder: (context) => new OrderDetailView(
+            builder: (context) => new OrderDetailsTabView(
               orderData: widget.orderData,
               subTotal: int.parse(widget.orderData.total.toString().split(".")[0]) -
                   int.parse(widget.orderData.supportedCityCost.toString().split(".")[0]) -

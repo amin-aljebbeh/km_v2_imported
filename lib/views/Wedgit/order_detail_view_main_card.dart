@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
@@ -6,6 +7,7 @@ import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/full_screen_image.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/order_details/services/order_details_services.dart';
 
 import 'k_cache_image.dart';
 
@@ -29,8 +31,23 @@ class OrderDetailViewMainCard extends StatefulWidget {
 }
 
 class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
+  List<DropdownMenuItem> subWarehouseList = [];
   @override
   void initState() {
+    subWarehouseList = LoadingScreenServices.subWarehouses
+        .map(
+          (subWarehouse) => DropdownMenuItem(
+            child: AutoSizeText(
+              subWarehouse.name,
+              overflow: TextOverflow.fade,
+              maxLines: 1,
+              maxFontSize: 15,
+              style: mainStyle,
+            ),
+            value: subWarehouse.id,
+          ),
+        )
+        .toList();
     super.initState();
   }
 
@@ -74,26 +91,23 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     : "",
               ),
             ),
-            SizedBox(width: 3),
             Expanded(
-              child: Wrap(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Wrap(
-                        children: <Widget>[
-                          Text(
-                            widget.productData.name,
-                            style: mainStyle.copyWith(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 6),
-                      Wrap(
+                  Text(
+                    widget.productData.name,
+                    style: mainStyle.copyWith(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             widget.productData.quantity +
@@ -101,41 +115,62 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                                 (widget.productData.unit == null ? '' : widget.productData.unit),
                             style: darkBold,
                           ),
-                        ],
-                      ),
-                      Text(
-                        StringUtils().oCcy.format(purchasePrice).toString() +
-                            " ${LoadingScreenServices.companyInformation.currency}",
-                        style: paragraphStyle,
-                      ),
-                      Services.isSupplierManager()
-                          ? Text(
+                          Text(
+                            StringUtils().oCcy.format(purchasePrice).toString() +
+                                " ${LoadingScreenServices.companyInformation.currency}",
+                            style: paragraphStyle,
+                          ),
+                          if (Services.isSupplierManager())
+                            Text(
                               StringUtils()
                                       .oCcy
                                       .format(purchasePrice - (purchasePrice * discountPercentage))
                                       .toString() +
                                   " ${LoadingScreenServices.companyInformation.currency}",
                               style: paragraphStyle,
-                            )
-                          : Column(
-                              children: [
-                                SwitchProductStatusWidget(
-                                  isForSubWarehouse: true,
-                                  height: 20,
-                                  width: 70,
-                                  preState: widget.productData.isActive,
-                                  subWarehouseId: widget.productData.subWarehouseId,
-                                  productId: widget.productData.pivot.productId,
-                                  onChange: (int active, bool result) {
-                                    setState(() {
-                                      if (result) widget.productData.isActive = active;
-                                    });
-                                  },
-                                ),
-                              ],
                             ),
+                        ],
+                      ),
+                      if (!Services.isSupplierManager())
+                        SwitchProductStatusWidget(
+                          isForSubWarehouse: true,
+                          height: 20,
+                          width: 70,
+                          preState: widget.productData.isActive,
+                          subWarehouseId: widget.productData.subWarehouseId,
+                          productId: widget.productData.pivot.productId,
+                          onChange: (int active, bool result) {
+                            setState(() {
+                              if (result) widget.productData.isActive = active;
+                            });
+                          },
+                        ),
                     ],
                   ),
+                  if ((!Services.isSupplierManager()) && subWarehouseList.length > 0)
+                    DropdownButton(
+                      items: subWarehouseList,
+                      onChanged: (a) {
+                        OrderDetailsServices.updateOrder(
+                          orderId: widget.productData.pivot.orderId,
+                          context: context,
+                          updateKey: "sub_warehouse_id",
+                          updateValue: a.toString(),
+                          productId: widget.productData.pivot.productId,
+                        );
+                        setState(() {
+                          widget.productData.subWarehouseId = a;
+                        });
+                      },
+                      hint: subWarehouseList
+                          .firstWhere((element) => element.value == widget.productData.subWarehouseId, orElse: () {
+                        subWarehouseList.clear();
+                        return DropdownMenuItem<int>(
+                          child: Text("No element"),
+                          value: 0,
+                        );
+                      }).child,
+                    ),
                 ],
               ),
             ),
@@ -148,7 +183,6 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
             ),
           ],
         ),
-        SizedBox(height: 4),
         Divider()
       ],
     );

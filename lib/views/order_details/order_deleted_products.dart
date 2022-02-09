@@ -96,10 +96,6 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                             if (newSubWarehouse(index))
                               Column(
                                 children: [
-                                  Divider(
-                                    thickness: 5,
-                                    color: ColorUtils.primaryColor,
-                                  ),
                                   Container(
                                     color: ColorUtils.searchGreyColor,
                                     child: Center(

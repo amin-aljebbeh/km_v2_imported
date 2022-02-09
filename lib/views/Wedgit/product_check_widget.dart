@@ -45,9 +45,6 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
                 IconButton(
                     icon: Icon(
                       Icons.library_add_check_outlined,

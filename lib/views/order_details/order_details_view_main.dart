@@ -75,7 +75,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       body: Padding(
-        padding: EdgeInsets.only(left: 0, top: 0, right: 20, bottom: 10),
+        padding: EdgeInsets.only(left: 0, top: 0, right: 20, bottom: 010),
         child: isLoading
             ? Center(child: Loader())
             : Column(
@@ -90,7 +90,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                       : Container(),
                   Expanded(
                     child: ListView.builder(
-                      padding: EdgeInsets.only(left: 20.0, top: 20.0),
+                      padding: EdgeInsets.only(left: 20.0, top: 0.0),
                       primary: false,
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -102,10 +102,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                             if (newSubWarehouse(index))
                               Column(
                                 children: [
-                                  Divider(
-                                    thickness: 5,
-                                    color: ColorUtils.primaryColor,
-                                  ),
                                   Container(
                                     color: ColorUtils.searchGreyColor,
                                     child: Center(

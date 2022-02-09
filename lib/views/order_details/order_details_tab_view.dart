@@ -1,7 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/order_details/order_accounting.dart';
 import 'package:kammun_app/views/order_details/order_deleted_products.dart';
 
 import '../../Services.dart';
@@ -26,35 +26,23 @@ class OrderDetailsTabView extends StatefulWidget {
 
 class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
   bool deletedProducts;
+  int tabCount;
+  List<Widget> tabList = [];
+  List<Widget> screenList = [];
 
-  List<Tab> tabBarList() {
-    List<Tab> tabList = [];
-
+  tabBarList() {
+    tabCount = 1;
     tabList.add(
       Tab(
-        child: Text(
-          'المنتجات',
-          style: naveBarStyle.copyWith(color: Colors.white),
-        ),
-      ),
-    );
-    if (deletedProducts)
-      tabList.add(
-        Tab(
+        child: Center(
           child: Text(
-            'المنتجات المحذوفة',
+            'المنتجات',
             style: naveBarStyle.copyWith(color: Colors.white),
           ),
         ),
-      );
-
-    return tabList;
-  }
-
-  List<Widget> tabViewList() {
-    List<Widget> tabList = [];
-
-    tabList.add(
+      ),
+    );
+    screenList.add(
       OrderDetailViewMain(
         subTotal: widget.subTotal,
         total: widget.total.split('.')[0],
@@ -64,16 +52,48 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
         totalDiscount: widget.totalDiscount,
       ),
     );
-    if (deletedProducts)
+    if (!Services.isSupplierManager()) {
+      if (deletedProducts) {
+        tabCount++;
+        tabList.add(
+          Center(
+            child: Tab(
+              child: Center(
+                child: Text(
+                  ' المحذوفة',
+                  style: naveBarStyle.copyWith(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        );
+        screenList.add(
+          OrderDeletedProducts(
+            subTotal: widget.subTotal,
+            total: widget.total.split('.')[0],
+            order: widget.orderData,
+            orderType: widget.orderType,
+          ),
+        );
+      }
+
+      tabCount++;
       tabList.add(
-        OrderDeletedProducts(
-          subTotal: widget.subTotal,
-          total: widget.total.split('.')[0],
-          order: widget.orderData,
-          orderType: widget.orderType,
+        Tab(
+          child: Center(
+            child: Text(
+              'الحسابات',
+              style: naveBarStyle.copyWith(color: Colors.white),
+            ),
+          ),
         ),
       );
-    return tabList;
+      screenList.add(
+        OrderAccounting(
+          orderData: widget.orderData,
+        ),
+      );
+    }
   }
 
   @override
@@ -81,6 +101,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
     setState(() {
       deletedProducts = Services.isAdmin() &&
           widget.orderData.products.where((product) => product.pivot.deletedAt != 'null').toList().length > 0;
+      tabBarList();
     });
 
     super.initState();
@@ -91,44 +112,23 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: deletedProducts ? 2 : 1,
-      child: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            new SliverAppBar(
-              title: !Services.isSupplierManager()
-                  ? AutoSizeText(
-                      widget.orderData.address.street.length > 37
-                          ? widget.orderData.address.street.substring(0, 37)
-                          : widget.orderData.address.street,
-                      maxLines: 1,
-                      overflow: TextOverflow.clip,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                      ),
-                    )
-                  : Text(
-                      widget.orderData.id.toString().length >= 3
-                          ? "#${widget.orderData.id.toString().substring(widget.orderData.id.toString().length - 3, widget.orderData.id.toString().length)}"
-                          : '#${widget.orderData.id.toString()}',
-                      style: profitStyle.copyWith(
-                        color: Colors.purple,
-                      ),
-                    ),
-              pinned: true,
-              floating: true,
-              bottom: TabBar(
-                labelColor: Colors.red,
+      length: tabCount,
+      child: Scaffold(
+        appBar: new PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: new Container(
+            color: ColorUtils.primaryColor,
+            child: new SafeArea(
+              child: new TabBar(
                 indicatorColor: Colors.white,
-                unselectedLabelColor: Colors.white,
-                tabs: tabBarList(),
+                labelColor: Colors.white,
+                tabs: tabList,
               ),
             ),
-          ];
-        },
-        body: new TabBarView(
-          children: tabViewList(),
+          ),
+        ),
+        body: TabBarView(
+          children: screenList,
         ),
       ),
     );
