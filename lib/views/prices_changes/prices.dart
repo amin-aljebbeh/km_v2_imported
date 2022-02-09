@@ -16,6 +16,7 @@ class _PricesState extends State<Prices> {
   String filter;
   PricesChanges productsList;
   int numberOfProducts;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   _loadData() async {
     setState(() {
       isLoading = true;
@@ -52,6 +53,7 @@ class _PricesState extends State<Prices> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: ColorUtils.primaryColor,
@@ -119,6 +121,7 @@ class _PricesState extends State<Prices> {
                                   filter == "" ||
                                   eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
                                 return InventoryProductsViewCard(
+                                  scaffoldKey: scaffoldKey,
                                   onChangeStatus: (result) {
                                     if (productsList.productsPriceChange[index].isActive == "1") {
                                       productsList.productsPriceChange[index].isActive = "0";

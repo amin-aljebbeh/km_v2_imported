@@ -14,6 +14,7 @@ class ProductsFilterScreen extends StatefulWidget {
 class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   TextEditingController searchController = new TextEditingController();
   TextEditingController valueController = new TextEditingController();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool empty;
   bool selected;
@@ -68,6 +69,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       resizeToAvoidBottomInset: false,
       appBar: InventorySearchTextField(
         onReload: () {
@@ -208,6 +210,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                         searchFilter == "" ||
                                         eachProduct.name.toLowerCase().contains(searchFilter.toLowerCase())) {
                                       return InventoryProductsViewCard(
+                                        scaffoldKey: scaffoldKey,
                                         fromInventory: false,
                                         productData: eachProduct,
                                         onChangeStatus: (result) {

@@ -20,6 +20,7 @@ class _InventoryState extends State<Inventory> {
   List<ProductData> productsListToActive = List<ProductData>();
   List<ProductData> productsListToInactive = List<ProductData>();
   List<ProductData> productsList = List<ProductData>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool isLoading = false;
   bool isError = false;
@@ -121,6 +122,7 @@ class _InventoryState extends State<Inventory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: InventorySearchTextField(
         onReload: () {
@@ -223,6 +225,7 @@ class _InventoryState extends State<Inventory> {
                                 if (selectedSubWarehouseId == -1 ||
                                     eachProduct.subWarehouseId == selectedSubWarehouseId) {
                                   return InventoryProductsViewCard(
+                                    scaffoldKey: scaffoldKey,
                                     fromInventory: true,
                                     productData: eachProduct,
                                     onChangeStatus: (result) {

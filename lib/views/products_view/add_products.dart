@@ -9,12 +9,12 @@ import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 import '../../Services.dart';
-import 'barcode_screen.dart';
 
 class AddProductsView extends StatefulWidget {
   final String categoryId;
+  final int barcode;
 
-  AddProductsView({@required this.categoryId});
+  AddProductsView({@required this.categoryId, this.barcode});
 
   @override
   _AddProductsViewState createState() => _AddProductsViewState();
@@ -424,22 +424,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                       color: toastList() == 0 ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,
                       onTap: () {
                         if (toastList() == 0) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (screenContext) => BarCodeScreen(
-                                requestType: BarcodeRequestType.addProduct,
-                                onIgnore: (barcode) {
-                                  int param;
-                                  if (barcode == null)
-                                    param = null;
-                                  else
-                                    param = int.parse(barcode);
-                                  _addNewProduct(barcode: param, context: context);
-                                },
-                              ),
-                            ),
-                          );
+                          _addNewProduct(barcode: widget.barcode, context: context);
                         } else {
                           Toast.show(
                               "يرجى ادخال البيانات التالية:\n" +

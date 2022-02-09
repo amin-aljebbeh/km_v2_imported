@@ -4,13 +4,13 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
-import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import '../../../utils/utils_importer.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
   final ProductData productData;
+  final int barcode;
 
-  AddProductsToSubWarehouse({this.productData});
+  AddProductsToSubWarehouse({this.productData, this.barcode});
 
   @override
   _AddProductsToSubWarehouseState createState() => _AddProductsToSubWarehouseState();
@@ -222,38 +222,24 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       ],
                     ),
                     KammunButton(
-                        text: StringUtils.save,
-                        height: 50,
-                        color: completeData() ? ColorUtils.kmColors : ColorUtils.searchGreyColor,
-                        onTap: () {
-                          if (completeData()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (screenContext) => BarCodeScreen(
-                                  requestType: BarcodeRequestType.attachProduct,
-                                  onIgnore: (barcode) async {
-                                    int param;
-                                    if (barcode == null)
-                                      param = null;
-                                    else
-                                      param = int.parse(barcode);
-                                    bool result = await attachProduct(param);
+                      text: StringUtils.save,
+                      height: 50,
+                      color: completeData() ? ColorUtils.kmColors : ColorUtils.searchGreyColor,
+                      onTap: () async {
+                        if (completeData()) {
+                          bool result = await attachProduct(widget.barcode);
 
-                                    if (result) {
-                                      int count = 0;
-                                      Navigator.of(context).popUntil((_) => count++ >= 1);
-                                    }
-                                    Services.resultFlushBar(context: context, result: result);
-                                  },
-                                ),
-                              ),
-                            );
-                          } else {
-                            Toast.show("يرجى إدخال كافة البيانات", context,
-                                duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                          if (result) {
+                            int count = 0;
+                            Navigator.of(context).popUntil((_) => count++ >= 1);
                           }
-                        }),
+                          Services.resultFlushBar(context: context, result: result);
+                        } else {
+                          Toast.show("يرجى إدخال كافة البيانات", context,
+                              duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                        }
+                      },
+                    ),
                   ],
                 ),
         ),

@@ -16,6 +16,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
   bool isError = false;
   TextEditingController _controller = new TextEditingController();
   String filter;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<bool> _loadData() async {
     productsList.clear();
@@ -66,6 +67,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: InventorySearchTextField(
         onReload: () {
@@ -116,6 +118,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                 filter == "" ||
                                 eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
                               return InventoryProductsViewCard(
+                                scaffoldKey: scaffoldKey,
                                 fromInventory: false,
                                 onDelete: (result) {
                                   if (result) {

@@ -12,6 +12,8 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
+import 'barcode_screen.dart';
+
 class ProductsView extends StatefulWidget {
   final String categoryId;
   final String queryString;
@@ -26,6 +28,7 @@ class ProductsView extends StatefulWidget {
 }
 
 class ProductsViewState extends State<ProductsView> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController searchController = TextEditingController();
 
   bool isLoading = false;
@@ -153,6 +156,7 @@ class ProductsViewState extends State<ProductsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       floatingActionButton: widget.queryString == null &&
               widget.barcode == null &&
               (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
@@ -161,9 +165,26 @@ class ProductsViewState extends State<ProductsView> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(
-                    builder: (context) => new AddProductsView(
-                      categoryId: widget.categoryId,
+                  MaterialPageRoute(
+                    builder: (context) => BarCodeScreen(
+                      requestType: BarcodeRequestType.addProduct,
+                      onIgnore: (barcode) {
+                        int param;
+                        if (barcode == null) {
+                          param = null;
+                        } else {
+                          param = int.parse(barcode);
+                        }
+                        Navigator.push(
+                          _scaffoldKey.currentContext,
+                          new MaterialPageRoute(
+                            builder: (screenContext) => new AddProductsView(
+                              categoryId: widget.categoryId,
+                              barcode: param,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 );

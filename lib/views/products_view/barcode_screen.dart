@@ -89,7 +89,7 @@ class _BarCodeScreenState extends State<BarCodeScreen> {
                         context,
                         new MaterialPageRoute(
                           builder: (context) => new BarcodeProducts(
-                            onIgnore: (barcode) => widget.onIgnore(barcode),
+                            onIgnore: () => widget.onIgnore(barcode),
                             requestType: widget.requestType,
                             barcode: barcode,
                           ),

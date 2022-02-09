@@ -7,6 +7,7 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
+import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import '../../utils/utils_importer.dart';
 
@@ -17,6 +18,7 @@ class InventoryProductsViewCard extends StatefulWidget {
   final ProductData productData;
   final Function(bool) onDelete;
   final bool fromInventory;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   InventoryProductsViewCard({
     this.onChangeStatus,
@@ -24,6 +26,7 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.productData,
     this.onDelete,
     this.fromInventory = false,
+    this.scaffoldKey,
   });
 
   @override
@@ -285,9 +288,25 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                       onPressed: () {
                                         Navigator.push(
                                           context,
-                                          new MaterialPageRoute(
-                                            builder: (context) => new AddProductsToSubWarehouse(
-                                              productData: widget.productData,
+                                          MaterialPageRoute(
+                                            builder: (screenContext) => BarCodeScreen(
+                                              requestType: BarcodeRequestType.attachProduct,
+                                              onIgnore: (barcode) async {
+                                                int param;
+                                                if (barcode == null)
+                                                  param = null;
+                                                else
+                                                  param = int.parse(barcode);
+                                                Navigator.push(
+                                                  widget.scaffoldKey.currentContext,
+                                                  new MaterialPageRoute(
+                                                    builder: (context) => new AddProductsToSubWarehouse(
+                                                      barcode: param,
+                                                      productData: widget.productData,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
                                             ),
                                           ),
                                         );

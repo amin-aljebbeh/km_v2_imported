@@ -19,6 +19,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
   String filter;
   int filterProducts;
   int isActiveFilter;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<bool> _loadData() async {
     productsList.clear();
@@ -79,6 +80,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: InventorySearchTextField(
         onReload: () {
@@ -124,6 +126,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                               filter == "" ||
                               eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
                             return InventoryProductsViewCard(
+                              scaffoldKey: scaffoldKey,
                               fromInventory: false,
                               onDelete: (result) {
                                 if (result) {

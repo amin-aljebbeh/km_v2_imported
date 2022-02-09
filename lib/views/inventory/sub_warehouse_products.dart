@@ -24,6 +24,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
   String filter;
   int filterProducts;
   int isActiveFilter;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   _loadData() async {
     productsList.clear();
@@ -167,6 +168,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       floatingActionButton: FloatingActionButton(
         backgroundColor: ColorUtils.primaryColor,
         onPressed: () {
@@ -226,6 +228,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                               filter == "" ||
                               eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
                             return InventoryProductsViewCard(
+                              scaffoldKey: scaffoldKey,
                               fromInventory: false,
                               onDelete: (result) {
                                 if (result) {

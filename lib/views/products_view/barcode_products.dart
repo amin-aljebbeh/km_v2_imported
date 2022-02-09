@@ -7,7 +7,7 @@ import 'package:kammun_app/views/products_view/services/products_services.dart';
 
 class BarcodeProducts extends StatefulWidget {
   final String barcode;
-  final Function(String) onIgnore;
+  final Function onIgnore;
   final BarcodeRequestType requestType;
 
   const BarcodeProducts({Key key, @required this.barcode, this.onIgnore, @required this.requestType})
@@ -23,6 +23,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
   bool displayToActiveProducts = true;
   TextEditingController _controller = new TextEditingController();
   String filter;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   _loadData() async {
     productsList.clear();
@@ -41,7 +42,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
         productsList.addAll(response);
         if (productsList.isEmpty) {
           Navigator.of(context).pop();
-          widget.onIgnore(widget.barcode);
+          widget.onIgnore();
         }
         setState(() {
           isLoading = false;
@@ -82,6 +83,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: InventorySearchTextField(
         onReload: () {
@@ -136,6 +138,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                   filter == "" ||
                                   eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
                                 return InventoryProductsViewCard(
+                                  scaffoldKey: scaffoldKey,
                                   fromInventory: false,
                                   onDelete: (result) {
                                     if (result) {
@@ -167,7 +170,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
               color: ColorUtils.primaryColor,
               onTap: () {
                 Navigator.pop(context);
-                widget.onIgnore(widget.barcode);
+                widget.onIgnore();
               },
               text: 'تجاهل',
               height: 50,

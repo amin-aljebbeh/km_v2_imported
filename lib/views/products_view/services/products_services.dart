@@ -118,7 +118,6 @@ class ProductsServices {
           "price_factor": priceFactor,
           "automatic_activation": autoActivation,
         };
-        Tools.logToConsole('hero');
         bool result = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: subWarehouseBody);
         if (result) {
           return int.parse(response.data["data"]["id"].toString());
