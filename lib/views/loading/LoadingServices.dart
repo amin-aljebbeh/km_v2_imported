@@ -25,9 +25,6 @@ class LoadingScreenServices {
   static String imagePrefixUrl = "";
   static List<AssetImage> bannerList = List<AssetImage>();
   static List<Image> bannerListNetwork = List<Image>();
-  // static List<DeliveryMethodOriginalData> deliveryMethodsList =
-  //     new List<DeliveryMethodOriginalData>();
-  // Mobile Configuration variables
   static String updateUrl = "";
   static String androidShareUrl = "";
   static String iOSShareUrl = "";
@@ -36,7 +33,7 @@ class LoadingScreenServices {
   static bool updateRequired = false;
   static bool updateOptional = false;
   static bool checkIfLoggedIn = false;
-  static bool showOnLucnhNotification = true;
+  static bool showOnLunchNotification = true;
 
   static SupportedCityOriginal supportedCityOriginal;
   static String supportPhoneNumber;
@@ -51,7 +48,7 @@ class LoadingScreenServices {
 
   // -------------------------------------------------------//
 
-  // User Veriables
+  // User Variables
   static List<Address> userAddress = List<Address>();
   static List<ProductData> userFavoriteProducts = List<ProductData>();
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
@@ -59,7 +56,7 @@ class LoadingScreenServices {
 
   // -------------------------------------------------------//
 
-  /// -------- selecrted supported city information ------- ///
+  /// -------- selected supported city information ------- ///
 
   static String selectedSupportedCityName;
   static String selectedSupportedCityPrice;
@@ -97,18 +94,18 @@ class LoadingScreenServices {
             //isThreeLine: true,
             leading: Icon(
               Icons.pin_drop,
-              color: UtilsImporter().colorUtils.kmColors,
+              color: ColorUtils.kmColors,
             ),
             title: Text(
               '${supportedCitiesResponse.data[i].name} ',
               style: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                fontFamily: StringUtils.fontFamilyHKGrotesk,
               ),
             ),
             trailing: Text(
               "${supportedCitiesResponse.data[i].deliveryPrice.split(".")[0]}",
               style: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                fontFamily: StringUtils.fontFamilyHKGrotesk,
               ),
             ),
           ),
@@ -392,7 +389,7 @@ class LoadingScreenServices {
           supportedCitiesList.add(new DropdownMenuItem(
             child: Text(
               "${supportedCitiesResponse.data[i].name} - التوصيل : ${supportedCitiesResponse.data[i].deliveryPrice}",
-              style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+              style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
             ),
             value: supportedCitiesResponse.data[i].name +
                 " price" +

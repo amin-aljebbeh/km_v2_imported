@@ -19,23 +19,21 @@ enum MyThemeKeys { LIGHT, DARK, DARKER }
 
 class MyThemes {
   static final ThemeData lightTheme = ThemeData(
-    primaryColor: UtilsImporter().colorUtils.primarycolor,
+    primaryColor: ColorUtils.primaryColor,
     primaryColorLight: Colors.white,
     primaryColorDark: Colors.black,
     brightness: Brightness.light,
     inputDecorationTheme: InputDecorationTheme(
-        focusedBorder:
-            UnderlineInputBorder(borderSide: BorderSide(color: UtilsImporter().colorUtils.primarycolor))),
+        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.primaryColor))),
   );
 
   static final ThemeData darkTheme = ThemeData(
-    primaryColor: UtilsImporter().colorUtils.primarycolor,
+    primaryColor: ColorUtils.primaryColor,
     primaryColorLight: Colors.black,
     primaryColorDark: Colors.white,
     brightness: Brightness.dark,
     inputDecorationTheme: InputDecorationTheme(
-        focusedBorder:
-            UnderlineInputBorder(borderSide: BorderSide(color: UtilsImporter().colorUtils.primarycolor))),
+        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.primaryColor))),
   );
 
   static final ThemeData darkerTheme = ThemeData(

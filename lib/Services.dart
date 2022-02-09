@@ -176,7 +176,7 @@ class Services {
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: LOGIN_URL, method: httpMethods.post, body: jsonEncode(loginBody), reponseType: ResponseType.json);
+          url: LOGIN_URL, method: httpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
       var theResponse = response.data;
 
       if (response.statusCode == SUCCESS_CODE && (theResponse["success"].toString() == "true")) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/supported_city/services/supported_city_services.dart';
@@ -28,22 +28,14 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
               new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: TextField(
             controller: _searchBarController,
-            onSubmitted: (_) {
-              // Navigator.push(
-              //     context,
-              //     new MaterialPageRoute(
-              //         builder: (context) => new ProductsView(
-              //               queryString: _searchController.text,
-              //               categoryId: "0",
-              //             )));
-            },
-            cursorColor: UtilsImporter().colorUtils.primarycolor,
+            onSubmitted: (_) {},
+            cursorColor: ColorUtils.primaryColor,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
               contentPadding: const EdgeInsets.only(top: 4.0),
               hintText: "ابحث عن منطقتك",
               hintStyle: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                fontFamily: StringUtils.fontFamilyHKGrotesk,
               ),
             ),
           ),
@@ -71,28 +63,25 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // return object of type Dialog
         return AlertDialog(
           title: new Text(
             "$title",
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
           ),
           content: new Text(
             "$body",
-            // maxLines: 20,
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
           ),
           scrollable: true,
           actions: <Widget>[
-            // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text(
                 "إغلاق",
-                style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -208,27 +197,6 @@ class _SupportedCityWidgetState extends State<SupportedCityWidget> {
                                     .contains(filter.toLowerCase())
                                 ? GestureDetector(
                                     onTap: () {
-                                      // setState(() {
-                                      //   LoadingScreenServices
-                                      //           .selectedSupportedCityName =
-                                      //       LoadingScreenServices
-                                      //           .supportedCityOriginal
-                                      //           .data[index]
-                                      //           .name;
-                                      //   LoadingScreenServices
-                                      //           .selectedSupportedCityId =
-                                      //       LoadingScreenServices
-                                      //           .supportedCityOriginal
-                                      //           .data[index]
-                                      //           .id
-                                      //           .toString();
-                                      // });
-                                      // Navigator.of(context)
-                                      //     .pushNamedAndRemoveUntil(
-                                      //   LoginScreen.routeName,
-                                      //   (Route<dynamic> route) => false,
-                                      // );
-
                                       _updateUserSupportedCity(
                                           supportedCityId: LoadingScreenServices
                                               .supportedCityOriginal.data[index].id
@@ -285,12 +253,6 @@ class SupportedCityCardViewState extends State<SupportedCityCardView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // decoration: BoxDecoration(
-      //     borderRadius: BorderRadius.only(
-      //         Radius.circular(10.0) //                 <--- border radius here
-      //         ),
-      //     border: Border.all(
-      //         color: UtilsImporter().colorUtils.primarycolor, width: 2)),
       color: Theme.of(context).primaryColorLight,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -317,7 +279,7 @@ class SupportedCityCardViewState extends State<SupportedCityCardView> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       fontSize: 18),
                                 ),
                               ),
@@ -326,7 +288,6 @@ class SupportedCityCardViewState extends State<SupportedCityCardView> {
                           SizedBox(height: 8),
                           Center(
                             child: Wrap(
-                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -334,8 +295,8 @@ class SupportedCityCardViewState extends State<SupportedCityCardView> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          color: UtilsImporter().colorUtils.primarycolor,
-                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                          color: ColorUtils.primaryColor,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                                           fontSize: 18)),
                                 ),
                                 Padding(
@@ -344,8 +305,8 @@ class SupportedCityCardViewState extends State<SupportedCityCardView> {
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          color: UtilsImporter().colorUtils.primarycolor,
-                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                          color: ColorUtils.primaryColor,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                                           fontSize: 18)),
                                 ),
                               ],
@@ -361,7 +322,7 @@ class SupportedCityCardViewState extends State<SupportedCityCardView> {
           ),
           SizedBox(height: 4),
           Divider(
-            color: UtilsImporter().colorUtils.primarycolor,
+            color: ColorUtils.primaryColor,
             thickness: 2.5,
           )
         ],

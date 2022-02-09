@@ -32,7 +32,6 @@ class OrderDetailViewState extends State<OrderDetailView> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
@@ -55,10 +54,10 @@ class OrderDetailViewState extends State<OrderDetailView> {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        UtilsImporter().stringUtils.orderDetail,
+                        StringUtils.orderDetail,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 30),
                       )),
                 ],
@@ -95,20 +94,20 @@ class OrderDetailViewState extends State<OrderDetailView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(UtilsImporter().stringUtils.subtotal,
+                    Text(StringUtils.subtotal,
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 17.0,
                         )),
                     Text(
-                      UtilsImporter().stringUtils.oCcy.format(widget.subTotal).toString() +
+                      StringUtils().oCcy.format(widget.subTotal).toString() +
                           " ${LoadingScreenServices.companyInformation.currency}",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 17.0),
                     ),
                   ],
@@ -120,11 +119,11 @@ class OrderDetailViewState extends State<OrderDetailView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(UtilsImporter().stringUtils.delivery,
+                    Text(StringUtils.delivery,
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 16.0,
                         )),
                     Text(
@@ -132,7 +131,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 16),
                     ),
                   ],
@@ -144,20 +143,20 @@ class OrderDetailViewState extends State<OrderDetailView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(UtilsImporter().stringUtils.total,
+                    Text(StringUtils.total,
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 19.0,
                         )),
                     Text(
-                      "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.total))}" +
+                      "${StringUtils().oCcy.format(int.parse(widget.total))}" +
                           " ${LoadingScreenServices.companyInformation.currency}",
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 19),
                     ),
                   ],
@@ -189,7 +188,6 @@ class OrderDetailViewCard extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return OrderDetailViewCardState();
   }
 }
@@ -197,7 +195,6 @@ class OrderDetailViewCard extends StatefulWidget {
 class OrderDetailViewCardState extends State<OrderDetailViewCard> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       color: Theme.of(context).primaryColorLight,
       child: Padding(
@@ -241,7 +238,7 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                                 widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -251,18 +248,18 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                             widget.quantity + " " + widget.unit,
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                color: UtilsImporter().colorUtils.greycolor,
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                color: ColorUtils.greyColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
                           Text(
-                              UtilsImporter().stringUtils.oCcy.format(widget.price).toString() +
+                              StringUtils().oCcy.format(widget.price).toString() +
                                   " ${LoadingScreenServices.companyInformation.currency}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color: UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                  color: ColorUtils.primaryColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),
@@ -276,7 +273,7 @@ class OrderDetailViewCardState extends State<OrderDetailViewCard> {
                       borderRadius:
                           BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                               ),
-                      border: Border.all(color: UtilsImporter().colorUtils.primarycolor, width: 2)),
+                      border: Border.all(color: ColorUtils.primaryColor, width: 2)),
                   child: Center(
                       child: Text(
                     widget.productCount,

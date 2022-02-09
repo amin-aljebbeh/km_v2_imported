@@ -2,10 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
@@ -76,7 +76,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
     }
 
     total = subtotal +
-        // Services.delivery_Price +
         LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice +
         int.parse(DeliveryMethodServices.deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].pivot.price
             .split(".")[0]);
@@ -125,8 +124,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
       productsId += CartServices.cartProducts[i].id.toString() + ";";
       productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
     }
-    // products_Id += widget.products.id.toString();
-    // products_quantity += widget.products.quantity.toString();
     prefs.setString("userCart", productsId + "@" + productsQuantity);
   }
 
@@ -134,7 +131,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        // backgroundColor: Theme.of(context).primaryColorLight,
         body: SafeArea(
           child: loadingScreen
               ? Center(
@@ -173,10 +169,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 Navigator.of(context).pop();
                               },
                               child: Text(
-                                UtilsImporter().stringUtils.shoppingCart,
+                                StringUtils.shoppingCart,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 30),
                               ),
                             ),
@@ -191,7 +187,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           itemBuilder: (BuildContext context, int index) {
                             return new GestureDetector(
                               behavior: HitTestBehavior.translucent,
-                              onTap: () => _onTileClicked(index),
+                              onTap: () {},
                               child: Container(
                                 //  color: Theme.of(context).primaryColorLight,
                                 child: Padding(
@@ -208,20 +204,20 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            UtilsImporter().stringUtils.subtotal,
+                            StringUtils.subtotal,
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                               fontSize: 17.0,
                             ),
                           ),
                           Text(
-                            "${UtilsImporter().stringUtils.oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
+                            "${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17.0),
                           ),
                         ],
@@ -230,19 +226,19 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(UtilsImporter().stringUtils.delivery,
+                          Text(StringUtils.delivery,
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 16.0,
                               )),
                           Text(
-                            "${UtilsImporter().stringUtils.oCcy.format(LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice + int.parse(DeliveryMethodServices.deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].pivot.price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                            "${StringUtils().oCcy.format(LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice + int.parse(DeliveryMethodServices.deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].pivot.price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 16),
                           ),
                         ],
@@ -251,19 +247,19 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(UtilsImporter().stringUtils.total,
+                          Text(StringUtils.total,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 19.0,
                               )),
                           Text(
-                            "${UtilsImporter().stringUtils.oCcy.format(total)} ${LoadingScreenServices.companyInformation.currency}",
+                            "${StringUtils().oCcy.format(total)} ${LoadingScreenServices.companyInformation.currency}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: Theme.of(context).primaryColorDark,
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 19),
                           ),
                         ],
@@ -326,7 +322,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         "ملاحظات على الطلب",
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 18),
                       ),
                     ),
@@ -337,7 +333,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               ),
                           border: Border.all(
                             width: 2,
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: ColorUtils.kmColors,
                           )),
                       child: new TextField(
                         controller: _userNotes,
@@ -345,7 +341,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         keyboardType: TextInputType.multiline,
                         maxLines: 5,
                         style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                         ),
                       ),
                     ),
@@ -385,7 +381,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             placeholder: AssetImage("assets/kmIcon.png"),
                             fit: BoxFit.contain))),
               ),
-              //SizedBox(width: 10),
               SizedBox(width: 10),
               Expanded(
                 child: Container(
@@ -400,7 +395,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               orderArray[index].name,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18),
                             ),
                             SizedBox(height: 6),
@@ -408,17 +403,17 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greycolor,
-                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                  color: ColorUtils.greyColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 17),
                             ),
                             SizedBox(height: 8),
                             Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: UtilsImporter().colorUtils.primarycolor,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                    color: ColorUtils.primaryColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18)),
                           ],
                         ),
@@ -427,7 +422,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
                   ),
                 ),
               ),
-
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -435,8 +429,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                   Container(
                     width: 30,
                     height: 30,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: UtilsImporter().colorUtils.greycolor.withOpacity(0.2)),
+                    decoration:
+                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {
@@ -459,14 +453,14 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 18)),
                   SizedBox(height: 5),
                   Container(
                     width: 30,
                     height: 30,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: UtilsImporter().colorUtils.greycolor.withOpacity(0.2)),
+                    decoration:
+                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {
@@ -506,21 +500,14 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   // Function to be called on click
-  void _onTileClicked(int index) {
-    // Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //         builder: (context) =>
-    //             new ProductDetailView(heroIndex: index + 100)));
-  }
 
   _showBottomSheet({List<String> notActive, List<String> priceProblem}) {
-    List<int> notactiveId = [];
+    List<int> notActiveId = [];
     List<int> priceId = [];
 
     for (int i = 0; i < orderArray.length; i++) {
       if (notActive.contains(orderArray[i].id.toString())) {
-        notactiveId.add(orderArray[i].id);
+        notActiveId.add(orderArray[i].id);
       }
       if (priceProblem.contains(orderArray[i].id.toString())) {
         priceId.add(orderArray[i].id);
@@ -530,7 +517,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => OrderProblemBottomSheet(
-        notActiveProducts: notactiveId,
+        notActiveProducts: notActiveId,
         pricesChangesProducts: priceId,
         applyChanges: () {
           _reloadPrices();
@@ -654,12 +641,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
               new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: new Center(
             child: new Text(
-              UtilsImporter().stringUtils.confirmOrder.toUpperCase(),
+              StringUtils.confirmOrder.toUpperCase(),
               style: new TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                  fontFamily: StringUtils.fontFamilyHKGrotesk),
             ),
           ),
         ),
@@ -680,8 +667,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
           //  width: MediaQuery.of(context).size.width / 2.5,
           height: 40.0,
           decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.primarycolor,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+              color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: new Center(
               child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -712,7 +698,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           color: Colors.white,
                           // fontSize: 20.0,
                           fontWeight: FontWeight.bold,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                          fontFamily: StringUtils.fontFamilyHKGrotesk),
                     ),
                   ),
                 ),
@@ -747,8 +733,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
           width: MediaQuery.of(context).size.width / 2.5,
           height: 40.0,
           decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.primarycolor,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+              color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: new Center(
             child: new AutoSizeText(
               "حفظ الملاحظة",
@@ -757,7 +742,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                   color: Colors.white,
                   // fontSize: 20.0,
                   fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                  fontFamily: StringUtils.fontFamilyHKGrotesk),
             ),
           ),
         ),

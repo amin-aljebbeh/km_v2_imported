@@ -24,12 +24,12 @@ class _UsagePolicyState extends State<UsagePolicy> {
             new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.approveUsagePolicy.toUpperCase(),
+            StringUtils.approveUsagePolicy,
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 25.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -58,27 +58,16 @@ class _UsagePolicyState extends State<UsagePolicy> {
                 decoration: BoxDecoration(
                   border: Border(bottom: BorderSide()),
                 ),
-                child: Text('سياسة الإستخدام',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
-                        color: UtilsImporter().colorUtils.primarycolor,
-                        fontSize: 25)), //font color is diffrent
+                child: Text(
+                  'سياسة الإستخدام',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    color: ColorUtils.primaryColor,
+                    fontSize: 25,
+                  ),
+                ),
               ),
-              // Container(
-              //   alignment: Alignment.center,
-              //   margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
-              //   child: Text(
-              //     "تحتاج للموافقة على سياسة الإستخدام الخاصة بتطبيق كمّون حتى تتمكن من التسجيل ",
-              //     style: TextStyle(
-              //         fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-              //         fontSize: 18,
-              //         color: Colors.black),
-              //   ), //font color is diffrent
-              // ),
-              // SizedBox(
-              //   height: 10,
-              // ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Center(
@@ -89,7 +78,7 @@ class _UsagePolicyState extends State<UsagePolicy> {
                           text: "تحتاج للموافقة على ",
                           style: TextStyle(
                             color: Colors.grey[900],
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                           ),
@@ -101,7 +90,7 @@ class _UsagePolicyState extends State<UsagePolicy> {
                           text: " سياسة الإستخدام ",
                           style: TextStyle(
                             color: Colors.blue[800],
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,
@@ -111,7 +100,7 @@ class _UsagePolicyState extends State<UsagePolicy> {
                           text: "الخاصة بتطبيق كمّون حتى تتمكن من إستعمال التطبيق",
                           style: TextStyle(
                             color: Colors.grey[900],
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                           ),
@@ -136,7 +125,7 @@ class _UsagePolicyState extends State<UsagePolicy> {
                           text: "غير موافق",
                           style: TextStyle(
                             color: Colors.red[800],
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             decoration: TextDecoration.underline,

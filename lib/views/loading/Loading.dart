@@ -19,7 +19,7 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  Future featchInformation;
+  Future fetchInformation;
   Future checkUpdate;
 
   CartProduct cartLoad = CartProduct();
@@ -28,7 +28,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   void initState() {
-    featchInformation = _getClientInfo();
+    fetchInformation = _getClientInfo();
 
     super.initState();
   }
@@ -53,7 +53,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   loadingProgress() {
     return Scaffold(
-      backgroundColor: UtilsImporter().colorUtils.kmColors,
+      backgroundColor: ColorUtils.kmColors,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -88,7 +88,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: featchInformation,
+        future: fetchInformation,
         builder: (context, snapShot) {
           if (snapShot.data == "userNotLoggedIn") {
             return LoginScreen();

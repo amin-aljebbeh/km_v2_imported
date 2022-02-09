@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -73,16 +73,16 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
         margin: EdgeInsets.only(left: 25.0, right: 10.0, bottom: 10.0),
         height: 50.0,
         decoration: new BoxDecoration(
-            color: selectedIndex != null ? UtilsImporter().colorUtils.primarycolor : Colors.grey[400],
+            color: selectedIndex != null ? ColorUtils.primaryColor : Colors.grey[400],
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.proceedToPay.toUpperCase(),
+            StringUtils.proceedToPay.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -109,7 +109,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -147,10 +147,10 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                 Navigator.of(context).pop();
                               },
                               child: Text(
-                                UtilsImporter().stringUtils.deliverMethod,
+                                StringUtils.deliverMethod,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 30),
                               )),
                         ],
@@ -184,19 +184,19 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                               ),
                                           border: Border.all(
                                             width: 2,
-                                            color: UtilsImporter().colorUtils.kmColors,
+                                            color: ColorUtils.kmColors,
                                           )),
                                       child: GroupButton(
                                         unselectedTextStyle: TextStyle(
-                                            //color: UtilsImporter().colorUtils.primarycolor,
+                                            //color: ColorUtils.primarycolor,
                                             fontSize: 20.0,
                                             fontWeight: FontWeight.w500,
-                                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                                            fontFamily: StringUtils.fontFamilyHKGrotesk),
                                         selectedTextStyle: TextStyle(
                                             color: Colors.white,
                                             fontSize: 20.0,
                                             fontWeight: FontWeight.w500,
-                                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                                            fontFamily: StringUtils.fontFamilyHKGrotesk),
                                         direction: Axis.vertical,
                                         isRadio: true,
                                         spacing: 10,
@@ -234,10 +234,10 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                     // padding: const EdgeInsets.all(8.0),
                                     child: Text("اجرةالتوصيل النهائية",
                                         style: TextStyle(
-                                            color: UtilsImporter().colorUtils.primarycolor,
+                                            color: ColorUtils.primaryColor,
                                             fontSize: 30.0,
                                             fontWeight: FontWeight.w500,
-                                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
+                                            fontFamily: StringUtils.fontFamilyHKGrotesk)),
                                   ),
                                   SizedBox(
                                     height: 15,
@@ -247,10 +247,10 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                     child: Text(
                                         "${int.parse(DeliveryMethodServices.deliveryMethodsList[selectedIndex].pivot.price.split(".")[0]) + LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice} ${LoadingScreenServices.companyInformation.currency}",
                                         style: TextStyle(
-                                            color: UtilsImporter().colorUtils.primarycolor,
+                                            color: ColorUtils.primaryColor,
                                             fontSize: 30.0,
                                             fontWeight: FontWeight.w500,
-                                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
+                                            fontFamily: StringUtils.fontFamilyHKGrotesk)),
                                   ),
                                 ],
                               ),

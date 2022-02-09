@@ -118,49 +118,50 @@ class AlertTextView extends StatelessWidget {
   final Color textColor;
   final double textSize = 15;
   final FontWeight textWeight;
-  final Color insideBordercolor;
-  final String sucsessText;
-  final Color headerTextColler;
+  final Color insideBorderColor;
+  final String successText;
+  final Color headerTextColor;
   final double headerTextSize;
   final double messageTextSize;
 
-  AlertTextView(this.text, this.textColor, this.insideBordercolor, this.textWeight, this.sucsessText,
-      this.headerTextColler, this.headerTextSize, this.messageTextSize);
+  AlertTextView(this.text, this.textColor, this.insideBorderColor, this.textWeight, this.successText,
+      this.headerTextColor, this.headerTextSize, this.messageTextSize);
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       children: <Widget>[
         Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: insideBordercolor, width: 4),
+          decoration: BoxDecoration(
+            border: Border.all(color: insideBorderColor, width: 4),
+          ),
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.topRight,
+          child: RichText(
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: successText,
+                  style: TextStyle(
+                      color: headerTextColor,
+                      fontSize: headerTextSize != null ? headerTextSize : 15,
+                      fontWeight: FontWeight.w700,
+                      height: 1.5,
+                      fontFamily: StringUtils.fontFamilyHKGrotesk),
+                ),
+                TextSpan(
+                  text: text,
+                  style: TextStyle(
+                      color: textColor,
+                      fontSize: messageTextSize != null ? messageTextSize : textSize,
+                      height: 1.5,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: StringUtils.fontFamilyHKGrotesk),
+                ),
+              ],
             ),
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.topRight,
-            child: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                    text: sucsessText,
-                    style: TextStyle(
-                        color: headerTextColler,
-                        fontSize: headerTextSize != null ? headerTextSize : 15,
-                        fontWeight: FontWeight.w700,
-                        height: 1.5,
-                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
-                  ),
-                  TextSpan(
-                    text: text,
-                    style: TextStyle(
-                        color: textColor,
-                        fontSize: messageTextSize != null ? messageTextSize : textSize,
-                        height: 1.5,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
-                  ),
-                ],
-              ),
-            )),
+          ),
+        ),
       ],
     );
   }

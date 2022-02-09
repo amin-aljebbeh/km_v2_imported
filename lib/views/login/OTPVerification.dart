@@ -1,10 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../../Services.dart';
@@ -36,7 +36,6 @@ class _OTPVerificationState extends State<OTPVerification> {
 
       if (response) {
         await Navigator.of(context).pushNamedAndRemoveUntil('/supportedCity', (Route<dynamic> route) => false);
-        // KammunRestart.restartApp(context);
       } else {
         setState(() {
           errorCode = true;
@@ -55,7 +54,6 @@ class _OTPVerificationState extends State<OTPVerification> {
 
   @override
   void dispose() {
-    // SmsAutoFill().unregisterListener();
     super.dispose();
   }
 
@@ -79,8 +77,7 @@ class _OTPVerificationState extends State<OTPVerification> {
         child: new Container(
           height: 50.0,
           decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.primarycolor,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+              color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: new Center(
             child: new Text(
               "تأكيد الرمز",
@@ -88,7 +85,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                  fontFamily: StringUtils.fontFamilyHKGrotesk),
             ),
           ),
         ),
@@ -145,7 +142,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                               text: "سوف يتم إرسال رسالة تفعيل إلى الرقم ",
                               style: TextStyle(
                                 color: Colors.grey[900],
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -153,8 +150,8 @@ class _OTPVerificationState extends State<OTPVerification> {
                             TextSpan(
                               text: " ${LoginScreen.phoneNumber} ",
                               style: TextStyle(
-                                color: UtilsImporter().colorUtils.primarycolor,
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                color: ColorUtils.primaryColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -163,7 +160,7 @@ class _OTPVerificationState extends State<OTPVerification> {
                               text: "عبر رسالة (SMS)",
                               style: TextStyle(
                                 color: Colors.grey[900],
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -175,8 +172,8 @@ class _OTPVerificationState extends State<OTPVerification> {
                                     ),
                               text: " تغيير الرقم ",
                               style: TextStyle(
-                                color: UtilsImporter().colorUtils.kmColors,
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                color: ColorUtils.kmColors,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.underline,

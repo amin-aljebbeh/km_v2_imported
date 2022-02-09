@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/models/start_model.dart';
-import 'package:kammun_app/utils/Loader.dart';
+import 'file:///D:/Kammun/km_v2/lib/views/Wedgit/loader.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
@@ -108,10 +108,10 @@ class OrdersViewState extends State<OrdersView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            UtilsImporter().stringUtils.yourOrders,
+                            StringUtils.yourOrders,
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 30),
                           ),
                           Padding(
@@ -129,7 +129,7 @@ class OrdersViewState extends State<OrdersView> {
                               icon: Icon(
                                 Icons.refresh,
                                 size: 40,
-                                color: UtilsImporter().colorUtils.kmColors,
+                                color: ColorUtils.kmColors,
                               ),
                             ),
                           ),
@@ -144,8 +144,8 @@ class OrdersViewState extends State<OrdersView> {
                                     "لا يوجد أي طلبات سابقة",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      color: UtilsImporter().colorUtils.greycolor,
-                                      fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                      color: ColorUtils.greyColor,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       fontSize: 20.0,
                                     ),
                                   ),
@@ -206,7 +206,7 @@ class OrdersViewState extends State<OrdersView> {
                                     padding: const EdgeInsets.only(top: 8.0),
                                     child: Divider(
                                       thickness: 5,
-                                      color: UtilsImporter().colorUtils.kmColors2,
+                                      color: ColorUtils.kmColors2,
                                     ),
                                   )
                                 ],
@@ -223,7 +223,7 @@ class OrdersViewState extends State<OrdersView> {
                                   child: Text("تم جلب جميع الطلبات",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk))))
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk))))
                           : Container(),
                       isLoading
                           ? Container(
@@ -279,12 +279,12 @@ class OrdersViewState extends State<OrdersView> {
             new BoxDecoration(color: Colors.red[700], borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.cancelOrder.toUpperCase(),
+            StringUtils.cancelOrder.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -340,7 +340,7 @@ class OrdersViewState extends State<OrdersView> {
       context: context,
       builder: (context) => RatingView(
         orderId: orderDataList[index].id.toString(),
-        onReqestDone: () {
+        onRequestDone: () {
           orderDataList[index].userDeliveryRating = rateValue.toString();
           orderDataList.clear();
 
@@ -356,15 +356,15 @@ class OrdersViewState extends State<OrdersView> {
       child: new Container(
         height: 40.0,
         decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.kmColors, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: ColorUtils.kmColors, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.ratingOrder.toUpperCase(),
+            StringUtils.ratingOrder.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -431,12 +431,12 @@ class OrdersViewState extends State<OrdersView> {
             new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.editOrder.toUpperCase(),
+            StringUtils.editOrder.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -519,14 +519,14 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   Container(
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      border: Border.all(color: UtilsImporter().colorUtils.greycolor.withOpacity(0.2)),
+                      border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2)),
                     ),
                     child: Text(
                       widget.orderQuantity.toString(),
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w400,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 15),
                       textAlign: TextAlign.center,
                     ),
@@ -550,21 +550,21 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                     TextSpan(
                                       text: "الفاتورة : ",
                                       style: TextStyle(
-                                        color: UtilsImporter().colorUtils.primarycolor,
+                                        color: ColorUtils.primaryColor,
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       ),
                                     ),
                                     TextSpan(
                                       text:
-                                          "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
+                                          "${StringUtils().oCcy.format(int.parse(widget.orderTotalPrice)).toString()}" +
                                               " ${LoadingScreenServices.companyInformation.currency.toString()}",
                                       style: TextStyle(
                                         color: Colors.black87,
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       ),
                                     ),
                                   ],
@@ -578,10 +578,10 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                   TextSpan(
                                     text: "تاريخ الطلب : ",
                                     style: TextStyle(
-                                      color: UtilsImporter().colorUtils.primarycolor,
+                                      color: ColorUtils.primaryColor,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     ),
                                   ),
                                   TextSpan(
@@ -590,7 +590,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                       color: Colors.black38,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     ),
                                   ),
                                 ],
@@ -599,9 +599,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                             Text(
                               orderStatus,
                               style: TextStyle(
-                                  color: UtilsImporter().colorUtils.greycolor,
+                                  color: ColorUtils.greyColor,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18),
                             ),
                           ],

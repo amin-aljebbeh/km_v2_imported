@@ -9,7 +9,7 @@ class ApiProvider {
       dynamic body,
       Map<String, dynamic> queryParameters,
       httpMethods method,
-      ResponseType reponseType,
+      ResponseType responseType,
       bool mapService,
       bool isUrlEncodedFormat}) async {
     if (mapService == null) mapService = false;
@@ -23,17 +23,7 @@ class ApiProvider {
 
     var dio = new Dio(options);
 
-    // Master Version //
-    // --------------------------------------- //
-    // Map<String, String> header = {
-    //   'Authorization':
-    //       LoadingScreen.user_token.length > 5 ? LoadingScreen.user_token : "",
-    // };
-    // --------------------------------------- //
-
     Map<String, String> header = {
-      // 'Authorization': "Bearer user",
-
       'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : "",
     };
 
@@ -46,7 +36,7 @@ class ApiProvider {
             response = await dio.get(
               url,
               queryParameters: queryParameters,
-              options: Options(headers: header, responseType: reponseType),
+              options: Options(headers: header, responseType: responseType),
             );
             break;
           }
@@ -55,7 +45,7 @@ class ApiProvider {
             response = await dio.delete(
               url,
               queryParameters: queryParameters,
-              options: Options(headers: header, responseType: reponseType),
+              options: Options(headers: header, responseType: responseType),
             );
             break;
           }
@@ -64,7 +54,7 @@ class ApiProvider {
             response = await dio.put(
               url,
               queryParameters: queryParameters,
-              options: Options(headers: header, responseType: reponseType),
+              options: Options(headers: header, responseType: responseType),
               data: body,
             );
             break;

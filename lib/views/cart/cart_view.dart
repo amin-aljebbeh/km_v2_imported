@@ -24,7 +24,7 @@ class CartView extends StatefulWidget {
 class CartViewState extends State<CartView> {
   List<ProductData> orderArray;
   int subtotal = 0;
-  int delivaryCost = 10;
+  int deliveryCost = 10;
   static List<int> cards = [];
 
   makeCards() {
@@ -51,8 +51,7 @@ class CartViewState extends State<CartView> {
       child: new Container(
         height: 50.0,
         decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
             "موافق",
@@ -60,7 +59,7 @@ class CartViewState extends State<CartView> {
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -88,7 +87,7 @@ class CartViewState extends State<CartView> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 18),
                       ),
                     ),
@@ -99,7 +98,7 @@ class CartViewState extends State<CartView> {
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: Colors.grey[800],
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 18),
                       ),
                     ),
@@ -150,10 +149,10 @@ class CartViewState extends State<CartView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        UtilsImporter().stringUtils.shoppingCart,
+                        StringUtils.shoppingCart,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 30),
                       ),
                     ],
@@ -167,8 +166,8 @@ class CartViewState extends State<CartView> {
                             "سلة المشتريات فارغة",
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
-                              color: UtilsImporter().colorUtils.greycolor,
-                              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                              color: ColorUtils.greyColor,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                               fontSize: 20.0,
                             ),
                           ),
@@ -185,7 +184,7 @@ class CartViewState extends State<CartView> {
                     itemBuilder: (BuildContext context, int index) {
                       return new GestureDetector(
                         behavior: HitTestBehavior.translucent,
-                        onTap: () => _onTileClicked(index),
+                        onTap: () {},
                         child: Container(
                           //  color: Theme.of(context).primaryColorLight,
                           child: Padding(
@@ -201,19 +200,19 @@ class CartViewState extends State<CartView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(UtilsImporter().stringUtils.subtotal,
+                    Text(StringUtils.subtotal,
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 19.0,
                         )),
                     Text(
-                      "${UtilsImporter().stringUtils.oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
+                      "${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 19),
                     ),
                   ],
@@ -277,7 +276,7 @@ class CartViewState extends State<CartView> {
                                   orderArray[index].name,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       fontSize: 18),
                                 ),
                               ],
@@ -287,25 +286,18 @@ class CartViewState extends State<CartView> {
                               orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greycolor,
-                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                  color: ColorUtils.greyColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 17),
                             ),
                             SizedBox(height: 8),
                             Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: UtilsImporter().colorUtils.primarycolor,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                    color: ColorUtils.primaryColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18)),
-                            //SizedBox(height: 8),
-                            // IconButton(
-                            //   icon: Icon(Icons.delete_forever),
-                            //   color: Colors.red,
-                            //   onPressed: () {},
-                            //     iconSize: 30,
-                            // ),
                           ],
                         ),
                       ),
@@ -320,8 +312,8 @@ class CartViewState extends State<CartView> {
                   Container(
                     width: 30,
                     height: 30,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: UtilsImporter().colorUtils.greycolor.withOpacity(0.2)),
+                    decoration:
+                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {
@@ -342,14 +334,14 @@ class CartViewState extends State<CartView> {
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 18)),
                   SizedBox(height: 5),
                   Container(
                     width: 30,
                     height: 30,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: UtilsImporter().colorUtils.greycolor.withOpacity(0.2)),
+                    decoration:
+                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
                     child: InkWell(
                       onTap: () {
                         setState(() {
@@ -391,15 +383,6 @@ class CartViewState extends State<CartView> {
   }
 
   // Function to be called on click
-  void _onTileClicked(int index) {
-    // Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //         builder: (context) => new ProductDetailView(
-    //               heroIndex: index + 100,
-    //               isFromFavoraiteScreen: false,
-    //             )));
-  }
 
   void _showConfirmOrderBtnTapped() {
     if (CartServices.cartProducts.length > 0) {
@@ -417,27 +400,22 @@ class CartViewState extends State<CartView> {
     }
   }
 
-  // DeliverToView.selectedIndex != null
-  //               ? UtilsImporter().colorUtils.primarycolor
-  //               : Colors.grey[400]
-
   Widget _showConfirmOrderButton() {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
       onTap: _showConfirmOrderBtnTapped,
       child: new Container(
         height: 50.0,
         decoration: new BoxDecoration(
-            color:
-                CartServices.cartProducts.length > 0 ? UtilsImporter().colorUtils.primarycolor : Colors.grey[400],
+            color: CartServices.cartProducts.length > 0 ? ColorUtils.primaryColor : Colors.grey[400],
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.confirmOrder.toUpperCase(),
+            StringUtils.confirmOrder.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),

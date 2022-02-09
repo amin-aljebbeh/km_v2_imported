@@ -34,13 +34,6 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
 
   @override
   Widget build(BuildContext context) {
-    // for (int i = 0; i < categoryListHome.length; i++) {
-    // }
-    // double screenWidth = MediaQuery.of(context).size.width;
-
-    // // var width = (screenWidth - ((_crossAxisCount - 1) * _crossAxisSpacing)) /
-    // //     _crossAxisCount;
-    // // //var height = (width / _aspectRatio) * categoryListHome.length / 1.75;
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -50,8 +43,6 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
 
             padding: EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
             itemCount: categoryListHome.length,
-
-            // itemCount: categoriesListArray.length,
             physics: new NeverScrollableScrollPhysics(),
             gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: _crossAxisCount,
@@ -79,10 +70,6 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
 
   // Function to be called on click
   void _onTileClicked(String index) {
-    //String category_name = categoriesListArray[index]['category_name'];
-    // List<Map<String, dynamic>> productsAry =
-    //     categoriesListArray[index]["grocery_products"];
-
     List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
 
     for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
@@ -150,29 +137,16 @@ class ShopByCategoryState extends State<ShopByCategory> {
               placeholder: AssetImage("assets/kmlogoo.png"),
               fit: BoxFit.cover,
             ),
-            // Image.network(
-            //   widget.img,
-            //   width: MediaQuery.of(context).size.width / 2,
-            //   fit: BoxFit.cover,
-            // ),
-            // Image.asset(
-            //   widget.img,
-            //   width: MediaQuery.of(context).size.width / 2,
-            //   height: 120,
-            //   fit: BoxFit.cover,
-            // ),
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  // Add one stop for each color. Stops should increase from 0 to 1
                   stops: [0.2, 0.7],
                   colors: [
                     Color.fromARGB(100, 0, 0, 0),
                     Color.fromARGB(100, 0, 0, 0),
                   ],
-                  // stops: [0.0, 0.1],
                 ),
               ),
               width: MediaQuery.of(context).size.width / 2,
@@ -190,7 +164,7 @@ class ShopByCategoryState extends State<ShopByCategory> {
                         color: Colors.white,
                         fontSize: ResponsiveFlutter.of(context).fontSize(3),
                         fontWeight: FontWeight.bold,
-                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                       ),
                       textAlign: TextAlign.center,
                     ),

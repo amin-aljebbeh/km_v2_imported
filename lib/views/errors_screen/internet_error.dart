@@ -57,7 +57,7 @@ class InternetError extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                fontFamily: StringUtils.fontFamilyHKGrotesk,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -68,14 +68,18 @@ class InternetError extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 15,
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: KammunButton(text: "إعادة المحاولة", onPress: () => KammunRestart.restartApp(context)),
+              child: KammunButton(
+                text: "إعادة المحاولة",
+                onTap: () => KammunRestart.restartApp(context),
+                color: ColorUtils.greyColor,
+              ),
             ),
           ],
         ),

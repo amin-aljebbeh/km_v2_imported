@@ -1,16 +1,16 @@
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 
 import 'services/order_services.dart';
 
 class RatingView extends StatefulWidget {
   final String orderId;
-  final Function() onReqestDone;
-  RatingView({this.orderId, this.onReqestDone});
+  final Function() onRequestDone;
+  RatingView({this.orderId, this.onRequestDone});
   @override
   _RatingViewState createState() => _RatingViewState();
 }
@@ -51,7 +51,7 @@ class _RatingViewState extends State<RatingView> {
           if (response) {
             Navigator.of(context).pop();
 
-            widget.onReqestDone();
+            widget.onRequestDone();
           } else {
             setState(() {
               error = true;
@@ -65,12 +65,6 @@ class _RatingViewState extends State<RatingView> {
             errorMessage = "يرجى اختيار وجه مناسب مع مدى رضاكم عن الخدمة";
           });
         }
-
-        /// Should Be Added ///
-        // orderDataList[index].userDeliveryRating = rateValue.toString();
-        // _getOrder();
-
-        // KammunRestart.restartApp(context);
       },
       child: new Container(
         height: 40.0,
@@ -78,12 +72,12 @@ class _RatingViewState extends State<RatingView> {
             new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.submitFeedback.toUpperCase(),
+            StringUtils.submitFeedback.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -103,7 +97,6 @@ class _RatingViewState extends State<RatingView> {
       body: SafeArea(
         child: SingleChildScrollView(
           reverse: true,
-
           controller: _scroll,
           child: isLoading
               ? Container(
@@ -123,9 +116,9 @@ class _RatingViewState extends State<RatingView> {
                       child: Text('تقييم الخدمة',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
-                              color: UtilsImporter().colorUtils.primarycolor,
-                              fontSize: 25)), //font color is diffrent
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              color: ColorUtils.primaryColor,
+                              fontSize: 25)),
                     ),
                     error
                         ? AlertMessages(
@@ -141,10 +134,8 @@ class _RatingViewState extends State<RatingView> {
                       child: Text(
                         "كيف كانت تجربة طلبك في كمّون؟ ( تقييمك وملاحظاتك تساعدنا في تطوير خدمة كمّون )",
                         style: TextStyle(
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
-                            fontSize: 18,
-                            color: Colors.black),
-                      ), //font color is diffrent
+                            fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 18, color: Colors.black),
+                      ),
                     ),
                     Container(
                       alignment: Alignment.center,
@@ -167,84 +158,6 @@ class _RatingViewState extends State<RatingView> {
                         },
                       ),
                     ),
-                    // Container(
-                    //   alignment: Alignment.center,
-                    //   margin: EdgeInsets.fromLTRB(
-                    //       0, screenHeight * 0.07, 17, screenHeight * 0.07),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     children: [
-                    //       IconButton(
-                    //         padding: EdgeInsets.zero,
-                    //         iconSize: 40,
-                    //         onPressed: () {
-                    //           setState(() {
-                    //             rateValue = 1;
-                    //             // feedbackBloc.add(UpdateRateValue(rateValue: 1));
-                    //           });
-                    //         },
-                    //         icon: Icon(Icons.mood_bad),
-                    //         color: rateValue == 1 ? Colors.red : Colors.grey,
-                    //       ),
-                    //       IconButton(
-                    //         padding: EdgeInsets.zero,
-                    //         iconSize: 40,
-                    //         icon: Icon(Icons.sentiment_dissatisfied,
-                    //             color: rateValue == 2
-                    //                 ? Colors.redAccent
-                    //                 : Colors.grey),
-                    //         onPressed: () {
-                    //           setState(() {
-                    //             rateValue = 2;
-                    //             //  feedbackBloc.add(UpdateRateValue(rateValue: 2));
-                    //           });
-                    //         },
-                    //       ),
-                    //       IconButton(
-                    //         padding: EdgeInsets.zero,
-                    //         iconSize: 40,
-                    //         icon: Icon(Icons.sentiment_neutral,
-                    //             color: rateValue == 3
-                    //                 ? Colors.amber
-                    //                 : Colors.grey),
-                    //         onPressed: () {
-                    //           setState(() {
-                    //             rateValue = 3;
-                    //             //  feedbackBloc.add(UpdateRateValue(rateValue: 3));
-                    //           });
-                    //         },
-                    //       ),
-                    //       IconButton(
-                    //         padding: EdgeInsets.zero,
-                    //         iconSize: 40,
-                    //         icon: Icon(Icons.sentiment_satisfied,
-                    //             color: rateValue == 4
-                    //                 ? Colors.lightGreen
-                    //                 : Colors.grey),
-                    //         onPressed: () {
-                    //           setState(() {
-                    //             rateValue = 4;
-                    //             //  feedbackBloc.add(UpdateRateValue(rateValue: 4));
-                    //           });
-                    //         },
-                    //       ),
-                    //       IconButton(
-                    //         padding: EdgeInsets.zero,
-                    //         iconSize: 40,
-                    //         icon: Icon(Icons.sentiment_very_satisfied,
-                    //             color: rateValue == 5
-                    //                 ? Colors.green
-                    //                 : Colors.grey),
-                    //         onPressed: () {
-                    //           setState(() {
-                    //             rateValue = 5;
-                    //             //  feedbackBloc.add(UpdateRateValue(rateValue: 5));
-                    //           });
-                    //         },
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                     Container(
                       margin: EdgeInsets.fromLTRB(17, 0, 17, screenHeight * 0.03),
                       child: AutoSizeTextField(
@@ -258,9 +171,7 @@ class _RatingViewState extends State<RatingView> {
                         decoration: InputDecoration(
                           hintStyle: TextStyle(color: Colors.black45),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                //  color: AppColors.grayBorder,
-                                ),
+                            borderSide: BorderSide(),
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -270,7 +181,7 @@ class _RatingViewState extends State<RatingView> {
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           labelStyle: TextStyle(
-                              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                               color: _focusNode.hasFocus ? Colors.orange : Colors.grey),
                           alignLabelWithHint: true,
                           labelText: 'شاركنا بأفكارك (إختياري)',
@@ -280,21 +191,6 @@ class _RatingViewState extends State<RatingView> {
                     _submitRating(),
                   ],
                 ),
-
-          // Container(
-          //   margin: EdgeInsets.fromLTRB(17, 0, 17, screenHeight * 0.17),
-          //   child: CCAppButton(
-          //     text: "Submit feedback",
-          //     onPressed: rateValue > 0
-          //         ? () {
-          //             feedbackBloc.add(SubmitRate(
-          //                 feedbackSection: widget.feedbackSection,
-          //                 clientId: _loadingProvider.clientId,
-          //                 comment: _textFieldController.text));
-          //           }
-          //         : null,
-          //   ),
-          // )
         ),
       ),
     );

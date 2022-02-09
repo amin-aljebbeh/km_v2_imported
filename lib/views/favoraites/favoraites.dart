@@ -3,7 +3,8 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/Loader.dart';
+import 'file:///D:/Kammun/km_v2/lib/views/Wedgit/loader.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/favoraites/services/product_favoraites_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -15,12 +16,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../Services.dart';
 
 class Favoraites extends StatefulWidget {
-  //int heroIndex;
-  //String category_name;
-  //List<Map<String, dynamic>> productsAry = [];
-
-  //Favoraites({this.productsAry, this.category_name});
-
   @override
   State<StatefulWidget> createState() {
     return FavoraitesViewState();
@@ -54,8 +49,6 @@ class FavoraitesViewState extends State<Favoraites> {
       } else {
         url = 'fb://page/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
       }
-      // url = "fb://page/" +
-      // LoadingScreenServices.companyInformation.facebookUrl.toString();
     } else if (selected == "instagram") {
       url = LoadingScreenServices.companyInformation.instagramUrl.toString();
     } else if (selected == "website") {
@@ -72,11 +65,6 @@ class FavoraitesViewState extends State<Favoraites> {
     }
 
     launch(url, forceSafariVC: false);
-    // if (await canLaunch(url)) {
-    //   await launch(url);
-    // } else {
-    //   throw 'Could not launch $url';
-    // }
   }
 
   int page = 1;
@@ -100,7 +88,6 @@ class FavoraitesViewState extends State<Favoraites> {
     if (productList != null) {
       if (productList.data == null) {
         setState(() {
-          // LoadingScreenServices.userFavoriteProducts = productList.data;
           theEndOfFavoraites = true;
           FavoraitesProductsServices.theEndOfFavoraites = true;
           productLoaded = true;
@@ -141,26 +128,9 @@ class FavoraitesViewState extends State<Favoraites> {
   }
 
   void _onTileClicked(int index) {
-    // Product productsDic = LoadingScreenServices.userFavoriteProducts[index];
-
-    // SearchProductsList productToSend = new SearchProductsList();
-    // productToSend.name = productsDic.name;
-    // //productToSend.price = productsDic.price;
-    // // productToSend.images = productsDic.images;
-    // productToSend.description = productsDic.description;
-    // productToSend.id = productsDic.id;
-    // //productToSend.quantity = productsDic.quantity;
-    // productToSend.unit = productsDic.unit;
-    // //productToSend.isActive = productsDic.isActive;
-
     ProductData productsDic = favoraitesProductData[index];
 
     Services.userVisitProduct(productsDic.id.toString());
-
-    //Second
-
-    // Navigator.push(
-    //     context, new MaterialPageRoute(builder: (context) => new Second()));
 
     Navigator.push(
         context,
@@ -168,13 +138,13 @@ class FavoraitesViewState extends State<Favoraites> {
             builder: (context) => new ProductDetailView(
                   heroIndex: index + 100,
                   products: productsDic,
-                  isFromFavoraiteScreen: true,
+                  isFromFavoriteScreen: true,
                 )));
   }
 
   @override
   Widget build(BuildContext context) {
-    final double screenHight = MediaQuery.of(context).size.height;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     Widget _showSearchTxtFld() {
       final GestureDetector searchButtonWithGesture = new GestureDetector(
@@ -197,13 +167,13 @@ class FavoraitesViewState extends State<Favoraites> {
                               )));
                 }
               },
-              cursorColor: UtilsImporter().colorUtils.primarycolor,
+              cursorColor: ColorUtils.primaryColor,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
               ),
             ),
@@ -234,9 +204,8 @@ class FavoraitesViewState extends State<Favoraites> {
                         child: Align(
                           alignment: Alignment.topRight,
                           child: DrawerHeader(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: UtilsImporter().colorUtils.kmColors)),
+                            decoration:
+                                BoxDecoration(color: Colors.white, border: Border.all(color: ColorUtils.kmColors)),
                             child: InkWell(
                               onTap: () => Navigator.of(context).pop(),
                               child: Container(
@@ -246,13 +215,13 @@ class FavoraitesViewState extends State<Favoraites> {
                                   child: Icon(
                                     Icons.arrow_back_ios,
                                     //color: Colors.white,
-                                    color: UtilsImporter().colorUtils.kmColors,
+                                    color: ColorUtils.kmColors,
                                   ),
                                 ),
                               ),
                             ),
                             // decoration: BoxDecoration(
-                            //   color: UtilsImporter().colorUtils.primarycolor,
+                            //   color: ColorUtils.primarycolor,
                             // ),
                           ),
                         ),
@@ -265,10 +234,10 @@ class FavoraitesViewState extends State<Favoraites> {
                             height: 200,
                           ),
 
-                          //color: UtilsImporter().colorUtils.kmColors,
+                          //color: ColorUtils.kmColors,
                           color: Colors.white),
                       Divider(
-                        color: UtilsImporter().colorUtils.kmColors,
+                        color: ColorUtils.kmColors,
                         // height: 20,
                       ),
                       ListTile(
@@ -276,46 +245,30 @@ class FavoraitesViewState extends State<Favoraites> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Icon(
                             Icons.phone,
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: ColorUtils.kmColors,
                             size: 30,
                           ),
                         ),
                         title: Text(
                           "الإتصال بكمون",
                           style: TextStyle(
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                           ),
                         ),
-                        // subtitle: Text(
-                        //   LoadingScreenServices
-                        //       .companyInformation.supportNumber,
-                        //   style: TextStyle(
-                        //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        //       fontWeight: FontWeight.bold),
-                        // ),
                         onTap: () => _openUrl("number"),
                       ),
                       InkWell(
-                        // onTap: _sendEmailToKammun,
                         child: ListTile(
                           leading: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Icon(
                               Icons.share,
-                              color: UtilsImporter().colorUtils.kmColors,
+                              color: ColorUtils.kmColors,
                               size: 30,
                             ),
                           ),
                           title: Text("إرسال التطبيق للأصدقاء",
-                              style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
-                          // subtitle: Text(
-                          //   //'support@kammun.com',
-                          //   "بدعمكم نستمر",
-
-                          //   style: TextStyle(
-                          //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                          //       fontWeight: FontWeight.bold),
-                          // ),
+                              style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
                           onTap: () => _shareApp(),
                         ),
                       ),
@@ -324,21 +277,11 @@ class FavoraitesViewState extends State<Favoraites> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Icon(
                             Icons.person,
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: ColorUtils.kmColors,
                             size: 30,
                           ),
                         ),
-                        title: Text("الملف الشخصي",
-                            style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
-                        // subtitle: Text(
-                        //   // 'www.kammun.com',
-                        //   LoadingScreenServices
-                        //       .companyInformation.websiteUrl,
-
-                        //   style: TextStyle(
-                        //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        //       fontWeight: FontWeight.bold),
-                        // ),
+                        title: Text("الملف الشخصي", style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
                         onTap: () {
                           Navigator.of(context).pushNamed('/profile');
                         },
@@ -348,18 +291,18 @@ class FavoraitesViewState extends State<Favoraites> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Icon(
                             Icons.policy,
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: ColorUtils.kmColors,
                             size: 30,
                           ),
                         ),
-                        title: Text("سياسة الإستخدام",
-                            style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
+                        title:
+                            Text("سياسة الإستخدام", style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
                         onTap: () {
                           launch('http://kammun.com/privacy-policy.html', enableJavaScript: false);
                         },
                       ),
                       Divider(
-                        color: UtilsImporter().colorUtils.kmColors,
+                        color: ColorUtils.kmColors,
                         height: 20,
                       ),
                       Padding(
@@ -372,7 +315,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                 onTap: () => _openUrl("facebook"),
                                 child: Icon(
                                   FontAwesomeIcons.facebookF,
-                                  color: UtilsImporter().colorUtils.primarycolor,
+                                  color: ColorUtils.primaryColor,
                                   size: 30,
                                 ),
                               ),
@@ -380,7 +323,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                 onTap: () => _openUrl("instagram"),
                                 child: Icon(
                                   FontAwesomeIcons.instagram,
-                                  color: UtilsImporter().colorUtils.primarycolor,
+                                  color: ColorUtils.primaryColor,
                                   size: 30,
                                 ),
                               ),
@@ -388,7 +331,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                 onTap: () => _openUrl("messenger"),
                                 child: Icon(
                                   FontAwesomeIcons.facebookMessenger,
-                                  color: UtilsImporter().colorUtils.primarycolor,
+                                  color: ColorUtils.primaryColor,
                                   size: 30,
                                 ),
                               ),
@@ -396,7 +339,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                 onTap: () => _openUrl("whatsapp"),
                                 child: Icon(
                                   FontAwesomeIcons.whatsapp,
-                                  color: UtilsImporter().colorUtils.primarycolor,
+                                  color: ColorUtils.primaryColor,
                                   size: 30,
                                 ),
                               ),
@@ -498,8 +441,9 @@ class FavoraitesViewState extends State<Favoraites> {
                                   setState(() {
                                     page++;
                                   });
-                                  !theEndOfFavoraites ? _getFavoraites() : {};
+                                  !theEndOfFavoraites ? _getFavoraites() : Tools.logToConsole('do no thing');
                                 }
+                                return true;
                               },
                               child: ListView.builder(
                                 physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -533,14 +477,14 @@ class FavoraitesViewState extends State<Favoraites> {
                           )
                         : Container(
                             child: Padding(
-                              padding: EdgeInsets.only(top: screenHight * 0.3),
+                              padding: EdgeInsets.only(top: screenHeight * 0.3),
                               child: Center(
                                 child: Text(
                                   !isLoading ? "لم تقم بإضافة أي عنصر للمفضلة" : "",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: UtilsImporter().colorUtils.greycolor,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                    color: ColorUtils.greyColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 20.0,
                                   ),
                                 ),
@@ -555,7 +499,7 @@ class FavoraitesViewState extends State<Favoraites> {
                                 child: Text("تم جلب جميع المنتجات",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk))))
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk))))
                         : Container(),
                     isLoading
                         ? Container(
@@ -624,7 +568,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 Expanded(
                     child: Container(
                   child: Wrap(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -635,7 +578,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -645,18 +588,18 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             widget.quantity,
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                color: UtilsImporter().colorUtils.greycolor,
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                color: ColorUtils.greyColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
                           Text(
-                              UtilsImporter().stringUtils.oCcy.format(widget.price).toString() +
+                              StringUtils().oCcy.format(widget.price).toString() +
                                   " ${LoadingScreenServices.companyInformation.currency}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color: UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                  color: ColorUtils.primaryColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),
@@ -667,7 +610,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                     ? Badge(
                         borderRadius: BorderRadius.zero,
                         shape: BadgeShape.square,
-                        badgeColor: UtilsImporter().colorUtils.primarycolor,
+                        badgeColor: ColorUtils.primaryColor,
                         badgeContent: Padding(
                           padding: const EdgeInsets.only(
                             right: 10.0,
@@ -681,7 +624,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     fontSize: 15,
 
                                     //fontWeight: FontWeight.w500,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
                               ),
                               Text(
                                 'المستودعات',
@@ -689,7 +632,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     color: Colors.white,
                                     fontSize: 15,
                                     //   fontWeight: FontWeight.w500,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
                               ),
                             ],
                           ),

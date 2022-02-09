@@ -18,7 +18,6 @@ import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
 
 void main() {
-  //BlocSupervisor.delegate = SimpleBlocDelegate();
   RenderErrorBox.backgroundColor = Colors.transparent;
   RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
   runApp(
@@ -46,7 +45,7 @@ class _MyAppState extends State<MyApp> {
 
   loadingProgress(BuildContext context) {
     return Scaffold(
-      backgroundColor: UtilsImporter().colorUtils.kmColors,
+      backgroundColor: ColorUtils.kmColors,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -75,44 +74,42 @@ class _MyAppState extends State<MyApp> {
 
   Widget build(BuildContext context) {
     return KammunRestart(
-        child: MaterialApp(
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              DefaultCupertinoLocalizations.delegate
-            ],
-            supportedLocales: [
-              Locale("ar", "AE"), // OR Locale('ar', 'AE') OR Other RTL locales
-            ],
-            locale: Locale("ar", "AE"),
-            title: 'Kammun',
-            debugShowCheckedModeBanner: false,
-            routes: <String, WidgetBuilder>{
-              LoginScreen.routeName: (_) => LoginScreen(),
-              //  '/login': (_) => new LoginView(), // Login Page
-              '/home': (_) => HomeView(routeIndex: 0),
-              '/myApp': (_) => MyApp(),
-              'loading': (_) => LoadingScreen(),
-
-              // '/home': (_) => LoginView(),
-              '/favoraites': (_) => HomeView(routeIndex: 3),
-              '/cartFinal': (_) => CartViewFinal(),
-              OTPVerification.routeName: (_) => OTPVerification(),
-              ServerUpdate.routeName: (_) => ServerUpdate(),
-              '/supportedCity': (_) => SupportedCityWidget(),
-              '/thankyou': (_) => new ThankYouView(),
-              '/delivery': (_) => DeliverToView(),
-              '/cart': (_) => new HomeView(routeIndex: 1),
-              '/cartFromUpdate': (_) => new HomeView(
-                    routeIndex: 1,
-                    isFromUpdateOrder: true,
-                  ),
-
-              '/orders': (_) => HomeView(routeIndex: 2),
-              '/profile': (_) => ProfileScreen(),
-            },
-            theme: CustomTheme.of(context),
-            home: LoadingScreen()));
+      child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate
+        ],
+        supportedLocales: [
+          Locale("ar", "AE"), // OR Locale('ar', 'AE') OR Other RTL locales
+        ],
+        locale: Locale("ar", "AE"),
+        title: 'Kammun',
+        debugShowCheckedModeBanner: false,
+        routes: <String, WidgetBuilder>{
+          LoginScreen.routeName: (_) => LoginScreen(),
+          '/home': (_) => HomeView(routeIndex: 0),
+          '/myApp': (_) => MyApp(),
+          'loading': (_) => LoadingScreen(),
+          '/favoraites': (_) => HomeView(routeIndex: 3),
+          '/cartFinal': (_) => CartViewFinal(),
+          OTPVerification.routeName: (_) => OTPVerification(),
+          ServerUpdate.routeName: (_) => ServerUpdate(),
+          '/supportedCity': (_) => SupportedCityWidget(),
+          '/thankyou': (_) => new ThankYouView(),
+          '/delivery': (_) => DeliverToView(),
+          '/cart': (_) => new HomeView(routeIndex: 1),
+          '/cartFromUpdate': (_) => new HomeView(
+                routeIndex: 1,
+                isFromUpdateOrder: true,
+              ),
+          '/orders': (_) => HomeView(routeIndex: 2),
+          '/profile': (_) => ProfileScreen(),
+        },
+        theme: CustomTheme.of(context),
+        home: LoadingScreen(),
+      ),
+    );
   }
 }

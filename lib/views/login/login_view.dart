@@ -2,9 +2,9 @@ import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:kammun_app/views/login/policy.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -16,7 +16,6 @@ class LoginScreen extends StatefulWidget {
   static String routeName = "/login";
   static String phoneNumber = "";
   static String supportedCityId;
-  // static String selectedValue;
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -32,15 +31,10 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
   @override
   void initState() {
-    // if (LoadingScreenServices.supportedCitiesListIntro.length == 0) {
-    //   Navigator.push(context,
-    //       new MaterialPageRoute(builder: (context) => new InternetError()));
-    // }
-
     super.initState();
   }
 
-  Future featchOtp() async {
+  Future fetchOtp() async {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
 
     if (myController.text.length != 10) {
@@ -99,25 +93,22 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         child: TextField(
           maxLengthEnforced: true,
           maxLength: 10,
-
-          // keyboardType: TextInputType.multiline,
           maxLines: 1,
           controller: myController,
           keyboardType: TextInputType.numberWithOptions(),
-
           decoration: InputDecoration(
             labelText: "رقم الموبايل",
-            labelStyle: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk, fontSize: 30),
+            labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
             hintStyle: TextStyle(color: Colors.black45),
             border: OutlineInputBorder(
               borderSide: BorderSide(
-                color: UtilsImporter().colorUtils.primarycolor,
+                color: ColorUtils.primaryColor,
               ),
               borderRadius: BorderRadius.circular(5.0),
             ),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: UtilsImporter().colorUtils.kmColors,
+                color: ColorUtils.kmColors,
               ),
               borderRadius: BorderRadius.circular(5.0),
             ),
@@ -141,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
             child: UsagePolicy((approve) {
               if (approve) {
                 Navigator.of(context).pop();
-                featchOtp();
+                fetchOtp();
               }
             })),
       );
@@ -156,8 +147,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         child: new Container(
           height: 50.0,
           decoration: new BoxDecoration(
-              color: UtilsImporter().colorUtils.primarycolor,
-              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+              color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
           child: new Center(
             child: new Text(
               "تأكيد رقم الموبايل",
@@ -165,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w500,
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                  fontFamily: StringUtils.fontFamilyHKGrotesk),
             ),
           ),
         ),
@@ -180,13 +170,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     }
 
     return Scaffold(
-      backgroundColor: UtilsImporter().colorUtils.kmColors,
-      //backgroundColor: Colors.white,
-      // appBar: GradientAppBar(
-      //   title: Text('Kammun.com'),
-      //   backgroundColorStart: Colors.cyan,
-      //   backgroundColorEnd: Colors.indigo,
-      // ),
+      backgroundColor: ColorUtils.kmColors,
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -196,18 +180,15 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.90,
                 decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      // topLeft: Radius.circular(180),
-                      // topRight: Radius.circular(180),
-                      bottomLeft: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
-                      bottomRight: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
-                    )),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
+                    bottomRight: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
+                  ),
+                ),
               ),
             ),
             ListView(
-              ///   mainAxisAlignment: MainAxisAlignment.start,
-
               shrinkWrap: true,
               children: [
                 errorCode
@@ -220,7 +201,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                         padding: EdgeInsets.zero,
                       ),
                 Container(
-                  //  color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 50.0),
                     child: Center(
@@ -234,48 +214,12 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
-                  //  color: Colors.white,
-
                   child: _showCountryInput(),
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 20, top: 5),
-                  //  color: Colors.white,
-
                   child: _showSubmit(),
                 )
-                // Padding(
-                //   padding: const EdgeInsets.only(top: 50.0),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //     children: [
-                //       Container(
-                //         width: 60,
-                //         height: 60,
-                //         child: Icon(
-                //           Icons.panorama_fish_eye_outlined,
-                //           size: 20,
-                //           color: Colors.white,
-                //         ),
-                //         decoration: BoxDecoration(
-                //             shape: BoxShape.circle,
-                //             color: UtilsImporter().colorUtils.primarycolor),
-                //       ),
-                //       Container(
-                //         width: 60,
-                //         height: 60,
-                //         child: Icon(
-                //           Icons.panorama_fish_eye_outlined,
-                //           size: 20,
-                //           color: Colors.white,
-                //         ),
-                //         decoration: BoxDecoration(
-                //             shape: BoxShape.circle,
-                //             color: UtilsImporter().colorUtils.primarycolor),
-                //       ),
-                //     ],
-                //   ),
-                // )
               ],
             ),
           ],

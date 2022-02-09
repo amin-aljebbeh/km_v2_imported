@@ -27,7 +27,7 @@ class BlockedUser extends StatelessWidget {
                       color: Colors.black,
                       fontSize: 25.0,
                       fontWeight: FontWeight.w500,
-                      fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                      fontFamily: StringUtils.fontFamilyHKGrotesk),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 10, left: 30, right: 15),
@@ -40,7 +40,7 @@ class BlockedUser extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 18,
-                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -64,8 +64,7 @@ Widget _showRestartButton(context) {
     child: new Container(
       height: 50.0,
       decoration: new BoxDecoration(
-          color: UtilsImporter().colorUtils.primarycolor,
-          borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
       child: new Center(
         child: new Text(
           "المحاولة من جديد",
@@ -73,7 +72,7 @@ Widget _showRestartButton(context) {
               color: Colors.white,
               fontSize: 20.0,
               fontWeight: FontWeight.w500,
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+              fontFamily: StringUtils.fontFamilyHKGrotesk),
         ),
       ),
     ),

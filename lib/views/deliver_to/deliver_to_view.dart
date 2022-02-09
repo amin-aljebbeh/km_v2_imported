@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
@@ -16,7 +16,6 @@ class DeliverToView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return DeliverToViewState();
   }
 }
@@ -54,12 +53,6 @@ class DeliverToViewState extends State<DeliverToView> {
       DeliverToView.selectedIndex = item;
       OrderServices.deliverySupportedCityId =
           LoadingScreenServices.userAddress[DeliverToView.selectedIndex].supportedCityId.toString();
-      // Services.delivery_Price = LoadingScreenServices
-      //             .userAddress[DeliverToView.selectedIndex].deliveryPrice ==
-      //         null
-      //     ? 500
-      //     : LoadingScreenServices
-      //         .userAddress[DeliverToView.selectedIndex].deliveryPrice;
     });
   }
 
@@ -77,7 +70,7 @@ class DeliverToViewState extends State<DeliverToView> {
                     ),
                 border: Border.all(
                   width: 2,
-                  color: UtilsImporter().colorUtils.kmColors,
+                  color: ColorUtils.kmColors,
                 )),
             child: Card(
               elevation: 1.0,
@@ -96,8 +89,8 @@ class DeliverToViewState extends State<DeliverToView> {
                                 ? Icons.radio_button_checked
                                 : Icons.radio_button_unchecked,
                             color: DeliverToView.selectedIndex == index
-                                ? UtilsImporter().colorUtils.primarycolor
-                                : UtilsImporter().colorUtils.greycolor),
+                                ? ColorUtils.primaryColor
+                                : ColorUtils.greyColor),
                       ),
                       SizedBox(width: 10),
                       Expanded(
@@ -114,7 +107,7 @@ class DeliverToViewState extends State<DeliverToView> {
                                       LoadingScreenServices.userAddress[index].supportedCityName,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                                           fontSize: 20),
                                     ),
                                   ),
@@ -124,8 +117,8 @@ class DeliverToViewState extends State<DeliverToView> {
                                       LoadingScreenServices.userAddress[index].street,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w400,
-                                          color: UtilsImporter().colorUtils.greycolor,
-                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                          color: ColorUtils.greyColor,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                                           fontSize: 20),
                                     ),
                                   ),
@@ -135,8 +128,8 @@ class DeliverToViewState extends State<DeliverToView> {
                                       LoadingScreenServices.userAddress[index].building,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w400,
-                                          color: UtilsImporter().colorUtils.greycolor,
-                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                          color: ColorUtils.greyColor,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                                           fontSize: 20),
                                     ),
                                   ),
@@ -146,8 +139,8 @@ class DeliverToViewState extends State<DeliverToView> {
                                       LoadingScreenServices.userAddress[index].description,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w400,
-                                          color: UtilsImporter().colorUtils.greycolor,
-                                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                          color: ColorUtils.greyColor,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                                           fontSize: 20),
                                     ),
                                   ),
@@ -162,7 +155,7 @@ class DeliverToViewState extends State<DeliverToView> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Divider(
-                      color: UtilsImporter().colorUtils.kmColors,
+                      color: ColorUtils.kmColors,
                       thickness: 3,
                     ),
                   ),
@@ -172,25 +165,25 @@ class DeliverToViewState extends State<DeliverToView> {
                     children: <Widget>[
                       _showDeleteButton(index: index),
                       // RaisedButton(
-                      //     child: Text(UtilsImporter().stringUtils.delete,
+                      //     child: Text(StringUtils.delete,
                       //         style: TextStyle(
                       //             fontWeight: FontWeight.w400,
-                      //             color: UtilsImporter().colorUtils.greycolor,
+                      //             color: ColorUtils.greycolor,
                       //             fontFamily:
-                      //                 UtilsImporter().stringUtils.HKGrotesk,
+                      //                 StringUtils.HKGrotesk,
                       //             fontSize: 15)),
                       //     onPressed: () {
                       //       onrRemove(index);
                       //     }),
 
-                      _showEidte(index: index),
+                      _showEdite(index: index),
                       // RaisedButton(
-                      //   child: Text(UtilsImporter().stringUtils.edit_address,
+                      //   child: Text(StringUtils.edit_address,
                       //       style: TextStyle(
                       //           fontWeight: FontWeight.w400,
-                      //           color: UtilsImporter().colorUtils.greycolor,
+                      //           color: ColorUtils.greycolor,
                       //           fontFamily:
-                      //               UtilsImporter().stringUtils.HKGrotesk,
+                      //               StringUtils.HKGrotesk,
                       //           fontSize: 15)),
                       //   onPressed: () {
                       //     Navigator.push(
@@ -212,7 +205,6 @@ class DeliverToViewState extends State<DeliverToView> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
@@ -238,10 +230,10 @@ class DeliverToViewState extends State<DeliverToView> {
                               Navigator.of(context).pop();
                             },
                             child: Text(
-                              UtilsImporter().stringUtils.deliverTo,
+                              StringUtils.deliverTo,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 30),
                             )),
                       ],
@@ -283,11 +275,11 @@ class DeliverToViewState extends State<DeliverToView> {
                               alignment: Alignment.center,
                               child: FlatButton(
                                 padding: EdgeInsets.only(left: 30.0, top: 10.0),
-                                child: Text(UtilsImporter().stringUtils.addNewAddress,
+                                child: Text(StringUtils.addNewAddress,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: UtilsImporter().colorUtils.greycolor,
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                        color: ColorUtils.greyColor,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 17)),
                                 onPressed: () {
                                   Navigator.push(
@@ -323,17 +315,16 @@ class DeliverToViewState extends State<DeliverToView> {
         margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
         height: 50.0,
         decoration: new BoxDecoration(
-            color:
-                DeliverToView.selectedIndex != null ? UtilsImporter().colorUtils.primarycolor : Colors.grey[400],
+            color: DeliverToView.selectedIndex != null ? ColorUtils.primaryColor : Colors.grey[400],
             borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.proceedToPay.toUpperCase(),
+            StringUtils.proceedToPay.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -365,16 +356,15 @@ class DeliverToViewState extends State<DeliverToView> {
         height: 35.0,
         width: 125,
         decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.delete.toUpperCase(),
+            StringUtils.delete.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -384,7 +374,7 @@ class DeliverToViewState extends State<DeliverToView> {
         padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5), child: showConfirmButtonWithGesture);
   }
 
-  Widget _showEidte({int index}) {
+  Widget _showEdite({int index}) {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
       onTap: () {
         Navigator.push(
@@ -399,16 +389,15 @@ class DeliverToViewState extends State<DeliverToView> {
         height: 35.0,
         width: 125,
         decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.editAddress.toUpperCase(),
+            StringUtils.edit,
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),

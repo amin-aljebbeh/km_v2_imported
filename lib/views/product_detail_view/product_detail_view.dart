@@ -16,9 +16,9 @@ import 'package:full_screen_image/full_screen_image.dart';
 class ProductDetailView extends StatefulWidget {
   int heroIndex;
   ProductData products;
-  bool isFromFavoraiteScreen;
+  bool isFromFavoriteScreen;
 
-  ProductDetailView({this.heroIndex, this.products, @required this.isFromFavoraiteScreen});
+  ProductDetailView({this.heroIndex, this.products, @required this.isFromFavoriteScreen});
 
   @override
   State<StatefulWidget> createState() {
@@ -101,7 +101,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                     ),
                   ),
                 ],
-                backgroundColor: UtilsImporter().colorUtils.primarycolor,
+                backgroundColor: ColorUtils.primaryColor,
                 expandedHeight: 300.0,
                 floating: false,
                 pinned: true,
@@ -111,7 +111,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       ? AutoSizeText(
                           widget.products.name,
                           maxLines: 1,
-                          style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                          style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
                         )
                       : Container(),
                 ),
@@ -178,7 +178,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: Colors.black,
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 22,
                           )),
                     ),
@@ -192,8 +192,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             Text("الكمية",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                  color: ColorUtils.primaryColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 20.0,
                                 )),
                             SizedBox(height: 10),
@@ -203,8 +203,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   : widget.products.quantity.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color: UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                  color: ColorUtils.primaryColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 20),
                             ),
                           ],
@@ -215,17 +215,17 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             Text("السعر",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: UtilsImporter().colorUtils.greycolor,
-                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                  color: ColorUtils.greyColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 20.0,
                                 )),
                             SizedBox(height: 10),
                             Text(
-                                "${UtilsImporter().stringUtils.oCcy.format(int.parse(widget.products.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                "${StringUtils().oCcy.format(int.parse(widget.products.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: UtilsImporter().colorUtils.primarycolor,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                    color: ColorUtils.primaryColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 20)),
                           ],
                         ),
@@ -239,8 +239,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           "الوصف",
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
-                            color: UtilsImporter().colorUtils.greycolor,
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            color: ColorUtils.greyColor,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 20.0,
                           ),
                         ),
@@ -252,7 +252,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).primaryColorDark,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                           fontSize: 20),
                     ),
                     SizedBox(height: 10),
@@ -283,7 +283,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         color: Colors.grey[700],
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 30)),
                               ),
                               Padding(
@@ -310,12 +310,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 borderRadius: BorderRadius.all(
                                     Radius.circular(10.0) //                 <--- border radius here
                                     ),
-                                border: Border.all(color: UtilsImporter().colorUtils.primarycolor, width: 4)),
+                                border: Border.all(color: ColorUtils.primaryColor, width: 4)),
                             child: Center(
                                 child: Text(
                               "المنتج نفذ من المستودعات",
-                              style: TextStyle(
-                                  fontSize: 25, fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                              style: TextStyle(fontSize: 25, fontFamily: StringUtils.fontFamilyHKGrotesk),
                             )),
                           ),
                     int.parse(widget.products.isActive) != 0 ? SizedBox(height: 30) : Container(),
@@ -348,13 +347,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
             messageText: Text(
               "تم إضافة ${widget.products.name} لسلة المشتريات",
               style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                  color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
             ),
             boxShadows: [
               BoxShadow(
-                color: UtilsImporter().colorUtils.primarycolor,
+                color: ColorUtils.primaryColor,
                 offset: Offset(0.0, 2.0),
                 blurRadius: 3.0,
               )
@@ -365,7 +362,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
               color: Colors.white,
             ),
             duration: Duration(seconds: 3),
-            leftBarIndicatorColor: UtilsImporter().colorUtils.kmColors,
+            leftBarIndicatorColor: ColorUtils.kmColors,
           )..show(context);
 
           SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -384,12 +381,12 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
             color: Theme.of(context).primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            'الإضافة لسلة المشتريات  ( ${UtilsImporter().stringUtils.oCcy.format(noOfOrders * int.parse(widget.products.price.toString().split(".")[0]))})',
+            'الإضافة لسلة المشتريات  ( ${StringUtils().oCcy.format(noOfOrders * int.parse(widget.products.price.toString().split(".")[0]))})',
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -410,9 +407,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
             messageText: Text(
               " تم إضافة ${widget.products.name}  إلى المفضلة",
               style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                  color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
             ),
             boxShadows: [
               BoxShadow(
@@ -434,9 +429,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
             messageText: Text(
               "تم إزالة ${widget.products.name}  من المفضلة",
               style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                  color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
             ),
             boxShadows: [
               BoxShadow(
@@ -471,7 +464,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                 color: Colors.white,
                 fontSize: 17.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -492,7 +485,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
               0
           ? _addFavorite(context, widget.products)
           : _removeFavorite();
-      if (widget.isFromFavoraiteScreen) {
+      if (widget.isFromFavoriteScreen) {
         Navigator.of(context).pushNamedAndRemoveUntil('/favoraites', (Route<dynamic> route) => false);
       } else {
         Navigator.of(context).pop();
@@ -505,8 +498,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   void _addFavorite(BuildContext ctx, ProductData product) {
     Services.addToFavorites(widget.products.id.toString());
     LoadingScreenServices.userFavoriteProducts.add(product);
-
-    // Navigator.of(context).pop();
   }
 
   void _removeFavorite() {

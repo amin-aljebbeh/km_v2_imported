@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/core/api/api_provider.dart';
 import 'package:kammun_app/core/errors/error_types.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/funny_images.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/facebook_loader.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import '../../Services.dart';
@@ -157,13 +157,13 @@ class ProductsViewState extends State<ProductsView> {
                   });
                 }
               },
-              cursorColor: UtilsImporter().colorUtils.primarycolor,
+              cursorColor: ColorUtils.primaryColor,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
               ),
             ),
@@ -175,184 +175,172 @@ class ProductsViewState extends State<ProductsView> {
           padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
     }
 
-// Color.fromARGB(255, 210, 178, 2) كموني
-//Color.fromARGB(255, 53, 99, 124) كجلي
     return Scaffold(
-        appBar: PreferredSize(
-          child: AppBar(
-            backgroundColor: Color.fromARGB(255, 210, 178, 2),
-            automaticallyImplyLeading: false, // hides leading widget
-            flexibleSpace: SafeArea(
-              top: true,
-              left: false,
-              bottom: false,
-              right: false,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.shopping_cart,
-                              size: 35,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
+      appBar: PreferredSize(
+        child: AppBar(
+          backgroundColor: Color.fromARGB(255, 210, 178, 2),
+          automaticallyImplyLeading: false, // hides leading widget
+          flexibleSpace: SafeArea(
+            top: true,
+            left: false,
+            bottom: false,
+            right: false,
+            child: Column(
+              children: <Widget>[
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.shopping_cart,
+                            size: 35,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5.0),
+                        child: Transform.scale(
+                          scale: 2,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                '/home',
+                                (Route<dynamic> route) => false,
+                              );
                             },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5.0),
-                          child: Transform.scale(
-                            scale: 2,
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  '/home',
-                                  (Route<dynamic> route) => false,
-                                );
-                              },
-                              child: Image.asset(
-                                "assets/logobw.png",
-                                width: 150,
-                                height: 50,
-                              ),
+                            child: Image.asset(
+                              "assets/logobw.png",
+                              width: 150,
+                              height: 50,
                             ),
                           ),
                         ),
-                        Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: InkWell(
-                                onTap: () => Navigator.of(context).pop(true),
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.white,
-                                  size: 40,
-                                ))),
-                      ]),
-                  _showSearchTxtFld(),
-                ],
-              ),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: InkWell(
+                              onTap: () => Navigator.of(context).pop(true),
+                              child: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.white,
+                                size: 40,
+                              ))),
+                    ]),
+                _showSearchTxtFld(),
+              ],
             ),
           ),
-          preferredSize: Size.fromHeight(105.0),
         ),
-        backgroundColor: Theme.of(context).primaryColorLight,
-        body: SafeArea(
-          child: badWordMatched
-              ? Container(
-                  child: Center(
-                  child: funnyImages[_random.nextInt(funnyImages.length)],
-                ))
-              : productsList.length == 0
-                  ? searchLoading || firstLoading
-                      ? FacebookLoader()
-                      : Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(
-                            child: Text(errorMessage,
-                                style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
+        preferredSize: Size.fromHeight(105.0),
+      ),
+      backgroundColor: Theme.of(context).primaryColorLight,
+      body: SafeArea(
+        child: badWordMatched
+            ? Container(
+                child: Center(
+                child: funnyImages[_random.nextInt(funnyImages.length)],
+              ))
+            : productsList.length == 0
+                ? searchLoading || firstLoading
+                    ? FacebookLoader()
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text(errorMessage, style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                        ),
+                      )
+                : Padding(
+                    padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: NotificationListener<ScrollNotification>(
+                            onNotification: (ScrollNotification scrollInfo) {
+                              if (!isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
+                                setState(() {
+                                  page++;
+                                  isLoading = true;
+                                });
+                                _searchController.text != ""
+                                    ? _loadData(_searchController.text, "search")
+                                    : _loadData(widget.categoryId, "category");
+                                return;
+                              }
+                              return;
+                            },
+                            child: ListView.builder(
+                              physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                              primary: false,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: productsList == null ? 0 : productsList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var eachProduct = productsList[index];
+                                return new GestureDetector(
+                                  behavior: HitTestBehavior.translucent,
+                                  onTap: () => _onTileClicked(index),
+                                  child: ProductsViewCard(
+                                    active: int.parse(eachProduct.isActive),
+                                    img: eachProduct.images.length > 0
+                                        ? LoadingScreenServices.imagePrefixUrl +
+                                            eachProduct.images[0].imageFileName
+                                        : "",
+                                    productName: eachProduct.name,
+                                    quantity: eachProduct.unit.toString() != "null"
+                                        ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
+                                        : eachProduct.quantity.toString(),
+                                    price: int.parse(eachProduct.price.split(".")[0]),
+                                    index: index,
+                                  ),
+                                );
+                              },
+                            ),
                           ),
-                        )
-                  : Padding(
-                      padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 0),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Expanded(
-                              child: NotificationListener<ScrollNotification>(
-                                onNotification: (ScrollNotification scrollInfo) {
-                                  if (!isLoading &&
-                                      scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-                                    setState(() {
-                                      page++;
-                                      isLoading = true;
-                                    });
-                                    _searchController.text != ""
-                                        ? _loadData(_searchController.text, "search")
-                                        : _loadData(widget.categoryId, "category");
-                                    return;
-                                  }
-                                  return;
-                                },
-                                child: ListView.builder(
-                                  physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                                  primary: false,
-                                  scrollDirection: Axis.vertical,
-                                  shrinkWrap: true,
-                                  itemCount: productsList == null ? 0 : productsList.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    var eachProduct = productsList[index];
-                                    return new GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () => _onTileClicked(index),
-                                      child: ProductsViewCard(
-                                        active: int.parse(eachProduct.isActive),
-                                        img: eachProduct.images.length > 0
-                                            ? LoadingScreenServices.imagePrefixUrl +
-                                                eachProduct.images[0].imageFileName
-                                            : "",
-                                        productName: eachProduct.name,
-                                        quantity: eachProduct.unit.toString() != "null"
-                                            ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                            : eachProduct.quantity.toString(),
-                                        price: int.parse(eachProduct.price.split(".")[0]),
-                                        index: index,
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: isLoading ? 50.0 : 0,
-                              color: Colors.transparent,
-                              child: Center(
-                                child: theEndOfProducts
-                                    ? Text("تم جلب جميع المنتجات",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk))
-                                    : Loader(),
-                              ),
-                            ),
-                          ])),
-        ));
+                        ),
+                        Container(
+                          height: isLoading ? 50.0 : 0,
+                          color: Colors.transparent,
+                          child: Center(
+                            child: theEndOfProducts
+                                ? Text("تم جلب جميع المنتجات",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk))
+                                : Loader(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+      ),
+    );
   }
 
-  // Function to be called on click
   void _onTileClicked(int index) {
     ProductData productsDic = productsList[index];
 
     Services.userVisitProduct(productsDic.id.toString());
 
-    //Second
-
-    // Navigator.push(
-    //     context, new MaterialPageRoute(builder: (context) => new Second()));
-
     Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) => new ProductDetailView(
-                  heroIndex: index + 100,
-                  products: productsDic,
-                  isFromFavoraiteScreen: false,
-                )));
-
-    // Navigator.push(
-    //     context,
-    //     new MaterialPageRoute(
-    //         builder: (context) => new ProductDetailView(
-    //             heroIndex: index + 100, products: productsDic)));
+      context,
+      new MaterialPageRoute(
+        builder: (context) => new ProductDetailView(
+          heroIndex: index + 100,
+          products: productsDic,
+          isFromFavoriteScreen: false,
+        ),
+      ),
+    );
   }
 }
 
@@ -386,30 +374,30 @@ class ProductsViewCardState extends State<ProductsViewCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
-              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                   width: 100.0,
                   height: 100.0,
                   decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(20.0))),
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Hero(
-                          tag: widget.index + 100,
-                          child: FadeInImage.assetNetwork(
-                            fadeInCurve: Curves.fastOutSlowIn,
-                            placeholder: "assets/kmIcon.png",
-                            fit: BoxFit.contain,
-                            image: widget.img,
-                            width: MediaQuery.of(context).size.width,
-                            height: 120,
-                          ))),
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Hero(
+                      tag: widget.index + 100,
+                      child: FadeInImage.assetNetwork(
+                        fadeInCurve: Curves.fastOutSlowIn,
+                        placeholder: "assets/kmIcon.png",
+                        fit: BoxFit.contain,
+                        image: widget.img,
+                        width: MediaQuery.of(context).size.width,
+                        height: 120,
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(width: 10),
                 Expanded(
                     child: Container(
                   child: Wrap(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -420,7 +408,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 widget.productName,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                                     fontSize: 18),
                               ),
                             ],
@@ -430,18 +418,18 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             widget.quantity,
                             style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                color: UtilsImporter().colorUtils.greycolor,
-                                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                color: ColorUtils.greyColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 fontSize: 17),
                           ),
                           SizedBox(height: 8),
                           Text(
-                              UtilsImporter().stringUtils.oCcy.format(widget.price).toString() +
+                              StringUtils().oCcy.format(widget.price).toString() +
                                   " ${LoadingScreenServices.companyInformation.currency}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color: UtilsImporter().colorUtils.primarycolor,
-                                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                  color: ColorUtils.primaryColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 18)),
                         ],
                       ),
@@ -452,7 +440,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                     ? Badge(
                         borderRadius: BorderRadius.zero,
                         shape: BadgeShape.square,
-                        badgeColor: UtilsImporter().colorUtils.primarycolor,
+                        badgeColor: ColorUtils.primaryColor,
                         badgeContent: Padding(
                           padding: const EdgeInsets.only(
                             right: 10.0,
@@ -464,9 +452,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 15,
-
-                                    //fontWeight: FontWeight.w500,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
                               ),
                               Text(
                                 'المستودعات',
@@ -474,7 +460,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     color: Colors.white,
                                     fontSize: 15,
                                     //   fontWeight: FontWeight.w500,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
                               ),
                             ],
                           ),
@@ -485,8 +471,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
             ),
           ],
         ),
-        // SizedBox(height: 4),
-        //  Divider()
       ),
     );
   }

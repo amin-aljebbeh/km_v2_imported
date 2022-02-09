@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 
 import 'package:sms_autofill/sms_autofill.dart';
 
@@ -110,7 +110,6 @@ class _CounterOtpState extends State<CounterOtp> {
           )
         : counter2 > 0 || counterMin > 0
             ? Container(
-                //  margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
                     Radius.circular(5),
@@ -126,9 +125,7 @@ class _CounterOtpState extends State<CounterOtp> {
                         child: Text(
                           "إعادة إرسال رمز التفعيل",
                           style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                              color: Colors.black, fontSize: 17, fontFamily: StringUtils.fontFamilyHKGrotesk),
                           softWrap: true,
                         ),
                       ),
@@ -178,7 +175,7 @@ class _CounterOtpState extends State<CounterOtp> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 17,
-                                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
                                 softWrap: true,
                               ),
                             ),

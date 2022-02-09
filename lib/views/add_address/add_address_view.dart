@@ -2,9 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/start_model.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:location/location.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
@@ -39,7 +39,7 @@ class AddAddressViewState extends State<AddAddressView> {
 
   bool isLoading = false;
   bool isError = false;
-  bool userIgnorShareLocation;
+  bool userIgnoreShareLocation;
   String selectedValue;
 
   double lat;
@@ -61,7 +61,7 @@ class AddAddressViewState extends State<AddAddressView> {
         }
       }
 
-      userIgnorShareLocation = false;
+      userIgnoreShareLocation = false;
     }
   }
 
@@ -99,10 +99,10 @@ class AddAddressViewState extends State<AddAddressView> {
                                   ),
                                   SizedBox(width: 5),
                                   Text(
-                                    UtilsImporter().stringUtils.addAddress,
+                                    StringUtils.addAddress,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 30),
                                   )
                                 ],
@@ -134,15 +134,15 @@ class AddAddressViewState extends State<AddAddressView> {
               child: Text(
                 "المدينة :",
                 style: TextStyle(
-                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                     fontSize: 20,
-                    color: UtilsImporter().colorUtils.primarycolor,
+                    color: ColorUtils.primaryColor,
                     fontWeight: FontWeight.w500),
               )),
           Container(
             padding: EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
-              border: Border.all(width: 5, color: UtilsImporter().colorUtils.kmColors),
+              border: Border.all(width: 5, color: ColorUtils.kmColors),
             ),
             child: new SearchableDropdown(
               isCaseSensitiveSearch: false,
@@ -154,12 +154,12 @@ class AddAddressViewState extends State<AddAddressView> {
                 'يرجى إختيار المدينة التابع لها ',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
               ),
               searchHint: new Text(
                 'إختيار المنطقة',
-                style: new TextStyle(fontSize: 20, fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                style: new TextStyle(fontSize: 20, fontFamily: StringUtils.fontFamilyHKGrotesk),
               ),
               onChanged: (value) {
                 setState(() {
@@ -178,7 +178,7 @@ class AddAddressViewState extends State<AddAddressView> {
       padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
       child: new AutoSizeTextField(
         scrollPadding: EdgeInsets.all(5),
-        cursorColor: UtilsImporter().colorUtils.kmColors,
+        cursorColor: ColorUtils.kmColors,
         controller: streetController,
         maxLines: 1,
         focusNode: _streetFocus,
@@ -191,22 +191,20 @@ class AddAddressViewState extends State<AddAddressView> {
           setState(() {});
         },
         style: new TextStyle(
-            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+            fontFamily: StringUtils.fontFamilyHKGrotesk,
             fontWeight: FontWeight.w500,
             fontSize: 16.0,
             color: Colors.black),
         decoration: InputDecoration(
             hintText: "مثال: بيت الجبه منزل الدكتور محمد",
-            hintStyle: TextStyle(
-                color: Colors.black26, fontSize: 15, fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
-            labelText: UtilsImporter().stringUtils.street,
+            hintStyle: TextStyle(color: Colors.black26, fontSize: 15, fontFamily: StringUtils.fontFamilyHKGrotesk),
+            labelText: StringUtils.familyName,
             labelStyle: TextStyle(
-              color: UtilsImporter().colorUtils.greycolor,
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+              color: ColorUtils.greyColor,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
               fontSize: 25,
             ),
-            border: new UnderlineInputBorder(
-                borderSide: new BorderSide(color: UtilsImporter().colorUtils.primarycolor))),
+            border: new UnderlineInputBorder(borderSide: new BorderSide(color: ColorUtils.primaryColor))),
       ),
     );
   }
@@ -215,7 +213,7 @@ class AddAddressViewState extends State<AddAddressView> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: new AutoSizeTextField(
-        cursorColor: UtilsImporter().colorUtils.kmColors,
+        cursorColor: ColorUtils.kmColors,
         controller: cityController,
         maxLines: 1,
         focusNode: _cityFocus,
@@ -228,22 +226,20 @@ class AddAddressViewState extends State<AddAddressView> {
           setState(() {});
         },
         style: new TextStyle(
-            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+            fontFamily: StringUtils.fontFamilyHKGrotesk,
             fontWeight: FontWeight.w500,
             fontSize: 16.0,
             color: Theme.of(context).primaryColorDark),
         decoration: InputDecoration(
             hintText: "بناء رقم 15، بناء المهندسين",
-            hintStyle: TextStyle(
-                color: Colors.black26, fontSize: 15, fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
-            labelText: UtilsImporter().stringUtils.city,
+            hintStyle: TextStyle(color: Colors.black26, fontSize: 15, fontFamily: StringUtils.fontFamilyHKGrotesk),
+            labelText: StringUtils.city,
             labelStyle: TextStyle(
               fontSize: 25,
-              color: UtilsImporter().colorUtils.greycolor,
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+              color: ColorUtils.greyColor,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
-            border: new UnderlineInputBorder(
-                borderSide: new BorderSide(color: UtilsImporter().colorUtils.primarycolor))),
+            border: new UnderlineInputBorder(borderSide: new BorderSide(color: ColorUtils.primaryColor))),
       ),
     );
   }
@@ -252,7 +248,7 @@ class AddAddressViewState extends State<AddAddressView> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: new AutoSizeTextField(
-        cursorColor: UtilsImporter().colorUtils.kmColors,
+        cursorColor: ColorUtils.kmColors,
         controller: stateController,
         maxLines: 1,
         focusNode: _stateFocus,
@@ -265,22 +261,20 @@ class AddAddressViewState extends State<AddAddressView> {
           setState(() {});
         },
         style: new TextStyle(
-            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+            fontFamily: StringUtils.fontFamilyHKGrotesk,
             fontWeight: FontWeight.w500,
             fontSize: 16.0,
             color: Theme.of(context).primaryColorDark),
         decoration: InputDecoration(
             hintText: "الطابق الأرضي، الطابق الخامس",
-            hintStyle: TextStyle(
-                color: Colors.black26, fontSize: 15, fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
-            labelText: UtilsImporter().stringUtils.state,
+            hintStyle: TextStyle(color: Colors.black26, fontSize: 15, fontFamily: StringUtils.fontFamilyHKGrotesk),
+            labelText: StringUtils.floor,
             labelStyle: TextStyle(
               fontSize: 25,
-              color: UtilsImporter().colorUtils.greycolor,
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+              color: ColorUtils.greyColor,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
-            border: new UnderlineInputBorder(
-                borderSide: new BorderSide(color: UtilsImporter().colorUtils.primarycolor))),
+            border: new UnderlineInputBorder(borderSide: new BorderSide(color: ColorUtils.primaryColor))),
       ),
     );
   }
@@ -289,7 +283,7 @@ class AddAddressViewState extends State<AddAddressView> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: new AutoSizeTextField(
-        cursorColor: UtilsImporter().colorUtils.kmColors,
+        cursorColor: ColorUtils.kmColors,
         controller: entranceController,
         maxLines: 1,
         focusNode: _entranceFocus,
@@ -302,22 +296,20 @@ class AddAddressViewState extends State<AddAddressView> {
           setState(() {});
         },
         style: new TextStyle(
-            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+            fontFamily: StringUtils.fontFamilyHKGrotesk,
             fontWeight: FontWeight.w500,
             fontSize: 16.0,
             color: Theme.of(context).primaryColorDark),
         decoration: InputDecoration(
             hintText: "المدخل اليميني",
-            hintStyle: TextStyle(
-                color: Colors.black26, fontSize: 15, fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
-            labelText: UtilsImporter().stringUtils.entrance,
+            hintStyle: TextStyle(color: Colors.black26, fontSize: 15, fontFamily: StringUtils.fontFamilyHKGrotesk),
+            labelText: StringUtils.entrance,
             labelStyle: TextStyle(
               fontSize: 25,
-              color: UtilsImporter().colorUtils.greycolor,
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+              color: ColorUtils.greyColor,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
-            border: new UnderlineInputBorder(
-                borderSide: new BorderSide(color: UtilsImporter().colorUtils.primarycolor))),
+            border: new UnderlineInputBorder(borderSide: new BorderSide(color: ColorUtils.primaryColor))),
       ),
     );
   }
@@ -326,7 +318,7 @@ class AddAddressViewState extends State<AddAddressView> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: new AutoSizeTextField(
-        cursorColor: UtilsImporter().colorUtils.kmColors,
+        cursorColor: ColorUtils.kmColors,
         controller: countryController,
         maxLines: 4,
         focusNode: _countryFocus,
@@ -339,22 +331,20 @@ class AddAddressViewState extends State<AddAddressView> {
           setState(() {});
         },
         style: new TextStyle(
-            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+            fontFamily: StringUtils.fontFamilyHKGrotesk,
             fontWeight: FontWeight.w500,
             fontSize: 16.0,
             color: Theme.of(context).primaryColorDark),
         decoration: InputDecoration(
             hintText: "مقابل جامع النعمان،",
-            hintStyle: TextStyle(
-                color: Colors.black26, fontSize: 15, fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
-            labelText: UtilsImporter().stringUtils.country,
+            hintStyle: TextStyle(color: Colors.black26, fontSize: 15, fontFamily: StringUtils.fontFamilyHKGrotesk),
+            labelText: StringUtils.closeSign,
             labelStyle: TextStyle(
               fontSize: 25,
-              color: UtilsImporter().colorUtils.greycolor,
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+              color: ColorUtils.greyColor,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
-            border: new UnderlineInputBorder(
-                borderSide: new BorderSide(color: UtilsImporter().colorUtils.primarycolor))),
+            border: new UnderlineInputBorder(borderSide: new BorderSide(color: ColorUtils.primaryColor))),
       ),
     );
   }
@@ -379,40 +369,35 @@ class AddAddressViewState extends State<AddAddressView> {
                     child: Text('هل تريد مشاركة موقعك؟',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
-                            color: UtilsImporter().colorUtils.kmColors,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
+                            color: ColorUtils.kmColors,
                             fontWeight: FontWeight.bold,
                             fontSize: 25)), //font color is diffrent
                   ),
                   Container(
                     margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
                     child: Text(
-                      UtilsImporter().stringUtils.locationRequestInfo,
+                      StringUtils.locationRequestInfo,
                       style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
-                          color: UtilsImporter().colorUtils.primarycolor,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                          color: ColorUtils.primaryColor,
                           fontSize: 18),
-                    ), //font color is diffrent
+                    ),
                   ),
-
                   Container(
                     margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
                     child: Text(
-                      UtilsImporter().stringUtils.locationRequestNote,
-                      style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk, color: Colors.red),
+                      StringUtils.locationRequestNote,
+                      style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, color: Colors.red),
                     ),
                   ),
-                  //   _submitRating(),
-
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8, bottom: 3),
                     child: _showGetUserLocation(ctx: context),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 0.0, left: 8, right: 8, bottom: 40),
-                    child: _showIgnoreAddLocation(
-                        ctx: context, text: UtilsImporter().stringUtils.doNotWantToShareLocation),
+                    child: _showIgnoreAddLocation(ctx: context, text: StringUtils.doNotWantToShareLocation),
                   ),
                 ],
               );
@@ -440,7 +425,7 @@ class AddAddressViewState extends State<AddAddressView> {
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -466,7 +451,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           color: Colors.white,
                           fontSize: 20.0,
                           fontWeight: FontWeight.w500,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                          fontFamily: StringUtils.fontFamilyHKGrotesk),
                     ),
                   ),
                 ),
@@ -481,8 +466,7 @@ class AddAddressViewState extends State<AddAddressView> {
       child: new Container(
         height: 50.0,
         decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new AutoSizeText(
             text ?? "حفظ العنوان",
@@ -491,7 +475,7 @@ class AddAddressViewState extends State<AddAddressView> {
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -517,7 +501,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           color: Colors.white,
                           fontSize: 20.0,
                           fontWeight: FontWeight.w500,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                          fontFamily: StringUtils.fontFamilyHKGrotesk),
                     ),
                   ),
                 ),
@@ -529,7 +513,7 @@ class AddAddressViewState extends State<AddAddressView> {
     final GestureDetector loginButtonWithGesture = new GestureDetector(
       onTap: () {
         setState(() {
-          userIgnorShareLocation = true;
+          userIgnoreShareLocation = true;
         });
         Navigator.of(context).pop();
 
@@ -539,8 +523,7 @@ class AddAddressViewState extends State<AddAddressView> {
       child: new Container(
         height: 50.0,
         decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new AutoSizeText(
             text ?? "حفظ العنوان",
@@ -549,7 +532,7 @@ class AddAddressViewState extends State<AddAddressView> {
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -575,7 +558,7 @@ class AddAddressViewState extends State<AddAddressView> {
                           color: Colors.white,
                           fontSize: 20.0,
                           fontWeight: FontWeight.w500,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                          fontFamily: StringUtils.fontFamilyHKGrotesk),
                     ),
                   ),
                 ),
@@ -633,11 +616,11 @@ class AddAddressViewState extends State<AddAddressView> {
   }
 
   Future<void> _addAddressBtnTapped() async {
-    if (userIgnorShareLocation == null) {
-      userIgnorShareLocation = false;
+    if (userIgnoreShareLocation == null) {
+      userIgnoreShareLocation = false;
     }
 
-    if (userLocation == null && !userIgnorShareLocation) {
+    if (userLocation == null && !userIgnoreShareLocation) {
       _settingModalBottomSheet(context);
     } else {
       Address newUserAddress = new Address();

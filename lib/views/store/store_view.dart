@@ -40,21 +40,16 @@ class StoreViewState extends State<StoreView> {
   void initState() {
     super.initState();
 
-    // if (LoadingScreenServices.bannerListNetwork.length == 0 ||
-    //     LoadingScreenServices.categoryList.length == 0) {
-    //   Navigator.push(context,
-    //       new MaterialPageRoute(builder: (context) => new InternetError()));
-    // }
-    bool isThereOrderUnderUbdate = false;
+    bool isThereOrderUnderUpdate = false;
     for (int i = 0; i < LoadingScreenServices.myOrdersList.length; i++) {
       if (LoadingScreenServices.myOrdersList[i].underUpdate == "1" &&
           int.parse(LoadingScreenServices.myOrdersList[i].orderStatusId) < 3) {
-        isThereOrderUnderUbdate = true;
+        isThereOrderUnderUpdate = true;
       }
     }
     if (Services.updateOption) WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog());
 
-    if (isThereOrderUnderUbdate) {
+    if (isThereOrderUnderUpdate) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _showUpdateOrderInstruction(context: context));
     }
   }
@@ -65,7 +60,7 @@ class StoreViewState extends State<StoreView> {
       child: new Container(
         height: 50.0,
         decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.kmColors, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: ColorUtils.kmColors, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
             " التحديث الآن ",
@@ -73,7 +68,7 @@ class StoreViewState extends State<StoreView> {
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -88,8 +83,7 @@ class StoreViewState extends State<StoreView> {
       child: new Container(
         height: 50.0,
         decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
             "موافق",
@@ -97,7 +91,7 @@ class StoreViewState extends State<StoreView> {
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -125,7 +119,7 @@ class StoreViewState extends State<StoreView> {
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -164,9 +158,9 @@ class StoreViewState extends State<StoreView> {
                         "تحديث متوفر",
                         style: TextStyle(
                             fontSize: 17,
-                            color: UtilsImporter().colorUtils.primarycolor,
+                            color: ColorUtils.primaryColor,
                             fontWeight: FontWeight.bold,
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                            fontFamily: StringUtils.fontFamilyHKGrotesk),
                       ),
                     ),
                     IconButton(
@@ -197,7 +191,7 @@ class StoreViewState extends State<StoreView> {
                             color: Colors.grey[900],
                             fontSize: 20,
                             fontWeight: FontWeight.normal,
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                            fontFamily: StringUtils.fontFamilyHKGrotesk),
                       ),
                     ],
                   ),
@@ -248,7 +242,7 @@ class StoreViewState extends State<StoreView> {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.green,
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 18),
                       ),
                     ),
@@ -259,7 +253,7 @@ class StoreViewState extends State<StoreView> {
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: Colors.grey[800],
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 18),
                       ),
                     ),
@@ -284,8 +278,6 @@ class StoreViewState extends State<StoreView> {
       } else {
         url = 'fb://page/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
       }
-      // url = "fb://page/" +
-      // LoadingScreenServices.companyInformation.facebookUrl.toString();
     } else if (selected == "instagram") {
       url = LoadingScreenServices.companyInformation.instagramUrl.toString();
     } else if (selected == "website") {
@@ -302,11 +294,6 @@ class StoreViewState extends State<StoreView> {
     }
 
     launch(url, forceSafariVC: false);
-    // if (await canLaunch(url)) {
-    //   await launch(url);
-    // } else {
-    //   throw 'Could not launch $url';
-    // }
   }
 
   _shareApp() {
@@ -343,8 +330,8 @@ class StoreViewState extends State<StoreView> {
                       child: Align(
                         alignment: Alignment.topRight,
                         child: DrawerHeader(
-                          decoration: BoxDecoration(
-                              color: Colors.white, border: Border.all(color: UtilsImporter().colorUtils.kmColors)),
+                          decoration:
+                              BoxDecoration(color: Colors.white, border: Border.all(color: ColorUtils.kmColors)),
                           child: InkWell(
                             onTap: () => Navigator.of(context).pop(),
                             child: Container(
@@ -354,53 +341,40 @@ class StoreViewState extends State<StoreView> {
                                 child: Icon(
                                   Icons.arrow_back_ios,
                                   //color: Colors.white,
-                                  color: UtilsImporter().colorUtils.kmColors,
+                                  color: ColorUtils.kmColors,
                                 ),
                               ),
                             ),
                           ),
-                          // decoration: BoxDecoration(
-                          //   color: UtilsImporter().colorUtils.primarycolor,
                           // ),
                         ),
                       ),
                     ),
                     Container(
                         child: Image.asset(
-                          //  "assets/logobw.png",
                           "assets/kmlogoo.png",
                           width: 250,
                           height: 200,
                         ),
-
-                        //color: UtilsImporter().colorUtils.kmColors,
                         color: Colors.white),
                     Divider(
-                      color: UtilsImporter().colorUtils.kmColors,
-                      // height: 20,
+                      color: ColorUtils.kmColors,
                     ),
                     ListTile(
                       leading: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Icon(
                           Icons.phone,
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           size: 30,
                         ),
                       ),
                       title: Text(
                         "الإتصال بكمون",
                         style: TextStyle(
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
                         ),
                       ),
-                      // subtitle: Text(
-                      //   LoadingScreenServices
-                      //       .companyInformation.supportNumber,
-                      //   style: TextStyle(
-                      //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                      //       fontWeight: FontWeight.bold),
-                      // ),
                       onTap: () => _openUrl("number"),
                     ),
                     InkWell(
@@ -410,20 +384,12 @@ class StoreViewState extends State<StoreView> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Icon(
                             Icons.share,
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: ColorUtils.kmColors,
                             size: 30,
                           ),
                         ),
                         title: Text("إرسال التطبيق للأصدقاء",
-                            style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
-                        // subtitle: Text(
-                        //   //'support@kammun.com',
-                        //   "بدعمكم نستمر",
-
-                        //   style: TextStyle(
-                        //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                        //       fontWeight: FontWeight.bold),
-                        // ),
+                            style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
                         onTap: () => _shareApp(),
                       ),
                     ),
@@ -432,21 +398,11 @@ class StoreViewState extends State<StoreView> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Icon(
                           Icons.person,
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           size: 30,
                         ),
                       ),
-                      title: Text("الملف الشخصي",
-                          style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
-                      // subtitle: Text(
-                      //   // 'www.kammun.com',
-                      //   LoadingScreenServices
-                      //       .companyInformation.websiteUrl,
-
-                      //   style: TextStyle(
-                      //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                      //       fontWeight: FontWeight.bold),
-                      // ),
+                      title: Text("الملف الشخصي", style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
                       onTap: () {
                         Navigator.of(context).pushNamed('/profile');
                       },
@@ -456,18 +412,18 @@ class StoreViewState extends State<StoreView> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Icon(
                           Icons.policy,
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           size: 30,
                         ),
                       ),
-                      title: Text("سياسة الإستخدام",
-                          style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
+                      title:
+                          Text("سياسة الإستخدام", style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
                       onTap: () {
                         launch('http://kammun.com/privacy-policy.html', enableJavaScript: false);
                       },
                     ),
                     Divider(
-                      color: UtilsImporter().colorUtils.kmColors,
+                      color: ColorUtils.kmColors,
                       height: 20,
                     ),
                     Padding(
@@ -480,7 +436,7 @@ class StoreViewState extends State<StoreView> {
                               onTap: () => _openUrl("facebook"),
                               child: Icon(
                                 FontAwesomeIcons.facebookF,
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: ColorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -488,7 +444,7 @@ class StoreViewState extends State<StoreView> {
                               onTap: () => _openUrl("instagram"),
                               child: Icon(
                                 FontAwesomeIcons.instagram,
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: ColorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -496,7 +452,7 @@ class StoreViewState extends State<StoreView> {
                               onTap: () => _openUrl("messenger"),
                               child: Icon(
                                 FontAwesomeIcons.facebookMessenger,
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: ColorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -504,7 +460,7 @@ class StoreViewState extends State<StoreView> {
                               onTap: () => _openUrl("whatsapp"),
                               child: Icon(
                                 FontAwesomeIcons.whatsapp,
-                                color: UtilsImporter().colorUtils.primarycolor,
+                                color: ColorUtils.primaryColor,
                                 size: 30,
                               ),
                             ),
@@ -596,7 +552,7 @@ class StoreViewState extends State<StoreView> {
                       Expanded(
                         child: Container(
                           decoration: new BoxDecoration(
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: ColorUtils.kmColors,
                             border: new Border.all(color: Colors.white, width: 2.0),
                             borderRadius: new BorderRadius.circular(10.0),
                           ),
@@ -604,17 +560,17 @@ class StoreViewState extends State<StoreView> {
                         ),
                       ),
                       Text(
-                        "  " + UtilsImporter().stringUtils.shopByCategory + "  ",
+                        "  " + StringUtils.shopByCategory + "  ",
                         style: TextStyle(
-                            color: UtilsImporter().colorUtils.primarycolor,
+                            color: ColorUtils.primaryColor,
                             fontWeight: FontWeight.w900,
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 22),
                       ),
                       Expanded(
                         child: Container(
                           decoration: new BoxDecoration(
-                            color: UtilsImporter().colorUtils.kmColors,
+                            color: ColorUtils.kmColors,
                             border: new Border.all(color: Colors.white, width: 2.0),
                             borderRadius: new BorderRadius.circular(10.0),
                           ),
@@ -654,13 +610,13 @@ class StoreViewState extends State<StoreView> {
                             )));
               }
             },
-            cursorColor: UtilsImporter().colorUtils.primarycolor,
+            cursorColor: ColorUtils.primaryColor,
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
               contentPadding: const EdgeInsets.only(bottom: 0.5),
               hintText: "بحث",
               hintStyle: TextStyle(
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                fontFamily: StringUtils.fontFamilyHKGrotesk,
               ),
             ),
           ),
@@ -675,8 +631,7 @@ class StoreViewState extends State<StoreView> {
     return new Container(
       height: MediaQuery.of(context).size.height * 0.25,
       decoration: new BoxDecoration(
-          color: UtilsImporter().colorUtils.searchgreycolor,
-          borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+          color: ColorUtils.searchGreyColor, borderRadius: new BorderRadius.all(Radius.circular(20.0))),
       child: new Carousel(
         borderRadius: true,
         boxFit: BoxFit.cover,

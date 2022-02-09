@@ -1,14 +1,85 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'utils_importer.dart';
 
-final kTitleStyle = TextStyle(
-  color: Colors.white,
-  fontFamily: 'al-faris28',
-  fontSize: 26.0,
-  height: 1.5,
+TextStyle mainStyle = TextStyle(
+  fontFamily: StringUtils.fontFamilyHKGrotesk,
 );
 
-final kSubtitleStyle = TextStyle(
+TextStyle dialogStyle = mainStyle;
+
+TextStyle decisionButtonStyle = mainStyle.copyWith(
   color: Colors.white,
-  fontSize: 18.0,
-  height: 1.2,
+  fontSize: 20.0,
+  fontWeight: FontWeight.w500,
+);
+
+TextStyle paragraphStyle = mainStyle.copyWith(
+  color: ColorUtils.primaryColor,
+  fontSize: 18,
+  fontWeight: FontWeight.bold,
+);
+
+TextStyle informationStyle = paragraphStyle.copyWith(
+  color: Colors.black,
+);
+
+TextStyle flushBarStyle = mainStyle.copyWith(
+  color: Colors.white,
+  fontWeight: FontWeight.bold,
+);
+
+TextStyle naveBarStyle = mainStyle.copyWith(
+  color: Color.fromARGB(255, 53, 99, 124),
+  fontWeight: FontWeight.w500,
+  fontSize: 15,
+);
+
+TextStyle darkBold = mainStyle.copyWith(
+  color: ColorUtils.primaryColor,
+  fontSize: 17,
+);
+
+TextStyle dropdownItemStyle = mainStyle.copyWith(
+  color: Colors.black,
+  fontWeight: FontWeight.w700,
+);
+
+TextStyle textFieldStyle = mainStyle.copyWith(
+  fontWeight: FontWeight.w500,
+  fontSize: 16.0,
+  color: Colors.black,
+);
+
+TextStyle hintStyle = mainStyle.copyWith(
+  color: Colors.black26,
+  fontSize: 15,
+);
+
+TextStyle labelStyle = mainStyle.copyWith(
+  fontSize: 15,
+  color: ColorUtils.greyColor,
+);
+
+TextStyle disableStyle = paragraphStyle.copyWith(
+  color: Colors.black38,
+);
+TextStyle warehouseStyle = mainStyle.copyWith(
+  fontWeight: FontWeight.bold,
+  color: ColorUtils.greyColor,
+  fontSize: 20,
+);
+TextStyle profitStyle = warehouseStyle.copyWith(
+  color: Colors.green,
+  fontSize: 25,
+);
+TextStyle loseStyle = warehouseStyle.copyWith(
+  color: Colors.red,
+  fontSize: 25,
+);
+
+TextStyle userNameStyle = mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 15);
+
+TextStyle blackBold = flushBarStyle.copyWith(
+  color: Colors.black,
 );

@@ -10,7 +10,6 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 class SubCategory extends StatefulWidget {
   int heroIndex;
   static int cartCount = 0;
-  //String category_name;
   List<CategoryOriginalData> subCategory = [];
 
   SubCategory({this.heroIndex, this.subCategory});
@@ -25,15 +24,6 @@ class _SubCategoryState extends State<SubCategory> {
   @override
   Widget build(BuildContext context) {
     void _onTileClicked(int index) {
-      // String category_name = categoriesListArray[index]['category_name'];
-
-      // Navigator.push(
-      //   context,
-      //   new MaterialPageRoute(
-      //     builder: (context) => new SubCategory(),
-      //   ),
-      // );
-
       List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
 
       for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
@@ -62,16 +52,6 @@ class _SubCategoryState extends State<SubCategory> {
           ),
         );
       }
-
-      // Navigator.push(
-      //   context,
-      //   new MaterialPageRoute(
-      //     builder: (context) => new ProductsView(
-      //       heroIndex: categoryId,
-      //       categoryId: categoryId.toString(),
-      //     ),
-      //   ),
-      // );
     }
 
     Widget _showSearchTxtFld() {
@@ -87,21 +67,23 @@ class _SubCategoryState extends State<SubCategory> {
               onSubmitted: (_) {
                 if (_searchController.text.length > 0) {
                   Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new ProductsView(
-                                queryString: _searchController.text,
-                                categoryId: "0",
-                              )));
+                    context,
+                    new MaterialPageRoute(
+                      builder: (context) => new ProductsView(
+                        queryString: _searchController.text,
+                        categoryId: "0",
+                      ),
+                    ),
+                  );
                 }
               },
-              cursorColor: UtilsImporter().colorUtils.primarycolor,
+              cursorColor: ColorUtils.primaryColor,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 contentPadding: const EdgeInsets.only(bottom: 0.5),
                 hintText: "بحث",
                 hintStyle: TextStyle(
-                  fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
               ),
             ),
@@ -129,60 +111,56 @@ class _SubCategoryState extends State<SubCategory> {
               },
             ),
           ),
-
           backgroundColor: Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false,
-          // hides leading widget
-
           flexibleSpace: SafeArea(
-            // top: true,
-            // left: false,
-            // bottom: false,
-            // right: false,
             child: Column(
               children: <Widget>[
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Opacity(
-                        opacity: 0.0,
-                        child: Icon(
-                          Icons.home,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Opacity(
+                      opacity: 0.0,
+                      child: Icon(
+                        Icons.home,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Transform.scale(
+                        scale: 2,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/home',
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+                          child: Image.asset(
+                            "assets/logobw.png",
+                            width: 150,
+                            height: 50,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0, left: 0),
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
                           color: Colors.white,
                           size: 40,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: Transform.scale(
-                          scale: 2,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                '/home',
-                                (Route<dynamic> route) => false,
-                              );
-                            },
-                            child: Image.asset(
-                              "assets/logobw.png",
-                              width: 150,
-                              height: 50,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.only(top: 5.0, left: 0),
-                          child: IconButton(
-                              onPressed: () => Navigator.of(context).pop(true),
-                              icon: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.white,
-                                size: 40,
-                              ))),
-                    ]),
+                    ),
+                  ],
+                ),
                 _showSearchTxtFld(),
               ],
             ),
@@ -198,10 +176,10 @@ class _SubCategoryState extends State<SubCategory> {
                 child: Center(
                   child: Text("لا يوجد اصناف متوفرة حالياً، سيتم إضافة اصناف في المستقبل",
                       style: TextStyle(
-                          color: UtilsImporter().colorUtils.primarycolor,
+                          color: ColorUtils.primaryColor,
                           fontSize: ResponsiveFlutter.of(context).fontSize(3),
                           fontWeight: FontWeight.bold,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk)),
+                          fontFamily: StringUtils.fontFamilyHKGrotesk)),
                 ),
               ),
             )
@@ -221,7 +199,7 @@ class _SubCategoryState extends State<SubCategory> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                         side: BorderSide(
-                          color: UtilsImporter().colorUtils.kmColors,
+                          color: ColorUtils.kmColors,
                           width: 4.0,
                         ),
                       ),
@@ -244,27 +222,16 @@ class _SubCategoryState extends State<SubCategory> {
                                   width: MediaQuery.of(context).size.width,
                                   fadeInDuration: const Duration(seconds: 1),
                                   height: MediaQuery.of(context).size.height * 0.18,
-                                  // fadeInCurve: Curves.fastOutSlowIn,
                                   fadeInCurve: Curves.fastOutSlowIn,
-
                                   placeholder: AssetImage("assets/kmlogoo.png"),
                                   fit: BoxFit.cover,
                                 ),
-                                // Image.asset(
-                                //   eachProduct.image_file_name,
-                                //   height: 150,
-                                //   width: double.infinity,
-                                //   fit: BoxFit.cover,
-                                // ),
                               ),
                               ClipRRect(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(30),
                                 ),
                                 child: Container(
-                                  // width: double.infinity,
-                                  //  height: ,
-                                  //constraints: BoxConstraints.expand(),
                                   height: MediaQuery.of(context).size.height * 0.18,
                                   width: double.infinity,
                                   color: Colors.black54,
@@ -279,7 +246,7 @@ class _SubCategoryState extends State<SubCategory> {
                                       style: TextStyle(
                                         fontSize: ResponsiveFlutter.of(context).fontSize(4),
                                         color: Colors.white,
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       ),
                                       softWrap: true,
                                       overflow: TextOverflow.fade,
@@ -299,41 +266,3 @@ class _SubCategoryState extends State<SubCategory> {
     );
   }
 }
-
-// class SubCategoryCardView extends StatefulWidget {
-//   final String img;
-//   final String product_name;
-//   final int index;
-
-//   SubCategoryCardView({this.img, this.product_name, this.index});
-
-//   @override
-//   State<StatefulWidget> createState() {
-//     // TODO: implement createState
-//     return SubCategoryCardViewState();
-//   }
-// }
-
-// class SubCategoryCardViewState extends State<SubCategoryCardView> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       color: Theme.of(context).primaryColorLight,
-//       child: Padding(
-//         padding: EdgeInsets.only(left: 0, right: 0, top: 10),
-//         child: Card(
-//           child: Container(
-//             decoration: BoxDecoration(
-//               image: DecorationImage(
-//                 image: AssetImage(widget.img),
-//                 fit: BoxFit.fitWidth,
-//                 alignment: Alignment.topCenter,
-//               ),
-//             ),
-//             child: Text(widget.product_name),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

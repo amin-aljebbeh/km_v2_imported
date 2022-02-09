@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -50,16 +50,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         height: 35.0,
         width: 125,
         decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.delete.toUpperCase(),
+            StringUtils.delete.toUpperCase(),
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -69,31 +68,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
         padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 5), child: showConfirmButtonWithGesture);
   }
 
-  Widget _showEidte({int index}) {
+  Widget _showEdite({int index}) {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
       onTap: () {
         Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => new AddAddressView(
-                      isFromDeliveryScreen: false,
-                      addressIndex: index,
-                    )));
+          context,
+          new MaterialPageRoute(
+            builder: (context) => new AddAddressView(
+              isFromDeliveryScreen: false,
+              addressIndex: index,
+            ),
+          ),
+        );
       },
       child: new Container(
         height: 35.0,
         width: 125,
         decoration: new BoxDecoration(
-            color: UtilsImporter().colorUtils.primarycolor,
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            UtilsImporter().stringUtils.editAddress.toUpperCase(),
+            StringUtils.edit,
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
-                fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
         ),
       ),
@@ -128,10 +128,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Navigator.of(context).pop();
                       },
                       child: Text(
-                        UtilsImporter().stringUtils.profileInfo,
+                        StringUtils.profileInfo,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
                             fontSize: 30),
                       )),
                 ],
@@ -143,9 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Text(
                       "الرقم الشخصي",
                       style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
-                          fontSize: 20),
+                          fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 20),
                     ),
                   ),
                 ),
@@ -157,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.white,
                     boxShadow: [
-                      BoxShadow(color: UtilsImporter().colorUtils.primarycolor, spreadRadius: 3),
+                      BoxShadow(color: ColorUtils.primaryColor, spreadRadius: 3),
                     ],
                   ),
                   child: ListTile(
@@ -165,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Icon(
                         FontAwesomeIcons.phone,
-                        color: UtilsImporter().colorUtils.kmColors,
+                        color: ColorUtils.kmColors,
                         size: 30,
                       ),
                     ),
@@ -174,19 +172,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Text(
                         LoadingScreenServices.userNumber,
                         style: TextStyle(
-                            fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
-                            fontSize: 25,
-                            color: Colors.black),
+                            fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 25, color: Colors.black),
                       ),
                     ),
-
-                    // subtitle: Text(
-                    //   "0957570213",
-                    //   style: TextStyle(
-                    //       fontFamily: UtilsImporter().stringUtils.HKGrotesk,
-                    //       fontWeight: FontWeight.bold,
-                    //       fontSize: 30),
-                    // ),
                     onTap: () {},
                   ),
                 ),
@@ -195,11 +183,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                   child: Text(
-                    UtilsImporter().stringUtils.addressTitle,
+                    StringUtils.addressTitle,
                     style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
-                        fontSize: 20),
+                        fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 20),
                   ),
                 ),
               ),
@@ -249,7 +235,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                       color: Colors.white,
                                       boxShadow: [
-                                        BoxShadow(color: UtilsImporter().colorUtils.primarycolor, spreadRadius: 3),
+                                        BoxShadow(color: ColorUtils.primaryColor, spreadRadius: 3),
                                       ],
                                     ),
                                     child: ListTile(
@@ -257,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         padding: const EdgeInsets.only(top: 8.0),
                                         child: Icon(
                                           FontAwesomeIcons.addressCard,
-                                          color: UtilsImporter().colorUtils.kmColors,
+                                          color: ColorUtils.kmColors,
                                           size: 30,
                                         ),
                                       ),
@@ -266,7 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         child: Text(
                                           "لايوجد عنوان مسجل ",
                                           style: TextStyle(
-                                              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                              fontFamily: StringUtils.fontFamilyHKGrotesk,
                                               fontSize: 25,
                                               color: Colors.black),
                                         ),
@@ -279,11 +265,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               alignment: Alignment.center,
                               child: FlatButton(
                                 padding: EdgeInsets.only(left: 30.0, top: 10.0),
-                                child: Text(UtilsImporter().stringUtils.addNewAddress,
+                                child: Text(StringUtils.addNewAddress,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: UtilsImporter().colorUtils.greycolor,
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                        color: ColorUtils.greyColor,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 17)),
                                 onPressed: () {
                                   Navigator.push(
@@ -314,7 +300,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
               border: Border.all(
                 width: 2,
-                color: UtilsImporter().colorUtils.kmColors,
+                color: ColorUtils.kmColors,
               )),
           child: Card(
             elevation: 1.0,
@@ -338,7 +324,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     LoadingScreenServices.userAddress[index].supportedCityName,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -348,8 +334,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     LoadingScreenServices.userAddress[index].street,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter().colorUtils.greycolor,
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                        color: ColorUtils.greyColor,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -359,8 +345,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     LoadingScreenServices.userAddress[index].building,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter().colorUtils.greycolor,
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                        color: ColorUtils.greyColor,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -370,8 +356,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     LoadingScreenServices.userAddress[index].description,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        color: UtilsImporter().colorUtils.greycolor,
-                                        fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                                        color: ColorUtils.greyColor,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 20),
                                   ),
                                 ),
@@ -386,16 +372,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Divider(
-                    color: UtilsImporter().colorUtils.kmColors,
+                    color: ColorUtils.kmColors,
                     thickness: 3,
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //    crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     _showDeleteButton(index: index),
-                    _showEidte(index: index),
+                    _showEdite(index: index),
                   ],
                 ),
               ],

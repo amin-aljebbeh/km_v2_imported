@@ -37,14 +37,11 @@ class HomeViewState extends State<HomeView> {
         ? WidgetsBinding.instance.addPostFrameCallback((_) => _showNotificationDialog(ctx: context))
         : Tools.logToConsole('');
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => _initializeNotificaiton(ctx: context));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _initializeNotification(ctx: context));
     super.initState();
   }
 
-  _initializeNotificaiton({BuildContext ctx}) {
-    //checkUpdate = _checkAppVersion();
-
-// Here you can write your code
+  _initializeNotification({BuildContext ctx}) {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         final notification = message['notification'];
@@ -52,27 +49,18 @@ class HomeViewState extends State<HomeView> {
         if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
 
         _showDialog(notification['title'], notification['body']);
-
-        // WidgetsBinding.instance.addPostFrameCallback(
-        //     (_) => _showDialog(notification['title'], notification['body']));
-        // if (message['data']['route_name'] == "/productDetails") {
-
-        // }
       },
       onLaunch: (Map<String, dynamic> message) async {
         final notification = message['data'];
 
         if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
 
-        if (LoadingScreenServices.showOnLucnhNotification)
+        if (LoadingScreenServices.showOnLunchNotification)
           _showDialog(notification['title'], notification['body']);
-        LoadingScreenServices.showOnLucnhNotification = false;
-        // widget.notificationValue = notification;
+        LoadingScreenServices.showOnLunchNotification = false;
       },
       onResume: (Map<String, dynamic> message) async {
         final notification = message['data'];
-        // Navigator.push(
-        //     context, new MaterialPageRoute(builder: (context) => HomeView(2)));
 
         if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
 
@@ -81,10 +69,10 @@ class HomeViewState extends State<HomeView> {
     );
     _firebaseMessaging
         .requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
-    getoken();
+    geToken();
   }
 
-  Future getoken() async {
+  Future geToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.get("firebase_token") == null) {
       firebaseToken = await _firebaseMessaging.getToken();
@@ -101,19 +89,18 @@ class HomeViewState extends State<HomeView> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // return object of type Dialog
         return AlertDialog(
           title: new Text(
             "$title",
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
           ),
           content: new Text(
             "$body",
             // maxLines: 20,
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
           ),
           scrollable: true,
@@ -122,7 +109,7 @@ class HomeViewState extends State<HomeView> {
             new FlatButton(
               child: new Text(
                 "إغلاق",
-                style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -141,28 +128,26 @@ class HomeViewState extends State<HomeView> {
     showDialog(
       context: ctx,
       builder: (BuildContext context) {
-        // return object of type Dialog
         return AlertDialog(
           title: new Text(
             "$title",
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
           ),
           content: new Text(
             "$body",
             // maxLines: 20,
             style: TextStyle(
-              fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+              fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
           ),
           scrollable: true,
           actions: <Widget>[
-            // usually buttons at the bottom of the dialog
             new FlatButton(
               child: new Text(
                 "إغلاق",
-                style: TextStyle(fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk),
+                style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -187,62 +172,56 @@ class HomeViewState extends State<HomeView> {
     return Scaffold(
       body: _tabs[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        // backgroundColor: Color.fromARGB(255, 53, 99, 124),
-        //backgroundColor: Color.fromARGB(255, 57, 107, 137),
         backgroundColor: Colors.white,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.store,
-                // color: Theme.of(context).primaryColor,
                 color: Color.fromARGB(255, 210, 178, 2),
               ),
               icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
               // ignore: deprecated_member_use
               title: Text(
-                UtilsImporter().stringUtils.store,
+                StringUtils.store,
                 style: TextStyle(
                     color: Color.fromARGB(255, 53, 99, 124),
                     fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                     fontSize: 15),
               )),
           BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.shopping_cart,
-                // color: Theme.of(context).primaryColor,
                 color: Color.fromARGB(255, 210, 178, 2),
               ),
               icon: Icon(Icons.shopping_cart, color: Color.fromARGB(255, 53, 99, 124)),
               // ignore: deprecated_member_use
               title: Text(
-                UtilsImporter().stringUtils.cart,
+                StringUtils.cart,
                 style: TextStyle(
                     color: Color.fromARGB(255, 53, 99, 124),
                     fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                     fontSize: 15),
               )),
           BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.reorder,
-                //color: Theme.of(context).primaryColor,
                 color: Color.fromARGB(255, 210, 178, 2),
               ),
               icon: Icon(Icons.reorder, color: Color.fromARGB(255, 53, 99, 124)),
               // ignore: deprecated_member_use
               title: Text(
-                UtilsImporter().stringUtils.orders,
+                StringUtils.orders,
                 style: TextStyle(
                     color: Color.fromARGB(255, 53, 99, 124),
                     fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                     fontSize: 15),
               )),
           BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.favorite,
-                //   color: Theme.of(context).primaryColor,
                 color: Color.fromARGB(255, 210, 178, 2),
               ),
               icon: Icon(
@@ -251,11 +230,11 @@ class HomeViewState extends State<HomeView> {
               ),
               // ignore: deprecated_member_use
               title: Text(
-                UtilsImporter().stringUtils.profile,
+                StringUtils.profile,
                 style: TextStyle(
                     color: Color.fromARGB(255, 53, 99, 124),
                     fontWeight: FontWeight.w500,
-                    fontFamily: UtilsImporter().stringUtils.fontFamilyHKGrotesk,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
                     fontSize: 15),
               )),
         ],
