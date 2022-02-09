@@ -80,24 +80,24 @@ class _AddProductsViewState extends State<AddProductsView> {
   bool isLoading = false;
   bool isError = false;
 
-  void _addNewProduct({String barcode = '', BuildContext context}) async {
+  void _addNewProduct({int barcode, BuildContext context}) async {
     setState(() {
       isLoading = true;
       isError = false;
     });
     int productIds = await ProductsServices.addNewProducts(
-      subWarehouseId: _selectedSubWarehouseValue.toString(),
+      subWarehouseId: _selectedSubWarehouseValue,
       name: nameController.text,
       quantity: quantityController.text,
       unit: unitController.text,
-      price: priceController.text,
+      price: int.parse(priceController.text),
       description: descriptionController.text,
       supplierCode: supplierCodeController.text,
       priceFactor: priceFactorController.text,
       categoryId: widget.categoryId,
       minThreshold: "0",
       autoActivation: autoActivationController,
-      isActive: switchController ? "1" : "0",
+      isActive: switchController ? 1 : 0,
       barcode: barcode,
     );
     Services.resultFlushBar(context: context, result: productIds != null && productIds != 0);
@@ -310,7 +310,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                         ProductEntryField(
                             controller: priceFactorController,
                             title: "معدل الضرب",
-                            fieldType: TextInputType.text,
+                            fieldType: TextInputType.number,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
                       ],
@@ -427,10 +427,15 @@ class _AddProductsViewState extends State<AddProductsView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => BarCodeScreen(
+                              builder: (screenContext) => BarCodeScreen(
                                 requestType: BarcodeRequestType.addProduct,
                                 onIgnore: (barcode) {
-                                  _addNewProduct(barcode: barcode, context: context);
+                                  int param;
+                                  if (barcode == null)
+                                    param = null;
+                                  else
+                                    param = int.parse(barcode);
+                                  _addNewProduct(barcode: param, context: context);
                                 },
                               ),
                             ),

@@ -52,6 +52,7 @@ class AddedProductsServices {
     dynamic fullRequestBody,
   }) async {
     try {
+      Tools.logToConsole(fullRequestBody);
       var response = await ApiProvider.sendRequest(
           url: ATTACH_PRODUCTS_TO_SUB_WAREHOUSE, method: httpMethods.post, body: jsonEncode(fullRequestBody));
 

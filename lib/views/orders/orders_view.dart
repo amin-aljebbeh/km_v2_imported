@@ -422,7 +422,7 @@ class OrdersViewState extends State<OrdersView> {
     String productsId = "";
     String productsQuantity = "";
 
-    orderProducts.removeWhere((element) => element.pivot.deletedAt != null);
+    orderProducts.removeWhere((element) => element.pivot.deletedAt != 'null');
 
     for (int i = 0; i < orderProducts.length; i++) {
       ProductData product = new ProductData();

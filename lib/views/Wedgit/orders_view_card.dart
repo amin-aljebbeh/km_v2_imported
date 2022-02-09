@@ -32,7 +32,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
   int deletedCount;
 
   void initState() {
-    deletedCount = widget.orderData.products.where((product) => product.pivot.deletedAt != null).length;
+    deletedCount = widget.orderData.products.where((product) => product.pivot.deletedAt != 'null').length;
     super.initState();
   }
 
@@ -117,7 +117,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     ),
                     child: Text(
                       widget.orderData.products
-                          .where((product) => product.pivot.deletedAt == null)
+                          .where((product) => product.pivot.deletedAt == 'null')
                           .length
                           .toString(),
                       style: paragraphStyle,

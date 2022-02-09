@@ -78,14 +78,14 @@ class ProductsServices {
     String unit,
     String description,
     String categoryId,
-    String price,
-    String isActive,
+    int price,
+    int isActive,
     String supplierCode,
     String minThreshold,
     String priceFactor,
     bool autoActivation,
-    @required String subWarehouseId,
-    String barcode,
+    @required int subWarehouseId,
+    int barcode,
   }) async {
     var productBody = {
       "name": name,
@@ -106,7 +106,7 @@ class ProductsServices {
 
       if (response.statusCode == SUCCESS_CODE && response.data["success"] == true) {
         var subWarehouseBody = {
-          "product_id": response.data["data"]["id"].toString(),
+          "product_id": response.data["data"]["id"],
           "sub_warehouse_id": subWarehouseId,
           "price": price,
           "is_featured": 0,
@@ -118,6 +118,7 @@ class ProductsServices {
           "price_factor": priceFactor,
           "automatic_activation": autoActivation,
         };
+        Tools.logToConsole('hero');
         bool result = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: subWarehouseBody);
         if (result) {
           return int.parse(response.data["data"]["id"].toString());

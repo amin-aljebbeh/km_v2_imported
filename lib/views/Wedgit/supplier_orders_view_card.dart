@@ -4,7 +4,7 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/views/order_details/order_details_view_main.dart';
+import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
 
 import '../../Services.dart';
 import 'widgets_importer.dart';
@@ -21,13 +21,13 @@ class SupplierOrdersViewCard extends StatefulWidget {
 class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
   double subTotal;
   int productsCount() {
-    return widget.order.products.where((product) => product.pivot.deletedAt == null).length;
+    return widget.order.products.where((product) => product.pivot.deletedAt == 'null').length;
   }
 
   productsNetPrice() {
     double total = 0;
     for (int i = 0; i < widget.order.products.length; i++) {
-      if ((widget.order.products[i].pivot.deletedAt == null)) {
+      if ((widget.order.products[i].pivot.deletedAt == 'null')) {
         double subTotal = ((double.parse(widget.order.products[i].pivot.purchasePrice) -
             widget.order.products[i].pivot.increaseValue));
         widget.order.products[i].pivot.purchasePrice = subTotal.toString();
@@ -41,7 +41,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
   productsDiscountPrice() {
     double total = 0;
     for (int i = 0; i < widget.order.products.length; i++) {
-      if ((widget.order.products[i].pivot.deletedAt == null)) {
+      if ((widget.order.products[i].pivot.deletedAt == 'null')) {
         double discountPercentage = SubWarehouse.getDiscountPercentage(widget.order.products[i].subWarehouseId);
         double subTotal = double.parse(widget.order.products[i].pivot.purchasePrice) -
             (double.parse(widget.order.products[i].pivot.purchasePrice) * discountPercentage);
@@ -68,10 +68,10 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
         Navigator.push(
           context,
           new MaterialPageRoute(
-            builder: (context) => new OrderDetailViewMain(
+            builder: (context) => new OrderDetailsTabView(
               subTotal: Services.kRound(subTotal),
               total: widget.order.total,
-              order: widget.order,
+              orderData: widget.order,
               orderType: OrderTypes.myOrder,
               remaining: subTotal - Services.kRound(subTotal),
               totalDiscount: double.parse(widget.order.total) - Services.kRound(subTotal),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/common_utils.dart';
+import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
 import '../../utils/Styles.dart';
 import 'order_accounting.dart';
-import 'order_details_view_main.dart';
 
 // ignore: must_be_immutable
 class OrderDetailView extends StatefulWidget {
@@ -32,10 +32,10 @@ class OrderDetailViewState extends State<OrderDetailView> {
   @override
   void initState() {
     _tabs.add(
-      OrderDetailViewMain(
+      OrderDetailsTabView(
         subTotal: widget.subTotal,
         total: widget.total.split('.')[0],
-        order: widget.orderData,
+        orderData: widget.orderData,
         orderType: widget.orderType,
       ),
     );

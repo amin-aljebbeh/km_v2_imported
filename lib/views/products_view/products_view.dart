@@ -299,15 +299,17 @@ class ProductsViewState extends State<ProductsView> {
                           height: isLoading ? 50.0 : 0,
                           color: Colors.transparent,
                           child: Center(
-                            child: theEndOfProducts
-                                ? Text(
-                                    "تم جلب جميع المنتجات",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    ),
-                                  )
-                                : Loader(),
+                            child: widget.barcode == null
+                                ? theEndOfProducts
+                                    ? Text(
+                                        "تم جلب جميع المنتجات",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                        ),
+                                      )
+                                    : Loader()
+                                : Container(),
                           ),
                         ),
                       ],

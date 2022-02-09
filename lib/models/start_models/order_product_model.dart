@@ -35,20 +35,15 @@ class OrderProducts {
         name: json["name"],
         description: json["description"],
         unit: json["unit"].toString(),
-        isInFacebook: json["is_in_facebook"] == null
-            ? null
-            : json["is_in_facebook"].toString(),
-        categoryId:
-            json["category_id"] == null ? null : json["category_id"].toString(),
+        isInFacebook: json["is_in_facebook"] == null ? null : json["is_in_facebook"].toString(),
+        categoryId: json["category_id"] == null ? null : json["category_id"].toString(),
         supplierCode: json["supplier_code"].toString(),
         isActive: json["is_active"],
-        subWarehouseId:
-            json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
+        subWarehouseId: json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
         quantity: json["quantity"].toString(),
         productAvailable: false,
         pivot: OrderProductPivot.fromJson(json["pivot"]),
-        images: List<ProductImage>.from(
-            json["images"].map((x) => ProductImage.fromJson(x))),
+        images: List<ProductImage>.from(json["images"].map((x) => ProductImage.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -111,15 +106,13 @@ class OrderProductPivot {
   String quantity;
   int increaseValue;
 
-  factory OrderProductPivot.fromJson(Map<String, dynamic> json) =>
-      OrderProductPivot(
+  factory OrderProductPivot.fromJson(Map<String, dynamic> json) => OrderProductPivot(
         orderId: json["order_id"].toString(),
         productId: json["product_id"].toString(),
         purchasePrice: json["purchase_price"].toString(),
         quantity: json["quantity"].toString(),
-        deletedAt: json["deleted_at"],
-        increaseValue:
-            json["increase_value"] == null ? 0 : json["increase_value"],
+        deletedAt: json["deleted_at"] != null ? json['deleted_at'] : 'null',
+        increaseValue: json["increase_value"] == null ? 0 : json["increase_value"],
       );
 
   Map<String, dynamic> toJson() => {
