@@ -15,10 +15,10 @@ import 'package:full_screen_image/full_screen_image.dart';
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
   int heroIndex;
-  ProductData products;
+  ProductData product;
   bool isFromFavoriteScreen;
 
-  ProductDetailView({this.heroIndex, this.products, @required this.isFromFavoriteScreen});
+  ProductDetailView({this.heroIndex, this.product, @required this.isFromFavoriteScreen});
 
   @override
   State<StatefulWidget> createState() {
@@ -109,7 +109,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                   alignment: Alignment.bottomCenter,
                   child: done
                       ? AutoSizeText(
-                          widget.products.name,
+                          widget.product.name,
                           maxLines: 1,
                           style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
                         )
@@ -126,10 +126,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               borderRadius: BorderRadius.circular(16),
                               child: FadeTransition(
                                 opacity: _animation,
-                                child: widget.products.images.length > 0
+                                child: widget.product.images.length > 0
                                     ? Image.network(
                                         LoadingScreenServices.imagePrefixUrl +
-                                            widget.products.images[0].imageFileName,
+                                            widget.product.images[0].imageFileName,
                                         width: MediaQuery.of(context).size.width / 2,
                                         height: 120,
                                         fit: BoxFit.contain,
@@ -140,12 +140,12 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               ),
                             ),
                           )
-                        : widget.products.images.length > 0
+                        : widget.product.images.length > 0
                             ? FullScreenWidget(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
                                   child: Image.network(
-                                    LoadingScreenServices.imagePrefixUrl + widget.products.images[0].imageFileName,
+                                    LoadingScreenServices.imagePrefixUrl + widget.product.images[0].imageFileName,
                                     width: MediaQuery.of(context).size.width / 2,
                                     height: 120,
                                     fit: BoxFit.contain,
@@ -174,7 +174,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(widget.products.name,
+                      child: Text(widget.product.name,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: Colors.black,
@@ -198,9 +198,9 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 )),
                             SizedBox(height: 10),
                             Text(
-                              widget.products.unit.toString() != "null"
-                                  ? widget.products.quantity.toString() + " " + widget.products.unit.toString()
-                                  : widget.products.quantity.toString(),
+                              widget.product.unit.toString() != "null"
+                                  ? widget.product.quantity.toString() + " " + widget.product.unit.toString()
+                                  : widget.product.quantity.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: ColorUtils.primaryColor,
@@ -221,7 +221,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 )),
                             SizedBox(height: 10),
                             Text(
-                                "${StringUtils().oCcy.format(int.parse(widget.products.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                "${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: ColorUtils.primaryColor,
@@ -248,7 +248,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                     ),
                     SizedBox(height: 10),
                     Text(
-                      widget.products.description.split("@")[0],
+                      widget.product.description.split("@")[0],
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
                           color: Theme.of(context).primaryColorDark,
@@ -256,7 +256,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           fontSize: 20),
                     ),
                     SizedBox(height: 10),
-                    int.parse(widget.products.isActive) != 0
+                    int.parse(widget.product.isActive) != 0
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -317,8 +317,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               style: TextStyle(fontSize: 25, fontFamily: StringUtils.fontFamilyHKGrotesk),
                             )),
                           ),
-                    int.parse(widget.products.isActive) != 0 ? SizedBox(height: 30) : Container(),
-                    int.parse(widget.products.isActive) != 0 ? _showAddToOrderButton(context) : Container(),
+                    int.parse(widget.product.isActive) != 0 ? SizedBox(height: 30) : Container(),
+                    int.parse(widget.product.isActive) != 0 ? _showAddToOrderButton(context) : Container(),
                     Builder(builder: (context) => _showAddToFavorite(context)),
                   ],
                 ),
@@ -338,14 +338,14 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
         if (LoadingScreen.userToken.length > 5) {
           Navigator.of(context).pop(true);
 
-          widget.products.productCount = noOfOrders;
+          widget.product.productCount = noOfOrders;
 
-          CartServices.addProductToCart(widget.products);
+          CartServices.addProductToCart(widget.product);
 
           Flushbar(
             backgroundColor: Colors.green,
             messageText: Text(
-              "تم إضافة ${widget.products.name} لسلة المشتريات",
+              "تم إضافة ${widget.product.name} لسلة المشتريات",
               style: TextStyle(
                   color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
             ),
@@ -381,7 +381,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
             color: Theme.of(context).primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            'الإضافة لسلة المشتريات  ( ${StringUtils().oCcy.format(noOfOrders * int.parse(widget.products.price.toString().split(".")[0]))})',
+            'الإضافة لسلة المشتريات  ( ${StringUtils().oCcy.format(noOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 17.0,
@@ -401,11 +401,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
     final GestureDetector addAddToOrderButtonWithGesture = new GestureDetector(
       onTap: () {
         _addToFavoriteBtnTapped(ctx);
-        if (LoadingScreenServices.userFavoriteProducts.any((productId) => productId.id == widget.products.id)) {
+        if (LoadingScreenServices.userFavoriteProducts.any((productId) => productId.id == widget.product.id)) {
           Flushbar(
             backgroundColor: Colors.red[900],
             messageText: Text(
-              " تم إضافة ${widget.products.name}  إلى المفضلة",
+              " تم إضافة ${widget.product.name}  إلى المفضلة",
               style: TextStyle(
                   color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
             ),
@@ -427,7 +427,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
           Flushbar(
             backgroundColor: Colors.red[900],
             messageText: Text(
-              "تم إزالة ${widget.products.name}  من المفضلة",
+              "تم إزالة ${widget.product.name}  من المفضلة",
               style: TextStyle(
                   color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
             ),
@@ -454,7 +454,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
           child: Text(
             LoadingScreenServices.userFavoriteProducts
                         .where(
-                          (productId) => productId.id == widget.products.id,
+                          (productId) => productId.id == widget.product.id,
                         )
                         .length ==
                     1
@@ -479,11 +479,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
     if (LoadingScreen.userToken.length > 5) {
       LoadingScreenServices.userFavoriteProducts
                   .where(
-                    (productId) => productId.id == widget.products.id,
+                    (productId) => productId.id == widget.product.id,
                   )
                   .length ==
               0
-          ? _addFavorite(context, widget.products)
+          ? _addFavorite(context, widget.product)
           : _removeFavorite();
       if (widget.isFromFavoriteScreen) {
         Navigator.of(context).pushNamedAndRemoveUntil('/favoraites', (Route<dynamic> route) => false);
@@ -496,15 +496,15 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   }
 
   void _addFavorite(BuildContext ctx, ProductData product) {
-    Services.addToFavorites(widget.products.id.toString());
+    Services.addToFavorites(widget.product.id.toString());
     LoadingScreenServices.userFavoriteProducts.add(product);
   }
 
   void _removeFavorite() {
     for (int i = 0; i < LoadingScreenServices.userFavoriteProducts.length; i++)
-      if (LoadingScreenServices.userFavoriteProducts[i].id == widget.products.id)
+      if (LoadingScreenServices.userFavoriteProducts[i].id == widget.product.id)
         LoadingScreenServices.userFavoriteProducts.removeAt(i);
 
-    Services.removeFromFavorites(widget.products.id.toString());
+    Services.removeFromFavorites(widget.product.id.toString());
   }
 }

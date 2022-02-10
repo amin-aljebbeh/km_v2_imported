@@ -90,7 +90,6 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
         context,
         new MaterialPageRoute(
           builder: (context) => new ProductsView(
-            heroIndex: int.parse(index),
             categoryId: index.toString(),
           ),
         ),

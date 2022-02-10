@@ -21,7 +21,8 @@ const String CATEGORY = 'category/';
 const String SUPPORTED_CITY = 'supported_city/';
 
 ////////////////////////////////////////////////////////////////////
-
+const String GET_CATEGORY = API + CATEGORY;
+const String SEARCH_PRODUCTS = API + PRODUCT + SEARCH;
 const String GET_PRODUCT = API + PRODUCT;
 const String GET_USER_ORDER = API + USER + 'user_orders';
 const String SYNC_CART = API + 'cart/sync_cart';
@@ -47,3 +48,9 @@ const String GET_SUPPORTED_CITIES = API + SUPPORTED_CITY;
 const String LOGIN_URL = API + 'auth/user_signin';
 
 const String UPDATE_FIREBASE_TOKEN = API + USER + 'update_firebase_token';
+
+// BareCode
+
+const String PRODUCT_BARCODE = API + 'product_barcode/';
+
+const String SEARCH_PRODUCT_BY_BARCODE = PRODUCT_BARCODE + SEARCH;

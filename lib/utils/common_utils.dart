@@ -9,6 +9,8 @@ class CommonUtils {
 
 enum MyThemeKeys { LIGHT, DARK, DARKER }
 
+enum ProductsViewTypes { search, category, barcode }
+
 class MyThemes {
   static final ThemeData lightTheme = ThemeData(
     primaryColor: ColorUtils.primaryColor,

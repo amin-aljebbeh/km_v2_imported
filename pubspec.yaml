@@ -57,7 +57,7 @@ dependencies:
   flutter_rating_bar: ^3.2.0+1
   animated_background: ^1.0.5
   custom_splash: ^0.0.2
-  
+  qr_mobile_vision: ^2.0.0
 
 
 flutter_icons:
@@ -128,3 +128,6 @@ flutter:
           - asset: fonts/Tajawal-Light.ttf
           - asset: fonts/Tajawal-Medium.ttf
           - asset: fonts/Tajawal-Regular.ttf
+     - family:  BareCodeIcon
+       fonts:
+          - asset: fonts/BareCodeIcon.ttf

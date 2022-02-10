@@ -46,7 +46,6 @@ class _SubCategoryState extends State<SubCategory> {
           context,
           new MaterialPageRoute(
             builder: (context) => new ProductsView(
-              heroIndex: (index),
               categoryId: index.toString(),
             ),
           ),
