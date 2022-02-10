@@ -69,10 +69,10 @@ class HomeViewState extends State<HomeView> {
     );
     _firebaseMessaging
         .requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
-    geToken();
+    getToken();
   }
 
-  Future geToken() async {
+  Future getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.get("firebase_token") == null) {
       firebaseToken = await _firebaseMessaging.getToken();

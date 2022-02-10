@@ -8,6 +8,7 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
+import 'package:kammun_app/views/favoraites/services/product_favoraites_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -158,6 +159,14 @@ class LoadingScreenServices {
               CartServices.getUserCart(),
               getStartScreenInformation(),
             ]);
+            int page = 1;
+            ProductResponse temp = await FavoraitesProductsServices.getUserFavoraites(pageNumber: page);
+            LoadingScreenServices.userFavoriteProducts.addAll(temp.data);
+            while (temp.currentPage != temp.lastPage) {
+              page++;
+              temp = await FavoraitesProductsServices.getUserFavoraites(pageNumber: page);
+              LoadingScreenServices.userFavoriteProducts.addAll(temp.data);
+            }
           } catch (e) {
             return false;
           }

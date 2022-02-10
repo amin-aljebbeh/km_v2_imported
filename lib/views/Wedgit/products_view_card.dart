@@ -6,6 +6,7 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 
 import '../../Services.dart';
+import 'widgets_importer.dart';
 
 class ProductsViewCard extends StatefulWidget {
   final String img;
@@ -38,7 +39,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
           context,
           new MaterialPageRoute(
             builder: (context) => new ProductDetailView(
-              heroIndex: widget.index + 100,
               product: widget.product,
               isFromFavoriteScreen: false,
             ),
@@ -59,17 +59,34 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                     width: 100.0,
                     height: 100.0,
                     decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Hero(
-                        tag: widget.index + 100,
-                        child: FadeInImage.assetNetwork(
-                          fadeInCurve: Curves.fastOutSlowIn,
-                          placeholder: "assets/kmIcon.png",
-                          fit: BoxFit.contain,
-                          image: widget.img,
-                          width: MediaQuery.of(context).size.width,
-                          height: 120,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return FullScreenImage(
+                                imageUrl: widget.product.images.length != 0
+                                    ? LoadingScreenServices.imagePrefixUrl + widget.product.images[0].imageFileName
+                                    : "",
+                                tag: "generate_a_unique_tag",
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Hero(
+                          tag: widget.index + 100,
+                          child: FadeInImage.assetNetwork(
+                            fadeInCurve: Curves.fastOutSlowIn,
+                            placeholder: "assets/kmIcon.png",
+                            fit: BoxFit.contain,
+                            image: widget.img,
+                            width: MediaQuery.of(context).size.width,
+                            height: 120,
+                          ),
                         ),
                       ),
                     ),
@@ -121,28 +138,26 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           borderRadius: BorderRadius.zero,
                           shape: BadgeShape.square,
                           badgeColor: ColorUtils.primaryColor,
-                          badgeContent: Padding(
-                            padding: const EdgeInsets.only(
-                              right: 10.0,
-                            ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'نفذ من',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk),
+                          badgeContent: Column(
+                            children: [
+                              Text(
+                                'نفذت الكمية',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.notifications_active,
+                                  color: Colors.white,
                                 ),
-                                Text(
-                                  'المستودعات',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk),
-                                ),
-                              ],
-                            ),
+                                onPressed: () {
+                                  Toast.show('سيتم إعلامكم عند توفر ' + widget.productName, context,
+                                      duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                },
+                              )
+                            ],
                           ),
                         )
                       : Container(),

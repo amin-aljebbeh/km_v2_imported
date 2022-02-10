@@ -2,24 +2,24 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 
 // ignore: must_be_immutable
 class SubCategory extends StatefulWidget {
-  int heroIndex;
-  static int cartCount = 0;
   List<CategoryOriginalData> subCategory = [];
 
-  SubCategory({this.heroIndex, this.subCategory});
+  SubCategory({this.subCategory});
 
   @override
   _SubCategoryState createState() => _SubCategoryState();
 }
 
 class _SubCategoryState extends State<SubCategory> {
-  TextEditingController _searchController = TextEditingController();
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -53,48 +53,8 @@ class _SubCategoryState extends State<SubCategory> {
       }
     }
 
-    Widget _showSearchTxtFld() {
-      final GestureDetector searchButtonWithGesture = new GestureDetector(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: new Container(
-            height: 40.0,
-            decoration:
-                new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-            child: TextField(
-              controller: _searchController,
-              onSubmitted: (_) {
-                if (_searchController.text.length > 0) {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new ProductsView(
-                        queryString: _searchController.text,
-                        categoryId: "0",
-                      ),
-                    ),
-                  );
-                }
-              },
-              cursorColor: ColorUtils.primaryColor,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                contentPadding: const EdgeInsets.only(bottom: 0.5),
-                hintText: "بحث",
-                hintStyle: TextStyle(
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-
-      return new Padding(
-          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
-    }
-
     return Scaffold(
+      key: scaffoldKey,
       appBar: PreferredSize(
         child: AppBar(
           leading: Padding(
@@ -160,7 +120,10 @@ class _SubCategoryState extends State<SubCategory> {
                     ),
                   ],
                 ),
-                _showSearchTxtFld(),
+                StoreSearchTextField(
+                  searchController: searchController,
+                  scaffoldKey: scaffoldKey,
+                ),
               ],
             ),
           ),

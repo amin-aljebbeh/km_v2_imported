@@ -133,7 +133,7 @@ class StringUtils {
   static String save = 'حفظ';
   static String tryAgain = 'إعادة المحاولة';
   static String next = 'التالي';
-  static String addToCart = 'الإضافة لسلة المشتريات';
+  static String addToCart = 'الإضافة للسلة';
   static String send = 'إرسال';
   static String addDeduct = 'إضافة خصم';
   static String approveUsagePolicy = 'موافق';

@@ -7,7 +7,6 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/favoraites/services/product_favoraites_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,8 +18,8 @@ class Favoraites extends StatefulWidget {
 }
 
 class FavoraitesViewState extends State<Favoraites> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  TextEditingController _searchController = TextEditingController();
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController searchController = TextEditingController();
 
   _shareApp() {
     String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
@@ -126,47 +125,6 @@ class FavoraitesViewState extends State<Favoraites> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-
-    Widget _showSearchTxtFld() {
-      final GestureDetector searchButtonWithGesture = new GestureDetector(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-          child: new Container(
-            height: 40.0,
-            decoration:
-                new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-            child: TextField(
-              controller: _searchController,
-              onSubmitted: (_) {
-                if (_searchController.text.length > 0) {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new ProductsView(
-                        queryString: _searchController.text,
-                        categoryId: "0",
-                      ),
-                    ),
-                  );
-                }
-              },
-              cursorColor: ColorUtils.primaryColor,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                contentPadding: const EdgeInsets.only(bottom: 0.5),
-                hintText: "بحث",
-                hintStyle: TextStyle(
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                ),
-              ),
-            ),
-          ),
-        ),
-      );
-
-      return new Padding(
-          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
-    }
 
     return Scaffold(
       drawer: SafeArea(
@@ -330,7 +288,7 @@ class FavoraitesViewState extends State<Favoraites> {
           ),
         ),
       ),
-      key: _scaffoldKey,
+      key: scaffoldKey,
       appBar: PreferredSize(
         child: AppBar(
           backgroundColor: Color.fromARGB(255, 210, 178, 2),
@@ -350,7 +308,7 @@ class FavoraitesViewState extends State<Favoraites> {
                         padding: const EdgeInsets.only(top: 12.0),
                         child: InkWell(
                           onTap: () {
-                            _scaffoldKey.currentState.openDrawer();
+                            scaffoldKey.currentState.openDrawer();
                           },
                           child: Icon(
                             Icons.menu,
@@ -393,7 +351,15 @@ class FavoraitesViewState extends State<Favoraites> {
                     ),
                   ],
                 ),
-                _showSearchTxtFld(),
+                StoreSearchTextField(
+                    scaffoldKey: scaffoldKey,
+                    searchController: searchController,
+                    onSubmit: () {
+                      setState(() {
+                        favoraitesProductData.clear();
+                        Navigator.of(context).pop();
+                      });
+                    }),
               ],
             ),
           ),

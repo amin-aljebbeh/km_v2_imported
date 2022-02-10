@@ -2,8 +2,9 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -14,11 +15,10 @@ import 'package:full_screen_image/full_screen_image.dart';
 
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
-  int heroIndex;
   ProductData product;
   bool isFromFavoriteScreen;
 
-  ProductDetailView({this.heroIndex, this.product, @required this.isFromFavoriteScreen});
+  ProductDetailView({this.product, @required this.isFromFavoriteScreen});
 
   @override
   State<StatefulWidget> createState() {
@@ -30,18 +30,19 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   AnimationController _animationController;
   Animation _animation;
   bool done = false;
+  bool favoriteProduct;
 
   final _controller = ScrollController(initialScrollOffset: 0.0);
   final _height = 100.0;
 
-  int noOfOrders = 1;
+  int numberOfOrders = 1;
   int price = 0;
-  bool productOnFavoraites = false;
 
   @override
   void initState() {
     super.initState();
-
+    favoriteProduct =
+        LoadingScreenServices.userFavoriteProducts.any((productId) => productId.id == widget.product.id);
     Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));
 
     _animationController = new AnimationController(
@@ -163,7 +164,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
           body: SafeArea(
             top: false,
             child: Padding(
-              padding: EdgeInsets.only(left: 20, right: 20, top: 25),
+              padding: EdgeInsets.only(left: 15, right: 15, top: 25),
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -172,15 +173,24 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                 child: ListView(
                   shrinkWrap: true,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(widget.product.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 22,
-                          )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(widget.product.name,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 22,
+                            )),
+                        IconButton(
+                            padding: EdgeInsets.all(0),
+                            icon: Icon(
+                              Icons.favorite_border_outlined,
+                              color: Colors.red[900],
+                            ),
+                            onPressed: () {}),
+                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -265,8 +275,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 child: InkWell(
                                   onTap: () {
                                     setState(() {
-                                      if (noOfOrders > 1) {
-                                        noOfOrders = noOfOrders - 1;
+                                      if (numberOfOrders > 1) {
+                                        numberOfOrders = numberOfOrders - 1;
                                       }
                                     });
                                   },
@@ -279,7 +289,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
-                                child: Text(noOfOrders.toString(),
+                                child: Text(numberOfOrders.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         color: Colors.grey[700],
@@ -291,7 +301,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 child: InkWell(
                                   onTap: () {
                                     setState(() {
-                                      noOfOrders = noOfOrders + 1;
+                                      numberOfOrders = numberOfOrders + 1;
                                     });
                                   },
                                   child: Image.asset(
@@ -317,8 +327,122 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               style: TextStyle(fontSize: 25, fontFamily: StringUtils.fontFamilyHKGrotesk),
                             )),
                           ),
-                    int.parse(widget.product.isActive) != 0 ? SizedBox(height: 30) : Container(),
-                    int.parse(widget.product.isActive) != 0 ? _showAddToOrderButton(context) : Container(),
+                    if (int.parse(widget.product.isActive) != 0)
+                      Column(
+                        children: [
+                          SizedBox(height: 30),
+                          KammunButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          if (numberOfOrders > 1) {
+                                            numberOfOrders = numberOfOrders - 1;
+                                          }
+                                        });
+                                      },
+                                      child: Image.asset(
+                                        "assets/remove.png",
+                                        width: 60,
+                                        height: 60,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 3, bottom: 3),
+                                      child: RotatedBox(
+                                        quarterTurns: 1,
+                                        child: Divider(
+                                          color: ColorUtils.searchGreyColor,
+                                          height: 1,
+                                          thickness: 1,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                AutoSizeText(
+                                  '${StringUtils.addToCart}  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
+                                  style: decisionButtonStyle,
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 3, bottom: 3),
+                                      child: RotatedBox(
+                                        quarterTurns: 1,
+                                        child: Divider(
+                                          color: ColorUtils.searchGreyColor,
+                                          height: 1,
+                                          thickness: 1,
+                                        ),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          numberOfOrders = numberOfOrders + 1;
+                                        });
+                                      },
+                                      child: Image.asset(
+                                        "assets/add.png",
+                                        width: 60,
+                                        height: 60,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            height: 50,
+                            color: Theme.of(context).primaryColor,
+                            onTap: () async {
+                              String productsId = "";
+                              String productsQuantity = "";
+                              if (LoadingScreen.userToken.length > 5) {
+                                Navigator.of(context).pop(true);
+
+                                widget.product.productCount = numberOfOrders;
+
+                                CartServices.addProductToCart(widget.product);
+                                Flushbar(
+                                  backgroundColor: Colors.green,
+                                  messageText: Text(
+                                    "تم إضافة ${widget.product.name} لسلة المشتريات",
+                                    style: flushBarStyle,
+                                  ),
+                                  boxShadows: [
+                                    BoxShadow(
+                                      color: ColorUtils.primaryColor,
+                                      offset: Offset(0.0, 2.0),
+                                      blurRadius: 3.0,
+                                    )
+                                  ],
+                                  icon: Icon(
+                                    Icons.assignment_turned_in,
+                                    size: 28.0,
+                                    color: Colors.white,
+                                  ),
+                                  duration: Duration(seconds: 3),
+                                  leftBarIndicatorColor: ColorUtils.kmColors,
+                                )..show(context);
+
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                productsId = CartServices.cartProducts
+                                    .fold('', (ids, product) => product.id.toString() + ';');
+                                productsQuantity = CartServices.cartProducts
+                                    .fold('', (counts, product) => product.productCount.toString() + ';');
+                                prefs.setString("userCart", productsId + "@" + productsQuantity);
+                              } else {
+                                Navigator.of(context).pushNamed(LoginScreen.routeName);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     Builder(builder: (context) => _showAddToFavorite(context)),
                   ],
                 ),
@@ -330,78 +454,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
     );
   }
 
-  Widget _showAddToOrderButton(BuildContext ctx) {
-    final GestureDetector addAddToOrderButtonWithGesture = new GestureDetector(
-      onTap: () async {
-        String productsId = "";
-        String productsQuantity = "";
-        if (LoadingScreen.userToken.length > 5) {
-          Navigator.of(context).pop(true);
-
-          widget.product.productCount = noOfOrders;
-
-          CartServices.addProductToCart(widget.product);
-
-          Flushbar(
-            backgroundColor: Colors.green,
-            messageText: Text(
-              "تم إضافة ${widget.product.name} لسلة المشتريات",
-              style: TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
-            ),
-            boxShadows: [
-              BoxShadow(
-                color: ColorUtils.primaryColor,
-                offset: Offset(0.0, 2.0),
-                blurRadius: 3.0,
-              )
-            ],
-            icon: Icon(
-              Icons.assignment_turned_in,
-              size: 28.0,
-              color: Colors.white,
-            ),
-            duration: Duration(seconds: 3),
-            leftBarIndicatorColor: ColorUtils.kmColors,
-          )..show(context);
-
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          for (int i = 0; i < CartServices.cartProducts.length; i++) {
-            productsId += CartServices.cartProducts[i].id.toString() + ";";
-            productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
-          }
-          prefs.setString("userCart", productsId + "@" + productsQuantity);
-        } else {
-          Navigator.of(context).pushNamed(LoginScreen.routeName);
-        }
-      },
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: Theme.of(context).primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            'الإضافة لسلة المشتريات  ( ${StringUtils().oCcy.format(noOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 17.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 0.0, bottom: 0.0),
-        child: addAddToOrderButtonWithGesture);
-  }
-
   Widget _showAddToFavorite(BuildContext ctx) {
     final GestureDetector addAddToOrderButtonWithGesture = new GestureDetector(
       onTap: () {
         _addToFavoriteBtnTapped(ctx);
-        if (LoadingScreenServices.userFavoriteProducts.any((productId) => productId.id == widget.product.id)) {
+        if (!favoriteProduct) {
           Flushbar(
             backgroundColor: Colors.red[900],
             messageText: Text(
@@ -452,14 +509,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
         decoration: BoxDecoration(color: Colors.red[800], borderRadius: BorderRadius.all(Radius.circular(6.0))),
         child: Center(
           child: Text(
-            LoadingScreenServices.userFavoriteProducts
-                        .where(
-                          (productId) => productId.id == widget.product.id,
-                        )
-                        .length ==
-                    1
-                ? 'الإزالة من المفضلة'
-                : 'الإضافة إلى المفضلة',
+            favoriteProduct ? 'الإزالة من المفضلة' : 'الإضافة إلى المفضلة',
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 17.0,
@@ -477,14 +527,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
   void _addToFavoriteBtnTapped(context) {
     if (LoadingScreen.userToken.length > 5) {
-      LoadingScreenServices.userFavoriteProducts
-                  .where(
-                    (productId) => productId.id == widget.product.id,
-                  )
-                  .length ==
-              0
-          ? _addFavorite(context, widget.product)
-          : _removeFavorite();
+      !favoriteProduct ? _addFavorite(context, widget.product) : _removeFavorite();
       if (widget.isFromFavoriteScreen) {
         Navigator.of(context).pushNamedAndRemoveUntil('/favoraites', (Route<dynamic> route) => false);
       } else {

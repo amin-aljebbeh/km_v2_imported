@@ -10,7 +10,6 @@ class FacebookLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      //  height: Meid,
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       child: Shimmer.fromColors(
         baseColor: Colors.grey[300],

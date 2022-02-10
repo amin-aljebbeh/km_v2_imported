@@ -23,28 +23,25 @@ class StoreSearchTextField extends StatelessWidget {
           child: TextField(
             controller: searchController,
             onSubmitted: (_) {
-              if (onSubmit != null) onSubmit();
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => new ProductsView(
-                    queryString: searchController.text,
-                    categoryId: "0",
-                  ),
-                ),
-              );
+              submit(context);
             },
             cursorColor: ColorUtils.primaryColor,
             decoration: InputDecoration(
               prefixIcon: Container(
-                width: MediaQuery.of(context).size.width * 0.19,
+                width: MediaQuery.of(context).size.width * 0.25,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     BarcodeIcon(
                       onPressed: onSubmit != null ? onSubmit : () {},
                       scaffoldKey: scaffoldKey,
                     ),
-                    Icon(Icons.search),
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        submit(context);
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -56,5 +53,20 @@ class StoreSearchTextField extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  submit(BuildContext context) {
+    if (searchController.text.isNotEmpty) {
+      if (onSubmit != null) onSubmit();
+      Navigator.push(
+        context,
+        new MaterialPageRoute(
+          builder: (context) => new ProductsView(
+            queryString: searchController.text,
+            categoryId: "0",
+          ),
+        ),
+      );
+    }
   }
 }
