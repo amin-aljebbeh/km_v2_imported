@@ -273,6 +273,14 @@ class StoreViewState extends State<StoreView> {
                             Navigator.of(context).pushNamed('/profile');
                           },
                         ),
+                        if (Services.isOperationManager())
+                          SideBarRow(
+                            icon: Icons.supervisor_account_sharp,
+                            text: 'فريق التوصيل',
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/ShopperManagementView');
+                            },
+                          ),
                         Services.isShopper() || Services.isAccounting()
                             ? SideBarRow(
                                 icon: Icons.featured_play_list,
@@ -485,13 +493,16 @@ class StoreViewState extends State<StoreView> {
                             activeColor: Colors.white,
                             value: Services.shopper.status == 1,
                             onChanged: (value) async {
-                              bool success = await Services.changeShopperStatus();
+                              bool success = await Services.changeShopperStatus(
+                                  shopperId: Services.shopper.id.toString(),
+                                  newStatus: Services.shopper.status == 1 ? '0' : '1');
                               if (success)
-                                Services.shopper.status = Services.shopper.status == 1 ? 0 : 1;
+                                setState(() {
+                                  Services.shopper.status = Services.shopper.status == 1 ? 0 : 1;
+                                });
                               else
                                 Toast.show("يرجى الاتصال بالإنترنت", context,
                                     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                              setState(() {});
                             },
                           )
                         : Padding(

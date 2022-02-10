@@ -44,26 +44,36 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
         child: Switch(
           value: widget.preState == 1 ? true : false,
           onChanged: (value) async {
-            var result;
-            result = await ProductsServices.updateProductsDetails(
-              bodyKey: "is_active",
-              value: value ? "1" : "0",
-              subWarehouseId: widget.subWarehouseId.toString(),
-              isForSubWarehouse: widget.isForSubWarehouse,
-              productId: widget.productId,
-            );
+            if (widget.isForSubWarehouse && widget.subWarehouseId != -1 && widget.productId != 'null') {
+              bool result;
+              result = await ProductsServices.updateProductsDetails(
+                bodyKey: "is_active",
+                value: value ? "1" : "0",
+                subWarehouseId: widget.subWarehouseId.toString(),
+                isForSubWarehouse: widget.isForSubWarehouse,
+                productId: widget.productId,
+              );
 
-            Services.resultFlushBar(context: context, result: result);
-            if (result) {
-              setState(() {
-                int newStat;
-                if (widget.preState == 1) {
-                  newStat = 0;
-                } else {
-                  newStat = 1;
-                }
-                widget.onChange(newStat, result);
-              });
+              Services.resultFlushBar(context: context, result: result);
+              if (result) {
+                setState(() {
+                  int newStat;
+                  if (widget.preState == 1) {
+                    newStat = 0;
+                  } else {
+                    newStat = 1;
+                  }
+                  widget.onChange(newStat, result);
+                });
+              }
+            } else {
+              int newStat;
+              if (widget.preState == 1) {
+                newStat = 0;
+              } else {
+                newStat = 1;
+              }
+              widget.onChange(newStat, true);
             }
           },
           activeTrackColor: ColorUtils.kmColors2,

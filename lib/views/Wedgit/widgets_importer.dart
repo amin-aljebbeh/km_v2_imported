@@ -25,6 +25,7 @@ export 'product_entry_field.dart';
 export 'products_view_card.dart';
 export 'screen_message.dart';
 export 'shop_by_category_view.dart';
+export 'shopper_widget.dart';
 export 'side_bar_row.dart';
 export 'store_search_text_field.dart';
 export 'supplier_orders_view_card.dart';

@@ -122,6 +122,7 @@ class _MyAppState extends State<MyApp> {
           '/AddTransactionView': (_) => AddTransactionView(),
           '/products_filter': (_) => ProductsFilterScreen(),
           '/SupplierAccounts': (_) => SupplierAccounts(),
+          '/ShopperManagementView': (_) => ShopperManagementView(),
         },
         theme: CustomTheme.of(context),
         home: LoadingScreen(),

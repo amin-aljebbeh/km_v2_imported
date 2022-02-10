@@ -277,14 +277,14 @@ class Services {
     }
   }
 
-  static Future<bool> changeShopperStatus() async {
-    String newStatus = Services.shopper.status == 1 ? '0' : '1';
+  static Future<bool> changeShopperStatus({@required String shopperId, @required String newStatus}) async {
+    Tools.logToConsole('shopper222');
+    Tools.logToConsole(shopperId);
+    Tools.logToConsole(newStatus);
     Map changeStatus = {'status': newStatus};
     try {
       var response = await ApiProvider.sendRequest(
-          url: CHANGE_SHOPPER_STATUS + Services.shopper.id.toString(),
-          method: httpMethods.put,
-          body: jsonEncode(changeStatus));
+          url: CHANGE_SHOPPER_STATUS + shopperId, method: httpMethods.put, body: jsonEncode(changeStatus));
 
       if (response.statusCode == SUCCESS_CODE) {
         return true;

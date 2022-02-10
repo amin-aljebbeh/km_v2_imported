@@ -1,0 +1,110 @@
+import 'package:flutter/material.dart';
+import 'package:kammun_app/Services.dart';
+import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
+import '../../utils/utils_importer.dart';
+
+class ShopperWidget extends StatefulWidget {
+  final ShopperModel shopper;
+
+  const ShopperWidget({Key key, @required this.shopper}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return ShopperWidgetState();
+  }
+}
+
+class ShopperWidgetState extends State<ShopperWidget> {
+  String subWarehouseName = '';
+  String id;
+  String supplierCode;
+  int isActive;
+  String price;
+  bool attached;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).primaryColorLight,
+      child: Padding(
+        padding: EdgeInsets.only(left: 0, right: 0, top: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Divider(
+              thickness: 0.8,
+              color: Colors.grey[800],
+            ),
+            Row(
+              children: <Widget>[
+                KCacheImage(
+                  tag: widget.shopper.id,
+                  image: '',
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Container(
+                    child: Wrap(
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Wrap(
+                              children: <Widget>[
+                                Text(
+                                  widget.shopper.name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: SwitchProductStatusWidget(
+                    productId: 'null',
+                    subWarehouseId: -1,
+                    isForSubWarehouse: false,
+                    preState: widget.shopper.status,
+                    onChange: (int active, bool widgetResult) async {
+                      bool result = await Services.changeShopperStatus(
+                          shopperId: widget.shopper.id.toString(),
+                          newStatus: widget.shopper.status == 1 ? '0' : '1');
+                      setState(() {
+                        if (result) {
+                          LoadingScreenServices.allShoppers
+                              .firstWhere((shopper) => shopper.id == widget.shopper.id)
+                              .status = active;
+                          widget.shopper.status = active;
+                          Services.resultFlushBar(context: context, result: result);
+                        }
+                      });
+                    },
+                    height: 58,
+                    width: 69,
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
