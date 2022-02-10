@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'core/core_importer.dart';
 import 'models/models_importer.dart';
 
@@ -194,5 +195,35 @@ class Services {
 
   static Future<void> userVisitProduct(String productId) async {
     await ApiProvider.sendRequest(url: GET_PRODUCT + productId, method: httpMethods.post);
+  }
+
+  static openUrl(String selected) async {
+    String url = "";
+    if (selected == "whatsapp") {
+      url = 'whatsapp://send?phone=' + LoadingScreenServices.supportPhoneNumber.toString();
+    } else if (selected == "messenger") {
+      url = LoadingScreenServices.companyInformation.messengerUrl;
+    } else if (selected == "facebook") {
+      if (Platform.isIOS) {
+        url = 'fb://profile/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
+      } else {
+        url = 'fb://page/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
+      }
+    } else if (selected == "instagram") {
+      url = LoadingScreenServices.companyInformation.instagramUrl.toString();
+    } else if (selected == "website") {
+      url = LoadingScreenServices.companyInformation.websiteUrl.toString();
+    } else if (selected == "email") {
+      String platform = "Android";
+      if (Platform.isIOS) {
+        platform = "iPhone";
+      }
+      url =
+          "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
+    } else if (selected == "number") {
+      url = "tel:${LoadingScreenServices.supportPhoneNumber.toString()}";
+    }
+
+    launch(url, forceSafariVC: false);
   }
 }

@@ -1,16 +1,12 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io' show Platform;
 import '../../Services.dart';
-
-import 'package:share/share.dart';
 
 class StoreView extends StatefulWidget {
   @override
@@ -265,215 +261,12 @@ class StoreViewState extends State<StoreView> {
         });
   }
 
-  _openUrl(String selected) async {
-    String url = "";
-    if (selected == "whatsapp") {
-      url = 'whatsapp://send?phone=' + LoadingScreenServices.supportPhoneNumber.toString();
-    } else if (selected == "messenger") {
-      url = LoadingScreenServices.companyInformation.messengerUrl;
-    } else if (selected == "facebook") {
-      if (Platform.isIOS) {
-        url = 'fb://profile/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
-      } else {
-        url = 'fb://page/${LoadingScreenServices.companyInformation.facebookUrl.toString()}';
-      }
-    } else if (selected == "instagram") {
-      url = LoadingScreenServices.companyInformation.instagramUrl.toString();
-    } else if (selected == "website") {
-      url = LoadingScreenServices.companyInformation.websiteUrl.toString();
-    } else if (selected == "email") {
-      String platform = "Android";
-      if (Platform.isIOS) {
-        platform = "iPhone";
-      }
-      url =
-          "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
-    } else if (selected == "number") {
-      url = "tel:${LoadingScreenServices.supportPhoneNumber.toString()}";
-    }
-
-    launch(url, forceSafariVC: false);
-  }
-
-  _shareApp() {
-    String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
-    String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
-
-    String androidUrl = androidGrating + LoadingScreenServices.iOSShareUrl;
-    String iosGrating = "\n لتحميل التطبيق على الآيفون \n";
-    String iPhoneUrl = iosGrating + LoadingScreenServices.androidShareUrl;
-
-    Share.share(infoMessage + androidUrl + iPhoneUrl);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width / 1.5,
-            child: Drawer(
-              child: Container(
-                color: Colors.white,
-                child: ListView(
-                  primary: false,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 1.5,
-                      height: 60,
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: DrawerHeader(
-                          decoration:
-                              BoxDecoration(color: Colors.white, border: Border.all(color: ColorUtils.kmColors)),
-                          child: InkWell(
-                            onTap: () => Navigator.of(context).pop(),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 1.5,
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  //color: Colors.white,
-                                  color: ColorUtils.kmColors,
-                                ),
-                              ),
-                            ),
-                          ),
-                          // ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                        child: Image.asset(
-                          "assets/kmlogoo.png",
-                          width: 250,
-                          height: 200,
-                        ),
-                        color: Colors.white),
-                    Divider(
-                      color: ColorUtils.kmColors,
-                    ),
-                    ListTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Icon(
-                          Icons.phone,
-                          color: ColorUtils.kmColors,
-                          size: 30,
-                        ),
-                      ),
-                      title: Text(
-                        "الإتصال بكمون",
-                        style: TextStyle(
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                        ),
-                      ),
-                      onTap: () => _openUrl("number"),
-                    ),
-                    InkWell(
-                      // onTap: _sendEmailToKammun,
-                      child: ListTile(
-                        leading: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Icon(
-                            Icons.share,
-                            color: ColorUtils.kmColors,
-                            size: 30,
-                          ),
-                        ),
-                        title: Text("إرسال التطبيق للأصدقاء",
-                            style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
-                        onTap: () => _shareApp(),
-                      ),
-                    ),
-                    ListTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Icon(
-                          Icons.person,
-                          color: ColorUtils.kmColors,
-                          size: 30,
-                        ),
-                      ),
-                      title: Text("الملف الشخصي", style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
-                      onTap: () {
-                        Navigator.of(context).pushNamed('/profile');
-                      },
-                    ),
-                    ListTile(
-                      leading: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Icon(
-                          Icons.policy,
-                          color: ColorUtils.kmColors,
-                          size: 30,
-                        ),
-                      ),
-                      title:
-                          Text("سياسة الإستخدام", style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
-                      onTap: () {
-                        launch('http://kammun.com/privacy-policy.html', enableJavaScript: false);
-                      },
-                    ),
-                    Divider(
-                      color: ColorUtils.kmColors,
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () => _openUrl("facebook"),
-                              child: Icon(
-                                FontAwesomeIcons.facebookF,
-                                color: ColorUtils.primaryColor,
-                                size: 30,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () => _openUrl("instagram"),
-                              child: Icon(
-                                FontAwesomeIcons.instagram,
-                                color: ColorUtils.primaryColor,
-                                size: 30,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () => _openUrl("messenger"),
-                              child: Icon(
-                                FontAwesomeIcons.facebookMessenger,
-                                color: ColorUtils.primaryColor,
-                                size: 30,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () => _openUrl("whatsapp"),
-                              child: Icon(
-                                FontAwesomeIcons.whatsapp,
-                                color: ColorUtils.primaryColor,
-                                size: 30,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+      drawer: KDrawer(),
       appBar: PreferredSize(
         child: AppBar(
           iconTheme: new IconThemeData(color: Colors.transparent),
