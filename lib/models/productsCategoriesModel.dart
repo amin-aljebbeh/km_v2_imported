@@ -1,17 +1,14 @@
 import 'dart:convert';
-import 'package:kammun_app/models/start_model.dart';
+import 'package:kammun_app/models/models_importer.dart';
 
-CategoryProduct categoryProductFromJson(String str) =>
-    CategoryProduct.fromJson(json.decode(str));
+CategoryProduct categoryProductFromJson(String str) => CategoryProduct.fromJson(json.decode(str));
 
-String categoryProductToJson(CategoryProduct data) =>
-    json.encode(data.toJson());
+String categoryProductToJson(CategoryProduct data) => json.encode(data.toJson());
 
-List<ProductData> syncCartFromJson(String str) => List<ProductData>.from(
-    json.decode(str).map((x) => ProductData.fromJson(x)));
+List<ProductData> syncCartFromJson(String str) =>
+    List<ProductData>.from(json.decode(str).map((x) => ProductData.fromJson(x)));
 
-ProductResponse favoritesProductFromJson(String str) =>
-    ProductResponse.fromJson(json.decode(str));
+ProductResponse favoritesProductFromJson(String str) => ProductResponse.fromJson(json.decode(str));
 
 // CategoryProduct publicParameterFromJson(String str) =>
 //     CategoryProduct.fromJson(json.decode(str));
@@ -25,8 +22,7 @@ class CategoryProduct {
   bool success;
   ProductResponse data;
 
-  factory CategoryProduct.fromJson(Map<String, dynamic> json) =>
-      CategoryProduct(
+  factory CategoryProduct.fromJson(Map<String, dynamic> json) => CategoryProduct(
         success: json["success"],
         data: ProductResponse.fromJson(json["data"]),
       );
@@ -69,8 +65,7 @@ class ProductResponse {
   factory ProductResponse.fromJson(Map<String, dynamic> json) {
     return ProductResponse(
       currentPage: json["current_page"],
-      data: List<ProductData>.from(
-          json["data"].map((x) => x == null ? null : ProductData.fromJson(x))),
+      data: List<ProductData>.from(json["data"].map((x) => x == null ? null : ProductData.fromJson(x))),
       firstPageUrl: json["first_page_url"],
       from: json["from"],
       lastPage: json["last_page"],
@@ -86,8 +81,7 @@ class ProductResponse {
 
   Map<String, dynamic> toJson() => {
         "current_page": currentPage,
-        "data":
-            List<dynamic>.from(data.map((x) => x == null ? null : x.toJson())),
+        "data": List<dynamic>.from(data.map((x) => x == null ? null : x.toJson())),
         "first_page_url": firstPageUrl,
         "from": from,
         "last_page": lastPage,
@@ -140,8 +134,7 @@ class ProductData {
       isActive: json["is_active"].toString(),
       quantity: json["quantity"].toString(),
       productCount: json["productCount"],
-      images: List<ProductImage>.from(
-          json["images"].map((x) => ProductImage.fromJson(x))),
+      images: List<ProductImage>.from(json["images"].map((x) => ProductImage.fromJson(x))),
     );
   }
 

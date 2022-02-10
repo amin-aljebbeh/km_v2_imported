@@ -6,8 +6,7 @@ import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/core_importer.dart';
-import 'models/addAddressResponse.dart';
-import 'models/start_model.dart';
+import 'models/models_importer.dart';
 
 class Services {
   static bool updateOption = false;
@@ -58,7 +57,7 @@ class Services {
           url: USER_ADDRESS, method: httpMethods.post, body: jsonEncode(addressData));
 
       if (response.statusCode == SUCCESS_CODE) {
-        final addNewAddress = addNewAddreFromJson(jsonEncode(response.data));
+        final addNewAddress = addNewAddressFromJson(jsonEncode(response.data));
         LoadingScreenServices.userAddress[0].id = addNewAddress.addressId.id;
 
         return true;

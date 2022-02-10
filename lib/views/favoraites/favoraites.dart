@@ -7,12 +7,9 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/favoraites/services/product_favoraites_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../Services.dart';
 
 class Favoraites extends StatefulWidget {
   @override
@@ -124,23 +121,6 @@ class FavoraitesViewState extends State<Favoraites> {
     page = FavoraitesProductsServices.lastPageNumber;
     theEndOfFavoraites = FavoraitesProductsServices.theEndOfFavoraites;
     super.initState();
-  }
-
-  void _onTileClicked(int index) {
-    ProductData productsDic = favoraitesProductData[index];
-
-    Services.userVisitProduct(productsDic.id.toString());
-
-    Navigator.push(
-      context,
-      new MaterialPageRoute(
-        builder: (context) => new ProductDetailView(
-          heroIndex: index + 100,
-          product: productsDic,
-          isFromFavoriteScreen: true,
-        ),
-      ),
-    );
   }
 
   @override
