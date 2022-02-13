@@ -24,7 +24,7 @@ class StringUtils {
   static String phoneNumber = 'رقم الهاتف : ';
   static String fullName = 'الإسم الكامل ';
   static String emailAddress = 'البريد الإلكتروني';
-  static String entrance = 'المدخل: ';
+  static String entrance = 'المدخل ';
   static String complete = 'متابعة';
   static String addAddress = 'إضافة عنوان جديد';
   static String changeSettings = 'Change Settings';

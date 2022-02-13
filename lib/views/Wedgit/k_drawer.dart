@@ -85,6 +85,13 @@ class KDrawer extends StatelessWidget {
                     text: 'سياسة الإستخدام',
                     icon: Icons.policy,
                   ),
+                  SideBarRow(
+                    onTap: () async {
+                      await Services.logOut(context);
+                    },
+                    text: StringUtils.logout,
+                    icon: Icons.logout,
+                  ),
                   Divider(
                     color: ColorUtils.kmColors,
                     height: 20,

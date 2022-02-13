@@ -29,6 +29,13 @@ class ProductsViewCard extends StatefulWidget {
 
 class ProductsViewCardState extends State<ProductsViewCard> {
   bool addedToCart = false;
+  bool notify;
+  @override
+  void initState() {
+    notify = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -93,46 +100,48 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                   ),
                   SizedBox(width: 10),
                   Expanded(
-                      child: Container(
-                    child: Wrap(
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Wrap(
-                              children: <Widget>[
-                                Text(
-                                  widget.productName,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 6),
-                            Text(
-                              widget.quantity,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 17),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
+                    child: Container(
+                      child: Wrap(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Wrap(
+                                children: <Widget>[
+                                  Text(
+                                    widget.productName,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                        fontSize: 18),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 6),
+                              Text(
+                                widget.quantity,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: ColorUtils.greyColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 17),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
                                 StringUtils().oCcy.format(widget.price).toString() +
                                     " ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: ColorUtils.primaryColor,
                                     fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    fontSize: 18)),
-                          ],
-                        ),
-                      ],
+                                    fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  )),
+                  ),
                   widget.active == 0
                       ? Badge(
                           borderRadius: BorderRadius.zero,
@@ -143,18 +152,23 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               Text(
                                 'نفذت الكمية',
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                ),
                               ),
                               IconButton(
                                 icon: Icon(
-                                  Icons.notifications_active,
-                                  color: Colors.white,
+                                  notify ? Icons.notifications_active : Icons.notifications,
+                                  color: notify ? Colors.white : Colors.grey,
                                 ),
                                 onPressed: () {
-                                  Toast.show('سيتم إعلامكم عند توفر ' + widget.productName, context,
-                                      duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                  setState(() {
+                                    notify = !notify;
+                                  });
+                                  if (notify)
+                                    Toast.show('سيتم إعلامكم عند توفر ' + widget.productName, context,
+                                        duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                                 },
                               )
                             ],

@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'core/core_importer.dart';
 import 'models/models_importer.dart';
+import 'views/restart/kammunapp_restart.dart';
 
 class Services {
   static bool updateOption = false;
@@ -225,5 +227,11 @@ class Services {
     }
 
     launch(url, forceSafariVC: false);
+  }
+
+  static Future<void> logOut(BuildContext context) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
+    KammunRestart.restartApp(context);
   }
 }

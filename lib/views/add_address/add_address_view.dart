@@ -1,5 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -73,55 +71,112 @@ class AddAddressViewState extends State<AddAddressView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColorLight,
-        body: SafeArea(
-            child: isLoading
-                ? Center(child: Loader())
-                : SingleChildScrollView(
-                    child: Container(
-                        padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Icon(
-                                      Icons.arrow_back_ios,
-                                      size: 35,
-                                    ),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    StringUtils.addAddress,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                        fontSize: 30),
-                                  )
-                                ],
-                              ),
-                              isError
-                                  ? AlertMessages(
-                                      text: " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
-                                      messageType: "internetError",
-                                      headerText: " حدث خطأ اثناء محاولة إضافة عنوان ",
-                                    )
-                                  : Container(),
-                              _showStreetInput(),
-                              _showSupportedCities(),
-                              _showCityInput(),
-                              _showStateInput(),
-                              _showEntranceInput(),
-                              _showCountryInput(),
-                              _showAddAddressButton(ctx: context)
-                            ])))));
+      backgroundColor: Theme.of(context).primaryColorLight,
+      body: SafeArea(
+        child: isLoading
+            ? Center(child: Loader())
+            : SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              size: 35,
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            StringUtils.addAddress,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 30),
+                          )
+                        ],
+                      ),
+                      isError
+                          ? AlertMessages(
+                              text: " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
+                              messageType: "internetError",
+                              headerText: " حدث خطأ اثناء محاولة إضافة عنوان ",
+                            )
+                          : Container(),
+                      _showStreetInput(),
+                      KTextField(
+                        controller: streetController,
+                        maxLine: 1,
+                        focusNode: _streetFocus,
+                        onSubmitted: (term) {
+                          FocusScope.of(context).requestFocus(_cityFocus);
+                        },
+                        hintText: "مثال: بيت الجبه منزل الدكتور محمد",
+                        labelText: StringUtils.familyName,
+                      ),
+                      KTextField(
+                        controller: cityController,
+                        maxLine: 1,
+                        focusNode: _cityFocus,
+                        onSubmitted: (term) {
+                          FocusScope.of(context).requestFocus(_stateFocus);
+                        },
+                        hintText: "بناء رقم 15، بناء المهندسين",
+                        labelText: StringUtils.buildingName,
+                      ),
+                      KTextField(
+                        controller: stateController,
+                        maxLine: 1,
+                        focusNode: _stateFocus,
+                        onSubmitted: (term) {
+                          FocusScope.of(context).requestFocus(_entranceFocus);
+                        },
+                        hintText: "الطابق الأرضي، الطابق الخامس",
+                        labelText: StringUtils.floor,
+                      ),
+                      KTextField(
+                        controller: entranceController,
+                        maxLine: 1,
+                        focusNode: _entranceFocus,
+                        onSubmitted: (term) {
+                          FocusScope.of(context).requestFocus(_countryFocus);
+                        },
+                        hintText: "المدخل اليميني",
+                        labelText: StringUtils.entrance,
+                      ),
+                      KTextField(
+                        controller: countryController,
+                        maxLine: 4,
+                        focusNode: _countryFocus,
+                        onSubmitted: (term) {
+                          _countryFocus.unfocus();
+                        },
+                        hintText: "مقابل جامع النعمان،",
+                        labelText: StringUtils.closeSign,
+                      ),
+                      KammunButton(
+                        text: StringUtils.save + ' ' + StringUtils.address,
+                        height: 50,
+                        color: completedData() ? ColorUtils.primaryColor : ColorUtils.searchGreyColor,
+                        onTap: () {
+                          completedData() ? _addAddressBtnTapped() : _showToast();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+      ),
+    );
   }
 
   Widget _showStreetInput() {
@@ -173,190 +228,15 @@ class AddAddressViewState extends State<AddAddressView> {
     );
   }
 
-  Widget _showSupportedCities() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
-      child: new AutoSizeTextField(
-        scrollPadding: EdgeInsets.all(5),
-        cursorColor: ColorUtils.kmColors,
-        controller: streetController,
-        maxLines: 1,
-        focusNode: _streetFocus,
-        textInputAction: TextInputAction.next,
-        autofocus: true,
-        onSubmitted: (term) {
-          FocusScope.of(context).requestFocus(_cityFocus);
-        },
-        onChanged: (v) {
-          setState(() {});
-        },
-        style: new TextStyle(
-            fontFamily: StringUtils.fontFamilyHKGrotesk,
-            fontWeight: FontWeight.w500,
-            fontSize: 16.0,
-            color: Colors.black),
-        decoration: InputDecoration(
-            hintText: "مثال: بيت الجبه منزل الدكتور محمد",
-            hintStyle: TextStyle(color: Colors.black26, fontSize: 15, fontFamily: StringUtils.fontFamilyHKGrotesk),
-            labelText: StringUtils.familyName,
-            labelStyle: TextStyle(
-              color: ColorUtils.greyColor,
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-              fontSize: 25,
-            ),
-            border: new UnderlineInputBorder(borderSide: new BorderSide(color: ColorUtils.primaryColor))),
-      ),
-    );
-  }
-
-  Widget _showCityInput() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-      child: new AutoSizeTextField(
-        cursorColor: ColorUtils.kmColors,
-        controller: cityController,
-        maxLines: 1,
-        focusNode: _cityFocus,
-        textInputAction: TextInputAction.next,
-        autofocus: true,
-        onSubmitted: (term) {
-          FocusScope.of(context).requestFocus(_stateFocus);
-        },
-        onChanged: (v) {
-          setState(() {});
-        },
-        style: new TextStyle(
-            fontFamily: StringUtils.fontFamilyHKGrotesk,
-            fontWeight: FontWeight.w500,
-            fontSize: 16.0,
-            color: Theme.of(context).primaryColorDark),
-        decoration: InputDecoration(
-            hintText: "بناء رقم 15، بناء المهندسين",
-            hintStyle: TextStyle(color: Colors.black26, fontSize: 15, fontFamily: StringUtils.fontFamilyHKGrotesk),
-            labelText: StringUtils.city,
-            labelStyle: TextStyle(
-              fontSize: 25,
-              color: ColorUtils.greyColor,
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-            border: new UnderlineInputBorder(borderSide: new BorderSide(color: ColorUtils.primaryColor))),
-      ),
-    );
-  }
-
-  Widget _showStateInput() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-      child: new AutoSizeTextField(
-        cursorColor: ColorUtils.kmColors,
-        controller: stateController,
-        maxLines: 1,
-        focusNode: _stateFocus,
-        textInputAction: TextInputAction.next,
-        autofocus: true,
-        onSubmitted: (term) {
-          FocusScope.of(context).requestFocus(_countryFocus);
-        },
-        onChanged: (v) {
-          setState(() {});
-        },
-        style: new TextStyle(
-            fontFamily: StringUtils.fontFamilyHKGrotesk,
-            fontWeight: FontWeight.w500,
-            fontSize: 16.0,
-            color: Theme.of(context).primaryColorDark),
-        decoration: InputDecoration(
-            hintText: "الطابق الأرضي، الطابق الخامس",
-            hintStyle: TextStyle(color: Colors.black26, fontSize: 15, fontFamily: StringUtils.fontFamilyHKGrotesk),
-            labelText: StringUtils.floor,
-            labelStyle: TextStyle(
-              fontSize: 25,
-              color: ColorUtils.greyColor,
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-            border: new UnderlineInputBorder(borderSide: new BorderSide(color: ColorUtils.primaryColor))),
-      ),
-    );
-  }
-
-  Widget _showEntranceInput() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-      child: new AutoSizeTextField(
-        cursorColor: ColorUtils.kmColors,
-        controller: entranceController,
-        maxLines: 1,
-        focusNode: _entranceFocus,
-        textInputAction: TextInputAction.next,
-        autofocus: true,
-        onSubmitted: (term) {
-          FocusScope.of(context).requestFocus(_entranceFocus);
-        },
-        onChanged: (v) {
-          setState(() {});
-        },
-        style: new TextStyle(
-            fontFamily: StringUtils.fontFamilyHKGrotesk,
-            fontWeight: FontWeight.w500,
-            fontSize: 16.0,
-            color: Theme.of(context).primaryColorDark),
-        decoration: InputDecoration(
-            hintText: "المدخل اليميني",
-            hintStyle: TextStyle(color: Colors.black26, fontSize: 15, fontFamily: StringUtils.fontFamilyHKGrotesk),
-            labelText: StringUtils.entrance,
-            labelStyle: TextStyle(
-              fontSize: 25,
-              color: ColorUtils.greyColor,
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-            border: new UnderlineInputBorder(borderSide: new BorderSide(color: ColorUtils.primaryColor))),
-      ),
-    );
-  }
-
-  Widget _showCountryInput() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-      child: new AutoSizeTextField(
-        cursorColor: ColorUtils.kmColors,
-        controller: countryController,
-        maxLines: 4,
-        focusNode: _countryFocus,
-        textInputAction: TextInputAction.next,
-        autofocus: true,
-        onSubmitted: (term) {
-          _countryFocus.unfocus();
-        },
-        onChanged: (v) {
-          setState(() {});
-        },
-        style: new TextStyle(
-            fontFamily: StringUtils.fontFamilyHKGrotesk,
-            fontWeight: FontWeight.w500,
-            fontSize: 16.0,
-            color: Theme.of(context).primaryColorDark),
-        decoration: InputDecoration(
-            hintText: "مقابل جامع النعمان،",
-            hintStyle: TextStyle(color: Colors.black26, fontSize: 15, fontFamily: StringUtils.fontFamilyHKGrotesk),
-            labelText: StringUtils.closeSign,
-            labelStyle: TextStyle(
-              fontSize: 25,
-              color: ColorUtils.greyColor,
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-            border: new UnderlineInputBorder(borderSide: new BorderSide(color: ColorUtils.primaryColor))),
-      ),
-    );
-  }
-
   void _settingModalBottomSheet(context) {
     double screenHeight = MediaQuery.of(context).size.height;
     showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: StatefulBuilder(builder: (BuildContext context, setState) {
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: StatefulBuilder(
+            builder: (BuildContext context, setState) {
               return ListView(
                 shrinkWrap: true,
                 children: [
@@ -372,198 +252,60 @@ class AddAddressViewState extends State<AddAddressView> {
                             fontFamily: StringUtils.fontFamilyHKGrotesk,
                             color: ColorUtils.kmColors,
                             fontWeight: FontWeight.bold,
-                            fontSize: 25)), //font color is diffrent
+                            fontSize: 25)),
                   ),
                   Container(
                     margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
                     child: Text(
                       StringUtils.locationRequestInfo,
-                      style: TextStyle(
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          color: ColorUtils.primaryColor,
-                          fontSize: 18),
+                      style: labelStyle,
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
                     child: Text(
                       StringUtils.locationRequestNote,
-                      style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, color: Colors.red),
+                      style: loseStyle,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8, bottom: 3),
-                    child: _showGetUserLocation(ctx: context),
+                    child: KammunButton(
+                      height: 50,
+                      text: StringUtils.share,
+                      color: completedData() ? Colors.green : ColorUtils.searchGreyColor,
+                      onTap: () {
+                        if (completedData()) {
+                          _getUserLocation();
+                          Navigator.of(context).pop();
+                        } else
+                          _showToast();
+                      },
+                    ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 0.0, left: 8, right: 8, bottom: 40),
-                    child: _showIgnoreAddLocation(ctx: context, text: StringUtils.doNotWantToShareLocation),
+                    padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8, bottom: 15),
+                    child: KammunButton(
+                      height: 50,
+                      text: StringUtils.doNotWantToShareLocation,
+                      color: completedData() ? ColorUtils.primaryColor : ColorUtils.searchGreyColor,
+                      onTap: () {
+                        setState(() {
+                          userIgnoreShareLocation = true;
+                        });
+                        Navigator.of(context).pop();
+
+                        _addAddressBtnTapped();
+                      },
+                    ),
                   ),
                 ],
               );
-            }),
-          );
-        });
-  }
-
-  Widget _showGetUserLocation({BuildContext ctx}) {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
-      onTap: () {
-        _getUserLocation();
-        Navigator.of(context).pop();
+            },
+          ),
+        );
       },
-      // onTap: () => _settingModalBottomSheet(ctx),
-      child: new Container(
-        height: 50.0,
-        decoration:
-            new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new AutoSizeText(
-            "مشاركة الموقع",
-            maxLines: 1,
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
     );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 35.0),
-        child: selectedValue == null ||
-                countryController.text == "" ||
-                stateController.text == "" ||
-                streetController.text == "" ||
-                entranceController.text == ""
-            ? InkWell(
-                onTap: () => _showToast(),
-                child: new Container(
-                  height: 50.0,
-                  decoration: new BoxDecoration(
-                      color: Colors.grey[400], borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-                  child: new Center(
-                    child: new Text(
-                      "حفظ العنوان",
-                      style: new TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk),
-                    ),
-                  ),
-                ),
-              )
-            : loginButtonWithGesture);
-  }
-
-  Widget _showAddAddressButton({BuildContext ctx, String text}) {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
-      onTap: _addAddressBtnTapped,
-      // onTap: () => _settingModalBottomSheet(ctx),
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new AutoSizeText(
-            text ?? "حفظ العنوان",
-            maxLines: 1,
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 35.0),
-        child: selectedValue == null ||
-                countryController.text == "" ||
-                stateController.text == "" ||
-                streetController.text == "" ||
-                entranceController.text == ""
-            ? InkWell(
-                onTap: () => _showToast(),
-                child: new Container(
-                  height: 50.0,
-                  decoration: new BoxDecoration(
-                      color: Colors.grey[400], borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-                  child: new Center(
-                    child: new Text(
-                      "حفظ العنوان",
-                      style: new TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk),
-                    ),
-                  ),
-                ),
-              )
-            : loginButtonWithGesture);
-  }
-
-  Widget _showIgnoreAddLocation({BuildContext ctx, String text}) {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
-      onTap: () {
-        setState(() {
-          userIgnoreShareLocation = true;
-        });
-        Navigator.of(context).pop();
-
-        _addAddressBtnTapped();
-      },
-      // onTap: () => _settingModalBottomSheet(ctx),
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new AutoSizeText(
-            text ?? "حفظ العنوان",
-            maxLines: 1,
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 35.0),
-        child: selectedValue == null ||
-                countryController.text == "" ||
-                stateController.text == "" ||
-                streetController.text == "" ||
-                entranceController.text == ""
-            ? InkWell(
-                onTap: () => _showToast(),
-                child: new Container(
-                  height: 50.0,
-                  decoration: new BoxDecoration(
-                      color: Colors.grey[400], borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-                  child: new Center(
-                    child: new Text(
-                      "حفظ العنوان",
-                      style: new TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk),
-                    ),
-                  ),
-                ),
-              )
-            : loginButtonWithGesture);
   }
 
   void _showToast() {
@@ -571,9 +313,6 @@ class AddAddressViewState extends State<AddAddressView> {
       Toast.show("يرجى إختيار المدينة", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     } else if (streetController.text == "")
       Toast.show("يرجى تعبئة حقل اسم صاحب الطلب", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-    // else if (cityController.text == "")
-    //   Toast.show("يرجى تعبئة حقل اسم او رقم البناء", context,
-    //       duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     else if (stateController.text == "")
       Toast.show("برجى تحديد الطابق", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     else if (countryController.text == "")
@@ -584,8 +323,6 @@ class AddAddressViewState extends State<AddAddressView> {
   }
 
   Map<String, double> userLocation;
-
-  // bool bottomSheetLoading = false;
 
   Future<void> _getUserLocation() async {
     var location = new Location();
@@ -653,7 +390,7 @@ class AddAddressViewState extends State<AddAddressView> {
           isError = false;
         });
 
-        bool addressUpdted = await Services.updateAddress(
+        bool addressUpdated = await Services.updateAddress(
             addressId: LoadingScreenServices.userAddress[widget.addressIndex].id.toString(),
             city: newUserAddress.supportedCityName,
             street: newUserAddress.street,
@@ -665,7 +402,7 @@ class AddAddressViewState extends State<AddAddressView> {
             lon: lon,
             entrance: newUserAddress.entrance);
 
-        if (addressUpdted) {
+        if (addressUpdated) {
           setState(() {
             isLoading = false;
             isError = false;
@@ -721,5 +458,13 @@ class AddAddressViewState extends State<AddAddressView> {
         }
       }
     }
+  }
+
+  bool completedData() {
+    return selectedValue != null &&
+        countryController.text != "" &&
+        stateController.text != "" &&
+        streetController.text != "" &&
+        entranceController.text != "";
   }
 }
