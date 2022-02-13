@@ -286,7 +286,10 @@ class StoreViewState extends State<StoreView> {
                                 icon: Icons.featured_play_list,
                                 text: "كشف حساب المتسوق",
                                 onTap: () {
-                                  Navigator.of(context).pushNamed('/ShopperAccountStatement');
+                                  String rout = Services.isShopper()
+                                      ? '/ShopperTransactionView'
+                                      : '/AccountantTransactionView';
+                                  Navigator.of(context).pushNamed(rout);
                                 },
                               )
                             : Container(),

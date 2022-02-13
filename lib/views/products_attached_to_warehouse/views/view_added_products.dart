@@ -118,6 +118,11 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                 filter == "" ||
                                 eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
                               return InventoryProductsViewCard(
+                                price: productsList[index].price != '0'
+                                    ? productsList[index].price
+                                    : productsList[index].warehouses.isNotEmpty
+                                        ? productsList[index].warehouses[0].pivot.price
+                                        : '0',
                                 scaffoldKey: scaffoldKey,
                                 fromInventory: false,
                                 onDelete: (result) {

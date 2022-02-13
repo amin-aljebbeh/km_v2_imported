@@ -13,13 +13,13 @@ import '../../utils/utils_importer.dart';
 
 class InventoryProductsViewCard extends StatefulWidget {
   final Function(bool) onChangeStatus;
-  final bool newStat;
   final int oldPrice;
   final ProductData productData;
   final Function(bool) onDelete;
   final bool fromInventory;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String barcode;
+  final String price;
 
   InventoryProductsViewCard({
     this.onChangeStatus,
@@ -28,8 +28,8 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.onDelete,
     this.fromInventory = false,
     this.scaffoldKey,
-    this.newStat = true,
     this.barcode,
+    this.price,
   });
 
   @override
@@ -43,7 +43,6 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   String id;
   String supplierCode;
   int isActive;
-  String price;
   bool attached;
 
   _unAttachProduct() async {
@@ -59,56 +58,53 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
 
   @override
   void initState() {
-    if (widget.productData.subWarehouseId != null)
-      id = widget.productData.subWarehouseId.toString();
-    else {
-      List<int> subWarehousesIds = LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
-      List<int> productIds =
-          widget.productData.warehouses.map((warehouse) => int.parse(warehouse.pivot.subWarehouseId)).toList();
-      subWarehousesIds.removeWhere((id) => !productIds.contains(id));
-      if (subWarehousesIds.length > 0)
-        id = subWarehousesIds[0].toString();
+    setState(() {
+      if (widget.productData.subWarehouseId != null)
+        id = widget.productData.subWarehouseId.toString();
+      else {
+        List<int> subWarehousesIds = LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
+        List<int> productIds =
+            widget.productData.warehouses.map((warehouse) => int.parse(warehouse.pivot.subWarehouseId)).toList();
+        subWarehousesIds.removeWhere((id) => !productIds.contains(id));
+        if (subWarehousesIds.length > 0)
+          id = subWarehousesIds[0].toString();
+        else if (widget.productData.warehouses.isNotEmpty)
+          id = widget.productData.warehouses[0].pivot.subWarehouseId;
+      }
+      if (widget.productData.supplierCode != null)
+        supplierCode = widget.productData.supplierCode;
       else if (widget.productData.warehouses.isNotEmpty)
-        id = widget.productData.warehouses[0].pivot.subWarehouseId;
-    }
-    if (widget.productData.supplierCode != null)
-      supplierCode = widget.productData.supplierCode;
-    else if (widget.productData.warehouses.isNotEmpty)
-      supplierCode = widget.productData.warehouses
-          .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
-          .pivot
-          .supplierCode;
-    if (widget.productData.isActive != 'null') {
-      isActive = int.parse(widget.productData.isActive);
-    } else if (widget.productData.warehouses.isNotEmpty) {
-      isActive = int.parse(widget.productData.warehouses[0].pivot.isActive);
-    }
-    if (widget.productData.price != 'null')
-      price = widget.productData.price;
-    else if (widget.productData.warehouses.isNotEmpty)
-      price = widget.productData.warehouses[0].pivot.price;
-    else
-      price = '0';
-    if (Services.isSupplierManager() && price != '0') {
-      price =
-          (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
-    }
-    attached = false;
-    if (widget.productData.supplierCode != null)
-      attached = true;
-    else if (widget.productData.warehouses.isNotEmpty)
-      attached = widget.productData.warehouses
-              .map((warehouse) => warehouse.pivot.supplierCode)
-              .toList()
-              .where((code) => code != 'null')
-              .toList()
-              .length >
-          0;
+        supplierCode = widget.productData.warehouses
+            .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
+            .pivot
+            .supplierCode;
+      if (widget.productData.isActive != 'null') {
+        isActive = int.parse(widget.productData.isActive);
+      } else if (widget.productData.warehouses.isNotEmpty) {
+        isActive = int.parse(widget.productData.warehouses[0].pivot.isActive);
+      }
+      attached = false;
+      if (widget.productData.supplierCode != null)
+        attached = true;
+      else if (widget.productData.warehouses.isNotEmpty)
+        attached = widget.productData.warehouses
+                .map((warehouse) => warehouse.pivot.supplierCode)
+                .toList()
+                .where((code) => code != 'null')
+                .toList()
+                .length >
+            0;
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    String price = widget.price;
+    if (Services.isSupplierManager() && widget.price != '0') {
+      price =
+          (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
+    }
     return Container(
       color: Theme.of(context).primaryColorLight,
       child: Padding(
@@ -122,7 +118,6 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                 new MaterialPageRoute(
                   builder: (context) => new ProductDetailView(
                     product: widget.productData,
-                    isFromFavoriteScreen: false,
                   ),
                 ),
               );
@@ -229,9 +224,10 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                 productId: widget.productData.id.toString(),
                                 onChange: (int active, bool result) {
                                   setState(() {
-                                    if (result && widget.newStat) isActive = active;
+                                    if (result) isActive = active;
                                   });
                                   widget.onChangeStatus(result);
+                                  setState(() {});
                                 },
                                 height: 58,
                                 width: 69,
@@ -341,6 +337,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
 
                                         if (result) {
                                           widget.onDelete(true);
+                                          setState(() {});
                                         }
                                       },
                                     ),

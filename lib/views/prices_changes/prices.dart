@@ -41,6 +41,7 @@ class _PricesState extends State<Prices> {
   @override
   void initState() {
     numberOfProducts = 0;
+    setState(() {});
     _controller.addListener(() {
       setState(() {
         filter = _controller.text;
@@ -116,11 +117,17 @@ class _PricesState extends State<Prices> {
                             shrinkWrap: true,
                             itemCount: productsList == null ? 0 : productsList.productsPriceChange.length,
                             itemBuilder: (BuildContext context, int index) {
-                              var eachProduct = productsList.productsPriceChange[index];
                               if (filter == null ||
                                   filter == "" ||
-                                  eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
+                                  productsList.productsPriceChange[index].name
+                                      .toLowerCase()
+                                      .contains(filter.toLowerCase())) {
                                 return InventoryProductsViewCard(
+                                  price: productsList.productsPriceChange[index].price != '0'
+                                      ? productsList.productsPriceChange[index].price
+                                      : productsList.productsPriceChange[index].warehouses.isNotEmpty
+                                          ? productsList.productsPriceChange[index].warehouses[0].pivot.price
+                                          : '0',
                                   scaffoldKey: scaffoldKey,
                                   onChangeStatus: (result) {
                                     if (productsList.productsPriceChange[index].isActive == "1") {
@@ -137,9 +144,12 @@ class _PricesState extends State<Prices> {
                                     }
                                   },
                                   fromInventory: true,
-                                  productData: eachProduct,
-                                  oldPrice: int.parse(eachProduct.price.split(".")[0]) -
-                                      int.parse(eachProduct.priceChange.toString().split(".")[0]),
+                                  productData: productsList.productsPriceChange[index],
+                                  oldPrice:
+                                      int.parse(productsList.productsPriceChange[index].price.split(".")[0]) -
+                                          int.parse(productsList.productsPriceChange[index].priceChange
+                                              .toString()
+                                              .split(".")[0]),
                                 );
                               }
                               return Container();

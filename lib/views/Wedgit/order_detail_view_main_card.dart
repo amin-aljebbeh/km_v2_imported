@@ -39,11 +39,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
           (subWarehouse) => DropdownMenuItem(
             child: AutoSizeText(
               subWarehouse.name,
-              // overflow: TextOverflow.fade,
               maxLines: 2,
               overflow: TextOverflow.fade,
               maxFontSize: 12,
-              // minFontSize: 12,
               style: mainStyle,
             ),
             value: subWarehouse.id,
@@ -55,10 +53,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
 
   @override
   Widget build(BuildContext context) {
-    int purchasePrice =
-        int.parse(widget.productData.pivot.purchasePrice.split('.')[0]);
-    double discountPercentage =
-        SubWarehouse.getDiscountPercentage(widget.productData.subWarehouseId);
+    int purchasePrice = int.parse(widget.productData.pivot.purchasePrice.split('.')[0]);
+    double discountPercentage = SubWarehouse.getDiscountPercentage(widget.productData.subWarehouseId);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,8 +77,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     builder: (_) {
                       return FullScreenImage(
                         imageUrl: widget.productData.images.length != 0
-                            ? LoadingScreenServices.imagePrefixUrl +
-                                widget.productData.images[0].imageFileName
+                            ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
                             : "",
                         tag: "generate_a_unique_tag",
                       );
@@ -91,11 +86,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                 );
               },
               child: KCacheImage(
-                tag: widget.index +
-                    int.parse(widget.productData.pivot.productId),
+                tag: widget.index + int.parse(widget.productData.pivot.productId),
                 image: widget.productData.images.length != 0
-                    ? LoadingScreenServices.imagePrefixUrl +
-                        widget.productData.images[0].imageFileName
+                    ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
                     : "",
               ),
             ),
@@ -114,9 +107,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                   Text(
                     widget.productData.quantity +
                         " " +
-                        (widget.productData.unit == null
-                            ? ''
-                            : widget.productData.unit),
+                        (widget.productData.unit == null ? '' : widget.productData.unit),
                     style: darkBold,
                   ),
                   Text(
@@ -126,16 +117,11 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                   ),
                   if (Services.isSupplierManager())
                     Text(
-                      StringUtils()
-                              .oCcy
-                              .format(purchasePrice -
-                                  (purchasePrice * discountPercentage))
-                              .toString() +
+                      StringUtils().oCcy.format(purchasePrice - (purchasePrice * discountPercentage)).toString() +
                           " ${LoadingScreenServices.companyInformation.currency}",
                       style: paragraphStyle,
                     ),
-                  if ((!Services.isSupplierManager()) &&
-                      subWarehouseList.length > 0)
+                  if ((!Services.isSupplierManager()) && subWarehouseList.length > 0)
                     DropdownButton(
                       items: subWarehouseList,
                       onChanged: (a) {
@@ -150,10 +136,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                           widget.productData.subWarehouseId = a;
                         });
                       },
-                      hint: subWarehouseList.firstWhere(
-                          (element) =>
-                              element.value ==
-                              widget.productData.subWarehouseId, orElse: () {
+                      hint: subWarehouseList
+                          .firstWhere((element) => element.value == widget.productData.subWarehouseId, orElse: () {
                         subWarehouseList.clear();
                         return DropdownMenuItem<int>(
                           child: Text("No element"),

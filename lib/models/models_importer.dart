@@ -1,6 +1,6 @@
 export 'start_models/start_model_importer.dart';
 export 'addAddressResponse.dart';
-export 'api_response.dart';
+export 'barcode_model.dart';
 export 'cart_model.dart';
 export 'delivery_model.dart';
 export 'get_deliveries_model.dart';

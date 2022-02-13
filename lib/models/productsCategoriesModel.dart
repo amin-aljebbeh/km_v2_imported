@@ -122,7 +122,7 @@ class ProductData {
     this.automaticActivation,
     this.rate,
     this.numberOfSales,
-    this.barcode,
+    this.barcodes,
   });
 
   int id;
@@ -153,7 +153,7 @@ class ProductData {
   int automaticActivation;
   int rate;
   int numberOfSales;
-  String barcode;
+  List<Barcode> barcodes;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -191,7 +191,9 @@ class ProductData {
           : List<Warehouse>.from(json["warehouses"].map((x) => Warehouse.fromJson(x))),
       rate: json['rate'] != null ? json['rate'] : null,
       numberOfSales: json['number_of_sale'] != null ? json['number_of_sale'] : null,
-      barcode: json['barcode'] != null ? json['barcode'].toString() : 'null',
+      barcodes: json["barcodes"] == null
+          ? List<Barcode>()
+          : List<Barcode>.from(json["barcodes"].map((x) => Barcode.fromJson(x))),
     );
     return productData;
   }

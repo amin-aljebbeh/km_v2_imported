@@ -28,10 +28,10 @@ class _InventoryState extends State<Inventory> {
   bool displayToActiveProducts = true;
 
   _loadData({int filterIndex = 0}) async {
-    productsListToActive.clear();
-    productsListToInactive.clear();
-    productsList.clear();
     setState(() {
+      productsListToActive.clear();
+      productsListToInactive.clear();
+      productsList.clear();
       isLoading = true;
       isError = false;
     });
@@ -143,6 +143,7 @@ class _InventoryState extends State<Inventory> {
                   items: Services.inventorySubWarehouseNames(),
                   onChanged: (value) {
                     setState(() {
+                      productsList.clear();
                       filterProducts = value;
                       if (value != LoadingScreenServices.subWarehouses.length)
                         selectedSubWarehouseId = LoadingScreenServices.subWarehouses[value].id;
@@ -156,7 +157,10 @@ class _InventoryState extends State<Inventory> {
                   value: isActiveFilter,
                   items: Services.dropdownStringList(activeNotActive),
                   onChanged: (value) {
-                    isActiveFilter = value;
+                    setState(() {
+                      productsList.clear();
+                      isActiveFilter = value;
+                    });
 
                     _loadData(filterIndex: filterProducts);
                   },
@@ -218,28 +222,31 @@ class _InventoryState extends State<Inventory> {
                             shrinkWrap: true,
                             itemCount: productsList == null ? 0 : productsList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              var eachProduct = productsList[index];
                               if (filter == null ||
                                   filter == "" ||
-                                  eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
+                                  productsList[index].name.toLowerCase().contains(filter.toLowerCase())) {
                                 if (selectedSubWarehouseId == -1 ||
-                                    eachProduct.subWarehouseId == selectedSubWarehouseId) {
+                                    productsList[index].subWarehouseId == selectedSubWarehouseId) {
                                   return InventoryProductsViewCard(
-                                    newStat: false,
+                                    price: productsList[index].price != '0'
+                                        ? productsList[index].price
+                                        : productsList[index].warehouses.isNotEmpty
+                                            ? productsList[index].warehouses[0].pivot.price
+                                            : '0',
                                     scaffoldKey: scaffoldKey,
                                     fromInventory: true,
-                                    productData: eachProduct,
+                                    productData: productsList[index],
                                     onChangeStatus: (result) {
                                       if (result) {
                                         setState(() {
-                                          productsList.removeAt(index);
+                                          productsList[index] = productsList.removeLast();
                                         });
                                       }
                                     },
                                     onDelete: (result) {
                                       if (result) {
                                         setState(() {
-                                          productsList.removeAt(index);
+                                          productsList[index] = productsList.removeLast();
                                         });
                                       }
                                     },

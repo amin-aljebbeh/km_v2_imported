@@ -21,9 +21,8 @@ import 'package:kammun_app/utils/utils_importer.dart';
 // ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
   ProductData product;
-  bool isFromFavoriteScreen;
 
-  ProductDetailView({this.product, @required this.isFromFavoriteScreen});
+  ProductDetailView({this.product});
 
   @override
   State<StatefulWidget> createState() {

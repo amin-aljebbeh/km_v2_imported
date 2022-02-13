@@ -136,8 +136,13 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                             try {
                               if (filter == null ||
                                   filter == "" ||
-                                  eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
+                                  eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
                                 return InventoryProductsViewCard(
+                                  price: productsList[index].price != '0'
+                                      ? productsList[index].price
+                                      : productsList[index].warehouses.isNotEmpty
+                                          ? productsList[index].warehouses[0].pivot.price
+                                          : '0',
                                   barcode: widget.barcode,
                                   scaffoldKey: scaffoldKey,
                                   fromInventory: false,

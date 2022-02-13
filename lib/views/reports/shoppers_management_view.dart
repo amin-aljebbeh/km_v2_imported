@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import '../../Services.dart';
 
 class ShopperManagementView extends StatefulWidget {
   @override
@@ -9,6 +10,22 @@ class ShopperManagementView extends StatefulWidget {
 }
 
 class _ShopperManagementViewState extends State<ShopperManagementView> {
+  bool loading;
+
+  loadShopper() async {
+    await Services.getShoppers();
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    loading = true;
+    loadShopper();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,16 +37,19 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
-        child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-          primary: false,
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: LoadingScreenServices.allShoppers == null ? 0 : LoadingScreenServices.allShoppers.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ShopperWidget(shopper: LoadingScreenServices.allShoppers[index]);
-          },
-        ),
+        child: loading
+            ? Loader()
+            : ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                primary: false,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount:
+                    LoadingScreenServices.allShoppers == null ? 0 : LoadingScreenServices.allShoppers.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ShopperWidget(shopper: LoadingScreenServices.allShoppers[index]);
+                },
+              ),
       ),
     );
   }

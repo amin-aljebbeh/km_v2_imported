@@ -1,0 +1,155 @@
+import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/reports/services/reports_services.dart';
+
+import '../../Services.dart';
+import 'models/transaction_model.dart';
+
+class ShopperTransactionView extends StatefulWidget {
+  @override
+  _ShopperTransactionViewState createState() => _ShopperTransactionViewState();
+}
+
+class _ShopperTransactionViewState extends State<ShopperTransactionView> {
+  bool error;
+  bool empty;
+  bool loading;
+  bool profitLoading;
+  List<TransactionModel> transactions = List<TransactionModel>();
+  String profit;
+
+  @override
+  void initState() {
+    error = false;
+    empty = true;
+    loading = false;
+    setState(() {
+      profitLoading = true;
+    });
+    getDailyProfit(Services.shopper.id.toString());
+    getTransaction(Services.shopper.id.toString());
+    super.initState();
+  }
+
+  getTransaction(String shopperId) async {
+    setState(() {
+      if (transactions != null) {
+        error = false;
+        transactions.clear();
+      }
+    });
+    var tempTransactions = await ReportsServices.getShopperTransaction();
+    setState(() {
+      loading = false;
+      if (tempTransactions != null) {
+        error = false;
+        empty = false;
+        transactions = tempTransactions;
+        if (transactions.isEmpty) empty = true;
+      } else {
+        error = true;
+      }
+    });
+  }
+
+  getDailyProfit(String shopperId) async {
+    String result = await ReportsServices.getShopperDailyProfit(shopperId: shopperId);
+    setState(() {
+      profitLoading = false;
+      profit = result;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    bool newTransaction(int index) {
+      if (index == 0) return true;
+      return transactions[index].createdAt.toString().split(' ')[0] !=
+          transactions[index - 1].createdAt.toString().split(' ')[0];
+    }
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColorLight,
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Text(
+          'كشف حساب متسوق',
+          style: mainStyle,
+        ),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+          child: ListView(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: LabelRow(
+                      rightSideText: 'مرابح اليوم : ',
+                      leftSideText: profitLoading
+                          ? 'جار الاتصال'
+                          : profit != null
+                              ? StringUtils().oCcy.format(int.parse(profit).abs()).toString()
+                              : 'error',
+                      leftSideStyle: profitLoading
+                          ? paragraphStyle
+                          : profit != null
+                              ? int.parse(profit).isNegative
+                                  ? loseStyle
+                                  : profitStyle
+                              : loseStyle,
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.75,
+                    child: error
+                        ? Center(
+                            child: AlertMessages(
+                              text: StringUtils.errorMessage,
+                              messageType: "internetError",
+                              headerText: "حدث خطأ",
+                            ),
+                          )
+                        : loading
+                            ? Loader()
+                            : empty
+                                ? Padding(
+                                    padding: const EdgeInsets.all(75),
+                                    child: ScreenMessage(
+                                      message: 'لا يوجد حركة',
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: transactions.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return Transaction(
+                                        transaction: transactions[index],
+                                        newTransaction: newTransaction(index),
+                                      );
+                                    },
+                                  ),
+                  ),
+                ],
+              ),
+              KammunButton(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                text: 'المستحقات المالية',
+                color: ColorUtils.primaryColor,
+                onTap: () {
+                  ReportsServices.financialDues(context: context, shopperId: Services.shopper.id.toString());
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

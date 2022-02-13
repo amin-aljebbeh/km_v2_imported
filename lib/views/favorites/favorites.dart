@@ -128,7 +128,6 @@ class FavoritesViewState extends State<Favorites> {
       new MaterialPageRoute(
         builder: (context) => new ProductDetailView(
           product: productsDic,
-          isFromFavoriteScreen: true,
         ),
       ),
     );
