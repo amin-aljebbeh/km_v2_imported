@@ -431,7 +431,9 @@ class OrdersViewState extends State<OrdersView> {
                                 Column(
                                   children: [
                                     LabelRow(
-                                        rightSideText: 'تم إلغاء الطلب من قبل ابو الزين',
+                                        rightSideText: orderDataList[index].orderStatusId == '6'
+                                            ? 'تم إلغاء الطلب من قبل الزيون'
+                                            : 'تم إلغاء الطلب من قبل ابو الزين',
                                         leftSideText: '',
                                         leftSideStyle: mainStyle),
                                     Padding(
