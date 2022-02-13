@@ -225,6 +225,7 @@ class _InventoryState extends State<Inventory> {
                                 if (selectedSubWarehouseId == -1 ||
                                     eachProduct.subWarehouseId == selectedSubWarehouseId) {
                                   return InventoryProductsViewCard(
+                                    newStat: false,
                                     scaffoldKey: scaffoldKey,
                                     fromInventory: true,
                                     productData: eachProduct,

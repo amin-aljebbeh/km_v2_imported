@@ -11,9 +11,9 @@ import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import '../../utils/utils_importer.dart';
 
-// ignore: must_be_immutable
 class InventoryProductsViewCard extends StatefulWidget {
-  Function(bool) onChangeStatus;
+  final Function(bool) onChangeStatus;
+  final bool newStat;
   final int oldPrice;
   final ProductData productData;
   final Function(bool) onDelete;
@@ -27,6 +27,7 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.onDelete,
     this.fromInventory = false,
     this.scaffoldKey,
+    this.newStat = true,
   });
 
   @override
@@ -226,7 +227,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                 productId: widget.productData.id.toString(),
                                 onChange: (int active, bool result) {
                                   setState(() {
-                                    if (result) isActive = active;
+                                    if (result && widget.newStat) isActive = active;
                                   });
                                   widget.onChangeStatus(result);
                                 },
