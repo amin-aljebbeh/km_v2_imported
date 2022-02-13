@@ -19,6 +19,7 @@ class InventoryProductsViewCard extends StatefulWidget {
   final Function(bool) onDelete;
   final bool fromInventory;
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final String barcode;
 
   InventoryProductsViewCard({
     this.onChangeStatus,
@@ -28,6 +29,7 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.fromInventory = false,
     this.scaffoldKey,
     this.newStat = true,
+    this.barcode,
   });
 
   @override
@@ -287,30 +289,41 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                         color: Colors.green,
                                       ),
                                       onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (screenContext) => BarCodeScreen(
-                                              requestType: BarcodeRequestType.attachProduct,
-                                              onIgnore: (barcode) async {
-                                                int param;
-                                                if (barcode == null)
-                                                  param = null;
-                                                else
-                                                  param = int.parse(barcode);
-                                                Navigator.push(
-                                                  widget.scaffoldKey.currentContext,
-                                                  new MaterialPageRoute(
-                                                    builder: (context) => new AddProductsToSubWarehouse(
-                                                      barcode: param,
-                                                      productData: widget.productData,
+                                        if (widget.barcode == null)
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (screenContext) => BarCodeScreen(
+                                                requestType: BarcodeRequestType.attachProduct,
+                                                onIgnore: (barcode) async {
+                                                  int param;
+                                                  if (barcode == null)
+                                                    param = null;
+                                                  else
+                                                    param = int.parse(barcode);
+                                                  Navigator.push(
+                                                    widget.scaffoldKey.currentContext,
+                                                    new MaterialPageRoute(
+                                                      builder: (context) => new AddProductsToSubWarehouse(
+                                                        barcode: param,
+                                                        productData: widget.productData,
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
-                                              },
+                                                  );
+                                                },
+                                              ),
                                             ),
-                                          ),
-                                        );
+                                          );
+                                        else
+                                          Navigator.push(
+                                            widget.scaffoldKey.currentContext,
+                                            new MaterialPageRoute(
+                                              builder: (context) => new AddProductsToSubWarehouse(
+                                                barcode: int.parse(widget.barcode),
+                                                productData: widget.productData,
+                                              ),
+                                            ),
+                                          );
                                       },
                                     )
                                   : IconButton(

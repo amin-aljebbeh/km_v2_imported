@@ -138,6 +138,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                   filter == "" ||
                                   eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
                                 return InventoryProductsViewCard(
+                                  barcode: widget.barcode,
                                   scaffoldKey: scaffoldKey,
                                   fromInventory: false,
                                   onDelete: (result) {

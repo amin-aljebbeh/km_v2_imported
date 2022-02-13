@@ -43,6 +43,8 @@ class ProductsViewCard extends StatefulWidget {
 class ProductsViewCardState extends State<ProductsViewCard> {
   @override
   Widget build(BuildContext context) {
+    Tools.logToConsole('barcode');
+    Tools.logToConsole(widget.productData.barcode);
     String price = widget.productData.price;
     if (Services.isSupplierManager()) {
       price =
@@ -108,7 +110,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     fontSize: 18)),
                           ],
                         ),
-                        if (Services.isProductsController())
+                        if (Services.isProductsController() && widget.productData.barcode == 'null')
                           BarcodeIcon(
                             requestType: BarcodeRequestType.addBarcode,
                             productId: int.parse(widget.productId),
