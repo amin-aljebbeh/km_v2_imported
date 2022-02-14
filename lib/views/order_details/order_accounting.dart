@@ -27,6 +27,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
 
   getImages() {
     for (int i = 0; i < widget.orderData.images.length; i++) {
+      imageWidgets.clear();
       imageWidgets.add(
         InkWell(
           onLongPress: () async {
@@ -130,139 +131,153 @@ class _OrderAccountingState extends State<OrderAccounting> {
     if (widget.orderData.images != null) getImages();
     return Scaffold(
       body: SafeArea(
-        child: ListView(
+        child: Stack(
           children: [
-            Column(
-              children: subWarehouseTotal,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.35,
-              child: GridView(
-                scrollDirection: Axis.vertical,
-                primary: false,
-                shrinkWrap: true,
-                padding: EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  childAspectRatio: 2,
-                ),
-                children: imageWidgets,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            ListView(
               children: [
-                SizedBox(
-                  width: 1,
+                Column(
+                  children: subWarehouseTotal,
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: AddImageWidget(
-                    onSubmit: (image) async {
-                      bool result = await OrderDetailsServices.addImageToOrder(
-                          image: image, orderId: widget.orderData.id.toString());
-                      Services.resultFlushBar(context: context, result: result);
-                    },
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  child: GridView(
+                    scrollDirection: Axis.vertical,
+                    primary: false,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
+                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                      childAspectRatio: 2,
+                    ),
+                    children: imageWidgets,
                   ),
                 ),
                 SizedBox(
-                  width: 1,
+                  height: 20,
                 ),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 1,
-                ),
-                Services.isOperationManager()
-                    ? KammunButton(
-                        color: ColorUtils.kmColors,
-                        onTap: () {
-                          if (widget.orderData.shopper != null) {
-                            final moneyController = TextEditingController();
-                            final descriptionController = TextEditingController();
-                            bool completeData() {
-                              return moneyController.text.isNotEmpty && descriptionController.text.isNotEmpty;
-                            }
-
-                            List<DialogButton> decisionButtons = [
-                              DialogButton(
-                                text: StringUtils.addDeduct,
-                                onTap: () async {
-                                  if (!completeData()) {
-                                    Toast.show("يرجى إدخال كافة البيانات", context,
-                                        duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                                  } else {
-                                    Navigator.of(context).pop();
-                                    bool result = await ReportsServices.addTransaction(
-                                      shopperId: widget.orderData.shopper.id.toString(),
-                                      transactionTypeId: LoadingScreenServices.transactionTypes
-                                          .firstWhere((transactionType) => transactionType.slug == 'deduct')
-                                          .id
-                                          .toString(),
-                                      value: moneyController.text,
-                                      description: descriptionController.text,
-                                      orderId: widget.orderData.id.toString(),
-                                    );
-                                    Services.resultFlushBar(context: context, result: result);
-                                  }
-                                },
-                              ),
-                              DialogButton(
-                                text: StringUtils.close,
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ];
-                            showMyDialog(
-                              title: StringUtils.addDeduct,
-                              dialogButtons: decisionButtons,
-                              content: Column(
-                                children: [
-                                  TextFieldRow(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    controller: moneyController,
-                                    text: 'المبلغ :',
-                                    inputType: TextInputType.number,
-                                    width: 150,
-                                  ),
-                                  SizedBox(
-                                    height: 40,
-                                  ),
-                                  TextFieldRow(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    controller: descriptionController,
-                                    text: 'الوصف :',
-                                    inputType: TextInputType.multiline,
-                                    width: MediaQuery.of(context).size.width * 0.5,
-                                  ),
-                                ],
-                              ),
-                              context: context,
-                            );
-                          } else {
-                            Toast.show("هذا الطلب غير مسند لمتسوق", context,
-                                duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                          }
-                        },
-                        text: StringUtils.addDeduct,
+            Positioned(
+              top: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height * 0.25),
+              right: MediaQuery.of(context).size.width * 0.05,
+              bottom: 15,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 1,
+                      ),
+                      Container(
                         width: MediaQuery.of(context).size.width * 0.9,
-                        height: 50,
-                      )
-                    : Container(),
-                SizedBox(
-                  width: 1,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
+                        child: AddImageWidget(
+                          onSubmit: (image) async {
+                            bool result = await OrderDetailsServices.addImageToOrder(
+                                image: image, orderId: widget.orderData.id.toString());
+                            Services.resultFlushBar(context: context, result: result);
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 1,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 1,
+                      ),
+                      Services.isOperationManager()
+                          ? KammunButton(
+                              color: ColorUtils.kmColors,
+                              onTap: () {
+                                if (widget.orderData.shopper != null) {
+                                  final moneyController = TextEditingController();
+                                  final descriptionController = TextEditingController();
+                                  bool completeData() {
+                                    return moneyController.text.isNotEmpty &&
+                                        descriptionController.text.isNotEmpty;
+                                  }
+
+                                  List<DialogButton> decisionButtons = [
+                                    DialogButton(
+                                      text: StringUtils.addDeduct,
+                                      onTap: () async {
+                                        if (!completeData()) {
+                                          Toast.show("يرجى إدخال كافة البيانات", context,
+                                              duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                        } else {
+                                          Navigator.of(context).pop();
+                                          bool result = await ReportsServices.addTransaction(
+                                            shopperId: widget.orderData.shopper.id.toString(),
+                                            transactionTypeId: LoadingScreenServices.transactionTypes
+                                                .firstWhere((transactionType) => transactionType.slug == 'deduct')
+                                                .id
+                                                .toString(),
+                                            value: moneyController.text,
+                                            description: descriptionController.text,
+                                            orderId: widget.orderData.id.toString(),
+                                          );
+                                          Services.resultFlushBar(context: context, result: result);
+                                        }
+                                      },
+                                    ),
+                                    DialogButton(
+                                      text: StringUtils.close,
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ];
+                                  showMyDialog(
+                                    title: StringUtils.addDeduct,
+                                    dialogButtons: decisionButtons,
+                                    content: Column(
+                                      children: [
+                                        TextFieldRow(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          controller: moneyController,
+                                          text: 'المبلغ :',
+                                          inputType: TextInputType.number,
+                                          width: 150,
+                                        ),
+                                        SizedBox(
+                                          height: 40,
+                                        ),
+                                        TextFieldRow(
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          controller: descriptionController,
+                                          text: 'الوصف :',
+                                          inputType: TextInputType.multiline,
+                                          width: MediaQuery.of(context).size.width * 0.5,
+                                        ),
+                                      ],
+                                    ),
+                                    context: context,
+                                  );
+                                } else {
+                                  Toast.show("هذا الطلب غير مسند لمتسوق", context,
+                                      duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                }
+                              },
+                              text: StringUtils.addDeduct,
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              height: 50,
+                            )
+                          : Container(),
+                      SizedBox(
+                        width: 1,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),

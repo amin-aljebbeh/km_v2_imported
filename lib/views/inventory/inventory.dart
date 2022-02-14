@@ -45,6 +45,7 @@ class _InventoryState extends State<Inventory> {
         productsListToInactive.addAll(productsToReviewFromJson(jsonEncode(response.data)).productsToDeactivate);
 
         if (LoadingScreenServices.subWarehouses.length == 0) await LoadingScreenServices.getSubWarehouse();
+        productsList.clear();
         if (isActiveFilter == 0) {
           productsList = productsListToActive;
         } else if (isActiveFilter == 1) {

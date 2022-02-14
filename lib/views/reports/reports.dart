@@ -11,8 +11,10 @@ class _DailyStatisticsState extends State<DailyStatistics> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("لوحة تحكم المدير",
-            style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
+        title: Text(
+          "لوحة تحكم المدير",
+          style: mainStyle,
+        ),
       ),
       body: SafeArea(
         child: Container(
@@ -23,9 +25,7 @@ class _DailyStatisticsState extends State<DailyStatistics> {
                 leading: Icon(Icons.info),
                 // trailing: Icon(Icons.arrow_back),
                 title: Text("إحصائيات المبيعات",
-                    style: TextStyle(
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                        fontSize: 25)),
+                    style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 25)),
                 onTap: () {
                   Navigator.of(context).pushNamed('/sales_reports');
                 },
