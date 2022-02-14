@@ -191,17 +191,7 @@ class FavoraitesViewState extends State<Favoraites> {
                             var eachProduct = favoraitesProductData[index];
 
                             return ProductsViewCard(
-                              id: eachProduct.id.toString(),
                               product: eachProduct,
-                              active: int.parse(eachProduct.isActive),
-                              img: eachProduct.images.length > 0
-                                  ? LoadingScreenServices.imagePrefixUrl + eachProduct.images[0].imageFileName
-                                  : "",
-                              productName: eachProduct.name,
-                              quantity: eachProduct.unit.toString() != "null"
-                                  ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                  : eachProduct.quantity.toString(),
-                              price: int.parse(eachProduct.price.split(".")[0]),
                               index: index,
                             );
                           },

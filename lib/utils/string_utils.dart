@@ -137,6 +137,7 @@ class StringUtils {
   static String send = 'إرسال';
   static String addDeduct = 'إضافة خصم';
   static String approveUsagePolicy = 'موافق';
+  static String tellMe = 'أخبرني';
 
 //Labels:
   static String deliveryName = 'الكابتن : ';

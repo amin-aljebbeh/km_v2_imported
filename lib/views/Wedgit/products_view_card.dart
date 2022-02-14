@@ -9,17 +9,10 @@ import '../../Services.dart';
 import 'widgets_importer.dart';
 
 class ProductsViewCard extends StatefulWidget {
-  final String img;
-  final String productName;
-  final String quantity;
-  final int price;
   final int index;
-  final int active;
   final ProductData product;
-  final String id;
 
-  ProductsViewCard(
-      {this.img, this.productName, this.quantity, this.price, this.index, this.active, this.id, this.product});
+  ProductsViewCard({this.index, this.product});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,11 +21,8 @@ class ProductsViewCard extends StatefulWidget {
 }
 
 class ProductsViewCardState extends State<ProductsViewCard> {
-  bool addedToCart = false;
-  bool notify;
   @override
   void initState() {
-    notify = false;
     super.initState();
   }
 
@@ -40,17 +30,38 @@ class ProductsViewCardState extends State<ProductsViewCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Services.userVisitProduct(widget.id);
+        if (widget.product.isActive == '1') {
+          Services.userVisitProduct(widget.product.id.toString());
 
-        Navigator.push(
-          context,
-          new MaterialPageRoute(
-            builder: (context) => new ProductDetailView(
-              product: widget.product,
-              isFromFavoriteScreen: false,
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) => new ProductDetailView(
+                product: widget.product,
+                isFromFavoriteScreen: false,
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          showMyDialog(
+              dialogButtons: [
+                DialogButton(
+                    text: StringUtils.close,
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    }),
+                DialogButton(
+                  text: StringUtils.tellMe,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+              title: 'نفذ المنتح من المستودعات',
+              context: context,
+              text:
+                  '${widget.product.name} غير متوفر في المستودعات\nإذا كنت ترغب باستلام إشعار عند توفره مرة أخرى اضغط على ${StringUtils.tellMe}.');
+        }
       },
       child: Container(
         color: Theme.of(context).primaryColorLight,
@@ -90,7 +101,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             fadeInCurve: Curves.fastOutSlowIn,
                             placeholder: "assets/kmIcon.png",
                             fit: BoxFit.contain,
-                            image: widget.img,
+                            image: widget.product.images.length > 0
+                                ? LoadingScreenServices.imagePrefixUrl + widget.product.images[0].imageFileName
+                                : "",
                             width: MediaQuery.of(context).size.width,
                             height: 120,
                           ),
@@ -109,7 +122,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               Wrap(
                                 children: <Widget>[
                                   Text(
-                                    widget.productName,
+                                    widget.product.name,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         fontFamily: StringUtils.fontFamilyHKGrotesk,
@@ -119,7 +132,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               ),
                               SizedBox(height: 6),
                               Text(
-                                widget.quantity,
+                                widget.product.unit.toString() != "null"
+                                    ? widget.product.quantity + " " + widget.product.unit.toString()
+                                    : widget.product.quantity,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     color: ColorUtils.greyColor,
@@ -128,7 +143,10 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               ),
                               SizedBox(height: 8),
                               Text(
-                                StringUtils().oCcy.format(widget.price).toString() +
+                                StringUtils()
+                                        .oCcy
+                                        .format(int.parse(widget.product.price.split(".")[0]))
+                                        .toString() +
                                     " ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
@@ -142,7 +160,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                       ),
                     ),
                   ),
-                  widget.active == 0
+                  widget.product.isActive == '0'
                       ? Badge(
                           borderRadius: BorderRadius.zero,
                           shape: BadgeShape.square,
@@ -150,27 +168,13 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           badgeContent: Column(
                             children: [
                               Text(
-                                'نفذت الكمية',
+                                'أخبرني',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
                                   fontFamily: StringUtils.fontFamilyHKGrotesk,
                                 ),
                               ),
-                              IconButton(
-                                icon: Icon(
-                                  notify ? Icons.notifications_active : Icons.notifications,
-                                  color: notify ? Colors.white : Colors.grey,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    notify = !notify;
-                                  });
-                                  if (notify)
-                                    Toast.show('سيتم إعلامكم عند توفر ' + widget.productName, context,
-                                        duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                                },
-                              )
                             ],
                           ),
                         )

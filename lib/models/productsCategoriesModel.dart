@@ -128,7 +128,7 @@ class ProductData {
       id: json["id"],
       name: json["name"],
       description: json["description"],
-      unit: json["unit"],
+      unit: json["unit"] == null ? 'null' : json['unit'],
       categoryId: json["category_id"].toString(),
       price: json["price"].toString(),
       isActive: json["is_active"].toString(),

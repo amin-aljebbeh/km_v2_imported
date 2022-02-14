@@ -256,16 +256,6 @@ class ProductsViewState extends State<ProductsView> {
                                 var eachProduct = productsList[index];
                                 return ProductsViewCard(
                                   product: eachProduct,
-                                  id: eachProduct.id.toString(),
-                                  active: int.parse(eachProduct.isActive),
-                                  img: eachProduct.images.length > 0
-                                      ? LoadingScreenServices.imagePrefixUrl + eachProduct.images[0].imageFileName
-                                      : "",
-                                  productName: eachProduct.name,
-                                  quantity: eachProduct.unit.toString() != "null"
-                                      ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                      : eachProduct.quantity.toString(),
-                                  price: int.parse(eachProduct.price.split(".")[0]),
                                   index: index,
                                 );
                               },
