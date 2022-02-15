@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
@@ -53,8 +53,7 @@ class UpdateScreen extends StatelessWidget {
                       fontFamily: StringUtils.fontFamilyHKGrotesk),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8.0, bottom: 10, left: 30, right: 15),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 10, left: 30, right: 15),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
@@ -76,9 +75,7 @@ class UpdateScreen extends StatelessWidget {
                     text: " التحديث الآن ",
                     height: 50,
                     color: ColorUtils.primaryColor,
-                    onTap: Platform.isAndroid
-                        ? () => _androidUpdateLink()
-                        : () => _iosUpdateLink(),
+                    onTap: Platform.isAndroid ? () => _androidUpdateLink() : () => _iosUpdateLink(),
                   ),
                 ),
               ],

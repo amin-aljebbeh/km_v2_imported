@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/sub_warehouse_model.dart';
-import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/inventory/sub_warehouse_products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'services/inventory_services.dart';

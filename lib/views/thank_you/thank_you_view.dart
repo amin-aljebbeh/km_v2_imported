@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -73,8 +73,7 @@ class ThankYouViewState extends State<ThankYouView> {
                         fontSize: 30),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(
-                        left: 30, top: 10, right: 0, bottom: 10),
+                    padding: EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
                     child: Text(
                       StringUtils.thankYouDescribe,
                       textAlign: TextAlign.justify,
@@ -87,8 +86,7 @@ class ThankYouViewState extends State<ThankYouView> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(
-                        left: 30, top: 10, right: 0, bottom: 10),
+                    padding: EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
                     child: Text(
                       widget.orderMessage.toString(),
                       textAlign: TextAlign.justify,
@@ -117,8 +115,7 @@ class ThankYouViewState extends State<ThankYouView> {
   }
 
   void _showContinueShoppingBtnTapped() {
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('/orders', (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil('/orders', (Route<dynamic> route) => false);
 
     // Navigator.push(
     //     context, new MaterialPageRoute(builder: (context) => new HomeView(2)));

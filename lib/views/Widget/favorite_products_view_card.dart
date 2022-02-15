@@ -1,6 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -12,13 +12,7 @@ class FavoriteProductsViewCard extends StatefulWidget {
   final int index;
   final int active;
 
-  FavoriteProductsViewCard(
-      {this.img,
-      this.productName,
-      this.quantity,
-      this.price,
-      this.index,
-      this.active});
+  FavoriteProductsViewCard({this.img, this.productName, this.quantity, this.price, this.index, this.active});
 
   @override
   State<StatefulWidget> createState() {
@@ -77,10 +71,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                           ),
                           SizedBox(height: 8),
                           Text(
-                              StringUtils()
-                                      .oCcy
-                                      .format(widget.price)
-                                      .toString() +
+                              StringUtils().oCcy.format(widget.price).toString() +
                                   " ${LoadingScreenServices.companyInformation.currency}",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
@@ -110,8 +101,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                                     fontSize: 15,
 
                                     //fontWeight: FontWeight.w500,
-                                    fontFamily:
-                                        StringUtils.fontFamilyHKGrotesk),
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
                               ),
                               Text(
                                 'المستودعات',
@@ -119,8 +109,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                                     color: Colors.white,
                                     fontSize: 15,
                                     //   fontWeight: FontWeight.w500,
-                                    fontFamily:
-                                        StringUtils.fontFamilyHKGrotesk),
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
                               ),
                             ],
                           ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -32,8 +32,7 @@ class ServerUpdate extends StatelessWidget {
                       fontFamily: StringUtils.fontFamilyHKGrotesk),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8.0, bottom: 10, left: 30, right: 15),
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 10, left: 30, right: 15),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(

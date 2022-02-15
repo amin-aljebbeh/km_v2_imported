@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/Widget/widgets_importer.dart';
 
 class TextFieldRow extends StatefulWidget {
   final TextEditingController controller;

@@ -2,7 +2,7 @@ import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:sms_autofill/sms_autofill.dart';
@@ -19,8 +19,7 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen>
-    with TickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
   String currentText = "";
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -53,9 +52,8 @@ class _LoginScreenState extends State<LoginScreen>
         errorMessage = "يرجى إدخال كلمة السر";
       });
     } else {
-      bool response = await LoginServices.loginAdmin(
-          username: _usernameController.text,
-          password: _passwordController.text);
+      bool response =
+          await LoginServices.loginAdmin(username: _usernameController.text, password: _passwordController.text);
       if (response) {
         //dima
         TextInput.finishAutofillContext();
@@ -94,8 +92,7 @@ class _LoginScreenState extends State<LoginScreen>
           signature = "no";
         }
         bool response = await Services.loginUser(
-            phoneNumber: LoginServices.replaceFarsiNumber(
-                _usernameController.text.toString()),
+            phoneNumber: LoginServices.replaceFarsiNumber(_usernameController.text.toString()),
             signCode: signature,
             supportedCityId: "1");
 
@@ -103,14 +100,10 @@ class _LoginScreenState extends State<LoginScreen>
           await SmsAutoFill().listenForCode;
           setState(() {
             loadingScreen = false;
-            LoginScreen.phoneNumber = LoginServices.replaceFarsiNumber(
-                _usernameController.text.toString());
+            LoginScreen.phoneNumber = LoginServices.replaceFarsiNumber(_usernameController.text.toString());
           });
           Navigator.of(context).pushReplacementNamed(OTPVerification.routeName,
-              arguments: {
-                "phone": LoginServices.replaceFarsiNumber(
-                    _usernameController.text.toString())
-              });
+              arguments: {"phone": LoginServices.replaceFarsiNumber(_usernameController.text.toString())});
         } else {
           setState(() {
             loadingScreen = false;
@@ -143,8 +136,7 @@ class _LoginScreenState extends State<LoginScreen>
         obscureText: true,
         decoration: InputDecoration(
           labelText: "كلمة المرور",
-          labelStyle: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
+          labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
@@ -181,8 +173,7 @@ class _LoginScreenState extends State<LoginScreen>
         autofillHints: [AutofillHints.username],
         decoration: InputDecoration(
           labelText: "اسم المستخدم",
-          labelStyle: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
+          labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
           hintStyle: TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
@@ -218,14 +209,8 @@ class _LoginScreenState extends State<LoginScreen>
                     borderRadius: BorderRadius.only(
                       // topLeft: Radius.circular(180),
                       // topRight: Radius.circular(180),
-                      bottomLeft: Radius.circular(
-                          MediaQuery.of(context).viewInsets.bottom != 0
-                              ? 0
-                              : 180),
-                      bottomRight: Radius.circular(
-                          MediaQuery.of(context).viewInsets.bottom != 0
-                              ? 0
-                              : 180),
+                      bottomLeft: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
+                      bottomRight: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
                     )),
               ),
             ),
@@ -260,15 +245,13 @@ class _LoginScreenState extends State<LoginScreen>
                   child: Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20, bottom: 0, top: 5),
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
                         //  color: Colors.white,
 
                         child: _showUsernameInput(),
                       ),
                       Container(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20, bottom: 0, top: 5),
+                        padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
                         //  color: Colors.white,
 
                         child: _showPasswordInput(),
@@ -278,14 +261,12 @@ class _LoginScreenState extends State<LoginScreen>
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.only(
-                      left: 20.0, right: 20, bottom: 20, top: 5),
+                  padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 20, top: 5),
                   //  color: Colors.white,
 
                   child: loadingScreen
                       ? Padding(
-                          padding:
-                              EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+                          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
                           child: Loader(),
                         )
                       : KammunButton(
