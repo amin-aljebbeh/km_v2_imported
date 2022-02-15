@@ -278,7 +278,7 @@ class OrdersViewState extends State<OrdersView> {
             new BoxDecoration(color: Colors.red[700], borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            StringUtils.cancelOrder.toUpperCase(),
+            StringUtils.cancelOrder,
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -358,7 +358,7 @@ class OrdersViewState extends State<OrdersView> {
             color: ColorUtils.kmColors, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            StringUtils.ratingOrder.toUpperCase(),
+            StringUtils.ratingOrder,
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -388,8 +388,6 @@ class OrdersViewState extends State<OrdersView> {
               errorMessage = false;
             });
             _moveOrderProductsToCart(orderIndex: index);
-            // Toast.show("بإمكانك تعديل طلبك الآن", context,
-            //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
             orderDataList[index].underUpdate = "1";
           } else if (x == "admin") {
             setState(() {
@@ -412,9 +410,6 @@ class OrdersViewState extends State<OrdersView> {
               errorMessage = true;
               errorMessageValue = "لا يمكنك تعديل طلبك حالياً لانه تم الإنتهاء من تطبيق طلبك بنجاح";
             });
-
-            // Toast.show("حدثت مشكلة أثناء إلغاء الطلب يرجى تحديث لصفحة", context,
-            //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
           }
         } else {
           setState(() {
@@ -430,7 +425,7 @@ class OrdersViewState extends State<OrdersView> {
             new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            StringUtils.editOrder.toUpperCase(),
+            StringUtils.editOrder,
             style: new TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,

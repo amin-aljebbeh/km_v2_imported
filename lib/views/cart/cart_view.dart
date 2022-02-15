@@ -387,7 +387,12 @@ class CartViewState extends State<CartView> {
   void _showConfirmOrderBtnTapped() {
     if (CartServices.cartProducts.length > 0) {
       if (OrderServices.orderUnderUpdateIndex == -1) {
-        Navigator.push(context, new MaterialPageRoute(builder: (context) => new DeliverToView()));
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (context) => new DeliverToView(
+                      subTotal: subtotal,
+                    )));
       } else {
         if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
           Navigator.push(context, new MaterialPageRoute(builder: (context) => new DeliveryMethodView()));

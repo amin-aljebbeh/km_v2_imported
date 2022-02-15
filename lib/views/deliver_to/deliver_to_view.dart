@@ -12,7 +12,10 @@ import '../../Services.dart';
 import 'delivery_method.dart';
 
 class DeliverToView extends StatefulWidget {
+  final int subTotal;
   static int selectedIndex;
+
+  const DeliverToView({Key key, this.subTotal}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -309,7 +312,12 @@ class DeliverToViewState extends State<DeliverToView> {
   void _showProceedToPayBtnTapped() {
     if (DeliverToView.selectedIndex != null) {
       if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
-        Navigator.push(context, new MaterialPageRoute(builder: (context) => new DeliveryMethodView()));
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (context) => new DeliveryMethodView(
+                      subTotal: widget.subTotal,
+                    )));
       } else {
         Navigator.push(context, new MaterialPageRoute(builder: (context) => new CartViewFinal()));
       }

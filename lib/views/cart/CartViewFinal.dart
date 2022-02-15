@@ -179,15 +179,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           shrinkWrap: true,
                           itemCount: orderArray == null ? 0 : cards.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return new GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {},
-                              child: Container(
-                                //  color: Theme.of(context).primaryColorLight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(left: 0, right: 0, top: 0),
-                                  child: cardBody(index, context),
-                                ),
+                            return Container(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 0, right: 0, top: 0),
+                                child: cardBody(index, context),
                               ),
                             );
                           },
@@ -265,15 +260,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             : Column(
                                 children: [
                                   _addNotesButton(context: context),
-
-                                  // Row(
-                                  //   mainAxisAlignment:
-                                  //       MainAxisAlignment.spaceBetween,
-                                  //   children: [
-                                  //     _addNotesButton(context: context),
-                                  //     //    _addCopouns(),
-                                  //   ],
-                                  // ),
                                   _showConfirmOrderButton(),
                                 ],
                               ),
@@ -553,7 +539,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
                 errorCode = false;
               } else if (orderResponse.success) {
                 CartViewFinal.message = orderResponse.data;
-                // CartServices.cartProducts.clear();
                 prefs.setString("orderUnderUpdateId", "-1");
                 OrderServices.orderUnderUpdateIndex = -1;
               } else if (!orderResponse.success) {
@@ -575,7 +560,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
         KammunRestart.restartApp(context);
       } else {
         orderResponse = await OrderServices.submitNewOrder(userNotes: _userNotes.text);
-
         setState(() {
           try {
             if (orderResponse != null) {
@@ -593,7 +577,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
                 errorCode = false;
               } else if (orderResponse.success) {
                 CartViewFinal.message = orderResponse.data;
-                // CartServices.cartProducts.clear();
               }
             } else {
               loadingScreen = false;
@@ -616,10 +599,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
       Navigator.push(
           context, new MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
-
-      // Navigator.pushNamedAndRemoveUntil(
-      //     context, '/thankyou', ModalRoute.withName('/home'),
-      //     arguments: {"message": message, 'orderMessage': message});
     }
   }
 

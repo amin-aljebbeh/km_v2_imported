@@ -9,11 +9,10 @@ import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// ignore: must_be_immutable
 class HomeView extends StatefulWidget {
   final int routeIndex;
   final bool isFromUpdateOrder;
-  dynamic notificationValue;
+  final dynamic notificationValue;
 
   HomeView({this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue});
 
