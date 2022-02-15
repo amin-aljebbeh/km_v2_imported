@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../models/models_importer.dart';
-import '../../views/blocked_user/blocked_user.dart';
 import '../../views/errors_screen/internet_error.dart';
 import '../../views/home/home_view.dart';
 import '../../views/loading/LoadingServices.dart';
 import '../../views/login/login_view.dart';
 import '../../views/server_update/server_update.dart';
-import '../../views/supported_city/supported_city.dart';
 import '../../views/update_screen/updateRequiredScreen.dart';
 import '../../utils/utils_importer.dart';
 
@@ -85,9 +83,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
         if (snapShot.data == "userNotLoggedIn") {
           return LoginScreen();
         }
-        if (snapShot.data == "userNotSelectSupportedCity") {
-          return SupportedCityWidget();
-        }
 
         if (snapShot.connectionState == ConnectionState.done) {
           if (snapShot.hasError || snapShot.data == false) {
@@ -96,8 +91,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
             return UpdateScreen();
           } else if (LoadingScreenServices.serverMaintain) {
             return ServerUpdate();
-          } else if (LoadingScreenServices.userBlocked) {
-            return BlockedUser();
           } else {
             return AnimatedSwitcher(
               transitionBuilder: (Widget child, Animation<double> animation) {

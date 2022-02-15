@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:kammun_app/utils/Styles.dart';
+import 'package:kammun_app/utils/styles.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 

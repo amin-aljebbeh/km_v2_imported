@@ -28,12 +28,12 @@ class _AddProductsViewState extends State<AddProductsView> {
   List<String> productData = [
     'المستودع',
     'اسم المنتج',
-    'الكمية',
-    'الوحدة',
-    'معدل الضرب',
-    'الوصف',
-    'رمز المادة',
-    'السعر',
+    StringUtils.quantity,
+    StringUtils.unit,
+    StringUtils.priceFactor,
+    StringUtils.description,
+    StringUtils.supplierCode,
+    StringUtils.price,
     'الصورة'
   ];
 
@@ -297,19 +297,19 @@ class _AddProductsViewState extends State<AddProductsView> {
                       children: [
                         ProductEntryField(
                             controller: quantityController,
-                            title: "الكمية",
+                            title: StringUtils.quantity,
                             fieldType: TextInputType.number,
                             hint: "100",
                             width: MediaQuery.of(context).size.width / 4),
                         ProductEntryField(
                             controller: unitController,
-                            title: "الوحدة",
+                            title: StringUtils.unit,
                             fieldType: TextInputType.name,
                             hint: "لتر",
                             width: MediaQuery.of(context).size.width / 4),
                         ProductEntryField(
                             controller: priceFactorController,
-                            title: "معدل الضرب",
+                            title: StringUtils.priceFactor,
                             fieldType: TextInputType.number,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
@@ -317,7 +317,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     ),
                     ProductEntryField(
                         controller: descriptionController,
-                        title: "الوصف",
+                        title: StringUtils.description,
                         fieldType: TextInputType.multiline,
                         hint: "زيت دوار الشمس الصافي @كلمات مفتاحية"),
                     Row(
@@ -325,13 +325,13 @@ class _AddProductsViewState extends State<AddProductsView> {
                       children: [
                         ProductEntryField(
                             controller: supplierCodeController,
-                            title: "رمز المادة ",
+                            title: StringUtils.supplierCode,
                             fieldType: TextInputType.name,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
                             controller: priceController,
-                            title: "السعر",
+                            title: StringUtils.price,
                             fieldType: TextInputType.number,
                             hint: "5000",
                             width: MediaQuery.of(context).size.width / 3),
@@ -458,34 +458,34 @@ class _AddProductsViewState extends State<AddProductsView> {
       if (!productData.contains('اسم المنتج')) productData.add('اسم المنتج');
     }
     if (quantityController.text.isNotEmpty) {
-      if (productData.contains('الكمية')) productData.remove('الكمية');
+      if (productData.contains(StringUtils.quantity)) productData.remove(StringUtils.quantity);
     } else {
-      if (!productData.contains('الكمية')) productData.add('الكمية');
+      if (!productData.contains(StringUtils.quantity)) productData.add(StringUtils.quantity);
     }
     if (unitController.text.isNotEmpty) {
-      if (productData.contains('الوحدة')) productData.remove('الوحدة');
+      if (productData.contains(StringUtils.unit)) productData.remove(StringUtils.unit);
     } else {
-      if (!productData.contains('الوحدة')) productData.add('الوحدة');
+      if (!productData.contains(StringUtils.unit)) productData.add(StringUtils.unit);
     }
     if (priceFactorController.text.isNotEmpty) {
-      if (productData.contains('معدل الضرب')) productData.remove('معدل الضرب');
+      if (productData.contains(StringUtils.priceFactor)) productData.remove(StringUtils.priceFactor);
     } else {
-      if (!productData.contains('معدل الضرب')) productData.add('معدل الضرب');
+      if (!productData.contains(StringUtils.priceFactor)) productData.add(StringUtils.priceFactor);
     }
     if (descriptionController.text.isNotEmpty) {
-      if (productData.contains('الوصف')) productData.remove('الوصف');
+      if (productData.contains(StringUtils.description)) productData.remove(StringUtils.description);
     } else {
-      if (!productData.contains('الوصف')) productData.add('الوصف');
+      if (!productData.contains(StringUtils.description)) productData.add(StringUtils.description);
     }
     if (supplierCodeController.text.isNotEmpty) {
-      if (productData.contains('رمز المادة')) productData.remove('رمز المادة');
+      if (productData.contains(StringUtils.supplierCode)) productData.remove(StringUtils.supplierCode);
     } else {
-      if (!productData.contains('رمز المادة')) productData.add('رمز المادة');
+      if (!productData.contains(StringUtils.supplierCode)) productData.add(StringUtils.supplierCode);
     }
     if (priceController.text.isNotEmpty) {
-      if (productData.contains('السعر')) productData.remove('السعر');
+      if (productData.contains(StringUtils.price)) productData.remove(StringUtils.price);
     } else {
-      if (!productData.contains('السعر')) productData.add('السعر');
+      if (!productData.contains(StringUtils.price)) productData.add(StringUtils.price);
     }
     if (_image != null) {
       if (productData.contains('الصورة')) productData.remove('الصورة');

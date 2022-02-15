@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'views/deliver_to/deliver_to_view.dart';
 import 'views/home/home_view.dart';
 import 'views/loading/Loading.dart';
 import 'views/login/login_view.dart';
 import 'views/reports/reports.dart';
-import 'views/supported_city/supported_city.dart';
 import 'views/thank_you/thank_you_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
@@ -98,9 +96,7 @@ class _MyAppState extends State<MyApp> {
           '/cartFinal': (_) => CartViewFinal(),
           OTPVerification.routeName: (_) => OTPVerification(),
           ServerUpdate.routeName: (_) => ServerUpdate(),
-          '/supportedCity': (_) => SupportedCityWidget(),
           '/thankyou': (_) => new ThankYouView(),
-          '/delivery': (_) => DeliverToView(),
           '/cart': (_) => new HomeView(routeIndex: 1),
           '/cartFromUpdate': (_) => new HomeView(
                 routeIndex: 1,

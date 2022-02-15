@@ -4,7 +4,6 @@ import '../../../core/core_importer.dart';
 import '../../../models/models_importer.dart';
 import '../../../utils/utils_importer.dart';
 import '../../../views/cart/services/cart_services.dart';
-import '../../../views/deliver_to/deliver_to_view.dart';
 import '../../../views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,54 +17,6 @@ class OrderServices {
   static String orderUnderUpdateId = '';
 
   static String orderUnderAddressId = '';
-
-  static Future<OrderResponse> submitNewOrder({String userNotes, bool checkPrices = true}) async {
-    String productIds = '';
-    String quantities = '';
-    String productPrices = '';
-
-    int purchasePrices = 0;
-    for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productIds = productIds + CartServices.cartProducts[i].id.toString() + ';';
-      quantities = quantities + CartServices.cartProducts[i].productCount.toString() + ';';
-      purchasePrices = purchasePrices +
-          (int.parse(CartServices.cartProducts[i].price.split('.')[0]) *
-              CartServices.cartProducts[i].productCount);
-      productPrices = productPrices + int.parse(CartServices.cartProducts[i].price.split('.')[0]).toString() + ';';
-    }
-
-    Map orderData = {
-      'payment_method_id': '1',
-      'delivery_method_id': DeliverToView.selectedIndex.toString(),
-      'supported_city_id': deliverySupportedCityId,
-      'address_id': OrderServices.orderUnderAddressId,
-      'product_ids': productIds.substring(0, productIds.length - 1),
-      'quantities': quantities.substring(0, quantities.length - 1),
-      'purchase_prices': purchasePrices.toString(),
-      'product_prices': productPrices.substring(0, productPrices.length - 1),
-      'user_notes': '$userNotes',
-      'check_changed_price_product': checkPrices ? '1' : '0'
-    };
-
-    try {
-      var response = await ApiProvider.sendRequest(
-        url: API + ORDER,
-        method: httpMethods.post,
-        body: jsonEncode(orderData),
-      );
-
-      if (response.data['reason'].toString().contains('discontinued')) {
-        return new OrderResponse(success: false, reason: 'discontinued');
-      } else {
-        var parsedJson = orderResponseFromJson(jsonEncode(response.data));
-
-        return parsedJson;
-      }
-    } catch (e) {
-      Tools.logToConsole(e);
-      return null;
-    }
-  }
 
   static Future<OrderResponse> updateOrder({String userNotes, bool checkPrices = true}) async {
     String productIds = '';
@@ -82,9 +33,17 @@ class OrderServices {
               CartServices.cartProducts[i].productCount);
       productPrices = productPrices + int.parse(CartServices.cartProducts[i].price.split('.')[0]).toString() + ';';
     }
-
+    String deliveryMethodId = '';
+    if (Services.isShopper())
+      deliveryMethodId = LoadingScreenServices.myOrdersList
+          .firstWhere((order) => order.id.toString() == orderUnderAddressId)
+          .deliveryMethodId;
+    if (Services.isOperationManager() || Services.isAdmin())
+      deliveryMethodId = LoadingScreenServices.allOrdersList
+          .firstWhere((order) => order.id.toString() == orderUnderAddressId)
+          .deliveryMethodId;
     Map orderData = {
-      'delivery_method_id': DeliverToView.selectedIndex.toString(),
+      'delivery_method_id': deliveryMethodId,
       'product_ids': productIds.substring(0, productIds.length - 1),
       'quantities': quantities.substring(0, quantities.length - 1),
       'purchase_prices': purchasePrices.toString(),
@@ -178,9 +137,6 @@ class OrderServices {
 
         //! Order Under Update ID !//
         orderUnderUpdateId = orderId;
-
-        //! Order Under Update delivery Method !//
-        DeliverToView.selectedIndex = deliveryMethodId;
 
         //! Order Under Update Delivery Price !//
 

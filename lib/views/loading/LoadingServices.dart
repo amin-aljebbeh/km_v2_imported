@@ -35,7 +35,6 @@ class LoadingScreenServices {
   static String androidShareUrl = "";
   static String iOSShareUrl = "";
   static bool serverMaintain = false;
-  static bool userBlocked = false;
   static bool updateRequired = false;
   static bool updateOptional = false;
   static bool checkIfLoggedIn = false;
@@ -318,8 +317,6 @@ class LoadingScreenServices {
     );
 
     phoneNumber = "0000000000";
-
-    userBlocked = false;
 
     return true;
   }

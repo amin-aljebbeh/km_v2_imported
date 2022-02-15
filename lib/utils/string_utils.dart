@@ -91,7 +91,7 @@ class StringUtils {
   static String buildingName = 'اسم / رقم البناء';
   static String floor = 'الطابق';
   static String closeSign = 'علامة قريبة';
-  static String noWantToShareLocation = "لا أريد مشاركة موقعي على الخريطة";
+  static String doNotWantToShareLocation = "لا أريد مشاركة موقعي على الخريطة";
 
   static String profileInfo = 'معلومات الحساب';
   static String profileInfoDescribe = 'تغيير معلومات الحساب';

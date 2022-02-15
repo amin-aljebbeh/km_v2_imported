@@ -608,37 +608,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
           errorCode = true;
         }
       });
-    } else {
-      orderResponse = await OrderServices.submitNewOrder(userNotes: _userNotes.text, checkPrices: checkOrderPrice);
-
-      setState(() {
-        try {
-          if (orderResponse != null) {
-            if (!orderResponse.success && orderResponse.reason.contains("discontinued")) {
-              loadingScreen = false;
-              errorCode = true;
-              errorMessage =
-                  "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
-            } else if (orderResponse.changedPriceProducts.length > 0 ||
-                orderResponse.inactiveProducts.length > 0) {
-              _showBottomSheet(
-                  notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
-
-              loadingScreen = false;
-              errorCode = false;
-            } else if (orderResponse.success) {
-              CartViewFinal.message = orderResponse.data;
-            }
-          } else {
-            loadingScreen = false;
-            errorCode = true;
-          }
-        } catch (e) {
-          loadingScreen = false;
-          errorCode = true;
-          Tools.logToConsole(e.toString());
-        }
-      });
     }
     try {
       if (orderResponse.success == true) {
