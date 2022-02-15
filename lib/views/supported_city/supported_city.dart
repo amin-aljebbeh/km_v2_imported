@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/AlertMessages.dart';
-import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/supported_city/services/supported_city_services.dart';

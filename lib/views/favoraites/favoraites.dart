@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/favoraites/services/product_favoraites_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 
