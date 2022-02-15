@@ -13,7 +13,6 @@ export 'k_date_picker.dart';
 export 'k_searchable_dropdown.dart';
 export 'k_table_element.dart';
 export 'k_table_row.dart';
-export 'k_text_field.dart';
 export 'kammun_button.dart';
 export 'label_row.dart';
 export 'loader.dart';

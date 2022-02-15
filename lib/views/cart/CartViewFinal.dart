@@ -358,7 +358,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   color: CartServices.cartProducts.length > 0
                                       ? ColorUtils.primaryColor
                                       : Colors.grey[400],
-                                  text: StringUtils.confirmOrder.toUpperCase(),
+                                  text: StringUtils.confirmOrder,
                                   onTap: () {
                                     _cartChanged();
                                     _showConfirmOrderBtnTapped();

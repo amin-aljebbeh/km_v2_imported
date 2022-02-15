@@ -45,17 +45,6 @@ TextStyle dropdownItemStyle = mainStyle.copyWith(
   fontWeight: FontWeight.w700,
 );
 
-TextStyle textFieldStyle = mainStyle.copyWith(
-  fontWeight: FontWeight.w500,
-  fontSize: 16.0,
-  color: Colors.black,
-);
-
-TextStyle hintStyle = mainStyle.copyWith(
-  color: Colors.black26,
-  fontSize: 15,
-);
-
 TextStyle labelStyle = mainStyle.copyWith(
   fontSize: 15,
   color: ColorUtils.greyColor,
