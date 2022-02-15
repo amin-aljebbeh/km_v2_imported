@@ -16,8 +16,6 @@ class OrderServices {
 
   static String orderUnderUpdateId = '';
 
-  static String orderUnderAddressId = '';
-
   static Future<OrderResponse> updateOrder({String userNotes, bool checkPrices = true}) async {
     String productIds = '';
     String quantities = '';
@@ -36,11 +34,11 @@ class OrderServices {
     String deliveryMethodId = '';
     if (Services.isShopper())
       deliveryMethodId = LoadingScreenServices.myOrdersList
-          .firstWhere((order) => order.id.toString() == orderUnderAddressId)
+          .firstWhere((order) => order.id.toString() == orderUnderUpdateId)
           .deliveryMethodId;
     if (Services.isOperationManager() || Services.isAdmin())
       deliveryMethodId = LoadingScreenServices.allOrdersList
-          .firstWhere((order) => order.id.toString() == orderUnderAddressId)
+          .firstWhere((order) => order.id.toString() == orderUnderUpdateId)
           .deliveryMethodId;
     Map orderData = {
       'delivery_method_id': deliveryMethodId,

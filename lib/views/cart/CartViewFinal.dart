@@ -27,7 +27,6 @@ class CartViewFinal extends StatefulWidget {
 class _CartViewFinalState extends State<CartViewFinal> {
   List<ProductData> orderArray;
   int subtotal = 0;
-  int deliveryCost = 10;
   List<int> cards = [];
   bool loadingScreen = false;
   bool errorCode = false;
