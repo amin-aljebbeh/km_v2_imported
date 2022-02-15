@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:kammun_app/core/api/api_importer.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/models_importer.dart';
 
 class FavoraitesProductsServices {
@@ -14,8 +13,7 @@ class FavoraitesProductsServices {
       queryParameters: {"page": pageNumber},
     );
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      final favoraitesProducts =
-          categoryProductFromJson(jsonEncode(response.data));
+      final favoraitesProducts = categoryProductFromJson(jsonEncode(response.data));
       return favoraitesProducts.data;
     } else if (response.statusCode == SUCCESS_CODE &&
         response.data["success"] == false &&

@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/core/api/api_importer.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:http/http.dart' as http;
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -21,8 +20,7 @@ class OrderDetailsServices {
       method: httpMethods.put,
       body: jsonEncode(updateOrderBody),
     );
-    Services.resultFlushBar(
-        context: context, result: response.statusCode == SUCCESS_CODE);
+    Services.resultFlushBar(context: context, result: response.statusCode == SUCCESS_CODE);
     if (response.statusCode == SUCCESS_CODE) {
       return true;
     } else {
@@ -31,15 +29,10 @@ class OrderDetailsServices {
   }
 
   static Future<bool> addImageToOrder({String orderId, File image}) async {
-    var headers = {
-      'Authorization':
-          LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""
-    };
-    var request =
-        http.MultipartRequest('POST', Uri.parse(BASE_URL + ADD_IMAGE_TO_ORDER));
+    var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
+    var request = http.MultipartRequest('POST', Uri.parse(BASE_URL + ADD_IMAGE_TO_ORDER));
     request.fields.addAll({'order_id': '$orderId'});
-    request.files
-        .add(await http.MultipartFile.fromPath('image', '${image.path}'));
+    request.files.add(await http.MultipartFile.fromPath('image', '${image.path}'));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {

@@ -2,13 +2,10 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/core/api/api_importer.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/funny_images.dart';
-import 'package:kammun_app/views/Wedgit/app_bar_kammun_image.dart';
 import 'package:kammun_app/views/Wedgit/widgets_importer.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -297,19 +294,7 @@ class ProductsViewState extends State<ProductsView> {
                               itemBuilder: (BuildContext context, int index) {
                                 var eachProduct = productsList[index];
                                 return ProductsViewCard(
-                                  subWarehouseId: eachProduct.subWarehouseId,
                                   productData: eachProduct,
-                                  supplierCode: eachProduct.supplierCode,
-                                  productId: eachProduct.id.toString(),
-                                  active: int.parse(eachProduct.isActive),
-                                  img: eachProduct.images.length > 0
-                                      ? LoadingScreenServices.imagePrefixUrl + eachProduct.images[0].imageFileName
-                                      : "",
-                                  productName: eachProduct.name,
-                                  quantity: eachProduct.unit.toString() != "null"
-                                      ? eachProduct.quantity.toString() + " " + eachProduct.unit.toString()
-                                      : eachProduct.quantity.toString(),
-                                  price: int.parse(eachProduct.price.split(".")[0]),
                                   index: index,
                                   scaffoldKey: scaffoldKey,
                                 );

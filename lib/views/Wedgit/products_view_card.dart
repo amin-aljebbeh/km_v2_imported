@@ -8,29 +8,13 @@ import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 
 // ignore: must_be_immutable
 class ProductsViewCard extends StatefulWidget {
-  final String img;
-  final String productName;
-  final String quantity;
-  final int price;
   final int index;
-  int active;
-  final String productId;
-  final String supplierCode;
   final ProductData productData;
-  final int subWarehouseId;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   ProductsViewCard({
-    this.img,
-    this.productName,
-    this.quantity,
-    this.price,
     this.index,
-    this.productId,
-    this.supplierCode,
     this.productData,
-    this.active,
-    @required this.subWarehouseId,
     this.scaffoldKey,
   });
 
@@ -68,7 +52,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
             children: <Widget>[
               KCacheImage(
                 tag: widget.index + 100,
-                image: widget.img,
+                image: widget.productData.images.length > 0
+                    ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
+                    : "",
               ),
               SizedBox(width: 10),
               Expanded(
@@ -76,7 +62,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      widget.productName,
+                      widget.productData.name,
                       style: TextStyle(
                           fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 18),
                     ),
@@ -89,7 +75,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           children: [
                             SizedBox(height: 6),
                             Text(
-                              widget.quantity,
+                              widget.productData.unit != "null"
+                                  ? widget.productData.quantity + " " + widget.productData.unit
+                                  : widget.productData.quantity,
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   color: ColorUtils.greyColor,
@@ -113,7 +101,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               if (widget.productData.barcodes.isEmpty) Icon(BareCodeIcon.exclamation),
                               BarcodeIcon(
                                 requestType: BarcodeRequestType.addBarcode,
-                                productId: int.parse(widget.productId),
+                                productId: int.parse(widget.productData.id.toString()),
                                 scaffoldKey: widget.scaffoldKey,
                               ),
                             ],
@@ -125,17 +113,17 @@ class ProductsViewCardState extends State<ProductsViewCard> {
               ),
               Column(
                 children: [
-                  if (LoadingScreenServices.subWarehouses.any((element) => element.id == widget.subWarehouseId))
+                  if (LoadingScreenServices.subWarehouses.any((element) => element.id == widget.productData.id))
                     SwitchProductStatusWidget(
                       isForSubWarehouse: true,
                       height: MediaQuery.of(context).size.height * 0.05,
                       width: MediaQuery.of(context).size.width * 0.17,
-                      preState: widget.active,
+                      preState: int.parse(widget.productData.isActive),
                       subWarehouseId: widget.productData.subWarehouseId,
-                      productId: widget.productId,
+                      productId: widget.productData.id.toString(),
                       onChange: (int active, bool result) {
                         setState(() {
-                          if (result) widget.active = active;
+                          if (result) widget.productData.isActive = active.toString();
                         });
                       },
                     ),

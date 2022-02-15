@@ -11,8 +11,7 @@ import 'views/loading/LoadingServices.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'core/api/api_importer.dart';
-import 'core/errors/error_types.dart';
+import 'core/core_importer.dart';
 import 'utils/utils_importer.dart';
 
 class Services {

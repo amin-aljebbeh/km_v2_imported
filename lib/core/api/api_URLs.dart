@@ -1,4 +1,4 @@
-import 'api_importer.dart';
+import 'package:kammun_app/core/core_importer.dart';
 
 const String TEST_URL = 'http://test.kammun.com';
 const String APP_URL = 'https://kammun.app';

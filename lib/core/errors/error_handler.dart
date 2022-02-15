@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'error_types.dart';
+import '../core_importer.dart';
 
 class ErrorHandler {
   static Response handleDioError(DioError error) {
@@ -13,8 +13,7 @@ class ErrorHandler {
 
       return Response(statusCode: SERVICE_UNAVAILABLE_ERROR);
     } else {
-      if (error.type == DioErrorType.DEFAULT ||
-          error.type == DioErrorType.RESPONSE) {
+      if (error.type == DioErrorType.DEFAULT || error.type == DioErrorType.RESPONSE) {
         if (error is SocketException) return error.response;
         if (error.type == DioErrorType.RESPONSE) {
           switch (error.response.statusCode) {

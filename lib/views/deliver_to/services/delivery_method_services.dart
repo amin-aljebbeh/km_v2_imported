@@ -1,13 +1,11 @@
 import 'dart:convert';
 
-import 'package:kammun_app/core/api/api_importer.dart';
-import 'package:kammun_app/core/errors/error_types.dart';
+import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/delivery_method_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class DeliveryMethodServices {
-  static List<DeliveryMethodData> deliveryMethodsList =
-      new List<DeliveryMethodData>();
+  static List<DeliveryMethodData> deliveryMethodsList = new List<DeliveryMethodData>();
 
   static Future getUserDeliveryMethod({String addressId}) async {
     var response = await ApiProvider.sendRequest(
@@ -28,8 +26,7 @@ class DeliveryMethodServices {
       return true;
     } else {
       Tools.logToConsole(response.data);
-      Tools.logToConsole(
-          "------------ ERROR WHILE GETTING USER CART --------------");
+      Tools.logToConsole("------------ ERROR WHILE GETTING USER CART --------------");
 
       return false;
     }

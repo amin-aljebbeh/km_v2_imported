@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:kammun_app/core/api/api_importer.dart';
+import 'package:kammun_app/core/core_importer.dart';
 
 class StringUtils {
   static String kammun = 'كمُّون';
