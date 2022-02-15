@@ -113,7 +113,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
               ),
               Column(
                 children: [
-                  if (LoadingScreenServices.subWarehouses.any((element) => element.id == widget.productData.id))
+                  if (LoadingScreenServices.subWarehouses
+                      .any((element) => element.id == widget.productData.subWarehouseId))
                     SwitchProductStatusWidget(
                       isForSubWarehouse: true,
                       height: MediaQuery.of(context).size.height * 0.05,

@@ -87,7 +87,6 @@ class OrdersOriginalData {
     this.couponId,
     this.userDeliveryRating,
     this.userPriceRating,
-    this.userComment,
     this.total,
     this.userNotes,
     this.supportedCityId,
@@ -119,7 +118,6 @@ class OrdersOriginalData {
   dynamic couponId;
   String userDeliveryRating;
   dynamic userPriceRating;
-  dynamic userComment;
   String total;
   String userFeedback;
   DateTime createdAt;
@@ -154,7 +152,6 @@ class OrdersOriginalData {
         userDeliveryRating:
             json["user_delivery_rating"] == null ? 'null' : json["user_delivery_rating"].toString(),
         userPriceRating: json["user_price_rating"].toString(),
-        userComment: json["user_feedback"].toString(),
         total: json["total"].toString(),
         userData: json["user"] == null ? null : UserData.fromJson(json["user"]),
         address: json["address"] == null ? null : OrderAddress.fromJson(json["address"]),
@@ -189,7 +186,6 @@ class OrdersOriginalData {
         "coupon_id": couponId,
         "user_delivery_rating": userDeliveryRating,
         "user_price_rating": userPriceRating,
-        "user_comment": userComment,
         "total": total,
         "created_at": createdAt.toIso8601String(),
         "user_notes": userNotes,

@@ -8,7 +8,6 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
 
-// ignore: must_be_immutable
 class OrdersViewCard extends StatefulWidget {
   final OrdersOriginalData orderData;
   final OrderTypes orderType;
@@ -150,12 +149,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         showMyDialog(
                           title: StringUtils.ratingOrder,
                           context: context,
-                          text: widget.orderData.userDeliveryRating != 'null'
-                              ? widget.orderData.userDeliveryRating + '\n'
-                              : '' +
-                                  (widget.orderData.userFeedback != 'null'
-                                      ? widget.orderData.userFeedback + '\n'
-                                      : ''),
+                          text: (widget.orderData.userDeliveryRating != 'null'
+                                  ? widget.orderData.userDeliveryRating + '\n'
+                                  : '') +
+                              (widget.orderData.userFeedback != 'null'
+                                  ? widget.orderData.userFeedback + '\n'
+                                  : ''),
                           dialogButtons: [
                             DialogButton(
                               text: StringUtils.close,
