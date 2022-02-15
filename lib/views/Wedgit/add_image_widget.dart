@@ -7,8 +7,9 @@ import 'package:kammun_app/utils/utils_importer.dart';
 
 class AddImageWidget extends StatefulWidget {
   final Function onSubmit;
+  final Function onPress;
 
-  AddImageWidget({Key key, @required this.onSubmit}) : super(key: key);
+  AddImageWidget({Key key, @required this.onSubmit, this.onPress}) : super(key: key);
 
   @override
   _AddImageWidgetState createState() => _AddImageWidgetState();
@@ -43,6 +44,7 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                 size: 40,
               ),
               onPressed: () {
+                if (widget.onPress != null) widget.onPress();
                 getImage(ImageSource.gallery);
               },
             ),
