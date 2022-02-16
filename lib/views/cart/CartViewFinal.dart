@@ -5,6 +5,7 @@ import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/Loader.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Payment/payment_view.dart';
 import 'package:kammun_app/views/Wedgit/AlertMessagess.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
@@ -303,6 +304,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   //     //    _addCopouns(),
                                   //   ],
                                   // ),
+                                  _showPaymentButton(),
                                   _showConfirmOrderButton(),
                                 ],
                               ),
@@ -762,6 +764,18 @@ class _CartViewFinalState extends State<CartViewFinal> {
     }
   }
 
+  void _showPaymentPage() async {
+   
+   
+      Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (context) =>
+              
+                 PaymentView()));
+    
+  }
+
   Widget _showConfirmOrderButton() {
     final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
       onTap: _showConfirmOrderBtnTapped,
@@ -776,6 +790,36 @@ class _CartViewFinalState extends State<CartViewFinal> {
           child: new Center(
             child: new Text(
               UtilsImporter().stringUtils.confirm_order.toUpperCase(),
+              style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: UtilsImporter().stringUtils.HKGrotesk),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    return new Padding(
+        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
+        child: showConfirmButtonWithGesture);
+  }
+   
+   Widget _showPaymentButton() {
+    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+      onTap: _showPaymentPage,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: new Container(
+          padding: const EdgeInsets.all(10.0),
+          height: 50.0,
+          decoration: new BoxDecoration(
+              color: Colors.green,
+              borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          child: new Center(
+            child: new Text(
+              UtilsImporter().stringUtils.confirm_payment.toUpperCase(),
               style: new TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,

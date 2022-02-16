@@ -251,6 +251,7 @@ class StringUtils {
   String onboarding_descrip2 =
       'We make ordering fast, simple and free-no matter if you order online or cash';
   String onboarding_descrip3 = 'Pay for order using credit or debit card';
+  String confirm_payment = 'دفع بنكي';
 
   final oCcy = new NumberFormat("#,##0", "en_US");
 }

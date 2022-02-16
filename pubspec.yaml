@@ -57,6 +57,8 @@ dependencies:
   flutter_rating_bar: ^3.2.0+1
   animated_background: ^1.0.5
   custom_splash: ^0.0.2
+  webview_flutter: ^1.0.7
+  flutter_inappwebview: ^4.0.0+4
   
 
 
