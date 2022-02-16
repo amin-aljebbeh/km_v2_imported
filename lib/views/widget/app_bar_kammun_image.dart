@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 
 class AppBarKammunImage extends StatelessWidget {
   @override
@@ -12,7 +11,6 @@ class AppBarKammunImage extends StatelessWidget {
             scale: 2,
             child: InkWell(
               onTap: () {
-                Tools.logToConsole('message');
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   '/home',

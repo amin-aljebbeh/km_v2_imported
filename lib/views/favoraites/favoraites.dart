@@ -177,7 +177,7 @@ class FavoraitesViewState extends State<Favoraites> {
                             setState(() {
                               page++;
                             });
-                            !theEndOfFavoraites ? _getFavoraites() : Tools.logToConsole('do no thing');
+                            !theEndOfFavoraites ? _getFavoraites() : Tools.logToConsole('');
                           }
                           return true;
                         },

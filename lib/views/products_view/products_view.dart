@@ -93,7 +93,6 @@ class ProductsViewState extends State<ProductsView> {
               }
 
               if (this.mounted) {
-                Tools.logToConsole('message from mounted');
                 setState(() {
                   if (type != ProductsViewTypes.barcode && page - 1 == products.data.lastPage) {
                     theEndOfProducts = true;
@@ -117,9 +116,7 @@ class ProductsViewState extends State<ProductsView> {
               firstLoading = false;
             });
           }
-        } catch (e) {
-          Tools.logToConsole(e.toString());
-        }
+        } catch (e) {}
       } else {
         return false;
       }

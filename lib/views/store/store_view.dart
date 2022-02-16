@@ -271,7 +271,7 @@ class StoreViewState extends State<StoreView> {
         child: AppBar(
           iconTheme: new IconThemeData(color: Colors.transparent),
 
-          backgroundColor: Color.fromARGB(255, 210, 178, 2),
+          backgroundColor: ColorUtils.kmColors,
           automaticallyImplyLeading: false, // hides leading widget
           flexibleSpace: SafeArea(
             top: true,
@@ -285,28 +285,19 @@ class StoreViewState extends State<StoreView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                          padding: const EdgeInsets.only(top: 12.0),
-                          child: InkWell(
-                            onTap: () {
-                              scaffoldKey.currentState.openDrawer();
-                            },
-                            child: Icon(
-                              Icons.menu,
-                              color: Colors.white,
-                              size: 40,
-                            ),
-                          )),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: Transform.scale(
-                          scale: 2,
-                          child: Image.asset(
-                            "assets/logobw.png",
-                            width: 150,
-                            height: 50,
+                        padding: const EdgeInsets.only(top: 12.0),
+                        child: InkWell(
+                          onTap: () {
+                            scaffoldKey.currentState.openDrawer();
+                          },
+                          child: Icon(
+                            Icons.menu,
+                            color: Colors.white,
+                            size: 40,
                           ),
                         ),
                       ),
+                      AppBarKammunImage(),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: IconButton(

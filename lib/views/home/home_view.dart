@@ -229,7 +229,7 @@ class HomeViewState extends State<HomeView> {
               ),
               // ignore: deprecated_member_use
               title: Text(
-                StringUtils.profile,
+                StringUtils.favorite,
                 style: TextStyle(
                     color: Color.fromARGB(255, 53, 99, 124),
                     fontWeight: FontWeight.w500,

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/orders_response.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
@@ -163,9 +162,6 @@ class OrderServices {
 
         return "true";
       } else {
-        Tools.logToConsole('message from lock 2');
-        Tools.logToConsole(response.statusCode);
-        Tools.logToConsole(response.data["success"].toString());
         if (response.data["reason"].toString().contains("admin")) {
           return "admin";
         } else if (response.data["reason"].toString().contains("Another")) {

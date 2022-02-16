@@ -94,6 +94,7 @@ class StringUtils {
 
   static String profileInfo = 'معلومات الحساب';
   static String profileInfoDescribe = 'تغيير معلومات الحساب';
+  static String favorite = 'المفضلة';
 
   static String onBoardingTitle1 = 'إختار منتجاتك';
   static String onBoardingTitle2 = 'Pick Up or Delivery';

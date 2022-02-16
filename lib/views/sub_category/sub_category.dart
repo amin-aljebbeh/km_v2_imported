@@ -87,26 +87,7 @@ class _SubCategoryState extends State<SubCategory> {
                         size: 40,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5.0),
-                      child: Transform.scale(
-                        scale: 2,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/home',
-                              (Route<dynamic> route) => false,
-                            );
-                          },
-                          child: Image.asset(
-                            "assets/logobw.png",
-                            width: 150,
-                            height: 50,
-                          ),
-                        ),
-                      ),
-                    ),
+                    AppBarKammunImage(),
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0, left: 0),
                       child: IconButton(

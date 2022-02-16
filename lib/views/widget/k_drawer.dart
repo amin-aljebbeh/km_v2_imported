@@ -75,7 +75,7 @@ class KDrawer extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).pushNamed('/profile');
                     },
-                    text: 'الملف الشخصي',
+                    text: StringUtils.profile,
                     icon: Icons.person,
                   ),
                   SideBarRow(
@@ -87,7 +87,24 @@ class KDrawer extends StatelessWidget {
                   ),
                   SideBarRow(
                     onTap: () async {
-                      await Services.logOut(context);
+                      showMyDialog(
+                          title: 'تأكيد تسجيل الخروج',
+                          context: context,
+                          text: 'هل أنت متأكد أنك تريد تسجيل الخروج من حسابك 🥺',
+                          dialogButtons: [
+                            DialogButton(
+                              text: StringUtils.yes,
+                              onTap: () async {
+                                await Services.logOut(context);
+                              },
+                            ),
+                            DialogButton(
+                              text: StringUtils.no,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ]);
                     },
                     text: StringUtils.logout,
                     icon: Icons.logout,
