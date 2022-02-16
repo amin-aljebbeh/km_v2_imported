@@ -13,8 +13,6 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:group_button/group_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
-
 import 'deliver_to_view.dart';
 
 class DeliveryMethodView extends StatefulWidget {
@@ -215,14 +213,6 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
         errorMessage =
             "حدث خطأ أثناء محاولة جلب طرق التوصيل المتاحة يرجى التأكد من إتصالك بالإنترنت و المحاولة مجدداً";
       });
-    }
-  }
-
-  void _showGoToReviewPage() {
-    if (selectedIndex != null) {
-      Navigator.push(context, new MaterialPageRoute(builder: (context) => CartViewFinal()));
-    } else {
-      Toast.show("يرجى اختيار طريقة التوصيل ", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     }
   }
 
