@@ -268,7 +268,7 @@ class StoreViewState extends State<StoreView> {
                         ),
                         SideBarRow(
                           icon: Icons.person,
-                          text: "الملف الشخصي",
+                          text: StringUtils.profile,
                           onTap: () {
                             Navigator.of(context).pushNamed('/profile');
                           },
@@ -458,13 +458,12 @@ class StoreViewState extends State<StoreView> {
       ),
       appBar: PreferredSize(
         child: AppBar(
-          actions: [],
           iconTheme: new IconThemeData(color: Colors.transparent),
           backgroundColor: Services.isShopper()
               ? Services.shopper.status == 1
-                  ? Color.fromARGB(255, 210, 178, 2)
+                  ? ColorUtils.kmColors
                   : ColorUtils.searchGreyColor
-              : Color.fromARGB(255, 210, 178, 2),
+              : ColorUtils.kmColors,
           automaticallyImplyLeading: false,
           flexibleSpace: SafeArea(
             top: true,
