@@ -270,7 +270,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                           child: Loader(),
                         )
                       : KammunButton(
-                          text: "تسجيل الدخول",
+                          text: StringUtils.signIn,
                           height: 50,
                           color: ColorUtils.primaryColor,
                           onTap: adminLogin,

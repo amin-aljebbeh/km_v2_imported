@@ -10,8 +10,6 @@ class StringUtils {
   // App Name
   static String ratingOrder = "تقييم الطلب";
 
-  static String getStarted = 'البداية';
-
   static String cancelOrder = 'إلغاء الطلب';
   static String edit = 'تعديل';
 
@@ -20,16 +18,9 @@ class StringUtils {
 
   //Labels
   static String signIn = 'تسجيل الدخول';
-  static String welcome = 'أهل بكل في';
   static String bill = 'الفاتورة : ';
   static String phoneNumber = 'رقم الهاتف : ';
-  static String fullName = 'الإسم الكامل ';
-  static String emailAddress = 'البريد الإلكتروني';
   static String entrance = 'المدخل: ';
-  static String complete = 'متابعة';
-  static String addAddress = 'إضافة عنوان جديد';
-  static String changeSettings = 'Change Settings';
-  static String shareLink = 'Facebook.com/amin.aljebbeh';
 
   //Images
   static String rightArrow = 'assets/right_arrow.png';
@@ -41,41 +32,20 @@ class StringUtils {
   // Tabs
   static String store = 'الرئيسية';
   static String cart = 'السلة';
-  static String orders = 'الطلبات';
   static String allOrders = 'كل الطلبات';
   static String profile = 'الملف الشخصي';
 
   static String search = 'بحث';
-  static String home = 'الرئيسية';
   static String shopByCategory = 'الأصناف';
-
-  static String addressTitle = "العناوين المضافة";
 
   static String shoppingCart = 'سلة  المشتريات';
   static String confirmOrder = 'تأكيد الطلب';
-  static String repeatOrder = 'إعادة نفس الطلب';
-  static String proceedToPay = 'الذهاب لصفحة الدفع';
-  static String yourOrders = 'طلباتك السابقة';
-  static String orderDetail = 'معلومات الطلب';
-  static String settings = 'معلومات الحساب';
-  static String settingsDescribe = 'تستطيع تعديل المعلومات الشخصية الخاصة بك';
-  static String deliverTo = 'التوصيل إلى';
-  static String deliverMethod = 'طريقة التوصيل';
 
-  static String payment = 'وسيلة الدفع';
   static String subtotal = 'المجموع';
   static String delivery = 'إجرة التوصيل';
   static String total = 'المجموع الكلي';
 
-  static String locationRequestInfo =
-      "مشاركة موقعك على الخريطة يمكننا أن يساعد كابتن التوصيل على توصيل الطلب. \n يرجى تجاوز هذه المرحلة بحال كنت تقوم بالطلب لعنوان مغاير لموقعك الحالي";
-  static String locationRequestNote =
-      "ملاحظة: هذا الإجراء لمرة واحدة واختياري ولايقوم تطبيق كمّون بتتبع موقعك او طلبه خارج هذه المرحلة";
-
-  static String delete = 'حذف';
   static String note = 'ملاحظة';
-
-  static String addNewAddress = '+ إضافة عنوان جديد';
 
   static String thankYou = 'شكراً لطلبك عن طريق كمّـون';
   static String thankYouDescribe =
@@ -83,27 +53,8 @@ class StringUtils {
 
   static String continueShopping = 'متابعة التسوق';
 
-  static String share = 'مشاركة';
-
   static String address = 'العنوان';
   static String city = 'المدينة: ';
-  static String familyName = 'منزل - مكتب السيد/ة';
-  static String buildingName = 'اسم / رقم البناء';
-  static String floor = 'الطابق';
-  static String closeSign = 'علامة قريبة';
-  static String doNotWantToShareLocation = "لا أريد مشاركة موقعي على الخريطة";
-
-  static String profileInfo = 'معلومات الحساب';
-  static String profileInfoDescribe = 'تغيير معلومات الحساب';
-
-  static String onBoardingTitle1 = 'إختار منتجاتك';
-  static String onBoardingTitle2 = 'Pick Up or Delivery';
-  static String onBoardingTitle3 = 'Pay quick and easy';
-
-  static String onBoardingDescribe1 = 'Easily find your grocery items and you will get delivery in wide range';
-  static String onBoardingDescribe2 =
-      'We make ordering fast, simple and free-no matter if you order online or cash';
-  static String onBoardingDescribe3 = 'Pay for order using credit or debit card';
 
   //Roles:
   static String shopperRole = 'shopper';
@@ -115,17 +66,11 @@ class StringUtils {
   static String supplierRol = 'supplier-role';
   static String accountingRole = 'accounting-role';
 
-  //Orders types:
-  static String myOrder = 'assigned';
-  static String notAssignedOrder = 'unassigned';
-
   //Order icons:
   static String myOrders = 'طلباتي';
   static String inventory = 'جرد المنتجات';
-  static String prices = 'الأسعار';
 
   //Buttons text:
-  static String getOrder = 'أخذ الطلب';
   static String watchNote = 'مشاهدة ملاحظة العميل';
   static String close = 'إغلاق';
   static String unLock = 'إلغاء التعليق';
@@ -134,12 +79,11 @@ class StringUtils {
   static String save = 'حفظ';
   static String tryAgain = 'إعادة المحاولة';
   static String next = 'التالي';
-  static String addToCart = 'الإضافة لسلة المشتريات';
+  static String addToCart = 'الإضافة للسلة';
   static String send = 'إرسال';
   static String addDeduct = 'إضافة خصم';
 
 //Labels:
-  static String deliveryName = 'الكابتن : ';
   static String shopperName = 'مسؤول الطلب : ';
   static String orderDate = 'تاريخ الطلب : ';
   static String quantity = "الكمية";
@@ -154,16 +98,12 @@ class StringUtils {
   static String logout = "تسجيل الخروج";
   static String shopper = 'متسوق';
 
-  //Hints:
-  static String chooseDelivery = 'اختر كابتن';
-
   //Dialogs:
   static String costumerNote = 'ملاحظة العميل';
   static String unLockConfirm =
       'هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل';
 
   //Messages:
-  static String noInternetConnection = 'لايوجد إتصال بالإنترنت';
   static String chooseShopper = 'اختر متسوق';
   static String errorMessage = 'حدث خطأ اثناء محاولة جلب البيانات';
   final oCcy = new NumberFormat("#,##0", "en_US");

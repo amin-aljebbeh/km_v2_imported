@@ -72,7 +72,7 @@ class _RatingViewState extends State<RatingView> {
             new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
         child: new Center(
           child: new Text(
-            StringUtils.submitFeedback.toUpperCase(),
+            StringUtils.submitFeedback,
             style: decisionButtonStyle,
           ),
         ),

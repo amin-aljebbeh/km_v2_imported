@@ -377,7 +377,7 @@ class OrdersViewState extends State<OrdersView> {
                                               dialogButtons: decisionButton,
                                               context: context);
                                         },
-                                        text: "إلغاء الطلب",
+                                        text: StringUtils.cancelOrder,
                                         width: MediaQuery.of(context).size.width * 0.4,
                                         color: Colors.red,
                                         onTap: () {
