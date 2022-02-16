@@ -8,6 +8,8 @@ import 'package:kammun_app/views/deliver_to/delivery_method.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
+import 'package:kammun_app/views/widget/kammun_button.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'services/cart_services.dart';
@@ -24,8 +26,8 @@ class CartView extends StatefulWidget {
 class CartViewState extends State<CartView> {
   List<ProductData> orderArray;
   int subtotal = 0;
-  int deliveryCost = 10;
   static List<int> cards = [];
+  TextEditingController _userNotes = TextEditingController();
 
   makeCards() {
     cards = [];
@@ -218,9 +220,123 @@ class CartViewState extends State<CartView> {
                   ],
                 ),
                 SizedBox(height: 10),
-                SafeArea(
-                  child: _showConfirmOrderButton(),
-                  top: false,
+                KammunButton(
+                  color: ColorUtils.primaryColor,
+                  onTap: () {
+                    showMyDialog(
+                      title: 'إضافة ملاحظة',
+                      dialogButtons: List<DialogButton>(),
+                      content: Stack(
+                        overflow: Overflow.visible,
+                        children: <Widget>[
+                          Positioned(
+                            right: -40.0,
+                            top: -40.0,
+                            child: InkResponse(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: CircleAvatar(
+                                child: Icon(Icons.close),
+                                backgroundColor: Colors.red,
+                              ),
+                            ),
+                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "ملاحظات على الطلب",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                      fontSize: 18),
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(left: 8, right: 8),
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5.0) //         <--- border radius here
+                                            ),
+                                    border: Border.all(
+                                      width: 2,
+                                      color: ColorUtils.kmColors,
+                                    )),
+                                child: new TextField(
+                                  controller: _userNotes,
+                                  textAlign: TextAlign.right,
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: 5,
+                                  style: TextStyle(
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  ),
+                                ),
+                              ),
+                              KammunButton(
+                                text: StringUtils.save + ' ' + StringUtils.note,
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                height: 40,
+                                color: ColorUtils.primaryColor,
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      context: context,
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(top: 0, bottom: 0, right: 15),
+                        child: Icon(
+                          Icons.add_box_outlined,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                      ),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            child: Text(
+                              'إضافة ملاحظة',
+                              textAlign: TextAlign.start,
+                              style: new TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.transparent,
+                          size: 32,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                KammunButton(
+                  color: ColorUtils.primaryColor,
+                  onTap: () {
+                    _showConfirmOrderBtnTapped();
+                  },
+                  height: 50,
+                  text: StringUtils.confirmOrder,
                 ),
               ],
             ),
@@ -403,30 +519,5 @@ class CartViewState extends State<CartView> {
     } else {
       Toast.show("يرجى إضافة منتج واحد على الأقل", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     }
-  }
-
-  Widget _showConfirmOrderButton() {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
-      onTap: _showConfirmOrderBtnTapped,
-      child: new Container(
-        height: 50.0,
-        decoration: new BoxDecoration(
-            color: CartServices.cartProducts.length > 0 ? ColorUtils.primaryColor : Colors.grey[400],
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            StringUtils.confirmOrder.toUpperCase(),
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
   }
 }

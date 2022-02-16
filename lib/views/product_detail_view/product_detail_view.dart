@@ -77,262 +77,269 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
       left: false,
       right: false,
       bottom: true,
-      child: Scaffold(
-        backgroundColor: Theme.of(context).primaryColorLight,
-        body: NestedScrollView(
-          controller: _controller,
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                leading: IconButton(
-                  iconSize: 35,
-                  icon: const Icon(Icons.home),
-                  tooltip: 'Back to Store Page',
-                  onPressed: () =>
-                      Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false),
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    icon: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 35,
+      child: Stack(
+        children: [
+          Scaffold(
+            backgroundColor: Theme.of(context).primaryColorLight,
+            body: NestedScrollView(
+              controller: _controller,
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    leading: IconButton(
+                      iconSize: 35,
+                      icon: const Icon(Icons.home),
+                      tooltip: 'Back to Store Page',
+                      onPressed: () =>
+                          Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false),
                     ),
-                  ),
-                ],
-                backgroundColor: ColorUtils.primaryColor,
-                expandedHeight: 300.0,
-                floating: false,
-                pinned: true,
-                title: Container(
-                  alignment: Alignment.bottomCenter,
-                  child: done
-                      ? AutoSizeText(
-                          widget.product.name,
-                          maxLines: 1,
-                          style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-                        )
-                      : Container(),
-                ),
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: FlexibleSpaceBar(
-                    centerTitle: true,
-                    background: !done
-                        ? FullScreenWidget(
-                            backgroundColor: Colors.white,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: FadeTransition(
-                                opacity: _animation,
-                                child: widget.product.images.length > 0
-                                    ? Image.network(
+                    actions: <Widget>[
+                      IconButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 35,
+                        ),
+                      ),
+                    ],
+                    backgroundColor: ColorUtils.primaryColor,
+                    expandedHeight: 300.0,
+                    floating: false,
+                    pinned: true,
+                    title: Container(
+                      alignment: Alignment.bottomCenter,
+                      child: done
+                          ? AutoSizeText(
+                              widget.product.name,
+                              maxLines: 1,
+                              style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
+                            )
+                          : Container(),
+                    ),
+                    flexibleSpace: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: FlexibleSpaceBar(
+                        centerTitle: true,
+                        background: !done
+                            ? FullScreenWidget(
+                                backgroundColor: Colors.white,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: FadeTransition(
+                                    opacity: _animation,
+                                    child: widget.product.images.length > 0
+                                        ? Image.network(
+                                            LoadingScreenServices.imagePrefixUrl +
+                                                widget.product.images[0].imageFileName,
+                                            width: MediaQuery.of(context).size.width / 2,
+                                            height: 120,
+                                            fit: BoxFit.contain,
+                                          )
+                                        : Image.asset(
+                                            "assets/logobw.png",
+                                          ),
+                                  ),
+                                ),
+                              )
+                            : widget.product.images.length > 0
+                                ? FullScreenWidget(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(16),
+                                      child: Image.network(
                                         LoadingScreenServices.imagePrefixUrl +
                                             widget.product.images[0].imageFileName,
                                         width: MediaQuery.of(context).size.width / 2,
                                         height: 120,
                                         fit: BoxFit.contain,
-                                      )
-                                    : Image.asset(
-                                        "assets/logobw.png",
                                       ),
+                                    ),
+                                  )
+                                : Image.asset(
+                                    "assets/logobw.png",
+                                  ),
+                      ),
+                    ),
+                  ),
+                ];
+              },
+              body: SafeArea(
+                top: false,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 25),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0))),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                widget.product.name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontSize: 22,
+                                ),
                               ),
                             ),
-                          )
-                        : widget.product.images.length > 0
-                            ? FullScreenWidget(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    LoadingScreenServices.imagePrefixUrl + widget.product.images[0].imageFileName,
-                                    width: MediaQuery.of(context).size.width / 2,
-                                    height: 120,
-                                    fit: BoxFit.contain,
-                                  ),
+                            IconButton(
+                                padding: EdgeInsets.all(0),
+                                icon: Icon(
+                                  favoriteProduct ? Icons.favorite : Icons.favorite_border_outlined,
+                                  color: Colors.red[900],
+                                  size: 40,
                                 ),
-                              )
-                            : Image.asset(
-                                "assets/logobw.png",
+                                onPressed: () {
+                                  setState(() {
+                                    favoriteProduct = !favoriteProduct;
+                                  });
+                                  _addToFavoriteBtnTapped(context);
+                                  if (favoriteProduct) {
+                                    Flushbar(
+                                      backgroundColor: Colors.red[900],
+                                      messageText: Text(
+                                        " تم إضافة ${widget.product.name}  إلى المفضلة",
+                                        style: flushBarStyle,
+                                      ),
+                                      boxShadows: [
+                                        BoxShadow(
+                                          color: Colors.red,
+                                          offset: Offset(0.0, 2.0),
+                                          blurRadius: 3.0,
+                                        )
+                                      ],
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        size: 28.0,
+                                        color: Colors.white,
+                                      ),
+                                      duration: Duration(seconds: 3),
+                                    )..show(context);
+                                  } else {
+                                    Flushbar(
+                                      backgroundColor: Colors.red[900],
+                                      messageText: Text(
+                                        "تم إزالة ${widget.product.name}  من المفضلة",
+                                        style: flushBarStyle,
+                                      ),
+                                      boxShadows: [
+                                        BoxShadow(
+                                          color: Colors.red,
+                                          offset: Offset(0.0, 2.0),
+                                          blurRadius: 3.0,
+                                        )
+                                      ],
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        size: 28.0,
+                                        color: Colors.white,
+                                      ),
+                                      duration: Duration(seconds: 3),
+                                    )..show(context);
+                                  }
+                                }),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text("الكمية",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: ColorUtils.primaryColor,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                      fontSize: 20.0,
+                                    )),
+                                SizedBox(height: 10),
+                                Text(
+                                  widget.product.unit.toString() != "null"
+                                      ? widget.product.quantity.toString() + " " + widget.product.unit.toString()
+                                      : widget.product.quantity.toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: ColorUtils.primaryColor,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                      fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Text("السعر",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: ColorUtils.greyColor,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                      fontSize: 20.0,
+                                    )),
+                                SizedBox(height: 10),
+                                Text(
+                                    "${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        color: ColorUtils.primaryColor,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                        fontSize: 20)),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Text(
+                          widget.product.description.split("@")[0],
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context).primaryColorDark,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 20),
+                        ),
+                        SizedBox(height: 10),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              numberOfOrders.toString(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey[700],
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 30,
                               ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ];
-          },
-          body: SafeArea(
-            top: false,
-            child: Padding(
-              padding: EdgeInsets.only(left: 15, right: 15, top: 25),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius:
-                        BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0))),
-                child: ListView(
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          widget.product.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 22,
-                          ),
-                        ),
-                        IconButton(
-                            padding: EdgeInsets.all(0),
-                            icon: Icon(
-                              favoriteProduct ? Icons.favorite : Icons.favorite_border_outlined,
-                              color: Colors.red[900],
-                              size: 40,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                favoriteProduct = !favoriteProduct;
-                              });
-                              _addToFavoriteBtnTapped(context);
-                              if (favoriteProduct) {
-                                Flushbar(
-                                  backgroundColor: Colors.red[900],
-                                  messageText: Text(
-                                    " تم إضافة ${widget.product.name}  إلى المفضلة",
-                                    style: flushBarStyle,
-                                  ),
-                                  boxShadows: [
-                                    BoxShadow(
-                                      color: Colors.red,
-                                      offset: Offset(0.0, 2.0),
-                                      blurRadius: 3.0,
-                                    )
-                                  ],
-                                  icon: Icon(
-                                    Icons.favorite,
-                                    size: 28.0,
-                                    color: Colors.white,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                )..show(context);
-                              } else {
-                                Flushbar(
-                                  backgroundColor: Colors.red[900],
-                                  messageText: Text(
-                                    "تم إزالة ${widget.product.name}  من المفضلة",
-                                    style: flushBarStyle,
-                                  ),
-                                  boxShadows: [
-                                    BoxShadow(
-                                      color: Colors.red,
-                                      offset: Offset(0.0, 2.0),
-                                      blurRadius: 3.0,
-                                    )
-                                  ],
-                                  icon: Icon(
-                                    Icons.favorite,
-                                    size: 28.0,
-                                    color: Colors.white,
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                )..show(context);
-                              }
-                            }),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text("الكمية",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorUtils.primaryColor,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 20.0,
-                                )),
-                            SizedBox(height: 10),
-                            Text(
-                              widget.product.unit.toString() != "null"
-                                  ? widget.product.quantity.toString() + " " + widget.product.unit.toString()
-                                  : widget.product.quantity.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: ColorUtils.primaryColor,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 20),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text("السعر",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 20.0,
-                                )),
-                            SizedBox(height: 10),
-                            Text(
-                                "${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorUtils.primaryColor,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    fontSize: 20)),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      widget.product.description.split("@")[0],
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          fontSize: 20),
-                    ),
-                    SizedBox(height: 10),
-                    int.parse(widget.product.isActive) != 0
-                        ? Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                numberOfOrders.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.grey[700],
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ),
-                          )
-                        : Container(
-                            margin: const EdgeInsets.all(10.0),
-                            padding: const EdgeInsets.all(3.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0) //                 <--- border radius here
-                                    ),
-                                border: Border.all(color: ColorUtils.primaryColor, width: 4)),
-                            child: Center(
-                              child: Text(
-                                "المنتج نفذ من المستودعات",
-                                style: TextStyle(fontSize: 25, fontFamily: StringUtils.fontFamilyHKGrotesk),
-                              ),
-                            ),
-                          ),
-                    if (int.parse(widget.product.isActive) != 0)
-                      KammunButton(
+            ),
+          ),
+          Positioned(
+            bottom: MediaQuery.of(context).size.height * 0.2,
+            child: Container(
+              color: Colors.white,
+              height: 65,
+              width: MediaQuery.of(context).size.width,
+              child: SafeArea(
+                child: Scaffold(
+                  backgroundColor: Colors.white,
+                  body: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0, left: 8),
+                      child: KammunButton(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -442,12 +449,13 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           }
                         },
                       ),
-                  ],
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -455,11 +463,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   void _addToFavoriteBtnTapped(context) {
     if (LoadingScreen.userToken.length > 5) {
       favoriteProduct ? _addFavorite(context, widget.product) : _removeFavorite();
-      if (widget.isFromFavoriteScreen) {
-        Navigator.of(context).pushNamedAndRemoveUntil('/favoraites', (Route<dynamic> route) => false);
-      } else {
-        Navigator.of(context).pop();
-      }
     } else {
       Navigator.pushNamed(context, LoginScreen.routeName);
     }
