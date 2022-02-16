@@ -1,8 +1,10 @@
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import '../models/report_model_importer.dart';
 
@@ -256,6 +258,44 @@ class ReportsServices {
     } catch (e) {
       Tools.logToConsole(e.toString());
 
+      return null;
+    }
+  }
+
+  static Future<ImportedProducts> fromFileChangedPriceProducts({String subWarehouseId, File file}) async {
+    try {
+      var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
+      var request = http.MultipartRequest('POST', Uri.parse(BASE_URL + IMPORT_PRODUCT_PRICES_IN_WAREHOUSE));
+      request.fields.addAll({'sub_warehouse_id': '$subWarehouseId'});
+      request.files.add(await http.MultipartFile.fromPath('file', '${file.path}'));
+      request.headers.addAll(headers);
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        ImportedProducts price = importedProductsFromJson(await response.stream.bytesToString());
+        return price;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<ImportedProducts> fromFileChangedStatusProducts({String subWarehouseId, File file}) async {
+    try {
+      var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
+      var request = http.MultipartRequest('POST', Uri.parse(BASE_URL + IMPORT_PRODUCT_ACTIVATION_IN_WAREHOUSE));
+      request.fields.addAll({'sub_warehouse_id': '$subWarehouseId'});
+      request.files.add(await http.MultipartFile.fromPath('file', '${file.path}'));
+      request.headers.addAll(headers);
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        ImportedProducts price = importedProductsFromJson(await response.stream.bytesToString());
+        return price;
+      } else {
+        return null;
+      }
+    } catch (e) {
       return null;
     }
   }

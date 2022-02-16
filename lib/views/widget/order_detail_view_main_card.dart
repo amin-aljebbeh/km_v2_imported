@@ -9,8 +9,6 @@ import 'package:kammun_app/views/order_details/full_screen_image.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
 
-import 'k_cache_image.dart';
-
 // ignore: must_be_immutable
 class OrderDetailViewMainCard extends StatefulWidget {
   final int index;

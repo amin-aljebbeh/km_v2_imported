@@ -42,6 +42,10 @@ const String GET_DAILY_STATISTICS = API + 'get_daily_statistics';
 
 const String GET_MATCHING_REPORT = API + 'matching_deliveried_products';
 
+const String IMPORT_PRODUCT_ACTIVATION_IN_WAREHOUSE = API + 'import_product_activation_in_warehouse';
+
+const String IMPORT_PRODUCT_PRICES_IN_WAREHOUSE = API + 'import_product_prices_in_warehouse';
+
 const String DELETE_PRODUCT = API + PRODUCT + '';
 
 const String GET_ADDED_PRODUCTS_TO_WAREHOUSE = API + PRODUCT + 'show_Additional_Products_For_Warehouse';

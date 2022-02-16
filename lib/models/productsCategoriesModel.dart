@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 
 CategoryProduct categoryProductFromJson(String str) => CategoryProduct.fromJson(json.decode(str));
 
-String categoryProductToJson(CategoryProduct data) => json.encode(data.toJson());
-
 List<ProductData> syncCartFromJson(String str) =>
     List<ProductData>.from(json.decode(str).map((x) => ProductData.fromJson(x)));
-
-ProductResponse favoritesProductFromJson(String str) => ProductResponse.fromJson(json.decode(str));
 
 // CategoryProduct publicParameterFromJson(String str) =>
 //     CategoryProduct.fromJson(json.decode(str));
@@ -156,9 +153,13 @@ class ProductData {
   List<Barcode> barcodes;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
+    Tools.logToConsole('we are here son');
     if (json == null) {
+      Tools.logToConsole('jojo');
       return null;
     }
+    Tools.logToConsole('(json["products_price_change"] == null).toString()');
+    Tools.logToConsole((json["product_id"] == null).toString());
     ProductData productData = ProductData(
       id: json["id"] == null ? json["product_id"] : json["id"],
       name: json["name"],

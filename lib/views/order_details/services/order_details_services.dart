@@ -36,10 +36,8 @@ class OrderDetailsServices {
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
       return true;
     } else {
-      print(response.reasonPhrase);
       return false;
     }
   }
