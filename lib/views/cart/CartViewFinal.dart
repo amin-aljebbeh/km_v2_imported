@@ -314,7 +314,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             width: 2,
                             color: ColorUtils.kmColors,
                           )),
-                      child: new TextField(
+                      child: TextField(
                         controller: _userNotes,
                         textAlign: TextAlign.right,
                         keyboardType: TextInputType.multiline,
@@ -341,10 +341,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              new Container(
+              Container(
                 width: 75.0,
                 height: 75.0,
-                decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Hero(
@@ -597,24 +597,23 @@ class _CartViewFinalState extends State<CartViewFinal> {
       CartServices.userCopoun = "";
 
       Navigator.push(
-          context, new MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
+          context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
     }
   }
 
   Widget _showConfirmOrderButton() {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+    final GestureDetector showConfirmButtonWithGesture = GestureDetector(
       onTap: _showConfirmOrderBtnTapped,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
+        child: Container(
           padding: const EdgeInsets.all(10.0),
           height: 50.0,
-          decoration:
-              new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new Text(
-              StringUtils.confirmOrder.toUpperCase(),
-              style: new TextStyle(
+          decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.all(Radius.circular(6.0))),
+          child: Center(
+            child: Text(
+              StringUtils.confirmOrder,
+              style: TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -625,22 +624,21 @@ class _CartViewFinalState extends State<CartViewFinal> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
+    return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
   }
 
   Widget _addNotesButton({BuildContext context}) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+    final GestureDetector showConfirmButtonWithGesture = GestureDetector(
       onTap: () => _openAddNotesAlert(context: context),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
+        child: Container(
           //  padding: const EdgeInsets.all(10.0),
           //  width: MediaQuery.of(context).size.width / 2.5,
           height: 40.0,
-          decoration: new BoxDecoration(
-              color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
+          decoration:
+              BoxDecoration(color: ColorUtils.primaryColor, borderRadius: BorderRadius.all(Radius.circular(6.0))),
+          child: Center(
               child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -666,7 +664,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                     child: Text(
                       'إضافة ملاحظة',
                       textAlign: TextAlign.start,
-                      style: new TextStyle(
+                      style: TextStyle(
                           color: Colors.white,
                           // fontSize: 20.0,
                           fontWeight: FontWeight.bold,
@@ -689,28 +687,27 @@ class _CartViewFinalState extends State<CartViewFinal> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
+    return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
   }
 
   Widget _saveNotes({BuildContext context}) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+    final GestureDetector showConfirmButtonWithGesture = GestureDetector(
       onTap: () {
         Navigator.of(context).pop();
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
-        child: new Container(
+        child: Container(
           padding: const EdgeInsets.all(10.0),
           width: MediaQuery.of(context).size.width / 2.5,
           height: 40.0,
-          decoration: new BoxDecoration(
-              color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new AutoSizeText(
+          decoration:
+              BoxDecoration(color: ColorUtils.primaryColor, borderRadius: BorderRadius.all(Radius.circular(6.0))),
+          child: Center(
+            child: AutoSizeText(
               "حفظ الملاحظة",
               maxLines: 1,
-              style: new TextStyle(
+              style: TextStyle(
                   color: Colors.white,
                   // fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -721,7 +718,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
+    return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
   }
 }

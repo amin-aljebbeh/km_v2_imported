@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/cart/order_problem_sheet.dart';
+import 'package:kammun_app/views/cart/services/cart_services.dart';
+import 'package:kammun_app/views/orders/services/order_services.dart';
+import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:group_button/group_button.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 import 'deliver_to_view.dart';
 
 class DeliveryMethodView extends StatefulWidget {
+  final List<ProductData> orderArray;
   final int subTotal;
+  final String userNote;
   static int selectedDeliveryIndex = 0;
 
-  const DeliveryMethodView({Key key, this.subTotal}) : super(key: key);
+  const DeliveryMethodView({Key key, this.subTotal, this.orderArray, this.userNote}) : super(key: key);
 
   @override
   _DeliveryMethodViewState createState() => _DeliveryMethodViewState();
@@ -23,14 +33,159 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
   int selectedIndex = 0;
   int deliveryCost = 0;
   Future getDeliveryMethods;
+  List<int> cards = [];
 
   bool isLoading = false;
   bool error;
   String errorMessage;
 
+  _showBottomSheet({List<String> notActive, List<String> priceProblem}) {
+    List<int> notActiveId = [];
+    List<int> priceId = [];
+
+    for (int i = 0; i < widget.orderArray.length; i++) {
+      if (notActive.contains(widget.orderArray[i].id.toString())) {
+        notActiveId.add(widget.orderArray[i].id);
+      }
+      if (priceProblem.contains(widget.orderArray[i].id.toString())) {
+        priceId.add(widget.orderArray[i].id);
+      }
+    }
+    _reloadPrices() async {
+      Navigator.of(context).pop();
+
+      setState(() {
+        isLoading = true;
+      });
+
+      CartServices.cartProducts.clear();
+
+      await CartServices.getUserCart();
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.of(context).pop();
+      Navigator.of(context).pushNamed('/cartFinal');
+    }
+
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (context) => OrderProblemBottomSheet(
+        notActiveProducts: notActiveId,
+        pricesChangesProducts: priceId,
+        applyChanges: () {
+          _reloadPrices();
+        },
+      ),
+    );
+  }
+
+  makeCards() {
+    cards = [];
+    for (int i = 0; i < widget.orderArray.length; i++) {
+      cards.add(i);
+    }
+  }
+
+  void _showConfirmOrderBtnTapped() async {
+    setState(() {
+      isLoading = true;
+      error = false;
+    });
+    CartServices.userNote = widget.userNote;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    OrderResponse orderResponse;
+    if (OrderServices.orderUnderUpdateIndex != -1) {
+      if (cards.length == 0) {
+        KammunRestart.restartApp(context);
+      } else {
+        orderResponse = await OrderServices.updateOrder(userNotes: widget.userNote);
+
+        setState(() {
+          try {
+            if (orderResponse != null) {
+              if (!orderResponse.success && orderResponse.reason.contains("discontinued")) {
+                isLoading = false;
+                error = true;
+                errorMessage =
+                    "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
+              } else if (orderResponse.changedPriceProducts.length > 0 ||
+                  orderResponse.inactiveProducts.length > 0) {
+                _showBottomSheet(
+                    notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
+
+                isLoading = false;
+                error = false;
+              } else if (orderResponse.success) {
+                CartViewFinal.message = orderResponse.data;
+                prefs.setString("orderUnderUpdateId", "-1");
+                OrderServices.orderUnderUpdateIndex = -1;
+              } else if (!orderResponse.success) {
+                isLoading = false;
+                error = true;
+              }
+            } else {
+              isLoading = false;
+              error = true;
+            }
+          } catch (e) {
+            isLoading = false;
+            error = true;
+          }
+        });
+      }
+    } else {
+      if (cards.length == 0) {
+        KammunRestart.restartApp(context);
+      } else {
+        orderResponse = await OrderServices.submitNewOrder(userNotes: widget.userNote);
+        setState(() {
+          try {
+            if (orderResponse != null) {
+              if (!orderResponse.success && orderResponse.reason.contains("discontinued")) {
+                isLoading = false;
+                error = true;
+                errorMessage =
+                    "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
+              } else if (orderResponse.changedPriceProducts.length > 0 ||
+                  orderResponse.inactiveProducts.length > 0) {
+                _showBottomSheet(
+                    notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
+
+                isLoading = false;
+                error = false;
+              } else if (orderResponse.success) {
+                CartViewFinal.message = orderResponse.data;
+              }
+            } else {
+              isLoading = false;
+              error = true;
+            }
+          } catch (e) {
+            isLoading = false;
+            error = true;
+          }
+        });
+      }
+    }
+
+    if (orderResponse.success == true) {
+      await prefs.remove("userCart");
+      CartServices.cartProducts.clear();
+
+      CartServices.userNote = "";
+      CartServices.userCopoun = "";
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
+    }
+  }
+
   @override
   void initState() {
     _getDeliveryMethods();
+    makeCards();
     selectedIndex = 0;
     DeliveryMethodView.selectedDeliveryIndex = selectedIndex;
     super.initState();
@@ -69,33 +224,6 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
     } else {
       Toast.show("يرجى اختيار طريقة التوصيل ", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     }
-  }
-
-  Widget _showRetryButton() {
-    final GestureDetector showProceedToPayButtonWithGesture = new GestureDetector(
-      onTap: () {
-        _getDeliveryMethods();
-      },
-      child: new Container(
-        margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-        height: 50.0,
-        decoration:
-            new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
-            "المحاولة مرة أخرى",
-            style: new TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showProceedToPayButtonWithGesture);
   }
 
   @override
@@ -301,11 +429,18 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                       ],
                     ),
                     error
-                        ? _showRetryButton()
+                        ? KammunButton(
+                            color: ColorUtils.primaryColor,
+                            onTap: () {
+                              _getDeliveryMethods();
+                            },
+                            text: StringUtils.tryAgain,
+                            height: 50,
+                          )
                         : KammunButton(
                             color: ColorUtils.primaryColor,
                             onTap: () {
-                              _showGoToReviewPage();
+                              _showConfirmOrderBtnTapped();
                             },
                             height: 50,
                             text: StringUtils.confirmOrder,

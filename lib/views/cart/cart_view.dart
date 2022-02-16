@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
 import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -33,6 +34,14 @@ class CartViewState extends State<CartView> {
     cards = [];
     for (int i = 0; i < orderArray.length; i++) {
       cards.add(i);
+    }
+  }
+
+  _userNotesInitial() {
+    _userNotes.text = OrderServices.updateOrderNote;
+
+    if (_userNotes.text == "null") {
+      _userNotes.text = "";
     }
   }
 
@@ -123,6 +132,9 @@ class CartViewState extends State<CartView> {
       subtotal = subtotal + ((int.parse(orderArray[i].price.split(".")[0])) * orderArray[i].productCount);
     }
 
+    OrderServices.updateOrderNote != null && OrderServices.orderUnderUpdateIndex != -1
+        ? WidgetsBinding.instance.addPostFrameCallback((_) => _userNotesInitial())
+        : Tools.logToConsole('');
     widget.isFromUpdateOrder
         ? WidgetsBinding.instance.addPostFrameCallback((_) => _showUpdateOrderInstruction(context: context))
         : Tools.logToConsole('');
@@ -504,14 +516,27 @@ class CartViewState extends State<CartView> {
     if (CartServices.cartProducts.length > 0) {
       if (OrderServices.orderUnderUpdateIndex == -1) {
         Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => new DeliverToView(
-                      subTotal: subtotal,
-                    )));
+          context,
+          new MaterialPageRoute(
+            builder: (context) => new DeliverToView(
+              subTotal: subtotal,
+              userNote: _userNotes.text,
+              orderArray: orderArray,
+            ),
+          ),
+        );
       } else {
         if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
-          Navigator.push(context, new MaterialPageRoute(builder: (context) => new DeliveryMethodView()));
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) => new DeliveryMethodView(
+                subTotal: subtotal,
+                orderArray: orderArray,
+                userNote: _userNotes.text,
+              ),
+            ),
+          );
         } else {
           Navigator.push(context, new MaterialPageRoute(builder: (context) => new CartViewFinal()));
         }

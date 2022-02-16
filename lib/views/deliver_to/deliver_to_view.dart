@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
@@ -13,8 +14,10 @@ import 'delivery_method.dart';
 class DeliverToView extends StatefulWidget {
   final int subTotal;
   static int selectedIndex;
+  final String userNote;
+  final List<ProductData> orderArray;
 
-  const DeliverToView({Key key, this.subTotal}) : super(key: key);
+  const DeliverToView({Key key, this.subTotal, this.userNote, this.orderArray}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -312,11 +315,15 @@ class DeliverToViewState extends State<DeliverToView> {
     if (DeliverToView.selectedIndex != null) {
       if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
         Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => new DeliveryMethodView(
-                      subTotal: widget.subTotal,
-                    )));
+          context,
+          new MaterialPageRoute(
+            builder: (context) => new DeliveryMethodView(
+              subTotal: widget.subTotal,
+              userNote: widget.userNote,
+              orderArray: widget.orderArray,
+            ),
+          ),
+        );
       } else {
         Navigator.push(context, new MaterialPageRoute(builder: (context) => new CartViewFinal()));
       }
