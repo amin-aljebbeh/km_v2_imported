@@ -59,6 +59,7 @@ dependencies:
   custom_splash: ^0.0.2
   webview_flutter: ^1.0.7
   flutter_inappwebview: ^4.0.0+4
+  # flutter_inappwebview: ^5.0.5+3
   
 
 

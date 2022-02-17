@@ -13,7 +13,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="كمون"
         android:icon="@mipmap/ic_launcher"
-        android:usesCleartextTraffic="false"
+        android:usesCleartextTraffic="true"
         android:hasFragileUserData="true"
         android:taskAffinity=""
         android:networkSecurityConfig="@xml/network_security_config">
