@@ -17,18 +17,11 @@ class StringUtils {
   static String entrance = 'المدخل ';
   static String addAddress = 'إضافة عنوان جديد';
 
-  //Images
-  static String rightArrow = 'assets/right_arrow.png';
-  static String logo = 'assets/logo.jpg';
-  static String google = 'assets/google.png';
-  static String facebook = 'assets/facebook.png';
-  static String email = 'assets/email.png';
-
   // Tabs
   static String store = 'الرئيسية';
   static String cart = 'السلة';
   static String orders = 'الطلبات';
-  static String profile = 'المفضلة';
+  static String profile = 'الملف الشخصي';
 
   static String search = 'بحث';
   static String shopByCategory = 'الأصناف';

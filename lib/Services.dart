@@ -2,14 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'core/core_importer.dart';
 import 'models/models_importer.dart';
-import 'views/restart/kammunapp_restart.dart';
 
 class Services {
   static bool updateOption = false;
@@ -229,9 +228,14 @@ class Services {
     launch(url, forceSafariVC: false);
   }
 
-  static Future<void> logOut(BuildContext context) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.clear();
-    KammunRestart.restartApp(context);
+  static shareApp() {
+    String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
+    String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
+
+    String androidUrl = androidGrating + LoadingScreenServices.iOSShareUrl;
+    String iosGrating = "\n لتحميل التطبيق على الآيفون \n";
+    String iPhoneUrl = iosGrating + LoadingScreenServices.androidShareUrl;
+
+    Share.share(infoMessage + androidUrl + iPhoneUrl);
   }
 }
