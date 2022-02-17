@@ -8,6 +8,7 @@ import 'package:kammun_app/views/store/store_view_category_grid.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 import '../../Services.dart';
+import '../management_view/management_view.dart';
 import 'package:share/share.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
@@ -196,265 +197,214 @@ class StoreViewState extends State<StoreView> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width / 1.5,
-            child: Drawer(
-              child: Column(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    height: 60,
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: DrawerHeader(
-                        decoration:
-                            BoxDecoration(color: Colors.white, border: Border.all(color: ColorUtils.kmColors)),
-                        child: InkWell(
-                          onTap: () => Navigator.of(context).pop(),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 1.5,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: ColorUtils.kmColors,
-                                  ),
-                                ),
-                                Text(
-                                  LoadingScreenServices.name,
-                                  style: userNameStyle.copyWith(
-                                    fontSize: 30,
-                                    color: ColorUtils.kmColors,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                      child: Image.asset(
-                        "assets/kmlogoo.png",
-                        width: 250,
-                        height: 200,
-                      ),
-                      color: Colors.white),
-                  Divider(
-                    color: ColorUtils.kmColors,
-                  ),
-                  Container(
-                    height: 550,
-                    child: ListView(
-                      primary: false,
-                      children: <Widget>[
+      drawer: KDrawer(
+        children: [
+          SideBarRow(
+            icon: Icons.phone,
+            text: "الإتصال بكمون",
+            onTap: () => _openUrl("number"),
+          ),
+          SideBarRow(
+            icon: Icons.share,
+            text: "إرسال التطبيق للأصدقاء",
+            onTap: () => _shareApp(),
+          ),
+          SideBarRow(
+            icon: Icons.person,
+            text: StringUtils.profile,
+            onTap: () {
+              Navigator.of(context).pushNamed('/profile');
+            },
+          ),
+          if (Services.isOperationManager())
+            SideBarRow(
+              icon: Icons.supervisor_account_sharp,
+              text: 'فريق التوصيل',
+              onTap: () {
+                Navigator.of(context).pushNamed('/ShopperManagementView');
+              },
+            ),
+          if (Services.isShopper())
+            SideBarRow(
+              icon: Icons.featured_play_list,
+              text: "كشف حساب المتسوق",
+              onTap: () {
+                Navigator.of(context).pushNamed('/ShopperTransactionView');
+              },
+            ),
+          if (Services.isAccounting())
+            SideBarRow(
+              text: StringUtils.financial,
+              icon: Icons.account_balance,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ManagementView(
+                      title: StringUtils.financial,
+                      children: [
                         SideBarRow(
-                          icon: Icons.phone,
-                          text: "الإتصال بكمون",
-                          onTap: () => _openUrl("number"),
-                        ),
-                        SideBarRow(
-                          icon: Icons.share,
-                          text: "إرسال التطبيق للأصدقاء",
-                          onTap: () => _shareApp(),
-                        ),
-                        SideBarRow(
-                          icon: Icons.person,
-                          text: StringUtils.profile,
+                          icon: Icons.featured_play_list,
+                          text: "كشف حساب المتسوق",
                           onTap: () {
-                            Navigator.of(context).pushNamed('/profile');
+                            Navigator.of(context).pushNamed('/AccountantTransactionView');
                           },
                         ),
-                        if (Services.isOperationManager())
-                          SideBarRow(
-                            icon: Icons.supervisor_account_sharp,
-                            text: 'فريق التوصيل',
-                            onTap: () {
-                              Navigator.of(context).pushNamed('/ShopperManagementView');
-                            },
-                          ),
-                        Services.isShopper() || Services.isAccounting()
-                            ? SideBarRow(
-                                icon: Icons.featured_play_list,
-                                text: "كشف حساب المتسوق",
-                                onTap: () {
-                                  String rout = Services.isShopper()
-                                      ? '/ShopperTransactionView'
-                                      : '/AccountantTransactionView';
-                                  Navigator.of(context).pushNamed(rout);
-                                },
-                              )
-                            : Container(),
-                        Services.isAccounting()
-                            ? Column(
-                                children: [
-                                  SideBarRow(
-                                    icon: Icons.money,
-                                    text: "إضافة مناقلة",
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed('/AddTransactionView');
-                                    },
-                                  ),
-                                  SideBarRow(
-                                    icon: Icons.account_balance,
-                                    text: "أرصدة الموردين",
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed('/SupplierAccounts');
-                                    },
-                                  ),
-                                ],
-                              )
-                            : Container(),
-                        if (Services.isSupplierManager())
-                          SideBarRow(
-                            icon: Icons.account_balance,
-                            text: "كشف حساب المورد",
-                            onTap: () {
-                              Navigator.of(context).pushNamed('/SupplierAccounts');
-                            },
-                          ),
-                        Services.isSupplierManager() || Services.isProductsController() || Services.isAdmin()
-                            ? SideBarRow(
-                                icon: Icons.inventory,
-                                text: "إدارة المستودعات",
-                                onTap: () {
-                                  Navigator.of(context).pushNamed('/subWarehouseManagement');
-                                },
-                              )
-                            : Container(),
-                        Services.isProductsController()
-                            ? Column(
-                                children: [
-                                  SideBarRow(
-                                    icon: Icons.category,
-                                    text: "المنتجات المضافة للمستودع",
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed('/products_added_to_warehouse');
-                                    },
-                                  ),
-                                  SideBarRow(
-                                    icon: Icons.category_outlined,
-                                    text: "المنتجات الغير مضافة للمستودع",
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed('/products_not_added_to_warehouse');
-                                    },
-                                  ),
-                                  Services.isAdmin()
-                                      ? SideBarRow(
-                                          icon: Icons.category_rounded,
-                                          text: "جميع المنتجات",
-                                          onTap: () {
-                                            Navigator.of(context).pushNamed('/all_products');
-                                          },
-                                        )
-                                      : Container(),
-                                  SideBarRow(
-                                    icon: Icons.fact_check,
-                                    text: StringUtils.inventory,
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed('/Inventory');
-                                    },
-                                  ),
-                                  SideBarRow(
-                                    icon: Icons.filter_list_sharp,
-                                    text: 'فلترة المنتجات',
-                                    onTap: () {
-                                      Navigator.of(context).pushNamed('/products_filter');
-                                    },
-                                  ),
-                                ],
-                              )
-                            : Container(),
-                        Services.isAdmin() || Services.isSuperAdmin()
-                            ? SideBarRow(
-                                icon: Icons.report_sharp,
-                                text: "إحصائيات",
-                                onTap: () {
-                                  Navigator.of(context).pushNamed('/statistics');
-                                },
-                              )
-                            : Container(),
-                        Services.isAdmin()
-                            ? SideBarRow(
-                                icon: Icons.attach_money,
-                                text: "تغير الأسعار",
-                                onTap: () {
-                                  Navigator.of(context).pushNamed('/priceChange');
-                                },
-                              )
-                            : Container(),
                         SideBarRow(
-                          icon: Icons.logout,
-                          text: "تسجيل الخروج",
-                          onTap: () async {
-                            await Services.logOutAdmin(context);
+                          icon: Icons.money,
+                          text: "إضافة مناقلة",
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/AddTransactionView');
                           },
                         ),
-                        Divider(
-                          color: ColorUtils.kmColors,
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                InkWell(
-                                  onTap: () => _openUrl("facebook"),
-                                  child: Icon(
-                                    FontAwesomeIcons.facebookF,
-                                    color: ColorUtils.primaryColor,
-                                    size: 30,
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () => _openUrl("instagram"),
-                                  child: Icon(
-                                    FontAwesomeIcons.instagram,
-                                    color: ColorUtils.primaryColor,
-                                    size: 30,
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () => _openUrl("messenger"),
-                                  child: Icon(
-                                    FontAwesomeIcons.facebookMessenger,
-                                    color: ColorUtils.primaryColor,
-                                    size: 30,
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () => _openUrl("whatsapp"),
-                                  child: Icon(
-                                    FontAwesomeIcons.whatsapp,
-                                    color: ColorUtils.primaryColor,
-                                    size: 30,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 100,
+                        SideBarRow(
+                          icon: Icons.account_balance_wallet_outlined,
+                          text: "أرصدة الموردين",
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/SupplierAccounts');
+                          },
                         ),
                       ],
                     ),
                   ),
+                );
+              },
+            ),
+          if (Services.isSupplierManager())
+            SideBarRow(
+              icon: Icons.account_balance,
+              text: "كشف حساب المورد",
+              onTap: () {
+                Navigator.of(context).pushNamed('/SupplierAccounts');
+              },
+            ),
+          Services.isSupplierManager() || Services.isProductsController() || Services.isAdmin()
+              ? SideBarRow(
+                  icon: Icons.inventory,
+                  text: "إدارة المستودعات",
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/subWarehouseManagement');
+                  },
+                )
+              : Container(),
+          if (Services.isProductsController())
+            SideBarRow(
+              text: StringUtils.productManagement,
+              icon: Icons.category,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ManagementView(
+                      title: StringUtils.productManagement,
+                      children: [
+                        SideBarRow(
+                          icon: Icons.category,
+                          text: "المنتجات المضافة للمستودع",
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/products_added_to_warehouse');
+                          },
+                        ),
+                        SideBarRow(
+                          icon: Icons.category_outlined,
+                          text: "المنتجات الغير مضافة للمستودع",
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/products_not_added_to_warehouse');
+                          },
+                        ),
+                        Services.isAdmin()
+                            ? SideBarRow(
+                                icon: Icons.category_rounded,
+                                text: "جميع المنتجات",
+                                onTap: () {
+                                  Navigator.of(context).pushNamed('/all_products');
+                                },
+                              )
+                            : Container(),
+                        SideBarRow(
+                          icon: Icons.fact_check,
+                          text: StringUtils.inventory,
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/Inventory');
+                          },
+                        ),
+                        SideBarRow(
+                          icon: Icons.filter_list_sharp,
+                          text: 'فلترة المنتجات',
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/products_filter');
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          if (Services.isAdmin() || Services.isSuperAdmin())
+            SideBarRow(
+              text: StringUtils.adminPanel,
+              icon: Icons.admin_panel_settings,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ManagementView(
+                      title: StringUtils.adminPanel,
+                      children: [
+                        SideBarRow(
+                          icon: Icons.report_sharp,
+                          text: "إحصائيات المبيعات",
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/sales_reports');
+                          },
+                        ),
+                        SideBarRow(
+                          icon: Icons.report_gmailerrorred_sharp,
+                          text: "تقرير المطابقة",
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/matching_report');
+                          },
+                        ),
+                        SideBarRow(
+                          icon: Icons.attach_money,
+                          text: "تغير الأسعار",
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/priceChange');
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          SideBarRow(
+            icon: Icons.logout,
+            text: "تسجيل الخروج",
+            onTap: () async {
+              await Services.logOutAdmin(context);
+            },
+          ),
+          Divider(
+            color: ColorUtils.kmColors,
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  MediaIcon(icon: FontAwesomeIcons.facebookF, url: "facebook"),
+                  MediaIcon(icon: FontAwesomeIcons.instagram, url: "instagram"),
+                  MediaIcon(icon: FontAwesomeIcons.facebookMessenger, url: "messenger"),
+                  MediaIcon(icon: FontAwesomeIcons.whatsapp, url: "whatsapp"),
                 ],
               ),
             ),
           ),
-        ),
+        ],
       ),
       appBar: PreferredSize(
         child: AppBar(

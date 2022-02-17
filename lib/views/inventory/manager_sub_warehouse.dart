@@ -6,6 +6,9 @@ import 'package:kammun_app/views/inventory/sub_warehouse_products.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'services/inventory_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'inventory_importer.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
 
 class GetSubWarehouse extends StatefulWidget {
   const GetSubWarehouse({Key key}) : super(key: key);
@@ -109,7 +112,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                     ),
                     KammunButton(
                       height: 50,
-                      text: StringUtils.next,
+                      text: 'استعراض المستودع',
                       color: selected ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
                       onTap: () {
                         if (selected)
@@ -122,6 +125,28 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                             ),
                           );
                         else
+                          Toast.show('يرجى اختيار المستودع', context,
+                              duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                      },
+                    ),
+                    KammunButton(
+                      height: 50,
+                      text: 'رفع ملف الجرد',
+                      color: selected ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
+                      onTap: () async {
+                        if (selected) {
+                          File file = await pickFile();
+                          if (file != null)
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ExcelInventory(
+                                  file: file,
+                                  subWarehouseId: _selectedSubWarehouseValue.toString(),
+                                ),
+                              ),
+                            );
+                        } else
                           Toast.show('يرجى اختيار المستودع', context,
                               duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                       },
@@ -144,6 +169,13 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                 ),
               ),
       ),
+    );
+  }
+
+  Future<File> pickFile() async {
+    return await FilePicker.getFile(
+      type: FileType.custom,
+      allowedExtensions: ['xlsx', 'xlsm', 'xlsb', 'xltx', 'xltm', 'xls', 'xlt', 'xls', 'xlw', 'xlr'],
     );
   }
 }

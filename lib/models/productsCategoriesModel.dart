@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 
 CategoryProduct categoryProductFromJson(String str) => CategoryProduct.fromJson(json.decode(str));
 
@@ -153,24 +152,20 @@ class ProductData {
   List<Barcode> barcodes;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
-    Tools.logToConsole('we are here son');
     if (json == null) {
-      Tools.logToConsole('jojo');
       return null;
     }
-    Tools.logToConsole('(json["products_price_change"] == null).toString()');
-    Tools.logToConsole((json["product_id"] == null).toString());
     ProductData productData = ProductData(
       id: json["id"] == null ? json["product_id"] : json["id"],
-      name: json["name"],
+      name: json["name"] != null ? json["name"] : json['nameProduct'],
       description: json["description"],
       unit: json["unit"].toString(),
       price: json["price"] != null ? json["price"].toString() : '0',
-      priceChange: json["price_change"] == null ? null : json["price_change"].toString(),
+      priceChange: json["price_change"] == null ? '0' : json["price_change"].toString(),
       isActive: json["is_active"] != null ? json["is_active"].toString() : 'null',
-      quantity: json["quantity"],
-      productCount: json["productCount"],
-      supplierCode: json["supplier_code"] == null ? null : json["supplier_code"],
+      quantity: json["quantity"] == null ? '0' : json["quantity"],
+      productCount: json["productCount"] == null ? '0' : json["productCount"],
+      supplierCode: json["supplier_code"] == null ? json["supplierCode"] : json["supplier_code"],
       warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"],
       subWarehouseId: json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
       isFeatured: json["is_featured"] == null ? null : json["is_featured"],

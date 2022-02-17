@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'core/core_importer.dart';
 import 'utils/utils_importer.dart';
+import 'package:share/share.dart';
 
 class Services {
   static List<Role> roles = [];
@@ -549,5 +550,42 @@ class Services {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  static openUrl(String selected) async {
+    String url = "";
+    if (selected == "whatsapp") {
+      url = 'whatsapp://send?phone=' + LoadingScreenServices.companyInformation.whatsappNumber;
+    } else if (selected == "messenger") {
+      url = LoadingScreenServices.companyInformation.messengerUrl;
+    } else if (selected == "facebook") {
+      url = "fb://page/" + LoadingScreenServices.companyInformation.facebookUrl.toString();
+    } else if (selected == "instagram") {
+      url = LoadingScreenServices.companyInformation.instagramUrl.toString();
+    } else if (selected == "website") {
+      url = LoadingScreenServices.companyInformation.websiteUrl.toString();
+    } else if (selected == "email") {
+      String platform = "Android";
+      if (Platform.isIOS) {
+        platform = "iPhone";
+      }
+      url =
+          "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
+    } else if (selected == "number") {
+      url = "tel:${LoadingScreenServices.supportPhoneNumber}";
+    }
+
+    launch(url);
+  }
+
+  static shareApp() {
+    String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
+    String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
+
+    String androidUrl = androidGrating + LoadingScreenServices.iOSShareUrl;
+    String iosGrating = "\n لتحميل التطبيق على الآيفون \n";
+    String iPhoneUrl = iosGrating + LoadingScreenServices.androidShareUrl;
+
+    Share.share(infoMessage + androidUrl + iPhoneUrl);
   }
 }

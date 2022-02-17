@@ -27,6 +27,10 @@ class StringUtils {
   static String cart = 'السلة';
   static String allOrders = 'كل الطلبات';
   static String profile = 'الملف الشخصي';
+  static String financial = 'الحسابات';
+  static String inventory = 'جرد المنتجات';
+  static String productManagement = 'إدارة المنتجات';
+  static String adminPanel = 'لوحة تحكم المدير';
 
   static String search = 'بحث';
   static String shopByCategory = 'الأصناف';
@@ -61,7 +65,6 @@ class StringUtils {
 
   //Order icons:
   static String myOrders = 'طلباتي';
-  static String inventory = 'جرد المنتجات';
 
   //Buttons text:
   static String watchNote = 'مشاهدة ملاحظة العميل';
