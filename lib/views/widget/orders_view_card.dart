@@ -6,6 +6,7 @@ import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:intl/intl.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
 
 class OrdersViewCard extends StatefulWidget {
@@ -23,8 +24,40 @@ class OrdersViewCard extends StatefulWidget {
   }
 }
 
-openMapsSheet(context, lat, lon) async {
-  try {} catch (e) {}
+openMapsSheet(context, double lat, double lon) async {
+  Tools.logToConsole('message');
+  try {
+    final coords = Coords(lat, lon);
+    final title = "Ocean Beach";
+    final availableMaps = await MapLauncher.installedMaps;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  for (var map in availableMaps)
+                    ListTile(
+                      onTap: () => map.showMarker(
+                        coords: coords,
+                        title: title,
+                      ),
+                      title: Text(map.mapName),
+                      leading: Icon(Icons.map),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  } catch (e) {
+    Tools.logToConsole(e.toString());
+  }
 }
 
 class OrdersViewCardState extends State<OrdersViewCard> {
@@ -188,14 +221,30 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   )
                 ],
               ),
-              LabelRow(
-                rightSideText: StringUtils.phoneNumber,
-                leftSideText: widget.orderData.userData.phone,
-                leftSideStyle: paragraphStyle.copyWith(
-                  color: ColorUtils.kmColors,
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => Services.makePhoneCall(widget.orderData.userData.phone),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  LabelRow(
+                    rightSideText: StringUtils.phoneNumber,
+                    leftSideText: widget.orderData.userData.phone,
+                    leftSideStyle: paragraphStyle.copyWith(
+                      color: ColorUtils.kmColors,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => Services.makePhoneCall(widget.orderData.userData.phone),
+                  ),
+                  if (widget.orderData.address.lat != -1 && widget.orderData.address.lon != -1)
+                    IconButton(
+                      icon: Icon(
+                        Icons.location_on,
+                        color: ColorUtils.kmColors,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        openMapsSheet(context, widget.orderData.address.lat, widget.orderData.address.lon);
+                      },
+                    ),
+                ],
               ),
               LabelRow(
                 rightSideText: StringUtils.address + " : ",

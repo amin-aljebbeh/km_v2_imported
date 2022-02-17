@@ -18,8 +18,8 @@ class OrderAddress {
   String floor;
   String description;
   int deliveryPrice;
-  String lat;
-  String lon;
+  double lat;
+  double lon;
   String entrance;
 
   factory OrderAddress.fromJson(Map<String, dynamic> json) => OrderAddress(
@@ -29,10 +29,9 @@ class OrderAddress {
         building: json["building"].toString(),
         floor: json["floor"].toString(),
         description: json["description"].toString(),
-        deliveryPrice:
-            json["deliveryPrice"] == null ? null : json['deliveryPrice'],
-        lat: json["lat"].toString(),
-        lon: json["lon"].toString(),
+        deliveryPrice: json["deliveryPrice"] == null ? null : json['deliveryPrice'],
+        lat: json["lat"] != null ? json["lat"] : -1,
+        lon: json["lon"] != null ? json["lon"] : -1,
         entrance: json["entrance"].toString(),
       );
 
