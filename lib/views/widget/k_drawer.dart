@@ -1,14 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../Services.dart';
 import 'widgets_importer.dart';
 
 class KDrawer extends StatelessWidget {
-  final List<SideBarRow> children;
-
-  const KDrawer({Key key, this.children}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    List<Widget> children = [
+      SideBarRow(
+        onTap: () {
+          Services.openUrl("number");
+        },
+        text: 'الإتصال بكمون',
+        icon: Icons.phone,
+      ),
+      SideBarRow(
+        onTap: () {
+          Services.shareApp();
+        },
+        text: 'إرسال التطبيق للأصدقاء',
+        icon: Icons.share,
+      ),
+      SideBarRow(
+        onTap: () {
+          Navigator.of(context).pushNamed('/profile');
+        },
+        text: StringUtils.profile,
+        icon: Icons.person,
+      ),
+      SideBarRow(
+        onTap: () {
+          launch('http://kammun.com/privacy-policy.html', enableJavaScript: false);
+        },
+        text: 'سياسة الإستخدام',
+        icon: Icons.policy,
+      ),
+    ];
     return SafeArea(
       child: SingleChildScrollView(
         child: Container(

@@ -266,38 +266,7 @@ class StoreViewState extends State<StoreView> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: KDrawer(
-        children: [
-          SideBarRow(
-            onTap: () {
-              Services.openUrl("number");
-            },
-            text: 'الإتصال بكمون',
-            icon: Icons.phone,
-          ),
-          SideBarRow(
-            onTap: () {
-              Services.shareApp();
-            },
-            text: 'إرسال التطبيق للأصدقاء',
-            icon: Icons.share,
-          ),
-          SideBarRow(
-            onTap: () {
-              Navigator.of(context).pushNamed('/profile');
-            },
-            text: StringUtils.profile,
-            icon: Icons.person,
-          ),
-          SideBarRow(
-            onTap: () {
-              launch('http://kammun.com/privacy-policy.html', enableJavaScript: false);
-            },
-            text: 'سياسة الإستخدام',
-            icon: Icons.policy,
-          ),
-        ],
-      ),
+      drawer: KDrawer(),
       appBar: PreferredSize(
         child: AppBar(
           iconTheme: new IconThemeData(color: Colors.transparent),

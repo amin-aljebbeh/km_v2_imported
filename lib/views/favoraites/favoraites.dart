@@ -5,9 +5,6 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/favoraites/services/product_favoraites_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../../Services.dart';
 
 class Favoraites extends StatefulWidget {
   @override
@@ -85,38 +82,7 @@ class FavoraitesViewState extends State<Favoraites> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      drawer: KDrawer(
-        children: [
-          SideBarRow(
-            onTap: () {
-              Services.openUrl("number");
-            },
-            text: 'الإتصال بكمون',
-            icon: Icons.phone,
-          ),
-          SideBarRow(
-            onTap: () {
-              Services.shareApp();
-            },
-            text: 'إرسال التطبيق للأصدقاء',
-            icon: Icons.share,
-          ),
-          SideBarRow(
-            onTap: () {
-              Navigator.of(context).pushNamed('/profile');
-            },
-            text: StringUtils.profile,
-            icon: Icons.person,
-          ),
-          SideBarRow(
-            onTap: () {
-              launch('http://kammun.com/privacy-policy.html', enableJavaScript: false);
-            },
-            text: 'سياسة الإستخدام',
-            icon: Icons.policy,
-          ),
-        ],
-      ),
+      drawer: KDrawer(),
       key: scaffoldKey,
       appBar: PreferredSize(
         child: AppBar(
