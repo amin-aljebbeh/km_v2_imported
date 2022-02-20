@@ -268,7 +268,7 @@ class LoadingScreenServices {
         currency: "S.P",
         additionalInfo: "http://m.me/KammunApp");
 
-    imagePrefixUrl = BASE_URL + "/images/";
+    imagePrefixUrl = APP_URL + "/images/";
 
     // --------------------------------------------------------------------- //
 

@@ -357,7 +357,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       ],
                     ),
                     SizedBox(height: 15),
-                    int.parse(widget.product.isActive) == 0
+                    widget.product.isActive == '0'
                         ? Container(
                             height: 50,
                             width: MediaQuery.of(context).size.width,

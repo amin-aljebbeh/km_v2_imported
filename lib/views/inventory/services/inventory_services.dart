@@ -121,6 +121,7 @@ class InventoryServices {
         return null;
       }
     } catch (e) {
+      Tools.logToConsole(e.toString());
       Tools.logToConsole('message 1');
       return null;
     }
@@ -148,7 +149,7 @@ class InventoryServices {
       }
     } catch (e) {
       Tools.logToConsole(response.reasonPhrase);
-      Tools.logToConsole(response.statusCode);
+      Tools.logToConsole(e.toString());
       Tools.logToConsole('message 2');
       return null;
     }

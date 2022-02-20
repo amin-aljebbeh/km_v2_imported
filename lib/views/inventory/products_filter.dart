@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 
@@ -209,7 +210,54 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                     if (searchFilter == null ||
                                         searchFilter == "" ||
                                         eachProduct.name.toLowerCase().contains(searchFilter.toLowerCase())) {
+                                      String id, supplierCode;
+                                      int isActive;
+                                      bool attached;
+                                      if (eachProduct.subWarehouseId != null)
+                                        id = eachProduct.subWarehouseId.toString();
+                                      else {
+                                        List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
+                                            .map((warehouse) => warehouse.id)
+                                            .toList();
+                                        List<int> productIds = eachProduct.warehouses
+                                            .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
+                                            .toList();
+                                        subWarehousesIds.removeWhere((id) => !productIds.contains(id));
+                                        if (subWarehousesIds.length > 0)
+                                          id = subWarehousesIds[0].toString();
+                                        else if (eachProduct.warehouses.isNotEmpty)
+                                          id = eachProduct.warehouses[0].pivot.subWarehouseId;
+                                      }
+                                      if (eachProduct.supplierCode != null)
+                                        supplierCode = eachProduct.supplierCode;
+                                      else if (eachProduct.warehouses.isNotEmpty)
+                                        supplierCode = eachProduct.warehouses
+                                            .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
+                                            .pivot
+                                            .supplierCode;
+                                      if (eachProduct.isActive != 'null') {
+                                        isActive = int.parse(eachProduct.isActive);
+                                      } else if (eachProduct.warehouses.isNotEmpty) {
+                                        isActive = int.parse(eachProduct.warehouses[0].pivot.isActive);
+                                      }
+                                      attached = false;
+                                      if (eachProduct.supplierCode != 'null')
+                                        attached = true;
+                                      else if (eachProduct.warehouses != null) if (eachProduct
+                                          .warehouses.isNotEmpty) {
+                                        attached = eachProduct.warehouses
+                                                .map((warehouse) => warehouse.pivot.supplierCode)
+                                                .toList()
+                                                .where((code) => code != 'null')
+                                                .toList()
+                                                .length >
+                                            0;
+                                      }
                                       return InventoryProductsViewCard(
+                                        id: id,
+                                        attached: attached,
+                                        isActive: isActive,
+                                        supplierCode: supplierCode,
                                         price: productsList[index].price != '0'
                                             ? productsList[index].price
                                             : productsList[index].warehouses.isNotEmpty
@@ -232,8 +280,9 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                         onDelete: (bool) {
                                           setState(() {
                                             if (bool) {
-                                              eachProduct.warehouses[0].pivot.supplierCode = null;
-                                              productsList.removeAt(index);
+                                              setState(() {
+                                                productsList.removeAt(index);
+                                              });
                                             }
                                           });
                                         },

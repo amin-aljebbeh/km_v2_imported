@@ -11,6 +11,7 @@ import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import '../../utils/utils_importer.dart';
 
+// ignore: must_be_immutable
 class InventoryProductsViewCard extends StatefulWidget {
   final Function(bool) onChangeStatus;
   final int oldPrice;
@@ -20,6 +21,10 @@ class InventoryProductsViewCard extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String barcode;
   final String price;
+  final String id;
+  final String supplierCode;
+  int isActive;
+  final bool attached;
 
   InventoryProductsViewCard({
     this.onChangeStatus,
@@ -30,6 +35,10 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.scaffoldKey,
     this.barcode,
     this.price,
+    this.id,
+    this.supplierCode,
+    this.isActive,
+    this.attached,
   });
 
   @override
@@ -40,15 +49,11 @@ class InventoryProductsViewCard extends StatefulWidget {
 
 class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   String subWarehouseName = '';
-  String id;
-  String supplierCode;
-  int isActive;
-  bool attached;
 
   _unAttachProduct() async {
     bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
       productsId: widget.productData.id.toString(),
-      subWarehouse: id,
+      subWarehouse: widget.id,
     );
     Services.resultFlushBar(context: context, result: result);
     if (result) {
@@ -58,43 +63,6 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
 
   @override
   void initState() {
-    setState(() {
-      if (widget.productData.subWarehouseId != null)
-        id = widget.productData.subWarehouseId.toString();
-      else {
-        List<int> subWarehousesIds = LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
-        List<int> productIds =
-            widget.productData.warehouses.map((warehouse) => int.parse(warehouse.pivot.subWarehouseId)).toList();
-        subWarehousesIds.removeWhere((id) => !productIds.contains(id));
-        if (subWarehousesIds.length > 0)
-          id = subWarehousesIds[0].toString();
-        else if (widget.productData.warehouses.isNotEmpty)
-          id = widget.productData.warehouses[0].pivot.subWarehouseId;
-      }
-      if (widget.productData.supplierCode != null)
-        supplierCode = widget.productData.supplierCode;
-      else if (widget.productData.warehouses.isNotEmpty)
-        supplierCode = widget.productData.warehouses
-            .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
-            .pivot
-            .supplierCode;
-      if (widget.productData.isActive != 'null') {
-        isActive = int.parse(widget.productData.isActive);
-      } else if (widget.productData.warehouses.isNotEmpty) {
-        isActive = int.parse(widget.productData.warehouses[0].pivot.isActive);
-      }
-      attached = false;
-      if (widget.productData.supplierCode != null)
-        attached = true;
-      else if (widget.productData.warehouses.isNotEmpty)
-        attached = widget.productData.warehouses
-                .map((warehouse) => warehouse.pivot.supplierCode)
-                .toList()
-                .where((code) => code != 'null')
-                .toList()
-                .length >
-            0;
-    });
     super.initState();
   }
 
@@ -111,8 +79,8 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
         padding: EdgeInsets.only(left: 0, right: 0, top: 10),
         child: GestureDetector(
           onTap: () {
-            if (widget.productData != null && supplierCode != null) {
-              widget.productData.isActive = isActive.toString();
+            if (widget.productData != null && widget.supplierCode != null) {
+              widget.productData.isActive = widget.isActive.toString();
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -213,18 +181,18 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                   Center(
                     child: Column(
                       children: [
-                        supplierCode != null &&
-                                LoadingScreenServices.subSupplierCodeHint.hasMatch(supplierCode) &&
-                                isActive != null &&
-                                id != null
+                        widget.supplierCode != null &&
+                                LoadingScreenServices.subSupplierCodeHint.hasMatch(widget.supplierCode) &&
+                                widget.isActive != null &&
+                                widget.id != null
                             ? SwitchProductStatusWidget(
                                 isForSubWarehouse: true,
-                                preState: isActive,
-                                subWarehouseId: int.parse(id),
+                                preState: widget.isActive,
+                                subWarehouseId: int.parse(widget.id),
                                 productId: widget.productData.id.toString(),
                                 onChange: (int active, bool result) {
                                   setState(() {
-                                    if (result) isActive = active;
+                                    if (result) widget.isActive = active;
                                   });
                                   widget.onChangeStatus(result);
                                   setState(() {});
@@ -243,7 +211,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                                       ),
                               border: Border.all(color: ColorUtils.primaryColor, width: 2)),
-                          child: attached && supplierCode != null && !widget.fromInventory
+                          child: widget.attached && widget.supplierCode != null && !widget.fromInventory
                               ? IconButton(
                                   icon: Icon(
                                     Icons.close_sharp,
@@ -266,7 +234,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                       ),
                                     ];
                                     subWarehouseName = LoadingScreenServices.subWarehouses
-                                        .firstWhere((subWarehouse) => subWarehouse.id.toString() == id,
+                                        .firstWhere((subWarehouse) => subWarehouse.id.toString() == widget.id,
                                             orElse: () => SubWarehouse(name: 'المستودع'))
                                         .name;
                                     showMyDialog(
@@ -331,7 +299,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                         bool result = await ProductsServices.updateProductsDetails(
                                             bodyKey: "under_check_availability",
                                             value: "0",
-                                            subWarehouseId: id,
+                                            subWarehouseId: widget.id,
                                             productId: widget.productData.id.toString());
                                         Services.resultFlushBar(context: context, result: result);
 

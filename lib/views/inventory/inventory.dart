@@ -227,7 +227,58 @@ class _InventoryState extends State<Inventory> {
                                   productsList[index].name.toLowerCase().contains(filter.toLowerCase())) {
                                 if (selectedSubWarehouseId == -1 ||
                                     productsList[index].subWarehouseId == selectedSubWarehouseId) {
+                                  String id, supplierCode;
+                                  int isActive;
+                                  bool attached;
+                                  if (productsList[index].subWarehouseId != null)
+                                    id = productsList[index].subWarehouseId.toString();
+                                  else {
+                                    List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
+                                        .map((warehouse) => warehouse.id)
+                                        .toList();
+                                    List<int> productIds = productsList[index]
+                                        .warehouses
+                                        .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
+                                        .toList();
+                                    subWarehousesIds.removeWhere((id) => !productIds.contains(id));
+                                    if (subWarehousesIds.length > 0)
+                                      id = subWarehousesIds[0].toString();
+                                    else if (productsList[index].warehouses.isNotEmpty)
+                                      id = productsList[index].warehouses[0].pivot.subWarehouseId;
+                                  }
+                                  if (productsList[index].supplierCode != null)
+                                    supplierCode = productsList[index].supplierCode;
+                                  else if (productsList[index].warehouses.isNotEmpty)
+                                    supplierCode = productsList[index]
+                                        .warehouses
+                                        .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
+                                        .pivot
+                                        .supplierCode;
+                                  if (productsList[index].isActive != 'null') {
+                                    isActive = int.parse(productsList[index].isActive);
+                                  } else if (productsList[index].warehouses.isNotEmpty) {
+                                    isActive = int.parse(productsList[index].warehouses[0].pivot.isActive);
+                                  }
+                                  attached = false;
+                                  if (productsList[index].supplierCode != 'null')
+                                    attached = true;
+                                  else if (productsList[index].warehouses != null) if (productsList[index]
+                                      .warehouses
+                                      .isNotEmpty) {
+                                    attached = productsList[index]
+                                            .warehouses
+                                            .map((warehouse) => warehouse.pivot.supplierCode)
+                                            .toList()
+                                            .where((code) => code != 'null')
+                                            .toList()
+                                            .length >
+                                        0;
+                                  }
                                   return InventoryProductsViewCard(
+                                    id: id,
+                                    attached: attached,
+                                    isActive: isActive,
+                                    supplierCode: supplierCode,
                                     price: productsList[index].price != '0'
                                         ? productsList[index].price
                                         : productsList[index].warehouses.isNotEmpty
@@ -239,14 +290,14 @@ class _InventoryState extends State<Inventory> {
                                     onChangeStatus: (result) {
                                       if (result) {
                                         setState(() {
-                                          productsList[index] = productsList.removeLast();
+                                          productsList.removeAt(index);
                                         });
                                       }
                                     },
                                     onDelete: (result) {
                                       if (result) {
                                         setState(() {
-                                          productsList[index] = productsList.removeLast();
+                                          productsList.removeAt(index);
                                         });
                                       }
                                     },

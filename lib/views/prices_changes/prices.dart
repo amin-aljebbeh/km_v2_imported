@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'model/prices_changes_model.dart';
@@ -122,7 +123,56 @@ class _PricesState extends State<Prices> {
                                   productsList.productsPriceChange[index].name
                                       .toLowerCase()
                                       .contains(filter.toLowerCase())) {
+                                String id, supplierCode;
+                                int isActive;
+                                bool attached;
+                                if (productsList.productsPriceChange[index].subWarehouseId != null)
+                                  id = productsList.productsPriceChange[index].subWarehouseId.toString();
+                                else {
+                                  List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
+                                      .map((warehouse) => warehouse.id)
+                                      .toList();
+                                  List<int> productIds = productsList.productsPriceChange[index].warehouses
+                                      .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
+                                      .toList();
+                                  subWarehousesIds.removeWhere((id) => !productIds.contains(id));
+                                  if (subWarehousesIds.length > 0)
+                                    id = subWarehousesIds[0].toString();
+                                  else if (productsList.productsPriceChange[index].warehouses.isNotEmpty)
+                                    id =
+                                        productsList.productsPriceChange[index].warehouses[0].pivot.subWarehouseId;
+                                }
+                                if (productsList.productsPriceChange[index].supplierCode != null)
+                                  supplierCode = productsList.productsPriceChange[index].supplierCode;
+                                else if (productsList.productsPriceChange[index].warehouses.isNotEmpty)
+                                  supplierCode = productsList.productsPriceChange[index].warehouses
+                                      .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
+                                      .pivot
+                                      .supplierCode;
+                                if (productsList.productsPriceChange[index].isActive != 'null') {
+                                  isActive = int.parse(productsList.productsPriceChange[index].isActive);
+                                } else if (productsList.productsPriceChange[index].warehouses.isNotEmpty) {
+                                  isActive = int.parse(
+                                      productsList.productsPriceChange[index].warehouses[0].pivot.isActive);
+                                }
+                                attached = false;
+                                if (productsList.productsPriceChange[index].supplierCode != 'null')
+                                  attached = true;
+                                else if (productsList.productsPriceChange[index].warehouses !=
+                                    null) if (productsList.productsPriceChange[index].warehouses.isNotEmpty) {
+                                  attached = productsList.productsPriceChange[index].warehouses
+                                          .map((warehouse) => warehouse.pivot.supplierCode)
+                                          .toList()
+                                          .where((code) => code != 'null')
+                                          .toList()
+                                          .length >
+                                      0;
+                                }
                                 return InventoryProductsViewCard(
+                                  id: id,
+                                  attached: attached,
+                                  isActive: isActive,
+                                  supplierCode: supplierCode,
                                   price: productsList.productsPriceChange[index].price != '0'
                                       ? productsList.productsPriceChange[index].price
                                       : productsList.productsPriceChange[index].warehouses.isNotEmpty
@@ -130,11 +180,13 @@ class _PricesState extends State<Prices> {
                                           : '0',
                                   scaffoldKey: scaffoldKey,
                                   onChangeStatus: (result) {
-                                    if (productsList.productsPriceChange[index].isActive == "1") {
-                                      productsList.productsPriceChange[index].isActive = "0";
-                                    } else {
-                                      productsList.productsPriceChange[index].isActive = "1";
-                                    }
+                                    setState(() {
+                                      if (productsList.productsPriceChange[index].isActive == "1") {
+                                        productsList.productsPriceChange[index].isActive = "0";
+                                      } else {
+                                        productsList.productsPriceChange[index].isActive = "1";
+                                      }
+                                    });
                                   },
                                   onDelete: (result) {
                                     if (result) {

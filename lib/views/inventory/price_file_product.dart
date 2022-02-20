@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'model/inventory_model_importer.dart';
 import 'services/inventory_services.dart';
 import 'dart:io';
@@ -16,9 +17,10 @@ class PriceFileProduct extends StatefulWidget {
   _PriceFileProductState createState() => _PriceFileProductState();
 }
 
-class _PriceFileProductState extends State<PriceFileProduct> {
+class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepAliveClientMixin<PriceFileProduct> {
   PriceFileProductModel importedProducts = PriceFileProductModel();
   List<ProductData> showList = List<ProductData>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool sent;
   bool error;
   bool loading;
@@ -67,7 +69,9 @@ class _PriceFileProductState extends State<PriceFileProduct> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
+      key: scaffoldKey,
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -118,8 +122,8 @@ class _PriceFileProductState extends State<PriceFileProduct> {
                             : showList.length == 0
                                 ? Center(
                                     child: AlertMessages(
-                                      text: StringUtils.errorMessage,
-                                      messageType: "green",
+                                      text: 'لا يوجد منتجات في هذا القسم',
+                                      messageType: "Successfully",
                                       headerText: 'لا يوجد منتجات في هذا القسم',
                                     ),
                                   )
@@ -127,7 +131,59 @@ class _PriceFileProductState extends State<PriceFileProduct> {
                                     scrollDirection: Axis.vertical,
                                     itemCount: showList.length,
                                     itemBuilder: (BuildContext context, int index) {
+                                      String id, supplierCode;
+                                      int isActive;
+                                      bool attached;
+                                      if (showList[index].subWarehouseId != null)
+                                        id = showList[index].subWarehouseId.toString();
+                                      else {
+                                        List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
+                                            .map((warehouse) => warehouse.id)
+                                            .toList();
+                                        List<int> productIds = showList[index]
+                                            .warehouses
+                                            .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
+                                            .toList();
+                                        subWarehousesIds.removeWhere((id) => !productIds.contains(id));
+                                        if (subWarehousesIds.length > 0)
+                                          id = subWarehousesIds[0].toString();
+                                        else if (showList[index].warehouses.isNotEmpty)
+                                          id = showList[index].warehouses[0].pivot.subWarehouseId;
+                                      }
+                                      if (showList[index].supplierCode != null)
+                                        supplierCode = showList[index].supplierCode;
+                                      else if (showList[index].warehouses.isNotEmpty)
+                                        supplierCode = showList[index]
+                                            .warehouses
+                                            .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
+                                            .pivot
+                                            .supplierCode;
+                                      if (showList[index].isActive != 'null') {
+                                        isActive = int.parse(showList[index].isActive);
+                                      } else if (showList[index].warehouses.isNotEmpty) {
+                                        isActive = int.parse(showList[index].warehouses[0].pivot.isActive);
+                                      }
+                                      attached = false;
+                                      if (showList[index].supplierCode != 'null')
+                                        attached = true;
+                                      else if (showList[index].warehouses != null) if (showList[index]
+                                          .warehouses
+                                          .isNotEmpty) {
+                                        attached = showList[index]
+                                                .warehouses
+                                                .map((warehouse) => warehouse.pivot.supplierCode)
+                                                .toList()
+                                                .where((code) => code != 'null')
+                                                .toList()
+                                                .length >
+                                            0;
+                                      }
                                       return InventoryProductsViewCard(
+                                        id: id,
+                                        attached: attached,
+                                        isActive: isActive,
+                                        supplierCode: supplierCode,
+                                        scaffoldKey: scaffoldKey,
                                         productData: showList[index],
                                         price: showList[index].price,
                                         fromInventory: false,
@@ -150,4 +206,7 @@ class _PriceFileProductState extends State<PriceFileProduct> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -50,29 +50,6 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
             Container(
               height: MediaQuery.of(context).size.height,
               child: QrCamera(
-                child: widget.requestType == BarcodeRequestType.addProduct ||
-                        widget.requestType == BarcodeRequestType.attachProduct
-                    ? Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              height: 1,
-                            ),
-                            KammunButton(
-                              height: 50,
-                              color: ColorUtils.primaryColor,
-                              onTap: () {
-                                Navigator.of(context).pop();
-                                widget.onIgnore(null);
-                              },
-                              text: 'الإضافة بدون كود',
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(),
                 onError: (context, error) => Text(
                   error.toString(),
                   style: TextStyle(color: Colors.red),
@@ -207,6 +184,29 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                 ],
               ),
             ),
+            widget.requestType == BarcodeRequestType.addProduct ||
+                    widget.requestType == BarcodeRequestType.attachProduct
+                ? Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 1,
+                        ),
+                        KammunButton(
+                          height: 50,
+                          color: ColorUtils.primaryColor,
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            widget.onIgnore(null);
+                          },
+                          text: 'الإضافة بدون كود',
+                        ),
+                      ],
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),

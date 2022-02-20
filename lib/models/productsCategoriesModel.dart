@@ -156,7 +156,11 @@ class ProductData {
       return null;
     }
     ProductData productData = ProductData(
-      id: json["id"] == null ? json["product_id"] : json["id"],
+      id: json["id"] == null
+          ? json["product_id"] == null
+              ? 0
+              : json["product_id"]
+          : json["id"],
       name: json["name"] != null ? json["name"] : json['nameProduct'],
       description: json["description"],
       unit: json["unit"].toString(),
@@ -165,8 +169,7 @@ class ProductData {
       isActive: json["is_active"] != null ? json["is_active"].toString() : 'null',
       quantity: json["quantity"] == null ? '0' : json["quantity"].toString(),
       productCount: json["productCount"] == null ? 0 : json["productCount"],
-      supplierCode:
-          json["supplier_code"] == null ? json["supplierCode"].toString() : json["supplier_code"].toString(),
+      supplierCode: json["supplier_code"] == null ? 'null' : json["supplier_code"].toString(),
       warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"],
       subWarehouseId: json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
       isFeatured: json["is_featured"] == null ? null : json["is_featured"],
