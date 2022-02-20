@@ -76,7 +76,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                 child: ListView(
                   children: [
                     Text(
-                      "يرجى إختيار المستودع التابع لهذه المادة",
+                      "يرجى إختيار المستودع",
                       style: TextStyle(
                         fontFamily: StringUtils.fontFamilyHKGrotesk,
                         fontWeight: FontWeight.bold,
@@ -129,28 +129,29 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                               duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                       },
                     ),
-                    KammunButton(
-                      height: 50,
-                      text: 'رفع ملف الجرد',
-                      color: selected ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
-                      onTap: () async {
-                        if (selected) {
-                          File file = await pickFile();
-                          if (file != null)
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ExcelInventory(
-                                  file: file,
-                                  subWarehouseId: _selectedSubWarehouseValue.toString(),
+                    if (!Services.isSupplierManager())
+                      KammunButton(
+                        height: 50,
+                        text: 'رفع ملف الجرد',
+                        color: selected ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
+                        onTap: () async {
+                          if (selected) {
+                            File file = await pickFile();
+                            if (file != null)
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ExcelInventory(
+                                    file: file,
+                                    subWarehouseId: _selectedSubWarehouseValue.toString(),
+                                  ),
                                 ),
-                              ),
-                            );
-                        } else
-                          Toast.show('يرجى اختيار المستودع', context,
-                              duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                      },
-                    ),
+                              );
+                          } else
+                            Toast.show('يرجى اختيار المستودع', context,
+                                duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                        },
+                      ),
                     SizedBox(
                       height: 10,
                     ),
