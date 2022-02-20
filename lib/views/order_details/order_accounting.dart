@@ -109,7 +109,9 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 ),
                 KTableElement(
                   text: StringUtils().oCcy.format(
-                        Services.kRound(widget.orderData.orderAccountingRows[i].payToSubWarehouse),
+                        widget.orderData.orderAccountingRows[i].directDiscount == 1
+                            ? Services.kRound(widget.orderData.orderAccountingRows[i].payToSubWarehouse)
+                            : widget.orderData.orderAccountingRows[i].payToSubWarehouse,
                       ),
                 ),
                 KTableElement(

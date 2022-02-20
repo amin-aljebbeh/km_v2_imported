@@ -203,6 +203,7 @@ class OrdersOriginalData {
     netPrice: 0,
     payToSubWarehouse: 0,
     increaseValuesSum: 0,
+    directDiscount: 0,
   );
 
   orderArithmeticOperations() {
@@ -216,6 +217,7 @@ class OrdersOriginalData {
             netPrice: 0,
             payToSubWarehouse: 0,
             increaseValuesSum: 0,
+            directDiscount: subWarehouse.directDiscount,
           ),
         )
         .toList();
@@ -242,7 +244,13 @@ class OrdersOriginalData {
               (row) => row.subWarehouseId == products[i].subWarehouseId,
               orElse: () => row,
             )
-            .payToSubWarehouse += netPrice - (netPrice * discountPercentage);
+            .payToSubWarehouse += netPrice;
+        orderAccountingRows
+            .firstWhere(
+              (row) => row.subWarehouseId == products[i].subWarehouseId && row.directDiscount == 1,
+              orElse: () => row,
+            )
+            .payToSubWarehouse -= (netPrice * discountPercentage);
       }
     return orderAccountingRows;
   }

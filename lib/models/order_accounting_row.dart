@@ -4,6 +4,7 @@ class OrderAccountingRow {
   double netPrice;
   double payToSubWarehouse;
   double increaseValuesSum;
+  int directDiscount;
 
   OrderAccountingRow({
     this.subWarehouseId,
@@ -11,5 +12,6 @@ class OrderAccountingRow {
     this.netPrice,
     this.payToSubWarehouse,
     this.increaseValuesSum,
+    this.directDiscount,
   });
 }

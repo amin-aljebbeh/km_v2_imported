@@ -163,9 +163,10 @@ class ProductData {
       price: json["price"] != null ? json["price"].toString() : '0',
       priceChange: json["price_change"] == null ? '0' : json["price_change"].toString(),
       isActive: json["is_active"] != null ? json["is_active"].toString() : 'null',
-      quantity: json["quantity"] == null ? '0' : json["quantity"],
-      productCount: json["productCount"] == null ? '0' : json["productCount"],
-      supplierCode: json["supplier_code"] == null ? json["supplierCode"] : json["supplier_code"],
+      quantity: json["quantity"] == null ? '0' : json["quantity"].toString(),
+      productCount: json["productCount"] == null ? 0 : json["productCount"],
+      supplierCode:
+          json["supplier_code"] == null ? json["supplierCode"].toString() : json["supplier_code"].toString(),
       warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"],
       subWarehouseId: json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
       isFeatured: json["is_featured"] == null ? null : json["is_featured"],

@@ -14,18 +14,18 @@ List<SubWarehouse> subWarehouseFromJson(String str) =>
 String subWarehouseToJson(List<SubWarehouse> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class SubWarehouse {
-  SubWarehouse({
-    this.id,
-    this.name,
-    this.description,
-    this.phone,
-    this.businessDomain,
-    this.accountingSystemId,
-    this.warehouseId,
-    this.adminPivot,
-    this.levelPivot,
-    this.discountPercentage,
-  });
+  SubWarehouse(
+      {this.id,
+      this.name,
+      this.description,
+      this.phone,
+      this.businessDomain,
+      this.accountingSystemId,
+      this.warehouseId,
+      this.adminPivot,
+      this.levelPivot,
+      this.discountPercentage,
+      this.directDiscount});
 
   int id;
   String name;
@@ -34,6 +34,7 @@ class SubWarehouse {
   String businessDomain;
   int accountingSystemId;
   int warehouseId;
+  int directDiscount;
   SubWarehouseAdminPivot adminPivot;
   SubWarehouseLevelPivot levelPivot;
   double discountPercentage;
@@ -59,6 +60,7 @@ class SubWarehouse {
         adminPivot: json["pivot"]["admin_id"] == null ? null : SubWarehouseAdminPivot.fromJson(json["pivot"]),
         levelPivot: json["pivot"]["level_id"] == null ? null : SubWarehouseLevelPivot.fromJson(json["pivot"]),
         discountPercentage: json["discount_percentage"] == null ? null : double.parse(json["discount_percentage"]),
+        directDiscount: json['direct_discount'],
       );
 
   Map<String, dynamic> toJson() => {
