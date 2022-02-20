@@ -186,6 +186,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                       0;
                                 }
                                 return InventoryProductsViewCard(
+                                  index: index + 100,
                                   id: id,
                                   attached: attached,
                                   isActive: isActive,

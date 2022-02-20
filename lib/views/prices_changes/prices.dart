@@ -169,6 +169,7 @@ class _PricesState extends State<Prices> {
                                       0;
                                 }
                                 return InventoryProductsViewCard(
+                                  index: 0,
                                   id: id,
                                   attached: attached,
                                   isActive: isActive,

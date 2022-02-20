@@ -179,6 +179,7 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                             0;
                                       }
                                       return InventoryProductsViewCard(
+                                        index: index,
                                         id: id,
                                         attached: attached,
                                         isActive: isActive,

@@ -270,6 +270,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                                   0;
                             }
                             return InventoryProductsViewCard(
+                              index: 0,
                               id: id,
                               attached: attached,
                               isActive: isActive,

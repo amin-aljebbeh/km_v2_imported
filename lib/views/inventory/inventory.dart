@@ -275,6 +275,7 @@ class _InventoryState extends State<Inventory> {
                                         0;
                                   }
                                   return InventoryProductsViewCard(
+                                    index: 0,
                                     id: id,
                                     attached: attached,
                                     isActive: isActive,

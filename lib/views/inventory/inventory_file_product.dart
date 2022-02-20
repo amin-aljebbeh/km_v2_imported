@@ -185,6 +185,7 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                                             0;
                                       }
                                       return InventoryProductsViewCard(
+                                        index: index,
                                         id: id,
                                         attached: attached,
                                         isActive: isActive,
@@ -198,10 +199,7 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                                         onChangeStatus: (result) {
                                           if (result) {
                                             setState(() {
-                                              if (showList.length == 1)
-                                                showList.clear();
-                                              else
-                                                showList[index] = showList.removeLast();
+                                              showList.removeAt(index);
                                             });
                                           }
                                         },

@@ -165,6 +165,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                     0;
                               }
                               return InventoryProductsViewCard(
+                                index: 0,
                                 id: id,
                                 attached: attached,
                                 isActive: isActive,

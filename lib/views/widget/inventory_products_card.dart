@@ -25,6 +25,7 @@ class InventoryProductsViewCard extends StatefulWidget {
   final String supplierCode;
   int isActive;
   final bool attached;
+  final int index;
 
   InventoryProductsViewCard({
     this.onChangeStatus,
@@ -39,6 +40,7 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.supplierCode,
     this.isActive,
     this.attached,
+    this.index,
   });
 
   @override
@@ -68,6 +70,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
 
   @override
   Widget build(BuildContext context) {
+    Tools.logToConsole(widget.productData.id);
     String price = widget.price;
     if (Services.isSupplierManager() && widget.price != '0') {
       price =
@@ -102,7 +105,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
               Row(
                 children: <Widget>[
                   KCacheImage(
-                    tag: widget.productData.id,
+                    tag: widget.productData.id + widget.index,
                     image: widget.productData.images.length > 0
                         ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
                         : "",
