@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/products_view/add_products.dart';
+import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:kammun_app/views/sub_category/sub_category.dart';
 
 class StoreViewCategory extends StatefulWidget {
+  final String supplierCode;
+  final bool forProductAdding;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  const StoreViewCategory({Key key, this.forProductAdding = false, this.scaffoldKey, this.supplierCode})
+      : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return StoreViewCategoryState();
@@ -76,18 +85,49 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
         new MaterialPageRoute(
           builder: (context) => new SubCategory(
             subCategory: subCategoryList,
+            forProductAdding: widget.forProductAdding,
+            scaffoldKey: widget.scaffoldKey,
+            supplierCode: widget.supplierCode,
           ),
         ),
       );
     } else {
-      Navigator.push(
-        context,
-        new MaterialPageRoute(
-          builder: (context) => new ProductsView(
-            categoryId: index.toString(),
+      if (widget.forProductAdding) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BarCodeScreen(
+              requestType: BarcodeRequestType.addProduct,
+              onIgnore: (barcode) {
+                int param;
+                if (barcode == null) {
+                  param = null;
+                } else {
+                  param = int.parse(barcode);
+                }
+                Navigator.push(
+                  widget.scaffoldKey.currentContext,
+                  new MaterialPageRoute(
+                    builder: (screenContext) => new AddProductsView(
+                      categoryId: index,
+                      barcode: param,
+                      supplierCode: widget.supplierCode,
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
-        ),
-      );
+        );
+      } else
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (context) => new ProductsView(
+              categoryId: index,
+            ),
+          ),
+        );
     }
   }
 }

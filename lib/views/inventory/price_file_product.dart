@@ -178,6 +178,7 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                                 .length >
                                             0;
                                       }
+                                      if (selectedList == 0) attached = false;
                                       return InventoryProductsViewCard(
                                         index: index,
                                         id: id,

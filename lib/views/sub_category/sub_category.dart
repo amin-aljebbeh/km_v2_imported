@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/products_view/add_products.dart';
+import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -12,8 +14,12 @@ class SubCategory extends StatefulWidget {
   int heroIndex;
   static int cartCount = 0;
   List<CategoryOriginalData> subCategory = [];
+  final bool forProductAdding;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final String supplierCode;
 
-  SubCategory({this.heroIndex, this.subCategory});
+  SubCategory(
+      {this.heroIndex, this.subCategory, this.forProductAdding = false, this.scaffoldKey, this.supplierCode});
 
   @override
   _SubCategoryState createState() => _SubCategoryState();
@@ -35,18 +41,49 @@ class _SubCategoryState extends State<SubCategory> {
           new MaterialPageRoute(
             builder: (context) => new SubCategory(
               subCategory: subCategoryList,
+              scaffoldKey: widget.scaffoldKey,
+              forProductAdding: widget.forProductAdding,
+              supplierCode: widget.supplierCode,
             ),
           ),
         );
       } else {
-        Navigator.push(
-          context,
-          new MaterialPageRoute(
-            builder: (context) => new ProductsView(
-              categoryId: index.toString(),
+        if (widget.forProductAdding) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BarCodeScreen(
+                requestType: BarcodeRequestType.addProduct,
+                onIgnore: (barcode) {
+                  int param;
+                  if (barcode == null) {
+                    param = null;
+                  } else {
+                    param = int.parse(barcode);
+                  }
+                  Navigator.push(
+                    widget.scaffoldKey.currentContext,
+                    new MaterialPageRoute(
+                      builder: (screenContext) => new AddProductsView(
+                        categoryId: index.toString(),
+                        barcode: param,
+                        supplierCode: widget.supplierCode,
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-        );
+          );
+        } else
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) => new ProductsView(
+                categoryId: index.toString(),
+              ),
+            ),
+          );
       }
     }
 

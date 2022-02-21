@@ -9,6 +9,7 @@ import 'package:kammun_app/views/products_attached_to_warehouse/services/added_p
 import 'package:kammun_app/views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
 import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+import 'package:kammun_app/views/store/store_view_category_grid.dart';
 import '../../utils/utils_importer.dart';
 
 // ignore: must_be_immutable
@@ -256,41 +257,58 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                         color: Colors.green,
                                       ),
                                       onPressed: () {
-                                        if (widget.barcode == null)
+                                        if (widget.productData.id == 0) {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (screenContext) => BarCodeScreen(
-                                                requestType: BarcodeRequestType.attachProduct,
-                                                onIgnore: (barcode) async {
-                                                  int param;
-                                                  if (barcode == null)
-                                                    param = null;
-                                                  else
-                                                    param = int.parse(barcode);
-                                                  Navigator.push(
-                                                    widget.scaffoldKey.currentContext,
-                                                    new MaterialPageRoute(
-                                                      builder: (context) => new AddProductsToSubWarehouse(
-                                                        barcode: param,
-                                                        productData: widget.productData,
+                                              builder: (screenContext) => Scaffold(
+                                                body: SafeArea(
+                                                  child: StoreViewCategory(
+                                                    scaffoldKey: widget.scaffoldKey,
+                                                    supplierCode: widget.supplierCode,
+                                                    forProductAdding: true,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        } else {
+                                          if (widget.barcode == null)
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (screenContext) => BarCodeScreen(
+                                                  requestType: BarcodeRequestType.attachProduct,
+                                                  onIgnore: (barcode) async {
+                                                    int param;
+                                                    if (barcode == null)
+                                                      param = null;
+                                                    else
+                                                      param = int.parse(barcode);
+                                                    Navigator.push(
+                                                      widget.scaffoldKey.currentContext,
+                                                      new MaterialPageRoute(
+                                                        builder: (context) => new AddProductsToSubWarehouse(
+                                                          barcode: param,
+                                                          productData: widget.productData,
+                                                        ),
                                                       ),
-                                                    ),
-                                                  );
-                                                },
+                                                    );
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        else
-                                          Navigator.push(
-                                            widget.scaffoldKey.currentContext,
-                                            new MaterialPageRoute(
-                                              builder: (context) => new AddProductsToSubWarehouse(
-                                                barcode: int.parse(widget.barcode),
-                                                productData: widget.productData,
+                                            );
+                                          else
+                                            Navigator.push(
+                                              widget.scaffoldKey.currentContext,
+                                              new MaterialPageRoute(
+                                                builder: (context) => new AddProductsToSubWarehouse(
+                                                  barcode: int.parse(widget.barcode),
+                                                  productData: widget.productData,
+                                                ),
                                               ),
-                                            ),
-                                          );
+                                            );
+                                        }
                                       },
                                     )
                                   : IconButton(

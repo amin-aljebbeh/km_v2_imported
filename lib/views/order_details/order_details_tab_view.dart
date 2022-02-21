@@ -45,7 +45,6 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
     screenList.add(
       OrderDetailViewMain(
         subTotal: widget.subTotal,
-        total: widget.total.split('.')[0],
         order: widget.orderData,
         orderType: widget.orderType,
         remaining: widget.remaining,

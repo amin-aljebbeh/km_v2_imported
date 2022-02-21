@@ -12,9 +12,10 @@ import '../../Services.dart';
 
 class AddProductsView extends StatefulWidget {
   final String categoryId;
+  final String supplierCode;
   final int barcode;
 
-  AddProductsView({@required this.categoryId, this.barcode});
+  AddProductsView({@required this.categoryId, this.barcode, this.supplierCode});
 
   @override
   _AddProductsViewState createState() => _AddProductsViewState();
@@ -178,6 +179,7 @@ class _AddProductsViewState extends State<AddProductsView> {
 
   @override
   void initState() {
+    if (widget.supplierCode != null) supplierCodeController.text = widget.supplierCode;
     nameController.text = null;
     super.initState();
   }

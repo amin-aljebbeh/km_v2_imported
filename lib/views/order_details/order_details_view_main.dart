@@ -10,13 +10,11 @@ class OrderDetailViewMain extends StatefulWidget {
   int subTotal;
   double remaining;
   double totalDiscount;
-  String total;
   OrdersOriginalData order;
   final OrderTypes orderType;
 
   OrderDetailViewMain({
     this.subTotal,
-    this.total,
     this.order,
     @required this.orderType,
     this.remaining,
@@ -186,6 +184,28 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                               ),
                               Text(
                                 "${StringUtils().oCcy.format(widget.totalDiscount)}" +
+                                    " ${LoadingScreenServices.companyInformation.currency}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).primaryColorDark,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontSize: 17.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 20, top: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                StringUtils.subtotal,
+                                style: darkBold,
+                              ),
+                              Text(
+                                "${StringUtils().oCcy.format(widget.subTotal)}" +
                                     " ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,

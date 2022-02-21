@@ -184,6 +184,7 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                                                 .length >
                                             0;
                                       }
+                                      if (selectedList == 0) attached = false;
                                       return InventoryProductsViewCard(
                                         index: index,
                                         id: id,

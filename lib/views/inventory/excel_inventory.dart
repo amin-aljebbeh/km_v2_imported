@@ -57,7 +57,7 @@ class _ExcelInventoryState extends State<ExcelInventory> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      initialIndex: 2,
+      initialIndex: 1,
       length: 2,
       child: Scaffold(
         appBar: AppBar(
