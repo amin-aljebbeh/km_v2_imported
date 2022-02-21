@@ -28,6 +28,8 @@ const String FILTER_BY_NUMBER_OF_VISITS = API + PRODUCT + 'filter_by_number_of_v
 
 const String FILTER_BY_LAST_ACTIVATION_DATE = API + PRODUCT + 'filter_by_last_activation_date';
 
+const String PRODUCTS_DELETED_FROM_ORDERS = API + PRODUCT + 'filter_deleted_products_from_orders';
+
 const String FILTER_BY_NUMBER_OF_SALES = API + PRODUCT + 'filter_by_number_of_sale';
 
 const String GET_PRICES_CHANGES = API + PRODUCT + 'products_price_change';

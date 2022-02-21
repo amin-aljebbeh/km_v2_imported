@@ -117,32 +117,18 @@ class StringUtils {
     'remaining-money': 'زوائد', //10
   };
 
-  static List<String> shopperLevels = ['مبتدئ', 'متوسط', 'متقدم', 'خبير', 'معلم'];
-
-  static List<String> productFilter = [
-    'الغير مفعلة',
-    'عدد مرات البيع',
-    'عدد مرات العرض',
-  ];
+  static List<String> productFilter = ['الغير مفعلة', 'عدد مرات البيع', 'عدد مرات العرض'];
 
   static List<String> productFilterUrls = [
     FILTER_BY_LAST_ACTIVATION_DATE,
     FILTER_BY_NUMBER_OF_SALES,
     FILTER_BY_NUMBER_OF_VISITS,
+    PRODUCTS_DELETED_FROM_ORDERS
   ];
 
-  static List<String> productFilterParams = [
-    'number_of_days',
-    'number_of_sale',
-    'number_of_visit',
-  ];
+  static List<String> productFilterParams = ['number_of_days', 'number_of_sale', 'number_of_visit'];
 
-  static List<String> orderTypes = [
-    'مسند لكابتن',
-    'بحاجة لكابتن',
-    'مسند لمتسوق',
-    'بحاجة لمتسوق',
-  ];
+  static List<String> orderTypes = ['مسند لكابتن', 'بحاجة لكابتن', 'مسند لمتسوق', 'بحاجة لمتسوق'];
 
   static List<String> orderStatus = [
     "فلترة الطلبات",

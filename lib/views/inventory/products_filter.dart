@@ -16,9 +16,12 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   TextEditingController searchController = new TextEditingController();
   TextEditingController valueController = new TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  String _fromDateTimeValue = "يرجى أختيار تاريخ البداية";
+  String _toDateTimeValue = "يرجى إختيار تاريخ النهاية";
 
   bool empty;
   bool selected;
+  bool deleted;
   bool loading;
   bool error;
   int biggerThan;
@@ -31,6 +34,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   void initState() {
     super.initState();
     biggerThan = 1;
+    deleted = false;
     empty = false;
     selected = false;
     page = 1;
@@ -44,7 +48,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   }
 
   getProducts() async {
-    if (filter == 0 && int.parse(valueController.text) <= 5) {
+    if (filter == 0 && int.parse(valueController.text) <= 5 && !deleted) {
       Toast.show("يرجى إدخال عدد أيام أكبر من 5", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
       return;
     }
@@ -54,7 +58,12 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
       if (productsList != null) productsList.clear();
     });
     var products = await InventoryServices.getFilteredProducts(
-        page: page, filterIndex: filter, number: valueController.text, biggerThan: biggerThan);
+        page: page,
+        filterIndex: deleted ? 3 : filter,
+        number: valueController.text,
+        biggerThan: biggerThan,
+        fromDate: _fromDateTimeValue,
+        toDate: _toDateTimeValue);
     setState(() {
       loading = false;
       if (products != null) {
@@ -72,6 +81,53 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
     return Scaffold(
       key: scaffoldKey,
       resizeToAvoidBottomInset: false,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ColorUtils.primaryColor,
+        onPressed: () {
+          showMyDialog(
+            title: 'اختر تاريخ',
+            context: context,
+            dialogButtons: [
+              DialogButton(
+                text: StringUtils.close,
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              DialogButton(
+                text: StringUtils.send,
+                onTap: () {
+                  Navigator.of(context).pop();
+                  if (validDates()) {
+                    setState(() {
+                      page = 1;
+                      loading = false;
+                      selected = false;
+                      deleted = true;
+                    });
+                    getProducts();
+                  }
+                },
+              )
+            ],
+            content: KDatePicker(
+              onConfirmStart: (date) {
+                setState(() {
+                  _fromDateTimeValue = date;
+                });
+              },
+              onConfirmEnd: (date) {
+                setState(() {
+                  _toDateTimeValue = date;
+                });
+              },
+            ),
+          );
+        },
+        child: Icon(
+          Icons.delete,
+        ),
+      ),
       appBar: InventorySearchTextField(
         onReload: () {
           if (valueController.text.isNotEmpty && selected) getProducts();
@@ -93,7 +149,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                     color: ColorUtils.primaryColor,
                   ),
                   onPressed: () {
-                    if (valueController.text.isNotEmpty && !empty && selected) {
+                    if (!empty && ((valueController.text.isNotEmpty && selected) || deleted)) {
                       setState(() {
                         page++;
                         loading = true;
@@ -114,6 +170,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                       filter = value;
                       page = 1;
                       selected = true;
+                      deleted = false;
                     });
                     if (valueController.text.isNotEmpty) {
                       getProducts();
@@ -127,7 +184,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                     color: ColorUtils.primaryColor,
                   ),
                   onPressed: () {
-                    if (valueController.text.isNotEmpty && !empty && selected) {
+                    if (valueController.text.isNotEmpty && !empty && selected && !deleted) {
                       setState(() {
                         if (biggerThan == 1)
                           biggerThan = 0;
@@ -142,8 +199,11 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: EntryField(
                     onSubmit: (value) {
-                      if (selected) {
-                        setState(() {});
+                      if (filter != null) {
+                        setState(() {
+                          deleted = false;
+                          selected = true;
+                        });
                         getProducts();
                       }
                     },
@@ -162,7 +222,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                     color: ColorUtils.primaryColor,
                   ),
                   onPressed: () {
-                    if (valueController.text.isNotEmpty && selected) {
+                    if ((valueController.text.isNotEmpty && selected) || deleted) {
                       setState(() {
                         if (page > 1) {
                           page--;
@@ -181,7 +241,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.78,
-              child: valueController.text.isNotEmpty && selected
+              child: (valueController.text.isNotEmpty && selected) || deleted
                   ? error
                       ? Center(
                           child: AlertMessages(
@@ -298,5 +358,9 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
         ),
       ),
     );
+  }
+
+  bool validDates() {
+    return _fromDateTimeValue != "يرجى أختيار تاريخ البداية" && _toDateTimeValue != "يرجى إختيار تاريخ النهاية";
   }
 }

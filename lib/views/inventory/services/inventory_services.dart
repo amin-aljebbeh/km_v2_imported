@@ -67,20 +67,28 @@ class InventoryServices {
   }
 
   static Future<List<ProductData>> getFilteredProducts(
-      {int page, int filterIndex, String number, int biggerThan}) async {
-    Map<String, dynamic> params = {
-      StringUtils.productFilterParams[filterIndex]: number,
-      'page': page,
-      'biggar_than': biggerThan
-    };
+      {int page,
+      int filterIndex,
+      String number = '0',
+      int biggerThan = 0,
+      String fromDate = ' ',
+      String toDate = ' '}) async {
+    Map<String, dynamic> params;
+    if (filterIndex < 3)
+      params = {StringUtils.productFilterParams[filterIndex]: number, 'page': page, 'biggar_than': biggerThan};
+    else
+      params = {'page': page, "from_date": fromDate, "to_date": toDate};
     var response = await ApiProvider.sendRequest(
-        url: StringUtils.productFilterUrls[filterIndex], method: httpMethods.get, queryParameters: params);
+      url: StringUtils.productFilterUrls[filterIndex],
+      method: httpMethods.get,
+      queryParameters: params,
+    );
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
       final result = filteredProductsModelFromJson(jsonEncode(response.data)).data.products;
 
       return result;
     } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+      Tools.logToConsole("--------------------");
       return null;
     }
   }
