@@ -28,8 +28,6 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
 
   @override
   void initState() {
-    Tools.logToConsole('widget.forProductAdding');
-    Tools.logToConsole(widget.forProductAdding);
     super.initState();
     setState(() {
       categoryListHome.clear();

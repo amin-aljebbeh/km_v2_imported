@@ -3,7 +3,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/reports/add_transaction_view.dart';
 import 'package:kammun_app/views/reports/services/reports_services.dart';
-
+import 'package:intl/intl.dart';
 import '../../Services.dart';
 import 'models/transaction_model.dart';
 
@@ -198,6 +198,36 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                                           return Transaction(
                                             transaction: transactions[index],
                                             newTransaction: newTransaction(index),
+                                            show: (date) {
+                                              int profit = transactions
+                                                  .where((transaction) =>
+                                                      transaction.createdAt.toString().split(' ')[0] ==
+                                                      date.toString().split(' ')[0])
+                                                  .toList()
+                                                  .fold(
+                                                      0,
+                                                      (value, transaction) =>
+                                                          value + int.parse(transaction.valueShopper));
+                                              showMyDialog(
+                                                title:
+                                                    'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
+                                                context: context,
+                                                content: Center(
+                                                  child: Text(
+                                                    profit.toString(),
+                                                    style: profit.isNegative ? loseStyle : profitStyle,
+                                                  ),
+                                                ),
+                                                dialogButtons: [
+                                                  DialogButton(
+                                                    text: StringUtils.close,
+                                                    onTap: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                  )
+                                                ],
+                                              );
+                                            },
                                           );
                                         },
                                       )

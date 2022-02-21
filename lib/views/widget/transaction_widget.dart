@@ -8,11 +8,13 @@ import 'package:intl/intl.dart';
 class Transaction extends StatelessWidget {
   final TransactionModel transaction;
   final bool newTransaction;
+  final Function(DateTime) show;
 
   const Transaction({
     Key key,
     @required this.transaction,
     @required this.newTransaction,
+    this.show,
   }) : super(key: key);
 
   @override
@@ -27,11 +29,28 @@ class Transaction extends StatelessWidget {
                       thickness: 5,
                       color: ColorUtils.primaryColor,
                     ),
-                    Text(
-                      DateFormat('EEEE', 'ar').format(transaction.createdAt) +
-                          ' ' +
-                          DateFormat('dd-MM-yyyy', 'en').format(transaction.createdAt),
-                      style: disableStyle,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          DateFormat('EEEE', 'ar').format(transaction.createdAt) +
+                              ' ' +
+                              DateFormat('dd-MM-yyyy', 'en').format(transaction.createdAt),
+                          style: disableStyle,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 15.0),
+                          child: KammunButton(
+                            color: ColorUtils.primaryColor,
+                            onTap: () {
+                              show(transaction.createdAt);
+                            },
+                            text: 'المجموع',
+                            width: MediaQuery.of(context).size.width * 0.25,
+                          ),
+                        ),
+                      ],
                     ),
                     KTableRow(
                       children: [
@@ -39,7 +58,6 @@ class Transaction extends StatelessWidget {
                         KTableElement(text: StringUtils.kammun),
                         KTableElement(text: 'النوع'),
                         KTableElement(text: 'الطلب'),
-                        KTableElement(text: 'المناقلة'),
                       ],
                     ),
                     SizedBox(
@@ -98,12 +116,6 @@ class Transaction extends StatelessWidget {
                     style: mainStyle.copyWith(
                       color: Colors.purple,
                     ),
-                  ),
-                  KTableElement(
-                    text: transaction.id.toString().length >= 3
-                        ? "#${transaction.id.toString().substring(transaction.id.toString().length - 3, transaction.id.toString().length)}"
-                        : '#${transaction.id.toString()}',
-                    style: mainStyle,
                   ),
                 ],
               ),
