@@ -100,7 +100,8 @@ class _SubCategoryState extends State<SubCategory> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
+                if (!widget.forProductAdding)
+                  Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
               },
             ),
           ),
@@ -130,10 +131,11 @@ class _SubCategoryState extends State<SubCategory> {
                     ),
                   ],
                 ),
-                StoreSearchTextField(
-                  searchController: searchController,
-                  scaffoldKey: scaffoldKey,
-                ),
+                if (!widget.forProductAdding)
+                  StoreSearchTextField(
+                    searchController: searchController,
+                    scaffoldKey: scaffoldKey,
+                  ),
               ],
             ),
           ),
