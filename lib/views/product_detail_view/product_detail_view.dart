@@ -1,5 +1,6 @@
-import 'dart:async';
+import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
@@ -11,14 +12,13 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Services.dart';
-import 'package:full_screen_image/full_screen_image.dart';
 
-// ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
-  ProductData product;
-  bool isFromFavoriteScreen;
+  final ProductData product;
 
-  ProductDetailView({this.product, @required this.isFromFavoriteScreen});
+  ProductDetailView({
+    this.product,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -26,14 +26,25 @@ class ProductDetailView extends StatefulWidget {
   }
 }
 
-class ProductDetailViewState extends State<ProductDetailView> with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
-  Animation _animation;
-  bool done = false;
+class ProductDetailViewState extends State<ProductDetailView> {
   bool favoriteProduct;
-
-  final _controller = ScrollController(initialScrollOffset: 0.0);
-  final _height = 100.0;
+  List<Image> images = [];
+  ValueNotifier<Size> size = ValueNotifier<Size>(Size(0, 0));
+  getImages() {
+    if (widget.product.images.isNotEmpty) {
+      images.addAll(widget.product.images
+          .map((image) => Image(
+                image: AdvImageCache(
+                  LoadingScreenServices.imagePrefixUrl + image.imageFileName,
+                  useMemCache: true,
+                  diskCacheExpire: Duration(seconds: 0),
+                ),
+              ))
+          .toList());
+    } else {
+      images.add(Image.asset("assets/logobw.png"));
+    }
+  }
 
   int numberOfOrders = 1;
 
@@ -42,32 +53,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
     super.initState();
     favoriteProduct =
         LoadingScreenServices.userFavoriteProducts.any((productId) => productId.id == widget.product.id);
-    Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));
-
-    _animationController = new AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    );
-    _animation = Tween(begin: 1.5, end: 0.0).animate(_animationController);
-
-    _animationController.forward();
-  }
-
-  @override
-  dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  _animateToIndex(i) async {
-    await _controller.animateTo(
-      _height * i,
-      duration: Duration(milliseconds: 1500),
-      curve: Curves.easeInOut,
-    );
-    setState(() {
-      done = true;
-    });
+    getImages();
   }
 
   @override
@@ -82,7 +68,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
           Scaffold(
             backgroundColor: Theme.of(context).primaryColorLight,
             body: NestedScrollView(
-              controller: _controller,
               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
                 return <Widget>[
                   SliverAppBar(
@@ -109,55 +94,21 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                     pinned: true,
                     title: Container(
                       alignment: Alignment.bottomCenter,
-                      child: done
-                          ? AutoSizeText(
-                              widget.product.name,
-                              maxLines: 1,
-                              style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-                            )
-                          : Container(),
+                      child: AutoSizeText(
+                        widget.product.name,
+                        maxLines: 1,
+                        style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
+                      ),
                     ),
                     flexibleSpace: Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: FlexibleSpaceBar(
                         centerTitle: true,
-                        background: !done
-                            ? FullScreenWidget(
-                                backgroundColor: Colors.white,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: FadeTransition(
-                                    opacity: _animation,
-                                    child: widget.product.images.length > 0
-                                        ? Image.network(
-                                            LoadingScreenServices.imagePrefixUrl +
-                                                widget.product.images[0].imageFileName,
-                                            width: MediaQuery.of(context).size.width / 2,
-                                            height: 120,
-                                            fit: BoxFit.contain,
-                                          )
-                                        : Image.asset(
-                                            "assets/logobw.png",
-                                          ),
-                                  ),
-                                ),
-                              )
-                            : widget.product.images.length > 0
-                                ? FullScreenWidget(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(16),
-                                      child: Image.network(
-                                        LoadingScreenServices.imagePrefixUrl +
-                                            widget.product.images[0].imageFileName,
-                                        width: MediaQuery.of(context).size.width / 2,
-                                        height: 120,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  )
-                                : Image.asset(
-                                    "assets/logobw.png",
-                                  ),
+                        background: widget.product.images.length > 0
+                            ? Center(child: _imageCarousel())
+                            : Image.asset(
+                                "assets/logobw.png",
+                              ),
                       ),
                     ),
                   ),
@@ -456,6 +407,41 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _imageCarousel() {
+    return Expanded(
+      child: Container(
+        decoration: new BoxDecoration(
+            color: Colors.transparent, borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+        child: new Carousel(
+          onImageTap: (index) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) {
+                  return FullScreenImage(
+                    imageUrl: LoadingScreenServices.imagePrefixUrl + widget.product.images[index].imageFileName,
+                    tag: "generate_a_unique_tag",
+                  );
+                },
+              ),
+            );
+          },
+          dotColor: ColorUtils.primaryColor,
+          dotIncreasedColor: ColorUtils.primaryColor,
+          dotBgColor: Colors.transparent,
+          borderRadius: true,
+          boxFit: BoxFit.cover,
+          images: images,
+          autoplay: true,
+          animationCurve: Curves.fastLinearToSlowEaseIn,
+          animationDuration: Duration(milliseconds: 1000),
+          dotSize: 6.0,
+          indicatorBgPadding: 8.0,
+        ),
       ),
     );
   }

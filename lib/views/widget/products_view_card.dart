@@ -38,7 +38,6 @@ class ProductsViewCardState extends State<ProductsViewCard> {
             new MaterialPageRoute(
               builder: (context) => new ProductDetailView(
                 product: widget.product,
-                isFromFavoriteScreen: false,
               ),
             ),
           );

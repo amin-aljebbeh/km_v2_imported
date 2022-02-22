@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/widget/address_widget.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
@@ -216,14 +217,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ? 0
                                       : LoadingScreenServices.userAddress.length,
                                   itemBuilder: (BuildContext context, int index) {
-                                    return new GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      child: Container(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(left: 0, right: 0, top: 0),
-                                          child: cardBody(index, context),
-                                        ),
-                                      ),
+                                    return AddressWidget(
+                                      onRemove: () => onrRemove(index),
+                                      index: index,
                                     );
                                   },
                                 )
@@ -290,103 +286,105 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Column cardBody(int index, BuildContext context) {
-    return Column(children: <Widget>[
-      Padding(
-        padding: EdgeInsets.only(left: 20, top: 10),
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5.0) //         <--- border radius here
-                  ),
-              border: Border.all(
-                width: 2,
-                color: ColorUtils.kmColors,
-              )),
-          child: Card(
-            elevation: 1.0,
-            color: Theme.of(context).primaryColorLight,
-            child: Column(
-              children: [
-                Row(
-                  children: <Widget>[
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Container(
-                        child: Wrap(
-                          direction: Axis.horizontal,
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    LoadingScreenServices.userAddress[index].supportedCityName,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                        fontSize: 20),
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(left: 20, top: 10),
+          child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5.0) //         <--- border radius here
+                    ),
+                border: Border.all(
+                  width: 2,
+                  color: ColorUtils.kmColors,
+                )),
+            child: Card(
+              elevation: 1.0,
+              color: Theme.of(context).primaryColorLight,
+              child: Column(
+                children: [
+                  Row(
+                    children: <Widget>[
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Container(
+                          child: Wrap(
+                            direction: Axis.horizontal,
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      LoadingScreenServices.userAddress[index].supportedCityName,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                          fontSize: 20),
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    LoadingScreenServices.userAddress[index].street,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color: ColorUtils.greyColor,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                        fontSize: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      LoadingScreenServices.userAddress[index].street,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          color: ColorUtils.greyColor,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                          fontSize: 20),
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    LoadingScreenServices.userAddress[index].building,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color: ColorUtils.greyColor,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                        fontSize: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      LoadingScreenServices.userAddress[index].building,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          color: ColorUtils.greyColor,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                          fontSize: 20),
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    LoadingScreenServices.userAddress[index].description,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        color: ColorUtils.greyColor,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                        fontSize: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      LoadingScreenServices.userAddress[index].description,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          color: ColorUtils.greyColor,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                          fontSize: 20),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Divider(
-                    color: ColorUtils.kmColors,
-                    thickness: 3,
+                    ],
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    _showDeleteButton(index: index),
-                    _showEdite(index: index),
-                  ],
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Divider(
+                      color: ColorUtils.kmColors,
+                      thickness: 3,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _showDeleteButton(index: index),
+                      _showEdite(index: index),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    ]);
+      ],
+    );
   }
 }
