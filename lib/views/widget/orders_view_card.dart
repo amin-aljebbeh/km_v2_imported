@@ -107,7 +107,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
             ? Colors.red
             : widget.orderData.deliveryMethodId == '3'
                 ? Colors.green
-                : Colors.transparent;
+                : Colors.red;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
