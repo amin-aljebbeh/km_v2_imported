@@ -35,14 +35,13 @@ class ProductDetailViewState extends State<ProductDetailView> {
       images.addAll(widget.product.images
           .map((image) => Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
                     image: DecorationImage(
-                      image: AdvImageCache(
-                        LoadingScreenServices.imagePrefixUrl + image.imageFileName,
-                        useMemCache: true,
-                        diskCacheExpire: Duration(seconds: 0),
-                      ),
-                    )),
+                  image: AdvImageCache(
+                    LoadingScreenServices.imagePrefixUrl + image.imageFileName,
+                    useMemCache: true,
+                    diskCacheExpire: Duration(seconds: 0),
+                  ),
+                )),
               ))
           .toList());
     } else {
@@ -229,60 +228,38 @@ class ProductDetailViewState extends State<ProductDetailView> {
                     child: ListView(
                       shrinkWrap: true,
                       children: <Widget>[
-                        Text(
-                          widget.product.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 22,
-                          ),
-                        ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
+                          children: [
+                            Expanded(
+                              child: Text(
+                                widget.product.name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontSize: 22,
+                                ),
+                              ),
+                            ),
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text("الكمية",
+                              children: [
+                                Text(
+                                    "${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: ColorUtils.primaryColor,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      fontSize: 20.0,
-                                    )),
-                                SizedBox(height: 10),
+                                        fontWeight: FontWeight.w400,
+                                        color: ColorUtils.primaryColor,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                        fontSize: 15)),
                                 Text(
                                   widget.product.unit.toString() != "null"
                                       ? widget.product.quantity.toString() + " " + widget.product.unit.toString()
                                       : widget.product.quantity.toString(),
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w700,
+                                      fontWeight: FontWeight.w400,
                                       color: ColorUtils.primaryColor,
                                       fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      fontSize: 20),
+                                      fontSize: 15),
                                 ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text("السعر",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      color: ColorUtils.greyColor,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      fontSize: 20.0,
-                                    )),
-                                SizedBox(height: 10),
-                                Text(
-                                    "${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        color: ColorUtils.primaryColor,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                        fontSize: 20)),
                               ],
                             ),
                           ],
@@ -331,26 +308,49 @@ class ProductDetailViewState extends State<ProductDetailView> {
                             padding: const EdgeInsets.all(20.0),
                             child: Center(
                               child: Container(
-                                width: MediaQuery.of(context).size.width * 0.6,
+                                width: MediaQuery.of(context).size.width * 0.5,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 15),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.remove_circle_rounded,
+                                          color: ColorUtils.kmColors,
+                                          size: 50,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            if (numberOfOrders > 1) {
+                                              numberOfOrders = numberOfOrders - 1;
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    ),
                                     Text(
                                       numberOfOrders.toString(),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.grey[700],
+                                        color: Colors.black,
                                         fontFamily: StringUtils.fontFamilyHKGrotesk,
                                         fontSize: 30,
                                       ),
                                     ),
-                                    AutoSizeText(
-                                      '(${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey[700],
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                        fontSize: 30,
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 15),
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.add_circle_rounded,
+                                          color: ColorUtils.kmColors,
+                                          size: 50,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            numberOfOrders = numberOfOrders + 1;
+                                          });
+                                        },
                                       ),
                                     ),
                                   ],
@@ -359,136 +359,71 @@ class ProductDetailViewState extends State<ProductDetailView> {
                             ),
                           ),
                           KammunButton(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: Stack(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: Row(
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 60,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 3, bottom: 3),
-                                          child: RotatedBox(
-                                            quarterTurns: 1,
-                                            child: Divider(
-                                              color: Colors.white,
-                                              height: 1,
-                                              thickness: 1,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        String productsId = "";
-                                        String productsQuantity = "";
-                                        if (LoadingScreen.userToken.length > 5) {
-                                          Navigator.of(context).pop(true);
-
-                                          widget.product.productCount = numberOfOrders;
-
-                                          CartServices.addProductToCart(widget.product);
-                                          Flushbar(
-                                            backgroundColor: Colors.green,
-                                            messageText: Text(
-                                              "تم إضافة ${widget.product.name} لسلة المشتريات",
-                                              style: flushBarStyle,
-                                            ),
-                                            boxShadows: [
-                                              BoxShadow(
-                                                color: ColorUtils.primaryColor,
-                                                offset: Offset(0.0, 2.0),
-                                                blurRadius: 3.0,
-                                              )
-                                            ],
-                                            icon: Icon(
-                                              Icons.assignment_turned_in,
-                                              size: 28.0,
-                                              color: Colors.white,
-                                            ),
-                                            duration: Duration(seconds: 3),
-                                            leftBarIndicatorColor: ColorUtils.kmColors,
-                                          )..show(context);
-
-                                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                                          productsId = CartServices.cartProducts
-                                              .fold('', (ids, product) => product.id.toString() + ';');
-                                          productsQuantity = CartServices.cartProducts.fold(
-                                              '', (counts, product) => product.productCount.toString() + ';');
-                                          prefs.setString("userCart", productsId + "@" + productsQuantity);
-                                        } else {
-                                          Navigator.of(context).pushNamed(LoginScreen.routeName);
-                                        }
-                                      },
-                                      child: AutoSizeText(
-                                        StringUtils.addToCart,
-                                        style: decisionButtonStyle,
-                                      ),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 3, bottom: 3),
-                                          child: RotatedBox(
-                                            quarterTurns: 1,
-                                            child: Divider(
-                                              color: Colors.white,
-                                              height: 1,
-                                              thickness: 1,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 60,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Positioned(
-                                  right: -3,
-                                  bottom: 10,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.remove_rounded,
-                                      color: Colors.white,
-                                      size: 50,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        if (numberOfOrders > 1) {
-                                          numberOfOrders = numberOfOrders - 1;
-                                        }
-                                      });
-                                    },
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 4),
+                                  child: AutoSizeText(
+                                    StringUtils.addToCart,
+                                    style: decisionButtonStyle,
                                   ),
                                 ),
-                                Positioned(
-                                  left: 15,
-                                  bottom: 10,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.add_rounded,
-                                      color: Colors.white,
-                                      size: 50,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        numberOfOrders = numberOfOrders + 1;
-                                      });
-                                    },
+                                Expanded(
+                                  child: Container(),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 4.0),
+                                  child: AutoSizeText(
+                                    '(${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
+                                    style: decisionButtonStyle,
                                   ),
                                 ),
                               ],
                             ),
                             height: 50,
                             color: ColorUtils.kmColors,
-                            onTap: () {},
+                            onTap: () async {
+                              String productsId = "";
+                              String productsQuantity = "";
+                              if (LoadingScreen.userToken.length > 5) {
+                                Navigator.of(context).pop(true);
+
+                                widget.product.productCount = numberOfOrders;
+
+                                CartServices.addProductToCart(widget.product);
+                                Flushbar(
+                                  backgroundColor: Colors.green,
+                                  messageText: Text(
+                                    "تم إضافة ${widget.product.name} لسلة المشتريات",
+                                    style: flushBarStyle,
+                                  ),
+                                  boxShadows: [
+                                    BoxShadow(
+                                      color: ColorUtils.primaryColor,
+                                      offset: Offset(0.0, 2.0),
+                                      blurRadius: 3.0,
+                                    )
+                                  ],
+                                  icon: Icon(
+                                    Icons.assignment_turned_in,
+                                    size: 28.0,
+                                    color: Colors.white,
+                                  ),
+                                  duration: Duration(seconds: 3),
+                                  leftBarIndicatorColor: ColorUtils.kmColors,
+                                )..show(context);
+
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                productsId = CartServices.cartProducts
+                                    .fold('', (ids, product) => product.id.toString() + ';');
+                                productsQuantity = CartServices.cartProducts
+                                    .fold('', (counts, product) => product.productCount.toString() + ';');
+                                prefs.setString("userCart", productsId + "@" + productsQuantity);
+                              } else {
+                                Navigator.of(context).pushNamed(LoginScreen.routeName);
+                              }
+                            },
                           ),
                         ],
                       ),
