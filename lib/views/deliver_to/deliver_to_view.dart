@@ -28,6 +28,7 @@ class DeliverToView extends StatefulWidget {
 class DeliverToViewState extends State<DeliverToView> {
   bool isLoading = false;
   bool isError = false;
+  int selectedAddress = -1;
   void onrRemove(item) async {
     setState(() {
       isLoading = true;
@@ -236,14 +237,28 @@ class DeliverToViewState extends State<DeliverToView> {
                                 ? 0
                                 : LoadingScreenServices.userAddress.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return new GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () => _onAddressClicked(index),
-                                child: Container(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(left: 0, right: 0, top: 0),
-                                    child: cardBody(index, context),
-                                  ),
+                              return RadioListTile(
+                                controlAffinity: ListTileControlAffinity.leading,
+                                autofocus: true,
+                                selected: true,
+                                toggleable: false,
+                                activeColor: ColorUtils.primaryColor,
+                                value: LoadingScreenServices.userAddress[index].id,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedAddress = value;
+                                    DeliverToView.selectedIndex = index;
+                                    OrderServices.deliverySupportedCityId = LoadingScreenServices
+                                        .userAddress[DeliverToView.selectedIndex].supportedCityId
+                                        .toString();
+                                  });
+                                },
+                                groupValue: selectedAddress,
+                                title: AddressWidget(
+                                  onRemove: () {
+                                    onrRemove(index);
+                                  },
+                                  index: index,
                                 ),
                               );
                             },
@@ -276,13 +291,6 @@ class DeliverToViewState extends State<DeliverToView> {
               ),
       ),
     );
-  }
-
-  // Function to be called on click
-  void _onAddressClicked(int index) {
-    setState(() {
-      DeliverToView.selectedIndex = index + 1;
-    });
   }
 
   Widget _showProceedToPayButton() {
