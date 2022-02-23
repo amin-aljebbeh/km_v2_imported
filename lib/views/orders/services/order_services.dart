@@ -47,7 +47,11 @@ class OrderServices {
 
     var response;
     try {
-      response = await ApiProvider.sendRequest(url: ORDER, method: httpMethods.post, body: jsonEncode(orderData));
+      response = await ApiProvider.sendRequest(
+        url: API + '/' + ORDER,
+        method: httpMethods.post,
+        body: jsonEncode(orderData),
+      );
 
       if (response.data["reason"].toString().contains("discontinued")) {
         return new OrderResponse(success: false, reason: "discontinued");
@@ -91,7 +95,7 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: ORDER + "/$orderId", method: httpMethods.put, body: jsonEncode(orderData));
+          url: API + ORDER + "$orderId", method: httpMethods.put, body: jsonEncode(orderData));
 
       if (response.data["reason"].toString().contains("discontinued")) {
         return new OrderResponse(success: false, reason: "discontinued");

@@ -16,12 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'deliver_to_view.dart';
 
 class DeliveryMethodView extends StatefulWidget {
-  final List<ProductData> orderArray;
-  final int subTotal;
-  final String userNote;
   static int selectedDeliveryIndex = 0;
-
-  const DeliveryMethodView({Key key, this.subTotal, this.orderArray, this.userNote}) : super(key: key);
 
   @override
   _DeliveryMethodViewState createState() => _DeliveryMethodViewState();
@@ -32,7 +27,9 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
   int deliveryCost = 0;
   Future getDeliveryMethods;
   List<int> cards = [];
-
+  int subTotal = 0;
+  List<ProductData> orderArray = [];
+  int total = 0;
   bool isLoading = false;
   bool error;
   String errorMessage;
@@ -41,12 +38,12 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
     List<int> notActiveId = [];
     List<int> priceId = [];
 
-    for (int i = 0; i < widget.orderArray.length; i++) {
-      if (notActive.contains(widget.orderArray[i].id.toString())) {
-        notActiveId.add(widget.orderArray[i].id);
+    for (int i = 0; i < orderArray.length; i++) {
+      if (notActive.contains(orderArray[i].id.toString())) {
+        notActiveId.add(orderArray[i].id);
       }
-      if (priceProblem.contains(widget.orderArray[i].id.toString())) {
-        priceId.add(widget.orderArray[i].id);
+      if (priceProblem.contains(orderArray[i].id.toString())) {
+        priceId.add(orderArray[i].id);
       }
     }
     _reloadPrices() async {
@@ -80,7 +77,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
 
   makeCards() {
     cards = [];
-    for (int i = 0; i < widget.orderArray.length; i++) {
+    for (int i = 0; i < orderArray.length; i++) {
       cards.add(i);
     }
   }
@@ -90,7 +87,6 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
       isLoading = true;
       error = false;
     });
-    CartServices.userNote = widget.userNote;
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     OrderResponse orderResponse;
@@ -98,7 +94,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
       if (cards.length == 0) {
         KammunRestart.restartApp(context);
       } else {
-        orderResponse = await OrderServices.updateOrder(userNotes: widget.userNote);
+        orderResponse = await OrderServices.updateOrder(userNotes: OrderServices.updateOrderNote);
 
         setState(() {
           try {
@@ -137,7 +133,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
       if (cards.length == 0) {
         KammunRestart.restartApp(context);
       } else {
-        orderResponse = await OrderServices.submitNewOrder(userNotes: widget.userNote);
+        orderResponse = await OrderServices.submitNewOrder(userNotes: OrderServices.updateOrderNote);
         setState(() {
           try {
             if (orderResponse != null) {
@@ -184,10 +180,13 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
 
   @override
   void initState() {
-    _getDeliveryMethods();
+    getDeliveryMethods = _getDeliveryMethods();
+    orderArray = CartServices.cartProducts;
     makeCards();
-    selectedIndex = 0;
-    DeliveryMethodView.selectedDeliveryIndex = selectedIndex;
+    for (int i = 0; i < orderArray.length; i++) {
+      subTotal = subTotal + ((int.parse(orderArray[i].price.split(".")[0])) * orderArray[i].productCount);
+    }
+
     super.initState();
   }
 
@@ -200,6 +199,11 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
         addressId: LoadingScreenServices.userAddress[DeliverToView.selectedIndex].id.toString());
 
     deliveryCost = LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice +
+        int.parse(DeliveryMethodServices.deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].pivot.price
+            .split(".")[0]);
+    selectedIndex = 0;
+    total = subTotal +
+        LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice +
         int.parse(DeliveryMethodServices.deliveryMethodsList[DeliveryMethodView.selectedDeliveryIndex].pivot.price
             .split(".")[0]);
     if (response != null && response) {
@@ -369,7 +373,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                           ),
                         ),
                         Text(
-                          "${StringUtils().oCcy.format(widget.subTotal)} ${LoadingScreenServices.companyInformation.currency}",
+                          "${StringUtils().oCcy.format(subTotal)} ${LoadingScreenServices.companyInformation.currency}",
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).primaryColorDark,
@@ -411,7 +415,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                               fontSize: 19.0,
                             )),
                         Text(
-                          "${StringUtils().oCcy.format(widget.subTotal + deliveryCost)} ${LoadingScreenServices.companyInformation.currency}",
+                          "${StringUtils().oCcy.format(subTotal + deliveryCost)} ${LoadingScreenServices.companyInformation.currency}",
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).primaryColorDark,

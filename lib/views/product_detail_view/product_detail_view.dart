@@ -28,17 +28,21 @@ class ProductDetailView extends StatefulWidget {
 
 class ProductDetailViewState extends State<ProductDetailView> {
   bool favoriteProduct;
-  List<Image> images = [];
+  List<Widget> images = [];
   ValueNotifier<Size> size = ValueNotifier<Size>(Size(0, 0));
   getImages() {
     if (widget.product.images.isNotEmpty) {
       images.addAll(widget.product.images
-          .map((image) => Image(
-                image: AdvImageCache(
-                  LoadingScreenServices.imagePrefixUrl + image.imageFileName,
-                  useMemCache: true,
-                  diskCacheExpire: Duration(seconds: 0),
-                ),
+          .map((image) => Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    image: DecorationImage(
+                      image: AdvImageCache(
+                        LoadingScreenServices.imagePrefixUrl + image.imageFileName,
+                        useMemCache: true,
+                        diskCacheExpire: Duration(seconds: 0),
+                      ),
+                    )),
               ))
           .toList());
     } else {

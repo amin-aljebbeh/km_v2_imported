@@ -518,25 +518,12 @@ class CartViewState extends State<CartView> {
         Navigator.push(
           context,
           new MaterialPageRoute(
-            builder: (context) => new DeliverToView(
-              subTotal: subtotal,
-              userNote: _userNotes.text,
-              orderArray: orderArray,
-            ),
+            builder: (context) => new DeliverToView(),
           ),
         );
       } else {
         if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
-          Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (context) => new DeliveryMethodView(
-                subTotal: subtotal,
-                orderArray: orderArray,
-                userNote: _userNotes.text,
-              ),
-            ),
-          );
+          Navigator.push(context, new MaterialPageRoute(builder: (context) => new DeliveryMethodView()));
         } else {
           Navigator.push(context, new MaterialPageRoute(builder: (context) => new CartViewFinal()));
         }

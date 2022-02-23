@@ -10,7 +10,7 @@ const String API = '/api/';
 
 const String USER = 'user/';
 
-const String ORDER = 'order';
+const String ORDER = 'order/';
 
 const String SEARCH = 'search/';
 

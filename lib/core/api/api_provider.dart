@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import '../../core/core_importer.dart';
 import 'api_URLs.dart';
@@ -15,6 +16,7 @@ class ApiProvider {
     if (mapService == null) mapService = false;
     if (isUrlEncodedFormat == null) isUrlEncodedFormat = false;
 
+    Tools.logToConsole(url);
     var options = BaseOptions(
         baseUrl: mapService ? "" : BASE_URL,
         connectTimeout: 30000,
