@@ -88,7 +88,7 @@ class ProductDetailViewState extends State<ProductDetailView> {
                         ),
                       ),
                     ],
-                    backgroundColor: ColorUtils.primaryColor,
+                    backgroundColor: ColorUtils.kmColors,
                     expandedHeight: 300.0,
                     floating: false,
                     pinned: true,
@@ -102,45 +102,55 @@ class ProductDetailViewState extends State<ProductDetailView> {
                     ),
                     flexibleSpace: Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: FlexibleSpaceBar(
-                        centerTitle: true,
-                        background: widget.product.images.length > 0
-                            ? Center(child: _imageCarousel())
-                            : Image.asset(
-                                "assets/logobw.png",
-                              ),
-                      ),
-                    ),
-                  ),
-                ];
-              },
-              body: SafeArea(
-                top: false,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                            BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0))),
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                widget.product.name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 22,
-                                ),
-                              ),
-                            ),
-                            IconButton(
+                      child: Stack(
+                        children: [
+                          FlexibleSpaceBar(
+                            centerTitle: true,
+                            background: widget.product.images.length > 0
+                                ? Padding(
+                                    padding: const EdgeInsets.only(top: 40, left: 5, right: 5, bottom: 10),
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      decoration: new BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+                                      child: new Carousel(
+                                        onImageTap: (index) {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) {
+                                                return FullScreenImage(
+                                                  imageUrl: LoadingScreenServices.imagePrefixUrl +
+                                                      widget.product.images[index].imageFileName,
+                                                  tag: "generate_a_unique_tag",
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                        dotColor: ColorUtils.kmColors,
+                                        dotIncreasedColor: ColorUtils.kmColors,
+                                        dotBgColor: Colors.transparent,
+                                        borderRadius: true,
+                                        boxFit: BoxFit.cover,
+                                        images: images,
+                                        autoplay: true,
+                                        animationCurve: Curves.fastLinearToSlowEaseIn,
+                                        animationDuration: Duration(milliseconds: 1000),
+                                        dotSize: 6.0,
+                                        indicatorBgPadding: 8.0,
+                                      ),
+                                    ),
+                                  )
+                                : Image.asset(
+                                    "assets/logobw.png",
+                                  ),
+                          ),
+                          Positioned(
+                            top: 40,
+                            right: 3,
+                            child: IconButton(
                                 padding: EdgeInsets.all(0),
                                 icon: Icon(
                                   favoriteProduct ? Icons.favorite : Icons.favorite_border_outlined,
@@ -196,7 +206,33 @@ class ProductDetailViewState extends State<ProductDetailView> {
                                     )..show(context);
                                   }
                                 }),
-                          ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ];
+              },
+              body: SafeArea(
+                top: false,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 15, right: 15, top: 25),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius:
+                            BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0))),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        Text(
+                          widget.product.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
+                            fontSize: 22,
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -256,21 +292,6 @@ class ProductDetailViewState extends State<ProductDetailView> {
                               fontFamily: StringUtils.fontFamilyHKGrotesk,
                               fontSize: 20),
                         ),
-                        SizedBox(height: 10),
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(
-                              numberOfOrders.toString(),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.grey[700],
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 30,
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -279,126 +300,193 @@ class ProductDetailViewState extends State<ProductDetailView> {
             ),
           ),
           Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.2,
+            bottom: 0,
             child: Container(
-              color: Colors.white,
-              height: 65,
+              height: MediaQuery.of(context).size.height * 0.25,
               width: MediaQuery.of(context).size.width,
               child: SafeArea(
                 child: Scaffold(
-                  backgroundColor: Colors.white,
-                  body: Center(
+                  body: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                      color: Colors.white,
+                      borderRadius: new BorderRadius.all(Radius.circular(35.0)),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8.0, left: 8),
-                      child: KammunButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      if (numberOfOrders > 1) {
-                                        numberOfOrders = numberOfOrders - 1;
-                                      }
-                                    });
-                                  },
-                                  child: Image.asset(
-                                    "assets/remove.png",
-                                    width: 60,
-                                    height: 60,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 3, bottom: 3),
-                                  child: RotatedBox(
-                                    quarterTurns: 1,
-                                    child: Divider(
-                                      color: ColorUtils.searchGreyColor,
-                                      height: 1,
-                                      thickness: 1,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Center(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.6,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      numberOfOrders.toString(),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey[700],
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                        fontSize: 30,
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            AutoSizeText(
-                              '${StringUtils.addToCart}  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
-                              style: decisionButtonStyle,
-                            ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 3, bottom: 3),
-                                  child: RotatedBox(
-                                    quarterTurns: 1,
-                                    child: Divider(
-                                      color: ColorUtils.searchGreyColor,
-                                      height: 1,
-                                      thickness: 1,
+                                    AutoSizeText(
+                                      '(${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey[700],
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                        fontSize: 30,
+                                      ),
                                     ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          KammunButton(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: Stack(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 60,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 3, bottom: 3),
+                                          child: RotatedBox(
+                                            quarterTurns: 1,
+                                            child: Divider(
+                                              color: Colors.white,
+                                              height: 1,
+                                              thickness: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        String productsId = "";
+                                        String productsQuantity = "";
+                                        if (LoadingScreen.userToken.length > 5) {
+                                          Navigator.of(context).pop(true);
+
+                                          widget.product.productCount = numberOfOrders;
+
+                                          CartServices.addProductToCart(widget.product);
+                                          Flushbar(
+                                            backgroundColor: Colors.green,
+                                            messageText: Text(
+                                              "تم إضافة ${widget.product.name} لسلة المشتريات",
+                                              style: flushBarStyle,
+                                            ),
+                                            boxShadows: [
+                                              BoxShadow(
+                                                color: ColorUtils.primaryColor,
+                                                offset: Offset(0.0, 2.0),
+                                                blurRadius: 3.0,
+                                              )
+                                            ],
+                                            icon: Icon(
+                                              Icons.assignment_turned_in,
+                                              size: 28.0,
+                                              color: Colors.white,
+                                            ),
+                                            duration: Duration(seconds: 3),
+                                            leftBarIndicatorColor: ColorUtils.kmColors,
+                                          )..show(context);
+
+                                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                                          productsId = CartServices.cartProducts
+                                              .fold('', (ids, product) => product.id.toString() + ';');
+                                          productsQuantity = CartServices.cartProducts.fold(
+                                              '', (counts, product) => product.productCount.toString() + ';');
+                                          prefs.setString("userCart", productsId + "@" + productsQuantity);
+                                        } else {
+                                          Navigator.of(context).pushNamed(LoginScreen.routeName);
+                                        }
+                                      },
+                                      child: AutoSizeText(
+                                        StringUtils.addToCart,
+                                        style: decisionButtonStyle,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 3, bottom: 3),
+                                          child: RotatedBox(
+                                            quarterTurns: 1,
+                                            child: Divider(
+                                              color: Colors.white,
+                                              height: 1,
+                                              thickness: 1,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 60,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Positioned(
+                                  right: -3,
+                                  bottom: 10,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.remove_rounded,
+                                      color: Colors.white,
+                                      size: 50,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        if (numberOfOrders > 1) {
+                                          numberOfOrders = numberOfOrders - 1;
+                                        }
+                                      });
+                                    },
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      numberOfOrders = numberOfOrders + 1;
-                                    });
-                                  },
-                                  child: Image.asset(
-                                    "assets/add.png",
-                                    width: 60,
-                                    height: 60,
+                                Positioned(
+                                  left: 15,
+                                  bottom: 10,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.add_rounded,
+                                      color: Colors.white,
+                                      size: 50,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        numberOfOrders = numberOfOrders + 1;
+                                      });
+                                    },
                                   ),
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                        height: 50,
-                        color: Theme.of(context).primaryColor,
-                        onTap: () async {
-                          String productsId = "";
-                          String productsQuantity = "";
-                          if (LoadingScreen.userToken.length > 5) {
-                            Navigator.of(context).pop(true);
-
-                            widget.product.productCount = numberOfOrders;
-
-                            CartServices.addProductToCart(widget.product);
-                            Flushbar(
-                              backgroundColor: Colors.green,
-                              messageText: Text(
-                                "تم إضافة ${widget.product.name} لسلة المشتريات",
-                                style: flushBarStyle,
-                              ),
-                              boxShadows: [
-                                BoxShadow(
-                                  color: ColorUtils.primaryColor,
-                                  offset: Offset(0.0, 2.0),
-                                  blurRadius: 3.0,
-                                )
-                              ],
-                              icon: Icon(
-                                Icons.assignment_turned_in,
-                                size: 28.0,
-                                color: Colors.white,
-                              ),
-                              duration: Duration(seconds: 3),
-                              leftBarIndicatorColor: ColorUtils.kmColors,
-                            )..show(context);
-
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                            productsId =
-                                CartServices.cartProducts.fold('', (ids, product) => product.id.toString() + ';');
-                            productsQuantity = CartServices.cartProducts
-                                .fold('', (counts, product) => product.productCount.toString() + ';');
-                            prefs.setString("userCart", productsId + "@" + productsQuantity);
-                          } else {
-                            Navigator.of(context).pushNamed(LoginScreen.routeName);
-                          }
-                        },
+                            height: 50,
+                            color: ColorUtils.kmColors,
+                            onTap: () {},
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -407,41 +495,6 @@ class ProductDetailViewState extends State<ProductDetailView> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _imageCarousel() {
-    return Expanded(
-      child: Container(
-        decoration: new BoxDecoration(
-            color: Colors.transparent, borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-        child: new Carousel(
-          onImageTap: (index) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) {
-                  return FullScreenImage(
-                    imageUrl: LoadingScreenServices.imagePrefixUrl + widget.product.images[index].imageFileName,
-                    tag: "generate_a_unique_tag",
-                  );
-                },
-              ),
-            );
-          },
-          dotColor: ColorUtils.primaryColor,
-          dotIncreasedColor: ColorUtils.primaryColor,
-          dotBgColor: Colors.transparent,
-          borderRadius: true,
-          boxFit: BoxFit.cover,
-          images: images,
-          autoplay: true,
-          animationCurve: Curves.fastLinearToSlowEaseIn,
-          animationDuration: Duration(milliseconds: 1000),
-          dotSize: 6.0,
-          indicatorBgPadding: 8.0,
-        ),
       ),
     );
   }

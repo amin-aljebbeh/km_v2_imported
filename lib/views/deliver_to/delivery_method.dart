@@ -168,15 +168,17 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
       }
     }
 
-    if (orderResponse.success == true) {
-      await prefs.remove("userCart");
-      CartServices.cartProducts.clear();
+    if (orderResponse != null) {
+      if (orderResponse.success == true) {
+        await prefs.remove("userCart");
+        CartServices.cartProducts.clear();
 
-      CartServices.userNote = "";
-      CartServices.userCopoun = "";
+        CartServices.userNote = "";
+        CartServices.userCopoun = "";
 
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
+      }
     }
   }
 

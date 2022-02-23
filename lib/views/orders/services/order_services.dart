@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/orders_response.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
@@ -44,9 +45,9 @@ class OrderServices {
       "user_notes": "$userNotes"
     };
 
+    var response;
     try {
-      var response =
-          await ApiProvider.sendRequest(url: ORDER, method: httpMethods.post, body: jsonEncode(orderData));
+      response = await ApiProvider.sendRequest(url: ORDER, method: httpMethods.post, body: jsonEncode(orderData));
 
       if (response.data["reason"].toString().contains("discontinued")) {
         return new OrderResponse(success: false, reason: "discontinued");
@@ -56,6 +57,7 @@ class OrderServices {
         return parsedJson;
       }
     } catch (e) {
+      Tools.logToConsole(response.toString());
       return null;
     }
   }
