@@ -18,9 +18,8 @@ import '../../Services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
-// ignore: must_be_immutable
 class ProductDetailView extends StatefulWidget {
-  ProductData product;
+  final ProductData product;
 
   ProductDetailView({this.product});
 
@@ -40,7 +39,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   final _height = 100.0;
 
   int numberOfOrders = 1;
-  int price = 0;
   bool productOnFavorites = false;
 
   @override

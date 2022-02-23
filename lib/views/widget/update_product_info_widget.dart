@@ -109,7 +109,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                       )..show(context);
                     } else {
                       String newValue = textController.text;
-                      if (widget.bodyKey == 'price' && Services.isSupplierManager()) {
+                      if (widget.bodyKey == 'price') {
                         double tempValue = double.parse(newValue.split('.')[0]);
                         tempValue *= widget.priceFactor;
                         tempValue += widget.increasePercentage;
