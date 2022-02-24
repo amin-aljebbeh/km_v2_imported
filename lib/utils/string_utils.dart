@@ -117,7 +117,7 @@ class StringUtils {
     'remaining-money': 'زوائد', //10
   };
 
-  static List<String> productFilter = ['الغير مفعلة', 'عدد مرات البيع', 'عدد مرات العرض'];
+  static List<String> productFilter = ['الغير مفعلة', 'عدد مرات البيع', 'عدد مرات العرض', 'المنتجات المحذوفة'];
 
   static List<String> productFilterUrls = [
     FILTER_BY_LAST_ACTIVATION_DATE,

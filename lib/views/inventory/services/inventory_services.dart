@@ -66,7 +66,7 @@ class InventoryServices {
     }
   }
 
-  static Future<List<ProductData>> getFilteredProducts(
+  static Future<FilterPagination> getFilteredProducts(
       {int page,
       int filterIndex,
       String number = '0',
@@ -84,7 +84,7 @@ class InventoryServices {
       queryParameters: params,
     );
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
-      final result = filteredProductsModelFromJson(jsonEncode(response.data)).data.products;
+      final result = filteredProductsModelFromJson(jsonEncode(response.data)).data;
 
       return result;
     } else {

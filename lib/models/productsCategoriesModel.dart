@@ -119,6 +119,7 @@ class ProductData {
     this.rate,
     this.numberOfSales,
     this.barcodes,
+    this.deleteTimes,
   });
 
   int id;
@@ -150,6 +151,7 @@ class ProductData {
   int rate;
   int numberOfSales;
   List<Barcode> barcodes;
+  int deleteTimes;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -195,6 +197,7 @@ class ProductData {
       barcodes: json["barcodes"] == null
           ? List<Barcode>()
           : List<Barcode>.from(json["barcodes"].map((x) => Barcode.fromJson(x))),
+      deleteTimes: json["count_deleted"] == null ? -1 : json["count_deleted"],
     );
     return productData;
   }

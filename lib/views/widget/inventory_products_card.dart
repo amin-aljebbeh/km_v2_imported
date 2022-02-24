@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
@@ -27,6 +28,7 @@ class InventoryProductsViewCard extends StatefulWidget {
   int isActive;
   final bool attached;
   final int index;
+  final int deleteTimes;
 
   InventoryProductsViewCard({
     this.onChangeStatus,
@@ -42,6 +44,7 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.isActive,
     this.attached,
     this.index,
+    this.deleteTimes,
   });
 
   @override
@@ -184,152 +187,176 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                   ),
                   Center(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         widget.supplierCode != null &&
                                 LoadingScreenServices.subSupplierCodeHint.hasMatch(widget.supplierCode) &&
                                 widget.isActive != null &&
                                 widget.id != null
-                            ? SwitchProductStatusWidget(
-                                isForSubWarehouse: true,
-                                preState: widget.isActive,
-                                subWarehouseId: int.parse(widget.id),
-                                productId: widget.productData.id.toString(),
-                                onChange: (int active, bool result) {
-                                  setState(() {
-                                    if (result) widget.isActive = active;
-                                  });
-                                  widget.onChangeStatus(result);
-                                  setState(() {});
-                                },
-                                height: 58,
-                                width: 69,
+                            ? Padding(
+                                padding: const EdgeInsets.only(left: 15.0),
+                                child: SwitchProductStatusWidget(
+                                  isForSubWarehouse: true,
+                                  preState: widget.isActive,
+                                  subWarehouseId: int.parse(widget.id),
+                                  productId: widget.productData.id.toString(),
+                                  onChange: (int active, bool result) {
+                                    setState(() {
+                                      if (result) widget.isActive = active;
+                                    });
+                                    widget.onChangeStatus(result);
+                                    setState(() {});
+                                  },
+                                  height: 58,
+                                  width: 69,
+                                ),
                               )
                             : Container(),
-                        Container(
-                          height: 58,
-                          width: 69,
-                          margin: const EdgeInsets.all(15.0),
-                          padding: const EdgeInsets.all(3.0),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                                      ),
-                              border: Border.all(color: ColorUtils.primaryColor, width: 2)),
-                          child: widget.attached && widget.supplierCode != null && !widget.fromInventory
-                              ? IconButton(
-                                  icon: Icon(
-                                    Icons.close_sharp,
-                                    color: Colors.red,
+                        Row(
+                          children: [
+                            if (widget.deleteTimes != -1)
+                              Container(
+                                height: 58,
+                                width: 69,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0) //                 <--- border radius here
+                                        ),
+                                    border: Border.all(color: Colors.red, width: 2)),
+                                child: Center(
+                                  child: Text(
+                                    widget.deleteTimes.toString(),
+                                    style: loseStyle,
                                   ),
-                                  onPressed: () {
-                                    List<DialogButton> dialogButtons = [
-                                      DialogButton(
-                                        text: StringUtils.yes,
-                                        onTap: () {
-                                          _unAttachProduct();
-                                          Navigator.of(context).pop();
-                                        },
+                                ),
+                              ),
+                            Container(
+                              height: 58,
+                              width: 69,
+                              margin: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.all(3.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0) //                 <--- border radius here
                                       ),
-                                      DialogButton(
-                                        text: StringUtils.close,
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ];
-                                    subWarehouseName = LoadingScreenServices.subWarehouses
-                                        .firstWhere((subWarehouse) => subWarehouse.id.toString() == widget.id,
-                                            orElse: () => SubWarehouse(name: 'المستودع'))
-                                        .name;
-                                    showMyDialog(
-                                      title: "حذف منتج من المستودع",
-                                      text:
-                                          "هل أنت متأكد أنك تريد إزالة ${widget.productData.name} من $subWarehouseName",
-                                      dialogButtons: dialogButtons,
-                                      context: context,
-                                    );
-                                  },
-                                )
-                              : !widget.fromInventory
+                                  border: Border.all(color: ColorUtils.primaryColor, width: 2)),
+                              child: widget.attached && widget.supplierCode != null && !widget.fromInventory
                                   ? IconButton(
                                       icon: Icon(
-                                        Icons.add,
-                                        color: Colors.green,
+                                        Icons.close_sharp,
+                                        color: Colors.red,
                                       ),
                                       onPressed: () {
-                                        if (widget.productData.id == 0) {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (screenContext) => Scaffold(
-                                                body: SafeArea(
-                                                  child: StoreViewCategory(
-                                                    scaffoldKey: widget.scaffoldKey,
-                                                    supplierCode: widget.supplierCode,
-                                                    forProductAdding: true,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        } else {
-                                          if (widget.barcode == null)
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (screenContext) => BarCodeScreen(
-                                                  requestType: BarcodeRequestType.attachProduct,
-                                                  onIgnore: (barcode) async {
-                                                    int param;
-                                                    if (barcode == null)
-                                                      param = null;
-                                                    else
-                                                      param = int.parse(barcode);
-                                                    Navigator.push(
-                                                      widget.scaffoldKey.currentContext,
-                                                      new MaterialPageRoute(
-                                                        builder: (context) => new AddProductsToSubWarehouse(
-                                                          barcode: param,
-                                                          productData: widget.productData,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                            );
-                                          else
-                                            Navigator.push(
-                                              widget.scaffoldKey.currentContext,
-                                              new MaterialPageRoute(
-                                                builder: (context) => new AddProductsToSubWarehouse(
-                                                  barcode: int.parse(widget.barcode),
-                                                  productData: widget.productData,
-                                                ),
-                                              ),
-                                            );
-                                        }
+                                        List<DialogButton> dialogButtons = [
+                                          DialogButton(
+                                            text: StringUtils.yes,
+                                            onTap: () {
+                                              _unAttachProduct();
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          DialogButton(
+                                            text: StringUtils.close,
+                                            onTap: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ];
+                                        subWarehouseName = LoadingScreenServices.subWarehouses
+                                            .firstWhere((subWarehouse) => subWarehouse.id.toString() == widget.id,
+                                                orElse: () => SubWarehouse(name: 'المستودع'))
+                                            .name;
+                                        showMyDialog(
+                                          title: "حذف منتج من المستودع",
+                                          text:
+                                              "هل أنت متأكد أنك تريد إزالة ${widget.productData.name} من $subWarehouseName",
+                                          dialogButtons: dialogButtons,
+                                          context: context,
+                                        );
                                       },
                                     )
-                                  : IconButton(
-                                      icon: Icon(
-                                        Icons.check_sharp,
-                                        color: Colors.green,
-                                      ),
-                                      onPressed: () async {
-                                        bool result = await ProductsServices.updateProductsDetails(
-                                            bodyKey: "under_check_availability",
-                                            value: "0",
-                                            subWarehouseId: widget.id,
-                                            productId: widget.productData.id.toString());
-                                        Services.resultFlushBar(context: context, result: result);
+                                  : !widget.fromInventory
+                                      ? IconButton(
+                                          icon: Icon(
+                                            Icons.add,
+                                            color: Colors.green,
+                                          ),
+                                          onPressed: () {
+                                            if (widget.productData.id == 0) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (screenContext) => Scaffold(
+                                                    body: SafeArea(
+                                                      child: StoreViewCategory(
+                                                        scaffoldKey: widget.scaffoldKey,
+                                                        supplierCode: widget.supplierCode,
+                                                        forProductAdding: true,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              if (widget.barcode == null)
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (screenContext) => BarCodeScreen(
+                                                      requestType: BarcodeRequestType.attachProduct,
+                                                      onIgnore: (barcode) async {
+                                                        int param;
+                                                        if (barcode == null)
+                                                          param = null;
+                                                        else
+                                                          param = int.parse(barcode);
+                                                        Navigator.push(
+                                                          widget.scaffoldKey.currentContext,
+                                                          new MaterialPageRoute(
+                                                            builder: (context) => new AddProductsToSubWarehouse(
+                                                              barcode: param,
+                                                              productData: widget.productData,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                );
+                                              else
+                                                Navigator.push(
+                                                  widget.scaffoldKey.currentContext,
+                                                  new MaterialPageRoute(
+                                                    builder: (context) => new AddProductsToSubWarehouse(
+                                                      barcode: int.parse(widget.barcode),
+                                                      productData: widget.productData,
+                                                    ),
+                                                  ),
+                                                );
+                                            }
+                                          },
+                                        )
+                                      : IconButton(
+                                          icon: Icon(
+                                            Icons.check_sharp,
+                                            color: Colors.green,
+                                          ),
+                                          onPressed: () async {
+                                            bool result = await ProductsServices.updateProductsDetails(
+                                                bodyKey: "under_check_availability",
+                                                value: "0",
+                                                subWarehouseId: widget.id,
+                                                productId: widget.productData.id.toString());
+                                            Services.resultFlushBar(context: context, result: result);
 
-                                        if (result) {
-                                          widget.onDelete(true);
-                                          setState(() {});
-                                        }
-                                      },
-                                    ),
+                                            if (result) {
+                                              widget.onDelete(true);
+                                              setState(() {});
+                                            }
+                                          },
+                                        ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
