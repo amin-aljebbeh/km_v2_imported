@@ -15,48 +15,50 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
   List<ProductData> productsList = List<ProductData>();
   bool isLoading = false;
   bool isError = false;
-  bool displayToActiveProducts = true;
   TextEditingController _controller = new TextEditingController();
   String filter;
-  int filterProducts;
-  int isActiveFilter;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<bool> _loadData() async {
+  _loadData() async {
     productsList.clear();
     setState(() {
       isLoading = true;
       isError = false;
     });
-    try {
-      var response = await AddedProductsServices.getNotAddedProductsToWarehouse();
-      if (response != null) {
-        productsList.addAll(response);
-        productsList.sort((a, b) {
-          if (a.id > b.id) {
-            return -1;
-          } else if (a.id < b.id) return 1;
-          return 0;
-        });
-        setState(() {
-          isLoading = false;
-        });
-        return true;
-      } else {
+    if (LoadingScreenServices.notAddedProducts.isNotEmpty) {
+      productsList.addAll(LoadingScreenServices.notAddedProducts);
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      try {
+        var response = await AddedProductsServices.getNotAddedProductsToWarehouse();
+        if (response != null) {
+          LoadingScreenServices.notAddedProducts.addAll(response);
+          productsList.addAll(response);
+          productsList.sort((a, b) {
+            if (a.id > b.id) {
+              return -1;
+            } else if (a.id < b.id) return 1;
+            return 0;
+          });
+          setState(() {
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+            isError = true;
+          });
+        }
+      } catch (e) {
+        Tools.logToConsole("Error While getting Inventory Products");
+        Tools.logToConsole(e.toString());
         setState(() {
           isLoading = false;
           isError = true;
         });
-        return false;
       }
-    } catch (e) {
-      Tools.logToConsole("Error While getting Inventory Products");
-      Tools.logToConsole(e.toString());
-      setState(() {
-        isLoading = false;
-        isError = true;
-      });
-      return false;
     }
   }
 
@@ -66,9 +68,6 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
       super.initState();
     }
     _loadData();
-
-    filterProducts = 0;
-    isActiveFilter = 0;
 
     filter = '';
     _controller.addListener(() {
@@ -85,6 +84,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
       backgroundColor: Colors.white,
       appBar: InventorySearchTextField(
         onReload: () {
+          LoadingScreenServices.notAddedProducts.clear();
           _loadData();
         },
         controller: _controller,

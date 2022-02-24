@@ -11,11 +11,18 @@ class SalesReport extends StatefulWidget {
 }
 
 class _SalesReportState extends State<SalesReport> {
-  String _fromDateTimeValue = "يرجى أختيار تاريخ البداية";
-  String _toDateTimeValue = "يرجى إختيار تاريخ النهاية";
+  String fromDateTimeValue;
+  String toDateTimeValue;
   bool isLoading = false;
   bool isError = false;
   List<Widget> totalSubWarehouses = [];
+
+  @override
+  void initState() {
+    fromDateTimeValue = "يرجى أختيار تاريخ البداية";
+    toDateTimeValue = "يرجى إختيار تاريخ النهاية";
+    super.initState();
+  }
 
   _reportCard(GetDailyStatistics response) {
     totalSubWarehouses.clear();
@@ -148,8 +155,8 @@ class _SalesReportState extends State<SalesReport> {
     });
 
     var response = await ReportsServices.getSalesReports(
-      fromDate: _fromDateTimeValue,
-      toDate: _toDateTimeValue,
+      fromDate: fromDateTimeValue,
+      toDate: toDateTimeValue,
     );
     if (response != null) {
       _reportCard(response);
@@ -183,12 +190,12 @@ class _SalesReportState extends State<SalesReport> {
               KDatePicker(
                 onConfirmStart: (date) {
                   setState(() {
-                    _fromDateTimeValue = date;
+                    fromDateTimeValue = date;
                   });
                 },
                 onConfirmEnd: (date) {
                   setState(() {
-                    _toDateTimeValue = date;
+                    toDateTimeValue = date;
                   });
                 },
               ),
@@ -223,6 +230,6 @@ class _SalesReportState extends State<SalesReport> {
   }
 
   bool validDates() {
-    return _fromDateTimeValue != "يرجى أختيار تاريخ البداية" && _toDateTimeValue != "يرجى إختيار تاريخ النهاية";
+    return fromDateTimeValue != "يرجى أختيار تاريخ البداية" && toDateTimeValue != "يرجى إختيار تاريخ النهاية";
   }
 }

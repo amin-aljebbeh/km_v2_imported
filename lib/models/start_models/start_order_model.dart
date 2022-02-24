@@ -96,6 +96,8 @@ class OrdersOriginalData {
     this.address,
     this.userData,
     this.createdAt,
+    this.deliveredAt,
+    this.acceptedAt,
     this.delivery,
     this.shopper,
     this.images,
@@ -121,6 +123,8 @@ class OrdersOriginalData {
   String total;
   String userFeedback;
   DateTime createdAt;
+  DateTime acceptedAt;
+  DateTime deliveredAt;
   OrderAddress address;
   UserData userData;
 
@@ -170,6 +174,8 @@ class OrdersOriginalData {
         shopperProfit: 0,
         kammunProfit: 0,
         userFeedback: json['user_feedback'] != null ? json['user_feedback'] : 'null',
+        deliveredAt: json['delivered_at'] != null ? DateTime.parse(json['delivered_at']) : null,
+        acceptedAt: json['accepted_at'] != null ? DateTime.parse(json['accepted_at']) : null,
       );
 
   Map<String, dynamic> toJson() => {

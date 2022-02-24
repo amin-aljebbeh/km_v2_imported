@@ -17,7 +17,9 @@ class KDatePicker extends StatefulWidget {
   _KDatePickerState createState() => _KDatePickerState();
 }
 
-class _KDatePickerState extends State<KDatePicker> {
+class _KDatePickerState extends State<KDatePicker> with AutomaticKeepAliveClientMixin<KDatePicker> {
+  @override
+  bool get wantKeepAlive => true;
   String _fromDateTimeValue = "يرجى أختيار تاريخ البداية";
   String _toDateTimeValue = "يرجى إختيار تاريخ النهاية";
   final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');

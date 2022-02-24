@@ -110,7 +110,6 @@ class _MyAppState extends State<MyApp> {
           '/products_not_added_to_warehouse': (_) => NotAddedProductsToWarehouse(),
           '/all_products': (_) => AllProducts(),
           '/attach_product_to_sub_warehouse': (_) => AddProductsToSubWarehouse(),
-          '/matching_report': (_) => MatchingReport(),
           '/subWarehouseManagement': (_) => GetSubWarehouse(),
           '/priceChange': (_) => Prices(),
           '/Inventory': (_) => Inventory(),

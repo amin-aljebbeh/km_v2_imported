@@ -44,7 +44,7 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.isActive,
     this.attached,
     this.index,
-    this.deleteTimes,
+    this.deleteTimes = -1,
   });
 
   @override

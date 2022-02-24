@@ -214,7 +214,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                                                 context: context,
                                                 content: Center(
                                                   child: Text(
-                                                    profit.toString(),
+                                                    StringUtils().oCcy.format(profit),
                                                     style: profit.isNegative ? loseStyle : profitStyle,
                                                   ),
                                                 ),

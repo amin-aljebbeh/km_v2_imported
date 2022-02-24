@@ -15,42 +15,46 @@ class _AllProductsState extends State<AllProducts> {
   List<ProductData> productsList = List<ProductData>();
   bool isLoading = false;
   bool isError = false;
-  bool displayToActiveProducts = true;
   TextEditingController _controller = new TextEditingController();
   String filter;
   int filterProducts;
   int isActiveFilter;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<bool> _loadData() async {
+  _loadData() async {
     productsList.clear();
     setState(() {
       isLoading = true;
       isError = false;
     });
-    try {
-      var response = await AddedProductsServices.getAllProducts();
-      if (response != null) {
-        productsList.addAll(response);
-        setState(() {
-          isLoading = false;
-        });
-        return true;
-      } else {
+    if (LoadingScreenServices.allProducts.isNotEmpty) {
+      productsList.addAll(LoadingScreenServices.allProducts);
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      try {
+        var response = await AddedProductsServices.getAllProducts();
+        if (response != null) {
+          LoadingScreenServices.allProducts.addAll(response);
+          productsList.addAll(response);
+          setState(() {
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+            isError = true;
+          });
+        }
+      } catch (e) {
+        Tools.logToConsole("Error While getting Inventory Products");
+        Tools.logToConsole(e.toString());
         setState(() {
           isLoading = false;
           isError = true;
         });
-        return false;
       }
-    } catch (e) {
-      Tools.logToConsole("Error While getting Inventory Products");
-      Tools.logToConsole(e.toString());
-      setState(() {
-        isLoading = false;
-        isError = true;
-      });
-      return false;
     }
   }
 
@@ -78,6 +82,7 @@ class _AllProductsState extends State<AllProducts> {
       backgroundColor: Colors.white,
       appBar: InventorySearchTextField(
         onReload: () {
+          LoadingScreenServices.allProducts.clear();
           _loadData();
         },
         controller: _controller,

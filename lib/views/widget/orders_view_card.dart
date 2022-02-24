@@ -25,7 +25,6 @@ class OrdersViewCard extends StatefulWidget {
 }
 
 openMapsSheet(context, double lat, double lon) async {
-  Tools.logToConsole('message');
   try {
     final coords = Coords(lat, lon);
     final title = "Ocean Beach";
@@ -63,6 +62,7 @@ openMapsSheet(context, double lat, double lon) async {
 class OrdersViewCardState extends State<OrdersViewCard> {
   int deletedCount;
 
+  @override
   void initState() {
     deletedCount = widget.orderData.products.where((product) => product.pivot.deletedAt != 'null').length;
     super.initState();
@@ -286,6 +286,17 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 leftSideText: widget.orderData.shopper != null ? widget.orderData.shopper.name : " ",
                 leftSideStyle: paragraphStyle,
               ),
+              if (Services.isOperationManager() && widget.orderData.orderStatusId == '5')
+                LabelRow(
+                  rightSideText: 'زمن التوصيل : ',
+                  leftSideText: '  ' +
+                      widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours.toString() +
+                      ':' +
+                      (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes -
+                              (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours * 60))
+                          .toString(),
+                  leftSideStyle: disableStyle,
+                ),
             ],
           ),
         ),

@@ -147,7 +147,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                             context: context,
                                             content: Center(
                                               child: Text(
-                                                profit.toString(),
+                                                StringUtils().oCcy.format(profit),
                                                 style: profit.isNegative ? loseStyle : profitStyle,
                                               ),
                                             ),

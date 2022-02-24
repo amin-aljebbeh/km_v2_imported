@@ -56,7 +56,8 @@ class LoadingScreenServices {
 
   // User Variables
   static List<Address> userAddress = List<Address>();
-  static List<ProductData> userFavoriteProducts = List<ProductData>();
+  static List<ProductData> allProducts = List<ProductData>();
+  static List<ProductData> notAddedProducts = List<ProductData>();
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
   static List<OrdersOriginalData> allOrdersList = new List<OrdersOriginalData>();
   static List<ShopperModel> allShoppers = List<ShopperModel>();

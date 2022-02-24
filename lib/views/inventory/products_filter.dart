@@ -46,7 +46,6 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   }
 
   getProducts() async {
-    Tools.logToConsole('hero');
     if (filter == 0 && int.parse(valueController.text) <= 5) {
       Toast.show("يرجى إدخال عدد أيام أكبر من 5", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
       return;
@@ -110,7 +109,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                     color: ColorUtils.primaryColor,
                   ),
                   onPressed: () {
-                    if (!empty && (valueController.text.isNotEmpty || filter == 1) && filter != null) {
+                    if (!empty && (valueController.text.isNotEmpty || filter == 3) && filter != null) {
                       setState(() {
                         page++;
                       });
@@ -185,7 +184,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                     color: ColorUtils.primaryColor,
                   ),
                   onPressed: () {
-                    if ((valueController.text.isNotEmpty) && !empty && filter != null) {
+                    if (valueController.text.isNotEmpty && filter != null && filter != 3) {
                       setState(() {
                         if (biggerThan == 1)
                           biggerThan = 0;
@@ -210,7 +209,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                     isAddress: false,
                     isPhoneNumber: false,
                     controller: valueController,
-                    fieldType: TextInputType.number,
+                    fieldType: TextInputType.text,
                   ),
                 ),
                 IconButton(

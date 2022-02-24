@@ -360,13 +360,6 @@ class StoreViewState extends State<StoreView> {
                           },
                         ),
                         SideBarRow(
-                          icon: Icons.report_gmailerrorred_sharp,
-                          text: "تقرير المطابقة",
-                          onTap: () {
-                            Navigator.of(context).pushNamed('/matching_report');
-                          },
-                        ),
-                        SideBarRow(
                           icon: Icons.attach_money,
                           text: "تغير الأسعار",
                           onTap: () {
