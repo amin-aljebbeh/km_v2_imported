@@ -2,6 +2,40 @@ PODS:
   - adv_image_cache (0.0.1):
     - Flutter
   - Alamofire (4.9.1)
+  - DKImagePickerController/Core (4.3.2):
+    - DKImagePickerController/ImageDataManager
+    - DKImagePickerController/Resource
+  - DKImagePickerController/ImageDataManager (4.3.2)
+  - DKImagePickerController/PhotoGallery (4.3.2):
+    - DKImagePickerController/Core
+    - DKPhotoGallery
+  - DKImagePickerController/Resource (4.3.2)
+  - DKPhotoGallery (0.0.17):
+    - DKPhotoGallery/Core (= 0.0.17)
+    - DKPhotoGallery/Model (= 0.0.17)
+    - DKPhotoGallery/Preview (= 0.0.17)
+    - DKPhotoGallery/Resource (= 0.0.17)
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Core (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Preview
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Model (0.0.17):
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Preview (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Resource
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Resource (0.0.17):
+    - SDWebImage
+    - SwiftyGif
+  - file_picker (0.0.1):
+    - DKImagePickerController/PhotoGallery
+    - Flutter
   - Firebase/Core (6.34.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 6.9.0)
@@ -51,8 +85,6 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 6.7)
     - Protobuf (>= 3.9.2, ~> 3.9)
   - Flutter (1.0.0)
-  - flutter_barcode_scanner (1.0.2):
-    - Flutter
   - flutter_uploader (1.2.0):
     - Alamofire (= 4.9.1)
     - Flutter
@@ -107,6 +139,8 @@ PODS:
     - Flutter
   - image_viewer (0.0.1):
     - Flutter
+  - map_launcher (0.0.1):
+    - Flutter
   - MLKitBarcodeScanning (0.64.0):
     - MLKitCommon (~> 0.64)
     - MLKitVision (~> 0.64)
@@ -141,6 +175,9 @@ PODS:
   - qr_mobile_vision (0.0.1):
     - Flutter
     - GoogleMLKit/BarcodeScanning
+  - SDWebImage (5.12.1):
+    - SDWebImage/Core (= 5.12.1)
+  - SDWebImage/Core (5.12.1)
   - searchable_dropdown (1.1.1):
     - Flutter
   - share (0.0.1):
@@ -149,17 +186,19 @@ PODS:
     - Flutter
   - sms_autofill (0.0.1):
     - Flutter
+  - SwiftyGif (5.4.2)
   - url_launcher (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - adv_image_cache (from `.symlinks/plugins/adv_image_cache/ios`)
+  - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
-  - flutter_barcode_scanner (from `.symlinks/plugins/flutter_barcode_scanner/ios`)
   - flutter_uploader (from `.symlinks/plugins/flutter_uploader/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - image_viewer (from `.symlinks/plugins/image_viewer/ios`)
+  - map_launcher (from `.symlinks/plugins/map_launcher/ios`)
   - native_device_orientation (from `.symlinks/plugins/native_device_orientation/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
@@ -173,6 +212,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - DKImagePickerController
+    - DKPhotoGallery
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -193,22 +234,26 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Protobuf
+    - SDWebImage
+    - SwiftyGif
 
 EXTERNAL SOURCES:
   adv_image_cache:
     :path: ".symlinks/plugins/adv_image_cache/ios"
+  file_picker:
+    :path: ".symlinks/plugins/file_picker/ios"
   firebase_messaging:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
     :path: Flutter
-  flutter_barcode_scanner:
-    :path: ".symlinks/plugins/flutter_barcode_scanner/ios"
   flutter_uploader:
     :path: ".symlinks/plugins/flutter_uploader/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   image_viewer:
     :path: ".symlinks/plugins/image_viewer/ios"
+  map_launcher:
+    :path: ".symlinks/plugins/map_launcher/ios"
   native_device_orientation:
     :path: ".symlinks/plugins/native_device_orientation/ios"
   package_info:
@@ -231,6 +276,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   adv_image_cache: e75dabd0f21f5fa0d2e508fc1280bff76d115364
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
+  DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
+  file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Firebase: c23a36d9e4cdf7877dfcba8dd0c58add66358999
   firebase_messaging: 21344b3b3a7d9d325d63a70e3750c0c798fe1e03
   FirebaseAnalytics: 3bb096873ee0d7fa4b6c70f5e9166b6da413cc7f
@@ -240,7 +288,6 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: bd3ffc24367f901a43c063b36c640b345a4a5dd1
   FirebaseMessaging: 5eca4ef173de76253352511aafef774caa1cba2a
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_barcode_scanner: fc42adac0732eca7bd9d3d676b215bce5903f269
   flutter_uploader: 7957e1b9d6516b6cccc37e5ffd6c5a0975a7cc4c
   GoogleAppMeasurement: a6a3a066369828db64eda428cb2856dc1cdc7c4e
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
@@ -251,6 +298,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   image_viewer: 3ff6248139d02dd4e15d4329bb36c69f00e615e2
+  map_launcher: e325db1261d029ff33e08e03baccffe09593ffea
   MLKitBarcodeScanning: 7b380e25719fb194292063e217c1ddbb0edbb506
   MLKitCommon: dc2909c96dbf7f5a75b86a3d2fa1b92ff3f6a30b
   MLKitVision: bd96ec12ea19d589435523c914766538da259161
@@ -261,10 +309,12 @@ SPEC CHECKSUMS:
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   qr_mobile_vision: 308ef269e6bc257c05a4adf218e02afc2be09736
+  SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
   searchable_dropdown: 5058be32fdc5e0481d300ff2087129072e71bd62
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   sms_autofill: c461043483362c3f1709ee76eaae6eb570b31686
+  SwiftyGif: dec758a9dd3d278e5a855dbf279bf062c923c387
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
 PODFILE CHECKSUM: 0054cd873ff76642b3d353e28f492247c4d1fc24

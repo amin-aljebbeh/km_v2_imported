@@ -26,9 +26,9 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 
-//def keystorePropertiesFile = rootProject.file("key.properties")
-//def keystoreProperties = new Properties()
-//keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+// def keystorePropertiesFile = rootProject.file("key.properties")
+// def keystoreProperties = new Properties()
+// keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdkVersion 29
@@ -49,14 +49,14 @@ android {
         versionCode 82
         versionName "1.82"
     }
-//signingConfigs {
-//release {
+// signingConfigs {
+// release {
 //  keyAlias keystoreProperties['keyAlias']
 //  keyPassword keystoreProperties['keyPassword']
 //  storeFile file(keystoreProperties['storeFile'])
 //  storePassword keystoreProperties['storePassword']
-//}
-//}
+// }
+// }
 
     buildTypes {
         release {
