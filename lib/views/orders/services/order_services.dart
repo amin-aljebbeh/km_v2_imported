@@ -53,11 +53,13 @@ class OrderServices {
     orderId = orderUnderUpdateId;
 
     try {
+      Tools.logToConsole('come here');
       var response = await ApiProvider.sendRequest(
         url: API + ORDER + '$orderId',
         method: httpMethods.put,
         body: jsonEncode(orderData),
       );
+      Tools.logToConsole(response.toString());
 
       if (response.data['reason'].toString().contains('discontinued')) {
         return new OrderResponse(success: false, reason: 'discontinued');
@@ -67,7 +69,8 @@ class OrderServices {
         return parsedJson;
       }
     } catch (e) {
-      Tools.logToConsole(e);
+      Tools.logToConsole('e');
+      Tools.logToConsole(e.toString());
       return null;
     }
   }
