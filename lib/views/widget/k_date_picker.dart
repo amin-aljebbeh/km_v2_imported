@@ -25,6 +25,7 @@ class _KDatePickerState extends State<KDatePicker> with AutomaticKeepAliveClient
   final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       children: [
         Row(

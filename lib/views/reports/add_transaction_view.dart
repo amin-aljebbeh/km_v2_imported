@@ -184,6 +184,9 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                     }
                   },
                 ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                ),
               ],
             ),
           ),
