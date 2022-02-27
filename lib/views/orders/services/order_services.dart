@@ -54,7 +54,7 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: API + ORDER + '/$orderId',
+        url: API + ORDER + '$orderId',
         method: httpMethods.put,
         body: jsonEncode(orderData),
       );

@@ -34,7 +34,6 @@ class CartViewState extends State<CartView> {
     productsId = CartServices.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
     productsQuantity =
         CartServices.cartProducts.fold('', (counts, product) => counts + product.productCount.toString() + ';');
-    Tools.logToConsole('message from cart');
     Tools.logToConsole(productsQuantity);
     prefs.setString("userCart", productsId + "@" + productsQuantity);
   }

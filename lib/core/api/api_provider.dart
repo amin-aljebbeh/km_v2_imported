@@ -15,7 +15,6 @@ class ApiProvider {
     if (mapService == null) mapService = false;
     if (isUrlEncodedFormat == null) isUrlEncodedFormat = false;
 
-    Tools.logToConsole(BASE_URL + url);
     var options = BaseOptions(
         baseUrl: mapService ? "" : BASE_URL,
         connectTimeout: 40000,

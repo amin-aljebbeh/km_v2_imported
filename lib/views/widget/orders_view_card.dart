@@ -68,6 +68,13 @@ class OrdersViewCardState extends State<OrdersViewCard> {
     super.initState();
   }
 
+  String printDuration(DateTime time) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(time.hour);
+    String twoDigitSeconds = twoDigits(time.minute);
+    return "$twoDigitMinutes:$twoDigitSeconds";
+  }
+
   String orderStatus = "طلبك قيد المعالجة ⌛️";
 
   @override
