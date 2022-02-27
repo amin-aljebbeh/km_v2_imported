@@ -64,17 +64,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
 
   @override
   void initState() {
-    deletedCount = widget.orderData.products
-        .where((product) => product.pivot.deletedAt != 'null')
-        .length;
+    deletedCount = widget.orderData.products.where((product) => product.pivot.deletedAt != 'null').length;
     super.initState();
-  }
-
-  String printDuration(DateTime time) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(time.hour);
-    String twoDigitSeconds = twoDigits(time.minute);
-    return "$twoDigitMinutes:$twoDigitSeconds";
   }
 
   String orderStatus = "طلبك قيد المعالجة ⌛️";
@@ -110,8 +101,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
         break;
     }
 
-    Color color = widget.orderData.userData.orderCount <= 3 &&
-            !widget.orderData.userData.orderCount.isNegative
+    Color color = widget.orderData.userData.orderCount <= 3 && !widget.orderData.userData.orderCount.isNegative
         ? ColorUtils.kmColors2
         : widget.orderData.deliveryMethodId == '2'
             ? Colors.red[700]
@@ -126,12 +116,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
           new MaterialPageRoute(
             builder: (context) => new OrderDetailsTabView(
               orderData: widget.orderData,
-              subTotal:
-                  int.parse(widget.orderData.total.toString().split(".")[0]) -
-                      int.parse(widget.orderData.supportedCityCost
-                          .toString()
-                          .split(".")[0]) -
-                      int.parse(widget.orderData.deliveryCost.split(".")[0]),
+              subTotal: int.parse(widget.orderData.total.toString().split(".")[0]) -
+                  int.parse(widget.orderData.supportedCityCost.toString().split(".")[0]) -
+                  int.parse(widget.orderData.deliveryCost.split(".")[0]),
               total: widget.orderData.total.toString(),
               orderType: widget.orderType,
             ),
@@ -151,16 +138,14 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 children: <Widget>[
                   LabelRow(
                     rightSideText: StringUtils.bill,
-                    leftSideText:
-                        "${StringUtils().oCcy.format(int.parse(widget.orderData.total)).toString()}" +
-                            " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                    leftSideText: "${StringUtils().oCcy.format(int.parse(widget.orderData.total)).toString()}" +
+                        " ${LoadingScreenServices.companyInformation.currency.toString()}",
                     leftSideStyle: informationStyle,
                   ),
                   Container(
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      border: Border.all(
-                          color: ColorUtils.greyColor.withOpacity(0.2)),
+                      border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2)),
                     ),
                     child: Text(
                       widget.orderData.products
@@ -186,8 +171,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       ),
                     ),
                   if (Services.isOperationManager() &&
-                      (widget.orderData.userDeliveryRating != 'null' ||
-                          widget.orderData.userFeedback != 'null'))
+                      (widget.orderData.userDeliveryRating != 'null' || widget.orderData.userFeedback != 'null'))
                     IconButton(
                       icon: Icon(
                         Icons.star,
@@ -229,8 +213,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       if (Services.isShopper())
                         RichText(
                           text: TextSpan(
-                            text:
-                                "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
+                            text: "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
                             style: profitStyle,
                           ),
                         ),
@@ -248,11 +231,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       color: ColorUtils.kmColors,
                     ),
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => Services.makePhoneCall(
-                          widget.orderData.userData.phone),
+                      ..onTap = () => Services.makePhoneCall(widget.orderData.userData.phone),
                   ),
-                  if (widget.orderData.address.lat != -1 &&
-                      widget.orderData.address.lon != -1)
+                  if (widget.orderData.address.lat != -1 && widget.orderData.address.lon != -1)
                     IconButton(
                       icon: Icon(
                         Icons.location_on,
@@ -260,8 +241,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         size: 30,
                       ),
                       onPressed: () {
-                        openMapsSheet(context, widget.orderData.address.lat,
-                            widget.orderData.address.lon);
+                        openMapsSheet(context, widget.orderData.address.lat, widget.orderData.address.lon);
                       },
                     ),
                 ],
@@ -280,9 +260,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
               LabelRow(
                 rightSideText: StringUtils.city,
                 leftSideText: LoadingScreenServices.supportedCitiesListIntro
-                        .where((supportedCity) =>
-                            supportedCity.id ==
-                            widget.orderData.supportedCityId)
+                        .where((supportedCity) => supportedCity.id == widget.orderData.supportedCityId)
                         .first
                         .name +
                     "   ",
@@ -295,8 +273,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
               ),
               LabelRow(
                 rightSideText: StringUtils.orderDate,
-                leftSideText: DateFormat('a h:mm - dd-MM-yyyy')
-                    .format(widget.orderData.createdAt),
+                leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(widget.orderData.createdAt),
                 leftSideStyle: disableStyle,
               ),
               LabelRow(
@@ -306,40 +283,23 @@ class OrdersViewCardState extends State<OrdersViewCard> {
               ),
               LabelRow(
                 rightSideText: StringUtils.shopperName + " ",
-                leftSideText: widget.orderData.shopper != null
-                    ? widget.orderData.shopper.name
-                    : " ",
+                leftSideText: widget.orderData.shopper != null ? widget.orderData.shopper.name : " ",
                 leftSideStyle: paragraphStyle,
               ),
-              if (Services.isOperationManager() &&
-                  widget.orderData.orderStatusId == '5')
+              if (Services.isOperationManager() && widget.orderData.orderStatusId == '5')
                 LabelRow(
                   rightSideText: 'زمن التوصيل : ',
                   leftSideText: '  ' +
-                      widget.orderData.deliveredAt
-                          .difference(widget.orderData.acceptedAt)
-                          .inHours
-                          .toString() +
+                      widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours.toString() +
                       ':' +
-                      (widget.orderData.deliveredAt
-                                  .difference(widget.orderData.acceptedAt)
-                                  .inMinutes -
-                              (widget.orderData.deliveredAt
-                                      .difference(widget.orderData.acceptedAt)
-                                      .inHours *
-                                  60))
+                      (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes -
+                              (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours * 60))
                           .toString(),
                   leftSideStyle: (widget.orderData.deliveryMethodId == "2" &&
-                          widget.orderData.deliveredAt
-                                  .difference(widget.orderData.acceptedAt)
-                                  .inMinutes >
-                              45)
+                          widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes > 45)
                       ? worningStyle
                       : (widget.orderData.deliveryMethodId == "1" &&
-                              widget.orderData.deliveredAt
-                                      .difference(widget.orderData.acceptedAt)
-                                      .inMinutes >
-                                  90)
+                              widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes > 90)
                           ? worningStyle
                           : disableStyle,
                 ),
