@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/Services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
+import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../Services.dart';
 import 'services/order_services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 
 class AssignedOrdersView extends StatefulWidget {
   @override
@@ -16,11 +17,9 @@ class AssignedOrdersView extends StatefulWidget {
 
 class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   Future getOrders;
-  int rateValue;
 
   @override
   void initState() {
-    rateValue = 0;
     filterOrders = 0;
 
     if (LoadingScreenServices.myOrdersList.length == 0) {
