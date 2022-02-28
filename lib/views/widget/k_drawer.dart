@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 
 class KDrawer extends StatelessWidget {
   final List<Widget> children;
@@ -29,12 +30,21 @@ class KDrawer extends StatelessWidget {
                         onTap: () => Navigator.of(context).pop(),
                         child: Container(
                           width: MediaQuery.of(context).size.width / 1.5,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Icon(
-                              Icons.arrow_back_ios,
-                              color: ColorUtils.kmColors,
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Icon(
+                                  Icons.arrow_back_ios,
+                                  color: ColorUtils.kmColors,
+                                ),
+                              ),
+                              Text(
+                                LoadingScreenServices.userName,
+                                style: TextStyle(color: ColorUtils.kmColors),
+                              ),
+                            ],
                           ),
                         ),
                       ),
