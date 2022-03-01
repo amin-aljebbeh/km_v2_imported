@@ -88,7 +88,7 @@ class StringUtils {
   static String outOfStock = "المنتج نفذ من المستودعات";
   static String supplierCode = 'رمز المادة';
   static String priceFactor = 'معدل الضرب';
-  static String name = 'الاسم';
+  static String name = 'الاسم :';
   static String unit = 'الوحدة';
   static String priority = 'الأولوية';
   static String logout = "تسجيل الخروج";

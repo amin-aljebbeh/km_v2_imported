@@ -65,6 +65,7 @@ dependencies:
   flutter_datetime_picker: ^0.1.9
   image_viewer: ^1.0.0
   qr_mobile_vision: ^2.0.0
+  call_log: ^2.2.1
   # location:
   #   git:
   #     url: git://github.com/dreambitio/flutterlocation.git

@@ -10,10 +10,10 @@ const String USER = 'user/';
 const String SEARCH = 'search/';
 
 // ignore: non_constant_identifier_names
-String BASE_URL = APP_URL;
+String BASE_URL = TEST_URL;
 
 const String APPLE_BASE_URL = 'https://kammun.app';
-const String PRODUCTION_BASE_URL = APP_URL;
+const String PRODUCTION_BASE_URL = TEST_URL;
 
 const String GET_COMPANY = API + 'company';
 const String GET_MOBILE_VERSION = API + 'mob_v_config';
@@ -68,6 +68,8 @@ const String ASSIGN_ORDER_TO_SHOPPER = API + ORDER + 'assign_order_to_shopper';
 const String ASSIGN_ORDER_TO_DELIVERY = API + ORDER + 'assign_order_to_delivery';
 
 const String CHANGE_ORDER_STATUS = API + ORDER + 'change_order_status/';
+
+const String GET_ORDER_BY_USER_PHONE_NUMBER = API + ORDER + 'get_order_by_phone/';
 
 // BareCode
 

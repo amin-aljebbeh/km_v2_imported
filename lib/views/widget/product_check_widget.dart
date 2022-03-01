@@ -34,7 +34,7 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
     return widget.preferLeftSide
         ? Row(
             children: [
-              if (!Services.isSupplierManager() && widget.productData.pivot.deletedAt != 'null')
+              if (Services.isOperationManager() || widget.productData.pivot.deletedAt != 'null')
                 RotatedBox(
                   quarterTurns: 1,
                   child: SwitchProductStatusWidget(

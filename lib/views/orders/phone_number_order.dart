@@ -3,35 +3,35 @@ import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Services.dart';
 import 'services/order_services.dart';
 
-class AssignedOrdersView extends StatefulWidget {
+class PhoneNumberOrdersView extends StatefulWidget {
+  final String phoneNumber;
+
+  PhoneNumberOrdersView({Key key, this.phoneNumber}) : super(key: key);
   @override
-  _AssignedOrdersViewState createState() => _AssignedOrdersViewState();
+  _PhoneNumberOrdersViewState createState() => _PhoneNumberOrdersViewState();
 }
 
-class _AssignedOrdersViewState extends State<AssignedOrdersView> {
+class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
   Future getOrders;
+  TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
     filterOrders = 0;
 
-    if (LoadingScreenServices.myOrdersList.length == 0) {
-      getOrders = _getOrder();
-    } else {
-      getOrders = _initialFunction();
-      orderDataList = LoadingScreenServices.myOrdersList;
-    }
+    setState(() {
+      phoneNumber = widget.phoneNumber;
+    });
+    getOrders = _getOrder();
+
     super.initState();
   }
-
-  _initialFunction() {}
 
   bool orderLoaded = true;
   bool errorMessage = false;
@@ -39,6 +39,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   bool isLoading = false;
   int page = 1;
   bool theEndOfOrders = false;
+  String phoneNumber;
 
   int filterOrders;
 
@@ -52,18 +53,12 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       orderDataList.clear();
     });
     var orderList;
-    if (LoadingScreenServices.myOrdersList.length == 0) {
-      if (Services.isDelivery()) orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
-      if (Services.isShopper()) orderList = await OrderServices.getShopperOrders(pageNumber: page);
-      if (Services.isSupplierManager()) orderList = await OrderServices.getSupplierOrders(pageNumber: page);
-    } else {
-      orderList = LoadingScreenServices.myOrdersList;
-    }
+    orderList = await OrderServices.getOrdersByUserPhoneNumber(phoneNumber: phoneNumber, pageNumber: page);
+
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
-          LoadingScreenServices.myOrdersList = orderDataList;
-          if (LoadingScreenServices.myOrdersList.length != 0) theEndOfOrders = true;
+          if (orderDataList.length != 0) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -78,7 +73,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
           }
 
           orderDataList.removeWhere((order) => order.products.length == 0);
-          LoadingScreenServices.myOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -132,6 +126,17 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             });
                             _getOrder();
                           },
+                        ),
+                        SearchOrderByPhoneNumber(
+                          context: context,
+                          onChoose: (number) async {
+                            setState(() {
+                              phoneNumber = number;
+                              page = 1;
+                            });
+                            _getOrder();
+                          },
+                          controller: controller,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15),
@@ -212,10 +217,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         itemBuilder: (BuildContext context, int index) {
                           orderDataList[index].orderArithmeticOperations();
                           if (Services.isShopper()) orderDataList[index].orderProfits();
-                          if (Services.isSupplierManager())
-                            return SupplierOrdersViewCard(
-                              order: orderDataList[index],
-                            );
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(
@@ -365,9 +366,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                                 "هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل",
                                             dialogButtons: decisionButtons,
                                             context: context);
-                                        // _showDialog(
-                                        //     body: orderDataList[index]
-                                        //         .userNotes);
                                       },
                                       color: Colors.blue[800],
                                     )
