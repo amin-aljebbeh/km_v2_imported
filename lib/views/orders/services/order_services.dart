@@ -56,13 +56,11 @@ class OrderServices {
     orderId = orderUnderUpdateId;
 
     try {
-      Tools.logToConsole('come here');
       var response = await ApiProvider.sendRequest(
         url: API + ORDER + '$orderId',
         method: httpMethods.put,
         body: jsonEncode(orderData),
       );
-      Tools.logToConsole(response.toString());
 
       if (response.data['reason'].toString().contains('discontinued')) {
         return new OrderResponse(success: false, reason: 'discontinued');
@@ -430,8 +428,6 @@ class OrderServices {
 
   static Future<List<OrdersOriginalData>> getOrdersByUserPhoneNumber({String phoneNumber, int pageNumber}) async {
     try {
-      Tools.logToConsole(phoneNumber);
-      Tools.logToConsole(pageNumber);
       var response = await ApiProvider.sendRequest(
         url: GET_ORDER_BY_USER_PHONE_NUMBER,
         method: httpMethods.get,
@@ -454,32 +450,15 @@ class OrderServices {
   }
 
   static Future<List<CallLogEntry>> callbackDispatcher() async {
-    print('Background Services are Working!');
     try {
       var now = DateTime.now();
       int from = now.subtract(Duration(days: 2)).millisecondsSinceEpoch;
       int to = now.subtract(Duration(days: 0)).millisecondsSinceEpoch;
       final Iterable<CallLogEntry> cLog = await CallLog.query(dateFrom: from, dateTo: to);
-      print('Queried call log entries');
-      print(cLog.length);
-      for (CallLogEntry entry in cLog) {
-        print('-------------------------------------');
-        print('F. NUMBER  : ${entry.formattedNumber}');
-        print('C.M. NUMBER: ${entry.cachedMatchedNumber}');
-        print('NUMBER     : ${entry.number}');
-        print('NAME       : ${entry.name}');
-        print('TYPE       : ${entry.callType}');
-        print('DATE       : ${DateTime.fromMillisecondsSinceEpoch(entry.timestamp)}');
-        print('DURATION   : ${entry.duration}');
-        print('ACCOUNT ID : ${entry.phoneAccountId}');
-        print('ACCOUNT ID : ${entry.phoneAccountId}');
-        print('SIM NAME   : ${entry.simDisplayName}');
-        print('-------------------------------------');
-      }
       return cLog.toList();
     } on PlatformException catch (e, s) {
-      print(e);
-      print(s);
+      Tools.logToConsole(e);
+      Tools.logToConsole(s);
       return null;
     }
   }

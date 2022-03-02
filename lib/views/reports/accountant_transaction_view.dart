@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/reports/add_transaction_view.dart';
 import 'package:kammun_app/views/reports/services/reports_services.dart';
-import 'package:intl/intl.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
+
 import '../../Services.dart';
 import 'models/transaction_model.dart';
 
@@ -158,7 +159,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                         ? profitLoading
                             ? Loader()
                             : LabelRow(
-                                rightSideText: 'مرابح اليوم : ',
+                                rightSideText: 'مرابح الشهر : ',
                                 leftSideText: profit != null
                                     ? StringUtils().oCcy.format(int.parse(profit).abs()).toString()
                                     : 'error',

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:kammun_app/views/reports/services/reports_services.dart';
 import 'package:intl/intl.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/reports/services/reports_services.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
+
 import '../../Services.dart';
 import 'models/transaction_model.dart';
 
@@ -89,7 +90,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: LabelRow(
-                      rightSideText: 'مرابح اليوم : ',
+                      rightSideText: 'مرابح الشهر : ',
                       leftSideText: profitLoading
                           ? 'جار الاتصال'
                           : profit != null

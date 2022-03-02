@@ -115,6 +115,11 @@ class StringUtils {
     'compensation': 'تعويض', //8
     'bonus': 'بونص', //9
     'remaining-money': 'زوائد', //10
+    'deposit': 'وديعة للزبون', //11
+    'extra-fees': 'رسوم إضافية', //12
+    'reckoning': 'تصفية حساب', //13
+    'pay-order': 'زوائد', //14
+    'refund': 'استرداد', //15
   };
 
   static List<String> productFilter = ['الغير مفعلة', 'عدد مرات البيع', 'عدد مرات العرض', 'المنتجات المحذوفة'];

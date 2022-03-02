@@ -445,67 +445,54 @@ class OrdersViewState extends State<OrdersView> {
                                   ),
                                 ),
                               if (['6', '7'].contains(orderDataList[index].orderStatusId))
-                                Column(
-                                  children: [
-                                    LabelRow(
-                                        rightSideText: orderDataList[index].orderStatusId == '6'
-                                            ? 'تم إلغاء الطلب من قبل الزيون'
-                                            : 'تم إلغاء الطلب من قبل ابو الزين',
-                                        leftSideText: '',
-                                        leftSideStyle: mainStyle),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15.0),
-                                      child: KammunButton(
-                                        text: "استعادة الطلب",
-                                        width: MediaQuery.of(context).size.width,
-                                        color: ColorUtils.kmColors,
-                                        onTap: () {
-                                          List<DialogButton> decisionButton = [
-                                            DialogButton(
-                                              text: 'نعم',
-                                              onTap: () async {
-                                                int changeStatus = 0;
-                                                Navigator.of(context).pop();
+                                KammunButton(
+                                  text: "استعادة الطلب",
+                                  width: MediaQuery.of(context).size.width,
+                                  color: ColorUtils.kmColors,
+                                  onTap: () {
+                                    List<DialogButton> decisionButton = [
+                                      DialogButton(
+                                        text: 'نعم',
+                                        onTap: () async {
+                                          int changeStatus = 0;
+                                          Navigator.of(context).pop();
 
-                                                setState(() {
-                                                  isLoading = true;
-                                                  errorMessage = false;
-                                                });
-                                                changeStatus = 1;
+                                          setState(() {
+                                            isLoading = true;
+                                            errorMessage = false;
+                                          });
+                                          changeStatus = 1;
 
-                                                bool result = await OrderServices.changeOrderStatus(
-                                                    orderDataList[index].id.toString(), changeStatus);
-                                                Services.resultFlushBar(context: context, result: result);
+                                          bool result = await OrderServices.changeOrderStatus(
+                                              orderDataList[index].id.toString(), changeStatus);
+                                          Services.resultFlushBar(context: context, result: result);
 
-                                                if (result) {
-                                                  setState(() {
-                                                    orderDataList[index].orderStatusId = changeStatus.toString();
-                                                    isLoading = false;
-                                                  });
-                                                } else {
-                                                  setState(() {
-                                                    isLoading = false;
-                                                    errorMessage = true;
-                                                  });
-                                                }
-                                              },
-                                            ),
-                                            DialogButton(
-                                              text: 'لا',
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ];
-                                          showMyDialog(
-                                              title: "استعادة الطلب",
-                                              text: "هل أنت متأكد انك تريد استعادة الطلب ؟",
-                                              dialogButtons: decisionButton,
-                                              context: context);
+                                          if (result) {
+                                            setState(() {
+                                              orderDataList[index].orderStatusId = changeStatus.toString();
+                                              isLoading = false;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              isLoading = false;
+                                              errorMessage = true;
+                                            });
+                                          }
                                         },
                                       ),
-                                    ),
-                                  ],
+                                      DialogButton(
+                                        text: 'لا',
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ];
+                                    showMyDialog(
+                                        title: "استعادة الطلب",
+                                        text: "هل أنت متأكد انك تريد استعادة الطلب ؟",
+                                        dialogButtons: decisionButton,
+                                        context: context);
+                                  },
                                 ),
                               KammunButton(
                                 text: StringUtils.editOrder,
