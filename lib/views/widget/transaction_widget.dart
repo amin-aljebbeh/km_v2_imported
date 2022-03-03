@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/reports/models/transaction_model.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:intl/intl.dart';
 
 class Transaction extends StatelessWidget {
   final TransactionModel transaction;
@@ -108,11 +108,7 @@ class Transaction extends StatelessWidget {
                     ],
                   ),
                   KTableElement(
-                    text: transaction.orderId != null
-                        ? transaction.orderId.toString().length >= 3
-                            ? "#${transaction.orderId.toString().substring(transaction.orderId.toString().length - 3, transaction.orderId.toString().length)}"
-                            : '#${transaction.orderId.toString()}'
-                        : 'null',
+                    text: transaction.orderId != null ? transaction.orderId.toString() : 'null',
                     style: mainStyle.copyWith(
                       color: Colors.purple,
                     ),

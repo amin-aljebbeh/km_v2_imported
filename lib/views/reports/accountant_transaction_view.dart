@@ -239,7 +239,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                   KammunButton(
                     width: MediaQuery.of(context).size.width,
                     height: 50,
-                    text: 'إضافة مناقلة',
+                    text: StringUtils.addTransaction,
                     color: ColorUtils.primaryColor,
                     onTap: () {
                       Navigator.push(

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:intl/intl.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'services/reports_services.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
+
 import '../../Services.dart';
+import 'services/reports_services.dart';
 
 // ignore: must_be_immutable
 class AddTransactionView extends StatefulWidget {
   String shopperName;
+  int orderId;
 
-  AddTransactionView({Key key, this.shopperName}) : super(key: key);
+  AddTransactionView({Key key, this.shopperName, this.orderId}) : super(key: key);
 
   @override
   _AddTransactionViewState createState() => _AddTransactionViewState();
@@ -31,6 +33,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
   void initState() {
     start = true;
     shopperName = widget.shopperName;
+    if (widget.orderId != null) orderIdController.text = widget.orderId.toString();
     super.initState();
   }
 
@@ -106,27 +109,22 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   controller: moneyController,
                   text: 'المبلغ :         ',
-                  inputType: TextInputType.number,
+                  inputType: TextInputType.text,
                   width: 150,
                 ),
                 SizedBox(
                   height: 40,
                 ),
-                if (transactionTypeString == 'خصم')
-                  Column(
-                    children: [
-                      TextFieldRow(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        controller: orderIdController,
-                        text: 'رقم الطلب :',
-                        inputType: TextInputType.number,
-                        width: 150,
-                      ),
-                      SizedBox(
-                        height: 40,
-                      ),
-                    ],
-                  ),
+                TextFieldRow(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  controller: orderIdController,
+                  text: 'رقم الطلب :',
+                  inputType: TextInputType.text,
+                  width: 150,
+                ),
+                SizedBox(
+                  height: 40,
+                ),
                 TextFieldRow(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   controller: descriptionController,

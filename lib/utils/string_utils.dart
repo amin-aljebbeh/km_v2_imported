@@ -8,7 +8,7 @@ class StringUtils {
   static String fontFamilyHKGrotesk = 'Tajawal';
 
   // App Name
-  static String ratingOrder = "تقييم الطلب";
+  static String ratingOrder = 'تقييم الطلب';
 
   static String cancelOrder = 'إلغاء الطلب';
   static String edit = 'تعديل';
@@ -77,21 +77,22 @@ class StringUtils {
   static String next = 'التالي';
   static String addToCart = 'الإضافة للسلة';
   static String send = 'إرسال';
-  static String addDeduct = 'إضافة خصم';
+  static String add = 'إضافة';
+  static String addTransaction = 'إضافة مناقلة';
 
 //Labels:
   static String shopperName = 'مسؤول الطلب : ';
   static String orderDate = 'تاريخ الطلب : ';
-  static String quantity = "الكمية";
-  static String price = "السعر ";
-  static String description = "الوصف ";
-  static String outOfStock = "المنتج نفذ من المستودعات";
+  static String quantity = 'الكمية';
+  static String price = 'السعر ';
+  static String description = 'الوصف ';
+  static String outOfStock = 'المنتج نفذ من المستودعات';
   static String supplierCode = 'رمز المادة';
   static String priceFactor = 'معدل الضرب';
   static String name = 'الاسم :';
   static String unit = 'الوحدة';
   static String priority = 'الأولوية';
-  static String logout = "تسجيل الخروج";
+  static String logout = 'تسجيل الخروج';
   static String shopper = 'متسوق';
 
   //Dialogs:
@@ -102,7 +103,7 @@ class StringUtils {
   //Messages:
   static String chooseShopper = 'اختر متسوق';
   static String errorMessage = 'حدث خطأ اثناء محاولة جلب البيانات';
-  final oCcy = new NumberFormat("#,##0", "en_US");
+  final oCcy = new NumberFormat('#,##0', 'en_US');
 
   static Map<String, String> transactionTypesMap = {
     'shopping': 'تسوق', //1
@@ -136,31 +137,43 @@ class StringUtils {
   static List<String> orderTypes = ['مسند لكابتن', 'بحاجة لكابتن', 'مسند لمتسوق', 'بحاجة لمتسوق'];
 
   static List<String> orderStatus = [
-    "فلترة الطلبات",
-    "قيد المعالجة",
-    "تم قبولها",
-    "تم تجهيزها",
-    "مع التوصيل",
-    "تم توصيلها",
-    "تم إلغائها",
-    "تم رفضها"
+    'فلترة الطلبات',
+    'قيد المعالجة',
+    'تم قبولها',
+    'تم تجهيزها',
+    'مع التوصيل',
+    'تم توصيلها',
+    'تم إلغائها',
+    'تم رفضها'
+  ];
+
+  static List<String> phoneOrderStatus = [
+    'بدون فلترة',
+    'فلترة الطلبات',
+    'قيد المعالجة',
+    'تم قبولها',
+    'تم تجهيزها',
+    'مع التوصيل',
+    'تم توصيلها',
+    'تم إلغائها',
+    'تم رفضها'
   ];
 
   static List<String> dropdownValues = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15"
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15'
   ];
 }

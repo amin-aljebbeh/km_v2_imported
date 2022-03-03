@@ -1,16 +1,18 @@
+import 'dart:io' show Platform;
+
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
+import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io' show Platform;
+
 import '../../Services.dart';
 import '../management_view/management_view.dart';
-import 'package:share/share.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 
 class StoreView extends StatefulWidget {
   @override
@@ -252,7 +254,7 @@ class StoreViewState extends State<StoreView> {
                         ),
                         SideBarRow(
                           icon: Icons.money,
-                          text: "إضافة مناقلة",
+                          text: StringUtils.addTransaction,
                           onTap: () {
                             Navigator.of(context).pushNamed('/AddTransactionView');
                           },

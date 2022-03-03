@@ -10,7 +10,7 @@ class TextFieldRow extends StatefulWidget {
   final TextInputType inputType;
   final double width;
 
-  const TextFieldRow({
+  TextFieldRow({
     Key key,
     @required this.controller,
     @required this.text,
@@ -43,6 +43,7 @@ class _TextFieldRowState extends State<TextFieldRow> {
           canBeEmpty: false,
           isAddress: false,
           isPhoneNumber: false,
+          onSubmit: (result) {},
         ),
       ],
     );
