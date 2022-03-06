@@ -12,10 +12,12 @@ import 'services/order_details_services.dart';
 
 class OrderAccounting extends StatefulWidget {
   final OrdersOriginalData orderData;
+  final Function onDelete;
 
   const OrderAccounting({
     Key key,
     @required this.orderData,
+    this.onDelete,
   }) : super(key: key);
 
   @override
@@ -26,9 +28,16 @@ class _OrderAccountingState extends State<OrderAccounting> {
   double distance;
   List<Widget> subWarehouseTotal = [];
   List<InkWell> imageWidgets = [];
+  List<OrderImage> images = [];
+
+  @override
+  void initState() {
+    if (widget.orderData.images.isNotEmpty) images.addAll(widget.orderData.images);
+    super.initState();
+  }
 
   getImages() {
-    for (int i = 0; i < widget.orderData.images.length; i++) {
+    for (int i = 0; i < images.length; i++) {
       imageWidgets.add(
         InkWell(
           onLongPress: () async {
@@ -38,7 +47,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 onTap: () async {
                   Navigator.of(context).pop();
                   bool result = await OrderDetailsServices.deleteImageFromOrder(
-                    imageId: widget.orderData.images[i].id.toString(),
+                    imageId: images[i].id.toString(),
                   );
                   Services.resultFlushBar(
                     context: context,
@@ -49,6 +58,9 @@ class _OrderAccountingState extends State<OrderAccounting> {
                       widget.orderData.images.removeWhere(
                         (image) => image.id == widget.orderData.images[i].id,
                       );
+                      images.clear();
+                      images.addAll(widget.orderData.images);
+                      widget.onDelete();
                     });
                 },
               ),

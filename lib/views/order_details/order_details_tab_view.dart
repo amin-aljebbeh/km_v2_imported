@@ -24,14 +24,13 @@ class OrderDetailsTabView extends StatefulWidget {
   _OrderDetailsTabViewState createState() => _OrderDetailsTabViewState();
 }
 
-class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
+class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTickerProviderStateMixin {
   bool deletedProducts;
-  int tabCount;
   List<Widget> tabList = [];
   List<Widget> screenList = [];
+  TabController controller;
 
   tabBarList() {
-    tabCount = 1;
     tabList.add(
       Tab(
         child: Center(
@@ -53,7 +52,6 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
     );
     if (!Services.isSupplierManager()) {
       if (deletedProducts) {
-        tabCount++;
         tabList.add(
           Center(
             child: Tab(
@@ -76,7 +74,6 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
         );
       }
 
-      tabCount++;
       tabList.add(
         Tab(
           child: Center(
@@ -90,9 +87,18 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
       screenList.add(
         OrderAccounting(
           orderData: widget.orderData,
+          onDelete: () {
+            controller.animateTo(0);
+          },
         ),
       );
     }
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -110,8 +116,9 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
   bool errorAlert = false;
   @override
   Widget build(BuildContext context) {
+    controller = TabController(vsync: this, length: tabList.length);
     return DefaultTabController(
-      length: tabCount,
+      length: screenList.length,
       child: Scaffold(
         appBar: new PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
@@ -119,6 +126,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
             color: ColorUtils.primaryColor,
             child: new SafeArea(
               child: new TabBar(
+                controller: controller,
                 indicatorColor: Colors.white,
                 labelColor: Colors.white,
                 tabs: tabList,
@@ -127,6 +135,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> {
           ),
         ),
         body: TabBarView(
+          controller: controller,
           children: screenList,
         ),
       ),

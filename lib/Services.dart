@@ -1,19 +1,21 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'core/core_importer.dart';
 import 'models/models_importer.dart';
+import 'utils/utils_importer.dart';
 import 'views/loading/Loading.dart';
 import 'views/loading/LoadingServices.dart';
 import 'views/restart/kammunapp_restart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'core/core_importer.dart';
-import 'utils/utils_importer.dart';
-import 'package:share/share.dart';
 
 class Services {
   static List<Role> roles = [];
@@ -208,9 +210,6 @@ class Services {
   }
 
   static Future<bool> changeShopperStatus({@required String shopperId, @required String newStatus}) async {
-    Tools.logToConsole('shopper222');
-    Tools.logToConsole(shopperId);
-    Tools.logToConsole(newStatus);
     Map changeStatus = {'status': newStatus};
     try {
       var response = await ApiProvider.sendRequest(
