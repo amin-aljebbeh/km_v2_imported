@@ -1,19 +1,19 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show Platform;
 
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
-import '../../models/models_importer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../Services.dart';
 import '../../core/core_importer.dart';
+import '../../models/models_importer.dart';
+import '../../utils/utils_importer.dart';
 import '../../views/inventory/services/inventory_services.dart';
 import '../../views/reports/models/transaction_type_model.dart';
 import '../../views/reports/services/reports_services.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:io' show Platform;
-import '../../Services.dart';
 import 'Loading.dart';
-import '../../utils/utils_importer.dart';
 
 class LoadingScreenServices {
   static StartModel startRequest = new StartModel();
@@ -55,7 +55,6 @@ class LoadingScreenServices {
   // -------------------------------------------------------//
 
   // User Variables
-  static List<Address> userAddress = List<Address>();
   static List<ProductData> allProducts = List<ProductData>();
   static List<ProductData> notAddedProducts = List<ProductData>();
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();

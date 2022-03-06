@@ -1,13 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:intl/intl.dart';
-import 'package:map_launcher/map_launcher.dart';
 import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
+import 'package:map_launcher/map_launcher.dart';
 
 class OrdersViewCard extends StatefulWidget {
   final OrdersOriginalData orderData;
@@ -24,7 +24,7 @@ class OrdersViewCard extends StatefulWidget {
   }
 }
 
-openMapsSheet(context, double lat, double lon) async {
+openMapsSheet({context, double lat, double lon}) async {
   try {
     final coords = Coords(lat, lon);
     final title = "Ocean Beach";
@@ -61,9 +61,11 @@ openMapsSheet(context, double lat, double lon) async {
 
 class OrdersViewCardState extends State<OrdersViewCard> {
   int deletedCount;
+  bool more;
 
   @override
   void initState() {
+    more = false;
     deletedCount = widget.orderData.products.where((product) => product.pivot.deletedAt != 'null').length;
     super.initState();
   }
@@ -222,6 +224,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 ],
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   LabelRow(
@@ -233,6 +236,17 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () => Services.makePhoneCall(widget.orderData.userData.phone),
                   ),
+                  IconButton(
+                      icon: Icon(
+                        more ? Icons.expand_less_rounded : Icons.expand_more_rounded,
+                        size: 40,
+                        color: ColorUtils.kmColors,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          more = !more;
+                        });
+                      }),
                   if (widget.orderData.address.lat != -1 && widget.orderData.address.lon != -1)
                     IconButton(
                       icon: Icon(
@@ -241,36 +255,49 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         size: 30,
                       ),
                       onPressed: () {
-                        openMapsSheet(context, widget.orderData.address.lat, widget.orderData.address.lon);
+                        openMapsSheet(
+                            context: context,
+                            lat: widget.orderData.address.lat,
+                            lon: widget.orderData.address.lon);
                       },
                     ),
                 ],
               ),
               LabelRow(
-                rightSideText: StringUtils.address + " : ",
-                leftSideText: widget.orderData.address.street +
+                rightSideText: widget.orderData.address.street + " : ",
+                leftSideText: LoadingScreenServices.supportedCitiesListIntro
+                    .where((supportedCity) => supportedCity.id == widget.orderData.supportedCityId)
+                    .first
+                    .name /*+
                     " " +
                     widget.orderData.address.building +
                     " طابق " +
                     widget.orderData.address.floor +
                     " " +
-                    widget.orderData.address.description,
+                    widget.orderData.address.description*/
+                ,
                 leftSideStyle: informationStyle,
               ),
-              LabelRow(
-                rightSideText: StringUtils.city,
-                leftSideText: LoadingScreenServices.supportedCitiesListIntro
-                        .where((supportedCity) => supportedCity.id == widget.orderData.supportedCityId)
-                        .first
-                        .name +
-                    "   ",
-                leftSideStyle: informationStyle,
-              ),
-              LabelRow(
-                rightSideText: StringUtils.entrance,
-                leftSideText: widget.orderData.address.entrance,
-                leftSideStyle: informationStyle,
-              ),
+              if (more)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    LabelRow(
+                      rightSideText: "التفاصيل : ",
+                      leftSideText: widget.orderData.address.building +
+                          " طابق " +
+                          widget.orderData.address.floor +
+                          " " +
+                          widget.orderData.address.description,
+                      leftSideStyle: informationStyle,
+                    ),
+                    LabelRow(
+                      rightSideText: StringUtils.entrance,
+                      leftSideText: widget.orderData.address.entrance,
+                      leftSideStyle: informationStyle,
+                    ),
+                  ],
+                ),
               LabelRow(
                 rightSideText: StringUtils.orderDate,
                 leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(widget.orderData.createdAt),

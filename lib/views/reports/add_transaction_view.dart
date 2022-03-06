@@ -137,7 +137,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                 ),
                 KammunButton(
                   height: 50,
-                  text: 'حفظ المناقلة',
+                  text: StringUtils.addTransaction,
                   color: !completeData() ? ColorUtils.searchGreyColor : ColorUtils.primaryColor,
                   onTap: () async {
                     if (!completeData()) {

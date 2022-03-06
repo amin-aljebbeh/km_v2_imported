@@ -66,6 +66,7 @@ dependencies:
   image_viewer: ^1.0.0
   qr_mobile_vision: ^2.0.0
   call_log: ^2.2.1
+  google_maps_flutter: ^1.2.0
   # location:
   #   git:
   #     url: git://github.com/dreambitio/flutterlocation.git

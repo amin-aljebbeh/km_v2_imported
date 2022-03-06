@@ -133,7 +133,17 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                         transaction: transactions[index],
                                         newTransaction: newTransaction(index),
                                         show: (date) {
-                                          int profit = transactions
+                                          int kammunProfit = transactions
+                                              .where((transaction) =>
+                                                  transaction.createdAt.toString().split(' ')[0] ==
+                                                  date.toString().split(' ')[0])
+                                              .toList()
+                                              .fold(
+                                                  0,
+                                                  (value, transaction) =>
+                                                      value + int.parse(transaction.valueCompany));
+
+                                          int shopperProfit = transactions
                                               .where((transaction) =>
                                                   transaction.createdAt.toString().split(' ')[0] ==
                                                   date.toString().split(' ')[0])
@@ -146,11 +156,34 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                             title:
                                                 'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
                                             context: context,
-                                            content: Center(
-                                              child: Text(
-                                                StringUtils().oCcy.format(profit),
-                                                style: profit.isNegative ? loseStyle : profitStyle,
-                                              ),
+                                            content: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    Text(
+                                                      StringUtils.shopper,
+                                                      style: mainStyle,
+                                                    ),
+                                                    Text(
+                                                      StringUtils().oCcy.format(shopperProfit.abs()).toString(),
+                                                      style: shopperProfit.isNegative ? loseStyle : profitStyle,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Text(
+                                                      StringUtils.kammun,
+                                                      style: mainStyle,
+                                                    ),
+                                                    Text(
+                                                      StringUtils().oCcy.format(kammunProfit.abs()).toString(),
+                                                      style: kammunProfit.isNegative ? loseStyle : profitStyle,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                             dialogButtons: [
                                               DialogButton(
