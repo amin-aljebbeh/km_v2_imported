@@ -93,11 +93,10 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                     onChanged: (value) {
                       setState(() {
                         transactionTypeIndex = value;
-                        transactionTypeString = StringUtils.transactionTypesMap[LoadingScreenServices
-                            .transactionTypes
+                        transactionTypeString = LoadingScreenServices.transactionTypes
                             .where((type) => type.automatic == 0)
                             .toList()[transactionTypeIndex]
-                            .slug];
+                            .arabicName;
                       });
                     },
                   ),
@@ -195,10 +194,10 @@ class _AddTransactionViewState extends State<AddTransactionView> {
 
   bool completeData() {
     if (transactionTypeIndex != null) {
-      if (StringUtils.transactionTypesMap[LoadingScreenServices.transactionTypes
+      if (LoadingScreenServices.transactionTypes
               .where((type) => type.automatic == 0)
               .toList()[transactionTypeIndex]
-              .slug] ==
+              .arabicName ==
           'خصم')
         return shopperName != null && moneyController.text.isNotEmpty && descriptionController.text.isNotEmpty;
       else

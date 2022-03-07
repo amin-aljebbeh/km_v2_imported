@@ -270,34 +270,11 @@ class OrdersViewState extends State<OrdersView> {
                           if (Services.isShopper()) {
                             orderDataList[index].orderProfits();
                           }
-                          String shopper;
-                          if (orderDataList[index].shopper != null) {}
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(
                                 orderData: orderDataList[index],
                                 orderType: OrderTypes.allOrder,
-                              ),
-                              KSearchableDropdown(
-                                hint: orderDataList[index].shopper != null
-                                    ? orderDataList[index].shopper.name
-                                    : StringUtils.chooseShopper,
-                                search: shopper,
-                                items: Services.shoppersNameList(),
-                                onChanged: (value) async {
-                                  if (value != null) {
-                                    String shopperId = Services.selectedShopperId(value);
-                                    setState(() {
-                                      shopper = value;
-                                      orderDataList[index].shopper = new Assigned(
-                                          name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''),
-                                          id: int.parse(shopperId));
-                                    });
-                                    bool result = await OrderServices.assignOrderToShopper(
-                                        shopperId, orderDataList[index].id.toString());
-                                    Services.resultFlushBar(context: context, result: result);
-                                  }
-                                },
                               ),
                               if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
                                   int.parse(orderDataList[index].underUpdate) != 1)

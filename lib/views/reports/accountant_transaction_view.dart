@@ -36,6 +36,43 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
     super.initState();
   }
 
+  Future<List<int>> getCompleteProfits(DateTime date, String shopperId) async {
+    List<int> result = [0, 0];
+    var tempTransactions = await ReportsServices.getTransactions(shopperId: shopperId, pageNumber: page + 1);
+    if (tempTransactions != null) {
+      int kammunProfit = tempTransactions
+          .where((transaction) => transaction.createdAt.toString().split(' ')[0] == date.toString().split(' ')[0])
+          .toList()
+          .fold(0, (value, transaction) => value + int.parse(transaction.valueCompany));
+
+      int shopperProfit = tempTransactions
+          .where((transaction) => transaction.createdAt.toString().split(' ')[0] == date.toString().split(' ')[0])
+          .toList()
+          .fold(0, (value, transaction) => value + int.parse(transaction.valueShopper));
+      result[0] += kammunProfit;
+      result[1] += shopperProfit;
+    }
+    if (page > 1) {
+      tempTransactions = await ReportsServices.getTransactions(shopperId: shopperId, pageNumber: page - 1);
+      if (tempTransactions != null) {
+        int kammunProfit = tempTransactions
+            .where(
+                (transaction) => transaction.createdAt.toString().split(' ')[0] == date.toString().split(' ')[0])
+            .toList()
+            .fold(0, (value, transaction) => value + int.parse(transaction.valueCompany));
+
+        int shopperProfit = tempTransactions
+            .where(
+                (transaction) => transaction.createdAt.toString().split(' ')[0] == date.toString().split(' ')[0])
+            .toList()
+            .fold(0, (value, transaction) => value + int.parse(transaction.valueShopper));
+        result[0] += kammunProfit;
+        result[1] += shopperProfit;
+      }
+    }
+    return result;
+  }
+
   getTransaction(String shopperId) async {
     setState(() {
       if (transactions != null) {
@@ -58,7 +95,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
   }
 
   getDailyProfit(String shopperId) async {
-    String result = await ReportsServices.getShopperDailyProfit(shopperId: shopperId);
+    String result = await ReportsServices.getShopperMonthProfit(shopperId: shopperId);
     setState(() {
       profitLoading = false;
       profit = result;
@@ -199,7 +236,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                                           return Transaction(
                                             transaction: transactions[index],
                                             newTransaction: newTransaction(index),
-                                            show: (date) {
+                                            show: (date) async {
                                               int kammunProfit = transactions
                                                   .where((transaction) =>
                                                       transaction.createdAt.toString().split(' ')[0] ==
@@ -219,6 +256,10 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                                                       0,
                                                       (value, transaction) =>
                                                           value + int.parse(transaction.valueShopper));
+                                              List<int> completeProfits =
+                                                  await getCompleteProfits(date, shopperId);
+                                              kammunProfit += completeProfits[0];
+                                              shopperProfit += completeProfits[1];
                                               showMyDialog(
                                                 title:
                                                     'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',

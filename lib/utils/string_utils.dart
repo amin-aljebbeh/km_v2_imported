@@ -105,24 +105,6 @@ class StringUtils {
   static String errorMessage = 'حدث خطأ اثناء محاولة جلب البيانات';
   final oCcy = new NumberFormat('#,##0', 'en_US');
 
-  static Map<String, String> transactionTypesMap = {
-    'shopping': 'تسوق', //1
-    'delivery': 'توصيل', //2
-    'delivery-method': 'طريقة التوصيل', //3
-    'update-order': 'تحديث الطلب', //4
-    'deduct': 'خصم', //5
-    'lend-mony': 'إقراض', //6
-    'repayment': 'تسديد', //7
-    'compensation': 'تعويض', //8
-    'bonus': 'بونص', //9
-    'remaining-money': 'زوائد', //10
-    'deposit': 'وديعة للزبون', //11
-    'extra-fees': 'رسوم إضافية', //12
-    'reckoning': 'تصفية حساب', //13
-    'pay-order': 'زوائد', //14
-    'refund': 'استرداد', //15
-  };
-
   static List<String> productFilter = ['الغير مفعلة', 'عدد مرات البيع', 'عدد مرات العرض', 'المنتجات المحذوفة'];
 
   static List<String> productFilterUrls = [

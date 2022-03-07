@@ -7,8 +7,7 @@ import 'dart:convert';
 TransactionTypeResponse transactionTypeResponseFromJson(String str) =>
     TransactionTypeResponse.fromJson(json.decode(str));
 
-String transactionTypeResponseToJson(TransactionTypeResponse data) =>
-    json.encode(data.toJson());
+String transactionTypeResponseToJson(TransactionTypeResponse data) => json.encode(data.toJson());
 
 class TransactionTypeResponse {
   TransactionTypeResponse({
@@ -19,20 +18,16 @@ class TransactionTypeResponse {
   bool success;
   List<TransactionTypeModel> data;
 
-  factory TransactionTypeResponse.fromJson(Map<String, dynamic> json) =>
-      TransactionTypeResponse(
+  factory TransactionTypeResponse.fromJson(Map<String, dynamic> json) => TransactionTypeResponse(
         success: json["success"] == null ? null : json["success"],
         data: json["data"] == null
             ? null
-            : List<TransactionTypeModel>.from(
-                json["data"].map((x) => TransactionTypeModel.fromJson(x))),
+            : List<TransactionTypeModel>.from(json["data"].map((x) => TransactionTypeModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success == null ? null : success,
-        "data": data == null
-            ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }
 
@@ -40,32 +35,26 @@ class TransactionTypeModel {
   TransactionTypeModel({
     this.id,
     this.name,
+    this.arabicName,
     this.slug,
     this.description,
     this.automatic,
-    this.createdAt,
-    this.updatedAt,
   });
 
   int id;
   String name;
+  String arabicName;
   String slug;
   String description;
   int automatic;
-  DateTime createdAt;
-  dynamic updatedAt;
 
-  factory TransactionTypeModel.fromJson(Map<String, dynamic> json) =>
-      TransactionTypeModel(
-        id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
-        slug: json["slug"] == null ? null : json["slug"],
-        description: json["description"] == null ? null : json["description"],
-        automatic: json["automatic"] == null ? null : json["automatic"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"],
+  factory TransactionTypeModel.fromJson(Map<String, dynamic> json) => TransactionTypeModel(
+        id: json["id"] == null ? 'null' : json["id"],
+        name: json["name"] == null ? 'null' : json["name"],
+        arabicName: json["name_ar"] == null ? 'null' : json["name_ar"],
+        slug: json["slug"] == null ? 'null' : json["slug"],
+        description: json["description"] == null ? 'null' : json["description"],
+        automatic: json["automatic"] == null ? 'null' : json["automatic"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -74,7 +63,5 @@ class TransactionTypeModel {
         "slug": slug == null ? null : slug,
         "description": description == null ? null : description,
         "automatic": automatic == null ? null : automatic,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt,
       };
 }

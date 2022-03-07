@@ -7,6 +7,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
+import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 class OrdersViewCard extends StatefulWidget {
@@ -61,11 +62,9 @@ openMapsSheet({context, double lat, double lon}) async {
 
 class OrdersViewCardState extends State<OrdersViewCard> {
   int deletedCount;
-  bool more;
 
   @override
   void initState() {
-    more = false;
     deletedCount = widget.orderData.products.where((product) => product.pivot.deletedAt != 'null').length;
     super.initState();
   }
@@ -110,6 +109,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
             : widget.orderData.deliveryMethodId == '3'
                 ? Colors.green
                 : Colors.red[500];
+    String shopper;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -236,17 +236,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () => Services.makePhoneCall(widget.orderData.userData.phone),
                   ),
-                  IconButton(
-                      icon: Icon(
-                        more ? Icons.expand_less_rounded : Icons.expand_more_rounded,
-                        size: 40,
-                        color: ColorUtils.kmColors,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          more = !more;
-                        });
-                      }),
                   if (widget.orderData.address.lat != -1 && widget.orderData.address.lon != -1)
                     IconButton(
                       icon: Icon(
@@ -264,40 +253,30 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 ],
               ),
               LabelRow(
-                rightSideText: widget.orderData.address.street + " : ",
-                leftSideText: LoadingScreenServices.supportedCitiesListIntro
-                    .where((supportedCity) => supportedCity.id == widget.orderData.supportedCityId)
-                    .first
-                    .name /*+
+                rightSideText: StringUtils.address + " : ",
+                leftSideText: widget.orderData.address.street +
                     " " +
                     widget.orderData.address.building +
                     " طابق " +
                     widget.orderData.address.floor +
                     " " +
-                    widget.orderData.address.description*/
-                ,
+                    widget.orderData.address.description,
                 leftSideStyle: informationStyle,
               ),
-              if (more)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    LabelRow(
-                      rightSideText: "التفاصيل : ",
-                      leftSideText: widget.orderData.address.building +
-                          " طابق " +
-                          widget.orderData.address.floor +
-                          " " +
-                          widget.orderData.address.description,
-                      leftSideStyle: informationStyle,
-                    ),
-                    LabelRow(
-                      rightSideText: StringUtils.entrance,
-                      leftSideText: widget.orderData.address.entrance,
-                      leftSideStyle: informationStyle,
-                    ),
-                  ],
-                ),
+              LabelRow(
+                rightSideText: StringUtils.city,
+                leftSideText: LoadingScreenServices.supportedCitiesListIntro
+                        .where((supportedCity) => supportedCity.id == widget.orderData.supportedCityId)
+                        .first
+                        .name +
+                    "   ",
+                leftSideStyle: informationStyle,
+              ),
+              LabelRow(
+                rightSideText: StringUtils.entrance,
+                leftSideText: widget.orderData.address.entrance,
+                leftSideStyle: informationStyle,
+              ),
               LabelRow(
                 rightSideText: StringUtils.orderDate,
                 leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(widget.orderData.createdAt),
@@ -307,11 +286,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 rightSideText: orderStatus,
                 leftSideText: '',
                 leftSideStyle: informationStyle,
-              ),
-              LabelRow(
-                rightSideText: StringUtils.shopperName + " ",
-                leftSideText: widget.orderData.shopper != null ? widget.orderData.shopper.name : " ",
-                leftSideStyle: paragraphStyle,
               ),
               if (Services.isOperationManager() && widget.orderData.orderStatusId == '5')
                 LabelRow(
@@ -330,6 +304,24 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           ? worningStyle
                           : disableStyle,
                 ),
+              KSearchableDropdown(
+                hint: widget.orderData.shopper != null ? widget.orderData.shopper.name : StringUtils.chooseShopper,
+                search: shopper,
+                items: Services.shoppersNameList(),
+                onChanged: (value) async {
+                  if (value != null) {
+                    String shopperId = Services.selectedShopperId(value);
+                    setState(() {
+                      shopper = value;
+                      widget.orderData.shopper = new Assigned(
+                          name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''), id: int.parse(shopperId));
+                    });
+                    bool result =
+                        await OrderServices.assignOrderToShopper(shopperId, widget.orderData.id.toString());
+                    Services.resultFlushBar(context: context, result: result);
+                  }
+                },
+              ),
             ],
           ),
         ),

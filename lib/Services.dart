@@ -258,7 +258,7 @@ class Services {
   static List<DropdownMenuItem<int>> transactionTypesNames() {
     List<String> names = LoadingScreenServices.transactionTypes
         .where((type) => type.automatic == 0)
-        .map((type) => StringUtils.transactionTypesMap[type.slug])
+        .map((type) => type.arabicName)
         .toList();
     return dropdownStringList(names);
   }

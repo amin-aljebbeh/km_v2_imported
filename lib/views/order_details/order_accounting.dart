@@ -129,7 +129,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 ),
                 KTableElement(
                   text: StringUtils().oCcy.format(
-                        widget.orderData.orderAccountingRows[i].netPrice,
+                        widget.orderData.orderAccountingRows[i].netPrice +
+                            widget.orderData.orderAccountingRows[i].increaseValuesSum,
                       ),
                 ),
               ],

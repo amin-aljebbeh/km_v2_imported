@@ -1,8 +1,10 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
+
 import '../models/report_model_importer.dart';
 
 class ReportsServices {
@@ -96,11 +98,11 @@ class ReportsServices {
     }
   }
 
-  static Future<String> getShopperDailyProfit({@required String shopperId}) async {
+  static Future<String> getShopperMonthProfit({@required String shopperId}) async {
     var response;
 
     response = await ApiProvider.sendRequest(
-      url: GET_DAILY_SHOPPER_PROFIT + shopperId,
+      url: GET_MONTH_SHOPPER_PROFIT + shopperId,
       method: httpMethods.get,
     );
 

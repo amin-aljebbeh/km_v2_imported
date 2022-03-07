@@ -84,15 +84,13 @@ const String GET_SHOPPER_TRANSACTIONS = API + SHOPPER + SHOPPER_TRANSACTION + 's
 
 const String GET_TRANSACTION_TYPES = API + 'transaction_type';
 
-const String GET_MANUAL_TRANSACTION_TYPES = GET_TRANSACTION_TYPES + 'manual_transaction_type';
-
 const String GET_STATISTICS_SHOPPER_TRANSACTION =
     API + SHOPPER + SHOPPER_TRANSACTION + 'statistics_shopper_transaction/';
 
 const String SHOPPER_VIEWS_HIS_OWN_TRANSACTION =
     API + SHOPPER + SHOPPER_TRANSACTION + 'shopper_views_his_own_transaction';
 
-const String GET_DAILY_SHOPPER_PROFIT = API + SHOPPER + SHOPPER_TRANSACTION + 'shopper_profits_for_today/';
+const String GET_MONTH_SHOPPER_PROFIT = API + SHOPPER + SHOPPER_TRANSACTION + 'shopper_profits_for_today/';
 
 const String ADD_TRANSACTION = API + SHOPPER + SHOPPER_TRANSACTION + 'add_transaction';
 

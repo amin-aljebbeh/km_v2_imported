@@ -28,7 +28,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
     setState(() {
       profitLoading = true;
     });
-    getDailyProfit(Services.shopper.id.toString());
+    getMonthlyProfit(Services.shopper.id.toString());
     getTransaction(Services.shopper.id.toString());
     super.initState();
   }
@@ -54,8 +54,8 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
     });
   }
 
-  getDailyProfit(String shopperId) async {
-    String result = await ReportsServices.getShopperDailyProfit(shopperId: shopperId);
+  getMonthlyProfit(String shopperId) async {
+    String result = await ReportsServices.getShopperMonthProfit(shopperId: shopperId);
     setState(() {
       profitLoading = false;
       profit = result;

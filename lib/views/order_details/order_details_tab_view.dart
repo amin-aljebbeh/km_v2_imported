@@ -108,6 +108,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
           widget.orderData.products.where((product) => product.pivot.deletedAt != 'null').toList().length > 0;
       tabBarList();
     });
+    controller = TabController(vsync: this, length: tabList.length);
 
     super.initState();
   }
@@ -116,7 +117,6 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
   bool errorAlert = false;
   @override
   Widget build(BuildContext context) {
-    controller = TabController(vsync: this, length: tabList.length);
     return DefaultTabController(
       length: screenList.length,
       child: Scaffold(

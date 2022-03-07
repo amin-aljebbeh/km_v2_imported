@@ -85,26 +85,25 @@ class Transaction extends StatelessWidget {
                   Stack(
                     children: [
                       KTableElement(
-                        text: StringUtils.transactionTypesMap[LoadingScreenServices.transactionTypes
+                        text: LoadingScreenServices.transactionTypes
                             .firstWhere((type) => type.id == int.parse(transaction.transactionTypeId))
-                            .slug],
+                            .arabicName,
                       ),
-                      transaction.description != null
-                          ? IconButton(
-                              icon: Icon(
-                                Icons.device_unknown,
-                                color: ColorUtils.primaryColor,
-                              ),
-                              onPressed: () {
-                                showMyDialog(
-                                  title: 'الوصف',
-                                  context: context,
-                                  text: transaction.description,
-                                );
-                              },
-                              padding: EdgeInsets.only(top: 25, right: 15),
-                            )
-                          : Container(),
+                      if (transaction.description != null)
+                        IconButton(
+                          icon: Icon(
+                            Icons.device_unknown,
+                            color: ColorUtils.primaryColor,
+                          ),
+                          onPressed: () {
+                            showMyDialog(
+                              title: 'الوصف',
+                              context: context,
+                              text: transaction.description,
+                            );
+                          },
+                          padding: EdgeInsets.only(top: 25, right: 15),
+                        ),
                     ],
                   ),
                   KTableElement(
