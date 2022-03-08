@@ -38,10 +38,8 @@ class _TextFieldRowState extends State<TextFieldRow> {
         EntryField(
           hint: widget.hint,
           controller: widget.controller,
-          fieldType: widget.inputType,
           width: widget.width,
           canBeEmpty: false,
-          isAddress: false,
           isPhoneNumber: false,
           onSubmit: (result) {},
         ),

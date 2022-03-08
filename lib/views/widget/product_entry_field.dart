@@ -7,7 +7,6 @@ class ProductEntryField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final String title;
-  final TextInputType fieldType;
   final double width;
 
   const ProductEntryField({
@@ -15,7 +14,6 @@ class ProductEntryField extends StatelessWidget {
     this.controller,
     this.hint,
     @required this.title,
-    @required this.fieldType,
     this.width,
   }) : super(key: key);
   @override
@@ -32,9 +30,7 @@ class ProductEntryField extends StatelessWidget {
           width: width,
           onSubmit: (notEmpty) {},
           isPhoneNumber: false,
-          isAddress: false,
           canBeEmpty: false,
-          fieldType: fieldType,
           controller: controller,
           hint: hint,
         ),

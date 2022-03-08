@@ -70,13 +70,7 @@ class LoadingScreenServices {
   static String name;
   static String userName;
   static bool preferLeftSide = true;
-
-  /// -------- selected supported city information ------- ///
-
-  static String selectedSupportedCityName;
-  static String selectedSupportedCityPrice;
-  static String selectedSupportedCityIsActive;
-  static String selectedSupportedCityId;
+  static int ordersViewFilter = 0;
 
   // -------------------------------------------------------//
 

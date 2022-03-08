@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 
 import '../../Services.dart';
 
@@ -206,10 +206,8 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                     },
                     width: MediaQuery.of(context).size.width * 0.2,
                     canBeEmpty: false,
-                    isAddress: false,
                     isPhoneNumber: false,
                     controller: valueController,
-                    fieldType: TextInputType.text,
                   ),
                 ),
                 IconButton(

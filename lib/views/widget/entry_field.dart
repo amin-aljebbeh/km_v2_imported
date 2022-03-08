@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
-// ignore: must_be_immutable
 class EntryField extends StatefulWidget {
-  bool canBeEmpty;
-  TextEditingController controller;
-  String hint;
-  TextInputType fieldType;
-  bool isAddress;
-  double width;
-  bool isPhoneNumber;
-  Function(bool) onSubmit;
+  final bool canBeEmpty;
+  final TextEditingController controller;
+  final String hint;
+  final double width;
+  final bool isPhoneNumber;
+  final Function(bool) onSubmit;
 
   EntryField({
     this.canBeEmpty = true,
     this.controller,
     this.hint,
-    this.fieldType,
-    this.isAddress = false,
     this.width,
     this.isPhoneNumber = false,
     this.onSubmit,
@@ -36,7 +31,7 @@ class _EntryFieldState extends State<EntryField> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
         color: Colors.white,
-        border: Border.all(width: 1.0, color: Colors.green[700]),
+        border: Border.all(width: 1.0, color: ColorUtils.kmColors),
         boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(0.16), offset: Offset(0, 3.0), blurRadius: 6.0),
         ],
@@ -58,7 +53,7 @@ class _EntryFieldState extends State<EntryField> {
             return null;
         },
         controller: widget.controller,
-        keyboardType: widget.fieldType,
+        keyboardType: TextInputType.text,
         maxLines: null,
         decoration: InputDecoration(
           border: OutlineInputBorder(),

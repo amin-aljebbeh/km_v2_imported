@@ -125,7 +125,6 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                           onChanged: (value) {
                             setState(() {
                               filterOrders = value;
-                              Tools.logToConsole(filterOrders);
                               page = 1;
                             });
                             _getOrder();

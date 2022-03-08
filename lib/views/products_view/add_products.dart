@@ -289,30 +289,23 @@ class _AddProductsViewState extends State<AddProductsView> {
                             .toList(),
                       ),
                     ),
-                    ProductEntryField(
-                        controller: nameController,
-                        title: "اسم المنتج",
-                        fieldType: TextInputType.name,
-                        hint: "زيت سولينا"),
+                    ProductEntryField(controller: nameController, title: "اسم المنتج", hint: "زيت سولينا"),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ProductEntryField(
                             controller: quantityController,
                             title: StringUtils.quantity,
-                            fieldType: TextInputType.number,
                             hint: "100",
                             width: MediaQuery.of(context).size.width / 4),
                         ProductEntryField(
                             controller: unitController,
                             title: StringUtils.unit,
-                            fieldType: TextInputType.name,
                             hint: "لتر",
                             width: MediaQuery.of(context).size.width / 4),
                         ProductEntryField(
                             controller: priceFactorController,
                             title: StringUtils.priceFactor,
-                            fieldType: TextInputType.number,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
                       ],
@@ -320,7 +313,6 @@ class _AddProductsViewState extends State<AddProductsView> {
                     ProductEntryField(
                         controller: descriptionController,
                         title: StringUtils.description,
-                        fieldType: TextInputType.multiline,
                         hint: "زيت دوار الشمس الصافي @كلمات مفتاحية"),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -328,13 +320,11 @@ class _AddProductsViewState extends State<AddProductsView> {
                         ProductEntryField(
                             controller: supplierCodeController,
                             title: StringUtils.supplierCode,
-                            fieldType: TextInputType.name,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
                             controller: priceController,
                             title: StringUtils.price,
-                            fieldType: TextInputType.number,
                             hint: "5000",
                             width: MediaQuery.of(context).size.width / 3),
                       ],

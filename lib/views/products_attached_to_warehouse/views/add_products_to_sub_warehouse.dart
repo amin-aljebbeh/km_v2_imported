@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
+
 import '../../../utils/utils_importer.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
@@ -176,13 +177,11 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         ProductEntryField(
                             controller: supplierCodeController,
                             title: StringUtils.supplierCode,
-                            fieldType: TextInputType.name,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
                             controller: priceController,
                             title: StringUtils.price,
-                            fieldType: TextInputType.number,
                             hint: "5000",
                             width: MediaQuery.of(context).size.width / 3),
                       ],
@@ -193,7 +192,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         ProductEntryField(
                             controller: priceFactorController,
                             title: StringUtils.priceFactor,
-                            fieldType: TextInputType.number,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
                         SizedBox(

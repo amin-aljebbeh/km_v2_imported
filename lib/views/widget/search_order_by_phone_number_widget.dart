@@ -19,91 +19,86 @@ class SearchOrderByPhoneNumber extends StatefulWidget {
 class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: IconButton(
-        onPressed: () {
-          showMyDialog(
-            title: 'طلبات الرقم',
-            context: context,
-            content: EntryField(
-              controller: widget.controller,
-              width: MediaQuery.of(context).size.width / 3,
-              hint: 'رقم الزبون',
-              onSubmit: (notEmpty) {
+    return IconButton(
+      onPressed: () {
+        showMyDialog(
+          title: 'طلبات الرقم',
+          context: context,
+          content: EntryField(
+            controller: widget.controller,
+            width: MediaQuery.of(context).size.width / 3,
+            hint: 'رقم الزبون',
+            onSubmit: (notEmpty) {
+              Navigator.of(context).pop();
+            },
+            canBeEmpty: true,
+            isPhoneNumber: true,
+          ),
+          dialogButtons: [
+            DialogButton(
+              text: StringUtils.close,
+              onTap: () {
                 Navigator.of(context).pop();
               },
-              fieldType: TextInputType.text,
-              canBeEmpty: true,
-              isAddress: false,
-              isPhoneNumber: true,
             ),
-            dialogButtons: [
-              DialogButton(
-                text: StringUtils.close,
-                onTap: () {
+            DialogButton(
+              text: StringUtils.search,
+              onTap: () {
+                if (widget.controller.text.isNotEmpty) {
                   Navigator.of(context).pop();
-                },
-              ),
-              DialogButton(
-                text: StringUtils.search,
-                onTap: () {
-                  if (widget.controller.text.isNotEmpty) {
-                    Navigator.of(context).pop();
-                    widget.onChoose(widget.controller.text);
-                  }
-                },
-              ),
-              DialogButton(
-                text: 'اختيار من السجل',
-                onTap: () async {
-                  List<CallLogEntry> cLog = await OrderServices.callbackDispatcher();
-                  showMyDialog(
-                    title: 'اختيار رقم',
-                    context: context,
-                    dialogButtons: [
-                      DialogButton(
-                        text: StringUtils.close,
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                    content: Container(
-                      height: 500,
-                      width: 500,
-                      child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                        primary: false,
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: cLog == null ? 0 : cLog.length,
-                        itemBuilder: (BuildContext context1, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                              widget.onChoose(cLog[index].number);
-                            },
-                            child: PhoneNumberWidget(
-                              phoneNumber: cLog[index].number,
-                              userName: cLog[index].name,
-                            ),
-                          );
-                        },
-                      ),
+                  widget.onChoose(widget.controller.text);
+                }
+              },
+            ),
+            DialogButton(
+              text: 'اختيار من السجل',
+              onTap: () async {
+                List<CallLogEntry> cLog = await OrderServices.callbackDispatcher();
+                showMyDialog(
+                  title: 'اختيار رقم',
+                  context: context,
+                  dialogButtons: [
+                    DialogButton(
+                      text: StringUtils.close,
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
-                  );
-                },
-              ),
-            ],
-          );
-        },
-        icon: Icon(
-          Icons.search_rounded,
-          size: 40,
-          color: ColorUtils.kmColors,
-        ),
+                  ],
+                  content: Container(
+                    height: 500,
+                    width: 500,
+                    child: ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                      primary: false,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: cLog == null ? 0 : cLog.length,
+                      itemBuilder: (BuildContext context1, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            widget.onChoose(cLog[index].number);
+                          },
+                          child: PhoneNumberWidget(
+                            phoneNumber: cLog[index].number,
+                            userName: cLog[index].name,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+      icon: Icon(
+        Icons.search_rounded,
+        size: 40,
+        color: ColorUtils.kmColors,
       ),
     );
   }

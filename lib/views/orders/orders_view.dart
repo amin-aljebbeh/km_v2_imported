@@ -19,14 +19,15 @@ class OrdersView extends StatefulWidget {
 }
 
 class OrdersViewState extends State<OrdersView> {
-  TextEditingController controller = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController pageController = TextEditingController();
   Future getOrders;
   int rateValue;
 
   @override
   void initState() {
     rateValue = 0;
-    ordersFilter = 0;
+    ordersFilter = LoadingScreenServices.ordersViewFilter;
     ordersTypeFilter = 0;
 
     if (LoadingScreenServices.allOrdersList.length == 0) {
@@ -125,7 +126,7 @@ class OrdersViewState extends State<OrdersView> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+          padding: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
           child: !orderLoaded || isLoading
               ? Center(
                   child: Loader(),
@@ -154,6 +155,7 @@ class OrdersViewState extends State<OrdersView> {
                                 setState(() {
                                   generalLoaded = true;
                                   ordersFilter = value;
+                                  LoadingScreenServices.ordersViewFilter = value;
                                   page = 1;
                                   indexPage = 1;
                                 });
@@ -187,23 +189,20 @@ class OrdersViewState extends State<OrdersView> {
                               ),
                             );
                           },
-                          controller: controller,
+                          controller: phoneNumberController,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                indexPage++;
-                                if (page < 15) page++;
-                              });
-                              _getOrder();
-                            },
-                            icon: Icon(
-                              Icons.arrow_back,
-                              size: 40,
-                              color: ColorUtils.kmColors,
-                            ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              indexPage++;
+                              if (page < 15) page++;
+                            });
+                            _getOrder();
+                          },
+                          icon: Icon(
+                            Icons.arrow_back,
+                            size: 40,
+                            color: ColorUtils.kmColors,
                           ),
                         ),
                         DropdownButton(
@@ -217,23 +216,38 @@ class OrdersViewState extends State<OrdersView> {
                             _getOrder();
                           },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                if (indexPage > 1 && indexPage <= 15) {
-                                  page--;
+                        if (Services.isSuperAdmin())
+                          EntryField(
+                            controller: pageController,
+                            onSubmit: (notEmpty) {
+                              if (notEmpty) {
+                                if (int.parse(pageController.text) > 0) {
+                                  setState(() {
+                                    indexPage = int.parse(pageController.text);
+                                    if (indexPage <= 15) page = indexPage;
+                                    _getOrder();
+                                  });
                                 }
-                                if (indexPage > 1) indexPage--;
-                                _getOrder();
-                              });
+                              }
                             },
-                            icon: Icon(
-                              Icons.arrow_forward,
-                              size: 40,
-                              color: ColorUtils.kmColors,
-                            ),
+                            width: 50,
+                            isPhoneNumber: false,
+                            canBeEmpty: false,
+                          ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              if (indexPage > 1 && indexPage <= 15) {
+                                page--;
+                              }
+                              if (indexPage > 1) indexPage--;
+                              _getOrder();
+                            });
+                          },
+                          icon: Icon(
+                            Icons.arrow_forward,
+                            size: 40,
+                            color: ColorUtils.kmColors,
                           ),
                         ),
                       ],

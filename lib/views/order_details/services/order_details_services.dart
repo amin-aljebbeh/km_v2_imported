@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
-import 'package:http/http.dart' as http;
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/Loading.dart';
 
 class OrderDetailsServices {
   static Future<bool> updateOrder(
@@ -20,6 +21,7 @@ class OrderDetailsServices {
       method: httpMethods.put,
       body: jsonEncode(updateOrderBody),
     );
+    Tools.logToConsole(response.data.toString());
     Services.resultFlushBar(context: context, result: response.statusCode == SUCCESS_CODE);
     if (response.statusCode == SUCCESS_CODE) {
       return true;
