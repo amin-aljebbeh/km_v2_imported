@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 class AddedProductsToWarehouse extends StatefulWidget {
   @override
@@ -121,7 +121,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                               String id, supplierCode;
                               int isActive;
                               bool attached;
-                              if (productsList[index].subWarehouseId != null)
+                              if (productsList[index].subWarehouseId != -1)
                                 id = productsList[index].subWarehouseId.toString();
                               else {
                                 List<int> subWarehousesIds =

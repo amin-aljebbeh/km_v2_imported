@@ -11,6 +11,7 @@ import 'package:kammun_app/views/products_attached_to_warehouse/views/add_produc
 import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
+
 import '../../utils/utils_importer.dart';
 
 // ignore: must_be_immutable
@@ -328,7 +329,6 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                   widget.scaffoldKey.currentContext,
                                                   new MaterialPageRoute(
                                                     builder: (context) => new AddProductsToSubWarehouse(
-                                                      barcode: int.parse(widget.barcode),
                                                       productData: widget.productData,
                                                     ),
                                                   ),

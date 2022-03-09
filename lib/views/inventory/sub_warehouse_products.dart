@@ -2,10 +2,10 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/tools.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:kammun_app/views/inventory/services/inventory_services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 
 class SubWarehouseProducts extends StatefulWidget {
   final String subWarehouseId;
@@ -231,7 +231,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                             String id, supplierCode;
                             int isActive;
                             bool attached;
-                            if (eachProduct.subWarehouseId != null)
+                            if (eachProduct.subWarehouseId != -1)
                               id = eachProduct.subWarehouseId.toString();
                             else {
                               List<int> subWarehousesIds =

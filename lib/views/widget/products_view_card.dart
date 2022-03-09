@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
+import 'package:kammun_app/views/products_attached_to_warehouse/views/products_attached_to_warehouse_importer.dart';
+import 'package:kammun_app/views/products_view/barcode_screen.dart';
 
 // ignore: must_be_immutable
 class ProductsViewCard extends StatefulWidget {
@@ -35,14 +37,15 @@ class ProductsViewCardState extends State<ProductsViewCard> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        Navigator.push(
-          context,
-          new MaterialPageRoute(
-            builder: (context) => new ProductDetailView(
-              product: widget.productData,
+        if (widget.productData.subWarehouseId != -1)
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) => new ProductDetailView(
+                product: widget.productData,
+              ),
             ),
-          ),
-        );
+          );
       },
       child: Container(
         color: Theme.of(context).primaryColorLight,
@@ -111,56 +114,106 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                   ],
                 ),
               ),
-              Column(
-                children: [
-                  if (LoadingScreenServices.subWarehouses
-                      .any((element) => element.id == widget.productData.subWarehouseId))
-                    SwitchProductStatusWidget(
-                      isForSubWarehouse: true,
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      width: MediaQuery.of(context).size.width * 0.17,
-                      preState: int.parse(widget.productData.isActive),
-                      subWarehouseId: widget.productData.subWarehouseId,
-                      productId: widget.productData.id.toString(),
-                      onChange: (int active, bool result) {
-                        setState(() {
-                          if (result) widget.productData.isActive = active.toString();
-                        });
-                      },
-                    ),
-                  if (Services.isAdmin())
-                    Column(
+              widget.productData.subWarehouseId != -1
+                  ? Column(
                       children: [
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          width: MediaQuery.of(context).size.width * 0.17,
-                          padding: const EdgeInsets.all(3.0),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+                        if (LoadingScreenServices.subWarehouses
+                            .any((element) => element.id == widget.productData.subWarehouseId))
+                          SwitchProductStatusWidget(
+                            isForSubWarehouse: true,
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            width: MediaQuery.of(context).size.width * 0.17,
+                            preState: int.parse(widget.productData.isActive),
+                            subWarehouseId: widget.productData.subWarehouseId,
+                            productId: widget.productData.id.toString(),
+                            onChange: (int active, bool result) {
+                              setState(() {
+                                if (result) widget.productData.isActive = active.toString();
+                              });
+                            },
+                          ),
+                        if (Services.isAdmin())
+                          Column(
+                            children: [
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                'التقييم: ' +
+                                    (widget.productData.rate != -1
+                                        ? StringUtils().oCcy.format(widget.productData.rate).toString()
+                                        : '0'),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: ColorUtils.primaryColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                'الكمية: ' +
+                                    (widget.productData.availableQuantity != -1
+                                        ? StringUtils()
+                                            .oCcy
+                                            .format(widget.productData.availableQuantity)
+                                            .toString()
+                                        : '0'),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: ColorUtils.primaryColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                      ],
+                    )
+                  : IconButton(
+                      icon: Icon(
+                        Icons.add,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        if (widget.productData.barcodes.isEmpty)
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (screenContext) => BarCodeScreen(
+                                requestType: BarcodeRequestType.attachProduct,
+                                onIgnore: (barcode) async {
+                                  int param;
+                                  if (barcode == null)
+                                    param = null;
+                                  else
+                                    param = int.parse(barcode);
+                                  Navigator.push(
+                                    widget.scaffoldKey.currentContext,
+                                    new MaterialPageRoute(
+                                      builder: (context) => new AddProductsToSubWarehouse(
+                                        barcode: param,
+                                        productData: widget.productData,
                                       ),
-                              border: Border.all(color: ColorUtils.primaryColor, width: 2)),
-                          child: Center(
-                            child: Text(
-                              widget.productData.rate != null
-                                  ? StringUtils().oCcy.format(widget.productData.rate).toString()
-                                  : '0',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: ColorUtils.primaryColor,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 18,
+                                    ),
+                                  );
+                                },
                               ),
                             ),
-                          ),
-                        ),
-                      ],
+                          );
+                        else
+                          Navigator.push(
+                            widget.scaffoldKey.currentContext,
+                            new MaterialPageRoute(
+                              builder: (context) => new AddProductsToSubWarehouse(
+                                productData: widget.productData,
+                              ),
+                            ),
+                          );
+                      },
                     ),
-                ],
-              ),
             ],
           ),
         ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
-import 'model/prices_changes_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
+
+import 'model/prices_changes_model.dart';
 
 class Prices extends StatefulWidget {
   @override
@@ -126,7 +127,7 @@ class _PricesState extends State<Prices> {
                                 String id, supplierCode;
                                 int isActive;
                                 bool attached;
-                                if (productsList.productsPriceChange[index].subWarehouseId != null)
+                                if (productsList.productsPriceChange[index].subWarehouseId != -1)
                                   id = productsList.productsPriceChange[index].subWarehouseId.toString();
                                 else {
                                   List<int> subWarehousesIds = LoadingScreenServices.subWarehouses

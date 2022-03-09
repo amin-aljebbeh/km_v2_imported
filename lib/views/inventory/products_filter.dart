@@ -267,7 +267,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                       String id, supplierCode;
                                       int isActive;
                                       bool attached;
-                                      if (eachProduct.subWarehouseId != null)
+                                      if (eachProduct.subWarehouseId != -1)
                                         id = eachProduct.subWarehouseId.toString();
                                       else {
                                         List<int> subWarehousesIds = LoadingScreenServices.subWarehouses

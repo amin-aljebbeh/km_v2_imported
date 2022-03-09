@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 class BarcodeProducts extends StatefulWidget {
   final String barcode;
@@ -141,7 +141,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                 String id, supplierCode;
                                 int isActive;
                                 bool attached;
-                                if (productsList[index].subWarehouseId != null)
+                                if (productsList[index].subWarehouseId != -1)
                                   id = productsList[index].subWarehouseId.toString();
                                 else {
                                   List<int> subWarehousesIds = LoadingScreenServices.subWarehouses

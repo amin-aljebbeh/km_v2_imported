@@ -1,12 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+
+import '../../Services.dart';
+import '../../models/models_importer.dart';
+import '../widget/widgets_importer.dart';
 import 'model/inventory_model_importer.dart';
 import 'services/inventory_services.dart';
-import 'dart:io';
-import '../../Services.dart';
-import '../widget/widgets_importer.dart';
-import '../../models/models_importer.dart';
 
 class PriceFileProduct extends StatefulWidget {
   final File file;
@@ -134,7 +136,7 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                       String id, supplierCode;
                                       int isActive;
                                       bool attached;
-                                      if (showList[index].subWarehouseId != null)
+                                      if (showList[index].subWarehouseId != -1)
                                         id = showList[index].subWarehouseId.toString();
                                       else {
                                         List<int> subWarehousesIds = LoadingScreenServices.subWarehouses

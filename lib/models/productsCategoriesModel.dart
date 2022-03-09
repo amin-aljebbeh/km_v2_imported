@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:kammun_app/models/models_importer.dart';
 
 CategoryProduct categoryProductFromJson(String str) => CategoryProduct.fromJson(json.decode(str));
@@ -120,6 +121,7 @@ class ProductData {
     this.numberOfSales,
     this.barcodes,
     this.deleteTimes,
+    this.availableQuantity,
   });
 
   int id;
@@ -152,6 +154,7 @@ class ProductData {
   int numberOfSales;
   List<Barcode> barcodes;
   int deleteTimes;
+  int availableQuantity;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -174,7 +177,7 @@ class ProductData {
       supplierCode:
           json["supplier_code"] == null ? json["supplierCode"].toString() : json["supplier_code"].toString(),
       warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"],
-      subWarehouseId: json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
+      subWarehouseId: json["sub_warehouse_id"] == null ? -1 : json["sub_warehouse_id"],
       isFeatured: json["is_featured"] == null ? null : json["is_featured"],
       priority: json["priority"] == null ? null : json["priority"],
       numberOfVisits: json["number_of_visits"] == null ? null : json["number_of_visits"],
@@ -192,12 +195,13 @@ class ProductData {
       warehouses: json["warehouses"] == null
           ? new List<Warehouse>()
           : List<Warehouse>.from(json["warehouses"].map((x) => Warehouse.fromJson(x))),
-      rate: json['rate'] != null ? json['rate'] : null,
+      rate: json['rate'] != null ? json['rate'] : -1,
       numberOfSales: json['number_of_sale'] != null ? json['number_of_sale'] : null,
       barcodes: json["barcodes"] == null
           ? List<Barcode>()
           : List<Barcode>.from(json["barcodes"].map((x) => Barcode.fromJson(x))),
       deleteTimes: json["count_deleted"] == null ? -1 : json["count_deleted"],
+      availableQuantity: json["available_quantity"] == null ? -1 : json["available_quantity"],
     );
     return productData;
   }

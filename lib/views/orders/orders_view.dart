@@ -230,7 +230,7 @@ class OrdersViewState extends State<OrdersView> {
                                 }
                               }
                             },
-                            width: 50,
+                            width: MediaQuery.of(context).size.width * 0.13,
                             isPhoneNumber: false,
                             canBeEmpty: false,
                           ),
