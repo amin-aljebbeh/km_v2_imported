@@ -154,7 +154,7 @@ class ProductData {
   int numberOfSales;
   List<Barcode> barcodes;
   int deleteTimes;
-  int availableQuantity;
+  String availableQuantity;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -201,7 +201,7 @@ class ProductData {
           ? List<Barcode>()
           : List<Barcode>.from(json["barcodes"].map((x) => Barcode.fromJson(x))),
       deleteTimes: json["count_deleted"] == null ? -1 : json["count_deleted"],
-      availableQuantity: json["available_quantity"] == null ? -1 : json["available_quantity"],
+      availableQuantity: json["available_quantity"] == null ? 'null' : json["available_quantity"].toString(),
     );
     return productData;
   }

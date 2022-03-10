@@ -155,10 +155,10 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               ),
                               Text(
                                 'الكمية: ' +
-                                    (widget.productData.availableQuantity != -1
+                                    (widget.productData.availableQuantity != 'null'
                                         ? StringUtils()
                                             .oCcy
-                                            .format(widget.productData.availableQuantity)
+                                            .format(int.parse(widget.productData.availableQuantity.split('.')[0]))
                                             .toString()
                                         : '0'),
                                 style: TextStyle(
@@ -172,47 +172,57 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           ),
                       ],
                     )
-                  : IconButton(
-                      icon: Icon(
-                        Icons.add,
-                        color: Colors.green,
-                      ),
-                      onPressed: () {
-                        if (widget.productData.barcodes.isEmpty)
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (screenContext) => BarCodeScreen(
-                                requestType: BarcodeRequestType.attachProduct,
-                                onIgnore: (barcode) async {
-                                  int param;
-                                  if (barcode == null)
-                                    param = null;
-                                  else
-                                    param = int.parse(barcode);
-                                  Navigator.push(
-                                    widget.scaffoldKey.currentContext,
-                                    new MaterialPageRoute(
-                                      builder: (context) => new AddProductsToSubWarehouse(
-                                        barcode: param,
-                                        productData: widget.productData,
+                  : Container(
+                      height: 58,
+                      width: 69,
+                      padding: const EdgeInsets.all(3.0),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+                                  ),
+                          border: Border.all(color: ColorUtils.kmColors, width: 2)),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.green,
+                        ),
+                        onPressed: () {
+                          if (widget.productData.barcodes.isEmpty)
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (screenContext) => BarCodeScreen(
+                                  requestType: BarcodeRequestType.attachProduct,
+                                  onIgnore: (barcode) async {
+                                    int param;
+                                    if (barcode == null)
+                                      param = null;
+                                    else
+                                      param = int.parse(barcode);
+                                    Navigator.push(
+                                      widget.scaffoldKey.currentContext,
+                                      new MaterialPageRoute(
+                                        builder: (context) => new AddProductsToSubWarehouse(
+                                          barcode: param,
+                                          productData: widget.productData,
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          );
-                        else
-                          Navigator.push(
-                            widget.scaffoldKey.currentContext,
-                            new MaterialPageRoute(
-                              builder: (context) => new AddProductsToSubWarehouse(
-                                productData: widget.productData,
+                            );
+                          else
+                            Navigator.push(
+                              widget.scaffoldKey.currentContext,
+                              new MaterialPageRoute(
+                                builder: (context) => new AddProductsToSubWarehouse(
+                                  productData: widget.productData,
+                                ),
                               ),
-                            ),
-                          );
-                      },
+                            );
+                        },
+                      ),
                     ),
             ],
           ),

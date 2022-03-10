@@ -42,7 +42,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       "automatic_activation": "0",
       'barcode': barcode,
     };
-    Tools.logToConsole(body);
 
     bool response = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: body);
     Services.resultFlushBar(context: context, result: response);
