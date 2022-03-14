@@ -46,6 +46,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
   @override
   void initState() {
+    Tools.logToConsole('barcodes length');
+    Tools.logToConsole(widget.product.barcodes.length);
     super.initState();
 
     Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));
@@ -690,19 +692,105 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     },
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      SizedBox(
-                                        width: 1,
-                                      ),
                                       if (Services.isProductsController())
-                                        BarcodeIcon(
-                                          productData: widget.product,
-                                          color: ColorUtils.kmColors,
-                                          requestType: BarcodeRequestType.addBarcode,
-                                          productId: widget.product.id,
-                                          scaffoldKey: scaffoldKey,
-                                          onAddBarcode: (result) => widget.onAddBarcode(result),
+                                        Row(
+                                          children: [
+                                            BarcodeIcon(
+                                              productData: widget.product,
+                                              color: ColorUtils.kmColors,
+                                              requestType: BarcodeRequestType.addBarcode,
+                                              productId: widget.product.id,
+                                              scaffoldKey: scaffoldKey,
+                                              onAddBarcode: (result) => widget.onAddBarcode(result),
+                                            ),
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.list,
+                                                size: 30,
+                                                color: ColorUtils.kmColors2,
+                                              ),
+                                              onPressed: () {
+                                                showMyDialog(
+                                                  title: 'باركود',
+                                                  context: context,
+                                                  content: Column(
+                                                    children: widget.product.barcodes
+                                                        .map(
+                                                          (barcode) => GestureDetector(
+                                                            child: Column(
+                                                              children: [
+                                                                Divider(
+                                                                  color: Colors.black,
+                                                                  thickness: 1,
+                                                                ),
+                                                                Text(
+                                                                  barcode.barcode,
+                                                                  style: decisionButtonStyle.copyWith(
+                                                                      color: Colors.black),
+                                                                ),
+                                                                Divider(
+                                                                  color: Colors.black,
+                                                                  thickness: 1,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            onTap: () {
+                                                              Navigator.of(context).pop();
+                                                              showMyDialog(
+                                                                title: 'إزالة باركود',
+                                                                context: context,
+                                                                dialogButtons: [
+                                                                  DialogButton(
+                                                                    text: StringUtils.yes,
+                                                                    onTap: () async {
+                                                                      bool result =
+                                                                          await ProductsServices.deleteBarcode(
+                                                                              bareCodeId: widget.product.barcodes
+                                                                                  .firstWhere((barcodeToDelete) =>
+                                                                                      barcodeToDelete.barcode ==
+                                                                                      barcode.barcode)
+                                                                                  .id);
+                                                                      Navigator.of(context).pop();
+                                                                      if (result)
+                                                                        setState(() {
+                                                                          widget.product.barcodes.removeWhere(
+                                                                              (barcodeToDelete) =>
+                                                                                  barcodeToDelete.barcode ==
+                                                                                  barcode.barcode);
+                                                                        });
+                                                                      Services.resultFlushBar(
+                                                                          context: context, result: result);
+                                                                    },
+                                                                  ),
+                                                                  DialogButton(
+                                                                    text: StringUtils.no,
+                                                                    onTap: () {
+                                                                      Navigator.of(context).pop();
+                                                                    },
+                                                                  ),
+                                                                ],
+                                                                text:
+                                                                    'هل أنت متأكد أنك ترغب في إزالة الباركود للمنتج ؟',
+                                                              );
+                                                            },
+                                                          ),
+                                                        )
+                                                        .toList(),
+                                                  ),
+                                                  dialogButtons: [
+                                                    DialogButton(
+                                                      text: StringUtils.close,
+                                                      onTap: () {
+                                                        Navigator.of(context).pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            ),
+                                          ],
                                         ),
                                       AddImageWidget(
                                         onSubmit: (image) async {
@@ -710,9 +798,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                               productId: widget.product.id, image: image);
                                           Services.resultFlushBar(context: context, result: result);
                                         },
-                                      ),
-                                      SizedBox(
-                                        width: 1,
                                       ),
                                     ],
                                   ),

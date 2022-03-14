@@ -198,6 +198,21 @@ class ProductsServices {
     }
   }
 
+  static Future<bool> deleteBarcode({@required String bareCodeId}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: PRODUCT_BARCODE + bareCodeId,
+        method: httpMethods.delete,
+      );
+      if (response.statusCode == SUCCESS_CODE) {
+        return true;
+      } else
+        return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   static Future<bool> deleteProduct(String productId) async {
     try {
       var response = await ApiProvider.sendRequest(
