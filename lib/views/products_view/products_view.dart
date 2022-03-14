@@ -123,11 +123,7 @@ class ProductsViewState extends State<ProductsView> {
             });
           }
         } catch (e) {
-          Tools.logToConsole('e.toString()');
-          Tools.logToConsole(e.toString());
-          Tools.logToConsole(e.toString());
-          Tools.logToConsole(e.toString());
-          Tools.logToConsole(e.toString());
+          Tools.logToConsole('erroooooooor');
           Tools.logToConsole(e.toString());
         }
       } else {
@@ -303,6 +299,17 @@ class ProductsViewState extends State<ProductsView> {
                                   productData: eachProduct,
                                   index: index,
                                   scaffoldKey: scaffoldKey,
+                                  onAddBarcode: (result) {
+                                    Tools.logToConsole('result   $result');
+                                    if (result != 'error') {
+                                      setState(() {
+                                        productsList[index].barcodes.add(Barcode(
+                                              barcode: result,
+                                            ));
+                                      });
+                                      Tools.logToConsole(result);
+                                    }
+                                  },
                                 );
                               },
                             ),

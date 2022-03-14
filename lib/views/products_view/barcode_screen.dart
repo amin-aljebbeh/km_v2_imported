@@ -2,18 +2,20 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/products_view/barcode_products.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
+
 import 'products_view.dart';
 
 class BarCodeScreen extends StatefulWidget {
-  final int productId;
   final BarcodeRequestType requestType;
   final Function(String) onIgnore;
+  final ProductData productData;
 
-  const BarCodeScreen({Key key, this.productId, @required this.requestType, this.onIgnore}) : super(key: key);
+  const BarCodeScreen({Key key, @required this.requestType, this.onIgnore, this.productData}) : super(key: key);
 
   @override
   _BarCodeScreenState createState() => _BarCodeScreenState();
@@ -21,6 +23,7 @@ class BarCodeScreen extends StatefulWidget {
 
 class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProviderStateMixin {
   String barcode;
+  bool add, search;
   @override
   void dispose() {
     super.dispose();
@@ -184,29 +187,61 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                 ],
               ),
             ),
-            widget.requestType == BarcodeRequestType.addProduct ||
-                    widget.requestType == BarcodeRequestType.attachProduct
-                ? Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          height: 1,
-                        ),
-                        KammunButton(
-                          height: 50,
-                          color: ColorUtils.primaryColor,
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            widget.onIgnore(null);
-                          },
-                          text: 'الإضافة بدون كود',
-                        ),
-                      ],
+            if (widget.requestType == BarcodeRequestType.addProduct ||
+                widget.requestType == BarcodeRequestType.attachProduct)
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      height: 1,
                     ),
-                  )
-                : Container()
+                    KammunButton(
+                      height: 50,
+                      color: ColorUtils.primaryColor,
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        widget.onIgnore(null);
+                      },
+                      text: 'الإضافة بدون كود',
+                    ),
+                  ],
+                ),
+              ),
+            SizedBox(
+              height: 100,
+              width: MediaQuery.of(context).size.width,
+              child: Card(
+                child: Center(
+                  child: (widget.requestType == BarcodeRequestType.addProduct)
+                      ? Text(
+                          StringUtils.add,
+                          style: decisionButtonStyle,
+                        )
+                      : (widget.requestType == BarcodeRequestType.search)
+                          ? Text(
+                              StringUtils.search,
+                              style: decisionButtonStyle,
+                            )
+                          : Column(
+                              children: [
+                                Text(
+                                  widget.productData.name,
+                                  style: decisionButtonStyle,
+                                ),
+                                Text(
+                                  widget.productData.quantity +
+                                      ' ' +
+                                      (widget.productData.unit != 'null' ? widget.productData.unit : ''),
+                                  style: decisionButtonStyle,
+                                ),
+                              ],
+                            ),
+                ),
+                color: ColorUtils.kmColors2,
+              ),
+            ),
           ],
         ),
       ),

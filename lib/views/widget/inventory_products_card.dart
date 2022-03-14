@@ -304,6 +304,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (screenContext) => BarCodeScreen(
+                                                      productData: widget.productData,
                                                       requestType: BarcodeRequestType.attachProduct,
                                                       onIgnore: (barcode) async {
                                                         int param;

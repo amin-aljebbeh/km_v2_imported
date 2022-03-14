@@ -13,11 +13,13 @@ class ProductsViewCard extends StatefulWidget {
   final int index;
   final ProductData productData;
   final GlobalKey<ScaffoldState> scaffoldKey;
+  final Function(String) onAddBarcode;
 
   ProductsViewCard({
     this.index,
     this.productData,
     this.scaffoldKey,
+    this.onAddBarcode,
   });
 
   @override
@@ -37,15 +39,17 @@ class ProductsViewCardState extends State<ProductsViewCard> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        if (widget.productData.subWarehouseId != -1)
-          Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (context) => new ProductDetailView(
-                product: widget.productData,
-              ),
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+            builder: (context) => new ProductDetailView(
+              product: widget.productData,
+              onAddBarcode: (result) {
+                widget.onAddBarcode(result);
+              },
             ),
-          );
+          ),
+        );
       },
       child: Container(
         color: Theme.of(context).primaryColorLight,
@@ -103,9 +107,11 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             children: [
                               if (widget.productData.barcodes.isEmpty) Icon(BareCodeIcon.exclamation),
                               BarcodeIcon(
+                                productData: widget.productData,
                                 requestType: BarcodeRequestType.addBarcode,
                                 productId: int.parse(widget.productData.id.toString()),
                                 scaffoldKey: widget.scaffoldKey,
+                                onAddBarcode: (result) => widget.onAddBarcode(result),
                               ),
                             ],
                           ),
@@ -192,6 +198,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                               context,
                               MaterialPageRoute(
                                 builder: (screenContext) => BarCodeScreen(
+                                  productData: widget.productData,
                                   requestType: BarcodeRequestType.attachProduct,
                                   onIgnore: (barcode) async {
                                     int param;

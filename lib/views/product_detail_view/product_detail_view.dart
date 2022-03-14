@@ -22,8 +22,9 @@ import '../../Services.dart';
 
 class ProductDetailView extends StatefulWidget {
   final ProductData product;
+  final Function(String) onAddBarcode;
 
-  ProductDetailView({this.product});
+  ProductDetailView({this.product, this.onAddBarcode});
 
   @override
   State<StatefulWidget> createState() {
@@ -357,27 +358,26 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       ],
                     ),
                     SizedBox(height: 15),
-                    widget.product.isActive == '0'
-                        ? Container(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width,
-                            padding: const EdgeInsets.all(3.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(10.0) //                 <--- border radius here
+                    if (widget.product.isActive == '0')
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        padding: const EdgeInsets.all(3.0),
+                        decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                                     ),
-                                border: Border.all(color: ColorUtils.primaryColor, width: 4)),
-                            child: Center(
-                              child: Text(
-                                StringUtils.outOfStock,
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk),
-                              ),
-                            ),
-                          )
-                        : Container(),
+                            border: Border.all(color: ColorUtils.primaryColor, width: 4)),
+                        child: Center(
+                          child: Text(
+                            StringUtils.outOfStock,
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk),
+                          ),
+                        ),
+                      ),
                     KammunButton(
                       text:
                           '${StringUtils.addToCart}  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
@@ -425,415 +425,415 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         }
                       },
                     ),
-                    (LoadingScreenServices.subWarehouses
-                            .any((element) => element.id == widget.product.subWarehouseId))
-                        ? Column(
-                            children: [
-                              SizedBox(height: 30),
-                              UpdateProductInfoWidget(
-                                title: StringUtils.edit + ' ' + StringUtils.price + ' :',
-                                inputType: TextInputType.text,
-                                bodyKey: "price",
-                                productId: widget.product.id,
-                                productData: widget.product,
-                                textHint: price,
-                                increasePercentage: widget.product.increasePercentage,
-                                priceFactor: widget.product.priceFactor != null
-                                    ? double.parse(widget.product.priceFactor)
-                                    : 1,
-                                initialText: price,
-                                onSavePressed: (newValue) {
-                                  setState(() {
-                                    widget.product.price = newValue;
-                                  });
-                                },
-                              ),
-                              UpdateProductInfoWidget(
-                                title: StringUtils.edit + ' ' + StringUtils.supplierCode + ':',
-                                inputType: TextInputType.text,
-                                textHint: widget.product.supplierCode,
-                                initialText: widget.product.supplierCode,
-                                bodyKey: "supplier_code",
-                                productId: widget.product.id,
-                                productData: widget.product,
-                                onSavePressed: (newValue) {
-                                  setState(() {
-                                    widget.product.supplierCode = newValue;
-                                  });
-                                },
-                              ),
-                              UpdateProductInfoWidget(
-                                title: StringUtils.priceFactor + ' :',
-                                inputType: TextInputType.text,
-                                bodyKey: "price_factor",
-                                productId: widget.product.id,
-                                productData: widget.product,
-                                textHint: widget.product.priceFactor,
-                                initialText: widget.product.priceFactor,
-                                onSavePressed: (newValue) {
-                                  setState(() {
-                                    widget.product.priceFactor = newValue;
-                                  });
-                                },
-                              ),
-                              Services.isProductsController() || Services.isAdmin() || Services.isSuperAdmin()
-                                  ? Column(
-                                      children: [
-                                        UpdateProductInfoWidget(
-                                          title: StringUtils.edit + ' ' + StringUtils.priority + ' :',
-                                          textHint: widget.product.priority.toString(),
-                                          inputType: TextInputType.text,
-                                          bodyKey: "priority",
-                                          productId: widget.product.id,
-                                          isForSubWarehouse: true,
-                                          productData: widget.product,
-                                          initialText: widget.product.priority.toString(),
-                                          onSavePressed: (newValue) {
-                                            setState(() {
-                                              widget.product.priority = int.parse(newValue);
-                                            });
-                                          },
-                                        ),
-                                        UpdateProductInfoWidget(
-                                          title: StringUtils.edit + ' ' + StringUtils.name,
-                                          textHint: widget.product.name,
-                                          inputType: TextInputType.multiline,
-                                          bodyKey: "name",
-                                          productId: widget.product.id,
-                                          initialText: widget.product.name,
-                                          isForSubWarehouse: false,
-                                          productData: widget.product,
-                                          onSavePressed: (newValue) {
-                                            setState(() {
-                                              widget.product.name = newValue;
-                                            });
-                                          },
-                                        ),
-                                        UpdateProductInfoWidget(
-                                          title: StringUtils.edit + ' ' + StringUtils.unit + ' :',
-                                          inputType: TextInputType.multiline,
-                                          bodyKey: "unit",
-                                          productId: widget.product.id,
-                                          isForSubWarehouse: false,
-                                          productData: widget.product,
-                                          textHint: widget.product.unit,
-                                          initialText: widget.product.unit,
-                                          onSavePressed: (newValue) {
-                                            setState(() {
-                                              widget.product.unit = newValue;
-                                            });
-                                          },
-                                        ),
-                                        UpdateProductInfoWidget(
-                                          title: StringUtils.edit + ' ' + StringUtils.quantity + ' :',
-                                          isForSubWarehouse: false,
-                                          inputType: TextInputType.text,
-                                          productData: widget.product,
-                                          textHint: widget.product.quantity,
-                                          bodyKey: "quantity",
-                                          productId: widget.product.id,
-                                          initialText: widget.product.quantity,
-                                          onSavePressed: (newValue) {
-                                            setState(() {
-                                              widget.product.quantity = newValue;
-                                            });
-                                          },
-                                        ),
-                                        UpdateProductInfoWidget(
-                                          title: StringUtils.edit + ' ' + StringUtils.description + ' :',
-                                          textHint: "الوصف الجديد",
-                                          inputType: TextInputType.multiline,
-                                          bodyKey: "description",
-                                          productId: widget.product.id,
-                                          isForSubWarehouse: false,
-                                          productData: widget.product,
-                                          initialText: widget.product.description,
-                                          onSavePressed: (newValue) {
-                                            setState(() {
-                                              widget.product.description = newValue;
-                                            });
-                                          },
-                                        ),
-                                        Container(
-                                          width: MediaQuery.of(context).size.width,
-                                          padding: EdgeInsets.only(left: 5, right: 5),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(6),
-                                            border: Border.all(width: 5, color: ColorUtils.greyColor),
+                    Column(
+                      children: [
+                        SizedBox(height: 30),
+                        UpdateProductInfoWidget(
+                          title: StringUtils.edit + ' ' + StringUtils.price + ' :',
+                          inputType: TextInputType.text,
+                          bodyKey: "price",
+                          productId: widget.product.id,
+                          productData: widget.product,
+                          textHint: price,
+                          increasePercentage: widget.product.increasePercentage,
+                          priceFactor:
+                              widget.product.priceFactor != null ? double.parse(widget.product.priceFactor) : 1,
+                          initialText: price,
+                          onSavePressed: (newValue) {
+                            setState(() {
+                              widget.product.price = newValue;
+                            });
+                          },
+                        ),
+                        UpdateProductInfoWidget(
+                          title: StringUtils.edit + ' ' + StringUtils.supplierCode + ':',
+                          inputType: TextInputType.text,
+                          textHint: widget.product.supplierCode,
+                          initialText: widget.product.supplierCode,
+                          bodyKey: "supplier_code",
+                          productId: widget.product.id,
+                          productData: widget.product,
+                          onSavePressed: (newValue) {
+                            setState(() {
+                              widget.product.supplierCode = newValue;
+                            });
+                          },
+                        ),
+                        UpdateProductInfoWidget(
+                          title: StringUtils.priceFactor + ' :',
+                          inputType: TextInputType.text,
+                          bodyKey: "price_factor",
+                          productId: widget.product.id,
+                          productData: widget.product,
+                          textHint: widget.product.priceFactor,
+                          initialText: widget.product.priceFactor,
+                          onSavePressed: (newValue) {
+                            setState(() {
+                              widget.product.priceFactor = newValue;
+                            });
+                          },
+                        ),
+                        Services.isProductsController() || Services.isAdmin() || Services.isSuperAdmin()
+                            ? Column(
+                                children: [
+                                  UpdateProductInfoWidget(
+                                    title: StringUtils.edit + ' ' + StringUtils.priority + ' :',
+                                    textHint: widget.product.priority.toString(),
+                                    inputType: TextInputType.text,
+                                    bodyKey: "priority",
+                                    productId: widget.product.id,
+                                    isForSubWarehouse: true,
+                                    productData: widget.product,
+                                    initialText: widget.product.priority.toString(),
+                                    onSavePressed: (newValue) {
+                                      setState(() {
+                                        widget.product.priority = int.parse(newValue);
+                                      });
+                                    },
+                                  ),
+                                  UpdateProductInfoWidget(
+                                    title: StringUtils.edit + ' ' + StringUtils.name,
+                                    textHint: widget.product.name,
+                                    inputType: TextInputType.multiline,
+                                    bodyKey: "name",
+                                    productId: widget.product.id,
+                                    initialText: widget.product.name,
+                                    isForSubWarehouse: false,
+                                    productData: widget.product,
+                                    onSavePressed: (newValue) {
+                                      setState(() {
+                                        widget.product.name = newValue;
+                                      });
+                                    },
+                                  ),
+                                  UpdateProductInfoWidget(
+                                    title: StringUtils.edit + ' ' + StringUtils.unit + ' :',
+                                    inputType: TextInputType.multiline,
+                                    bodyKey: "unit",
+                                    productId: widget.product.id,
+                                    isForSubWarehouse: false,
+                                    productData: widget.product,
+                                    textHint: widget.product.unit,
+                                    initialText: widget.product.unit,
+                                    onSavePressed: (newValue) {
+                                      setState(() {
+                                        widget.product.unit = newValue;
+                                      });
+                                    },
+                                  ),
+                                  UpdateProductInfoWidget(
+                                    title: StringUtils.edit + ' ' + StringUtils.quantity + ' :',
+                                    isForSubWarehouse: false,
+                                    inputType: TextInputType.text,
+                                    productData: widget.product,
+                                    textHint: widget.product.quantity,
+                                    bodyKey: "quantity",
+                                    productId: widget.product.id,
+                                    initialText: widget.product.quantity,
+                                    onSavePressed: (newValue) {
+                                      setState(() {
+                                        widget.product.quantity = newValue;
+                                      });
+                                    },
+                                  ),
+                                  UpdateProductInfoWidget(
+                                    title: StringUtils.edit + ' ' + StringUtils.description + ' :',
+                                    textHint: "الوصف الجديد",
+                                    inputType: TextInputType.multiline,
+                                    bodyKey: "description",
+                                    productId: widget.product.id,
+                                    isForSubWarehouse: false,
+                                    productData: widget.product,
+                                    initialText: widget.product.description,
+                                    onSavePressed: (newValue) {
+                                      setState(() {
+                                        widget.product.description = newValue;
+                                      });
+                                    },
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: EdgeInsets.only(left: 5, right: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(width: 5, color: ColorUtils.greyColor),
+                                    ),
+                                    child: Center(
+                                      child: new DropdownButton(
+                                        style: decisionButtonStyle,
+                                        underline: Container(),
+                                        isExpanded: false,
+                                        items: Services.productSubWarehouseNames(context),
+                                        iconEnabledColor: ColorUtils.greyColor,
+                                        value: productSubWarehouseId,
+                                        hint: new Text(
+                                          LoadingScreenServices.subWarehouses
+                                              .firstWhere(
+                                                  (subWarehouse) =>
+                                                      subWarehouse.id == widget.product.subWarehouseId,
+                                                  orElse: () => SubWarehouse(name: 'غير مضاف'))
+                                              .name,
+                                          style: decisionButtonStyle.copyWith(
+                                            color: ColorUtils.greyColor,
                                           ),
-                                          child: Center(
-                                            child: new DropdownButton(
-                                              style: decisionButtonStyle,
-                                              underline: Container(),
-                                              isExpanded: false,
-                                              items: Services.productSubWarehouseNames(context),
-                                              iconEnabledColor: ColorUtils.greyColor,
-                                              value: productSubWarehouseId,
-                                              hint: new Text(
-                                                LoadingScreenServices.subWarehouses
-                                                    .firstWhere((subWarehouse) =>
-                                                        subWarehouse.id == widget.product.subWarehouseId)
-                                                    .name,
-                                                style: decisionButtonStyle.copyWith(
-                                                  color: ColorUtils.greyColor,
-                                                ),
-                                              ),
-                                              onChanged: (value) async {
-                                                bool result =
-                                                    await AddedProductsServices.changeProductSubWarehouse(
-                                                        widget.product, value);
+                                        ),
+                                        onChanged: (value) async {
+                                          bool result = await AddedProductsServices.changeProductSubWarehouse(
+                                              widget.product, value);
 
-                                                Services.resultFlushBar(context: context, result: result);
-                                                setState(() {
-                                                  if (value != null) {
-                                                    if (result) productSubWarehouseId = value;
-                                                    widget.product.subWarehouseId = int.parse(value);
-                                                  }
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 15),
-                                        Container(
-                                          width: MediaQuery.of(context).size.width,
-                                          padding: EdgeInsets.only(left: 5, right: 5),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(6),
-                                            border: Border.all(width: 5, color: ColorUtils.greyColor),
-                                          ),
-                                          child: Center(
-                                            child: new SearchableDropdown(
-                                              style: decisionButtonStyle,
-                                              closeButton: FlatButton(
-                                                child: Text(
-                                                  StringUtils.close,
-                                                  style: decisionButtonStyle.copyWith(
-                                                    color: ColorUtils.greyColor,
-                                                  ),
-                                                ),
-                                                onPressed: () => Navigator.of(context).pop(),
-                                              ),
-                                              isCaseSensitiveSearch: false,
-                                              underline: Container(),
-                                              isExpanded: false,
-                                              items: LoadingScreenServices.fullCategoryList,
-                                              iconEnabledColor: ColorUtils.greyColor,
-                                              value: selectedValueCategoryValue,
-                                              hint: new Text(
-                                                'اختيار الصنف التابع له المنتج',
-                                                style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor),
-                                              ),
-                                              searchHint: new Text(
-                                                'إختيار الصنف',
-                                                style: decisionButtonStyle.copyWith(
-                                                  color: ColorUtils.greyColor,
-                                                ),
-                                              ),
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  if (value != null) {
-                                                    selectedValueCategoryValue = value.toString().split(";")[1];
-                                                  }
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                        widget.product.images.length > 0
-                                            ? KammunButton(
-                                                height: 50,
-                                                color: Theme.of(context).primaryColor,
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                  children: [
-                                                    Text(
-                                                      "حذف الصورة",
-                                                      overflow: TextOverflow.clip,
-                                                      style: decisionButtonStyle,
-                                                    ),
-                                                    Icon(
-                                                      Icons.delete,
-                                                      color: Colors.white,
-                                                      size: 30,
-                                                    ),
-                                                  ],
-                                                ),
-                                                onTap: () async {
-                                                  bool result = await PricesChangesServices.deleteImage(
-                                                      imageId: widget.product.images[0].id);
-                                                  Services.resultFlushBar(context: context, result: result);
-                                                },
-                                              )
-                                            : Container(),
-                                        KammunButton(
-                                          height: 50,
-                                          text: "الإضافة لصنف جديد",
-                                          color: Theme.of(context).primaryColor,
-                                          onTap: () async {
-                                            bool result = await _saveCategory(
-                                                categoryId: selectedValueCategoryValue,
-                                                context: context,
-                                                productId: widget.product.id);
-                                            if (result) {
-                                              setState(() {
-                                                widget.product.categories.add(CategoryOriginalData(
-                                                    id: int.parse(selectedValueCategoryValue),
-                                                    name: LoadingScreenServices.categoryList
-                                                        .firstWhere((category) =>
-                                                            category.id.toString() == selectedValueCategoryValue)
-                                                        .name,
-                                                    imageFileName: LoadingScreenServices.categoryList
-                                                        .firstWhere((category) =>
-                                                            category.id.toString() == selectedValueCategoryValue)
-                                                        .imageFileName));
-                                              });
+                                          Services.resultFlushBar(context: context, result: result);
+                                          setState(() {
+                                            if (value != null) {
+                                              if (result) productSubWarehouseId = value;
+                                              widget.product.subWarehouseId = int.parse(value);
                                             }
-                                          },
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: 15),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: EdgeInsets.only(left: 5, right: 5),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(width: 5, color: ColorUtils.greyColor),
+                                    ),
+                                    child: Center(
+                                      child: new SearchableDropdown(
+                                        style: decisionButtonStyle,
+                                        closeButton: FlatButton(
+                                          child: Text(
+                                            StringUtils.close,
+                                            style: decisionButtonStyle.copyWith(
+                                              color: ColorUtils.greyColor,
+                                            ),
+                                          ),
+                                          onPressed: () => Navigator.of(context).pop(),
                                         ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            SizedBox(
-                                              width: 1,
-                                            ),
-                                            if (Services.isProductsController())
-                                              BarcodeIcon(
-                                                color: ColorUtils.kmColors,
-                                                requestType: BarcodeRequestType.addBarcode,
-                                                productId: widget.product.id,
-                                                scaffoldKey: scaffoldKey,
-                                              ),
-                                            AddImageWidget(
-                                              onSubmit: (image) async {
-                                                bool result = await ProductsServices.setImageToProducts(
-                                                    productId: widget.product.id, image: image);
-                                                Services.resultFlushBar(context: context, result: result);
-                                              },
-                                            ),
-                                            SizedBox(
-                                              width: 1,
-                                            ),
-                                          ],
+                                        isCaseSensitiveSearch: false,
+                                        underline: Container(),
+                                        isExpanded: false,
+                                        items: LoadingScreenServices.fullCategoryList,
+                                        iconEnabledColor: ColorUtils.greyColor,
+                                        value: selectedValueCategoryValue,
+                                        hint: new Text(
+                                          'اختيار الصنف التابع له المنتج',
+                                          style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor),
                                         ),
-                                        Services.isAdmin() || Services.isProductsController()
-                                            ? Column(
-                                                children: [
-                                                  KammunButton(
-                                                    height: 50,
-                                                    text: "إزالة من المستودع",
-                                                    color: Colors.red,
-                                                    onTap: () {
-                                                      List<DialogButton> dialogButtons = [
-                                                        DialogButton(
-                                                          text: StringUtils.yes,
-                                                          onTap: () async {
-                                                            bool result = await AddedProductsServices
-                                                                .unAttachProductsToSubWarehouse(
-                                                                    productsId: widget.product.id.toString(),
-                                                                    subWarehouse:
-                                                                        widget.product.subWarehouseId.toString());
-                                                            if (result) {
-                                                              int count = 0;
-                                                              Navigator.of(context).popUntil((_) => count++ >= 1);
-                                                            }
-                                                            Services.resultFlushBar(
-                                                                context: context, result: result);
-                                                          },
-                                                        ),
-                                                        DialogButton(
-                                                          text: StringUtils.no,
-                                                          onTap: () {
-                                                            Navigator.of(context).pop();
-                                                          },
-                                                        ),
-                                                      ];
-                                                      showMyDialog(
-                                                          title: '',
-                                                          context: context,
-                                                          text:
-                                                              'هل تريد إزالة ${widget.product.name} من المستودع ؟',
-                                                          dialogButtons: dialogButtons);
-                                                    },
-                                                  ),
-                                                  KammunButton(
-                                                    height: 50,
-                                                    text: "حذف المنتج",
-                                                    color: Colors.red,
-                                                    onTap: () {
-                                                      List<DialogButton> dialogButtons = [
-                                                        DialogButton(
-                                                          text: StringUtils.yes,
-                                                          onTap: () async {
-                                                            bool result = await ProductsServices.deleteProduct(
-                                                                widget.product.id.toString());
-                                                            if (result) {
-                                                              int count = 0;
-                                                              Navigator.of(context).popUntil((_) => count++ >= 2);
-                                                            }
-                                                            Services.resultFlushBar(
-                                                                context: context, result: result);
-                                                          },
-                                                        ),
-                                                        DialogButton(
-                                                          text: StringUtils.no,
-                                                          onTap: () {
-                                                            Navigator.of(context).pop();
-                                                          },
-                                                        ),
-                                                      ];
-                                                      showMyDialog(
-                                                          title: '',
-                                                          context: context,
-                                                          text: 'هل تريد حذف ${widget.product.name} نهائياً ؟',
-                                                          dialogButtons: dialogButtons);
-                                                    },
-                                                  ),
-                                                ],
-                                              )
-                                            : Container(),
-                                        SizedBox(height: 30),
-                                      ],
-                                    )
-                                  : Services.isSupplierManager()
+                                        searchHint: new Text(
+                                          'إختيار الصنف',
+                                          style: decisionButtonStyle.copyWith(
+                                            color: ColorUtils.greyColor,
+                                          ),
+                                        ),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            if (value != null) {
+                                              selectedValueCategoryValue = value.toString().split(";")[1];
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  widget.product.images.length > 0
                                       ? KammunButton(
                                           height: 50,
-                                          text: "إزالة من المستودع",
-                                          color: Colors.red,
-                                          onTap: () {
-                                            List<DialogButton> dialogButtons = [
-                                              DialogButton(
-                                                text: StringUtils.yes,
-                                                onTap: () async {
-                                                  bool result =
-                                                      await AddedProductsServices.unAttachProductsToSubWarehouse(
-                                                          productsId: widget.product.id.toString(),
-                                                          subWarehouse: widget.product.subWarehouseId.toString());
-                                                  if (result) {
-                                                    int count = 0;
-                                                    Navigator.of(context).popUntil((_) => count++ >= 1);
-                                                  }
-                                                  Services.resultFlushBar(context: context, result: result);
-                                                },
+                                          color: Theme.of(context).primaryColor,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Text(
+                                                "حذف الصورة",
+                                                overflow: TextOverflow.clip,
+                                                style: decisionButtonStyle,
                                               ),
-                                              DialogButton(
-                                                text: StringUtils.no,
-                                                onTap: () {
-                                                  Navigator.of(context).pop();
-                                                },
+                                              Icon(
+                                                Icons.delete,
+                                                color: Colors.white,
+                                                size: 30,
                                               ),
-                                            ];
-                                            showMyDialog(
-                                                title: '',
-                                                context: context,
-                                                text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
-                                                dialogButtons: dialogButtons);
+                                            ],
+                                          ),
+                                          onTap: () async {
+                                            bool result = await PricesChangesServices.deleteImage(
+                                                imageId: widget.product.images[0].id);
+                                            Services.resultFlushBar(context: context, result: result);
                                           },
                                         )
                                       : Container(),
-                            ],
-                          )
-                        : Container(),
+                                  KammunButton(
+                                    height: 50,
+                                    text: "الإضافة لصنف جديد",
+                                    color: Theme.of(context).primaryColor,
+                                    onTap: () async {
+                                      bool result = await _saveCategory(
+                                          categoryId: selectedValueCategoryValue,
+                                          context: context,
+                                          productId: widget.product.id);
+                                      if (result) {
+                                        setState(() {
+                                          widget.product.categories.add(CategoryOriginalData(
+                                              id: int.parse(selectedValueCategoryValue),
+                                              name: LoadingScreenServices.categoryList
+                                                  .firstWhere((category) =>
+                                                      category.id.toString() == selectedValueCategoryValue)
+                                                  .name,
+                                              imageFileName: LoadingScreenServices.categoryList
+                                                  .firstWhere((category) =>
+                                                      category.id.toString() == selectedValueCategoryValue)
+                                                  .imageFileName));
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width: 1,
+                                      ),
+                                      if (Services.isProductsController())
+                                        BarcodeIcon(
+                                          productData: widget.product,
+                                          color: ColorUtils.kmColors,
+                                          requestType: BarcodeRequestType.addBarcode,
+                                          productId: widget.product.id,
+                                          scaffoldKey: scaffoldKey,
+                                          onAddBarcode: (result) => widget.onAddBarcode(result),
+                                        ),
+                                      AddImageWidget(
+                                        onSubmit: (image) async {
+                                          bool result = await ProductsServices.setImageToProducts(
+                                              productId: widget.product.id, image: image);
+                                          Services.resultFlushBar(context: context, result: result);
+                                        },
+                                      ),
+                                      SizedBox(
+                                        width: 1,
+                                      ),
+                                    ],
+                                  ),
+                                  (Services.isAdmin() || Services.isProductsController())
+                                      ? Column(
+                                          children: [
+                                            if (LoadingScreenServices.subWarehouses
+                                                .any((element) => element.id == widget.product.subWarehouseId))
+                                              KammunButton(
+                                                height: 50,
+                                                text: "إزالة من المستودع",
+                                                color: Colors.red,
+                                                onTap: () {
+                                                  List<DialogButton> dialogButtons = [
+                                                    DialogButton(
+                                                      text: StringUtils.yes,
+                                                      onTap: () async {
+                                                        bool result = await AddedProductsServices
+                                                            .unAttachProductsToSubWarehouse(
+                                                                productsId: widget.product.id.toString(),
+                                                                subWarehouse:
+                                                                    widget.product.subWarehouseId.toString());
+                                                        if (result) {
+                                                          int count = 0;
+                                                          Navigator.of(context).popUntil((_) => count++ >= 1);
+                                                        }
+                                                        Services.resultFlushBar(context: context, result: result);
+                                                      },
+                                                    ),
+                                                    DialogButton(
+                                                      text: StringUtils.no,
+                                                      onTap: () {
+                                                        Navigator.of(context).pop();
+                                                      },
+                                                    ),
+                                                  ];
+                                                  showMyDialog(
+                                                      title: '',
+                                                      context: context,
+                                                      text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
+                                                      dialogButtons: dialogButtons);
+                                                },
+                                              ),
+                                            KammunButton(
+                                              height: 50,
+                                              text: "حذف المنتج",
+                                              color: Colors.red,
+                                              onTap: () {
+                                                List<DialogButton> dialogButtons = [
+                                                  DialogButton(
+                                                    text: StringUtils.yes,
+                                                    onTap: () async {
+                                                      bool result = await ProductsServices.deleteProduct(
+                                                          widget.product.id.toString());
+                                                      if (result) {
+                                                        int count = 0;
+                                                        Navigator.of(context).popUntil((_) => count++ >= 2);
+                                                      }
+                                                      Services.resultFlushBar(context: context, result: result);
+                                                    },
+                                                  ),
+                                                  DialogButton(
+                                                    text: StringUtils.no,
+                                                    onTap: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                  ),
+                                                ];
+                                                showMyDialog(
+                                                    title: '',
+                                                    context: context,
+                                                    text: 'هل تريد حذف ${widget.product.name} نهائياً ؟',
+                                                    dialogButtons: dialogButtons);
+                                              },
+                                            ),
+                                          ],
+                                        )
+                                      : Container(),
+                                  SizedBox(height: 30),
+                                ],
+                              )
+                            : Services.isSupplierManager() &&
+                                    (LoadingScreenServices.subWarehouses
+                                        .any((element) => element.id == widget.product.subWarehouseId))
+                                ? KammunButton(
+                                    height: 50,
+                                    text: "إزالة من المستودع",
+                                    color: Colors.red,
+                                    onTap: () {
+                                      List<DialogButton> dialogButtons = [
+                                        DialogButton(
+                                          text: StringUtils.yes,
+                                          onTap: () async {
+                                            bool result =
+                                                await AddedProductsServices.unAttachProductsToSubWarehouse(
+                                                    productsId: widget.product.id.toString(),
+                                                    subWarehouse: widget.product.subWarehouseId.toString());
+                                            if (result) {
+                                              int count = 0;
+                                              Navigator.of(context).popUntil((_) => count++ >= 1);
+                                            }
+                                            Services.resultFlushBar(context: context, result: result);
+                                          },
+                                        ),
+                                        DialogButton(
+                                          text: StringUtils.no,
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ];
+                                      showMyDialog(
+                                          title: '',
+                                          context: context,
+                                          text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
+                                          dialogButtons: dialogButtons);
+                                    },
+                                  )
+                                : Container(),
+                      ],
+                    ),
                   ],
                 ),
               ),

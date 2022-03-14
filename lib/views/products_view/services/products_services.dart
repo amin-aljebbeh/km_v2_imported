@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:kammun_app/core/core_importer.dart';
 import 'package:http/http.dart' as http;
+import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
@@ -146,7 +147,7 @@ class ProductsServices {
     }
   }
 
-  static Future<bool> setBarcodeToProduct({@required int bareCode, @required int productId}) async {
+  static Future<String> setBarcodeToProduct({@required int bareCode, @required int productId}) async {
     var requestBody = {
       "product_id": productId,
       "barcode": bareCode,
@@ -158,11 +159,12 @@ class ProductsServices {
         body: jsonEncode(requestBody),
       );
       if (response.statusCode == SUCCESS_CODE) {
-        return true;
+        Barcode barcode = barcodeFromJson(jsonEncode(response.data['data']));
+        return barcode.barcode;
       } else
-        return false;
+        return 'error';
     } catch (e) {
-      return null;
+      return 'error';
     }
   }
 
