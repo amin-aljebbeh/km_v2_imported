@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/views/login/models/admin_model.dart';
-
-import 'start_model_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/login/models/admin_model.dart';
 
 import '../../Services.dart';
 import '../order_accounting_row.dart';
 import '../order_image.dart';
+import 'start_model_importer.dart';
 
 OrdersOriginal ordersFromJson(String str) => OrdersOriginal.fromJson(json.decode(str));
 
@@ -174,8 +173,12 @@ class OrdersOriginalData {
         shopperProfit: 0,
         kammunProfit: 0,
         userFeedback: json['user_feedback'] != null ? json['user_feedback'] : 'null',
-        deliveredAt: json['delivered_at'] != null ? DateTime.parse(json['delivered_at']) : null,
-        acceptedAt: json['accepted_at'] != null ? DateTime.parse(json['accepted_at']) : null,
+        deliveredAt: json['delivered_at'] != null
+            ? DateTime.parse(json['delivered_at'])
+            : DateTime.parse('2022-03-07 17:00:08'),
+        acceptedAt: json['accepted_at'] != null
+            ? DateTime.parse(json['accepted_at'])
+            : DateTime.parse('2022-03-07 17:00:08'),
       );
 
   Map<String, dynamic> toJson() => {

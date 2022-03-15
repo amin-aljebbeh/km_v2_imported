@@ -7,6 +7,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
+import 'package:kammun_app/views/orders/orders_view_importer.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:map_launcher/map_launcher.dart';
 
@@ -158,7 +159,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  if (Services.isAdmin() && deletedCount > 0)
+                  if ((Services.isAdmin() || Services.isOperationManager()) && deletedCount > 0)
                     Container(
                       padding: EdgeInsets.all(6),
                       decoration: BoxDecoration(
@@ -236,6 +237,24 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () => Services.makePhoneCall(widget.orderData.userData.phone),
                   ),
+                  if (Services.isOperationManager())
+                    IconButton(
+                      icon: Icon(
+                        Icons.search_rounded,
+                        color: ColorUtils.kmColors,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (screenContext) => new PhoneNumberOrdersView(
+                              phoneNumber: widget.orderData.userData.phone,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   if (widget.orderData.address.lat != -1 && widget.orderData.address.lon != -1)
                     IconButton(
                       icon: Icon(
