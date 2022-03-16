@@ -219,7 +219,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                         itemCount: orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
                           orderDataList[index].orderArithmeticOperations();
-                          if (Services.isShopper()) orderDataList[index].orderProfits();
+                          orderDataList[index].orderProfits();
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(

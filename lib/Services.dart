@@ -197,7 +197,7 @@ class Services {
       );
 
       if (response.statusCode == SUCCESS_CODE) {
-        Level level = ModelResponse.fromJson(response.data).data;
+        Level level = LevelModelResponse.fromJson(response.data).data;
         return level;
       } else {
         return null;
@@ -205,6 +205,25 @@ class Services {
     } catch (e) {
       Tools.logToConsole(e.toString());
       Tools.logToConsole('e.toString()');
+      return null;
+    }
+  }
+
+  static Future<List<Level>> getLevels() async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: GET_LEVEL,
+        method: httpMethods.get,
+      );
+
+      if (response.statusCode == SUCCESS_CODE) {
+        List<Level> levels = LevelsResponse.fromJson(response.data).levels;
+        return levels;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      Tools.logToConsole(e.toString());
       return null;
     }
   }

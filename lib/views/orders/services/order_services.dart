@@ -35,12 +35,12 @@ class OrderServices {
       productPrices = productPrices + int.parse(CartServices.cartProducts[i].price.split('.')[0]).toString() + ';';
     }
     String deliveryMethodId = '';
-    if (Services.isShopper())
-      deliveryMethodId = LoadingScreenServices.myOrdersList
-          .firstWhere((order) => order.id.toString() == orderUnderUpdateId)
-          .deliveryMethodId;
     if (Services.isOperationManager() || Services.isAdmin())
       deliveryMethodId = LoadingScreenServices.allOrdersList
+          .firstWhere((order) => order.id.toString() == orderUnderUpdateId)
+          .deliveryMethodId;
+    else if (Services.isShopper())
+      deliveryMethodId = LoadingScreenServices.myOrdersList
           .firstWhere((order) => order.id.toString() == orderUnderUpdateId)
           .deliveryMethodId;
     Map orderData = {

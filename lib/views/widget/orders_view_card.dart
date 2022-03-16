@@ -213,13 +213,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           color: Colors.purple,
                         ),
                       ),
-                      if (Services.isShopper())
-                        RichText(
-                          text: TextSpan(
-                            text: "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
-                            style: profitStyle,
-                          ),
+                      RichText(
+                        text: TextSpan(
+                          text: "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
+                          style: profitStyle,
                         ),
+                      ),
                     ],
                   )
                 ],

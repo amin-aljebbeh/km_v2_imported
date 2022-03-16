@@ -1,8 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 
 import '../../Services.dart';
 
@@ -57,21 +59,19 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             SizedBox(),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
-              child: RichText(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AutoSizeText(
+                    LoadingScreenServices.name,
+                    style: userNameStyle.copyWith(fontSize: 25),
+                  ),
+                  AutoSizeText(
+                    LoadingScreenServices.userName,
+                    style: userNameStyle,
+                  ),
+                ],
                 textDirection: TextDirection.ltr,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: LoadingScreenServices.name,
-                      style: userNameStyle.copyWith(fontSize: 30),
-                    ),
-                    TextSpan(text: '\n'),
-                    TextSpan(
-                      text: LoadingScreenServices.userName,
-                      style: userNameStyle,
-                    ),
-                  ],
-                ),
               ),
             ),
           ],

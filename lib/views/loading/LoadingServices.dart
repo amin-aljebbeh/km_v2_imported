@@ -18,6 +18,7 @@ import 'Loading.dart';
 class LoadingScreenServices {
   static StartModel startRequest = new StartModel();
   static CompanyOriginalData companyInformation = new CompanyOriginalData();
+  static List<Level> levels = List<Level>();
 
   static List<CategoryOriginalData> categoryList = List<CategoryOriginalData>();
 
@@ -334,6 +335,7 @@ class LoadingScreenServices {
                 Services.isAdmin() ||
                 Services.isAccounting()) {
               await Services.getShoppers();
+              levels = await Services.getLevels();
             }
             if (Services.isAccounting() || Services.isSuperAdmin() || Services.isAdmin() || Services.isShopper()) {
               transactionTypes = await ReportsServices.getTransactionTypes();

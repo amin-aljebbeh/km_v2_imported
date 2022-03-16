@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/models/admin_model.dart';
 
-import '../../Services.dart';
 import '../order_accounting_row.dart';
 import '../order_image.dart';
 import 'start_model_importer.dart';
@@ -265,34 +265,36 @@ class OrdersOriginalData {
   }
 
   orderProfits() {
+    Level orderLevel;
+    if (Services.isShopper())
+      orderLevel = Services.shopper.level;
+    else
+      orderLevel = LoadingScreenServices.levels.firstWhere((level) => level.id == shopper.levelId);
     for (int i = 0; i < orderAccountingRows.length; i++) {
       double shopperSubWarehouseProfit = 0.0;
       double increaseProfit = 0.0;
-      if (Services.shopper != null) {
-        SubWarehouseLevelPivot pivot = Services.shopper.level.subWarehouses
-            .firstWhere((subWarehouse) => subWarehouse.id == orderAccountingRows[i].subWarehouseId)
-            .levelPivot;
+      SubWarehouseLevelPivot pivot = orderLevel.subWarehouses
+          .firstWhere((subWarehouse) => subWarehouse.id == orderAccountingRows[i].subWarehouseId)
+          .levelPivot;
 
-        shopperSubWarehouseProfit = pivot.shoppingProfitPercentage / 100;
-        increaseProfit = pivot.valueAddedPercentage / 100;
+      shopperSubWarehouseProfit = pivot.shoppingProfitPercentage / 100;
+      increaseProfit = pivot.valueAddedPercentage / 100;
 
-        double discountPercentage = SubWarehouse.getDiscountPercentage(orderAccountingRows[i].subWarehouseId);
-        shopperProfit += orderAccountingRows[i].increaseValuesSum * increaseProfit;
-        kammunProfit +=
-            orderAccountingRows[i].increaseValuesSum - (orderAccountingRows[i].increaseValuesSum * increaseProfit);
-        double productKammunProfit = orderAccountingRows[i].netPrice * discountPercentage;
-        kammunProfit += (productKammunProfit - (productKammunProfit * shopperSubWarehouseProfit));
-        shopperProfit += productKammunProfit * shopperSubWarehouseProfit;
-      }
+      double discountPercentage = SubWarehouse.getDiscountPercentage(orderAccountingRows[i].subWarehouseId);
+      shopperProfit += orderAccountingRows[i].increaseValuesSum * increaseProfit;
+      kammunProfit +=
+          orderAccountingRows[i].increaseValuesSum - (orderAccountingRows[i].increaseValuesSum * increaseProfit);
+      double productKammunProfit = orderAccountingRows[i].netPrice * discountPercentage;
+      kammunProfit += (productKammunProfit - (productKammunProfit * shopperSubWarehouseProfit));
+      shopperProfit += productKammunProfit * shopperSubWarehouseProfit;
     }
     double deliverProfit = 0.0;
     double cityCost = double.parse(supportedCityCost);
-    if (Services.shopper != null)
-      deliverProfit = Services.shopper.level.supportedCities
-              .firstWhere((city) => city.id == supportedCityId)
-              .levelPivot
-              .deliveryProfitPercentage /
-          100;
+    deliverProfit = orderLevel.supportedCities
+            .firstWhere((city) => city.id == supportedCityId)
+            .levelPivot
+            .deliveryProfitPercentage /
+        100;
     double shopperDeliverProfit = cityCost * deliverProfit;
     shopperProfit += shopperDeliverProfit;
     kammunProfit += cityCost - shopperDeliverProfit;
@@ -304,16 +306,19 @@ class Assigned {
     this.id,
     this.name,
     this.admin,
+    this.levelId,
   });
 
   int id;
   String name;
   AdminModel admin;
+  int levelId;
 
   factory Assigned.fromJson(Map<String, dynamic> json) => Assigned(
         id: json["id"] == null ? null : json["id"],
         name: json["name"] == null ? null : json["name"],
         admin: json["admin"] == null ? null : AdminModel.fromJson(json["admin"]),
+        levelId: json['level_id'] == null ? 0 : json['level_id'],
       );
 
   Map<String, dynamic> toJson() => {
