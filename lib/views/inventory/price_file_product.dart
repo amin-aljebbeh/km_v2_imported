@@ -29,16 +29,13 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
   int selectedList;
 
   assignArray() {
-    Tools.logToConsole('message');
-    Tools.logToConsole(importedProducts.nonIntroducedProducts.length);
-    Tools.logToConsole(importedProducts.productsPriceChange.length);
     setState(() {
       showList = List<ProductData>();
       switch (selectedList) {
-        case 0:
+        case 1:
           showList.addAll(importedProducts.nonIntroducedProducts);
           break;
-        case 1:
+        case 0:
           showList.addAll(importedProducts.productsPriceChange);
           break;
       }
@@ -87,7 +84,7 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                       assignArray();
                     });
                   },
-                  items: Services.dropdownStringList(['الغير المضافة', 'تغير سعرها']),
+                  items: Services.dropdownStringList(['تغير سعرها', 'الغير المضافة']),
                   value: selectedList,
                 ),
               ),
@@ -180,7 +177,7 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                                 .length >
                                             0;
                                       }
-                                      if (selectedList == 0) attached = false;
+                                      if (selectedList == 1) attached = false;
                                       return InventoryProductsViewCard(
                                         index: index,
                                         id: id,

@@ -280,8 +280,10 @@ class OrdersViewState extends State<OrdersView> {
                         shrinkWrap: true,
                         itemCount: orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          orderDataList[index].orderArithmeticOperations();
-                          orderDataList[index].orderProfits();
+                          if (Services.isShopper() || orderDataList[index].shopper != null) {
+                            orderDataList[index].orderArithmeticOperations();
+                            orderDataList[index].orderProfits();
+                          }
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(

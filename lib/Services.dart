@@ -500,9 +500,40 @@ class Services {
     }
   }
 
-  static openUrl(String selected) async {
+  static openUrl(String selected, {String mobileNumber}) async {
     String url = "";
-    if (selected == "whatsapp") {
+    switch (selected) {
+      case "whatsapp":
+        url = 'whatsapp://send?phone=' + LoadingScreenServices.companyInformation.whatsappNumber;
+        break;
+      case "messenger":
+        url = LoadingScreenServices.companyInformation.messengerUrl;
+        break;
+      case "facebook":
+        url = "fb://page/" + LoadingScreenServices.companyInformation.facebookUrl.toString();
+        break;
+      case "instagram":
+        url = LoadingScreenServices.companyInformation.instagramUrl.toString();
+        break;
+      case "website":
+        url = LoadingScreenServices.companyInformation.websiteUrl.toString();
+        break;
+      case "email":
+        String platform = "Android";
+        if (Platform.isIOS) {
+          platform = "iPhone";
+        }
+        url =
+            "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
+        break;
+      case "number":
+        url = "tel:${LoadingScreenServices.supportPhoneNumber}";
+        break;
+      case "customer_whatsapp":
+        url = 'whatsapp://send?phone=' + mobileNumber;
+        break;
+    }
+    /*if (selected == "whatsapp") {
       url = 'whatsapp://send?phone=' + LoadingScreenServices.companyInformation.whatsappNumber;
     } else if (selected == "messenger") {
       url = LoadingScreenServices.companyInformation.messengerUrl;
@@ -521,7 +552,7 @@ class Services {
           "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
     } else if (selected == "number") {
       url = "tel:${LoadingScreenServices.supportPhoneNumber}";
-    }
+    }*/
 
     launch(url);
   }

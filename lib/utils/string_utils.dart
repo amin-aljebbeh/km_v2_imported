@@ -19,7 +19,7 @@ class StringUtils {
   //Labels
   static String signIn = 'تسجيل الدخول';
   static String bill = 'الفاتورة : ';
-  static String phoneNumber = 'رقم الهاتف : ';
+  static String phoneNumber = 'الهاتف :';
   static String entrance = 'المدخل: ';
 
   // Tabs

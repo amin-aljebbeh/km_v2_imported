@@ -75,7 +75,6 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
 
   @override
   Widget build(BuildContext context) {
-    Tools.logToConsole(widget.productData.id);
     String price = widget.price;
     if (Services.isSupplierManager() && widget.price != '0') {
       price =
@@ -241,7 +240,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                       Radius.circular(10.0) //                 <--- border radius here
                                       ),
                                   border: Border.all(color: ColorUtils.primaryColor, width: 2)),
-                              child: widget.attached && widget.supplierCode != null && !widget.fromInventory
+                              child: widget.attached && widget.supplierCode != 'null' && !widget.fromInventory
                                   ? IconButton(
                                       icon: Icon(
                                         Icons.close_sharp,

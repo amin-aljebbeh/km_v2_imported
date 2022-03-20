@@ -2,13 +2,14 @@ import 'package:animated_background/animated_background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+
 import '../../Services.dart';
 import 'Services/login_services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 
 class LoginScreen extends StatefulWidget {
   static String routeName = "/login";
@@ -205,13 +206,12 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.90,
                 decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      // topLeft: Radius.circular(180),
-                      // topRight: Radius.circular(180),
-                      bottomLeft: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
-                      bottomRight: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
-                    )),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
+                    bottomRight: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
+                  ),
+                ),
               ),
             ),
             errorCode
@@ -224,7 +224,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     padding: EdgeInsets.zero,
                   ),
             ListView(
-              //    mainAxisAlignment: MainAxisAlignment.start,
               shrinkWrap: true,
               children: [
                 Container(
@@ -246,24 +245,17 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                     children: [
                       Container(
                         padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
-                        //  color: Colors.white,
-
                         child: _showUsernameInput(),
                       ),
                       Container(
                         padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
-                        //  color: Colors.white,
-
                         child: _showPasswordInput(),
-                        //dima3
                       ),
                     ],
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 20, top: 5),
-                  //  color: Colors.white,
-
                   child: loadingScreen
                       ? Padding(
                           padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),

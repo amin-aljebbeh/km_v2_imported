@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
@@ -225,7 +226,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   LabelRow(
                     rightSideText: StringUtils.phoneNumber,
@@ -237,22 +238,44 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       ..onTap = () => Services.makePhoneCall(widget.orderData.userData.phone),
                   ),
                   if (Services.isOperationManager())
-                    IconButton(
-                      icon: Icon(
-                        Icons.search_rounded,
-                        color: ColorUtils.kmColors,
-                        size: 30,
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (screenContext) => new PhoneNumberOrdersView(
-                              phoneNumber: widget.orderData.userData.phone,
-                            ),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.copy,
+                            color: ColorUtils.kmColors,
+                            size: 25,
                           ),
-                        );
-                      },
+                          padding: EdgeInsets.all(0),
+                          onPressed: () {
+                            Clipboard.setData(new ClipboardData(text: widget.orderData.userData.phone));
+                            Toast.show('تم نسخ الرقم', context,
+                                duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+                          },
+                        ),
+                        MediaIcon(
+                            icon: FontAwesomeIcons.whatsapp,
+                            url: "customer_whatsapp",
+                            mobileNumber: widget.orderData.userData.phone),
+                        IconButton(
+                          icon: Icon(
+                            Icons.search_rounded,
+                            color: ColorUtils.kmColors,
+                            size: 30,
+                          ),
+                          padding: EdgeInsets.all(0),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                builder: (screenContext) => new PhoneNumberOrdersView(
+                                  phoneNumber: widget.orderData.userData.phone,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   if (widget.orderData.address.lat != -1 && widget.orderData.address.lon != -1)
                     IconButton(
@@ -261,6 +284,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         color: ColorUtils.kmColors,
                         size: 30,
                       ),
+                      padding: EdgeInsets.all(0),
                       onPressed: () {
                         openMapsSheet(
                             context: context,

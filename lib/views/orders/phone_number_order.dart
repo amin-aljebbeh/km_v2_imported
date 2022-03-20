@@ -99,7 +99,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+          padding: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
           child: !orderLoaded || isLoading
               ? Center(
                   child: Loader(),
@@ -218,8 +218,10 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                         shrinkWrap: true,
                         itemCount: orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          orderDataList[index].orderArithmeticOperations();
-                          orderDataList[index].orderProfits();
+                          if (Services.isShopper() || orderDataList[index].shopper != null) {
+                            orderDataList[index].orderArithmeticOperations();
+                            orderDataList[index].orderProfits();
+                          }
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(
