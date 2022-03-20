@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/products_view/services/products_services.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 import '../../Services.dart';
 
@@ -29,57 +30,72 @@ class SwitchProductStatusWidget extends StatefulWidget {
 }
 
 class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
+  bool loading;
+
+  @override
+  void initState() {
+    loading = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: widget.height,
-      width: widget.width,
-      padding: const EdgeInsets.all(3.0),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-              ),
-          border: Border.all(
-              color: widget.preState == 1 ? ColorUtils.kmColors : ColorUtils.searchGreyColor, width: 2)),
-      child: Center(
-        child: Switch(
-          value: widget.preState == 1 ? true : false,
-          onChanged: (value) async {
-            if (widget.isForSubWarehouse && widget.subWarehouseId != -1 && widget.productId != 'null') {
-              bool result;
-              result = await ProductsServices.updateProductsDetails(
-                bodyKey: "is_active",
-                value: value ? "1" : "0",
-                subWarehouseId: widget.subWarehouseId.toString(),
-                isForSubWarehouse: widget.isForSubWarehouse,
-                productId: widget.productId,
-              );
-
-              Services.resultFlushBar(context: context, result: result);
-              if (result) {
-                setState(() {
-                  int newStat;
-                  if (widget.preState == 1) {
-                    newStat = 0;
+    return loading
+        ? Loader()
+        : Container(
+            height: widget.height,
+            width: widget.width,
+            padding: const EdgeInsets.all(3.0),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+                    ),
+                border: Border.all(
+                    color: widget.preState == 1 ? ColorUtils.kmColors : ColorUtils.searchGreyColor, width: 2)),
+            child: Center(
+              child: Switch(
+                value: widget.preState == 1 ? true : false,
+                onChanged: (value) async {
+                  if (widget.isForSubWarehouse && widget.subWarehouseId != -1 && widget.productId != 'null') {
+                    setState(() {
+                      loading = true;
+                    });
+                    bool result;
+                    result = await ProductsServices.updateProductsDetails(
+                      bodyKey: "is_active",
+                      value: value ? "1" : "0",
+                      subWarehouseId: widget.subWarehouseId.toString(),
+                      isForSubWarehouse: widget.isForSubWarehouse,
+                      productId: widget.productId,
+                    );
+                    setState(() {
+                      loading = false;
+                    });
+                    Services.resultFlushBar(context: context, result: result);
+                    if (result) {
+                      setState(() {
+                        int newStat;
+                        if (widget.preState == 1) {
+                          newStat = 0;
+                        } else {
+                          newStat = 1;
+                        }
+                        widget.onChange(newStat, result);
+                      });
+                    }
                   } else {
-                    newStat = 1;
+                    int newStat;
+                    if (widget.preState == 1) {
+                      newStat = 0;
+                    } else {
+                      newStat = 1;
+                    }
+                    widget.onChange(newStat, true);
                   }
-                  widget.onChange(newStat, result);
-                });
-              }
-            } else {
-              int newStat;
-              if (widget.preState == 1) {
-                newStat = 0;
-              } else {
-                newStat = 1;
-              }
-              widget.onChange(newStat, true);
-            }
-          },
-          activeTrackColor: ColorUtils.kmColors2,
-          activeColor: ColorUtils.kmColors,
-        ),
-      ),
-    );
+                },
+                activeTrackColor: ColorUtils.kmColors2,
+                activeColor: ColorUtils.kmColors,
+              ),
+            ),
+          );
   }
 }

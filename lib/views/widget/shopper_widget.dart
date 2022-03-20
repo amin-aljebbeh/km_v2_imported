@@ -3,6 +3,7 @@ import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+
 import '../../utils/utils_importer.dart';
 
 class ShopperWidget extends StatefulWidget {
@@ -23,9 +24,11 @@ class ShopperWidgetState extends State<ShopperWidget> {
   int isActive;
   String price;
   bool attached;
+  bool loading;
 
   @override
   void initState() {
+    loading = false;
     super.initState();
   }
 
@@ -77,28 +80,34 @@ class ShopperWidgetState extends State<ShopperWidget> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: SwitchProductStatusWidget(
-                    productId: 'null',
-                    subWarehouseId: -1,
-                    isForSubWarehouse: false,
-                    preState: widget.shopper.status,
-                    onChange: (int active, bool widgetResult) async {
-                      bool result = await Services.changeShopperStatus(
-                          shopperId: widget.shopper.id.toString(),
-                          newStatus: widget.shopper.status == 1 ? '0' : '1');
-                      setState(() {
-                        if (result) {
-                          LoadingScreenServices.allShoppers
-                              .firstWhere((shopper) => shopper.id == widget.shopper.id)
-                              .status = active;
-                          widget.shopper.status = active;
-                          Services.resultFlushBar(context: context, result: result);
-                        }
-                      });
-                    },
-                    height: 58,
-                    width: 69,
-                  ),
+                  child: loading
+                      ? Loader()
+                      : SwitchProductStatusWidget(
+                          productId: 'null',
+                          subWarehouseId: -1,
+                          isForSubWarehouse: false,
+                          preState: widget.shopper.status,
+                          onChange: (int active, bool widgetResult) async {
+                            setState(() {
+                              loading = true;
+                            });
+                            bool result = await Services.changeShopperStatus(
+                                shopperId: widget.shopper.id.toString(),
+                                newStatus: widget.shopper.status == 1 ? '0' : '1');
+                            setState(() {
+                              loading = false;
+                              if (result) {
+                                LoadingScreenServices.allShoppers
+                                    .firstWhere((shopper) => shopper.id == widget.shopper.id)
+                                    .status = active;
+                                widget.shopper.status = active;
+                                Services.resultFlushBar(context: context, result: result);
+                              }
+                            });
+                          },
+                          height: 58,
+                          width: 69,
+                        ),
                 )
               ],
             ),
