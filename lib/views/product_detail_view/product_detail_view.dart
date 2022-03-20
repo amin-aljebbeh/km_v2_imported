@@ -46,8 +46,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
   @override
   void initState() {
-    Tools.logToConsole('barcodes length');
-    Tools.logToConsole(widget.product.barcodes.length);
+    if (widget.product.warehouses.isEmpty)
+      widget.product.warehouses.add(Warehouse(name: 'غير مضاف لمستودع', id: 0));
     super.initState();
 
     Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));
@@ -300,12 +300,35 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 img: widget.product.categories[index].imageFileName,
                                 categoryName: widget.product.categories[index].name,
                                 index: index,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           );
                         },
                       ),
                     ),
+                    if (Services.isProductsController())
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Container(
+                          height: 74,
+                          child: ListView.builder(
+                            itemCount: widget.product.warehouses.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                width: MediaQuery.of(context).size.width * 0.45,
+                                child: ShopByCategory(
+                                  img: 'null',
+                                  categoryName: widget.product.warehouses[index].name,
+                                  index: index + 100,
+                                  fit: BoxFit.contain,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
                     SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -580,8 +603,18 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           ),
                                         ),
                                         onChanged: (value) async {
+                                          setState(() {
+                                            isLoading = true;
+                                            widget.product.warehouses
+                                                .removeWhere((warehouse) => warehouse.id == 0);
+                                          });
+                                          bool remove = LoadingScreenServices.subWarehouses
+                                              .where((subWarehouse) =>
+                                                  subWarehouse.id == widget.product.subWarehouseId)
+                                              .toList()
+                                              .isNotEmpty;
                                           bool result = await AddedProductsServices.changeProductSubWarehouse(
-                                              widget.product, value);
+                                              widget.product, value, remove);
 
                                           Services.resultFlushBar(context: context, result: result);
                                           setState(() {

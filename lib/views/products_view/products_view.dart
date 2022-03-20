@@ -98,7 +98,6 @@ class ProductsViewState extends State<ProductsView> {
               }
 
               if (this.mounted) {
-                Tools.logToConsole('message from mounted');
                 setState(() {
                   if (type != ProductsViewTypes.barcode && page - 1 == products.data.lastPage) {
                     theEndOfProducts = true;
@@ -123,7 +122,6 @@ class ProductsViewState extends State<ProductsView> {
             });
           }
         } catch (e) {
-          Tools.logToConsole('erroooooooor');
           Tools.logToConsole(e.toString());
         }
       } else {
@@ -300,14 +298,12 @@ class ProductsViewState extends State<ProductsView> {
                                   index: index,
                                   scaffoldKey: scaffoldKey,
                                   onAddBarcode: (result) {
-                                    Tools.logToConsole('result   $result');
                                     if (result != 'error') {
                                       setState(() {
                                         productsList[index].barcodes.add(Barcode(
                                               barcode: result,
                                             ));
                                       });
-                                      Tools.logToConsole(result);
                                     }
                                   },
                                 );

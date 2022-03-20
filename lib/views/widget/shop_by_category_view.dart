@@ -8,8 +8,9 @@ class ShopByCategory extends StatefulWidget {
   final String img;
   final String categoryName;
   final int index;
+  final BoxFit fit;
 
-  ShopByCategory({kKey, key, @required this.img, @required this.categoryName, @required this.index})
+  ShopByCategory({kKey, key, @required this.img, @required this.categoryName, @required this.index, this.fit})
       : super(key: key);
 
   @override
@@ -28,13 +29,15 @@ class ShopByCategoryState extends State<ShopByCategory> {
         child: Stack(
           children: <Widget>[
             Image(
-              image: AdvImageCache(
-                LoadingScreenServices.imagePrefixUrl + widget.img,
-                useMemCache: true,
-                diskCacheExpire: Duration(days: 400),
-              ),
+              image: widget.img != 'null'
+                  ? AdvImageCache(
+                      LoadingScreenServices.imagePrefixUrl + widget.img,
+                      useMemCache: true,
+                      diskCacheExpire: Duration(days: 400),
+                    )
+                  : AssetImage("assets/kmIcon.png"),
               width: MediaQuery.of(context).size.width / 2,
-              fit: BoxFit.cover,
+              fit: widget.fit,
             ),
             Container(
               decoration: BoxDecoration(

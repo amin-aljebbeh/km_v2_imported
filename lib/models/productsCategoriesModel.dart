@@ -171,7 +171,7 @@ class ProductData {
       unit: json["unit"].toString(),
       price: json["price"] != null ? json["price"].toString() : '0',
       priceChange: json["price_change"] == null ? '0' : json["price_change"].toString(),
-      isActive: json["is_active"] != null ? json["is_active"].toString() : 'null',
+      isActive: json["is_active"] != null ? json["is_active"].toString() : '0',
       quantity: json["quantity"] == null ? '0' : json["quantity"].toString(),
       productCount: json["productCount"] == null ? 0 : json["productCount"],
       supplierCode:

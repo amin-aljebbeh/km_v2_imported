@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -42,7 +43,7 @@ class AddedProductsServices {
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
       return true;
     } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+      Tools.logToConsole("------------ ERROR remove product --------------");
       return false;
     }
   }
@@ -80,7 +81,8 @@ class AddedProductsServices {
     }
   }
 
-  static Future<bool> changeProductSubWarehouse(ProductData product, String productSubWarehouseId) async {
+  static Future<bool> changeProductSubWarehouse(
+      ProductData product, String productSubWarehouseId, bool remove) async {
     var subWarehouseBody = {
       "product_id": product.id.toString(),
       "sub_warehouse_id": productSubWarehouseId,
@@ -95,12 +97,16 @@ class AddedProductsServices {
       "automatic_activation": product.automaticActivation,
     };
     try {
-      bool remove = await AddedProductsServices.unAttachProductsToSubWarehouse(
-          productsId: product.id.toString(), subWarehouse: product.subWarehouseId.toString());
-      bool add = false;
+      bool removed;
       if (remove)
+        removed = await AddedProductsServices.unAttachProductsToSubWarehouse(
+            productsId: product.id.toString(), subWarehouse: product.subWarehouseId.toString());
+      else
+        removed = true;
+      bool add = false;
+      if (removed)
         add = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: subWarehouseBody);
-      if (!add && remove) {
+      if (!add && removed) {
         var subWarehouseBody = {
           "product_id": product.id.toString(),
           "sub_warehouse_id": product.subWarehouseId.toString(),
@@ -116,7 +122,7 @@ class AddedProductsServices {
         };
         await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: subWarehouseBody);
       }
-      return remove && add;
+      return removed && add;
     } catch (e) {
       Tools.logToConsole(e.toString());
       return false;
