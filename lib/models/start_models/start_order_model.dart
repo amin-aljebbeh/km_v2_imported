@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/login/models/admin_model.dart';
 
@@ -9,7 +10,8 @@ import '../order_accounting_row.dart';
 import '../order_image.dart';
 import 'start_model_importer.dart';
 
-OrdersOriginal ordersFromJson(String str) => OrdersOriginal.fromJson(json.decode(str));
+OrdersOriginal ordersFromJson(String str) =>
+    OrdersOriginal.fromJson(json.decode(str));
 
 class Orders {
   Orders({
@@ -63,7 +65,8 @@ class PageData {
   List<OrdersOriginalData> data;
 
   factory PageData.fromJson(Map<String, dynamic> json) => PageData(
-        data: List<OrdersOriginalData>.from(json["data"].map((x) => OrdersOriginalData.fromJson(x))),
+        data: List<OrdersOriginalData>.from(
+            json["data"].map((x) => OrdersOriginalData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -140,7 +143,8 @@ class OrdersOriginalData {
   double kammunProfit;
   double shopperProfit;
 
-  factory OrdersOriginalData.fromJson(Map<String, dynamic> json) => OrdersOriginalData(
+  factory OrdersOriginalData.fromJson(Map<String, dynamic> json) =>
+      OrdersOriginalData(
         id: json["id"] == null ? null : json["id"],
         expectedTimeMinutes: json["expected_time_minutes"].toString(),
         deliveryCost: json["delivery_cost"].toString(),
@@ -152,27 +156,38 @@ class OrdersOriginalData {
         addressId: json["address_id"].toString(),
         userId: json["user_id"].toString(),
         couponId: json["coupon_id"].toString(),
-        userDeliveryRating:
-            json["user_delivery_rating"] == null ? 'null' : json["user_delivery_rating"].toString(),
+        userDeliveryRating: json["user_delivery_rating"] == null
+            ? 'null'
+            : json["user_delivery_rating"].toString(),
         userPriceRating: json["user_price_rating"].toString(),
         total: json["total"].toString(),
         userData: json["user"] == null ? null : UserData.fromJson(json["user"]),
-        address: json["address"] == null ? null : OrderAddress.fromJson(json["address"]),
+        address: json["address"] == null
+            ? null
+            : OrderAddress.fromJson(json["address"]),
         userNotes: json["user_notes"] == null ? null : json['user_notes'],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
         supportedCityId: json["supported_city_id"].toString(),
         underUpdate: json["under_update"].toString(),
         deliveryStaffId: json["delivery_staff_id"].toString(),
-        products: List<OrderProducts>.from(json["products"].map((x) => OrderProducts.fromJson(x))),
-        shopper: json["shopper"] == null ? null : Assigned.fromJson(json["shopper"]),
-        delivery: json["delivery"] == null ? null : Assigned.fromJson(json["delivery"]),
+        products: List<OrderProducts>.from(
+            json["products"].map((x) => OrderProducts.fromJson(x))),
+        shopper:
+            json["shopper"] == null ? null : Assigned.fromJson(json["shopper"]),
+        delivery: json["delivery"] == null
+            ? null
+            : Assigned.fromJson(json["delivery"]),
         images: json["images"] == null
             ? new List<OrderImage>()
-            : List<OrderImage>.from(json["images"].map((x) => OrderImage.fromJson(x))),
+            : List<OrderImage>.from(
+                json["images"].map((x) => OrderImage.fromJson(x))),
         orderAccountingRows: new List<OrderAccountingRow>(),
         shopperProfit: 0,
         kammunProfit: 0,
-        userFeedback: json['user_feedback'] != null ? json['user_feedback'] : 'null',
+        userFeedback:
+            json['user_feedback'] != null ? json['user_feedback'] : 'null',
         deliveredAt: json['delivered_at'] != null
             ? DateTime.parse(json['delivered_at'])
             : DateTime.parse('2022-03-07 17:00:08'),
@@ -232,8 +247,10 @@ class OrdersOriginalData {
         .toList();
     for (int i = 0; i < products.length; i++)
       if (products[i].pivot.deletedAt == 'null') {
-        double netPrice = double.parse(products[i].pivot.purchasePrice) * int.parse(products[i].pivot.quantity);
-        int increaseValue = products[i].pivot.increaseValue * int.parse(products[i].pivot.quantity);
+        double netPrice = double.parse(products[i].pivot.purchasePrice) *
+            int.parse(products[i].pivot.quantity);
+        int increaseValue = products[i].pivot.increaseValue *
+            int.parse(products[i].pivot.quantity);
         netPrice -= increaseValue;
         orderAccountingRows
             .firstWhere(
@@ -247,7 +264,8 @@ class OrdersOriginalData {
               orElse: () => row,
             )
             .netPrice += netPrice;
-        double discountPercentage = SubWarehouse.getDiscountPercentage(products[i].subWarehouseId);
+        double discountPercentage =
+            SubWarehouse.getDiscountPercentage(products[i].subWarehouseId);
         orderAccountingRows
             .firstWhere(
               (row) => row.subWarehouseId == products[i].subWarehouseId,
@@ -256,7 +274,9 @@ class OrdersOriginalData {
             .payToSubWarehouse += netPrice;
         orderAccountingRows
             .firstWhere(
-              (row) => row.subWarehouseId == products[i].subWarehouseId && row.directDiscount == 1,
+              (row) =>
+                  row.subWarehouseId == products[i].subWarehouseId &&
+                  row.directDiscount == 1,
               orElse: () => row,
             )
             .payToSubWarehouse -= (netPrice * discountPercentage);
@@ -265,39 +285,51 @@ class OrdersOriginalData {
   }
 
   orderProfits() {
-    Level orderLevel;
-    if (Services.isShopper())
-      orderLevel = Services.shopper.level;
-    else
-      orderLevel = LoadingScreenServices.levels.firstWhere((level) => level.id == shopper.levelId);
-    for (int i = 0; i < orderAccountingRows.length; i++) {
-      double shopperSubWarehouseProfit = 0.0;
-      double increaseProfit = 0.0;
-      SubWarehouseLevelPivot pivot = orderLevel.subWarehouses
-          .firstWhere((subWarehouse) => subWarehouse.id == orderAccountingRows[i].subWarehouseId)
-          .levelPivot;
+    Tools.logToConsole("THE LEVEL is ");
+    if (shopper == null) {
+      shopperProfit = 0;
+      kammunProfit = 0;
+    } else {
+      Level orderLevel;
+      if (Services.isShopper())
+        orderLevel = Services.shopper.level;
+      else
+        orderLevel = LoadingScreenServices.levels
+            .firstWhere((level) => level.id == shopper.levelId);
+      for (int i = 0; i < orderAccountingRows.length; i++) {
+        double shopperSubWarehouseProfit = 0.0;
+        double increaseProfit = 0.0;
+        SubWarehouseLevelPivot pivot = orderLevel.subWarehouses
+            .firstWhere((subWarehouse) =>
+                subWarehouse.id == orderAccountingRows[i].subWarehouseId)
+            .levelPivot;
 
-      shopperSubWarehouseProfit = pivot.shoppingProfitPercentage / 100;
-      increaseProfit = pivot.valueAddedPercentage / 100;
+        shopperSubWarehouseProfit = pivot.shoppingProfitPercentage / 100;
+        increaseProfit = pivot.valueAddedPercentage / 100;
 
-      double discountPercentage = SubWarehouse.getDiscountPercentage(orderAccountingRows[i].subWarehouseId);
-      shopperProfit += orderAccountingRows[i].increaseValuesSum * increaseProfit;
-      kammunProfit +=
-          orderAccountingRows[i].increaseValuesSum - (orderAccountingRows[i].increaseValuesSum * increaseProfit);
-      double productKammunProfit = orderAccountingRows[i].netPrice * discountPercentage;
-      kammunProfit += (productKammunProfit - (productKammunProfit * shopperSubWarehouseProfit));
-      shopperProfit += productKammunProfit * shopperSubWarehouseProfit;
+        double discountPercentage = SubWarehouse.getDiscountPercentage(
+            orderAccountingRows[i].subWarehouseId);
+        shopperProfit +=
+            orderAccountingRows[i].increaseValuesSum * increaseProfit;
+        kammunProfit += orderAccountingRows[i].increaseValuesSum -
+            (orderAccountingRows[i].increaseValuesSum * increaseProfit);
+        double productKammunProfit =
+            orderAccountingRows[i].netPrice * discountPercentage;
+        kammunProfit += (productKammunProfit -
+            (productKammunProfit * shopperSubWarehouseProfit));
+        shopperProfit += productKammunProfit * shopperSubWarehouseProfit;
+      }
+      double deliverProfit = 0.0;
+      double cityCost = double.parse(supportedCityCost);
+      deliverProfit = orderLevel.supportedCities
+              .firstWhere((city) => city.id == supportedCityId)
+              .levelPivot
+              .deliveryProfitPercentage /
+          100;
+      double shopperDeliverProfit = cityCost * deliverProfit;
+      shopperProfit += shopperDeliverProfit;
+      kammunProfit += cityCost - shopperDeliverProfit;
     }
-    double deliverProfit = 0.0;
-    double cityCost = double.parse(supportedCityCost);
-    deliverProfit = orderLevel.supportedCities
-            .firstWhere((city) => city.id == supportedCityId)
-            .levelPivot
-            .deliveryProfitPercentage /
-        100;
-    double shopperDeliverProfit = cityCost * deliverProfit;
-    shopperProfit += shopperDeliverProfit;
-    kammunProfit += cityCost - shopperDeliverProfit;
   }
 }
 
@@ -317,7 +349,8 @@ class Assigned {
   factory Assigned.fromJson(Map<String, dynamic> json) => Assigned(
         id: json["id"] == null ? null : json["id"],
         name: json["name"] == null ? null : json["name"],
-        admin: json["admin"] == null ? null : AdminModel.fromJson(json["admin"]),
+        admin:
+            json["admin"] == null ? null : AdminModel.fromJson(json["admin"]),
         levelId: json['level_id'] == null ? 0 : json['level_id'],
       );
 
