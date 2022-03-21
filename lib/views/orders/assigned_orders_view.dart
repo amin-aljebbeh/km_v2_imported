@@ -210,8 +210,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         shrinkWrap: true,
                         itemCount: orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          orderDataList[index].orderArithmeticOperations();
-                          orderDataList[index].orderProfits();
+                          if (!Services.isSupplierManager()) {
+                            orderDataList[index].orderArithmeticOperations();
+                            orderDataList[index].orderProfits();
+                          }
                           if (Services.isSupplierManager())
                             return SupplierOrdersViewCard(
                               order: orderDataList[index],
