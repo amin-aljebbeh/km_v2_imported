@@ -5,12 +5,13 @@ import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
-import 'package:toast/toast.dart';
 import '../../Services.dart';
 import 'delivery_method.dart';
 
 class DeliverToView extends StatefulWidget {
   static int selectedIndex;
+
+  const DeliverToView({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -53,9 +54,9 @@ class DeliverToViewState extends State<DeliverToView> {
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
         child: isLoading
-            ? Loader()
+            ? const Loader()
             : Padding(
-                padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
+                padding: const EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +85,7 @@ class DeliverToViewState extends State<DeliverToView> {
                     ),
                     isError
                         ? Padding(
-                            padding: EdgeInsets.only(left: 10, top: 0),
+                            padding: const EdgeInsets.only(left: 10, top: 0),
                             child: AlertMessages(
                               text: " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت",
                               messageType: "internetError",
@@ -132,7 +133,7 @@ class DeliverToViewState extends State<DeliverToView> {
                           Align(
                               alignment: Alignment.center,
                               child: FlatButton(
-                                padding: EdgeInsets.only(left: 30.0, top: 10.0),
+                                padding: const EdgeInsets.only(left: 30.0, top: 10.0),
                                 child: Text(StringUtils.addNewAddress,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
@@ -142,8 +143,8 @@ class DeliverToViewState extends State<DeliverToView> {
                                 onPressed: () {
                                   Navigator.push(
                                       context,
-                                      new MaterialPageRoute(
-                                          builder: (context) => new AddAddressView(
+                                      MaterialPageRoute(
+                                          builder: (context) => const AddAddressView(
                                                 isFromDeliveryScreen: true,
                                               )));
                                 },
@@ -160,18 +161,18 @@ class DeliverToViewState extends State<DeliverToView> {
   }
 
   Widget _showProceedToPayButton() {
-    final GestureDetector showProceedToPayButtonWithGesture = new GestureDetector(
+    final GestureDetector showProceedToPayButtonWithGesture = GestureDetector(
       onTap: _showProceedToPayBtnTapped,
-      child: new Container(
-        margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
+      child: Container(
+        margin: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
         height: 50.0,
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
             color: DeliverToView.selectedIndex != null ? ColorUtils.primaryColor : Colors.grey[400],
-            borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+            borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             StringUtils.proceedToPay.toUpperCase(),
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
@@ -181,8 +182,8 @@ class DeliverToViewState extends State<DeliverToView> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showProceedToPayButtonWithGesture);
+    return Padding(
+        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showProceedToPayButtonWithGesture);
   }
 
   void _showProceedToPayBtnTapped() {
@@ -190,8 +191,8 @@ class DeliverToViewState extends State<DeliverToView> {
       if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
         Navigator.push(
           context,
-          new MaterialPageRoute(
-            builder: (context) => new DeliveryMethodView(),
+          MaterialPageRoute(
+            builder: (context) => const DeliveryMethodView(),
           ),
         );
       }

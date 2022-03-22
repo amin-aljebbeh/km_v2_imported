@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/widget/address_widget.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
@@ -10,6 +9,8 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import '../../Services.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key key}) : super(key: key);
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -47,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
+          padding: const EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               isLoading
-                  ? Container(
+                  ? const SizedBox(
                       width: double.infinity,
                       height: 200,
                       child: Center(child: Loader()),
@@ -146,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 )
                               : Container(),
-                          LoadingScreenServices.userAddress.length != 0
+                          LoadingScreenServices.userAddress.isNotEmpty
                               ? ListView.builder(
                                   primary: false,
                                   scrollDirection: Axis.vertical,
@@ -197,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Align(
                               alignment: Alignment.center,
                               child: FlatButton(
-                                padding: EdgeInsets.only(left: 30.0, top: 10.0),
+                                padding: const EdgeInsets.only(left: 30.0, top: 10.0),
                                 child: Text(StringUtils.addNewAddress,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
@@ -207,8 +208,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onPressed: () {
                                   Navigator.push(
                                       context,
-                                      new MaterialPageRoute(
-                                          builder: (context) => new AddAddressView(
+                                      MaterialPageRoute(
+                                          builder: (context) => const AddAddressView(
                                                 isFromDeliveryScreen: false,
                                               )));
                                 },

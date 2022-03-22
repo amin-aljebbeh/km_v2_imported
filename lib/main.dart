@@ -1,6 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:kammun_app/utils/common_utils.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/home/home_view.dart';
@@ -10,20 +10,32 @@ import 'package:kammun_app/views/supported_city/supported_city.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
-import 'views/cart/CartViewFinal.dart';
 import 'views/login/OTPVerification.dart';
 import 'dart:ui' as ui;
 import 'views/profile/profileScreen.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
 
-void main() {
+Future<void> main() async {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "XXX",
+        appId: "XXX",
+        messagingSenderId: "XXX",
+        projectId: "XXX",
+      ),
+    );
+  } catch (e) {
+    /**/
+  }
   RenderErrorBox.backgroundColor = Colors.transparent;
   RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
   runApp(
-    KammunRestart(
+    const KammunRestart(
       child: CustomTheme(
-        initialThemeKey: MyThemeKeys.LIGHT,
+        initialThemeKey: MyThemeKeys.light,
         child: MyApp(),
       ),
     ),
@@ -33,6 +45,8 @@ void main() {
 class RestartWidget {}
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -49,7 +63,7 @@ class _MyAppState extends State<MyApp> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/welcome_screen.png"),
             fit: BoxFit.contain,
@@ -72,43 +86,43 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     return KammunRestart(
       child: MaterialApp(
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           DefaultCupertinoLocalizations.delegate
         ],
-        supportedLocales: [
+        supportedLocales: const [
           Locale("ar", "AE"), // OR Locale('ar', 'AE') OR Other RTL locales
         ],
-        locale: Locale("ar", "AE"),
+        locale: const Locale("ar", "AE"),
         title: 'Kammun',
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
-          LoginScreen.routeName: (_) => LoginScreen(),
-          '/home': (_) => HomeView(routeIndex: 0),
-          '/myApp': (_) => MyApp(),
-          'loading': (_) => LoadingScreen(),
-          '/favoraites': (_) => HomeView(routeIndex: 3),
-          '/cartFinal': (_) => CartViewFinal(),
-          OTPVerification.routeName: (_) => OTPVerification(),
-          ServerUpdate.routeName: (_) => ServerUpdate(),
-          '/supportedCity': (_) => SupportedCityView(),
-          '/thankyou': (_) => new ThankYouView(),
-          '/delivery': (_) => DeliverToView(),
-          '/cart': (_) => new HomeView(routeIndex: 1),
-          '/cartFromUpdate': (_) => new HomeView(
+          LoginScreen.routeName: (_) => const LoginScreen(),
+          '/home': (_) => const HomeView(routeIndex: 0),
+          '/myApp': (_) => const MyApp(),
+          'loading': (_) => const LoadingScreen(),
+          '/favoraites': (_) => const HomeView(routeIndex: 3),
+          OTPVerification.routeName: (_) => const OTPVerification(),
+          ServerUpdate.routeName: (_) => const ServerUpdate(),
+          '/supportedCity': (_) => const SupportedCityView(),
+          '/thankyou': (_) => const ThankYouView(),
+          '/delivery': (_) => const DeliverToView(),
+          '/cart': (_) => const HomeView(routeIndex: 1),
+          '/cartFromUpdate': (_) => const HomeView(
                 routeIndex: 1,
                 isFromUpdateOrder: true,
               ),
-          '/orders': (_) => HomeView(routeIndex: 2),
-          '/profile': (_) => ProfileScreen(),
+          '/orders': (_) => const HomeView(routeIndex: 2),
+          '/profile': (_) => const ProfileScreen(),
         },
         theme: CustomTheme.of(context),
-        home: LoadingScreen(),
+        home: const LoadingScreen(),
       ),
     );
   }

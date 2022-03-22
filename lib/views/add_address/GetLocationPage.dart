@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
 class GetLocationPage extends StatefulWidget {
+  const GetLocationPage({Key key}) : super(key: key);
+
   @override
   _GetLocationPageState createState() => _GetLocationPageState();
 }
 
 class _GetLocationPageState extends State<GetLocationPage> {
-  var location = new Location();
+  var location = Location();
 
   Map<String, double> userLocation;
 
@@ -20,7 +22,7 @@ class _GetLocationPageState extends State<GetLocationPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             userLocation == null
-                ? CircularProgressIndicator()
+                ? const CircularProgressIndicator()
                 : Text("Location:" +
                     userLocation["latitude"].toString() +
                     " " +
@@ -36,7 +38,7 @@ class _GetLocationPageState extends State<GetLocationPage> {
                   });
                 },
                 color: Colors.blue,
-                child: Text(
+                child: const Text(
                   "Get Location",
                   style: TextStyle(color: Colors.white),
                 ),

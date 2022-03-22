@@ -16,9 +16,10 @@ import '../../Services.dart';
 class ProductDetailView extends StatefulWidget {
   final ProductData product;
 
-  ProductDetailView({
+  const ProductDetailView({
+    Key key,
     this.product,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -29,7 +30,7 @@ class ProductDetailView extends StatefulWidget {
 class ProductDetailViewState extends State<ProductDetailView> {
   bool favoriteProduct;
   List<Widget> images = [];
-  ValueNotifier<Size> size = ValueNotifier<Size>(Size(0, 0));
+  ValueNotifier<Size> size = ValueNotifier<Size>(const Size(0, 0));
   getImages() {
     if (widget.product.images.isNotEmpty) {
       images.addAll(widget.product.images
@@ -39,7 +40,7 @@ class ProductDetailViewState extends State<ProductDetailView> {
                   image: AdvImageCache(
                     LoadingScreenServices.imagePrefixUrl + image.imageFileName,
                     useMemCache: true,
-                    diskCacheExpire: Duration(seconds: 0),
+                    diskCacheExpire: const Duration(seconds: 0),
                   ),
                 )),
               ))
@@ -85,7 +86,7 @@ class ProductDetailViewState extends State<ProductDetailView> {
                     actions: <Widget>[
                       IconButton(
                         onPressed: () => Navigator.of(context).pop(true),
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_forward_ios,
                           size: 35,
                         ),
@@ -109,15 +110,15 @@ class ProductDetailViewState extends State<ProductDetailView> {
                         children: [
                           FlexibleSpaceBar(
                             centerTitle: true,
-                            background: widget.product.images.length > 0
+                            background: widget.product.images.isNotEmpty
                                 ? Padding(
                                     padding: const EdgeInsets.only(top: 40, left: 5, right: 5, bottom: 10),
                                     child: Container(
-                                      padding: EdgeInsets.all(5),
-                                      decoration: new BoxDecoration(
+                                      padding: const EdgeInsets.all(5),
+                                      decoration: const BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-                                      child: new Carousel(
+                                          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                                      child: Carousel(
                                         onImageTap: (index) {
                                           Navigator.push(
                                             context,
@@ -140,7 +141,7 @@ class ProductDetailViewState extends State<ProductDetailView> {
                                         images: images,
                                         autoplay: true,
                                         animationCurve: Curves.fastLinearToSlowEaseIn,
-                                        animationDuration: Duration(milliseconds: 1000),
+                                        animationDuration: const Duration(milliseconds: 1000),
                                         dotSize: 6.0,
                                         indicatorBgPadding: 8.0,
                                       ),
@@ -154,7 +155,7 @@ class ProductDetailViewState extends State<ProductDetailView> {
                             top: 40,
                             right: 3,
                             child: IconButton(
-                                padding: EdgeInsets.all(0),
+                                padding: const EdgeInsets.all(0),
                                 icon: Icon(
                                   favoriteProduct ? Icons.favorite : Icons.favorite_border_outlined,
                                   color: Colors.red[900],
@@ -172,20 +173,20 @@ class ProductDetailViewState extends State<ProductDetailView> {
                                         " تم إضافة ${widget.product.name}  إلى المفضلة",
                                         style: flushBarStyle,
                                       ),
-                                      boxShadows: [
+                                      boxShadows: const [
                                         BoxShadow(
                                           color: Colors.red,
                                           offset: Offset(0.0, 2.0),
                                           blurRadius: 3.0,
                                         )
                                       ],
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.favorite,
                                         size: 28.0,
                                         color: Colors.white,
                                       ),
-                                      duration: Duration(seconds: 3),
-                                    )..show(context);
+                                      duration: const Duration(seconds: 3),
+                                    ).show(context);
                                   } else {
                                     Flushbar(
                                       backgroundColor: Colors.red[900],
@@ -193,20 +194,20 @@ class ProductDetailViewState extends State<ProductDetailView> {
                                         "تم إزالة ${widget.product.name}  من المفضلة",
                                         style: flushBarStyle,
                                       ),
-                                      boxShadows: [
+                                      boxShadows: const [
                                         BoxShadow(
                                           color: Colors.red,
                                           offset: Offset(0.0, 2.0),
                                           blurRadius: 3.0,
                                         )
                                       ],
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.favorite,
                                         size: 28.0,
                                         color: Colors.white,
                                       ),
-                                      duration: Duration(seconds: 3),
-                                    )..show(context);
+                                      duration: const Duration(seconds: 3),
+                                    ).show(context);
                                   }
                                 }),
                           ),
@@ -219,9 +220,9 @@ class ProductDetailViewState extends State<ProductDetailView> {
               body: SafeArea(
                 top: false,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 15, right: 15, top: 25),
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 25),
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius:
                             BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0))),
@@ -264,7 +265,7 @@ class ProductDetailViewState extends State<ProductDetailView> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Text(
                           widget.product.description.split("@")[0],
                           style: TextStyle(
@@ -282,13 +283,13 @@ class ProductDetailViewState extends State<ProductDetailView> {
           ),
           Positioned(
             bottom: 0,
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.25,
               width: MediaQuery.of(context).size.width,
               child: SafeArea(
                 child: Scaffold(
                   body: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black,
@@ -298,7 +299,7 @@ class ProductDetailViewState extends State<ProductDetailView> {
                         ),
                       ],
                       color: Colors.white,
-                      borderRadius: new BorderRadius.all(Radius.circular(35.0)),
+                      borderRadius: BorderRadius.all(Radius.circular(35.0)),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8.0, left: 8),
@@ -307,7 +308,7 @@ class ProductDetailViewState extends State<ProductDetailView> {
                           Padding(
                             padding: const EdgeInsets.all(20.0),
                             child: Center(
-                              child: Container(
+                              child: SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.5,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -401,18 +402,18 @@ class ProductDetailViewState extends State<ProductDetailView> {
                                   boxShadows: [
                                     BoxShadow(
                                       color: ColorUtils.primaryColor,
-                                      offset: Offset(0.0, 2.0),
+                                      offset: const Offset(0.0, 2.0),
                                       blurRadius: 3.0,
                                     )
                                   ],
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.assignment_turned_in,
                                     size: 28.0,
                                     color: Colors.white,
                                   ),
-                                  duration: Duration(seconds: 3),
+                                  duration: const Duration(seconds: 3),
                                   leftBarIndicatorColor: ColorUtils.kmColors,
-                                )..show(context);
+                                ).show(context);
 
                                 SharedPreferences prefs = await SharedPreferences.getInstance();
                                 productsId = CartServices.cartProducts

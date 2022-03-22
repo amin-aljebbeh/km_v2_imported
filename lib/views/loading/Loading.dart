@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -13,6 +14,8 @@ import 'package:kammun_app/views/update_screen/updateRequiredScreen.dart';
 class LoadingScreen extends StatefulWidget {
   static String userToken = "Bearer ";
   static String updateUrl = "";
+
+  const LoadingScreen({Key key}) : super(key: key);
 
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
@@ -34,6 +37,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   _getClientInfo() async {
+    Tools.logToConsole('before init');
+    await Firebase.initializeApp();
+    Tools.logToConsole('after init');
     bool userLoggedIn = await LoadingScreenServices().checkIfUserLoggedIn();
     if (userLoggedIn == null) return "userNotSelectSupportedCity";
     if (userLoggedIn) {
@@ -44,9 +50,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
         return false;
       }
     } else {
-      // check application version //
-      // get supported cities //
-      //  LoadingScreenServices().getSupportedCity();
       return "userNotLoggedIn";
     }
   }
@@ -57,7 +60,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/welcome_screen.png"),
             fit: BoxFit.contain,
@@ -80,36 +83,31 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
   }
 
-  // navigateToHome() {
-  //   Navigator.of(context)
-  //       .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: fetchInformation,
         builder: (context, snapShot) {
           if (snapShot.data == "userNotLoggedIn") {
-            return LoginScreen();
+            return const LoginScreen();
           }
           if (snapShot.data == "userNotSelectSupportedCity") {
-            return SupportedCityView();
+            return const SupportedCityView();
           }
 
           if (snapShot.connectionState == ConnectionState.done) {
             if (snapShot.hasError || snapShot.data == false) {
-              return InternetError();
+              return const InternetError();
             } else if (LoadingScreenServices.updateRequired) {
-              return UpdateScreen();
+              return const UpdateScreen();
             } else if (LoadingScreenServices.serverMaintain) {
-              return ServerUpdate();
+              return const ServerUpdate();
             } else if (LoadingScreenServices.userBlocked) {
-              return BlockedUser();
+              return const BlockedUser();
             } else {
               return AnimatedSwitcher(
                 transitionBuilder: (Widget child, Animation<double> animation) {
-                  var begin = Offset(0.0, 1.0);
+                  var begin = const Offset(0.0, 1.0);
                   var end = Offset.zero;
                   var curve = Curves.ease;
 
@@ -127,7 +125,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                     ),
                   );
                 },
-                duration: Duration(milliseconds: 250),
+                duration: const Duration(milliseconds: 250),
                 child: HomeView(
                   routeIndex: 0,
                   notificationValue: notificationValue,

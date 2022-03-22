@@ -17,7 +17,7 @@ class CounterOtp extends StatefulWidget {
   int counterMinn;
   Function(bool success) onRequestSent;
 
-  CounterOtp(this.counter, this.counterMinn, this.onRequestSent);
+  CounterOtp(this.counter, this.counterMinn, this.onRequestSent, {Key key}) : super(key: key);
 
   @override
   _CounterOtpState createState() => _CounterOtpState(counter, counterMinn);
@@ -40,7 +40,7 @@ class _CounterOtpState extends State<CounterOtp> {
         loadingScreen = true;
       });
 
-      await SmsAutoFill().listenForCode;
+      SmsAutoFill().listenForCode;
 
       String signature = await SmsAutoFill().getAppSignature;
 
@@ -52,7 +52,7 @@ class _CounterOtpState extends State<CounterOtp> {
           phoneNumber: LoginScreen.phoneNumber, signCode: signature, supportedCityId: LoginScreen.supportedCityId);
 
       if (response) {
-        await SmsAutoFill().listenForCode;
+        SmsAutoFill().listenForCode;
         setState(() {
           loadingScreen = false;
           counter2 = 59;
@@ -70,23 +70,25 @@ class _CounterOtpState extends State<CounterOtp> {
         loadingScreen = false;
         widget.onRequestSent(false);
       });
-      throw new Exception(e.toString());
+      throw Exception(e.toString());
     }
   }
 
   void startTimer() {
-    Timer(Duration(seconds: 1), () {
+    Timer(const Duration(seconds: 1), () {
       if (counter2 == 0 && counterMin > 0) {
-        if (this.mounted) {
+        if (mounted) {
           setState(() {
             counterMin--;
             counter2 = 59;
           });
         }
-      } else if (counter2 > 0) if (this.mounted) {
-        setState(() {
-          counter2--;
-        });
+      } else if (counter2 > 0) {
+        if (mounted) {
+          setState(() {
+            counter2--;
+          });
+        }
       }
     });
   }
@@ -100,10 +102,10 @@ class _CounterOtpState extends State<CounterOtp> {
             children: <Widget>[
               Center(
                 heightFactor: .1,
-                child: Container(
+                child: SizedBox(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height,
-                  child: Loader(),
+                  child: const Loader(),
                 ),
               ),
             ],
@@ -111,13 +113,13 @@ class _CounterOtpState extends State<CounterOtp> {
         : counter2 > 0 || counterMin > 0
             ? Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(5),
                   ),
                   border: Border.all(color: Colors.grey[400]),
                 ),
                 child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
                   title: Column(
                     children: <Widget>[
                       Align(
@@ -131,14 +133,11 @@ class _CounterOtpState extends State<CounterOtp> {
                       ),
                     ],
                   ),
-                  trailing: Container(
-                    child: Text(
-                      "0$counterMin:" + "${counter2 < 10 ? "0" + "$counter2" : "$counter2"}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                      ),
+                  trailing: Text(
+                    "0$counterMin:" "${counter2 < 10 ? "0" "$counter2" : "$counter2"}",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
                     ),
-                    //child: Text("$_current"),
                   ),
                 ),
               )
@@ -147,10 +146,10 @@ class _CounterOtpState extends State<CounterOtp> {
                     children: <Widget>[
                       Center(
                         heightFactor: .6,
-                        child: Container(
+                        child: SizedBox(
                           width: double.infinity,
                           height: MediaQuery.of(context).size.height,
-                          child: Loader(),
+                          child: const Loader(),
                         ),
                       ),
                     ],
@@ -159,13 +158,13 @@ class _CounterOtpState extends State<CounterOtp> {
                     onTap: fetchOtp,
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
+                        borderRadius: const BorderRadius.all(
                           Radius.circular(5),
                         ),
                         border: Border.all(color: Colors.grey[400]),
                       ),
                       child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.0),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
                         title: Column(
                           children: <Widget>[
                             Align(
@@ -181,12 +180,10 @@ class _CounterOtpState extends State<CounterOtp> {
                             ),
                           ],
                         ),
-                        trailing: Container(
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.black,
-                            size: 30.0,
-                          ),
+                        trailing: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.black,
+                          size: 30.0,
                         ),
                       ),
                     ),

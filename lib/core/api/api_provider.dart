@@ -1,27 +1,26 @@
 import 'package:dio/dio.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import '../../core/core_importer.dart';
-import 'api_URLs.dart';
 
 class ApiProvider {
   static Future<Response> sendRequest(
       {String url,
       dynamic body,
       Map<String, dynamic> queryParameters,
-      httpMethods method,
+      HttpMethods method,
       ResponseType responseType,
       bool mapService,
       bool isUrlEncodedFormat}) async {
-    if (mapService == null) mapService = false;
-    if (isUrlEncodedFormat == null) isUrlEncodedFormat = false;
+    mapService ??= false;
+    isUrlEncodedFormat ??= false;
 
     var options = BaseOptions(
-        baseUrl: mapService ? "" : BASE_URL,
+        baseUrl: mapService ? "" : baseUrl,
         connectTimeout: 30000,
         receiveTimeout: 30000,
         contentType: isUrlEncodedFormat ? Headers.formUrlEncodedContentType : Headers.jsonContentType);
 
-    var dio = new Dio(options);
+    var dio = Dio(options);
 
     Map<String, String> header = {
       'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : "",
@@ -31,7 +30,7 @@ class ApiProvider {
 
     try {
       switch (method) {
-        case httpMethods.get:
+        case HttpMethods.get:
           {
             response = await dio.get(
               url,
@@ -40,7 +39,7 @@ class ApiProvider {
             );
             break;
           }
-        case httpMethods.delete:
+        case HttpMethods.delete:
           {
             response = await dio.delete(
               url,
@@ -49,7 +48,7 @@ class ApiProvider {
             );
             break;
           }
-        case httpMethods.put:
+        case HttpMethods.put:
           {
             response = await dio.put(
               url,
@@ -60,7 +59,7 @@ class ApiProvider {
             break;
           }
 
-        case httpMethods.post:
+        case HttpMethods.post:
           {
             response = await dio.post(url,
                 queryParameters: queryParameters, options: Options(headers: header), data: body);
@@ -68,11 +67,14 @@ class ApiProvider {
           }
       }
     } on DioError catch (e) {
-      return ErrorHandler.handleDioError(e);
+      RequestOptions requestOptions = RequestOptions(
+        path: url,
+      );
+      return ErrorHandler.handleDioError(e, requestOptions);
     }
 
     return response;
   }
 }
 
-enum httpMethods { get, post, put, delete }
+enum HttpMethods { get, post, put, delete }

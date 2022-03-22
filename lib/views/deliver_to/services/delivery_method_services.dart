@@ -4,15 +4,15 @@ import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/delivery_method_model.dart';
 
 class DeliveryMethodServices {
-  static List<DeliveryMethodData> deliveryMethodsList = new List<DeliveryMethodData>();
+  static List<DeliveryMethodData> deliveryMethodsList = [];
 
   static Future getUserDeliveryMethod({String addressId}) async {
     var response = await ApiProvider.sendRequest(
-      url: DELIVERY_METHODS + addressId,
-      method: httpMethods.get,
+      url: deliveryMethods + addressId,
+      method: HttpMethods.get,
     );
 
-    if (response.statusCode == SUCCESS_CODE) {
+    if (response.statusCode == successCode) {
       final product = deliveryMethodFromJson(jsonEncode(response.data));
       deliveryMethodsList.clear();
 

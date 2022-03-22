@@ -9,7 +9,7 @@ import 'services/order_services.dart';
 class RatingView extends StatefulWidget {
   final String orderId;
   final Function() onRequestDone;
-  RatingView({this.orderId, this.onRequestDone});
+  const RatingView({Key key, this.orderId, this.onRequestDone}) : super(key: key);
   @override
   _RatingViewState createState() => _RatingViewState();
 }
@@ -35,17 +35,17 @@ class _RatingViewState extends State<RatingView> {
   bool error;
   String errorMessage;
 
-  FocusNode _focusNode = new FocusNode();
-  TextEditingController _textFieldController = new TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  final TextEditingController _textFieldController = TextEditingController();
 
   Widget _submitRating() {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+    final GestureDetector showConfirmButtonWithGesture = GestureDetector(
       onTap: () async {
         if (rateValue > 0) {
           setState(() {
             isLoading = true;
           });
-          bool response = await OrderServices.rateOrder(
+          bool response = await OrderServices.rateOrderService(
               orderId: widget.orderId, userFeedback: _textFieldController.text + ".", rating: rateValue);
           if (response) {
             Navigator.of(context).pop();
@@ -65,14 +65,13 @@ class _RatingViewState extends State<RatingView> {
           });
         }
       },
-      child: new Container(
+      child: Container(
         height: 40.0,
-        decoration:
-            new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+        decoration: const BoxDecoration(color: Colors.green, borderRadius: BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             StringUtils.submitFeedback,
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
@@ -82,13 +81,14 @@ class _RatingViewState extends State<RatingView> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 20),
+    return Padding(
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 20),
         child: showConfirmButtonWithGesture);
   }
 
-  ScrollController _scroll = new ScrollController();
+  final ScrollController _scroll = ScrollController();
 
+  @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
 
@@ -98,10 +98,10 @@ class _RatingViewState extends State<RatingView> {
           reverse: true,
           controller: _scroll,
           child: isLoading
-              ? Container(
+              ? SizedBox(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height - 200,
-                  child: Center(child: Loader()),
+                  child: const Center(child: Loader()),
                 )
               : Column(
                   mainAxisSize: MainAxisSize.max,
@@ -109,7 +109,7 @@ class _RatingViewState extends State<RatingView> {
                     Container(
                       width: double.infinity,
                       padding: EdgeInsets.fromLTRB(0, screenHeight * 0.02, 0, screenHeight * 0.02),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         border: Border(bottom: BorderSide()),
                       ),
                       child: Text('تقييم الخدمة',
@@ -145,8 +145,8 @@ class _RatingViewState extends State<RatingView> {
                         direction: Axis.horizontal,
                         allowHalfRating: false,
                         itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemBuilder: (context, _) => Icon(
+                        itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => const Icon(
                           Icons.star,
                           color: Colors.amber,
                         ),
@@ -166,15 +166,16 @@ class _RatingViewState extends State<RatingView> {
                         maxLines: 4,
                         onTap: _requestFocus,
                         focusNode: _focusNode,
-                        cursorColor: Theme.of(context).cursorColor,
+                        showCursor: true,
+                        cursorColor: const TextSelectionThemeData().cursorColor,
                         decoration: InputDecoration(
-                          hintStyle: TextStyle(color: Colors.black45),
+                          hintStyle: const TextStyle(color: Colors.black45),
                           border: OutlineInputBorder(
-                            borderSide: BorderSide(),
+                            borderSide: const BorderSide(),
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Colors.orange,
                             ),
                             borderRadius: BorderRadius.circular(5.0),

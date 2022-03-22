@@ -7,7 +7,7 @@ class CommonUtils {
   }
 }
 
-enum MyThemeKeys { LIGHT, DARK, DARKER }
+enum MyThemeKeys { light, dark, darker }
 
 enum ProductsViewTypes { search, category, barcode }
 
@@ -37,11 +37,11 @@ class MyThemes {
 
   static ThemeData getThemeFromKey(MyThemeKeys themeKey) {
     switch (themeKey) {
-      case MyThemeKeys.LIGHT:
+      case MyThemeKeys.light:
         return lightTheme;
-      case MyThemeKeys.DARK:
+      case MyThemeKeys.dark:
         return darkTheme;
-      case MyThemeKeys.DARKER:
+      case MyThemeKeys.darker:
         return darkerTheme;
       default:
         return lightTheme;
@@ -52,7 +52,7 @@ class MyThemes {
 class _CustomTheme extends InheritedWidget {
   final CustomThemeState data;
 
-  _CustomTheme({
+  const _CustomTheme({
     this.data,
     Key key,
     @required Widget child,
@@ -75,19 +75,15 @@ class CustomTheme extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  CustomThemeState createState() => new CustomThemeState();
+  CustomThemeState createState() => CustomThemeState();
 
   static ThemeData of(BuildContext context) {
-    _CustomTheme inherited =
-        // ignore: deprecated_member_use
-        (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
+    _CustomTheme inherited = (context.dependOnInheritedWidgetOfExactType(aspect: _CustomTheme));
     return inherited.data.theme;
   }
 
   static CustomThemeState instanceOf(BuildContext context) {
-    _CustomTheme inherited =
-        // ignore: deprecated_member_use
-        (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
+    _CustomTheme inherited = (context.dependOnInheritedWidgetOfExactType(aspect: _CustomTheme));
     return inherited.data;
   }
 }
@@ -111,7 +107,7 @@ class CustomThemeState extends State<CustomTheme> {
 
   @override
   Widget build(BuildContext context) {
-    return new _CustomTheme(
+    return _CustomTheme(
       data: this,
       child: widget.child,
     );

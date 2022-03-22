@@ -1,5 +1,4 @@
 import 'package:animated_background/animated_background.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -15,6 +14,8 @@ class LoginScreen extends StatefulWidget {
   static String routeName = "/login";
   static String phoneNumber = "";
   static String supportedCityId;
+
+  const LoginScreen({Key key}) : super(key: key);
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         });
         LoginScreen.supportedCityId = "1";
 
-        await SmsAutoFill().listenForCode;
+        SmsAutoFill().listenForCode;
 
         String signature = await SmsAutoFill().getAppSignature;
 
@@ -61,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
             supportedCityId: "1");
 
         if (response) {
-          await SmsAutoFill().listenForCode;
+          SmsAutoFill().listenForCode;
           setState(() {
             loadingScreen = false;
             LoginScreen.phoneNumber = LoginServices.replaceFarsiNumber(myController.text.toString());
@@ -79,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           loadingScreen = false;
           errorCode = true;
         });
-        throw new Exception(e.toString());
+        throw Exception(e.toString());
       }
     }
   }
@@ -94,11 +95,11 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           maxLength: 10,
           maxLines: 1,
           controller: myController,
-          keyboardType: TextInputType.numberWithOptions(),
+          keyboardType: const TextInputType.numberWithOptions(),
           decoration: InputDecoration(
             labelText: "رقم الموبايل",
             labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
-            hintStyle: TextStyle(color: Colors.black45),
+            hintStyle: const TextStyle(color: Colors.black45),
             border: OutlineInputBorder(
               borderSide: BorderSide(
                 color: ColorUtils.primaryColor,
@@ -121,11 +122,11 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         context: context,
         builder: (context) => Container(
           height: MediaQuery.of(context).size.height * 0.5,
-          decoration: new BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: new BorderRadius.only(
-              topLeft: const Radius.circular(25.0),
-              topRight: const Radius.circular(25.0),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(25.0),
+              topRight: Radius.circular(25.0),
             ),
           ),
           child: UsagePolicy(
@@ -141,18 +142,18 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     }
 
     Widget _showSubmit() {
-      final GestureDetector loginButtonWithGesture = new GestureDetector(
+      final GestureDetector loginButtonWithGesture = GestureDetector(
         onTap: () {
           _settingModalBottomSheet(context);
         },
-        child: new Container(
+        child: Container(
           height: 50.0,
-          decoration: new BoxDecoration(
-              color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new Text(
+          decoration: BoxDecoration(
+              color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+          child: Center(
+            child: Text(
               "تأكيد رقم الموبايل",
-              style: new TextStyle(
+              style: TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w500,
@@ -163,11 +164,12 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       );
 
       return loadingScreen
-          ? Padding(
+          ? const Padding(
               padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
               child: Loader(),
             )
-          : Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
+          : Padding(
+              padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
     }
 
     return Scaffold(
@@ -180,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
               vsync: this,
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.90,
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
@@ -194,22 +196,20 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
               children: [
                 errorCode
                     ? AlertMessages(
-                        text: "$errorMessage",
+                        text: errorMessage,
                         messageType: "internetError",
                         headerText: "مشكلة بالبيانات المدخلة",
                       )
                     : Container(
                         padding: EdgeInsets.zero,
                       ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 50.0),
-                    child: Center(
-                      child: Image.asset(
-                        "assets/kmlogoo.png",
-                        height: 150,
-                        width: 200,
-                      ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 50.0),
+                  child: Center(
+                    child: Image.asset(
+                      "assets/kmlogoo.png",
+                      height: 150,
+                      width: 200,
                     ),
                   ),
                 ),

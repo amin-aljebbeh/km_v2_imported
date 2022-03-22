@@ -5,27 +5,26 @@ import 'package:url_launcher/url_launcher.dart';
 
 class UsagePolicy extends StatefulWidget {
   final Function(bool) onApprove;
-  UsagePolicy(this.onApprove);
+  const UsagePolicy(this.onApprove, {Key key}) : super(key: key);
   @override
   _UsagePolicyState createState() => _UsagePolicyState();
 }
 
 class _UsagePolicyState extends State<UsagePolicy> {
-  ScrollController _scroll = new ScrollController();
+  final ScrollController _scroll = ScrollController();
 
   Widget _approvePolicy() {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+    final GestureDetector showConfirmButtonWithGesture = GestureDetector(
       onTap: () {
         widget.onApprove(true);
       },
-      child: new Container(
+      child: Container(
         height: 60.0,
-        decoration:
-            new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+        decoration: const BoxDecoration(color: Colors.green, borderRadius: BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             StringUtils.approveUsagePolicy,
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 25.0,
                 fontWeight: FontWeight.w500,
@@ -35,8 +34,8 @@ class _UsagePolicyState extends State<UsagePolicy> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 20),
+    return Padding(
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 20),
         child: showConfirmButtonWithGesture);
   }
 
@@ -55,7 +54,7 @@ class _UsagePolicyState extends State<UsagePolicy> {
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.fromLTRB(0, screenHeight * 0.02, 0, screenHeight * 0.02),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   border: Border(bottom: BorderSide()),
                 ),
                 child: Text(
@@ -110,7 +109,7 @@ class _UsagePolicyState extends State<UsagePolicy> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               _approvePolicy(),

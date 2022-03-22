@@ -25,22 +25,21 @@ class KammunButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
+      padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0),
       child: GestureDetector(
         onLongPress: onLongPress,
         onTap: onTap,
-        child: new Container(
-          height: height != null ? height : 40,
+        child: Container(
+          height: height ?? 40,
           width: width,
-          decoration: new BoxDecoration(color: color, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+          decoration: BoxDecoration(color: color, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
           child: Center(
-            child: child != null
-                ? child
-                : AutoSizeText(
-                    text,
-                    style: decisionButtonStyle,
-                    maxLines: 1,
-                  ),
+            child: child ??
+                AutoSizeText(
+                  text,
+                  style: decisionButtonStyle,
+                  maxLines: 1,
+                ),
           ),
         ),
       ),

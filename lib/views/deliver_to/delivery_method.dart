@@ -7,7 +7,6 @@ import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:group_button/group_button.dart';
@@ -17,6 +16,8 @@ import 'deliver_to_view.dart';
 
 class DeliveryMethodView extends StatefulWidget {
   static int selectedDeliveryIndex = 0;
+
+  const DeliveryMethodView({Key key}) : super(key: key);
 
   @override
   _DeliveryMethodViewState createState() => _DeliveryMethodViewState();
@@ -91,7 +92,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
 
     OrderResponse orderResponse;
     if (OrderServices.orderUnderUpdateIndex != -1) {
-      if (cards.length == 0) {
+      if (cards.isEmpty) {
         KammunRestart.restartApp(context);
       } else {
         orderResponse = await OrderServices.updateOrder(userNotes: OrderServices.updateOrderNote);
@@ -104,15 +105,14 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                 error = true;
                 errorMessage =
                     "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
-              } else if (orderResponse.changedPriceProducts.length > 0 ||
-                  orderResponse.inactiveProducts.length > 0) {
+              } else if (orderResponse.changedPriceProducts.isNotEmpty ||
+                  orderResponse.inactiveProducts.isNotEmpty) {
                 _showBottomSheet(
                     notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
 
                 isLoading = false;
                 error = false;
               } else if (orderResponse.success) {
-                CartViewFinal.message = orderResponse.data;
                 prefs.setString("orderUnderUpdateId", "-1");
                 OrderServices.orderUnderUpdateIndex = -1;
               } else if (!orderResponse.success) {
@@ -130,7 +130,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
         });
       }
     } else {
-      if (cards.length == 0) {
+      if (cards.isEmpty) {
         KammunRestart.restartApp(context);
       } else {
         orderResponse = await OrderServices.submitNewOrder(userNotes: OrderServices.updateOrderNote);
@@ -142,15 +142,13 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                 error = true;
                 errorMessage =
                     "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
-              } else if (orderResponse.changedPriceProducts.length > 0 ||
-                  orderResponse.inactiveProducts.length > 0) {
+              } else if (orderResponse.changedPriceProducts.isNotEmpty ||
+                  orderResponse.inactiveProducts.isNotEmpty) {
                 _showBottomSheet(
                     notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
 
                 isLoading = false;
                 error = false;
-              } else if (orderResponse.success) {
-                CartViewFinal.message = orderResponse.data;
               }
             } else {
               isLoading = false;
@@ -178,8 +176,11 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
     }
   }
 
+  GroupButtonController controller;
+
   @override
   void initState() {
+    controller = GroupButtonController(selectedIndex: 0);
     getDeliveryMethods = _getDeliveryMethods();
     orderArray = CartServices.cartProducts;
     makeCards();
@@ -228,9 +229,9 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
         child: isLoading
-            ? Center(child: Loader())
+            ? const Center(child: Loader())
             : Padding(
-                padding: EdgeInsets.only(left: 10, top: 0, right: 20, bottom: 10),
+                padding: const EdgeInsets.only(left: 10, top: 0, right: 20, bottom: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -263,7 +264,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                         ? Column(
                             children: [
                               Container(
-                                margin: EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
+                                margin: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
                                 child: AlertMessages(
                                   messageType: "internetError",
                                   headerText: "حدث خطأ",
@@ -282,7 +283,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                     padding: const EdgeInsets.all(10.0),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(5.0) //         <--- border radius here
                                             ),
                                         border: Border.all(
@@ -290,18 +291,28 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                           color: ColorUtils.kmColors,
                                         )),
                                     child: GroupButton(
-                                      unselectedTextStyle: TextStyle(
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: StringUtils.fontFamilyHKGrotesk),
-                                      selectedTextStyle: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: StringUtils.fontFamilyHKGrotesk),
-                                      direction: Axis.vertical,
+                                      controller: controller,
+                                      options: GroupButtonOptions(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(5.0) //         <--- border radius here
+                                            ),
+                                        selectedBorderColor: ColorUtils.vegetableColor,
+                                        groupingType: GroupingType.column,
+                                        textAlign: TextAlign.center,
+                                        selectedColor: ColorUtils.vegetableColor,
+                                        unselectedTextStyle: TextStyle(
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: StringUtils.fontFamilyHKGrotesk),
+                                        selectedTextStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: StringUtils.fontFamilyHKGrotesk),
+                                        direction: Axis.vertical,
+                                        spacing: 10,
+                                      ),
                                       isRadio: true,
-                                      spacing: 10,
                                       onSelected: (index, isSelected) {
                                         setState(() {
                                           selectedIndex = index;
@@ -333,7 +344,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                                 Center(
@@ -345,7 +356,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                           fontWeight: FontWeight.w500,
                                           fontFamily: StringUtils.fontFamilyHKGrotesk)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
                                 Center(
@@ -382,7 +393,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -403,7 +414,7 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[

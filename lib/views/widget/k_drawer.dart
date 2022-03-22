@@ -6,6 +6,8 @@ import '../../Services.dart';
 import 'widgets_importer.dart';
 
 class KDrawer extends StatelessWidget {
+  const KDrawer({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     List<Widget> children = [
@@ -50,7 +52,7 @@ class KDrawer extends StatelessWidget {
               child: ListView(
                 primary: false,
                 children: <Widget>[
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width / 1.5,
                     height: 60,
                     child: Align(
@@ -60,7 +62,7 @@ class KDrawer extends StatelessWidget {
                             BoxDecoration(color: Colors.white, border: Border.all(color: ColorUtils.kmColors)),
                         child: InkWell(
                           onTap: () => Navigator.of(context).pop(),
-                          child: Container(
+                          child: SizedBox(
                             width: MediaQuery.of(context).size.width / 1.5,
                             child: Align(
                               alignment: Alignment.centerRight,
@@ -96,7 +98,7 @@ class KDrawer extends StatelessWidget {
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
+                        children: const <Widget>[
                           MediaIcon(icon: FontAwesomeIcons.facebookF, url: "facebook"),
                           MediaIcon(icon: FontAwesomeIcons.instagram, url: "instagram"),
                           MediaIcon(icon: FontAwesomeIcons.facebookMessenger, url: "messenger"),

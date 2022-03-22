@@ -4,16 +4,14 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:location/location.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
-import 'package:toast/toast.dart';
+import 'package:search_choices/search_choices.dart';
 
 import '../../Services.dart';
 
-// ignore: must_be_immutable
 class AddAddressView extends StatefulWidget {
-  int addressIndex;
-  bool isFromDeliveryScreen;
-  AddAddressView({this.addressIndex, @required this.isFromDeliveryScreen});
+  final int addressIndex;
+  final bool isFromDeliveryScreen;
+  const AddAddressView({Key key, this.addressIndex, @required this.isFromDeliveryScreen}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -73,10 +71,10 @@ class AddAddressViewState extends State<AddAddressView> {
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
         child: isLoading
-            ? Center(child: Loader())
+            ? const Center(child: Loader())
             : SingleChildScrollView(
                 child: Container(
-                  padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+                  padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,12 +87,12 @@ class AddAddressViewState extends State<AddAddressView> {
                             onTap: () {
                               Navigator.of(context).pop();
                             },
-                            child: Icon(
+                            child: const Icon(
                               Icons.arrow_back_ios,
                               size: 35,
                             ),
                           ),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           Text(
                             StringUtils.addAddress,
                             style: TextStyle(
@@ -194,26 +192,26 @@ class AddAddressViewState extends State<AddAddressView> {
                     fontWeight: FontWeight.w500),
               )),
           Container(
-            padding: EdgeInsets.only(left: 5, right: 5),
+            padding: const EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
               border: Border.all(width: 5, color: ColorUtils.kmColors),
             ),
-            child: new SearchableDropdown(
+            child: SearchChoices.single(
               isCaseSensitiveSearch: false,
               underline: Container(),
               isExpanded: true,
               items: LoadingScreenServices.supportedCitiesList,
               value: selectedValue,
-              hint: new Text(
+              hint: Text(
                 'يرجى إختيار المدينة التابع لها ',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: StringUtils.fontFamilyHKGrotesk,
                 ),
               ),
-              searchHint: new Text(
+              searchHint: Text(
                 'إختيار المنطقة',
-                style: new TextStyle(fontSize: 20, fontFamily: StringUtils.fontFamilyHKGrotesk),
+                style: TextStyle(fontSize: 20, fontFamily: StringUtils.fontFamilyHKGrotesk),
               ),
               onChanged: (value) {
                 setState(() {
@@ -242,7 +240,7 @@ class AddAddressViewState extends State<AddAddressView> {
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.fromLTRB(0, screenHeight * 0.02, 0, screenHeight * 0.02),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       border: Border(bottom: BorderSide()),
                     ),
                     child: Text('هل تريد مشاركة موقعك؟',
@@ -277,8 +275,9 @@ class AddAddressViewState extends State<AddAddressView> {
                         if (completedData()) {
                           _getUserLocation();
                           Navigator.of(context).pop();
-                        } else
+                        } else {
                           _showToast();
+                        }
                       },
                     ),
                   ),
@@ -310,13 +309,13 @@ class AddAddressViewState extends State<AddAddressView> {
   void _showToast() {
     if (selectedValue == null) {
       Toast.show("يرجى إختيار المدينة", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-    } else if (streetController.text == "")
+    } else if (streetController.text == "") {
       Toast.show("يرجى تعبئة حقل اسم صاحب الطلب", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-    else if (stateController.text == "")
+    } else if (stateController.text == "") {
       Toast.show("برجى تحديد الطابق", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-    else if (countryController.text == "")
+    } else if (countryController.text == "") {
       Toast.show("يرجى كتابة علامة قريبة للإستدلال", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-    else if (entranceController.text == "") {
+    } else if (entranceController.text == "") {
       Toast.show("يرجى كتابة المدخل", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     }
   }
@@ -324,7 +323,7 @@ class AddAddressViewState extends State<AddAddressView> {
   Map<String, double> userLocation;
 
   Future<void> _getUserLocation() async {
-    var location = new Location();
+    var location = Location();
 
     setState(() {
       isLoading = true;
@@ -342,29 +341,27 @@ class AddAddressViewState extends State<AddAddressView> {
           });
 
           _addAddressBtnTapped();
-        } catch (e) {}
+        } catch (e) {/**/}
       } else {
         await location
             .requestPermission()
             .then((onValue) => onValue == PermissionStatus.granted ? _getUserLocation() : {});
       }
-    } catch (e) {}
+    } catch (e) {/**/}
   }
 
   Future<void> _addAddressBtnTapped() async {
-    if (userIgnoreShareLocation == null) {
-      userIgnoreShareLocation = false;
-    }
+    userIgnoreShareLocation ??= false;
 
     if (userLocation == null && !userIgnoreShareLocation) {
       _settingModalBottomSheet(context);
     } else {
-      Address newUserAddress = new Address();
+      Address newUserAddress = Address();
 
       newUserAddress.deliveryPrice = int.parse(selectedValue.split("price")[1].split("id")[0].split(".")[0]);
       newUserAddress.supportedCityName = selectedValue.split("price")[0];
       newUserAddress.street = streetController.text;
-      newUserAddress.building = cityController.text.length == 0 ? "لايوجد رقم بناء" : cityController.text;
+      newUserAddress.building = cityController.text.isEmpty ? "لايوجد رقم بناء" : cityController.text;
       newUserAddress.floor = stateController.text;
       newUserAddress.description = countryController.text;
       newUserAddress.supportedCityId = selectedValue.split("id")[1];

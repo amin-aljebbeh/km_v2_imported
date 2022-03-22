@@ -4,7 +4,7 @@ import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 
 class ThankYouView extends StatefulWidget {
   final String orderMessage;
-  ThankYouView({this.orderMessage});
+  const ThankYouView({Key key, this.orderMessage}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return ThankYouViewState();
@@ -31,13 +31,13 @@ class ThankYouViewState extends State<ThankYouView> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text(
+          title: Text(
             "$title",
             style: TextStyle(
               fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
           ),
-          content: new Text(
+          content: Text(
             "$body",
             // maxLines: 20,
             style: TextStyle(
@@ -47,8 +47,8 @@ class ThankYouViewState extends State<ThankYouView> {
           scrollable: true,
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text(
+            FlatButton(
+              child: Text(
                 "إغلاق",
                 style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
               ),
@@ -76,7 +76,7 @@ class ThankYouViewState extends State<ThankYouView> {
           elevation: 0.0,
         ),
         body: Padding(
-          padding: EdgeInsets.only(left: 30, top: 0, right: 30, bottom: 10),
+          padding: const EdgeInsets.only(left: 30, top: 0, right: 30, bottom: 10),
           child: SafeArea(
             child: SingleChildScrollView(
               child: Column(
@@ -84,7 +84,7 @@ class ThankYouViewState extends State<ThankYouView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Image.asset('assets/like.png', width: 200, height: 200),
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   Text(
                     StringUtils.thankyou,
                     style: TextStyle(
@@ -94,7 +94,7 @@ class ThankYouViewState extends State<ThankYouView> {
                         fontSize: 30),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
+                    padding: const EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
                     child: Text(
                       StringUtils.thankYouDescribe,
                       textAlign: TextAlign.justify,
@@ -107,7 +107,7 @@ class ThankYouViewState extends State<ThankYouView> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
+                    padding: const EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
                     child: Text(
                       widget.orderMessage.toString(),
                       textAlign: TextAlign.justify,
@@ -119,7 +119,7 @@ class ThankYouViewState extends State<ThankYouView> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   _showContinueShoppingButton()
                 ],
               ),
@@ -131,16 +131,16 @@ class ThankYouViewState extends State<ThankYouView> {
   }
 
   Widget _showContinueShoppingButton() {
-    final GestureDetector showContinueShoppingButtonWithGesture = new GestureDetector(
+    final GestureDetector showContinueShoppingButtonWithGesture = GestureDetector(
       onTap: _showContinueShoppingBtnTapped,
-      child: new Container(
+      child: Container(
         height: 50.0,
-        decoration: new BoxDecoration(
-            color: Theme.of(context).primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+        decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             StringUtils.continueShopping,
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
@@ -150,8 +150,9 @@ class ThankYouViewState extends State<ThankYouView> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showContinueShoppingButtonWithGesture);
+    return Padding(
+        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
+        child: showContinueShoppingButtonWithGesture);
   }
 
   void _showContinueShoppingBtnTapped() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/colors_utils.dart';
 
 import 'alert_text_view.dart';
 
@@ -9,8 +10,8 @@ class AlertMessages extends StatelessWidget {
   FontWeight textWeight = FontWeight.normal;
   String headerText = " ";
   Color textColor = Colors.black;
-  Color outsideBorderColor = Color.fromRGBO(61, 49, 19, 1);
-  Color insideBorderColor = Color.fromARGB(
+  Color outsideBorderColor = const Color.fromRGBO(61, 49, 19, 1);
+  Color insideBorderColor = const Color.fromARGB(
     255,
     246,
     233,
@@ -21,61 +22,63 @@ class AlertMessages extends StatelessWidget {
   double messageTextSize = 13;
 
   AlertMessages({
+    Key key,
     @required this.text,
     @required this.messageType,
     this.headerText,
     this.headerTextColor,
     this.headerTextSize,
     this.messageTextSize,
-  });
+  }) : super(key: key);
 
   void selectListItem(BuildContext ctx) {
     if (messageType == "invalidNumber") {
-      this.outsideBorderColor = Color.fromRGBO(220, 53, 69, 1);
-      this.insideBorderColor = Colors.white;
-      this.textColor = Colors.black;
-      this.textWeight = FontWeight.w600;
-      this.headerText = headerText + "\n";
-      this.headerTextColor = Color.fromRGBO(220, 53, 69, 1);
-      this.headerTextSize = 22;
-      this.messageTextSize = 15;
+      outsideBorderColor = const Color.fromRGBO(220, 53, 69, 1);
+      insideBorderColor = Colors.white;
+      textColor = Colors.black;
+      textWeight = FontWeight.w600;
+      headerText = headerText + "\n";
+      headerTextColor = const Color.fromRGBO(220, 53, 69, 1);
+      headerTextSize = 22;
+      messageTextSize = 15;
     }
     if (messageType == "internetError") {
-      this.outsideBorderColor = Colors.red[800];
-      this.insideBorderColor = Colors.red[100];
-      this.textColor = Colors.grey[800];
-      this.textWeight = FontWeight.w700;
-      this.headerText = headerText + "\n";
-      this.headerTextColor = Colors.red[800];
-      this.headerTextSize = 17;
-      this.messageTextSize = 15;
+      outsideBorderColor = Colors.red[800];
+      insideBorderColor = Colors.red[100];
+      textColor = Colors.grey[800];
+      textWeight = FontWeight.w700;
+      headerText = headerText + "\n";
+      headerTextColor = Colors.red[800];
+      headerTextSize = 17;
+      messageTextSize = 15;
     }
 
     if (messageType == "green") {
-      this.outsideBorderColor = Color.fromRGBO(191, 228, 193, 1);
-      this.insideBorderColor = Color.fromRGBO(225, 247, 228, 1);
-      this.textColor = Colors.black;
-      this.textWeight = FontWeight.w700;
-      this.headerText = headerText + "\n";
+      outsideBorderColor = ColorUtils.vegetableColor;
+      insideBorderColor = const Color.fromRGBO(225, 247, 228, 1);
+      textColor = Colors.black;
+      textWeight = FontWeight.w700;
+      headerText = headerText + "\n";
     }
 
     if (messageType.contains("Successfully")) {
-      this.outsideBorderColor = Color.fromRGBO(191, 228, 193, 1);
-      this.insideBorderColor = Color.fromRGBO(225, 247, 228, 1);
-      this.textWeight = FontWeight.w600;
-      this.headerText = headerText + "\n";
-      this.headerTextColor = Colors.green[800];
+      outsideBorderColor = ColorUtils.vegetableColor;
+      insideBorderColor = const Color.fromRGBO(225, 247, 228, 1);
+      textWeight = FontWeight.w600;
+      headerText = headerText + "\n";
+      headerTextColor = Colors.green[800];
     }
 
     if (messageType.contains("Feedback")) {
-      this.outsideBorderColor = Color.fromRGBO(191, 228, 193, 1);
-      this.insideBorderColor = Color.fromRGBO(225, 247, 228, 1);
-      this.textColor = Colors.green[900];
-      this.textWeight = FontWeight.w700;
+      outsideBorderColor = ColorUtils.vegetableColor;
+      insideBorderColor = const Color.fromRGBO(225, 247, 228, 1);
+      textColor = Colors.green[900];
+      textWeight = FontWeight.w700;
       if (headerText.isNotEmpty) {
-        this.headerText = headerText + "\n";
-      } else
-        this.headerText = "";
+        headerText = headerText + "\n";
+      } else {
+        headerText = "";
+      }
     }
   }
 
@@ -105,7 +108,7 @@ class AlertMessages extends StatelessWidget {
 
   BoxDecoration myBoxDecoration() {
     return BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(3.0)),
+      borderRadius: const BorderRadius.all(Radius.circular(3.0)),
       border: Border.all(
         color: outsideBorderColor, //                   <--- border color
         width: 1,

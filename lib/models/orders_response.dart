@@ -4,8 +4,7 @@
 
 import 'dart:convert';
 
-OrderResponse orderResponseFromJson(String str) =>
-    OrderResponse.fromJson(json.decode(str));
+OrderResponse orderResponseFromJson(String str) => OrderResponse.fromJson(json.decode(str));
 
 String orderResponseToJson(OrderResponse data) => json.encode(data.toJson());
 
@@ -25,8 +24,8 @@ class OrderResponse {
   String data;
 
   factory OrderResponse.fromJson(Map<String, dynamic> json) {
-    List<String> inactiveProducts = new List<String>();
-    List<String> changedPriceProducts = new List<String>();
+    List<String> inactiveProducts = [];
+    List<String> changedPriceProducts = [];
 
     return OrderResponse(
       success: json["success"],
@@ -46,7 +45,6 @@ class OrderResponse {
         "reason": reason,
         "data": data,
         "inactive_products": List<dynamic>.from(inactiveProducts.map((x) => x)),
-        "changed_price_products":
-            List<dynamic>.from(changedPriceProducts.map((x) => x)),
+        "changed_price_products": List<dynamic>.from(changedPriceProducts.map((x) => x)),
       };
 }

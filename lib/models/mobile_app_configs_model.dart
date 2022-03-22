@@ -4,23 +4,19 @@ class MobileAppConfigs {
   MobileAppConfigs({
     this.headers,
     this.original,
-    this.exception,
   });
 
   Headers headers;
   MobileAppConfigsOriginal original;
-  dynamic exception;
 
   factory MobileAppConfigs.fromJson(Map<String, dynamic> json) => MobileAppConfigs(
         headers: Headers.fromJson(json["headers"]),
         original: MobileAppConfigsOriginal.fromJson(json["original"]),
-        exception: json["exception"],
       );
 
   Map<String, dynamic> toJson() => {
         "headers": headers.toJson(),
         "original": original.toJson(),
-        "exception": exception,
       };
 }
 

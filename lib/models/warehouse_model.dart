@@ -30,7 +30,7 @@ class Warehouse {
         "description": description,
         "number_of_workers": numberOfWorkers,
         "is_active": isActive,
-        "pivot": pivot == null ? null : pivot.toJson(),
+        "pivot": pivot ?? pivot.toJson(),
       };
 }
 

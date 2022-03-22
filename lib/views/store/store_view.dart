@@ -9,6 +9,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../Services.dart';
 
 class StoreView extends StatefulWidget {
+  const StoreView({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return StoreViewState();
@@ -16,7 +18,7 @@ class StoreView extends StatefulWidget {
 }
 
 class StoreViewState extends State<StoreView> {
-  TextEditingController searchController = new TextEditingController();
+  TextEditingController searchController = TextEditingController();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool isDarkThemeMode = false;
@@ -50,16 +52,16 @@ class StoreViewState extends State<StoreView> {
   }
 
   Widget _updateButton() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
+    final GestureDetector loginButtonWithGesture = GestureDetector(
       onTap: () => _updateApplication(),
-      child: new Container(
+      child: Container(
         height: 50.0,
-        decoration: new BoxDecoration(
-            color: ColorUtils.kmColors, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+        decoration:
+            BoxDecoration(color: ColorUtils.kmColors, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             " التحديث الآن ",
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -69,20 +71,21 @@ class StoreViewState extends State<StoreView> {
       ),
     );
 
-    return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
+    return Padding(
+        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
   }
 
   Widget _okButton() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
+    final GestureDetector loginButtonWithGesture = GestureDetector(
       onTap: () => Navigator.of(context).pop(),
-      child: new Container(
+      child: Container(
         height: 50.0,
-        decoration: new BoxDecoration(
-            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+        decoration: BoxDecoration(
+            color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             "موافق",
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -92,25 +95,26 @@ class StoreViewState extends State<StoreView> {
       ),
     );
 
-    return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
+    return Padding(
+        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
   }
 
   Widget _cancelButton() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
+    final GestureDetector loginButtonWithGesture = GestureDetector(
       onTap: () {
         setState(() {
           Services.updateOption = false;
         });
         Navigator.of(context).pop(true);
       },
-      child: new Container(
+      child: Container(
         height: 50.0,
         decoration:
-            new BoxDecoration(color: Colors.grey[700], borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+            BoxDecoration(color: Colors.grey[700], borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             " التحديث لاحقاً ",
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
@@ -120,7 +124,8 @@ class StoreViewState extends State<StoreView> {
       ),
     );
 
-    return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
+    return Padding(
+        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
   }
 
   void showUpdateDialog() {
@@ -128,7 +133,7 @@ class StoreViewState extends State<StoreView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(1.0),
               topRight: Radius.circular(1.0),
@@ -136,12 +141,12 @@ class StoreViewState extends State<StoreView> {
               bottomRight: Radius.circular(2.0),
             ),
           ),
-          contentPadding: EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
-          titlePadding: EdgeInsets.all(0),
+          contentPadding: const EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
+          titlePadding: const EdgeInsets.all(0),
           title: Container(
             width: double.infinity,
             height: 50,
-            color: Color.fromARGB(255, 247, 247, 247),
+            color: const Color.fromARGB(255, 247, 247, 247),
             child: Align(
               child: Padding(
                 child: Row(
@@ -159,7 +164,7 @@ class StoreViewState extends State<StoreView> {
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.close),
+                      icon: const Icon(Icons.close),
                       onPressed: () {
                         setState(() {
                           Services.updateOption = false;
@@ -169,11 +174,11 @@ class StoreViewState extends State<StoreView> {
                     )
                   ],
                 ),
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
               ),
             ),
           ),
-          content: Container(
+          content: SizedBox(
             height: 150,
             child: Column(
               children: <Widget>[
@@ -191,20 +196,20 @@ class StoreViewState extends State<StoreView> {
                     ],
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(top: 10),
                 ),
-                new Divider(
+                Divider(
                   color: Colors.grey[600],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width / 2.8,
                       child: _updateButton(),
                     ),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width / 2.8,
                       child: _cancelButton(),
                     ),
@@ -224,7 +229,7 @@ class StoreViewState extends State<StoreView> {
         builder: (BuildContext context) {
           return AlertDialog(
             content: Stack(
-              overflow: Overflow.visible,
+              clipBehavior: Clip.none,
               children: <Widget>[
                 Column(
                   mainAxisSize: MainAxisSize.min,
@@ -266,10 +271,10 @@ class StoreViewState extends State<StoreView> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: KDrawer(),
+      drawer: const KDrawer(),
       appBar: PreferredSize(
         child: AppBar(
-          iconTheme: new IconThemeData(color: Colors.transparent),
+          iconTheme: const IconThemeData(color: Colors.transparent),
 
           backgroundColor: ColorUtils.kmColors,
           automaticallyImplyLeading: false, // hides leading widget
@@ -290,18 +295,18 @@ class StoreViewState extends State<StoreView> {
                           onTap: () {
                             scaffoldKey.currentState.openDrawer();
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.menu,
                             color: Colors.white,
                             size: 40,
                           ),
                         ),
                       ),
-                      AppBarKammunImage(),
+                      const AppBarKammunImage(),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.shopping_cart,
                             size: 35,
                             color: Colors.white,
@@ -321,72 +326,70 @@ class StoreViewState extends State<StoreView> {
             ),
           ),
         ),
-        preferredSize: Size.fromHeight(105.0),
+        preferredSize: const Size.fromHeight(105.0),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _imageCarousel(),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(
-                          decoration: new BoxDecoration(
-                            color: ColorUtils.kmColors,
-                            border: new Border.all(color: Colors.white, width: 2.0),
-                            borderRadius: new BorderRadius.circular(10.0),
-                          ),
-                          height: 10,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _imageCarousel(),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: ColorUtils.kmColors,
+                          border: Border.all(color: Colors.white, width: 2.0),
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
+                        height: 10,
                       ),
-                      Text(
-                        "  " + StringUtils.shopByCategory + "  ",
-                        style: TextStyle(
-                            color: ColorUtils.primaryColor,
-                            fontWeight: FontWeight.w900,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 22),
-                      ),
-                      Expanded(
-                        child: Container(
-                          decoration: new BoxDecoration(
-                            color: ColorUtils.kmColors,
-                            border: new Border.all(color: Colors.white, width: 2.0),
-                            borderRadius: new BorderRadius.circular(10.0),
-                          ),
-                          height: 10,
+                    ),
+                    Text(
+                      "  " + StringUtils.shopByCategory + "  ",
+                      style: TextStyle(
+                          color: ColorUtils.primaryColor,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                          fontSize: 22),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: ColorUtils.kmColors,
+                          border: Border.all(color: Colors.white, width: 2.0),
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
+                        height: 10,
                       ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  StoreViewCategory(),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                const StoreViewCategory(),
+              ],
             )),
       ),
     );
   }
 
   Widget _imageCarousel() {
-    return new Container(
+    return Container(
       height: MediaQuery.of(context).size.height * 0.25,
       width: MediaQuery.of(context).size.width,
-      decoration: new BoxDecoration(
-          color: ColorUtils.searchGreyColor, borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-      child: new Carousel(
+      decoration: BoxDecoration(
+          color: ColorUtils.searchGreyColor, borderRadius: const BorderRadius.all(Radius.circular(20.0))),
+      child: Carousel(
         borderRadius: true,
         boxFit: BoxFit.cover,
         images: LoadingScreenServices.bannerListNetwork,
         autoplay: true,
         animationCurve: Curves.fastLinearToSlowEaseIn,
-        animationDuration: Duration(milliseconds: 1000),
+        animationDuration: const Duration(milliseconds: 1000),
         dotSize: 6.0,
         indicatorBgPadding: 2.0,
       ),

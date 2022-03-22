@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/favoraites/services/product_favoraites_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 
 class Favoraites extends StatefulWidget {
+  const Favoraites({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return FavoraitesViewState();
@@ -25,7 +26,7 @@ class FavoraitesViewState extends State<Favoraites> {
 
   String errorMessageValue;
 
-  List<ProductData> favoraitesProductData = new List<ProductData>();
+  List<ProductData> favoraitesProductData = [];
   _getFavoraites() async {
     setState(() {
       FavoraitesProductsServices.lastPageNumber = page;
@@ -82,11 +83,11 @@ class FavoraitesViewState extends State<Favoraites> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      drawer: KDrawer(),
+      drawer: const KDrawer(),
       key: scaffoldKey,
       appBar: PreferredSize(
         child: AppBar(
-          backgroundColor: Color.fromARGB(255, 210, 178, 2),
+          backgroundColor: const Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false, // hides leading widget
           flexibleSpace: SafeArea(
             top: true,
@@ -105,7 +106,7 @@ class FavoraitesViewState extends State<Favoraites> {
                           onTap: () {
                             scaffoldKey.currentState.openDrawer();
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.menu,
                             color: Colors.white,
                             size: 40,
@@ -134,7 +135,7 @@ class FavoraitesViewState extends State<Favoraites> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.shopping_cart,
                           size: 35,
                           color: Colors.white,
@@ -159,17 +160,17 @@ class FavoraitesViewState extends State<Favoraites> {
             ),
           ),
         ),
-        preferredSize: Size.fromHeight(105.0),
+        preferredSize: const Size.fromHeight(105.0),
       ),
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 0),
+          padding: const EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              LoadingScreenServices.userFavoriteProducts.length > 0
+              LoadingScreenServices.userFavoriteProducts.isNotEmpty
                   ? Expanded(
                       child: NotificationListener(
                         onNotification: (ScrollNotification scrollInfo) {
@@ -198,23 +199,21 @@ class FavoraitesViewState extends State<Favoraites> {
                         ),
                       ),
                     )
-                  : Container(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: screenHeight * 0.3),
-                        child: Center(
-                          child: Text(
-                            !isLoading ? "لم تقم بإضافة أي عنصر للمفضلة" : "",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: ColorUtils.greyColor,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 20.0,
-                            ),
+                  : Padding(
+                      padding: EdgeInsets.only(top: screenHeight * 0.3),
+                      child: Center(
+                        child: Text(
+                          !isLoading ? "لم تقم بإضافة أي عنصر للمفضلة" : "",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: ColorUtils.greyColor,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
+                            fontSize: 20.0,
                           ),
                         ),
                       ),
                     ),
-              theEndOfFavoraites && favoraitesProductData.length != 0
+              theEndOfFavoraites && favoraitesProductData.isNotEmpty
                   ? Container(
                       height: 50.0,
                       color: Colors.transparent,
@@ -231,7 +230,7 @@ class FavoraitesViewState extends State<Favoraites> {
                   ? Container(
                       height: 50.0,
                       color: Colors.transparent,
-                      child: Center(
+                      child: const Center(
                         child: Loader(),
                       ),
                     )

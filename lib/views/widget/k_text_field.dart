@@ -29,7 +29,7 @@ class _KTextFieldState extends State<KTextField> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-      child: new AutoSizeTextField(
+      child: AutoSizeTextField(
         cursorColor: ColorUtils.kmColors,
         controller: widget.controller,
         maxLines: widget.maxLine,
@@ -46,8 +46,8 @@ class _KTextFieldState extends State<KTextField> {
           hintStyle: hintStyle,
           labelText: widget.labelText,
           labelStyle: labelStyle.copyWith(fontSize: 25),
-          border: new UnderlineInputBorder(
-            borderSide: new BorderSide(color: ColorUtils.primaryColor),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: ColorUtils.primaryColor),
           ),
         ),
       ),

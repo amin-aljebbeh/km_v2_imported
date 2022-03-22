@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
@@ -18,11 +17,11 @@ class Services {
 
   static Future<bool> addToFavorites(String productsId) async {
     var response = await ApiProvider.sendRequest(
-      url: ADD_TO_FAVORITE + productsId,
-      method: httpMethods.put,
+      url: addToFavorite + productsId,
+      method: HttpMethods.put,
     );
 
-    if (response.statusCode == SUCCESS_CODE) {
+    if (response.statusCode == successCode) {
       return true;
     } else {
       return false;
@@ -31,11 +30,11 @@ class Services {
 
   static Future<bool> removeFromFavorites(String productsId) async {
     var response = await ApiProvider.sendRequest(
-      url: REMOVE_FROM_FAVORITE + productsId,
-      method: httpMethods.put,
+      url: removeFromFavorite + productsId,
+      method: HttpMethods.put,
     );
 
-    if (response.statusCode == SUCCESS_CODE) {
+    if (response.statusCode == successCode) {
       return true;
     } else {
       return false;
@@ -55,10 +54,10 @@ class Services {
       "entrance": entrance,
     };
     try {
-      var response = await ApiProvider.sendRequest(
-          url: USER_ADDRESS, method: httpMethods.post, body: jsonEncode(addressData));
+      var response =
+          await ApiProvider.sendRequest(url: userAddress, method: HttpMethods.post, body: jsonEncode(addressData));
 
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         final addNewAddress = addNewAddressFromJson(jsonEncode(response.data));
         LoadingScreenServices.userAddress[0].id = addNewAddress.addressId.id;
 
@@ -95,9 +94,9 @@ class Services {
     };
     try {
       var response = await ApiProvider.sendRequest(
-          url: USER_ADDRESS + "/$addressId", method: httpMethods.put, body: jsonEncode(addressData));
+          url: userAddress + "/$addressId", method: HttpMethods.put, body: jsonEncode(addressData));
 
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         return true;
       } else {
         return false;
@@ -110,11 +109,11 @@ class Services {
   static Future<bool> removeUserAddress(String addressId) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: USER_ADDRESS + "/$addressId",
-        method: httpMethods.delete,
+        url: userAddress + "/$addressId",
+        method: HttpMethods.delete,
       );
 
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         return true;
       } else {
         return false;
@@ -127,12 +126,12 @@ class Services {
   static Future<List<OrdersOriginalData>> getMyOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: GET_USER_ORDER,
-        method: httpMethods.get,
+        url: getUserOrder,
+        method: HttpMethods.get,
         queryParameters: {"page": pageNumber},
       );
 
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         LoadingScreenServices.myOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
 
         return LoadingScreenServices.myOrdersList;
@@ -146,9 +145,9 @@ class Services {
 
   static Future<bool> loginUser({String phoneNumber, String signCode, String supportedCityId}) async {
     if (phoneNumber == "5000000001") {
-      BASE_URL = APPLE_BASE_URL;
+      baseUrl = appleBaseUrl;
     } else {
-      BASE_URL = PRODUCTION_BASE_URL;
+      baseUrl = productionBaseUrl;
     }
 
     Map loginBody = {
@@ -161,10 +160,10 @@ class Services {
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: LOGIN_URL, method: httpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
+          url: loginUrl, method: HttpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
       var theResponse = response.data;
 
-      if (response.statusCode == SUCCESS_CODE && (theResponse["success"].toString() == "true")) {
+      if (response.statusCode == successCode && (theResponse["success"].toString() == "true")) {
         return true;
       } else {
         return false;
@@ -175,18 +174,18 @@ class Services {
   }
 
   static Future<bool> verifyCode(String code) async {
-    var response = await ApiProvider.sendRequest(url: OTP_VERIFICATION + code, method: httpMethods.get);
+    var response = await ApiProvider.sendRequest(url: otpVerification + code, method: HttpMethods.get);
 
     var data = (response.data);
 
-    if (response.statusCode == SUCCESS_CODE && data["success"] == true) {
+    if (response.statusCode == successCode && data["success"] == true) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("userToken", data["api_token"]);
       LoadingScreen.userToken = "Bearer " + data["api_token"];
       if (data["api_token"].toString().contains("APPLE_VERIFICATION")) {
-        BASE_URL = APPLE_BASE_URL;
+        baseUrl = appleBaseUrl;
       } else {
-        BASE_URL = PRODUCTION_BASE_URL;
+        baseUrl = productionBaseUrl;
       }
       return true;
     } else {
@@ -195,7 +194,7 @@ class Services {
   }
 
   static Future<void> userVisitProduct(String productId) async {
-    await ApiProvider.sendRequest(url: GET_PRODUCT + productId, method: httpMethods.post);
+    await ApiProvider.sendRequest(url: getProduct + productId, method: HttpMethods.post);
   }
 
   static openUrl(String selected) async {

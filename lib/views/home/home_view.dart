@@ -1,12 +1,12 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/favoraites/favoraites.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/store/store_view.dart';
+import 'package:kammun_app/views/widget/dialog_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeView extends StatefulWidget {
@@ -14,7 +14,8 @@ class HomeView extends StatefulWidget {
   final bool isFromUpdateOrder;
   final dynamic notificationValue;
 
-  HomeView({this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue});
+  const HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -25,9 +26,10 @@ class HomeView extends StatefulWidget {
 class HomeViewState extends State<HomeView> {
   int _selectedIndex;
   bool _isFromUpdateOrder;
+
   HomeViewState(this._selectedIndex, this._isFromUpdateOrder);
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   String firebaseToken;
 
   @override
@@ -41,33 +43,18 @@ class HomeViewState extends State<HomeView> {
   }
 
   _initializeNotification({BuildContext ctx}) {
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        final notification = message['notification'];
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      final notification = message.notification;
 
-        if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
+      if (message.data['route_name'] != null) Navigator.pushNamed(context, message.data['route_name']);
 
-        _showDialog(notification['title'], notification['body']);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        final notification = message['data'];
-
-        if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
-
-        if (LoadingScreenServices.showOnLunchNotification)
-          _showDialog(notification['title'], notification['body']);
-        LoadingScreenServices.showOnLunchNotification = false;
-      },
-      onResume: (Map<String, dynamic> message) async {
-        final notification = message['data'];
-
-        if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
-
-        _showDialog(notification['title'], notification['body']);
-      },
+      _showDialog(notification.title, notification.body);
+    });
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
     );
-    _firebaseMessaging
-        .requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
     getToken();
   }
 
@@ -80,7 +67,7 @@ class HomeViewState extends State<HomeView> {
       firebaseToken = prefs.get("firebase_token");
     }
     if (LoadingScreenServices.userOriginal.data.firebaseToken != firebaseToken) {
-      LoadingScreenServices().updateFirebaseToken(firebaseToken);
+      LoadingScreenServices().updateFirebaseTokenService(firebaseToken);
     }
   }
 
@@ -89,13 +76,13 @@ class HomeViewState extends State<HomeView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text(
+          title: Text(
             "$title",
             style: TextStyle(
               fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
           ),
-          content: new Text(
+          content: Text(
             "$body",
             // maxLines: 20,
             style: TextStyle(
@@ -104,16 +91,11 @@ class HomeViewState extends State<HomeView> {
           ),
           scrollable: true,
           actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child: new Text(
-                "إغلاق",
-                style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+            DialogButton(
+                text: StringUtils.close,
+                onTap: () {
+                  Navigator.of(context).pop();
+                }),
           ],
         );
       },
@@ -128,14 +110,14 @@ class HomeViewState extends State<HomeView> {
       context: ctx,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text(
-            "$title",
+          title: Text(
+            title,
             style: TextStyle(
               fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
           ),
-          content: new Text(
-            "$body",
+          content: Text(
+            body,
             // maxLines: 20,
             style: TextStyle(
               fontFamily: StringUtils.fontFamilyHKGrotesk,
@@ -143,15 +125,11 @@ class HomeViewState extends State<HomeView> {
           ),
           scrollable: true,
           actions: <Widget>[
-            new FlatButton(
-              child: new Text(
-                "إغلاق",
-                style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
+            DialogButton(
+                text: StringUtils.close,
+                onTap: () {
+                  Navigator.of(context).pop();
+                }),
           ],
         );
       },
@@ -161,81 +139,161 @@ class HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final _tabs = [
-      StoreView(),
+      const StoreView(),
       CartView(
         isFromUpdateOrder: _isFromUpdateOrder,
       ),
-      OrdersView(),
-      Favoraites(),
-    ];
+      const OrdersView(),
+      const Favoraites(),
+    ]; /*Color.fromARGB(255, 53, 99, 124)*/
     return Scaffold(
       body: _tabs[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        unselectedFontSize: 0,
+        selectedFontSize: 0,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         backgroundColor: Colors.white,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              activeIcon: Icon(
-                Icons.store,
-                color: Color.fromARGB(255, 210, 178, 2),
-              ),
-              icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
-              // ignore: deprecated_member_use
-              title: Text(
-                StringUtils.store,
-                style: TextStyle(
-                    color: Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15),
-              )),
+            activeIcon: Column(
+              children: [
+                const Icon(
+                  Icons.store,
+                  color: Color.fromARGB(255, 210, 178, 2),
+                ),
+                Text(
+                  StringUtils.store,
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 53, 99, 124),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                      fontSize: 15),
+                ),
+              ],
+            ),
+            icon: Column(
+              children: [
+                const Icon(
+                  Icons.store,
+                  color: Color.fromARGB(255, 53, 99, 124),
+                ),
+                Text(
+                  StringUtils.store,
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 53, 99, 124),
+                      // fontWeight: FontWeight.w500,
+                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                      fontSize: 15),
+                ),
+              ],
+            ),
+            label: '',
+          ),
           BottomNavigationBarItem(
-              activeIcon: Icon(
-                Icons.shopping_cart,
-                color: Color.fromARGB(255, 210, 178, 2),
-              ),
-              icon: Icon(Icons.shopping_cart, color: Color.fromARGB(255, 53, 99, 124)),
-              // ignore: deprecated_member_use
-              title: Text(
-                StringUtils.cart,
-                style: TextStyle(
-                    color: Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15),
-              )),
+            activeIcon: Column(
+              children: [
+                const Icon(
+                  Icons.shopping_cart,
+                  color: Color.fromARGB(255, 210, 178, 2),
+                ),
+                Text(
+                  StringUtils.cart,
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 53, 99, 124),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                      fontSize: 15),
+                ),
+              ],
+            ),
+            icon: Column(
+              children: [
+                const Icon(
+                  Icons.shopping_cart,
+                  color: Color.fromARGB(255, 53, 99, 124),
+                ),
+                Text(
+                  StringUtils.cart,
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 53, 99, 124),
+                      // fontWeight: FontWeight.w500,
+                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                      fontSize: 15),
+                ),
+              ],
+            ),
+            label: '',
+          ),
           BottomNavigationBarItem(
-              activeIcon: Icon(
-                Icons.reorder,
-                color: Color.fromARGB(255, 210, 178, 2),
+              activeIcon: Column(
+                children: [
+                  const Icon(
+                    Icons.reorder,
+                    color: Color.fromARGB(255, 210, 178, 2),
+                  ),
+                  Text(
+                    StringUtils.orders,
+                    style: TextStyle(
+                        color: const Color.fromARGB(255, 53, 99, 124),
+                        fontWeight: FontWeight.w500,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontSize: 15),
+                  ),
+                ],
               ),
-              icon: Icon(Icons.reorder, color: Color.fromARGB(255, 53, 99, 124)),
-              // ignore: deprecated_member_use
-              title: Text(
-                StringUtils.orders,
-                style: TextStyle(
+              icon: Column(
+                children: [
+                  const Icon(
+                    Icons.reorder,
                     color: Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15),
-              )),
+                  ),
+                  Text(
+                    StringUtils.orders,
+                    style: TextStyle(
+                        color: const Color.fromARGB(255, 53, 99, 124),
+                        // fontWeight: FontWeight.w500,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontSize: 15),
+                  ),
+                ],
+              ),
+              label: ''),
           BottomNavigationBarItem(
-              activeIcon: Icon(
-                Icons.favorite,
-                color: Color.fromARGB(255, 210, 178, 2),
-              ),
-              icon: Icon(
-                Icons.favorite,
-                color: Color.fromARGB(255, 53, 99, 124),
-              ),
-              // ignore: deprecated_member_use
-              title: Text(
-                StringUtils.favorite,
-                style: TextStyle(
-                    color: Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15),
-              )),
+            activeIcon: Column(
+              children: [
+                const Icon(
+                  Icons.favorite,
+                  color: Color.fromARGB(255, 210, 178, 2),
+                ),
+                Text(
+                  StringUtils.favorite,
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 53, 99, 124),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                      fontSize: 15),
+                ),
+              ],
+            ),
+            icon: Column(
+              children: [
+                const Icon(
+                  Icons.favorite,
+                  color: Color.fromARGB(255, 53, 99, 124),
+                ),
+                Text(
+                  StringUtils.favorite,
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 53, 99, 124),
+                      // fontWeight: FontWeight.w500,
+                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                      fontSize: 15),
+                ),
+              ],
+            ),
+            label: '',
+          ),
         ],
         currentIndex: _selectedIndex,
         type: BottomNavigationBarType.fixed,

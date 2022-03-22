@@ -4,23 +4,19 @@ class Category {
   Category({
     this.headers,
     this.original,
-    this.exception,
   });
 
   Headers headers;
   CategoryOriginal original;
-  dynamic exception;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         headers: Headers.fromJson(json["headers"]),
         original: CategoryOriginal.fromJson(json["original"]),
-        exception: json["exception"],
       );
 
   Map<String, dynamic> toJson() => {
         "headers": headers.toJson(),
         "original": original.toJson(),
-        "exception": exception,
       };
 }
 
@@ -65,7 +61,7 @@ class CategoryOriginalData {
         id: json["id"],
         name: json["name"],
         imageFileName: json["image_file_name"],
-        parentCategoryId: json["parent_category_id"] == null ? null : json["parent_category_id"].toString(),
+        parentCategoryId: (json["parent_category_id"] ?? json["parent_category_id"]).toString(),
         isCompany: json["is_company"].toString(),
         warehouses: List<Warehouse>.from(json["warehouses"].map((x) => Warehouse.fromJson(x))),
       );
@@ -74,7 +70,7 @@ class CategoryOriginalData {
         "id": id,
         "name": name,
         "image_file_name": imageFileName,
-        "parent_category_id": parentCategoryId == null ? null : parentCategoryId,
+        "parent_category_id": parentCategoryId ?? parentCategoryId,
         "is_company": isCompany,
         "warehouses": List<dynamic>.from(warehouses.map((x) => x.toJson())),
       };

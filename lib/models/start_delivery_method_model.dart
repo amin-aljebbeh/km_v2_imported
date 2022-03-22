@@ -4,23 +4,19 @@ class StartDeliveryMethod {
   StartDeliveryMethod({
     this.headers,
     this.original,
-    this.exception,
   });
 
   Headers headers;
   DeliveryMethodOriginal original;
-  dynamic exception;
 
   factory StartDeliveryMethod.fromJson(Map<String, dynamic> json) => StartDeliveryMethod(
         headers: Headers.fromJson(json["headers"]),
         original: DeliveryMethodOriginal.fromJson(json["original"]),
-        exception: json["exception"],
       );
 
   Map<String, dynamic> toJson() => {
         "headers": headers.toJson(),
         "original": original.toJson(),
-        "exception": exception,
       };
 }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/login/login_view.dart';
@@ -12,6 +11,8 @@ import 'Services/login_services.dart';
 
 class OTPVerification extends StatefulWidget {
   static String routeName = "/otp";
+
+  const OTPVerification({Key key}) : super(key: key);
 
   @override
   _OTPVerificationState createState() => _OTPVerificationState();
@@ -60,10 +61,10 @@ class _OTPVerificationState extends State<OTPVerification> {
 
   @override
   Widget build(BuildContext context) {
-    ScrollController _scroll = new ScrollController();
+    ScrollController _scroll = ScrollController();
 
     Widget _showAddAddressButton() {
-      final GestureDetector loginButtonWithGesture = new GestureDetector(
+      final GestureDetector loginButtonWithGesture = GestureDetector(
         onTap: () {
           if (_textController.text.length == 6) {
             checkOtpValidation(_textController.text);
@@ -73,14 +74,14 @@ class _OTPVerificationState extends State<OTPVerification> {
             });
           }
         },
-        child: new Container(
+        child: Container(
           height: 50.0,
-          decoration: new BoxDecoration(
-              color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-          child: new Center(
-            child: new Text(
+          decoration: BoxDecoration(
+              color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+          child: Center(
+            child: Text(
               "تأكيد الرمز",
-              style: new TextStyle(
+              style: TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w500,
@@ -91,11 +92,12 @@ class _OTPVerificationState extends State<OTPVerification> {
       );
 
       return loadingScreen
-          ? Padding(
+          ? const Padding(
               padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
               child: Loader(),
             )
-          : Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
+          : Padding(
+              padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
     }
 
     return Scaffold(

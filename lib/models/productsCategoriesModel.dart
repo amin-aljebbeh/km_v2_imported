@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:kammun_app/models/models_importer.dart';
 
 CategoryProduct categoryProductFromJson(String str) => CategoryProduct.fromJson(json.decode(str));
@@ -81,7 +80,7 @@ class ProductResponse {
 
   Map<String, dynamic> toJson() => {
         "current_page": currentPage,
-        "data": List<dynamic>.from(data.map((x) => x == null ? null : x.toJson())),
+        "data": List<dynamic>.from(data.map((x) => x?.toJson())),
         "first_page_url": firstPageUrl,
         "from": from,
         "last_page": lastPage,

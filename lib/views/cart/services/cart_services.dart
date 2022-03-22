@@ -6,61 +6,65 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartServices {
-  static List<ProductData> cartProducts = List<ProductData>();
+  static List<ProductData> cartProducts = [];
 
   static String userNote;
   static String userCopoun;
 
   static Future getUserCart() async {
-    Map<String, String> productsIdCount = new Map<String, String>();
+    try {
+      Map<String, String> productsIdCount = <String, String>{};
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userCart = prefs.getString('userCart');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String userCart = prefs.getString('userCart');
 
-    if (userCart != null && userCart.length == 1 && userCart == "@") {
-      prefs.setString('userCart', "");
-    }
-
-    if (userCart != null && userCart.length > 2 && userCart.toString() != "null") {
-      cartProducts.clear();
-
-      List<String> productsIds = userCart.split("@")[0].split(";");
-      List<String> productsCounts = userCart.split("@")[1].split(";");
-
-      for (int i = 0; i < productsIds.length - 1; i++) {
-        productsIdCount[productsIds[i]] = productsCounts[i];
+      if (userCart != null && userCart.length == 1 && userCart == "@") {
+        prefs.setString('userCart', "");
       }
 
-      var response = await ApiProvider.sendRequest(
-          url: SYNC_CART,
-          method: httpMethods.post,
-          body: jsonEncode({
-            "product_ids": userCart
-                .split("@")[0]
-                .replaceRange(userCart.split("@")[0].length - 1, userCart.split("@")[0].length, ""),
-          }));
+      if (userCart != null && userCart.length > 2 && userCart.toString() != "null") {
+        cartProducts.clear();
 
-      if (response.statusCode == SUCCESS_CODE && response.data['success'] == true) {
-        final product = syncCartFromJson(jsonEncode(response.data["data"]));
-        for (int i = 0; i < product.length; i++) {
-          if (product[i] != null) {
-            product[i].productCount = int.parse(productsCounts[i]);
-            CartServices.addProductToCart(product[i]);
-          }
+        List<String> productsIds = userCart.split("@")[0].split(";");
+        List<String> productsCounts = userCart.split("@")[1].split(";");
+
+        for (int i = 0; i < productsIds.length - 1; i++) {
+          productsIdCount[productsIds[i]] = productsCounts[i];
         }
 
-        return true;
+        var response = await ApiProvider.sendRequest(
+            url: syncCart,
+            method: HttpMethods.post,
+            body: jsonEncode({
+              "product_ids": userCart
+                  .split("@")[0]
+                  .replaceRange(userCart.split("@")[0].length - 1, userCart.split("@")[0].length, ""),
+            }));
+
+        if (response.statusCode == successCode && response.data['success'] == true) {
+          final product = syncCartFromJson(jsonEncode(response.data["data"]));
+          for (int i = 0; i < product.length; i++) {
+            if (product[i] != null) {
+              product[i].productCount = int.parse(productsCounts[i]);
+              CartServices.addProductToCart(product[i]);
+            }
+          }
+
+          return true;
+        } else {
+          return false;
+        }
       } else {
-        return false;
+        return true;
       }
-    } else {
-      return true;
+    } catch (e) {
+      return false;
     }
   }
 
   static addProductToCart(ProductData product) {
     bool added = false;
-    if (LoadingScreenServices.categoryList.length == 0) {
+    if (LoadingScreenServices.categoryList.isEmpty) {
       CartServices.cartProducts.add(product);
       added = true;
     }

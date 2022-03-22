@@ -11,7 +11,7 @@ class OrderDetailView extends StatefulWidget {
   String total;
   String deliveryPrice;
 
-  OrderDetailView({this.ordersAry, this.subTotal, this.total, this.deliveryPrice});
+  OrderDetailView({Key key, this.ordersAry, this.subTotal, this.total, this.deliveryPrice}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -37,7 +37,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
+          padding: const EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -65,24 +65,24 @@ class OrderDetailViewState extends State<OrderDetailView> {
               ),
               Expanded(
                 child: ListView.builder(
-                  padding: EdgeInsets.only(left: 20.0, top: 20.0),
+                  padding: const EdgeInsets.only(left: 20.0, top: 20.0),
                   primary: false,
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: productsAry == null ? 0 : productsAry.length,
                   itemBuilder: (BuildContext context, int index) {
                     OrderProducts orderDetail = productsAry[index];
-                    return new GestureDetector(
+                    return GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {},
                       child: OrderDetailViewCard(
-                        img: orderDetail.images.length != 0
+                        img: orderDetail.images.isNotEmpty
                             ? LoadingScreenServices.imagePrefixUrl + orderDetail.images[0].imageFileName
                             : "",
                         productName: orderDetail.name,
                         quantity: orderDetail.quantity,
                         price: int.parse(orderDetail.pivot.purchasePrice),
-                        unit: orderDetail.unit == null ? "" : orderDetail.unit,
+                        unit: orderDetail.unit ?? "",
                         productCount: orderDetail.pivot.quantity.toString(),
                         index: index,
                       ),
@@ -91,7 +91,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 20, top: 30),
+                padding: const EdgeInsets.only(left: 20, top: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -114,9 +114,9 @@ class OrderDetailViewState extends State<OrderDetailView> {
                   ],
                 ),
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Padding(
-                padding: EdgeInsets.only(left: 20, top: 5),
+                padding: const EdgeInsets.only(left: 20, top: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -138,9 +138,9 @@ class OrderDetailViewState extends State<OrderDetailView> {
                   ],
                 ),
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Padding(
-                padding: EdgeInsets.only(left: 20, top: 5),
+                padding: const EdgeInsets.only(left: 20, top: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -152,8 +152,8 @@ class OrderDetailViewState extends State<OrderDetailView> {
                           fontSize: 19.0,
                         )),
                     Text(
-                      "${StringUtils().oCcy.format(int.parse(widget.total))}" +
-                          " ${LoadingScreenServices.companyInformation.currency}",
+                      "${StringUtils().oCcy.format(int.parse(widget.total))}"
+                      " ${LoadingScreenServices.companyInformation.currency}",
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark,
@@ -163,7 +163,7 @@ class OrderDetailViewState extends State<OrderDetailView> {
                   ],
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               // _showReOrderButton(),
             ],
           ),

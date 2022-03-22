@@ -1,56 +1,55 @@
-// ignore: non_constant_identifier_names
-String BASE_URL = 'https://kammun.app';
+String baseUrl = 'https://kammun.app';
 
-const String APPLE_BASE_URL = 'http://kmbe.kammun.com';
-const String PRODUCTION_BASE_URL = 'https://kammun.app';
-
-////////////////////////////////////////////////////////////////////
-
-const String API = '/api/';
-
-const String USER = 'user/';
-
-const String ORDER = 'order/';
-
-const String SEARCH = 'search/';
-
-const String PRODUCT = 'product/';
-
-const String CATEGORY = 'category/';
-
-const String SUPPORTED_CITY = 'supported_city/';
+const String appleBaseUrl = 'http://kmbe.kammun.com';
+const String productionBaseUrl = 'https://kammun.app';
 
 ////////////////////////////////////////////////////////////////////
-const String GET_CATEGORY = API + CATEGORY;
-const String SEARCH_PRODUCTS = API + PRODUCT + SEARCH;
-const String GET_PRODUCT = API + PRODUCT;
-const String GET_USER_ORDER = API + USER + 'user_orders';
-const String SYNC_CART = API + 'cart/sync_cart';
-const String CANCEL_ORDER = API + ORDER + 'change_order_status/';
-const String FAVORAITES_PRODUCTS = API + USER + 'my_favorite_products/';
-const String DELIVERY_METHODS = API + SUPPORTED_CITY + 'get_delivery_methods/';
-const String UPDATE_USER_SUPPORTED_CITY = API + USER + 'update_supported_city';
 
-const String ADD_TO_FAVORITE = API + USER + 'add_product_to_favorites/';
-const String REMOVE_FROM_FAVORITE = API + USER + 'remove_product_from_favorites/';
-const String USER_ADDRESS = API + 'address';
-const String LOCK_ORDER = API + ORDER + 'lock_order/';
-const String RATE_ORDER = API + ORDER + 'rate_order/';
+const String api = '/api/';
 
-const String OTP_VERIFICATION = API + 'verification_code/verify_account/';
+const String user = 'user/';
+
+const String order = 'order/';
+
+const String search = 'search/';
+
+const String product = 'product/';
+
+const String category = 'category/';
+
+const String supportedCity = 'supported_city/';
+
+////////////////////////////////////////////////////////////////////
+const String getCategory = api + category;
+const String searchProducts = api + product + search;
+const String getProduct = api + product;
+const String getUserOrder = api + user + 'user_orders';
+const String syncCart = api + 'cart/sync_cart';
+const String cancelOrder = api + order + 'change_order_status/';
+const String favoritesProducts = api + user + 'my_favorite_products/';
+const String deliveryMethods = api + supportedCity + 'get_delivery_methods/';
+const String updateUserSupportedCity = api + user + 'update_supported_city';
+
+const String addToFavorite = api + user + 'add_product_to_favorites/';
+const String removeFromFavorite = api + user + 'remove_product_from_favorites/';
+const String userAddress = api + 'address';
+const String lockOrder = api + order + 'lock_order/';
+const String rateOrder = api + order + 'rate_order/';
+
+const String otpVerification = api + 'verification_code/verify_account/';
 
 /// NEW Version ///
 
-const String GET_START_REQUEST = API + 'mobile/startup';
+const String getStartRequest = api + 'mobile/startup';
 
-const String GET_SUPPORTED_CITIES = API + SUPPORTED_CITY;
+const String getSupportedCities = api + supportedCity;
 
-const String LOGIN_URL = API + 'auth/user_signin';
+const String loginUrl = api + 'auth/user_signin';
 
-const String UPDATE_FIREBASE_TOKEN = API + USER + 'update_firebase_token';
+const String updateFirebaseToken = api + user + 'update_firebase_token';
 
 // BareCode
 
-const String PRODUCT_BARCODE = API + 'product_barcode/';
+const String productBarcode = api + 'product_barcode/';
 
-const String SEARCH_PRODUCT_BY_BARCODE = PRODUCT_BARCODE + SEARCH;
+const String searchProductByBarcode = productBarcode + search;

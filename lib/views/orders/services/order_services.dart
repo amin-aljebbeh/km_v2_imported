@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/orders_response.dart';
 import 'package:kammun_app/utils/tools.dart';
@@ -42,19 +43,19 @@ class OrderServices {
       "quantities": quantities.substring(0, quantities.length - 1),
       "purchase_prices": purchasePrices.toString(),
       "product_prices": productPrices.substring(0, productPrices.length - 1),
-      "user_notes": "$userNotes"
+      "user_notes": userNotes
     };
 
-    var response;
+    Response response;
     try {
       response = await ApiProvider.sendRequest(
-        url: API + '/' + ORDER,
-        method: httpMethods.post,
+        url: api + '/' + order,
+        method: HttpMethods.post,
         body: jsonEncode(orderData),
       );
 
       if (response.data["reason"].toString().contains("discontinued")) {
-        return new OrderResponse(success: false, reason: "discontinued");
+        return OrderResponse(success: false, reason: "discontinued");
       } else {
         var parsedJson = orderResponseFromJson(jsonEncode(response.data));
 
@@ -89,16 +90,16 @@ class OrderServices {
       "quantities": quantities.substring(0, quantities.length - 1),
       "purchase_prices": purchasePrices.toString(),
       "product_prices": productPrices.substring(0, productPrices.length - 1),
-      "user_notes": "$userNotes"
+      "user_notes": userNotes
     };
     orderId = LoadingScreenServices.myOrdersList[OrderServices.orderUnderUpdateIndex].id.toString();
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: API + ORDER + "$orderId", method: httpMethods.put, body: jsonEncode(orderData));
+          url: api + order + orderId, method: HttpMethods.put, body: jsonEncode(orderData));
 
       if (response.data["reason"].toString().contains("discontinued")) {
-        return new OrderResponse(success: false, reason: "discontinued");
+        return OrderResponse(success: false, reason: "discontinued");
       } else {
         var parsedJson = orderResponseFromJson(jsonEncode(response.data));
 
@@ -109,17 +110,17 @@ class OrderServices {
     }
   }
 
-  static Future<String> cancelOrder(String orderId) async {
+  static Future<String> cancelOrderService(String orderId) async {
     Map cancelOrderBody = {
       'order_status_id': 5,
     };
     var response = await ApiProvider.sendRequest(
-      url: CANCEL_ORDER + orderId,
-      method: httpMethods.post,
+      url: cancelOrder + orderId,
+      method: HttpMethods.post,
       body: jsonEncode(cancelOrderBody),
     );
 
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+    if (response.statusCode == successCode && response.data["success"]) {
       return "true";
     } else {
       await Services.getMyOrders();
@@ -127,35 +128,35 @@ class OrderServices {
     }
   }
 
-  static Future<bool> rateOrder({String orderId, String userFeedback, double rating}) async {
+  static Future<bool> rateOrderService({String orderId, String userFeedback, double rating}) async {
     Map ratingOrderBody = {
       'user_feedback': userFeedback,
       "user_delivery_rating": rating.toString(),
       "user_price_rating": rating.toString(),
     };
     var response = await ApiProvider.sendRequest(
-      url: RATE_ORDER + orderId,
-      method: httpMethods.post,
+      url: rateOrder + orderId,
+      method: HttpMethods.post,
       body: jsonEncode(ratingOrderBody),
     );
 
-    if (response.statusCode == SUCCESS_CODE) {
+    if (response.statusCode == successCode) {
       return true;
     } else {
       return false;
     }
   }
 
-  static Future<String> lockOrder(String orderId) async {
+  static Future<String> lockOrderService(String orderId) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: LOCK_ORDER + orderId,
-        method: httpMethods.put,
+        url: lockOrder + orderId,
+        method: HttpMethods.put,
       );
       if (response.data == null) {
         return "null";
       }
-      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      if (response.statusCode == successCode && response.data["success"]) {
         orderUnderUpdateIndex =
             LoadingScreenServices.myOrdersList.indexWhere((order) => order.id == int.parse(orderId));
         SharedPreferences prefs = await SharedPreferences.getInstance();

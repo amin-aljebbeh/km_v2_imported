@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
@@ -8,7 +7,6 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/order_details/order_detail_view.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 import '../../Services.dart';
 import 'package:intl/intl.dart';
 
@@ -16,6 +14,8 @@ import 'rating_view.dart';
 import 'services/order_services.dart';
 
 class OrdersView extends StatefulWidget {
+  const OrdersView({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return OrdersViewState();
@@ -40,7 +40,7 @@ class OrdersViewState extends State<OrdersView> {
   int page = 1;
   bool theEndOfOrders = false;
 
-  List<OrdersOriginalData> orderDataList = new List<OrdersOriginalData>();
+  List<OrdersOriginalData> orderDataList = [];
   _getOrder() async {
     setState(() {
       if (page == 1) orderLoaded = false;
@@ -49,16 +49,16 @@ class OrdersViewState extends State<OrdersView> {
     });
     final orderList = await Services.getMyOrders(pageNumber: page);
     if (orderList != null) {
-      if (orderList.length == 0) {
+      if (orderList.isEmpty) {
         setState(() {
           LoadingScreenServices.myOrdersList = orderDataList;
-          if (LoadingScreenServices.myOrdersList.length != 0) theEndOfOrders = true;
+          if (LoadingScreenServices.myOrdersList.isNotEmpty) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
         });
       } else {
-        if (this.mounted) {
+        if (mounted) {
           setState(() {
             orderDataList.addAll(orderList);
             LoadingScreenServices.myOrdersList = orderDataList;
@@ -87,9 +87,9 @@ class OrdersViewState extends State<OrdersView> {
         resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Padding(
-              padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+              padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
               child: !orderLoaded
-                  ? Center(
+                  ? const Center(
                       child: Loader(),
                     )
                   : Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
@@ -133,19 +133,17 @@ class OrdersViewState extends State<OrdersView> {
                           ),
                         ],
                       ),
-                      orderDataList.length == 0
-                          ? Container(
-                              child: Padding(
-                                padding: EdgeInsets.only(top: screenHeight * 0.4),
-                                child: Center(
-                                  child: Text(
-                                    "لا يوجد أي طلبات سابقة",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: ColorUtils.greyColor,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      fontSize: 20.0,
-                                    ),
+                      orderDataList.isEmpty
+                          ? Padding(
+                              padding: EdgeInsets.only(top: screenHeight * 0.4),
+                              child: Center(
+                                child: Text(
+                                  "لا يوجد أي طلبات سابقة",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: ColorUtils.greyColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 20.0,
                                   ),
                                 ),
                               ),
@@ -176,7 +174,7 @@ class OrdersViewState extends State<OrdersView> {
                                   DateFormat('kk:mm - yyyy-MM-dd').format(orderDataList[index].createdAt);
                               return Column(
                                 children: <Widget>[
-                                  new GestureDetector(
+                                  GestureDetector(
                                     behavior: HitTestBehavior.translucent,
                                     onTap: () => _onTileClicked(index),
                                     child: OrdersViewCard(
@@ -227,7 +225,7 @@ class OrdersViewState extends State<OrdersView> {
                           ? Container(
                               height: 50.0,
                               color: Colors.transparent,
-                              child: Center(
+                              child: const Center(
                                 child: Loader(),
                               ),
                             )
@@ -241,12 +239,12 @@ class OrdersViewState extends State<OrdersView> {
     if (orderDataList[index].underUpdate == "1") {
       isOrderUnderUpdate = true;
     }
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+    final GestureDetector showConfirmButtonWithGesture = GestureDetector(
       onTap: () async {
         setState(() {
           orderLoaded = false;
         });
-        String x = await OrderServices.cancelOrder(orderDataList[index].id.toString());
+        String x = await OrderServices.cancelOrderService(orderDataList[index].id.toString());
         if (x == "true") {
           setState(() {
             orderLoaded = true;
@@ -271,14 +269,14 @@ class OrdersViewState extends State<OrdersView> {
           //     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
         }
       },
-      child: new Container(
+      child: Container(
         height: 40.0,
         decoration:
-            new BoxDecoration(color: Colors.red[700], borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+            BoxDecoration(color: Colors.red[700], borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             StringUtils.cancelOrder,
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
@@ -288,8 +286,8 @@ class OrdersViewState extends State<OrdersView> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0), child: showConfirmButtonWithGesture);
+    return Padding(
+        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0), child: showConfirmButtonWithGesture);
   }
 
   _moveOrderProductsToCart({int orderIndex}) async {
@@ -299,7 +297,7 @@ class OrdersViewState extends State<OrdersView> {
     String productsQuantity = "";
 
     for (int i = 0; i < LoadingScreenServices.myOrdersList[orderIndex].products.length; i++) {
-      ProductData product = new ProductData();
+      ProductData product = ProductData();
 
       product.id = LoadingScreenServices.myOrdersList[orderIndex].products[i].id;
       product.images = LoadingScreenServices.myOrdersList[orderIndex].products[i].images;
@@ -349,16 +347,16 @@ class OrdersViewState extends State<OrdersView> {
   }
 
   Widget _showRatingButton(BuildContext ctx, int orderIndex, double screenHeight) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+    final GestureDetector showConfirmButtonWithGesture = GestureDetector(
       onTap: () => _settingModalBottomSheet(ctx, orderIndex, screenHeight),
-      child: new Container(
+      child: Container(
         height: 40.0,
-        decoration: new BoxDecoration(
-            color: ColorUtils.kmColors, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+        decoration:
+            BoxDecoration(color: ColorUtils.kmColors, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             StringUtils.ratingOrder,
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
@@ -368,18 +366,18 @@ class OrdersViewState extends State<OrdersView> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0), child: showConfirmButtonWithGesture);
+    return Padding(
+        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0), child: showConfirmButtonWithGesture);
   }
 
   Widget _showEditButton(int index) {
-    final GestureDetector showConfirmButtonWithGesture = new GestureDetector(
+    final GestureDetector showConfirmButtonWithGesture = GestureDetector(
       onTap: () async {
         setState(() {
           orderLoaded = false;
           errorMessage = false;
         });
-        String x = await OrderServices.lockOrder(orderDataList[index].id.toString());
+        String x = await OrderServices.lockOrderService(orderDataList[index].id.toString());
         if (x != "null") {
           if (x == "true") {
             setState(() {
@@ -418,14 +416,13 @@ class OrdersViewState extends State<OrdersView> {
           });
         }
       },
-      child: new Container(
+      child: Container(
         height: 40.0,
-        decoration:
-            new BoxDecoration(color: Colors.green, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+        decoration: const BoxDecoration(color: Colors.green, borderRadius: BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             StringUtils.editOrder,
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
@@ -435,8 +432,8 @@ class OrdersViewState extends State<OrdersView> {
       ),
     );
 
-    return new Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0), child: showConfirmButtonWithGesture);
+    return Padding(
+        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 15.0), child: showConfirmButtonWithGesture);
   }
 
   void _onTileClicked(int index) {
@@ -444,8 +441,8 @@ class OrdersViewState extends State<OrdersView> {
 
     Navigator.push(
         context,
-        new MaterialPageRoute(
-            builder: (context) => new OrderDetailView(
+        MaterialPageRoute(
+            builder: (context) => OrderDetailView(
                   ordersAry: ordAry,
                   subTotal: int.parse(orderDataList[index].total.toString().split(".")[0]) -
                       int.parse(orderDataList[index].supportedCityCost.toString().split(".")[0]) -

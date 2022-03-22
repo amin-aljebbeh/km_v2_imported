@@ -4,23 +4,19 @@ class Company {
   Company({
     this.headers,
     this.original,
-    this.exception,
   });
 
   Headers headers;
   CompanyOriginal original;
-  dynamic exception;
 
   factory Company.fromJson(Map<String, dynamic> json) => Company(
         headers: Headers.fromJson(json["headers"]),
         original: CompanyOriginal.fromJson(json["original"]),
-        exception: json["exception"],
       );
 
   Map<String, dynamic> toJson() => {
         "headers": headers.toJson(),
         "original": original.toJson(),
-        "exception": exception,
       };
 }
 

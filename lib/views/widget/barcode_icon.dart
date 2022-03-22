@@ -8,7 +8,7 @@ class BarcodeIcon extends StatelessWidget {
   final Color color;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  BarcodeIcon({
+  const BarcodeIcon({
     Key key,
     this.productId,
     this.onPressed,
@@ -29,7 +29,7 @@ class BarcodeIcon extends StatelessWidget {
         Navigator.push(
           scaffoldKey.currentContext,
           MaterialPageRoute(
-            builder: (screenContext) => BarCodeScreen(),
+            builder: (screenContext) => const BarCodeScreen(),
           ),
         );
       },

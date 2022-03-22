@@ -6,31 +6,33 @@ import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/supported_city/services/supported_city_services.dart';
 
 class SupportedCityView extends StatefulWidget {
+  const SupportedCityView({Key key}) : super(key: key);
+
   @override
   _SupportedCityViewState createState() => _SupportedCityViewState();
 }
 
 class _SupportedCityViewState extends State<SupportedCityView> {
-  TextEditingController _searchBarController = new TextEditingController();
+  final TextEditingController _searchBarController = TextEditingController();
   String filter;
   bool isLoading = false;
   bool isError = false;
   String errorMessage = "حدث خطأ أثناء محاولة جلب البيانات يرجى التحقق من إتصالك بالإانترنت و المحاولة مجدداً";
 
   Widget _showSearchTxtFld() {
-    final GestureDetector searchButtonWithGesture = new GestureDetector(
+    final GestureDetector searchButtonWithGesture = GestureDetector(
       child: Padding(
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-        child: new Container(
+        child: Container(
           height: 40.0,
           decoration:
-              new BoxDecoration(color: Colors.white, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
+              const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(6.0))),
           child: TextField(
             controller: _searchBarController,
             onSubmitted: (_) {},
             cursorColor: ColorUtils.primaryColor,
             decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
+              prefixIcon: const Icon(Icons.search),
               contentPadding: const EdgeInsets.only(top: 4.0),
               hintText: "ابحث عن منطقتك",
               hintStyle: TextStyle(
@@ -42,7 +44,8 @@ class _SupportedCityViewState extends State<SupportedCityView> {
       ),
     );
 
-    return new Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
+    return Padding(
+        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: searchButtonWithGesture);
   }
 
   @override
@@ -63,13 +66,13 @@ class _SupportedCityViewState extends State<SupportedCityView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text(
+          title: Text(
             "$title",
             style: TextStyle(
               fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
           ),
-          content: new Text(
+          content: Text(
             "$body",
             style: TextStyle(
               fontFamily: StringUtils.fontFamilyHKGrotesk,
@@ -77,8 +80,8 @@ class _SupportedCityViewState extends State<SupportedCityView> {
           ),
           scrollable: true,
           actions: <Widget>[
-            new FlatButton(
-              child: new Text(
+            FlatButton(
+              child: Text(
                 "إغلاق",
                 style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
               ),
@@ -122,7 +125,7 @@ class _SupportedCityViewState extends State<SupportedCityView> {
       isLoading = true;
     });
 
-    bool success = await SupportedCityServices.updateUserSupportedCity(supportedCityId: supportedCityId);
+    bool success = await SupportedCityServices.updateUserSupportedCityService(supportedCityId: supportedCityId);
     if (success) {
       setState(() {
         isLoading = false;
@@ -154,9 +157,9 @@ class _SupportedCityViewState extends State<SupportedCityView> {
         title: _showSearchTxtFld(),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.only(top: 20),
         child: isLoading
-            ? Center(child: Loader())
+            ? const Center(child: Loader())
             : Column(
                 children: [
                   isError

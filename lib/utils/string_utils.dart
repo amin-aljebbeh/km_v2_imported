@@ -83,5 +83,5 @@ class StringUtils {
   static String logout = "تسجيل الخروج";
 
   //Messages:
-  final oCcy = new NumberFormat("#,##0", "en_US");
+  final oCcy = NumberFormat("#,##0", "en_US");
 }

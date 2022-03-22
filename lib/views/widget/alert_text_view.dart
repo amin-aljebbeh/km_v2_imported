@@ -12,8 +12,10 @@ class AlertTextView extends StatelessWidget {
   final double headerTextSize;
   final double messageTextSize;
 
-  AlertTextView(this.text, this.textColor, this.insideBorderColor, this.textWeight, this.successText,
-      this.headerTextColor, this.headerTextSize, this.messageTextSize);
+  const AlertTextView(this.text, this.textColor, this.insideBorderColor, this.textWeight, this.successText,
+      this.headerTextColor, this.headerTextSize, this.messageTextSize,
+      {Key key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class AlertTextView extends StatelessWidget {
                   text: successText,
                   style: TextStyle(
                       color: headerTextColor,
-                      fontSize: headerTextSize != null ? headerTextSize : 15,
+                      fontSize: headerTextSize ?? 15,
                       fontWeight: FontWeight.w700,
                       height: 1.5,
                       fontFamily: StringUtils.fontFamilyHKGrotesk),
@@ -41,7 +43,7 @@ class AlertTextView extends StatelessWidget {
                   text: text,
                   style: TextStyle(
                       color: textColor,
-                      fontSize: messageTextSize != null ? messageTextSize : textSize,
+                      fontSize: messageTextSize ?? textSize,
                       height: 1.5,
                       fontWeight: FontWeight.w400,
                       fontFamily: StringUtils.fontFamilyHKGrotesk),

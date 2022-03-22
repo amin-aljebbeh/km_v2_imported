@@ -5,7 +5,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 
 class UpdateScreen extends StatelessWidget {
-  static final String routeName = "/update";
+  static const String routeName = "/update";
+
+  const UpdateScreen({Key key}) : super(key: key);
 
   _iosUpdateLink() async {
     String url = LoadingScreen.updateUrl;
@@ -28,16 +30,16 @@ class UpdateScreen extends StatelessWidget {
   }
 
   Widget _showAddAddressButton() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
+    final GestureDetector loginButtonWithGesture = GestureDetector(
       onTap: Platform.isAndroid ? () => _androidUpdateLink() : () => _iosUpdateLink(),
-      child: new Container(
+      child: Container(
         height: 50.0,
-        decoration: new BoxDecoration(
-            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+        decoration: BoxDecoration(
+            color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             " التحديث الآن ",
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.w500,
@@ -47,7 +49,8 @@ class UpdateScreen extends StatelessWidget {
       ),
     );
 
-    return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
+    return Padding(
+        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
   }
 
   @override

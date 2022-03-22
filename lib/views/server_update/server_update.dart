@@ -4,7 +4,9 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 
 class ServerUpdate extends StatelessWidget {
-  static final String routeName = "/server-update";
+  static const String routeName = "/server-update";
+
+  const ServerUpdate({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class ServerUpdate extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      "${LoadingScreenServices.systemMaintenanceMessages}",
+                      LoadingScreenServices.systemMaintenanceMessages,
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -58,16 +60,16 @@ class ServerUpdate extends StatelessWidget {
 }
 
 Widget _showRestartButton(context) {
-  final GestureDetector loginButtonWithGesture = new GestureDetector(
+  final GestureDetector loginButtonWithGesture = GestureDetector(
     onTap: () => KammunRestart.restartApp(context),
-    child: new Container(
+    child: Container(
       height: 50.0,
-      decoration: new BoxDecoration(
-          color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-      child: new Center(
-        child: new Text(
+      decoration: BoxDecoration(
+          color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+      child: Center(
+        child: Text(
           "المحاولة من جديد",
-          style: new TextStyle(
+          style: TextStyle(
               color: Colors.white,
               fontSize: 20.0,
               fontWeight: FontWeight.w500,
@@ -77,5 +79,5 @@ Widget _showRestartButton(context) {
     ),
   );
 
-  return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
+  return Padding(padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
 }

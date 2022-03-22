@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/cart/CartViewFinal.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
-import 'package:kammun_app/views/widget/kammun_button.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 import 'services/cart_services.dart';
 
 class CartView extends StatefulWidget {
   final bool isFromUpdateOrder;
-  CartView({this.isFromUpdateOrder = false});
+  const CartView({Key key, this.isFromUpdateOrder = false}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
     return CartViewState();
@@ -28,7 +24,7 @@ class CartViewState extends State<CartView> {
   List<ProductData> orderArray;
   int subtotal = 0;
   static List<int> cards = [];
-  TextEditingController _userNotes = TextEditingController();
+  final TextEditingController _userNotes = TextEditingController();
 
   makeCards() {
     cards = [];
@@ -57,16 +53,16 @@ class CartViewState extends State<CartView> {
   }
 
   Widget _okButton() {
-    final GestureDetector loginButtonWithGesture = new GestureDetector(
+    final GestureDetector loginButtonWithGesture = GestureDetector(
       onTap: () => Navigator.of(context).pop(),
-      child: new Container(
+      child: Container(
         height: 50.0,
-        decoration: new BoxDecoration(
-            color: ColorUtils.primaryColor, borderRadius: new BorderRadius.all(Radius.circular(6.0))),
-        child: new Center(
-          child: new Text(
+        decoration: BoxDecoration(
+            color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+        child: Center(
+          child: Text(
             "موافق",
-            style: new TextStyle(
+            style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -76,7 +72,8 @@ class CartViewState extends State<CartView> {
       ),
     );
 
-    return Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
+    return Padding(
+        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
   }
 
   _showUpdateOrderInstruction({BuildContext context}) {
@@ -85,7 +82,7 @@ class CartViewState extends State<CartView> {
         builder: (BuildContext context) {
           return AlertDialog(
             content: Stack(
-              overflow: Overflow.visible,
+              clipBehavior: Clip.none,
               children: <Widget>[
                 Column(
                   mainAxisSize: MainAxisSize.min,
@@ -153,7 +150,7 @@ class CartViewState extends State<CartView> {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
+            padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -172,7 +169,7 @@ class CartViewState extends State<CartView> {
                     ],
                   ),
                 ),
-                CartServices.cartProducts.length == 0
+                CartServices.cartProducts.isEmpty
                     ? Padding(
                         padding: EdgeInsets.only(top: screenHeight * 0.3),
                         child: Center(
@@ -196,21 +193,18 @@ class CartViewState extends State<CartView> {
                     shrinkWrap: true,
                     itemCount: orderArray == null ? 0 : cards.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return new GestureDetector(
+                      return GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {},
-                        child: Container(
-                          //  color: Theme.of(context).primaryColorLight,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 0, right: 0, top: 0),
-                            child: cardBody(index, context),
-                          ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
+                          child: cardBody(index, context),
                         ),
                       );
                     },
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -231,15 +225,15 @@ class CartViewState extends State<CartView> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 KammunButton(
                   color: ColorUtils.primaryColor,
                   onTap: () {
                     showMyDialog(
                       title: 'إضافة ملاحظة',
-                      dialogButtons: List<DialogButton>(),
+                      dialogButtons: [],
                       content: Stack(
-                        overflow: Overflow.visible,
+                        clipBehavior: Clip.none,
                         children: <Widget>[
                           Positioned(
                             right: -40.0,
@@ -248,7 +242,7 @@ class CartViewState extends State<CartView> {
                               onTap: () {
                                 Navigator.of(context).pop();
                               },
-                              child: CircleAvatar(
+                              child: const CircleAvatar(
                                 child: Icon(Icons.close),
                                 backgroundColor: Colors.red,
                               ),
@@ -271,14 +265,14 @@ class CartViewState extends State<CartView> {
                               Container(
                                 padding: const EdgeInsets.only(left: 8, right: 8),
                                 decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5.0) //         <--- border radius here
-                                            ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5.0) //         <--- border radius here
+                                        ),
                                     border: Border.all(
                                       width: 2,
                                       color: ColorUtils.kmColors,
                                     )),
-                                child: new TextField(
+                                child: TextField(
                                   controller: _userNotes,
                                   textAlign: TextAlign.right,
                                   keyboardType: TextInputType.multiline,
@@ -310,8 +304,8 @@ class CartViewState extends State<CartView> {
                     children: <Widget>[
                       Container(
                         alignment: Alignment.center,
-                        padding: EdgeInsets.only(top: 0, bottom: 0, right: 15),
-                        child: Icon(
+                        padding: const EdgeInsets.only(top: 0, bottom: 0, right: 15),
+                        child: const Icon(
                           Icons.add_box_outlined,
                           color: Colors.white,
                           size: 32,
@@ -320,24 +314,20 @@ class CartViewState extends State<CartView> {
                       Expanded(
                         child: Align(
                           alignment: Alignment.center,
-                          child: Container(
-                            child: Text(
-                              'إضافة ملاحظة',
-                              textAlign: TextAlign.start,
-                              style: new TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk),
-                            ),
+                          child: Text(
+                            'إضافة ملاحظة',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk),
                           ),
                         ),
                       ),
-                      Container(
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.transparent,
-                          size: 32,
-                        ),
+                      const Icon(
+                        Icons.add,
+                        color: Colors.transparent,
+                        size: 32,
                       ),
                     ],
                   ),
@@ -357,175 +347,167 @@ class CartViewState extends State<CartView> {
   }
 
   Widget cardBody(int index, BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              new Container(
-                width: 100.0,
-                height: 100.0,
-                decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Hero(
-                    tag: index + 100,
-                    child: FadeInImage(
-                        image: orderArray[index].images.length != 0
-                            ? NetworkImage(
-                                LoadingScreenServices.imagePrefixUrl +
-                                    orderArray[index].images[0].imageFileName.toString(),
-                              )
-                            : AssetImage("assets/kmIcon.png"),
-                        width: MediaQuery.of(context).size.width,
-                        height: 120,
-                        fadeInCurve: Curves.fastOutSlowIn,
-                        placeholder: AssetImage("assets/kmIcon.png"),
-                        fit: BoxFit.contain),
-                  ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Container(
+              width: 100.0,
+              height: 100.0,
+              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Hero(
+                  tag: index + 100,
+                  child: FadeInImage(
+                      image: orderArray[index].images.isNotEmpty
+                          ? NetworkImage(
+                              LoadingScreenServices.imagePrefixUrl +
+                                  orderArray[index].images[0].imageFileName.toString(),
+                            )
+                          : const AssetImage("assets/kmIcon.png"),
+                      width: MediaQuery.of(context).size.width,
+                      height: 120,
+                      fadeInCurve: Curves.fastOutSlowIn,
+                      placeholder: const AssetImage("assets/kmIcon.png"),
+                      fit: BoxFit.contain),
                 ),
               ),
-              // SizedBox(width: 10),
-              SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  child: Wrap(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Wrap(
-                              children: [
-                                Text(
-                                  orderArray[index].name,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 6),
+            ),
+            // SizedBox(width: 10),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Wrap(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Wrap(
+                          children: [
                             Text(
-                              orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
+                              orderArray[index].name,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorUtils.greyColor,
+                                  fontWeight: FontWeight.w700,
                                   fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 17),
+                                  fontSize: 18),
                             ),
-                            SizedBox(height: 8),
-                            Text(
-                                "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorUtils.primaryColor,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    fontSize: 18)),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    width: 30,
-                    height: 30,
-                    decoration:
-                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          orderArray[index].productCount += 1;
-                          subtotal += (int.parse(orderArray[index].price.split(".")[0]));
-                        });
-                        _cartChanged();
-                      },
-                      child: Image.asset(
-                        "assets/add.png",
-                        width: 60,
-                        height: 60,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(orderArray[index].productCount.toString(),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          fontSize: 18)),
-                  SizedBox(height: 5),
-                  Container(
-                    width: 30,
-                    height: 30,
-                    decoration:
-                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          if (orderArray[index].productCount > 1) {
-                            subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
-                            orderArray[index].productCount = orderArray[index].productCount - 1;
-                          } else if (orderArray[index].productCount == 1) {
-                            subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
-                            onrRemove(index);
-                            CartServices.cartProducts.removeAt(index);
-                          }
-                        });
-                        _cartChanged();
-                      },
-                      child: orderArray[index].productCount > 1
-                          ? Image.asset(
-                              "assets/remove.png",
-                              width: 60,
-                              height: 60,
-                            )
-                          : Icon(
-                              Icons.delete_forever,
-                              size: 30,
-                              color: Colors.red,
-                            ),
+                        const SizedBox(height: 6),
+                        Text(
+                          orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: ColorUtils.greyColor,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 17),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                            "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: ColorUtils.primaryColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 18)),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ],
-          ),
-          SizedBox(height: 4),
-          Divider(
-            thickness: 3,
-          )
-        ],
-      ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        orderArray[index].productCount += 1;
+                        subtotal += (int.parse(orderArray[index].price.split(".")[0]));
+                      });
+                      _cartChanged();
+                    },
+                    child: Image.asset(
+                      "assets/add.png",
+                      width: 60,
+                      height: 60,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(orderArray[index].productCount.toString(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).primaryColorDark,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontSize: 18)),
+                const SizedBox(height: 5),
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        if (orderArray[index].productCount > 1) {
+                          subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
+                          orderArray[index].productCount = orderArray[index].productCount - 1;
+                        } else if (orderArray[index].productCount == 1) {
+                          subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
+                          onrRemove(index);
+                          CartServices.cartProducts.removeAt(index);
+                        }
+                      });
+                      _cartChanged();
+                    },
+                    child: orderArray[index].productCount > 1
+                        ? Image.asset(
+                            "assets/remove.png",
+                            width: 60,
+                            height: 60,
+                          )
+                        : const Icon(
+                            Icons.delete_forever,
+                            size: 30,
+                            color: Colors.red,
+                          ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        const Divider(
+          thickness: 3,
+        )
+      ],
     );
   }
 
   // Function to be called on click
 
   void _showConfirmOrderBtnTapped() {
-    if (CartServices.cartProducts.length > 0) {
+    if (CartServices.cartProducts.isNotEmpty) {
       if (OrderServices.orderUnderUpdateIndex == -1) {
         Navigator.push(
           context,
-          new MaterialPageRoute(
-            builder: (context) => new DeliverToView(),
+          MaterialPageRoute(
+            builder: (context) => const DeliverToView(),
           ),
         );
       } else {
         if (DeliveryMethodServices.deliveryMethodsList.length != 1) {
-          Navigator.push(context, new MaterialPageRoute(builder: (context) => new DeliveryMethodView()));
-        } else {
-          Navigator.push(context, new MaterialPageRoute(builder: (context) => new CartViewFinal()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const DeliveryMethodView()));
         }
       }
     } else {

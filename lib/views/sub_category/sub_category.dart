@@ -11,7 +11,7 @@ import 'package:responsive_flutter/responsive_flutter.dart';
 class SubCategory extends StatefulWidget {
   List<CategoryOriginalData> subCategory = [];
 
-  SubCategory({this.subCategory});
+  SubCategory({Key key, this.subCategory}) : super(key: key);
 
   @override
   _SubCategoryState createState() => _SubCategoryState();
@@ -24,7 +24,7 @@ class _SubCategoryState extends State<SubCategory> {
   @override
   Widget build(BuildContext context) {
     void _onTileClicked(int index) {
-      List<CategoryOriginalData> subCategoryList = List<CategoryOriginalData>();
+      List<CategoryOriginalData> subCategoryList = [];
 
       for (int i = 0; i < LoadingScreenServices.categoryList.length; i++) {
         if (LoadingScreenServices.categoryList[i].parentCategoryId.toString() == index.toString()) {
@@ -32,11 +32,11 @@ class _SubCategoryState extends State<SubCategory> {
         }
       }
 
-      if (subCategoryList.length > 0) {
+      if (subCategoryList.isNotEmpty) {
         Navigator.push(
           context,
-          new MaterialPageRoute(
-            builder: (context) => new SubCategory(
+          MaterialPageRoute(
+            builder: (context) => SubCategory(
               subCategory: subCategoryList,
             ),
           ),
@@ -44,8 +44,8 @@ class _SubCategoryState extends State<SubCategory> {
       } else {
         Navigator.push(
           context,
-          new MaterialPageRoute(
-            builder: (context) => new ProductsView(
+          MaterialPageRoute(
+            builder: (context) => ProductsView(
               categoryId: index.toString(),
             ),
           ),
@@ -60,7 +60,7 @@ class _SubCategoryState extends State<SubCategory> {
           leading: Padding(
             padding: const EdgeInsets.only(top: 8.0, right: 25),
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.shopping_cart,
                 size: 35,
                 color: Colors.white,
@@ -70,7 +70,7 @@ class _SubCategoryState extends State<SubCategory> {
               },
             ),
           ),
-          backgroundColor: Color.fromARGB(255, 210, 178, 2),
+          backgroundColor: const Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false,
           flexibleSpace: SafeArea(
             child: Column(
@@ -79,7 +79,7 @@ class _SubCategoryState extends State<SubCategory> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Opacity(
+                    const Opacity(
                       opacity: 0.0,
                       child: Icon(
                         Icons.home,
@@ -87,12 +87,12 @@ class _SubCategoryState extends State<SubCategory> {
                         size: 40,
                       ),
                     ),
-                    AppBarKammunImage(),
+                    const AppBarKammunImage(),
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0, left: 0),
                       child: IconButton(
                         onPressed: () => Navigator.of(context).pop(true),
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.white,
                           size: 40,
@@ -109,9 +109,9 @@ class _SubCategoryState extends State<SubCategory> {
             ),
           ),
         ),
-        preferredSize: Size.fromHeight(105),
+        preferredSize: const Size.fromHeight(105),
       ),
-      body: widget.subCategory.length == 0
+      body: widget.subCategory.isEmpty
           ? Align(
               alignment: Alignment.center,
               child: Padding(
@@ -135,7 +135,7 @@ class _SubCategoryState extends State<SubCategory> {
                 itemBuilder: (BuildContext context, int index) {
                   var eachProduct = widget.subCategory[index];
 
-                  return new GestureDetector(
+                  return GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () => _onTileClicked(widget.subCategory[index].id),
                     child: Card(
@@ -147,38 +147,38 @@ class _SubCategoryState extends State<SubCategory> {
                         ),
                       ),
                       elevation: 4,
-                      margin: EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
                       child: Column(
                         children: <Widget>[
                           Stack(
                             children: <Widget>[
                               ClipRRect(
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(30),
                                 ),
                                 child: FadeInImage(
                                   image: AdvImageCache(
                                     LoadingScreenServices.imagePrefixUrl + eachProduct.imageFileName,
                                     useMemCache: true,
-                                    diskCacheExpire: Duration(minutes: 1),
+                                    diskCacheExpire: const Duration(minutes: 1),
                                   ),
                                   width: MediaQuery.of(context).size.width,
                                   fadeInDuration: const Duration(seconds: 1),
                                   height: MediaQuery.of(context).size.height * 0.18,
                                   fadeInCurve: Curves.fastOutSlowIn,
-                                  placeholder: AssetImage("assets/kmlogoo.png"),
+                                  placeholder: const AssetImage("assets/kmlogoo.png"),
                                   fit: BoxFit.cover,
                                 ),
                               ),
                               ClipRRect(
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(30),
                                 ),
                                 child: Container(
                                   height: MediaQuery.of(context).size.height * 0.18,
                                   width: double.infinity,
                                   color: Colors.black54,
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                     vertical: 5,
                                     horizontal: 20,
                                   ),
