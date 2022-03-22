@@ -20,7 +20,7 @@ class CounterOtp extends StatefulWidget {
   CounterOtp(this.counter, this.counterMinn, this.onRequestSent, {Key key}) : super(key: key);
 
   @override
-  _CounterOtpState createState() => _CounterOtpState(counter, counterMinn);
+  _CounterOtpState createState() => _CounterOtpState();
 }
 
 class _CounterOtpState extends State<CounterOtp> {
@@ -29,10 +29,6 @@ class _CounterOtpState extends State<CounterOtp> {
   String x = "";
   bool loadingScreen = false;
   int alertMessageState = 0;
-
-  int counter2;
-  int counterMin;
-  _CounterOtpState(this.counter2, this.counterMin);
 
   Future fetchOtp() async {
     try {
@@ -55,8 +51,8 @@ class _CounterOtpState extends State<CounterOtp> {
         SmsAutoFill().listenForCode;
         setState(() {
           loadingScreen = false;
-          counter2 = 59;
-          counterMin = 0;
+          widget.counter = 59;
+          widget.counterMinn = 0;
         });
         widget.onRequestSent(true);
       } else {
@@ -76,17 +72,17 @@ class _CounterOtpState extends State<CounterOtp> {
 
   void startTimer() {
     Timer(const Duration(seconds: 1), () {
-      if (counter2 == 0 && counterMin > 0) {
+      if (widget.counter == 0 && widget.counterMinn > 0) {
         if (mounted) {
           setState(() {
-            counterMin--;
-            counter2 = 59;
+            widget.counterMinn--;
+            widget.counter = 59;
           });
         }
-      } else if (counter2 > 0) {
+      } else if (widget.counter > 0) {
         if (mounted) {
           setState(() {
-            counter2--;
+            widget.counter--;
           });
         }
       }
@@ -110,7 +106,7 @@ class _CounterOtpState extends State<CounterOtp> {
               ),
             ],
           )
-        : counter2 > 0 || counterMin > 0
+        : widget.counter > 0 || widget.counterMinn > 0
             ? Container(
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(
@@ -134,7 +130,8 @@ class _CounterOtpState extends State<CounterOtp> {
                     ],
                   ),
                   trailing: Text(
-                    "0$counterMin:" "${counter2 < 10 ? "0" "$counter2" : "$counter2"}",
+                    "0${widget.counterMinn}:"
+                    "${widget.counter < 10 ? "0" "${widget.counter}" : "${widget.counter}"}",
                     style: const TextStyle(
                       fontWeight: FontWeight.w500,
                     ),

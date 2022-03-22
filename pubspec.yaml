@@ -39,7 +39,7 @@ dependencies:
   toast: ^0.1.5
   shared_preferences: ^2.0.13
   firebase_core: ^1.13.1
-  firebase_messaging: ^11.2.10
+  firebase_messaging: ^11.2.11 #10.2.8
   full_screen_image: ^1.0.2
   url_launcher: ^6.0.20
   package_info: ^2.0.2

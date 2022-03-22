@@ -197,22 +197,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                           Align(
                               alignment: Alignment.center,
-                              child: FlatButton(
+                              child: Padding(
                                 padding: const EdgeInsets.only(left: 30.0, top: 10.0),
-                                child: Text(StringUtils.addNewAddress,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: ColorUtils.greyColor,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                        fontSize: 17)),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const AddAddressView(
-                                                isFromDeliveryScreen: false,
-                                              )));
-                                },
+                                child: TextButton(
+                                  child: Text(StringUtils.addNewAddress,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: ColorUtils.greyColor,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                          fontSize: 17)),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => const AddAddressView(
+                                                  isFromDeliveryScreen: false,
+                                                )));
+                                  },
+                                ),
                               )),
                         ],
                       ),

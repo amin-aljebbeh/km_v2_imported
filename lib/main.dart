@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -19,14 +18,6 @@ import 'views/server_update/server_update.dart';
 Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
-      options: const FirebaseOptions(
-        apiKey: "XXX",
-        appId: "XXX",
-        messagingSenderId: "XXX",
-        projectId: "XXX",
-      ),
-    );
   } catch (e) {
     /**/
   }
@@ -104,21 +95,21 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           LoginScreen.routeName: (_) => const LoginScreen(),
-          '/home': (_) => const HomeView(routeIndex: 0),
+          '/home': (_) => HomeView(routeIndex: 0),
           '/myApp': (_) => const MyApp(),
           'loading': (_) => const LoadingScreen(),
-          '/favoraites': (_) => const HomeView(routeIndex: 3),
+          '/favoraites': (_) => HomeView(routeIndex: 3),
           OTPVerification.routeName: (_) => const OTPVerification(),
           ServerUpdate.routeName: (_) => const ServerUpdate(),
           '/supportedCity': (_) => const SupportedCityView(),
           '/thankyou': (_) => const ThankYouView(),
           '/delivery': (_) => const DeliverToView(),
-          '/cart': (_) => const HomeView(routeIndex: 1),
-          '/cartFromUpdate': (_) => const HomeView(
+          '/cart': (_) => HomeView(routeIndex: 1),
+          '/cartFromUpdate': (_) => HomeView(
                 routeIndex: 1,
                 isFromUpdateOrder: true,
               ),
-          '/orders': (_) => const HomeView(routeIndex: 2),
+          '/orders': (_) => HomeView(routeIndex: 2),
           '/profile': (_) => const ProfileScreen(),
         },
         theme: CustomTheme.of(context),

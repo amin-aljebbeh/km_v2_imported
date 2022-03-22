@@ -294,13 +294,14 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                       controller: controller,
                                       options: GroupButtonOptions(
                                         borderRadius: const BorderRadius.all(
-                                            Radius.circular(5.0) //         <--- border radius here
+                                            Radius.circular(25.0) //         <--- border radius here
                                             ),
                                         selectedBorderColor: ColorUtils.vegetableColor,
+                                        selectedColor: ColorUtils.vegetableColor,
                                         groupingType: GroupingType.column,
                                         textAlign: TextAlign.center,
-                                        selectedColor: ColorUtils.vegetableColor,
                                         unselectedTextStyle: TextStyle(
+                                            color: Colors.black,
                                             fontSize: 20.0,
                                             fontWeight: FontWeight.w500,
                                             fontFamily: StringUtils.fontFamilyHKGrotesk),

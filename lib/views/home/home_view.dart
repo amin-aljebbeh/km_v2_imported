@@ -9,26 +9,21 @@ import 'package:kammun_app/views/store/store_view.dart';
 import 'package:kammun_app/views/widget/dialog_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: must_be_immutable
 class HomeView extends StatefulWidget {
-  final int routeIndex;
-  final bool isFromUpdateOrder;
+  int routeIndex;
+  bool isFromUpdateOrder;
   final dynamic notificationValue;
 
-  const HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue})
-      : super(key: key);
+  HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return HomeViewState(routeIndex, isFromUpdateOrder);
+    return HomeViewState();
   }
 }
 
 class HomeViewState extends State<HomeView> {
-  int _selectedIndex;
-  bool _isFromUpdateOrder;
-
-  HomeViewState(this._selectedIndex, this._isFromUpdateOrder);
-
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   String firebaseToken;
 
@@ -141,13 +136,13 @@ class HomeViewState extends State<HomeView> {
     final _tabs = [
       const StoreView(),
       CartView(
-        isFromUpdateOrder: _isFromUpdateOrder,
+        isFromUpdateOrder: widget.isFromUpdateOrder,
       ),
       const OrdersView(),
       const Favoraites(),
     ]; /*Color.fromARGB(255, 53, 99, 124)*/
     return Scaffold(
-      body: _tabs[_selectedIndex],
+      body: _tabs[widget.routeIndex],
       bottomNavigationBar: BottomNavigationBar(
         unselectedFontSize: 0,
         selectedFontSize: 0,
@@ -295,7 +290,7 @@ class HomeViewState extends State<HomeView> {
             label: '',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: widget.routeIndex,
         type: BottomNavigationBarType.fixed,
         fixedColor: Colors.white,
         onTap: _onItemTapped,
@@ -305,8 +300,8 @@ class HomeViewState extends State<HomeView> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
-      _isFromUpdateOrder = false;
+      widget.routeIndex = index;
+      widget.isFromUpdateOrder = false;
     });
   }
 }

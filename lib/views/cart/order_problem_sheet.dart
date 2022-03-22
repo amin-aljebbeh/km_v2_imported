@@ -79,7 +79,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
           scrollable: true,
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            FlatButton(
+            TextButton(
               child: Text(
                 "إغلاق",
                 style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),

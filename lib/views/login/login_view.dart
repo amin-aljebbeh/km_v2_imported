@@ -91,13 +91,16 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       return Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
         child: TextField(
-          maxLengthEnforced: true,
+          maxLengthEnforcement: MaxLengthEnforcement.enforced,
           maxLength: 10,
           maxLines: 1,
           controller: myController,
           keyboardType: const TextInputType.numberWithOptions(),
+          cursorColor: ColorUtils.primaryColor,
           decoration: InputDecoration(
             labelText: "رقم الموبايل",
+            floatingLabelStyle: TextStyle(
+                fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30, color: ColorUtils.primaryColor),
             labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
             hintStyle: const TextStyle(color: Colors.black45),
             border: OutlineInputBorder(

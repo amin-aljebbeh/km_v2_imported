@@ -37,9 +37,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   _getClientInfo() async {
-    Tools.logToConsole('before init');
     await Firebase.initializeApp();
-    Tools.logToConsole('after init');
     bool userLoggedIn = await LoadingScreenServices().checkIfUserLoggedIn();
     if (userLoggedIn == null) return "userNotSelectSupportedCity";
     if (userLoggedIn) {

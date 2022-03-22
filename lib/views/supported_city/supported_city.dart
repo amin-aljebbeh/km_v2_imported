@@ -61,40 +61,6 @@ class _SupportedCityViewState extends State<SupportedCityView> {
     });
   }
 
-  void _showDialog({title, body}) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "$title",
-            style: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-          ),
-          content: Text(
-            "$body",
-            style: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-          ),
-          scrollable: true,
-          actions: <Widget>[
-            FlatButton(
-              child: Text(
-                "إغلاق",
-                style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   _getSupportedCity() async {
     setState(() {
       isLoading = true;
@@ -107,10 +73,29 @@ class _SupportedCityViewState extends State<SupportedCityView> {
         isLoading = false;
         isError = false;
       });
-      WidgetsBinding.instance.addPostFrameCallback((_) => _showDialog(
-          title: 'يرجى إختيار أقرب منطقة إليك',
-          body:
-              "بالقائمة التالية تجد المناطق المدعومة للتوصيل ضمن كمّون إذا كانت منطقتكم غير مدعومة بعد لا تقلق بإمكانك اختيار اي منطقة قريبة إليك والإستفادة من خدمة متابعة أسعار المواد الغذائية والإستهلاكية بشكل مستمر و سوف يقوم تطبيق كمّون بالتوسع قريبا و دعم مناطق متعددة"));
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          showMyDialog(
+            title: 'يرجى إختيار أقرب منطقة إليك',
+            context: context,
+            text:
+                "بالقائمة التالية تجد المناطق المدعومة للتوصيل ضمن كمّون إذا كانت منطقتكم غير مدعومة بعد لا تقلق بإمكانك اختيار اي منطقة قريبة إليك والإستفادة من خدمة متابعة أسعار المواد الغذائية والإستهلاكية بشكل مستمر و سوف يقوم تطبيق كمّون بالتوسع قريبا و دعم مناطق متعددة",
+            dialogButtons: [
+              DialogButton(
+                text: StringUtils.close,
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+          // _showDialog(
+          //   title:,
+          //   body:
+          //   ,
+          // );
+        },
+      );
     } else {
       setState(() {
         isLoading = false;
@@ -155,6 +140,7 @@ class _SupportedCityViewState extends State<SupportedCityView> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: _showSearchTxtFld(),
+        backgroundColor: ColorUtils.primaryColor,
       ),
       body: Container(
         padding: const EdgeInsets.only(top: 20),
