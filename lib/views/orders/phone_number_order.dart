@@ -3,6 +3,7 @@ import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,10 +30,17 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
     setState(() {
       phoneNumber = widget.phoneNumber;
     });
-    getOrders = _getOrder();
+    if (LoadingScreenServices.phoneOrderList.length == 0) {
+      getOrders = _getOrder();
+    } else {
+      getOrders = _initialFunction();
+      orderDataList = LoadingScreenServices.phoneOrderList;
+    }
 
     super.initState();
   }
+
+  _initialFunction() {}
 
   bool orderLoaded = true;
   bool errorMessage = false;
@@ -54,12 +62,14 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
       orderDataList.clear();
     });
     var orderList;
-    orderList = await OrderServices.getOrdersByUserPhoneNumber(phoneNumber: phoneNumber, pageNumber: page);
-
+    if (LoadingScreenServices.phoneOrderList.length == 0)
+      orderList = await OrderServices.getOrdersByUserPhoneNumber(phoneNumber: phoneNumber, pageNumber: page);
+    else
+      orderList = LoadingScreenServices.phoneOrderList;
     if (orderList != null) {
       if (orderList.length == 0) {
         setState(() {
-          if (orderDataList.length != 0) theEndOfOrders = true;
+          if (LoadingScreenServices.phoneOrderList.length != 0) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -76,6 +86,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
           }
 
           orderDataList.removeWhere((order) => order.products.length == 0);
+          LoadingScreenServices.phoneOrderList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;

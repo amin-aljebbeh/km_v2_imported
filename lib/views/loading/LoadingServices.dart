@@ -60,6 +60,7 @@ class LoadingScreenServices {
   static List<ProductData> notAddedProducts = List<ProductData>();
   static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
   static List<OrdersOriginalData> allOrdersList = new List<OrdersOriginalData>();
+  static List<OrdersOriginalData> phoneOrderList = new List<OrdersOriginalData>();
   static List<ShopperModel> allShoppers = List<ShopperModel>();
   static List<DeliveryModel> allDeliveries = List<DeliveryModel>();
   static List<OrdersOriginalData> shoppersAssignedOrdersList = new List<OrdersOriginalData>();

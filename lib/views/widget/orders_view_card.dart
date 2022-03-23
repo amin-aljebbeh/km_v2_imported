@@ -265,6 +265,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           ),
                           padding: EdgeInsets.all(0),
                           onPressed: () {
+                            LoadingScreenServices.allOrdersList.clear();
+
                             Navigator.push(
                               context,
                               new MaterialPageRoute(

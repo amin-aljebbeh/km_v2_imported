@@ -37,7 +37,9 @@ class OrderServices {
     String deliveryMethodId = '';
     if (Services.isOperationManager() || Services.isAdmin())
       deliveryMethodId = LoadingScreenServices.allOrdersList
-          .firstWhere((order) => order.id.toString() == orderUnderUpdateId)
+          .firstWhere((order) => order.id.toString() == orderUnderUpdateId,
+              orElse: () => LoadingScreenServices.phoneOrderList
+                  .firstWhere((order) => order.id.toString() == orderUnderUpdateId))
           .deliveryMethodId;
     else if (Services.isShopper())
       deliveryMethodId = LoadingScreenServices.myOrdersList
