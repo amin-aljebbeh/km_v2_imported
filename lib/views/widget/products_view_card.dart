@@ -33,8 +33,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
   Widget build(BuildContext context) {
     String price = widget.productData.price;
     if (Services.isSupplierManager()) {
-      price =
-          (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
+      price = (int.parse(widget.productData.price.split('.')[0]) -
+              widget.productData.increasePercentage)
+          .toString();
     }
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -60,7 +61,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
               KCacheImage(
                 tag: widget.index + 100,
                 image: widget.productData.images.length > 0
-                    ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
+                    ? LoadingScreenServices.imagePrefixUrl +
+                        widget.productData.images[0].imageFileName
                     : "",
               ),
               SizedBox(width: 10),
@@ -71,7 +73,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                     Text(
                       widget.productData.name,
                       style: TextStyle(
-                          fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 18),
+                          fontWeight: FontWeight.w700,
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                          fontSize: 18),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +87,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             SizedBox(height: 6),
                             Text(
                               widget.productData.unit != "null"
-                                  ? widget.productData.quantity + " " + widget.productData.unit
+                                  ? widget.productData.quantity +
+                                      " " +
+                                      widget.productData.unit
                                   : widget.productData.quantity,
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
@@ -93,7 +99,10 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                                StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() +
+                                StringUtils()
+                                        .oCcy
+                                        .format(int.parse(price.split('.')[0]))
+                                        .toString() +
                                     " ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
@@ -105,13 +114,16 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                         if (Services.isProductsController())
                           Row(
                             children: [
-                              if (widget.productData.barcodes.isEmpty) Icon(BareCodeIcon.exclamation),
+                              if (widget.productData.barcodes.isEmpty)
+                                Icon(BareCodeIcon.exclamation),
                               BarcodeIcon(
                                 productData: widget.productData,
                                 requestType: BarcodeRequestType.addBarcode,
-                                productId: int.parse(widget.productData.id.toString()),
+                                productId:
+                                    int.parse(widget.productData.id.toString()),
                                 scaffoldKey: widget.scaffoldKey,
-                                onAddBarcode: (result) => widget.onAddBarcode(result),
+                                onAddBarcode: (result) =>
+                                    widget.onAddBarcode(result),
                               ),
                             ],
                           ),
@@ -123,8 +135,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
               widget.productData.subWarehouseId != -1
                   ? Column(
                       children: [
-                        if (LoadingScreenServices.subWarehouses
-                            .any((element) => element.id == widget.productData.subWarehouseId))
+                        if (LoadingScreenServices.subWarehouses.any((element) =>
+                            element.id == widget.productData.subWarehouseId))
                           SwitchProductStatusWidget(
                             isForSubWarehouse: true,
                             height: MediaQuery.of(context).size.height * 0.05,
@@ -134,48 +146,58 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             productId: widget.productData.id.toString(),
                             onChange: (int active, bool result) {
                               setState(() {
-                                if (result) widget.productData.isActive = active.toString();
+                                if (result)
+                                  widget.productData.isActive =
+                                      active.toString();
                               });
                             },
                           ),
-                        if (Services.isAdmin())
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: 5,
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Services.isAdmin()
+                                ? Text(
+                                    'التقييم: ' +
+                                        (widget.productData.rate != -1
+                                            ? StringUtils()
+                                                .oCcy
+                                                .format(widget.productData.rate)
+                                                .toString()
+                                            : '0'),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      color: ColorUtils.primaryColor,
+                                      fontFamily:
+                                          StringUtils.fontFamilyHKGrotesk,
+                                      fontSize: 13,
+                                    ),
+                                  )
+                                : Container(),
+                            SizedBox(
+                              height: 5,
+                            ),
+                         Services.isProductsController()  ?   Text(
+                              'الكمية: ' +
+                                  (widget.productData.availableQuantity !=
+                                          'null'
+                                      ? StringUtils()
+                                          .oCcy
+                                          .format(int.parse(widget
+                                              .productData.availableQuantity
+                                              .split('.')[0]))
+                                          .toString()
+                                      : '0'),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: ColorUtils.primaryColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 13,
                               ),
-                              Text(
-                                'التقييم: ' +
-                                    (widget.productData.rate != -1
-                                        ? StringUtils().oCcy.format(widget.productData.rate).toString()
-                                        : '0'),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: ColorUtils.primaryColor,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 13,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                'الكمية: ' +
-                                    (widget.productData.availableQuantity != 'null'
-                                        ? StringUtils()
-                                            .oCcy
-                                            .format(int.parse(widget.productData.availableQuantity.split('.')[0]))
-                                            .toString()
-                                        : '0'),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: ColorUtils.primaryColor,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ):Container(),
+                          ],
+                        ),
                       ],
                     )
                   : Container(
@@ -183,10 +205,11 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                       width: 69,
                       padding: const EdgeInsets.all(3.0),
                       decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                                  ),
-                          border: Border.all(color: ColorUtils.kmColors, width: 2)),
+                          borderRadius: BorderRadius.all(Radius.circular(
+                                  10.0) //                 <--- border radius here
+                              ),
+                          border:
+                              Border.all(color: ColorUtils.kmColors, width: 2)),
                       child: IconButton(
                         icon: Icon(
                           Icons.add,
@@ -209,7 +232,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     Navigator.push(
                                       widget.scaffoldKey.currentContext,
                                       new MaterialPageRoute(
-                                        builder: (context) => new AddProductsToSubWarehouse(
+                                        builder: (context) =>
+                                            new AddProductsToSubWarehouse(
                                           barcode: param,
                                           productData: widget.productData,
                                         ),
@@ -223,7 +247,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             Navigator.push(
                               widget.scaffoldKey.currentContext,
                               new MaterialPageRoute(
-                                builder: (context) => new AddProductsToSubWarehouse(
+                                builder: (context) =>
+                                    new AddProductsToSubWarehouse(
                                   productData: widget.productData,
                                 ),
                               ),
