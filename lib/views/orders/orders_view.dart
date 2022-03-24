@@ -26,9 +26,12 @@ class OrdersViewState extends State<OrdersView> {
 
   @override
   void initState() {
+    warehouses = ['جميع المستودعات'];
+    warehouses.addAll(LoadingScreenServices.warehouses.map((warehouse) => warehouse.name).toList());
     rateValue = 0;
     ordersFilter = LoadingScreenServices.ordersViewFilter;
     ordersTypeFilter = 0;
+    warehouseFilter = 0;
 
     if (LoadingScreenServices.allOrdersList.length == 0) {
       getOrders = _getOrder();
@@ -43,6 +46,7 @@ class OrdersViewState extends State<OrdersView> {
 
   bool orderLoaded = true;
   bool generalLoaded = true;
+  bool warehouseLoaded = false;
   bool errorMessage = false;
   String errorMessageValue = "";
   bool isLoading = false;
@@ -51,7 +55,9 @@ class OrdersViewState extends State<OrdersView> {
   bool theEndOfOrders = false;
 
   int ordersFilter;
+  int warehouseFilter;
   int ordersTypeFilter;
+  List<String> warehouses;
 
   List<OrdersOriginalData> orderDataList = new List<OrdersOriginalData>();
 
@@ -100,6 +106,8 @@ class OrdersViewState extends State<OrdersView> {
                 orderDataList.removeWhere((order) => order.shopper != null);
                 break;
             }
+          if (warehouseFilter != 0)
+            orderDataList.removeWhere((order) => int.parse(order.warehouseId) != warehouseFilter);
 
           orderDataList.removeWhere((order) => order.products.length == 0);
           LoadingScreenServices.allOrdersList = orderDataList;
@@ -177,77 +185,107 @@ class OrdersViewState extends State<OrdersView> {
                             ),
                           ],
                         ),
-                        SearchOrderByPhoneNumber(
-                          context: context,
-                          onChoose: (number) async {
-                            Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                builder: (screenContext) => new PhoneNumberOrdersView(
-                                  phoneNumber: number,
-                                ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SearchOrderByPhoneNumber(
+                                    context: context,
+                                    onChoose: (number) async {
+                                      Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                          builder: (screenContext) => new PhoneNumberOrdersView(
+                                            phoneNumber: number,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    controller: phoneNumberController,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        indexPage++;
+                                        if (page < 15) page++;
+                                      });
+                                      _getOrder();
+                                    },
+                                    icon: Icon(
+                                      Icons.arrow_back,
+                                      size: 40,
+                                      color: ColorUtils.kmColors,
+                                    ),
+                                  ),
+                                  DropdownButton(
+                                    value: page,
+                                    items: Services.dropdownIntList(StringUtils.dropdownValues),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        page = value;
+                                        indexPage = value;
+                                      });
+                                      _getOrder();
+                                    },
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (indexPage > 1 && indexPage <= 15) {
+                                          page--;
+                                        }
+                                        if (indexPage > 1) indexPage--;
+                                        _getOrder();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.arrow_forward,
+                                      size: 40,
+                                      color: ColorUtils.kmColors,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            );
-                          },
-                          controller: phoneNumberController,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              indexPage++;
-                              if (page < 15) page++;
-                            });
-                            _getOrder();
-                          },
-                          icon: Icon(
-                            Icons.arrow_back,
-                            size: 40,
-                            color: ColorUtils.kmColors,
-                          ),
-                        ),
-                        DropdownButton(
-                          value: page,
-                          items: Services.dropdownIntList(StringUtils.dropdownValues),
-                          onChanged: (value) {
-                            setState(() {
-                              page = value;
-                              indexPage = value;
-                            });
-                            _getOrder();
-                          },
-                        ),
-                        if (Services.isSuperAdmin())
-                          EntryField(
-                            controller: pageController,
-                            onSubmit: (notEmpty) {
-                              if (notEmpty) {
-                                if (int.parse(pageController.text) > 0) {
-                                  setState(() {
-                                    indexPage = int.parse(pageController.text);
-                                    if (indexPage <= 15) page = indexPage;
-                                    _getOrder();
-                                  });
-                                }
-                              }
-                            },
-                            width: MediaQuery.of(context).size.width * 0.13,
-                            isPhoneNumber: false,
-                            canBeEmpty: false,
-                          ),
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              if (indexPage > 1 && indexPage <= 15) {
-                                page--;
-                              }
-                              if (indexPage > 1) indexPage--;
-                              _getOrder();
-                            });
-                          },
-                          icon: Icon(
-                            Icons.arrow_forward,
-                            size: 40,
-                            color: ColorUtils.kmColors,
+                              if (Services.isSuperAdmin())
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    DropdownButton(
+                                      value: warehouseFilter,
+                                      items: Services.dropdownStringList(warehouses),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          // generalLoaded = false;
+                                          // warehouseLoaded = true;
+                                          warehouseFilter = value;
+                                          page = 1;
+                                          indexPage = 1;
+                                        });
+                                        _getOrder();
+                                      },
+                                    ),
+                                    EntryField(
+                                      controller: pageController,
+                                      onSubmit: (notEmpty) {
+                                        if (notEmpty) {
+                                          if (int.parse(pageController.text) > 0) {
+                                            setState(() {
+                                              indexPage = int.parse(pageController.text);
+                                              if (indexPage <= 15) page = indexPage;
+                                              _getOrder();
+                                            });
+                                          }
+                                        }
+                                      },
+                                      width: MediaQuery.of(context).size.width * 0.13,
+                                      isPhoneNumber: false,
+                                      canBeEmpty: false,
+                                    ),
+                                  ],
+                                )
+                            ],
                           ),
                         ),
                       ],
