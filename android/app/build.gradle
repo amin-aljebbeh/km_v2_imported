@@ -28,7 +28,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     compileSdkVersion 31
-    ndkVersion flutter.ndkVersion
+    ndkVersion "23.1.7779620"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -53,7 +53,7 @@ android {
         applicationId "com.kammun.app"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 10
+        versionCode 11
         versionName '2.00'
         multiDexEnabled true
     }
