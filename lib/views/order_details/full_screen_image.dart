@@ -1,5 +1,4 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FullScreenImage extends StatelessWidget {

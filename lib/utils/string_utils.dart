@@ -25,7 +25,7 @@ class StringUtils {
   // Tabs
   static String store = 'الرئيسية';
   static String cart = 'السلة';
-  static String allOrders = 'كل الطلبات';
+  static String orders = 'الطلبات';
   static String profile = 'الملف الشخصي';
   static String financial = 'الحسابات';
   static String inventory = 'جرد المنتجات';

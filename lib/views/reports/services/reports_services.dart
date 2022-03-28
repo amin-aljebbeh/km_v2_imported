@@ -17,7 +17,7 @@ class ReportsServices {
         "from_date": fromDate,
         "to_date": toDate,
       },
-      method: httpMethods.get,
+      method: HttpMethods.get,
     );
 
     if (response.statusCode == SUCCESS_CODE) {
@@ -33,7 +33,7 @@ class ReportsServices {
 
       response = await ApiProvider.sendRequest(
         url: GET_SHOPPER_TRANSACTIONS + shopperId,
-        method: httpMethods.get,
+        method: HttpMethods.get,
         queryParameters: {"page": pageNumber},
       );
 
@@ -58,7 +58,7 @@ class ReportsServices {
 
       response = await ApiProvider.sendRequest(
         url: SHOPPER_VIEWS_HIS_OWN_TRANSACTION,
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
 
       if (response.statusCode == SUCCESS_CODE) {
@@ -83,7 +83,7 @@ class ReportsServices {
 
     response = await ApiProvider.sendRequest(
       url: GET_STATISTICS_SHOPPER_TRANSACTION + shopperId,
-      method: httpMethods.get,
+      method: HttpMethods.get,
     );
 
     if (response.statusCode == SUCCESS_CODE) {
@@ -103,7 +103,7 @@ class ReportsServices {
 
     response = await ApiProvider.sendRequest(
       url: GET_MONTH_SHOPPER_PROFIT + shopperId,
-      method: httpMethods.get,
+      method: HttpMethods.get,
     );
 
     if (response.statusCode == SUCCESS_CODE) {
@@ -182,7 +182,7 @@ class ReportsServices {
         "sub_warehouse_id": subWarehouseId,
         "report_date": reportDate,
       },
-      method: httpMethods.get,
+      method: HttpMethods.get,
     );
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"] == true) {
@@ -208,7 +208,7 @@ class ReportsServices {
     };
     try {
       var response = await ApiProvider.sendRequest(
-          url: ADD_TRANSACTION, method: httpMethods.post, body: jsonEncode(transaction));
+          url: ADD_TRANSACTION, method: HttpMethods.post, body: jsonEncode(transaction));
 
       if (response.statusCode == SUCCESS_CODE) {
         return response.data['success'];
@@ -225,7 +225,7 @@ class ReportsServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_TRANSACTION_TYPES,
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
       if (response.statusCode == SUCCESS_CODE && response.data["success"] == true) {
         return transactionTypeResponseFromJson(jsonEncode(response.data)).data;
@@ -246,7 +246,7 @@ class ReportsServices {
           "from_date": fromDate,
           "to_date": toDate,
         },
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
 
       if (response.statusCode == SUCCESS_CODE) {

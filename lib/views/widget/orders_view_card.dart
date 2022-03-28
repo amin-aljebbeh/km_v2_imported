@@ -332,21 +332,50 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 leftSideStyle: informationStyle,
               ),
               if (Services.isOperationManager() && widget.orderData.orderStatusId == '5')
-                LabelRow(
-                  rightSideText: 'زمن التوصيل : ',
-                  leftSideText: '  ' +
-                      widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours.toString() +
-                      ':' +
-                      (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes -
-                              (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours * 60))
-                          .toString(),
-                  leftSideStyle: (widget.orderData.deliveryMethodId == "2" &&
-                          widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes > 45)
-                      ? worningStyle
-                      : (widget.orderData.deliveryMethodId == "1" &&
-                              widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes > 90)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    LabelRow(
+                      rightSideText: 'الساعات بين قبول الطلب وتوصيله : ',
+                      leftSideText: '  ' +
+                          widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours.toString() +
+                          ':' +
+                          (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes -
+                                  (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours *
+                                      60))
+                              .toString(),
+                      leftSideStyle: (widget.orderData.deliveryMethodId == "2" &&
+                              widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes > 45)
                           ? worningStyle
-                          : disableStyle,
+                          : (widget.orderData.deliveryMethodId == "1" &&
+                                  widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes >
+                                      90)
+                              ? worningStyle
+                              : disableStyle,
+                    ),
+                    LabelRow(
+                      rightSideText: 'الأيام بين إنشاء الطلب وتوصيله : ',
+                      leftSideText: '  ' +
+                          widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inDays.toString() +
+                          ':' +
+                          (widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inHours -
+                                  widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inDays * 24)
+                              .toString() +
+                          ':' +
+                          (widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes -
+                                  (widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inHours *
+                                      60))
+                              .toString(),
+                      leftSideStyle: (widget.orderData.deliveryMethodId == "2" && //todo
+                              widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes > 45)
+                          ? worningStyle
+                          : (widget.orderData.deliveryMethodId == "1" &&
+                                  widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes >
+                                      90)
+                              ? worningStyle
+                              : disableStyle,
+                    ),
+                  ],
                 ),
               KSearchableDropdown(
                 hint: widget.orderData.shopper != null ? widget.orderData.shopper.name : StringUtils.chooseShopper,

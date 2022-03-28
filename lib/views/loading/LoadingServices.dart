@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:adv_image_cache/adv_image_cache.dart';
@@ -85,7 +84,7 @@ class LoadingScreenServices {
       };
       await ApiProvider.sendRequest(
         url: UPDATE_ADMIN_FIREBASE_TOKEN,
-        method: httpMethods.post,
+        method: HttpMethods.post,
         body: jsonEncode(body),
       );
       return true;
@@ -122,7 +121,7 @@ class LoadingScreenServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_SUPPORTED_CITIES,
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
       if (response.statusCode == SUCCESS_CODE) {
         final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
@@ -172,7 +171,7 @@ class LoadingScreenServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_CATEGORY,
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
 
       if (response.statusCode == SUCCESS_CODE) {

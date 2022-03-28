@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -25,17 +24,17 @@ class ProductsServices {
       var response;
       if (bodyKey == "category_id") {
         response = await ApiProvider.sendRequest(
-            url: ADD_PRODUCTS_TO_CATEGORY + productId, method: httpMethods.post, body: jsonEncode(body));
+            url: ADD_PRODUCTS_TO_CATEGORY + productId, method: HttpMethods.post, body: jsonEncode(body));
       } else if (!isForSubWarehouse) {
         response = await ApiProvider.sendRequest(
           url: GET_PRODUCT + productId,
-          method: httpMethods.put,
+          method: HttpMethods.put,
           body: jsonEncode(body),
         );
       } else {
         response = await ApiProvider.sendRequest(
           url: UPDATE_SUB_WAREHOUSE_PRODUCTS + productId,
-          method: httpMethods.put,
+          method: HttpMethods.put,
           body: jsonEncode(
             {
               "sub_warehouse_id": subWarehouseId,
@@ -60,7 +59,7 @@ class ProductsServices {
       var response = await ApiProvider.sendRequest(
         queryParameters: {'category_id': categoryId},
         url: REMOVE_PRODUCT_FROM_CATEGORY + productId,
-        method: httpMethods.delete,
+        method: HttpMethods.delete,
       );
       if (response.statusCode == SUCCESS_CODE) {
         return true;
@@ -100,7 +99,7 @@ class ProductsServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_PRODUCT,
-        method: httpMethods.post,
+        method: HttpMethods.post,
         body: jsonEncode(productBody),
       );
 
@@ -155,7 +154,7 @@ class ProductsServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: PRODUCT_BARCODE,
-        method: httpMethods.post,
+        method: HttpMethods.post,
         body: jsonEncode(requestBody),
       );
       if (response.statusCode == SUCCESS_CODE) {
@@ -172,7 +171,7 @@ class ProductsServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: SEARCH_PRODUCT_BY_BARCODE + bareCode,
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
       if (response.statusCode == SUCCESS_CODE) {
         return syncCartFromJson(jsonEncode(response.data["data"]));
@@ -187,7 +186,7 @@ class ProductsServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: CHECK_PRODUCT_BARCODE + bareCode,
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
       if (response.statusCode == SUCCESS_CODE) {
         return syncCartFromJson(jsonEncode(response.data["data"]));
@@ -202,7 +201,7 @@ class ProductsServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: PRODUCT_BARCODE + bareCodeId,
-        method: httpMethods.delete,
+        method: HttpMethods.delete,
       );
       if (response.statusCode == SUCCESS_CODE) {
         return true;
@@ -217,7 +216,7 @@ class ProductsServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: DELETE_PRODUCT + productId,
-        method: httpMethods.delete,
+        method: HttpMethods.delete,
       );
       if (response.statusCode == SUCCESS_CODE) {
         return true;

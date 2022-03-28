@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -8,7 +6,7 @@ class AddedProductsServices {
   static Future<List<ProductData>> getAddedProductsToWarehouse() async {
     var response = await ApiProvider.sendRequest(
       url: GET_ADDED_PRODUCTS_TO_WAREHOUSE,
-      method: httpMethods.get,
+      method: HttpMethods.get,
     );
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
       return syncCartFromJson(jsonEncode(response.data["data"]));
@@ -21,7 +19,7 @@ class AddedProductsServices {
   static Future<List<ProductData>> getNotAddedProductsToWarehouse() async {
     var response = await ApiProvider.sendRequest(
       url: GET_NOT_ADDED_PRODUCTS_TO_WAREHOUSE,
-      method: httpMethods.get,
+      method: HttpMethods.get,
     );
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
       return syncCartFromJson(jsonEncode(response.data["data"]));
@@ -37,7 +35,7 @@ class AddedProductsServices {
   }) async {
     var response = await ApiProvider.sendRequest(
         url: UN_ATTACH_PRODUCTS_TO_SUB_WAREHOUSE + productsId,
-        method: httpMethods.delete,
+        method: HttpMethods.delete,
         body: jsonEncode({"sub_warehouse_id": int.parse(subWarehouse)}));
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
@@ -54,7 +52,7 @@ class AddedProductsServices {
     try {
       Tools.logToConsole(fullRequestBody);
       var response = await ApiProvider.sendRequest(
-          url: ATTACH_PRODUCTS_TO_SUB_WAREHOUSE, method: httpMethods.post, body: jsonEncode(fullRequestBody));
+          url: ATTACH_PRODUCTS_TO_SUB_WAREHOUSE, method: HttpMethods.post, body: jsonEncode(fullRequestBody));
 
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         return true;
@@ -71,7 +69,7 @@ class AddedProductsServices {
   static Future<List<ProductData>> getAllProducts() async {
     var response = await ApiProvider.sendRequest(
       url: GET_PRODUCT,
-      method: httpMethods.get,
+      method: HttpMethods.get,
     );
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
       return syncCartFromJson(jsonEncode(response.data["data"]));

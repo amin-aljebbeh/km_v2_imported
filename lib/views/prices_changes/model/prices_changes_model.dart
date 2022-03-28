@@ -2,7 +2,6 @@
 //
 //     final pricesChanges = pricesChangesFromJson(jsonString);
 
-import 'dart:convert';
 
 import 'package:kammun_app/models/models_importer.dart';
 

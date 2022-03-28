@@ -1,23 +1,23 @@
+import 'dart:ui' as ui;
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'utils/utils_importer.dart';
+import 'views/cart/CartViewFinal.dart';
 import 'views/home/home_view.dart';
+import 'views/inventory/inventory_importer.dart';
 import 'views/loading/Loading.dart';
 import 'views/login/login_view.dart';
-import 'views/reports/reports.dart';
-import 'views/thank_you/thank_you_view.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter/cupertino.dart';
-import 'views/cart/CartViewFinal.dart';
-import 'views/inventory/inventory_importer.dart';
-import 'views/login/OTPVerification.dart';
-import 'dart:ui' as ui;
 import 'views/prices_changes/prices.dart';
 import 'views/products_attached_to_warehouse/views/products_attached_to_warehouse_importer.dart';
 import 'views/profile/profileScreen.dart';
 import 'views/reports/reports_importer.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
-import 'utils/utils_importer.dart';
+import 'views/thank_you/thank_you_view.dart';
 
 void main() {
   RenderErrorBox.backgroundColor = Colors.transparent;
@@ -94,7 +94,6 @@ class _MyAppState extends State<MyApp> {
           'loading': (_) => LoadingScreen(),
           '/favoraites': (_) => HomeView(routeIndex: 3),
           '/cartFinal': (_) => CartViewFinal(),
-          OTPVerification.routeName: (_) => OTPVerification(),
           ServerUpdate.routeName: (_) => ServerUpdate(),
           '/thankyou': (_) => new ThankYouView(),
           '/cart': (_) => new HomeView(routeIndex: 1),

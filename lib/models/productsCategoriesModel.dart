@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:kammun_app/models/models_importer.dart';
 
 CategoryProduct categoryProductFromJson(String str) => CategoryProduct.fromJson(json.decode(str));
@@ -187,19 +185,18 @@ class ProductData {
       automaticActivation: json["automatic_activation"] == null ? null : json["automatic_activation"],
       underCheckAvailability: json["under_check_availability"] == null ? null : json["under_check_availability"],
       images: json["images"] == null
-          ? new List<ProductImage>()
+          ? []
           : List<ProductImage>.from(json["images"].map((x) => ProductImage.fromJson(x))),
       categories: json["categories"] == null
-          ? new List<CategoryOriginalData>()
+          ? []
           : List<CategoryOriginalData>.from(json["categories"].map((x) => CategoryOriginalData.fromJson(x))),
       warehouses: json["warehouses"] == null
-          ? new List<Warehouse>()
+          ? []
           : List<Warehouse>.from(json["warehouses"].map((x) => Warehouse.fromJson(x))),
       rate: json['rate'] != null ? json['rate'] : -1,
       numberOfSales: json['number_of_sale'] != null ? json['number_of_sale'] : null,
-      barcodes: json["barcodes"] == null
-          ? List<Barcode>()
-          : List<Barcode>.from(json["barcodes"].map((x) => Barcode.fromJson(x))),
+      barcodes:
+          json["barcodes"] == null ? [] : List<Barcode>.from(json["barcodes"].map((x) => Barcode.fromJson(x))),
       deleteTimes: json["count_deleted"] == null ? -1 : json["count_deleted"],
       availableQuantity: json["available_quantity"] == null ? 'null' : json["available_quantity"].toString(),
     );

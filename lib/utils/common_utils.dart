@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'utils_importer.dart';
 
 class CommonUtils {
@@ -82,14 +83,14 @@ class CustomTheme extends StatefulWidget {
   CustomThemeState createState() => new CustomThemeState();
 
   static ThemeData of(BuildContext context) {
-    // ignore: deprecated_member_use
-    _CustomTheme inherited = (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
+    _CustomTheme inherited = (context.dependOnInheritedWidgetOfExactType(aspect: _CustomTheme));
+
     return inherited.data.theme;
   }
 
   static CustomThemeState instanceOf(BuildContext context) {
-    // ignore: deprecated_member_use
-    _CustomTheme inherited = (context.inheritFromWidgetOfExactType(_CustomTheme) as _CustomTheme);
+    _CustomTheme inherited = (context.dependOnInheritedWidgetOfExactType(aspect: _CustomTheme));
+
     return inherited.data;
   }
 }

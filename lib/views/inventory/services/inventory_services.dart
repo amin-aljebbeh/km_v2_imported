@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -16,7 +15,7 @@ class InventoryServices {
   static Future<bool> getInventoryProducts() async {
     var response = await ApiProvider.sendRequest(
       url: GET_INVENTORY_PRODUCTS,
-      method: httpMethods.get,
+      method: HttpMethods.get,
     );
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
@@ -30,7 +29,7 @@ class InventoryServices {
   static Future<List<SubWarehouse>> getSubWarehoused({String adminId}) async {
     var response = await ApiProvider.sendRequest(
       url: GET_ADMIN_INFO + adminId,
-      method: httpMethods.get,
+      method: HttpMethods.get,
     );
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
@@ -56,7 +55,7 @@ class InventoryServices {
   static Future<List<ProductData>> getSubWarehouseProducts({String subWarehouseId}) async {
     var response = await ApiProvider.sendRequest(
       url: GET_SUB_WAREHOUSE_PRODUCTS + subWarehouseId,
-      method: httpMethods.get,
+      method: HttpMethods.get,
     );
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
       final result = syncCartFromJson(jsonEncode(response.data["data"]["products"]));
@@ -82,7 +81,7 @@ class InventoryServices {
       params = {'page': page, "from_date": fromDate, "to_date": toDate};
     var response = await ApiProvider.sendRequest(
       url: StringUtils.productFilterUrls[filterIndex],
-      method: httpMethods.get,
+      method: HttpMethods.get,
       queryParameters: params,
     );
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
@@ -99,7 +98,7 @@ class InventoryServices {
     Map thresholdMap = {'threshold': threshold};
     try {
       var response = await ApiProvider.sendRequest(
-          url: UPDATE_PRICE_RATE_THRESHOLD, method: httpMethods.put, body: jsonEncode(thresholdMap));
+          url: UPDATE_PRICE_RATE_THRESHOLD, method: HttpMethods.put, body: jsonEncode(thresholdMap));
 
       if (response.statusCode == SUCCESS_CODE) {
         return true;

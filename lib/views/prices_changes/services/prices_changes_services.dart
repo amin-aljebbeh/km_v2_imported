@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/prices_changes/model/prices_changes_model.dart';
@@ -7,7 +8,7 @@ class PricesChangesServices {
   static Future<PricesChanges> loadData() async {
     var response = await ApiProvider.sendRequest(
       url: GET_PRICES_CHANGES,
-      method: httpMethods.get,
+      method: HttpMethods.get,
     );
 
     if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
@@ -22,7 +23,7 @@ class PricesChangesServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: PRODUCT_IMAGE + imageId.toString(),
-        method: httpMethods.delete,
+        method: HttpMethods.delete,
       );
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         return true;

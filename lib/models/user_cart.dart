@@ -2,8 +2,6 @@
 //
 //     final userCart = userCartFromJson(jsonString);
 
-import 'dart:convert';
-
 import 'models_importer.dart';
 
 UserCart userCartFromJson(String str) => UserCart.fromJson(json.decode(str));
@@ -40,14 +38,7 @@ class Data {
 
   List<ProductImage> images;
 
-  Data(
-      {this.id,
-      this.name,
-      this.price,
-      this.quantity,
-      this.unit,
-      this.images,
-      this.isActive});
+  Data({this.id, this.name, this.price, this.quantity, this.unit, this.images, this.isActive});
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
@@ -56,8 +47,7 @@ class Data {
         quantity: json["quantity"],
         unit: json["unit"].toString(),
         isActive: json["is_active"],
-        images: List<ProductImage>.from(
-            json["images"].map((x) => ProductImage.fromJson(x))),
+        images: List<ProductImage>.from(json["images"].map((x) => ProductImage.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

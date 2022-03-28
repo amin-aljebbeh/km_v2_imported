@@ -1,14 +1,14 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/orders/orders_view_importer.dart';
 import 'package:kammun_app/views/store/store_view.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../Services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 
 // ignore: must_be_immutable
 class HomeView extends StatefulWidget {
@@ -30,7 +30,7 @@ class HomeViewState extends State<HomeView> {
 
   HomeViewState(this._selectedIndex, this._isFromUpdateOrder);
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   String firebaseToken;
 
   @override
@@ -60,69 +60,27 @@ class HomeViewState extends State<HomeView> {
   }
 
   _initializeNotification({BuildContext ctx}) {
-// Here you can write your code
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        final notification = message['notification'];
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      final notification = message.notification;
 
-        if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
+      if (message.data['route_name'] != null) Navigator.pushNamed(context, message.data['route_name']);
 
-        List<DialogButton> decisionButtons = [
-          DialogButton(
-            text: StringUtils.close,
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-          )
-        ];
-        showMyDialog(
-            title: notification['title'],
-            text: notification['body'],
-            dialogButtons: decisionButtons,
-            context: context);
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        final notification = message['data'];
-        if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
-
-        List<DialogButton> decisionButtons = [
-          DialogButton(
-            text: StringUtils.close,
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-          )
-        ];
-        showMyDialog(
-            title: notification['title'],
-            text: notification['body'],
-            dialogButtons: decisionButtons,
-            context: context);
-
-        widget.notificationValue = notification;
-      },
-      onResume: (Map<String, dynamic> message) async {
-        final notification = message['data'];
-
-        if (message['data']['route_name'] != null) Navigator.pushNamed(context, message['data']['route_name']);
-
-        List<DialogButton> decisionButtons = [
-          DialogButton(
-            text: StringUtils.close,
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-          )
-        ];
-        showMyDialog(
-            title: notification['title'],
-            text: notification['body'],
-            dialogButtons: decisionButtons,
-            context: context);
-      },
+      List<DialogButton> decisionButtons = [
+        DialogButton(
+          text: StringUtils.close,
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ];
+      showMyDialog(
+          title: notification.title, text: notification.body, dialogButtons: decisionButtons, context: context);
+    });
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
     );
-    _firebaseMessaging
-        .requestNotificationPermissions(const IosNotificationSettings(sound: true, badge: true, alert: true));
     getToken();
   }
 
@@ -142,49 +100,116 @@ class HomeViewState extends State<HomeView> {
 
     bottomList.add(
       BottomNavigationBarItem(
-        activeIcon: Icon(
-          Icons.store,
-          color: Color.fromARGB(255, 210, 178, 2),
+        activeIcon: Column(
+          children: [
+            const Icon(
+              Icons.store,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            Text(
+              StringUtils.store,
+              style: TextStyle(
+                  color: const Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                  fontSize: 15),
+            ),
+          ],
         ),
-        icon: Icon(Icons.store, color: Color.fromARGB(255, 53, 99, 124)),
+        icon: Column(
+          children: [
+            const Icon(
+              Icons.store,
+              color: Color.fromARGB(255, 53, 99, 124),
+            ),
+            Text(
+              StringUtils.store,
+              style: TextStyle(
+                  color: const Color.fromARGB(255, 53, 99, 124),
+                  // fontWeight: FontWeight.w500,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                  fontSize: 15),
+            ),
+          ],
+        ),
         // ignore: deprecated_member_use
-        title: Text(
-          StringUtils.store,
-          style: naveBarStyle,
-        ),
+        label: '',
       ),
     );
     bottomList.add(
       BottomNavigationBarItem(
-        activeIcon: Icon(
-          Icons.shopping_cart,
-          color: Color.fromARGB(255, 210, 178, 2),
+        activeIcon: Column(
+          children: [
+            const Icon(
+              Icons.shopping_cart,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            Text(
+              StringUtils.cart,
+              style: TextStyle(
+                  color: const Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                  fontSize: 15),
+            ),
+          ],
         ),
-        icon: Icon(Icons.shopping_cart, color: Color.fromARGB(255, 53, 99, 124)),
-        // ignore: deprecated_member_use
-        title: Text(
-          StringUtils.cart,
-          style: naveBarStyle,
+        icon: Column(
+          children: [
+            const Icon(
+              Icons.shopping_cart,
+              color: Color.fromARGB(255, 53, 99, 124),
+            ),
+            Text(
+              StringUtils.cart,
+              style: TextStyle(
+                  color: const Color.fromARGB(255, 53, 99, 124),
+                  // fontWeight: FontWeight.w500,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                  fontSize: 15),
+            ),
+          ],
         ),
+        label: '',
       ),
     );
 
     if (Services.isOperationManager()) {
       bottomList.add(
         BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.reorder,
-            color: Color.fromARGB(255, 210, 178, 2),
+          activeIcon: Column(
+            children: [
+              const Icon(
+                Icons.reorder,
+                color: Color.fromARGB(255, 210, 178, 2),
+              ),
+              Text(
+                StringUtils.orders,
+                style: TextStyle(
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15),
+              ),
+            ],
           ),
-          icon: Icon(
-            Icons.reorder,
-            color: Color.fromARGB(255, 53, 99, 124),
+          icon: Column(
+            children: [
+              const Icon(
+                Icons.reorder,
+                color: Color.fromARGB(255, 53, 99, 124),
+              ),
+              Text(
+                StringUtils.orders,
+                style: TextStyle(
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    // fontWeight: FontWeight.w500,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15),
+              ),
+            ],
           ),
-          // ignore: deprecated_member_use
-          title: Text(
-            StringUtils.allOrders,
-            style: naveBarStyle,
-          ),
+          label: '',
         ),
       );
     }
@@ -192,19 +217,39 @@ class HomeViewState extends State<HomeView> {
     if (Services.isDelivery() || Services.isShopper() || Services.isSupplierManager()) {
       bottomList.add(
         BottomNavigationBarItem(
-          activeIcon: Icon(
-            Icons.playlist_add_check_outlined,
-            color: Color.fromARGB(255, 210, 178, 2),
+          activeIcon: Column(
+            children: [
+              const Icon(
+                Icons.playlist_add_check_outlined,
+                color: Color.fromARGB(255, 210, 178, 2),
+              ),
+              Text(
+                StringUtils.myOrders,
+                style: TextStyle(
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15),
+              ),
+            ],
           ),
-          icon: Icon(
-            Icons.playlist_add_check_outlined,
-            color: Color.fromARGB(255, 53, 99, 124),
+          icon: Column(
+            children: [
+              const Icon(
+                Icons.playlist_add_check_outlined,
+                color: Color.fromARGB(255, 53, 99, 124),
+              ),
+              Text(
+                StringUtils.myOrders,
+                style: TextStyle(
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    // fontWeight: FontWeight.w500,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15),
+              ),
+            ],
           ),
-          // ignore: deprecated_member_use
-          title: Text(
-            StringUtils.myOrders,
-            style: naveBarStyle,
-          ),
+          label: '',
         ),
       );
     }

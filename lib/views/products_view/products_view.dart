@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -68,7 +67,7 @@ class ProductsViewState extends State<ProductsView> {
         try {
           var response = await ApiProvider.sendRequest(
             url: url,
-            method: httpMethods.get,
+            method: HttpMethods.get,
           );
           if (response.statusCode == SUCCESS_CODE) {
             if (!response.data["success"] && response.data["reason"] == "No results") {

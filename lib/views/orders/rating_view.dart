@@ -1,8 +1,8 @@
 import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 import '../../utils/utils_importer.dart';
 import 'services/order_services.dart';
@@ -161,9 +161,10 @@ class _RatingViewState extends State<RatingView> {
                         textAlignVertical: TextAlignVertical.top,
                         controller: _textFieldController,
                         maxLines: 4,
-                        onTap: _requestFocus,
+                        onTap:
+                            _requestFocus, //info: 'cursorColor' is deprecated and shouldn't be used. Use TextSelectionThemeData.cursorColor
                         focusNode: _focusNode,
-                        cursorColor: Theme.of(context).cursorColor,
+                        cursorColor: TextSelectionThemeData().cursorColor,
                         decoration: InputDecoration(
                           hintStyle: TextStyle(color: Colors.black45),
                           border: OutlineInputBorder(

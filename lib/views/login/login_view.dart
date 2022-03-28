@@ -1,14 +1,10 @@
 import 'package:animated_background/animated_background.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/login/OTPVerification.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 
-import '../../Services.dart';
 import 'Services/login_services.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -66,57 +62,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
           errorMessage = "خطأ بإسم المستخدم أو كلمة المرور";
         });
-      }
-    }
-  }
-
-  Future fetchOtp() async {
-    SystemChannels.textInput.invokeMethod('TextInput.hide');
-
-    if (_usernameController.text.length != 10) {
-      setState(() {
-        errorCode = true;
-        errorMessage = "يرجى إدخال رقم يتألف من عشرة خانات";
-      });
-    } else {
-      try {
-        setState(() {
-          loadingScreen = true;
-        });
-        LoginScreen.supportedCityId = "1";
-
-        await SmsAutoFill().listenForCode;
-
-        String signature = await SmsAutoFill().getAppSignature;
-
-        if (signature.toString().length != 11) {
-          signature = "no";
-        }
-        bool response = await Services.loginUser(
-            phoneNumber: LoginServices.replaceFarsiNumber(_usernameController.text.toString()),
-            signCode: signature,
-            supportedCityId: "1");
-
-        if (response) {
-          await SmsAutoFill().listenForCode;
-          setState(() {
-            loadingScreen = false;
-            LoginScreen.phoneNumber = LoginServices.replaceFarsiNumber(_usernameController.text.toString());
-          });
-          Navigator.of(context).pushReplacementNamed(OTPVerification.routeName,
-              arguments: {"phone": LoginServices.replaceFarsiNumber(_usernameController.text.toString())});
-        } else {
-          setState(() {
-            loadingScreen = false;
-            errorCode = true;
-          });
-        }
-      } catch (e) {
-        setState(() {
-          loadingScreen = false;
-          errorCode = true;
-        });
-        throw new Exception(e.toString());
       }
     }
   }

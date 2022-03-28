@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'utils_importer.dart';
 
 TextStyle mainStyle = TextStyle(
@@ -67,8 +67,7 @@ TextStyle loseStyle = warehouseStyle.copyWith(
   fontSize: 25,
 );
 
-TextStyle userNameStyle =
-    mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 15);
+TextStyle userNameStyle = mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 15);
 
 TextStyle blackBold = flushBarStyle.copyWith(
   color: Colors.black,

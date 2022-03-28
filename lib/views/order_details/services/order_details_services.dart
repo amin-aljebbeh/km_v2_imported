@@ -18,7 +18,7 @@ class OrderDetailsServices {
     Map updateOrderBody = {updateKey: updateValue, "product_id": productId};
     var response = await ApiProvider.sendRequest(
       url: UPDATE_ORDER_PRODUCTS + orderId,
-      method: httpMethods.put,
+      method: HttpMethods.put,
       body: jsonEncode(updateOrderBody),
     );
     Tools.logToConsole(response.data.toString());
@@ -48,7 +48,7 @@ class OrderDetailsServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: DELETE_IMAGE_FROM_ORDER + "/$imageId",
-        method: httpMethods.delete,
+        method: HttpMethods.delete,
       );
 
       if (response.statusCode == SUCCESS_CODE) {

@@ -1,14 +1,15 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/sub_warehouse_model.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:kammun_app/views/inventory/sub_warehouse_products.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'services/inventory_services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'inventory_importer.dart';
-import 'package:file_picker/file_picker.dart';
-import 'dart:io';
+import 'services/inventory_services.dart';
 
 class GetSubWarehouse extends StatefulWidget {
   const GetSubWarehouse({Key key}) : super(key: key);
@@ -174,9 +175,10 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
   }
 
   Future<File> pickFile() async {
-    return await FilePicker.getFile(
-      type: FileType.custom,
+    FilePickerResult result = await FilePicker.platform.pickFiles(
       allowedExtensions: ['xlsx', 'xlsm', 'xlsb', 'xltx', 'xltm', 'xls', 'xlt', 'xls', 'xlw', 'xlr'],
+      type: FileType.custom,
     );
+    return File(result.files[0].path);
   }
 }

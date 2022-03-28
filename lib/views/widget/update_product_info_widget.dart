@@ -6,6 +6,7 @@ import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+
 import '../../utils/utils_importer.dart';
 
 class UpdateProductInfoWidget extends StatefulWidget {
@@ -72,58 +73,62 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
             IconButton(
               icon: Icon(
                 Icons.save,
-                color: Colors.green,
+                color: ColorUtils.kmColors,
                 size: 30,
               ),
               onPressed: () async {
                 if (textController.text.isNotEmpty) {
-                  if (widget.isForPriceRate) {
-                    bool result = await InventoryServices.updatePriceRateThreshold(textController.text);
-                    Services.resultFlushBar(context: context, result: result);
+                  if (widget.bodyKey == 'discount') {
+                    widget.onSavePressed('success');
                   } else {
-                    if (widget.bodyKey == "supplier_code" &&
-                        !LoadingScreenServices.subSupplierCodeHint.hasMatch(textController.text)) {
-                      Flushbar(
-                        backgroundColor: Colors.red,
-                        messageText: Text(
-                          "فشل عملية التعديل يجب أن يحتوي رمز المادة على الرمز الخاص بك",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk),
-                        ),
-                        boxShadows: [
-                          BoxShadow(
-                            color: ColorUtils.primaryColor,
-                            offset: Offset(0.0, 2.0),
-                            blurRadius: 3.0,
-                          )
-                        ],
-                        icon: Icon(
-                          Icons.error,
-                          size: 28.0,
-                          color: Colors.white,
-                        ),
-                        duration: Duration(seconds: 3),
-                        leftBarIndicatorColor: ColorUtils.kmColors,
-                      )..show(context);
-                    } else {
-                      String newValue = textController.text;
-                      if (widget.bodyKey == 'price') {
-                        double tempValue = double.parse(newValue.split('.')[0]);
-                        tempValue *= widget.priceFactor;
-                        tempValue += widget.increasePercentage;
-                        newValue = tempValue.toString();
-                      }
-                      bool result = await ProductsServices.updateProductsDetails(
-                          bodyKey: widget.bodyKey,
-                          value: newValue,
-                          isForSubWarehouse: widget.isForSubWarehouse,
-                          subWarehouseId: widget.productData.subWarehouseId.toString(),
-                          productId: widget.productId.toString());
-
-                      if (result) widget.onSavePressed(textController.text);
+                    if (widget.isForPriceRate) {
+                      bool result = await InventoryServices.updatePriceRateThreshold(textController.text);
                       Services.resultFlushBar(context: context, result: result);
+                    } else {
+                      if (widget.bodyKey == "supplier_code" &&
+                          !LoadingScreenServices.subSupplierCodeHint.hasMatch(textController.text)) {
+                        Flushbar(
+                          backgroundColor: Colors.red,
+                          messageText: Text(
+                            "فشل عملية التعديل يجب أن يحتوي رمز المادة على الرمز الخاص بك",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk),
+                          ),
+                          boxShadows: [
+                            BoxShadow(
+                              color: ColorUtils.primaryColor,
+                              offset: Offset(0.0, 2.0),
+                              blurRadius: 3.0,
+                            )
+                          ],
+                          icon: Icon(
+                            Icons.error,
+                            size: 28.0,
+                            color: Colors.white,
+                          ),
+                          duration: Duration(seconds: 3),
+                          leftBarIndicatorColor: ColorUtils.kmColors,
+                        )..show(context);
+                      } else {
+                        String newValue = textController.text;
+                        if (widget.bodyKey == 'price') {
+                          double tempValue = double.parse(newValue.split('.')[0]);
+                          tempValue *= widget.priceFactor;
+                          tempValue += widget.increasePercentage;
+                          newValue = tempValue.toString();
+                        }
+                        bool result = await ProductsServices.updateProductsDetails(
+                            bodyKey: widget.bodyKey,
+                            value: newValue,
+                            isForSubWarehouse: widget.isForSubWarehouse,
+                            subWarehouseId: widget.productData.subWarehouseId.toString(),
+                            productId: widget.productId.toString());
+
+                        if (result) widget.onSavePressed(textController.text);
+                        Services.resultFlushBar(context: context, result: result);
+                      }
                     }
                   }
                 } else {

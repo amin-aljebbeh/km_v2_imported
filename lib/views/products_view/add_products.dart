@@ -1,12 +1,13 @@
 import 'dart:io';
+
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 import '../../Services.dart';
 
@@ -40,7 +41,7 @@ class _AddProductsViewState extends State<AddProductsView> {
 
   Future getImageCamera() async {
     final pickedFile =
-        await picker.getImage(source: ImageSource.camera, imageQuality: 100, maxHeight: 600, maxWidth: 500);
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 100, maxHeight: 600, maxWidth: 500);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -52,7 +53,7 @@ class _AddProductsViewState extends State<AddProductsView> {
 
   Future getImageGallery() async {
     final pickedFile =
-        await picker.getImage(source: ImageSource.gallery, imageQuality: 100, maxHeight: 600, maxWidth: 500);
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 100, maxHeight: 600, maxWidth: 500);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);

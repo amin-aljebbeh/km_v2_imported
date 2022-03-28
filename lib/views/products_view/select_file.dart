@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class SelectedFileToUpload extends StatelessWidget {
@@ -7,8 +8,7 @@ class SelectedFileToUpload extends StatelessWidget {
   final bool closeFromRight;
   final String name;
 
-  const SelectedFileToUpload(
-      {Key key, this.image, this.name, this.close, this.closeFromRight = true})
+  const SelectedFileToUpload({Key key, this.image, this.name, this.close, this.closeFromRight = true})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class SelectedFileToUpload extends StatelessWidget {
             height: MediaQuery.of(context).size.width / 4,
             alignment: Alignment.center,
             child: Stack(
-              overflow: Overflow.visible,
+              clipBehavior: Clip.none,
               children: [
                 Positioned(
                   top: 10,
@@ -30,9 +30,7 @@ class SelectedFileToUpload extends StatelessWidget {
                   child: Container(
                     width: MediaQuery.of(context).size.width / 4 - 10,
                     height: MediaQuery.of(context).size.width / 4 - 10,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: FileImage(image), fit: BoxFit.cover)),
+                    decoration: BoxDecoration(image: DecorationImage(image: FileImage(image), fit: BoxFit.cover)),
                   ),
                 ),
                 Positioned(
@@ -74,10 +72,7 @@ class SelectedFileToUpload extends StatelessWidget {
             child: Text(
               '${name ?? ''}',
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2
-                  .apply(fontSizeDelta: -3),
+              style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: -3),
             ),
           )
         ],

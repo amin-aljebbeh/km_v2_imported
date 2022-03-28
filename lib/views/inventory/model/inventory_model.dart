@@ -2,15 +2,11 @@
 //
 //     final productsToReview = productsToReviewFromJson(jsonString);
 
-import 'dart:convert';
-
 import 'package:kammun_app/models/models_importer.dart';
 
-ProductsToReview productsToReviewFromJson(String str) =>
-    ProductsToReview.fromJson(json.decode(str));
+ProductsToReview productsToReviewFromJson(String str) => ProductsToReview.fromJson(json.decode(str));
 
-String productsToReviewToJson(ProductsToReview data) =>
-    json.encode(data.toJson());
+String productsToReviewToJson(ProductsToReview data) => json.encode(data.toJson());
 
 class ProductsToReview {
   ProductsToReview({
@@ -23,26 +19,21 @@ class ProductsToReview {
   List<ProductData> productsToActivate;
   List<ProductData> productsToDeactivate;
 
-  factory ProductsToReview.fromJson(Map<String, dynamic> json) =>
-      ProductsToReview(
+  factory ProductsToReview.fromJson(Map<String, dynamic> json) => ProductsToReview(
         success: json["success"] == null ? null : json["success"],
         productsToActivate: json["products_to_activate"] == null
             ? null
-            : List<ProductData>.from(json["products_to_activate"]
-                .map((x) => ProductData.fromJson(x))),
+            : List<ProductData>.from(json["products_to_activate"].map((x) => ProductData.fromJson(x))),
         productsToDeactivate: json["products_to_deactivate"] == null
             ? null
-            : List<ProductData>.from(json["products_to_deactivate"]
-                .map((x) => ProductData.fromJson(x))),
+            : List<ProductData>.from(json["products_to_deactivate"].map((x) => ProductData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success == null ? null : success,
-        "products_to_activate": productsToActivate == null
-            ? null
-            : List<dynamic>.from(productsToActivate.map((x) => x.toJson())),
-        "products_to_deactivate": productsToDeactivate == null
-            ? null
-            : List<dynamic>.from(productsToDeactivate.map((x) => x.toJson())),
+        "products_to_activate":
+            productsToActivate == null ? null : List<dynamic>.from(productsToActivate.map((x) => x.toJson())),
+        "products_to_deactivate":
+            productsToDeactivate == null ? null : List<dynamic>.from(productsToDeactivate.map((x) => x.toJson())),
       };
 }

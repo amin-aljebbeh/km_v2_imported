@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
+import 'package:search_choices/search_choices.dart';
 
 // ignore: must_be_immutable
 class KSearchableDropdown extends StatefulWidget {
@@ -24,7 +24,7 @@ class KSearchableDropdown extends StatefulWidget {
 class _KSearchableDropdownState extends State<KSearchableDropdown> {
   @override
   Widget build(BuildContext context) {
-    return SearchableDropdown(
+    return SearchChoices.single(
       closeButton: FlatButton(
         child: Text(
           StringUtils.close,

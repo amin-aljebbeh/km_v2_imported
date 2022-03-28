@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
@@ -174,6 +173,21 @@ class _OrderAccountingState extends State<OrderAccounting> {
               children: [
                 Column(
                   children: subWarehouseTotal,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: UpdateProductInfoWidget(
+                    textHint: '',
+                    title: 'إضافة حسم',
+                    inputType: TextInputType.text,
+                    bodyKey: "discount",
+                    productId: 0,
+                    onSavePressed: (newValue) {
+                      setState(() {
+                        Services.resultFlushBar(context: context, result: newValue == 'success');
+                      });
+                    },
+                  ),
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.35,

@@ -2,8 +2,6 @@
 //
 //     final louckOrder = louckOrderFromJson(jsonString);
 
-import 'dart:convert';
-
 import 'models_importer.dart';
 
 LockOrder lockOrderFromJson(String str) => LockOrder.fromJson(json.decode(str));
@@ -24,8 +22,7 @@ class LockOrder {
   factory LockOrder.fromJson(Map<String, dynamic> json) => LockOrder(
         success: json["success"],
         data: json["data"],
-        products: List<OrderProducts>.from(
-            json["products"].map((x) => OrderProducts.fromJson(x))),
+        products: List<OrderProducts>.from(json["products"].map((x) => OrderProducts.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

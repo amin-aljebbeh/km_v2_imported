@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +30,7 @@ class Services {
     try {
       var response = await ApiProvider.sendRequest(
         url: ADD_TO_FAVORITE + productsId,
-        method: httpMethods.put,
+        method: HttpMethods.put,
       );
 
       if (response.statusCode == SUCCESS_CODE) {
@@ -50,7 +48,7 @@ class Services {
     try {
       var response = await ApiProvider.sendRequest(
         url: REMOVE_FROM_FAVORITE + productsId,
-        method: httpMethods.put,
+        method: HttpMethods.put,
       );
 
       if (response.statusCode == SUCCESS_CODE) {
@@ -68,7 +66,7 @@ class Services {
     try {
       var response = await ApiProvider.sendRequest(
         url: USER_ADDRESS + "/$addressId",
-        method: httpMethods.delete,
+        method: HttpMethods.delete,
       );
 
       if (response.statusCode == SUCCESS_CODE) {
@@ -87,7 +85,7 @@ class Services {
     try {
       var response = await ApiProvider.sendRequest(
         url: API + ORDER,
-        method: httpMethods.get,
+        method: HttpMethods.get,
         queryParameters: {"page": pageNumber},
       );
 
@@ -122,7 +120,7 @@ class Services {
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: LOGIN_URL, method: httpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
+          url: LOGIN_URL, method: HttpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
       var theResponse = response.data;
 
       if (response.statusCode == SUCCESS_CODE && (theResponse["success"].toString() == "true")) {
@@ -140,7 +138,7 @@ class Services {
 
   static Future<bool> verifyCode(String code) async {
     try {
-      var response = await ApiProvider.sendRequest(url: OTP_VERIFICATION + code, method: httpMethods.get);
+      var response = await ApiProvider.sendRequest(url: OTP_VERIFICATION + code, method: HttpMethods.get);
 
       var data = (response.data);
 
@@ -173,7 +171,7 @@ class Services {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_SHOPPER,
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
 
       if (response.statusCode == SUCCESS_CODE) {
@@ -193,7 +191,7 @@ class Services {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_LEVEL + levelId,
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
 
       if (response.statusCode == SUCCESS_CODE) {
@@ -213,7 +211,7 @@ class Services {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_LEVEL,
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
 
       if (response.statusCode == SUCCESS_CODE) {
@@ -232,7 +230,7 @@ class Services {
     Map changeStatus = {'status': newStatus};
     try {
       var response = await ApiProvider.sendRequest(
-          url: CHANGE_SHOPPER_STATUS + shopperId, method: httpMethods.put, body: jsonEncode(changeStatus));
+          url: CHANGE_SHOPPER_STATUS + shopperId, method: HttpMethods.put, body: jsonEncode(changeStatus));
 
       if (response.statusCode == SUCCESS_CODE) {
         return true;
@@ -250,7 +248,7 @@ class Services {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_WAREHOUSE,
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
 
       if (response.statusCode == SUCCESS_CODE && response.data['success'].toString() == 'true') {

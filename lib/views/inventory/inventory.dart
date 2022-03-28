@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
@@ -38,7 +35,7 @@ class _InventoryState extends State<Inventory> {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_INVENTORY_PRODUCTS,
-        method: httpMethods.get,
+        method: HttpMethods.get,
       );
       if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
         productsListToActive.addAll(productsToReviewFromJson(jsonEncode(response.data)).productsToActivate);

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/colors_utils.dart';
-import 'package:kammun_app/utils/string_utils.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/label_row.dart';
 

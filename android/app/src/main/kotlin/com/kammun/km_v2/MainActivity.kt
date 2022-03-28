@@ -1,4 +1,4 @@
-package com.kammunShopper.app
+package com.kammun.km_v2
 
 import io.flutter.embedding.android.FlutterActivity
 

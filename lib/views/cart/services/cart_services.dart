@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
+
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -30,7 +30,7 @@ class CartServices {
 
       var response = await ApiProvider.sendRequest(
           url: SYNC_CART,
-          method: httpMethods.post,
+          method: HttpMethods.post,
           body: jsonEncode({
             "product_ids": userCart
                 .split("@")[0]

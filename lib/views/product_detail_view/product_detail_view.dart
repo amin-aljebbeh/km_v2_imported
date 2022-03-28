@@ -15,7 +15,7 @@ import 'package:kammun_app/views/prices_changes/services/prices_changes_services
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
+import 'package:search_choices/search_choices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Services.dart';
@@ -636,7 +636,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                       border: Border.all(width: 5, color: ColorUtils.greyColor),
                                     ),
                                     child: Center(
-                                      child: new SearchableDropdown(
+                                      child: SearchChoices.single(
                                         style: decisionButtonStyle,
                                         closeButton: FlatButton(
                                           child: Text(

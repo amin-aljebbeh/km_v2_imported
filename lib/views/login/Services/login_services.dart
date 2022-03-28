@@ -92,7 +92,7 @@ class LoginServices {
     try {
       var response = await ApiProvider.sendRequest(
           url: LOGIN_ADMIN,
-          method: httpMethods.post,
+          method: HttpMethods.post,
           body: jsonEncode(loginBody),
           responseType: ResponseType.json);
       var theResponse = response.data;

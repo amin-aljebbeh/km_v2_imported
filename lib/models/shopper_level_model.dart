@@ -37,38 +37,26 @@ class Level {
         id: json["id"] == null ? null : json["id"],
         name: json["name"] == null ? null : json["name"],
         description: json["description"],
-        maxProductsToHandle: json["max_products_to_handle"] == null
-            ? null
-            : json["max_products_to_handle"],
-        maxOrdersToHandle: json["max_orders_to_handle"] == null
-            ? null
-            : json["max_orders_to_handle"],
-        maxCompanyBalance: json["max_company_balance"] == null
-            ? null
-            : json["max_company_balance"],
+        maxProductsToHandle: json["max_products_to_handle"] == null ? null : json["max_products_to_handle"],
+        maxOrdersToHandle: json["max_orders_to_handle"] == null ? null : json["max_orders_to_handle"],
+        maxCompanyBalance: json["max_company_balance"] == null ? null : json["max_company_balance"],
         points: json["points"] == null ? null : json["points"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"],
         subWarehouses: json["sub_warehouses"] == null
-            ? new List<SubWarehouse>()
-            : List<SubWarehouse>.from(
-                json["sub_warehouses"].map((x) => SubWarehouse.fromJson(x))),
+            ? []
+            : List<SubWarehouse>.from(json["sub_warehouses"].map((x) => SubWarehouse.fromJson(x))),
         supportedCities: json["supported_cities"] == null
             ? null
-            : List<SupportedCity>.from(
-                json["supported_cities"].map((x) => SupportedCity.fromJson(x))),
+            : List<SupportedCity>.from(json["supported_cities"].map((x) => SupportedCity.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "name": name == null ? null : name,
         "description": description,
-        "max_products_to_handle":
-            maxProductsToHandle == null ? null : maxProductsToHandle,
-        "max_orders_to_handle":
-            maxOrdersToHandle == null ? null : maxOrdersToHandle,
+        "max_products_to_handle": maxProductsToHandle == null ? null : maxProductsToHandle,
+        "max_orders_to_handle": maxOrdersToHandle == null ? null : maxOrdersToHandle,
         "points": points == null ? null : points,
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
         "updated_at": updatedAt,

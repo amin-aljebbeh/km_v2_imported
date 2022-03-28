@@ -1,21 +1,17 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:kammun_app/utils/tools.dart';
+
 import '../core_importer.dart';
 
 class ErrorHandler {
-  static Response handleDioError(DioError error) {
-    Tools.logToConsole("Dio error : " + error.message);
-
+  static Response handleDioError(DioError error, RequestOptions options) {
     if (error.response == null) {
-      Tools.logToConsole("-------Service Unavailable--------");
-
-      return Response(statusCode: SERVICE_UNAVAILABLE_ERROR);
+      return Response(statusCode: SERVICE_UNAVAILABLE_ERROR, requestOptions: options);
     } else {
-      if (error.type == DioErrorType.DEFAULT || error.type == DioErrorType.RESPONSE) {
+      if (error.type == DioErrorType.other || error.type == DioErrorType.response) {
         if (error is SocketException) return error.response;
-        if (error.type == DioErrorType.RESPONSE) {
+        if (error.type == DioErrorType.response) {
           switch (error.response.statusCode) {
             case BAD_REQUEST_ERROR:
               {
@@ -39,11 +35,11 @@ class ErrorHandler {
             default:
               return error.response;
           }
-        } else if (error.type == DioErrorType.CONNECT_TIMEOUT ||
-            error.type == DioErrorType.SEND_TIMEOUT ||
-            error.type == DioErrorType.RECEIVE_TIMEOUT) {
+        } else if (error.type == DioErrorType.connectTimeout ||
+            error.type == DioErrorType.sendTimeout ||
+            error.type == DioErrorType.receiveTimeout) {
           return error.response;
-        } else if (error.type == DioErrorType.CANCEL) {
+        } else if (error.type == DioErrorType.cancel) {
           return error.response;
         } else
           return error.response;

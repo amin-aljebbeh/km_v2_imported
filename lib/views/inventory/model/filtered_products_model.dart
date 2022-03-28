@@ -2,8 +2,6 @@
 //
 //     final empty = emptyFromJson(jsonString);
 
-import 'dart:convert';
-
 import 'package:kammun_app/models/models_importer.dart';
 
 FilteredProductsModel filteredProductsModelFromJson(String str) =>

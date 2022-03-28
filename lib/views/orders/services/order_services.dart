@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,7 +58,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: API + ORDER + '$orderId',
-        method: httpMethods.put,
+        method: HttpMethods.put,
         body: jsonEncode(orderData),
       );
 
@@ -84,7 +82,7 @@ class OrderServices {
     };
     var response = await ApiProvider.sendRequest(
       url: CANCEL_ORDER + orderId,
-      method: httpMethods.post,
+      method: HttpMethods.post,
       body: jsonEncode(cancelOrderBody),
     );
 
@@ -104,7 +102,7 @@ class OrderServices {
     };
     var response = await ApiProvider.sendRequest(
       url: RATE_ORDER + orderId,
-      method: httpMethods.post,
+      method: HttpMethods.post,
       body: jsonEncode(ratingOrderBody),
     );
 
@@ -125,7 +123,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: LOCK_ORDER + orderId,
-        method: httpMethods.put,
+        method: HttpMethods.put,
       );
       if (response.data == null) {
         return null;
@@ -167,7 +165,7 @@ class OrderServices {
       var body = {'order_status_id': '$statusId'};
       var response = await ApiProvider.sendRequest(
         url: CHANGE_ORDER_STATUS + '$orderId',
-        method: httpMethods.post,
+        method: HttpMethods.post,
         body: jsonEncode(body),
       );
 
@@ -185,7 +183,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: UNLOCK_ORDER + orderId,
-        method: httpMethods.put,
+        method: HttpMethods.put,
       );
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
         return true;
@@ -201,7 +199,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: ORDERS_NOT_ASSIGNED_TO_DELIVERIES,
-        method: httpMethods.get,
+        method: HttpMethods.get,
         queryParameters: {'page': pageNumber},
       );
 
@@ -226,7 +224,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_ORDERS_ASSIGNED_TO_DELIVERIES,
-        method: httpMethods.get,
+        method: HttpMethods.get,
         queryParameters: {'page': pageNumber},
       );
 
@@ -248,7 +246,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_ORDERS_ASSIGNED_TO_SHOPPERS,
-        method: httpMethods.get,
+        method: HttpMethods.get,
         queryParameters: {'page': pageNumber},
       );
 
@@ -270,7 +268,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: DELIVERY_VIEWS_HIS_OWN_ORDERS,
-        method: httpMethods.get,
+        method: HttpMethods.get,
         queryParameters: {'page': pageNumber},
       );
 
@@ -292,7 +290,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS,
-        method: httpMethods.get,
+        method: HttpMethods.get,
         queryParameters: {'page': pageNumber},
       );
 
@@ -314,7 +312,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: SHOPPER_VIEWS_HIS_OWN_ORDERS,
-        method: httpMethods.get,
+        method: HttpMethods.get,
         queryParameters: {'page': pageNumber},
       );
 
@@ -339,7 +337,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_SUPPLIER_ORDER,
-        method: httpMethods.get,
+        method: HttpMethods.get,
         queryParameters: {'page': pageNumber},
       );
 
@@ -369,7 +367,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: url + orderId,
-        method: httpMethods.put,
+        method: HttpMethods.put,
       );
 
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
@@ -393,7 +391,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: ASSIGN_ORDER_TO_SHOPPER,
-        method: httpMethods.post,
+        method: HttpMethods.post,
         body: jsonEncode(assignOrderBody),
       );
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
@@ -415,7 +413,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: ASSIGN_ORDER_TO_DELIVERY,
-        method: httpMethods.post,
+        method: HttpMethods.post,
         body: jsonEncode(assignOrderBody),
       );
       if (response.statusCode == SUCCESS_CODE && response.data['success']) {
@@ -432,7 +430,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
         url: GET_ORDER_BY_USER_PHONE_NUMBER,
-        method: httpMethods.get,
+        method: HttpMethods.get,
         queryParameters: {
           'page': pageNumber,
           'phone': phoneNumber,
