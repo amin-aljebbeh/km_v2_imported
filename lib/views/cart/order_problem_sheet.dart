@@ -13,7 +13,11 @@ class OrderProblemBottomSheet extends StatefulWidget {
   final Function(bool updatePrice) applyChanges;
 
   const OrderProblemBottomSheet(
-      {Key key, @required this.notActiveProducts, @required this.pricesChangesProducts, @required this.applyChanges}) : super(key: key);
+      {Key key,
+      @required this.notActiveProducts,
+      @required this.pricesChangesProducts,
+      @required this.applyChanges})
+      : super(key: key);
 
   @override
   _OrderProblemBottomSheetState createState() => _OrderProblemBottomSheetState();

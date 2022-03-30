@@ -12,7 +12,9 @@ class FavoriteProductsViewCard extends StatefulWidget {
   final int index;
   final int active;
 
-  const FavoriteProductsViewCard({Key key, this.img, this.productName, this.quantity, this.price, this.index, this.active}) : super(key: key);
+  const FavoriteProductsViewCard(
+      {Key key, this.img, this.productName, this.quantity, this.price, this.index, this.active})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -43,44 +45,44 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                 const SizedBox(width: 10),
                 Expanded(
                     child: Wrap(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Wrap(
                           children: <Widget>[
-                            Wrap(
-                              children: <Widget>[
-                                Text(
-                                  widget.productName,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 6),
                             Text(
-                              widget.quantity,
+                              widget.productName,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorUtils.greyColor,
+                                  fontWeight: FontWeight.w700,
                                   fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 17),
+                                  fontSize: 18),
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                                StringUtils().oCcy.format(widget.price).toString() +
-                                    " ${LoadingScreenServices.companyInformation.currency}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorUtils.primaryColor,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    fontSize: 18)),
                           ],
                         ),
+                        const SizedBox(height: 6),
+                        Text(
+                          widget.quantity,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: ColorUtils.greyColor,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 17),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                            StringUtils().oCcy.format(widget.price).toString() +
+                                " ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: ColorUtils.primaryColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 18)),
                       ],
-                    )),
+                    ),
+                  ],
+                )),
                 widget.active == 0
                     ? Badge(
                         borderRadius: BorderRadius.zero,
