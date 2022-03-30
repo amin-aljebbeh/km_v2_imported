@@ -16,7 +16,7 @@ class ApiProvider {
     isUrlEncodedFormat ??= false;
 
     var options = BaseOptions(
-        baseUrl: mapService ? "" : BASE_URL,
+        baseUrl: mapService ? "" : baseUrl,
         connectTimeout: 30000,
         receiveTimeout: 30000,
         contentType: isUrlEncodedFormat ? Headers.formUrlEncodedContentType : Headers.jsonContentType);

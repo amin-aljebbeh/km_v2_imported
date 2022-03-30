@@ -19,7 +19,7 @@ class FullScreenImage extends StatelessWidget {
                 image: AdvImageCache(
                   imageUrl,
                   useMemCache: true,
-                  diskCacheExpire: Duration(days: 400),
+                  diskCacheExpire: const Duration(days: 400),
                 ),
               )),
         ),

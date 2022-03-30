@@ -19,14 +19,14 @@ class TransactionTypeResponse {
   List<TransactionTypeModel> data;
 
   factory TransactionTypeResponse.fromJson(Map<String, dynamic> json) => TransactionTypeResponse(
-        success: json["success"] == null ? null : json["success"],
+        success: json["success"],
         data: json["data"] == null
             ? null
             : List<TransactionTypeModel>.from(json["data"].map((x) => TransactionTypeModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success == null ? null : success,
+        "success": success,
         "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }
@@ -49,19 +49,19 @@ class TransactionTypeModel {
   int automatic;
 
   factory TransactionTypeModel.fromJson(Map<String, dynamic> json) => TransactionTypeModel(
-        id: json["id"] == null ? 'null' : json["id"],
-        name: json["name"] == null ? 'null' : json["name"],
-        arabicName: json["name_ar"] == null ? 'null' : json["name_ar"],
-        slug: json["slug"] == null ? 'null' : json["slug"],
-        description: json["description"] == null ? 'null' : json["description"],
-        automatic: json["automatic"] == null ? 'null' : json["automatic"],
+        id: json["id"] ?? 'null',
+        name: json["name"] ?? 'null',
+        arabicName: json["name_ar"] ?? 'null',
+        slug: json["slug"] ?? 'null',
+        description: json["description"] ?? 'null',
+        automatic: json["automatic"] ?? 'null',
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "name": name == null ? null : name,
-        "slug": slug == null ? null : slug,
-        "description": description == null ? null : description,
-        "automatic": automatic == null ? null : automatic,
+        "id": id,
+        "name": name,
+        "slug": slug,
+        "description": description,
+        "automatic": automatic,
       };
 }

@@ -12,6 +12,8 @@ import 'orders_view_importer.dart';
 import 'services/order_services.dart';
 
 class OrdersView extends StatefulWidget {
+  const OrdersView({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return OrdersViewState();
@@ -33,7 +35,7 @@ class OrdersViewState extends State<OrdersView> {
     ordersTypeFilter = 0;
     warehouseFilter = 0;
 
-    if (LoadingScreenServices.allOrdersList.length == 0) {
+    if (LoadingScreenServices.allOrdersList.isEmpty) {
       getOrders = _getOrder();
     } else {
       getOrders = _initialFunction();
@@ -59,7 +61,7 @@ class OrdersViewState extends State<OrdersView> {
   int ordersTypeFilter;
   List<String> warehouses;
 
-  List<OrdersOriginalData> orderDataList = new List<OrdersOriginalData>();
+  List<OrdersOriginalData> orderDataList = [];
 
   _getOrder() async {
     setState(() {
@@ -68,16 +70,17 @@ class OrdersViewState extends State<OrdersView> {
       errorMessage = false;
       orderDataList.clear();
     });
-    var orderList;
-    if (LoadingScreenServices.allOrdersList.length == 0)
+    List<OrdersOriginalData> orderList;
+    if (LoadingScreenServices.allOrdersList.isEmpty) {
       orderList = await Services.getAllOrders(pageNumber: indexPage);
-    else
+    } else {
       orderList = LoadingScreenServices.allOrdersList;
+    }
 
     if (orderList != null) {
-      if (orderList.length == 0) {
+      if (orderList.isEmpty) {
         setState(() {
-          if (LoadingScreenServices.allOrdersList.length != 0) theEndOfOrders = true;
+          if (LoadingScreenServices.allOrdersList.isNotEmpty) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -91,7 +94,7 @@ class OrdersViewState extends State<OrdersView> {
             } else {
               orderDataList.removeWhere((order) => int.parse(order.orderStatusId) != ordersFilter);
             }
-          } else
+          } else {
             switch (ordersTypeFilter) {
               case (0):
                 orderDataList.removeWhere((order) => order.delivery == null);
@@ -106,10 +109,12 @@ class OrdersViewState extends State<OrdersView> {
                 orderDataList.removeWhere((order) => order.shopper != null);
                 break;
             }
-          if (warehouseFilter != 0)
+          }
+          if (warehouseFilter != 0) {
             orderDataList.removeWhere((order) => int.parse(order.warehouseId) != warehouseFilter);
+          }
 
-          orderDataList.removeWhere((order) => order.products.length == 0);
+          orderDataList.removeWhere((order) => order.products.isEmpty);
           LoadingScreenServices.allOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
@@ -134,9 +139,9 @@ class OrdersViewState extends State<OrdersView> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
+          padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
           child: !orderLoaded || isLoading
-              ? Center(
+              ? const Center(
                   child: Loader(),
                 )
               : Column(
@@ -196,8 +201,8 @@ class OrdersViewState extends State<OrdersView> {
                                     onChoose: (number) async {
                                       Navigator.push(
                                         context,
-                                        new MaterialPageRoute(
-                                          builder: (screenContext) => new PhoneNumberOrdersView(
+                                        MaterialPageRoute(
+                                          builder: (screenContext) => PhoneNumberOrdersView(
                                             phoneNumber: number,
                                           ),
                                         ),
@@ -290,19 +295,17 @@ class OrdersViewState extends State<OrdersView> {
                         ),
                       ],
                     ),
-                    orderDataList.length == 0
-                        ? Container(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: screenHeight * 0.4),
-                              child: Center(
-                                child: Text(
-                                  "لا يوجد أي طلبات سابقة",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorUtils.greyColor,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    fontSize: 20.0,
-                                  ),
+                    orderDataList.isEmpty
+                        ? Padding(
+                            padding: EdgeInsets.only(top: screenHeight * 0.4),
+                            child: Center(
+                              child: Text(
+                                "لا يوجد أي طلبات سابقة",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: ColorUtils.greyColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontSize: 20.0,
                                 ),
                               ),
                             ),
@@ -355,15 +358,17 @@ class OrdersViewState extends State<OrdersView> {
                                             isLoading = true;
                                             errorMessage = false;
                                           });
-                                          if (orderDataList[index].orderStatusId == "1")
+                                          if (orderDataList[index].orderStatusId == "1") {
                                             changeStatus = 2;
-                                          else if (orderDataList[index].orderStatusId == "2")
+                                          } else if (orderDataList[index].orderStatusId == "2") {
                                             changeStatus = 3;
-                                          else if (orderDataList[index].orderStatusId == "3")
+                                          } else if (orderDataList[index].orderStatusId == "3") {
                                             changeStatus = 4;
-                                          else if (orderDataList[index].orderStatusId == "4") changeStatus = 5;
+                                          } else if (orderDataList[index].orderStatusId == "4") {
+                                            changeStatus = 5;
+                                          }
 
-                                          bool x = await OrderServices.changeOrderStatus(
+                                          bool x = await OrderServices.changeOrderStatusService(
                                               orderDataList[index].id.toString(), changeStatus);
 
                                           if (x) {
@@ -394,7 +399,7 @@ class OrdersViewState extends State<OrdersView> {
                                                 });
                                                 changeStatus = 7;
 
-                                                bool x = await OrderServices.changeOrderStatus(
+                                                bool x = await OrderServices.changeOrderStatusService(
                                                     orderDataList[index].id.toString(), changeStatus);
 
                                                 if (x) {
@@ -440,7 +445,7 @@ class OrdersViewState extends State<OrdersView> {
                                                 });
                                                 changeStatus = 6;
 
-                                                bool x = await OrderServices.changeOrderStatus(
+                                                bool x = await OrderServices.changeOrderStatusService(
                                                     orderDataList[index].id.toString(), changeStatus);
 
                                                 if (x) {
@@ -492,7 +497,7 @@ class OrdersViewState extends State<OrdersView> {
                                           });
                                           changeStatus = 1;
 
-                                          bool result = await OrderServices.changeOrderStatus(
+                                          bool result = await OrderServices.changeOrderStatusService(
                                               orderDataList[index].id.toString(), changeStatus);
                                           Services.resultFlushBar(context: context, result: result);
 
@@ -532,7 +537,7 @@ class OrdersViewState extends State<OrdersView> {
                                       errorMessage = false;
                                     },
                                   );
-                                  LockOrder response = await OrderServices.lockOrder(
+                                  LockOrder response = await OrderServices.lockOrderService(
                                       orderId: orderDataList[index].id.toString(),
                                       userNote: orderDataList[index].userNotes,
                                       supportedCityCost: orderDataList[index].supportedCityCost,
@@ -599,7 +604,8 @@ class OrdersViewState extends State<OrdersView> {
                                             text: 'نعم',
                                             onTap: () async {
                                               Navigator.of(context).pop();
-                                              bool result = await OrderServices.unlockOrder(orderId.toString());
+                                              bool result =
+                                                  await OrderServices.unlockOrderService(orderId.toString());
                                               Services.resultFlushBar(context: context, result: result);
                                               setState(() {
                                                 if (result) orderDataList[index].underUpdate = '0';
@@ -665,7 +671,7 @@ class OrdersViewState extends State<OrdersView> {
     orderProducts.removeWhere((element) => element.pivot.deletedAt != 'null');
 
     for (int i = 0; i < orderProducts.length; i++) {
-      ProductData product = new ProductData();
+      ProductData product = ProductData();
 
       product.id = orderProducts[i].id;
       product.images = orderProducts[i].images;

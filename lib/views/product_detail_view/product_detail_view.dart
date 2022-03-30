@@ -24,7 +24,7 @@ class ProductDetailView extends StatefulWidget {
   final ProductData product;
   final Function(String) onAddBarcode;
 
-  ProductDetailView({this.product, this.onAddBarcode});
+  const ProductDetailView({Key key, this.product, this.onAddBarcode}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -46,13 +46,14 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
   @override
   void initState() {
-    if (widget.product.warehouses.isEmpty)
+    if (widget.product.warehouses.isEmpty) {
       widget.product.warehouses.add(Warehouse(name: 'غير مضاف لمستودع', id: 0));
+    }
     super.initState();
 
-    Timer(Duration(milliseconds: 100), () => _animateToIndex(2.5));
+    Timer(const Duration(milliseconds: 100), () => _animateToIndex(2.5));
 
-    _animationController = new AnimationController(
+    _animationController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
@@ -70,7 +71,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   _animateToIndex(i) async {
     await _controller.animateTo(
       _height * i,
-      duration: Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1500),
       curve: Curves.easeInOut,
     );
     setState(() {
@@ -114,7 +115,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                 actions: <Widget>[
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(true),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_forward_ios,
                       size: 35,
                     ),
@@ -145,13 +146,13 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               borderRadius: BorderRadius.circular(16),
                               child: FadeTransition(
                                 opacity: _animation,
-                                child: widget.product.images.length > 0
+                                child: widget.product.images.isNotEmpty
                                     ? Image(
                                         image: AdvImageCache(
                                           LoadingScreenServices.imagePrefixUrl +
                                               widget.product.images[0].imageFileName,
                                           useMemCache: true,
-                                          diskCacheExpire: Duration(days: 400),
+                                          diskCacheExpire: const Duration(days: 400),
                                         ),
                                         width: MediaQuery.of(context).size.width / 2,
                                         height: 120,
@@ -163,7 +164,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               ),
                             ),
                           )
-                        : widget.product.images.length > 0
+                        : widget.product.images.isNotEmpty
                             ? FullScreenWidget(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
@@ -172,7 +173,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                       LoadingScreenServices.imagePrefixUrl +
                                           widget.product.images[0].imageFileName,
                                       useMemCache: true,
-                                      diskCacheExpire: Duration(days: 400),
+                                      diskCacheExpire: const Duration(days: 400),
                                     ),
                                     width: MediaQuery.of(context).size.width / 2,
                                     height: 120,
@@ -191,9 +192,9 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
           body: SafeArea(
             top: false,
             child: Padding(
-              padding: EdgeInsets.only(left: 20, right: 20, top: 25),
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 25),
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius:
                         BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0))),
@@ -214,7 +215,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -222,7 +223,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Text(StringUtils.quantity + ' :', style: paragraphStyle),
-                            SizedBox(width: 5),
+                            const SizedBox(width: 5),
                             Text(
                               widget.product.unit.toString() != "null"
                                   ? widget.product.quantity.toString() + " " + widget.product.unit.toString()
@@ -234,7 +235,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         Column(
                           children: <Widget>[
                             Text(StringUtils.price + ' :', style: paragraphStyle),
-                            SizedBox(width: 5),
+                            const SizedBox(width: 5),
                             Text(
                                 "${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
                                 style: informationStyle),
@@ -242,7 +243,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -254,13 +255,13 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         ),
                       ],
                     ),
-                    Container(
+                    SizedBox(
                       height: 74,
                       child: ListView.builder(
                         itemCount: widget.product.categories.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
+                          return SizedBox(
                             width: MediaQuery.of(context).size.width * 0.45,
                             child: GestureDetector(
                               onLongPress: () {
@@ -270,7 +271,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                       text: StringUtils.yes,
                                       onTap: () async {
                                         Navigator.of(context).pop();
-                                        bool result = await ProductsServices.removeProductFromCategory(
+                                        bool result = await ProductsServices.removeProductFromCategoryService(
                                             productId: widget.product.id.toString(),
                                             categoryId: widget.product.categories[index].id.toString());
                                         Services.resultFlushBar(context: context, result: result);
@@ -310,13 +311,13 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                     if (Services.isProductsController())
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: Container(
+                        child: SizedBox(
                           height: 74,
                           child: ListView.builder(
                             itemCount: widget.product.warehouses.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (BuildContext context, int index) {
-                              return Container(
+                              return SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.45,
                                 child: ShopByCategory(
                                   img: 'null',
@@ -329,7 +330,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           ),
                         ),
                       ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -350,7 +351,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Padding(
@@ -362,7 +363,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 35)),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         Padding(
@@ -382,16 +383,16 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     if (widget.product.isActive == '0')
                       Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.all(3.0),
                         decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                                    ),
+                            borderRadius: const BorderRadius.all(
+                                Radius.circular(10.0) //                 <--- border radius here
+                                ),
                             border: Border.all(color: ColorUtils.primaryColor, width: 4)),
                         child: Center(
                           child: Text(
@@ -426,18 +427,18 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             boxShadows: [
                               BoxShadow(
                                 color: ColorUtils.primaryColor,
-                                offset: Offset(0.0, 2.0),
+                                offset: const Offset(0.0, 2.0),
                                 blurRadius: 3.0,
                               )
                             ],
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.assignment_turned_in,
                               size: 28.0,
                               color: Colors.white,
                             ),
-                            duration: Duration(seconds: 3),
+                            duration: const Duration(seconds: 3),
                             leftBarIndicatorColor: ColorUtils.kmColors,
-                          )..show(context);
+                          ).show(context);
 
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           productsId =
@@ -452,7 +453,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                     ),
                     Column(
                       children: [
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         UpdateProductInfoWidget(
                           title: StringUtils.edit + ' ' + StringUtils.price + ' :',
                           inputType: TextInputType.text,
@@ -578,20 +579,20 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width,
-                                    padding: EdgeInsets.only(left: 5, right: 5),
+                                    padding: const EdgeInsets.only(left: 5, right: 5),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(6),
                                       border: Border.all(width: 5, color: ColorUtils.greyColor),
                                     ),
                                     child: Center(
-                                      child: new DropdownButton(
+                                      child: DropdownButton(
                                         style: decisionButtonStyle,
                                         underline: Container(),
                                         isExpanded: false,
                                         items: Services.productSubWarehouseNames(context),
                                         iconEnabledColor: ColorUtils.greyColor,
                                         value: productSubWarehouseId,
-                                        hint: new Text(
+                                        hint: Text(
                                           LoadingScreenServices.subWarehouses
                                               .firstWhere(
                                                   (subWarehouse) =>
@@ -627,10 +628,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: 15),
+                                  const SizedBox(height: 15),
                                   Container(
                                     width: MediaQuery.of(context).size.width,
-                                    padding: EdgeInsets.only(left: 5, right: 5),
+                                    padding: const EdgeInsets.only(left: 5, right: 5),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(6),
                                       border: Border.all(width: 5, color: ColorUtils.greyColor),
@@ -638,7 +639,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     child: Center(
                                       child: SearchChoices.single(
                                         style: decisionButtonStyle,
-                                        closeButton: FlatButton(
+                                        closeButton: TextButton(
                                           child: Text(
                                             StringUtils.close,
                                             style: decisionButtonStyle.copyWith(
@@ -653,11 +654,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         items: LoadingScreenServices.fullCategoryList,
                                         iconEnabledColor: ColorUtils.greyColor,
                                         value: selectedValueCategoryValue,
-                                        hint: new Text(
+                                        hint: Text(
                                           'اختيار الصنف التابع له المنتج',
                                           style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor),
                                         ),
-                                        searchHint: new Text(
+                                        searchHint: Text(
                                           'إختيار الصنف',
                                           style: decisionButtonStyle.copyWith(
                                             color: ColorUtils.greyColor,
@@ -673,7 +674,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                       ),
                                     ),
                                   ),
-                                  widget.product.images.length > 0
+                                  widget.product.images.isNotEmpty
                                       ? KammunButton(
                                           height: 50,
                                           color: Theme.of(context).primaryColor,
@@ -685,7 +686,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                 overflow: TextOverflow.clip,
                                                 style: decisionButtonStyle,
                                               ),
-                                              Icon(
+                                              const Icon(
                                                 Icons.delete,
                                                 color: Colors.white,
                                                 size: 30,
@@ -754,7 +755,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                           (barcode) => GestureDetector(
                                                             child: Column(
                                                               children: [
-                                                                Divider(
+                                                                const Divider(
                                                                   color: Colors.black,
                                                                   thickness: 1,
                                                                 ),
@@ -763,7 +764,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                                   style: decisionButtonStyle.copyWith(
                                                                       color: Colors.black),
                                                                 ),
-                                                                Divider(
+                                                                const Divider(
                                                                   color: Colors.black,
                                                                   thickness: 1,
                                                                 ),
@@ -786,13 +787,14 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                                                       barcode.barcode)
                                                                                   .id);
                                                                       Navigator.of(context).pop();
-                                                                      if (result)
+                                                                      if (result) {
                                                                         setState(() {
                                                                           widget.product.barcodes.removeWhere(
                                                                               (barcodeToDelete) =>
                                                                                   barcodeToDelete.barcode ==
                                                                                   barcode.barcode);
                                                                         });
+                                                                      }
                                                                       Services.resultFlushBar(
                                                                           context: context, result: result);
                                                                     },
@@ -849,7 +851,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                       text: StringUtils.yes,
                                                       onTap: () async {
                                                         bool result = await AddedProductsServices
-                                                            .unAttachProductsToSubWarehouse(
+                                                            .unAttachProductsToSubWarehouseService(
                                                                 productsId: widget.product.id.toString(),
                                                                 subWarehouse:
                                                                     widget.product.subWarehouseId.toString());
@@ -883,7 +885,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                   DialogButton(
                                                     text: StringUtils.yes,
                                                     onTap: () async {
-                                                      bool result = await ProductsServices.deleteProduct(
+                                                      bool result = await ProductsServices.deleteProductService(
                                                           widget.product.id.toString());
                                                       if (result) {
                                                         int count = 0;
@@ -909,7 +911,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           ],
                                         )
                                       : Container(),
-                                  SizedBox(height: 30),
+                                  const SizedBox(height: 30),
                                 ],
                               )
                             : Services.isSupplierManager() &&
@@ -925,7 +927,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           text: StringUtils.yes,
                                           onTap: () async {
                                             bool result =
-                                                await AddedProductsServices.unAttachProductsToSubWarehouse(
+                                                await AddedProductsServices.unAttachProductsToSubWarehouseService(
                                                     productsId: widget.product.id.toString(),
                                                     subWarehouse: widget.product.subWarehouseId.toString());
                                             if (result) {

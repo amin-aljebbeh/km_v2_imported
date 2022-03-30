@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 // ignore: must_be_immutable
 class OrderDetailViewMain extends StatefulWidget {
@@ -14,12 +14,13 @@ class OrderDetailViewMain extends StatefulWidget {
   final OrderTypes orderType;
 
   OrderDetailViewMain({
+    Key key,
     this.subTotal,
     this.order,
     @required this.orderType,
     this.remaining,
     this.totalDiscount,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -31,7 +32,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
     with AutomaticKeepAliveClientMixin<OrderDetailViewMain> {
   static List<OrderProducts> productsAry;
   getArray() {
-    productsAry = List<OrderProducts>();
+    productsAry = [];
     productsAry.addAll(widget.order.products);
     productsAry.removeWhere((product) => product.pivot.deletedAt != 'null');
 
@@ -41,8 +42,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
           return -1;
         } else if (a.subWarehouseId < b.subWarehouseId) {
           return 1;
-        } else
+        } else {
           return 0;
+        }
       });
     } else {
       productsAry.sort((a, b) {
@@ -50,8 +52,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
           return 1;
         } else if (a.subWarehouseId < b.subWarehouseId) {
           return -1;
-        } else
+        } else {
           return 0;
+        }
       });
     }
   }
@@ -72,9 +75,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       body: Padding(
-        padding: EdgeInsets.only(left: 0, top: 0, right: 20, bottom: 010),
+        padding: const EdgeInsets.only(left: 0, top: 0, right: 20, bottom: 010),
         child: isLoading
-            ? Center(child: Loader())
+            ? const Center(child: Loader())
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
@@ -87,7 +90,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                       : Container(),
                   Expanded(
                     child: ListView.builder(
-                      padding: EdgeInsets.only(left: 20.0, top: 0.0),
+                      padding: const EdgeInsets.only(left: 20.0, top: 0.0),
                       primary: false,
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -98,7 +101,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                           children: [
                             if (newSubWarehouse(index))
                               Container(
-                                margin: EdgeInsets.only(bottom: 10),
+                                margin: const EdgeInsets.only(bottom: 10),
                                 color: ColorUtils.searchGreyColor,
                                 child: Center(
                                   child: Text(
@@ -152,7 +155,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(left: 20, top: 5),
+                          padding: const EdgeInsets.only(left: 20, top: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -161,8 +164,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                 style: darkBold,
                               ),
                               Text(
-                                "${StringUtils().oCcy.format(widget.remaining)}" +
-                                    " ${LoadingScreenServices.companyInformation.currency}",
+                                "${StringUtils().oCcy.format(widget.remaining)}"
+                                " ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
@@ -174,7 +177,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 20, top: 5),
+                          padding: const EdgeInsets.only(left: 20, top: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -183,8 +186,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                 style: darkBold,
                               ),
                               Text(
-                                "${StringUtils().oCcy.format(widget.totalDiscount)}" +
-                                    " ${LoadingScreenServices.companyInformation.currency}",
+                                "${StringUtils().oCcy.format(widget.totalDiscount)}"
+                                " ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
@@ -196,7 +199,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 20, top: 5),
+                          padding: const EdgeInsets.only(left: 20, top: 5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -205,8 +208,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                 style: darkBold,
                               ),
                               Text(
-                                "${StringUtils().oCcy.format(widget.subTotal)}" +
-                                    " ${LoadingScreenServices.companyInformation.currency}",
+                                "${StringUtils().oCcy.format(widget.subTotal)}"
+                                " ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,

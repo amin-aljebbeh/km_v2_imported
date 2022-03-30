@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 class ServerUpdate extends StatelessWidget {
-  static final String routeName = "/server-update";
+  static const String routeName = "/server-update";
+
+  const ServerUpdate({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +38,7 @@ class ServerUpdate extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      "${LoadingScreenServices.systemMaintenanceMessages}",
-                      // "نأسف لحدوث ذلك ولكن يقوم مدير النظام حالياً بإجراء بعض الإصلاحات و التطويرات، سوف نعاود العمل خلال مدة قصيرة",
+                      LoadingScreenServices.systemMaintenanceMessages,
                       textDirection: TextDirection.rtl,
                       textAlign: TextAlign.center,
                       style: TextStyle(

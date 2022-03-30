@@ -30,20 +30,20 @@ class SupportedCity {
   SupportedCityLevelPivot levelPivot;
 
   factory SupportedCity.fromJson(Map<String, dynamic> json) => SupportedCity(
-        id: json["id"] == null ? null : json["id"].toString(),
-        name: json["name"] == null ? null : json["name"],
-        deliveryPrice: json["delivery_price"] == null ? null : double.parse(json["delivery_price"]),
-        warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"].toString(),
-        couponTypeId: json["coupon_type_id"] == null ? null : json['coupon_type_id'].toString(),
-        isActive: json["is_active"] == null ? null : json["is_active"].toString(),
-        supportPhoneNumber: json["support_phone_number"] == null ? null : json["support_phone_number"],
-        maintenanceMessages: json["maintenance_messages"] == null ? null : json["maintenance_messages"],
-        levelPivot: json["pivot"] == null ? null : SupportedCityLevelPivot.fromJson(json["pivot"]),
+        id: json["id"].toString(),
+        name: json["name"],
+        deliveryPrice: double.parse(json["delivery_price"]),
+        warehouseId: json["warehouse_id"].toString(),
+        couponTypeId: json['coupon_type_id'].toString(),
+        isActive: json["is_active"].toString(),
+        supportPhoneNumber: json["support_phone_number"],
+        maintenanceMessages: json["maintenance_messages"],
+        levelPivot: SupportedCityLevelPivot.fromJson(json["pivot"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "name": name == null ? null : name,
-        "warehouse_id": warehouseId == null ? null : warehouseId,
+        "id": id,
+        "name": name,
+        "warehouse_id": warehouseId,
       };
 }

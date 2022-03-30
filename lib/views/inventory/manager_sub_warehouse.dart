@@ -71,7 +71,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
       ),
       body: Container(
         child: isLoading
-            ? Loader()
+            ? const Loader()
             : Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: ListView(
@@ -84,7 +84,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                       ),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
                         children: listOfWubWarehouse
                             .map((data) => Container(
@@ -93,7 +93,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                                     controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
                                     title: Text(
-                                      "${data.name}",
+                                      data.name,
                                       style: TextStyle(
                                         fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       ),
@@ -116,18 +116,19 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                       text: 'استعراض المستودع',
                       color: selected ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
                       onTap: () {
-                        if (selected)
+                        if (selected) {
                           Navigator.push(
                             context,
-                            new MaterialPageRoute(
-                              builder: (context) => new SubWarehouseProducts(
+                            MaterialPageRoute(
+                              builder: (context) => SubWarehouseProducts(
                                 subWarehouseId: _selectedSubWarehouseValue.toString(),
                               ),
                             ),
                           );
-                        else
+                        } else {
                           Toast.show('يرجى اختيار المستودع', context,
                               duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                        }
                       },
                     ),
                     if (!Services.isSupplierManager())
@@ -138,7 +139,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                         onTap: () async {
                           if (selected) {
                             File file = await pickFile();
-                            if (file != null)
+                            if (file != null) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -148,16 +149,18 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                                   ),
                                 ),
                               );
-                          } else
+                            }
+                          } else {
                             Toast.show('يرجى اختيار المستودع', context,
                                 duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                          }
                         },
                       ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     if (Services.isAdmin())
-                      UpdateProductInfoWidget(
+                      const UpdateProductInfoWidget(
                         isForPriceRate: true,
                         title: ' عتبة التقييم:',
                         textHint: "تقييم الأسعار",

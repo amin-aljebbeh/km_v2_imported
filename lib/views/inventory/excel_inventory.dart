@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+
 import 'inventory_importer.dart';
-import 'dart:io';
 
 class ExcelInventory extends StatefulWidget {
   final File file;
@@ -62,11 +64,11 @@ class _ExcelInventoryState extends State<ExcelInventory> {
       child: Scaffold(
         appBar: AppBar(
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(kToolbarHeight),
-            child: new Container(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: Container(
               color: ColorUtils.primaryColor,
-              child: new SafeArea(
-                child: new TabBar(
+              child: SafeArea(
+                child: TabBar(
                   indicatorColor: Colors.white,
                   labelColor: Colors.white,
                   tabs: tabList,

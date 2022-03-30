@@ -9,6 +9,8 @@ import '../../Services.dart';
 import 'models/transaction_model.dart';
 
 class AccountantTransactionView extends StatefulWidget {
+  const AccountantTransactionView({Key key}) : super(key: key);
+
   @override
   _AccountantTransactionViewState createState() => _AccountantTransactionViewState();
 }
@@ -19,7 +21,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
   bool empty;
   bool loading;
   bool profitLoading;
-  List<TransactionModel> transactions = List<TransactionModel>();
+  List<TransactionModel> transactions = [];
   String shopperName;
   String shopperId;
   int page;
@@ -95,7 +97,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
   }
 
   getDailyProfit(String shopperId) async {
-    String result = await ReportsServices.getShopperMonthProfit(shopperId: shopperId);
+    String result = await ReportsServices.getShopperMonthProfitService(shopperId: shopperId);
     setState(() {
       profitLoading = false;
       profit = result;
@@ -123,7 +125,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+          padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
           child: ListView(
             children: [
               Column(
@@ -148,7 +150,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                           }
                         },
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: KSearchableDropdown(
                           hint: StringUtils.chooseShopper,
@@ -190,11 +192,11 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                       ),
                     ],
                   ),
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.043,
                     child: selected
                         ? profitLoading
-                            ? Loader()
+                            ? const Loader()
                             : LabelRow(
                                 rightSideText: 'مرابح الشهر : ',
                                 leftSideText: profit != null
@@ -208,7 +210,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                               )
                         : Container(),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.61,
                     child: selected
@@ -221,10 +223,10 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                                 ),
                               )
                             : loading
-                                ? Loader()
+                                ? const Loader()
                                 : empty
-                                    ? Padding(
-                                        padding: const EdgeInsets.all(75),
+                                    ? const Padding(
+                                        padding: EdgeInsets.all(75),
                                         child: ScreenMessage(
                                           message: 'لا يوجد حركة',
                                         ),
@@ -310,7 +312,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                                           );
                                         },
                                       )
-                        : ScreenMessage(
+                        : const ScreenMessage(
                             message: 'اختر متسوق',
                           ),
                   ),
@@ -322,8 +324,8 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        new MaterialPageRoute(
-                          builder: (context) => new AddTransactionView(
+                        MaterialPageRoute(
+                          builder: (context) => AddTransactionView(
                             shopperName: shopperName,
                           ),
                         ),

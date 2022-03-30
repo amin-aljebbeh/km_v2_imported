@@ -16,21 +16,20 @@ class KCacheImage extends StatelessWidget {
     return Container(
       width: 100.0,
       height: 100.0,
-      decoration: new BoxDecoration(
-          borderRadius: new BorderRadius.all(Radius.circular(20.0))),
+      decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
       child: Hero(
         tag: tag,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Image(
             fit: BoxFit.contain,
-            image: image.length > 0
+            image: image.isNotEmpty
                 ? AdvImageCache(
                     image,
                     useMemCache: true,
-                    diskCacheExpire: Duration(days: 400),
+                    diskCacheExpire: const Duration(days: 400),
                   )
-                : AssetImage("assets/kmIcon.png"),
+                : const AssetImage("assets/kmIcon.png"),
             width: MediaQuery.of(context).size.width,
             height: 120,
           ),

@@ -15,12 +15,12 @@ class ProductsViewCard extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final Function(String) onAddBarcode;
 
-  ProductsViewCard({
+  const ProductsViewCard({Key key,
     this.index,
     this.productData,
     this.scaffoldKey,
     this.onAddBarcode,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -42,8 +42,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
       onTap: () {
         Navigator.push(
           context,
-          new MaterialPageRoute(
-            builder: (context) => new ProductDetailView(
+          MaterialPageRoute(
+            builder: (context) => ProductDetailView(
               product: widget.productData,
               onAddBarcode: (result) {
                 widget.onAddBarcode(result);
@@ -55,17 +55,17 @@ class ProductsViewCardState extends State<ProductsViewCard> {
       child: Container(
         color: Theme.of(context).primaryColorLight,
         child: Padding(
-          padding: EdgeInsets.only(left: 0, right: 0, top: 10),
+          padding: const EdgeInsets.only(left: 0, right: 0, top: 10),
           child: Row(
             children: <Widget>[
               KCacheImage(
                 tag: widget.index + 100,
-                image: widget.productData.images.length > 0
+                image: widget.productData.images.isNotEmpty
                     ? LoadingScreenServices.imagePrefixUrl +
                         widget.productData.images[0].imageFileName
                     : "",
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +84,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: 6),
+                            const SizedBox(height: 6),
                             Text(
                               widget.productData.unit != "null"
                                   ? widget.productData.quantity +
@@ -97,7 +97,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                   fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 17),
                             ),
-                            SizedBox(height: 8),
+                            const SizedBox(height: 8),
                             Text(
                                 StringUtils()
                                         .oCcy
@@ -115,7 +115,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           Row(
                             children: [
                               if (widget.productData.barcodes.isEmpty)
-                                Icon(BareCodeIcon.exclamation),
+                                const Icon(BareCodeIcon.exclamation),
                               BarcodeIcon(
                                 productData: widget.productData,
                                 requestType: BarcodeRequestType.addBarcode,
@@ -146,15 +146,16 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             productId: widget.productData.id.toString(),
                             onChange: (int active, bool result) {
                               setState(() {
-                                if (result)
+                                if (result) {
                                   widget.productData.isActive =
                                       active.toString();
+                                }
                               });
                             },
                           ),
                         Column(
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Services.isAdmin()
@@ -175,7 +176,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     ),
                                   )
                                 : Container(),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                          Services.isProductsController()  ?   Text(
@@ -205,18 +206,18 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                       width: 69,
                       padding: const EdgeInsets.all(3.0),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(
+                          borderRadius: const BorderRadius.all(Radius.circular(
                                   10.0) //                 <--- border radius here
                               ),
                           border:
                               Border.all(color: ColorUtils.kmColors, width: 2)),
                       child: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.add,
                           color: Colors.green,
                         ),
                         onPressed: () {
-                          if (widget.productData.barcodes.isEmpty)
+                          if (widget.productData.barcodes.isEmpty) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -225,15 +226,16 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                   requestType: BarcodeRequestType.attachProduct,
                                   onIgnore: (barcode) async {
                                     int param;
-                                    if (barcode == null)
+                                    if (barcode == null) {
                                       param = null;
-                                    else
+                                    } else {
                                       param = int.parse(barcode);
+                                    }
                                     Navigator.push(
                                       widget.scaffoldKey.currentContext,
-                                      new MaterialPageRoute(
+                                      MaterialPageRoute(
                                         builder: (context) =>
-                                            new AddProductsToSubWarehouse(
+                                            AddProductsToSubWarehouse(
                                           barcode: param,
                                           productData: widget.productData,
                                         ),
@@ -243,16 +245,17 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                 ),
                               ),
                             );
-                          else
+                          } else {
                             Navigator.push(
                               widget.scaffoldKey.currentContext,
-                              new MaterialPageRoute(
+                              MaterialPageRoute(
                                 builder: (context) =>
-                                    new AddProductsToSubWarehouse(
+                                    AddProductsToSubWarehouse(
                                   productData: widget.productData,
                                 ),
                               ),
                             );
+                          }
                         },
                       ),
                     ),

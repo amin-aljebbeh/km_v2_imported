@@ -15,7 +15,7 @@ class BarcodeIcon extends StatelessWidget {
   final Function(String) onAddBarcode;
   final ProductData productData;
 
-  BarcodeIcon({
+  const BarcodeIcon({
     Key key,
     @required this.requestType,
     this.productId,

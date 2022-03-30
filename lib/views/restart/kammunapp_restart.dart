@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class KammunRestart extends StatefulWidget {
-  KammunRestart({this.child});
+  const KammunRestart({Key key, this.child}) : super(key: key);
 
   final Widget child;
 

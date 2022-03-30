@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:kammun_app/utils/tools.dart';
+
 import 'start_model_importer.dart';
 
 SupportedCityOriginal supportedCityOriginalFromJson(String str) =>
@@ -38,11 +40,9 @@ class SupportedCityOriginal {
   bool success;
   List<IndigoDatum> data;
 
-  factory SupportedCityOriginal.fromJson(Map<String, dynamic> json) =>
-      SupportedCityOriginal(
+  factory SupportedCityOriginal.fromJson(Map<String, dynamic> json) => SupportedCityOriginal(
         success: json["success"],
-        data: List<IndigoDatum>.from(
-            json["data"].map((x) => IndigoDatum.fromJson(x))),
+        data: List<IndigoDatum>.from(json["data"].map((x) => IndigoDatum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -74,19 +74,36 @@ class IndigoDatum {
   String supportPhoneNumber;
   String maintenanceMessages;
 
-  factory IndigoDatum.fromJson(Map<String, dynamic> json) => IndigoDatum(
-        id: json["id"].toString(),
-        name: json["name"],
-        deliveryPrice: json["delivery_price"].toString(),
-        warehouseId: json["warehouse_id"].toString(),
-        couponTypeId: json["coupon_type_id"].toString(),
-        isActive: json["is_active"].toString(),
-        supportPhoneNumber: json["support_phone_number"].toString(),
-        maintenanceMessages: json["maintenance_messages"].toString(),
-        warehouse: Warehouse.fromJson(
-          json["warehouse"],
-        ),
-      );
+  factory IndigoDatum.fromJson(Map<String, dynamic> json) {
+    Tools.logToConsole('tffff 1');
+    IndigoDatum(
+      id: json["id"].toString(),
+      name: json["name"],
+      deliveryPrice: json["delivery_price"].toString(),
+      warehouseId: json["warehouse_id"].toString(),
+      couponTypeId: json["coupon_type_id"].toString(),
+      isActive: json["is_active"].toString(),
+      supportPhoneNumber: json["support_phone_number"].toString(),
+      maintenanceMessages: json["maintenance_messages"].toString(),
+      warehouse: Warehouse.fromJson(
+        json["warehouse"],
+      ),
+    );
+    Tools.logToConsole('tffff 2');
+    return IndigoDatum(
+      id: json["id"].toString(),
+      name: json["name"],
+      deliveryPrice: json["delivery_price"].toString(),
+      warehouseId: json["warehouse_id"].toString(),
+      couponTypeId: json["coupon_type_id"].toString(),
+      isActive: json["is_active"].toString(),
+      supportPhoneNumber: json["support_phone_number"].toString(),
+      maintenanceMessages: json["maintenance_messages"].toString(),
+      warehouse: Warehouse.fromJson(
+        json["warehouse"],
+      ),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,

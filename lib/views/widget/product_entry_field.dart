@@ -25,7 +25,7 @@ class ProductEntryField extends StatelessWidget {
           title,
           style: blackBold,
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         EntryField(
           width: width,
           onSubmit: (notEmpty) {},
@@ -34,7 +34,7 @@ class ProductEntryField extends StatelessWidget {
           controller: controller,
           hint: hint,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
       ],
     );
   }

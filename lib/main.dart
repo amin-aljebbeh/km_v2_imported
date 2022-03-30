@@ -19,13 +19,20 @@ import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
 import 'views/thank_you/thank_you_view.dart';
 
-void main() {
+Future<void> main() async {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    //   await Firebase.initializeApp();
+  } catch (e) {
+    // TODO
+  }
+
   RenderErrorBox.backgroundColor = Colors.transparent;
   RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
   runApp(
-    KammunRestart(
+    const KammunRestart(
       child: CustomTheme(
-        initialThemeKey: MyThemeKeys.LIGHT,
+        initialThemeKey: MyThemeKeys.light,
         child: MyApp(),
       ),
     ),
@@ -35,6 +42,8 @@ void main() {
 class RestartWidget {}
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -51,7 +60,7 @@ class _MyAppState extends State<MyApp> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/welcome_screen.png"),
             fit: BoxFit.contain,
@@ -72,55 +81,56 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     return KammunRestart(
       child: MaterialApp(
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           DefaultCupertinoLocalizations.delegate
         ],
-        supportedLocales: [
+        supportedLocales: const [
           Locale("ar", "AE"), // OR Locale('ar', 'AE') OR Other RTL locales
         ],
-        locale: Locale("ar", "AE"),
+        locale: const Locale("ar", "AE"),
         title: 'Kammun',
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
-          LoginScreen.routeName: (_) => LoginScreen(),
+          LoginScreen.routeName: (_) => const LoginScreen(),
           '/home': (_) => HomeView(routeIndex: 0),
-          '/myApp': (_) => MyApp(),
-          'loading': (_) => LoadingScreen(),
+          '/myApp': (_) => const MyApp(),
+          'loading': (_) => const LoadingScreen(),
           '/favoraites': (_) => HomeView(routeIndex: 3),
-          '/cartFinal': (_) => CartViewFinal(),
-          ServerUpdate.routeName: (_) => ServerUpdate(),
-          '/thankyou': (_) => new ThankYouView(),
-          '/cart': (_) => new HomeView(routeIndex: 1),
-          '/cartFromUpdate': (_) => new HomeView(
+          '/cartFinal': (_) => const CartViewFinal(),
+          ServerUpdate.routeName: (_) => const ServerUpdate(),
+          '/thankyou': (_) => const ThankYouView(),
+          '/cart': (_) => HomeView(routeIndex: 1),
+          '/cartFromUpdate': (_) => HomeView(
                 routeIndex: 1,
                 isFromUpdateOrder: true,
               ),
           '/orders': (_) => HomeView(routeIndex: 2),
-          '/profile': (_) => ProfileScreen(),
-          '/statistics': (_) => DailyStatistics(),
-          '/sales_reports': (_) => SalesReport(),
-          '/products_added_to_warehouse': (_) => AddedProductsToWarehouse(),
-          '/products_not_added_to_warehouse': (_) => NotAddedProductsToWarehouse(),
-          '/all_products': (_) => AllProducts(),
-          '/attach_product_to_sub_warehouse': (_) => AddProductsToSubWarehouse(),
-          '/subWarehouseManagement': (_) => GetSubWarehouse(),
-          '/priceChange': (_) => Prices(),
-          '/Inventory': (_) => Inventory(),
-          '/AccountantTransactionView': (_) => AccountantTransactionView(),
-          '/ShopperTransactionView': (_) => ShopperTransactionView(),
+          '/profile': (_) => const ProfileScreen(),
+          '/statistics': (_) => const DailyStatistics(),
+          '/sales_reports': (_) => const SalesReport(),
+          '/products_added_to_warehouse': (_) => const AddedProductsToWarehouse(),
+          '/products_not_added_to_warehouse': (_) => const NotAddedProductsToWarehouse(),
+          '/all_products': (_) => const AllProducts(),
+          '/attach_product_to_sub_warehouse': (_) => const AddProductsToSubWarehouse(),
+          '/subWarehouseManagement': (_) => const GetSubWarehouse(),
+          '/priceChange': (_) => const Prices(),
+          '/Inventory': (_) => const Inventory(),
+          '/AccountantTransactionView': (_) => const AccountantTransactionView(),
+          '/ShopperTransactionView': (_) => const ShopperTransactionView(),
           '/AddTransactionView': (_) => AddTransactionView(),
-          '/products_filter': (_) => ProductsFilterScreen(),
-          '/SupplierAccounts': (_) => SupplierAccounts(),
-          '/ShopperManagementView': (_) => ShopperManagementView(),
+          '/products_filter': (_) => const ProductsFilterScreen(),
+          '/SupplierAccounts': (_) => const SupplierAccounts(),
+          '/ShopperManagementView': (_) => const ShopperManagementView(),
         },
         theme: CustomTheme.of(context),
-        home: LoadingScreen(),
+        home: const LoadingScreen(),
       ),
     );
   }

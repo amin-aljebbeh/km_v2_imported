@@ -105,7 +105,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
   void initState() {
     setState(() {
       deletedProducts = (Services.isAdmin() || Services.isOperationManager()) &&
-          widget.orderData.products.where((product) => product.pivot.deletedAt != 'null').toList().length > 0;
+          widget.orderData.products.where((product) => product.pivot.deletedAt != 'null').toList().isNotEmpty;
       tabBarList();
     });
     controller = TabController(vsync: this, length: tabList.length);
@@ -120,12 +120,12 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
     return DefaultTabController(
       length: screenList.length,
       child: Scaffold(
-        appBar: new PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
-          child: new Container(
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: Container(
             color: ColorUtils.primaryColor,
-            child: new SafeArea(
-              child: new TabBar(
+            child: SafeArea(
+              child: TabBar(
                 controller: controller,
                 indicatorColor: Colors.white,
                 labelColor: Colors.white,

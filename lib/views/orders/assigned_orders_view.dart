@@ -11,6 +11,8 @@ import '../../Services.dart';
 import 'services/order_services.dart';
 
 class AssignedOrdersView extends StatefulWidget {
+  const AssignedOrdersView({Key key}) : super(key: key);
+
   @override
   _AssignedOrdersViewState createState() => _AssignedOrdersViewState();
 }
@@ -22,7 +24,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   void initState() {
     filterOrders = 0;
 
-    if (LoadingScreenServices.myOrdersList.length == 0) {
+    if (LoadingScreenServices.myOrdersList.isEmpty) {
       getOrders = _getOrder();
     } else {
       getOrders = _initialFunction();
@@ -42,7 +44,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
 
   int filterOrders;
 
-  List<OrdersOriginalData> orderDataList = new List<OrdersOriginalData>();
+  List<OrdersOriginalData> orderDataList = [];
 
   _getOrder() async {
     setState(() {
@@ -51,8 +53,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       errorMessage = false;
       orderDataList.clear();
     });
-    var orderList;
-    if (LoadingScreenServices.myOrdersList.length == 0) {
+    List<OrdersOriginalData> orderList;
+    if (LoadingScreenServices.myOrdersList.isEmpty) {
       if (Services.isDelivery()) orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
       if (Services.isShopper()) orderList = await OrderServices.getShopperOrders(pageNumber: page);
       if (Services.isSupplierManager()) orderList = await OrderServices.getSupplierOrders(pageNumber: page);
@@ -60,10 +62,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       orderList = LoadingScreenServices.myOrdersList;
     }
     if (orderList != null) {
-      if (orderList.length == 0) {
+      if (orderList.isEmpty) {
         setState(() {
           LoadingScreenServices.myOrdersList = orderDataList;
-          if (LoadingScreenServices.myOrdersList.length != 0) theEndOfOrders = true;
+          if (LoadingScreenServices.myOrdersList.isNotEmpty) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -77,7 +79,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
             orderDataList.removeWhere((order) => int.parse(order.orderStatusId) != filterOrders);
           }
 
-          orderDataList.removeWhere((order) => order.products.length == 0);
+          orderDataList.removeWhere((order) => order.products.isEmpty);
           LoadingScreenServices.myOrdersList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
@@ -102,9 +104,9 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+          padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
           child: !orderLoaded || isLoading
-              ? Center(
+              ? const Center(
                   child: Loader(),
                 )
               : Column(
@@ -137,10 +139,11 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                           padding: const EdgeInsets.only(bottom: 15),
                           child: IconButton(
                             onPressed: () {
-                              if (page < 14)
+                              if (page < 14) {
                                 setState(() {
                                   page++;
                                 });
+                              }
 
                               _getOrder();
                             },
@@ -182,19 +185,17 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         ),
                       ],
                     ),
-                    orderDataList.length == 0
-                        ? Container(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: screenHeight * 0.4),
-                              child: Center(
-                                child: Text(
-                                  "لا يوجد أي طلبات سابقة",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorUtils.greyColor,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    fontSize: 20.0,
-                                  ),
+                    orderDataList.isEmpty
+                        ? Padding(
+                            padding: EdgeInsets.only(top: screenHeight * 0.4),
+                            child: Center(
+                              child: Text(
+                                "لا يوجد أي طلبات سابقة",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: ColorUtils.greyColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontSize: 20.0,
                                 ),
                               ),
                             ),
@@ -214,10 +215,11 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             orderDataList[index].orderArithmeticOperations();
                             orderDataList[index].orderProfits();
                           }
-                          if (Services.isSupplierManager())
+                          if (Services.isSupplierManager()) {
                             return SupplierOrdersViewCard(
                               order: orderDataList[index],
                             );
+                          }
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(
@@ -245,15 +247,17 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                       isLoading = true;
                                       errorMessage = false;
                                     });
-                                    if (orderDataList[index].orderStatusId == "1")
+                                    if (orderDataList[index].orderStatusId == "1") {
                                       changeStatus = 2;
-                                    else if (orderDataList[index].orderStatusId == "2")
+                                    } else if (orderDataList[index].orderStatusId == "2") {
                                       changeStatus = 3;
-                                    else if (orderDataList[index].orderStatusId == "3")
+                                    } else if (orderDataList[index].orderStatusId == "3") {
                                       changeStatus = 4;
-                                    else if (orderDataList[index].orderStatusId == "4") changeStatus = 5;
+                                    } else if (orderDataList[index].orderStatusId == "4") {
+                                      changeStatus = 5;
+                                    }
 
-                                    bool x = await OrderServices.changeOrderStatus(
+                                    bool x = await OrderServices.changeOrderStatusService(
                                         orderDataList[index].id.toString(), changeStatus);
 
                                     if (x) {
@@ -279,7 +283,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                         errorMessage = false;
                                       },
                                     );
-                                    LockOrder response = await OrderServices.lockOrder(
+                                    LockOrder response = await OrderServices.lockOrderService(
                                         orderId: orderDataList[index].id.toString(),
                                         userNote: orderDataList[index].userNotes,
                                         supportedCityCost: orderDataList[index].supportedCityCost,
@@ -346,7 +350,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                             text: 'نعم',
                                             onTap: () async {
                                               Navigator.of(context).pop();
-                                              bool result = await OrderServices.unlockOrder(orderId.toString());
+                                              bool result =
+                                                  await OrderServices.unlockOrderService(orderId.toString());
                                               Services.resultFlushBar(context: context, result: result);
                                               setState(() {
                                                 if (result) orderDataList[index].underUpdate = '0';
@@ -389,7 +394,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                     theEndOfOrders
                         ? Padding(
                             padding: EdgeInsets.only(top: screenHeight * 0.4),
-                            child: ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
+                            child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
                           )
                         : Container(),
                   ],
@@ -407,7 +412,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
 
     for (int i = 0; i < orderProducts.length; i++) {
       if (orderProducts[i].pivot.deletedAt == 'null') {
-        ProductData product = new ProductData();
+        ProductData product = ProductData();
 
         product.id = orderProducts[i].id;
         product.images = orderProducts[i].images;

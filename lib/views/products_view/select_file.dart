@@ -12,7 +12,7 @@ class SelectedFileToUpload extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width / 3.9,
       child: Column(
         children: [
@@ -54,7 +54,7 @@ class SelectedFileToUpload extends StatelessWidget {
                               width: 1,
                               color: Colors.grey[800],
                             )),
-                        padding: EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(4),
                         child: Icon(
                           Icons.close,
                           size: 13,
@@ -70,7 +70,7 @@ class SelectedFileToUpload extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 4, left: 10),
             child: Text(
-              '${name ?? ''}',
+              name ?? '',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyText2.apply(fontSizeDelta: -3),
             ),

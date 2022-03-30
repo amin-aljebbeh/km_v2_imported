@@ -21,7 +21,7 @@ class PriceFileProduct extends StatefulWidget {
 
 class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepAliveClientMixin<PriceFileProduct> {
   PriceFileProductModel importedProducts = PriceFileProductModel();
-  List<ProductData> showList = List<ProductData>();
+  List<ProductData> showList = [];
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool sent;
   bool error;
@@ -30,7 +30,7 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
 
   assignArray() {
     setState(() {
-      showList = List<ProductData>();
+      showList = [];
       switch (selectedList) {
         case 1:
           showList.addAll(importedProducts.nonIntroducedProducts);
@@ -72,7 +72,7 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
     return Scaffold(
       key: scaffoldKey,
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
@@ -88,7 +88,7 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                   value: selectedList,
                 ),
               ),
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.75,
                 child: !sent
                     ? Center(
@@ -117,8 +117,8 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                             ),
                           )
                         : loading
-                            ? Loader()
-                            : showList.length == 0
+                            ? const Loader()
+                            : showList.isEmpty
                                 ? Center(
                                     child: AlertMessages(
                                       text: 'لا يوجد منتجات في هذا القسم',
@@ -133,9 +133,9 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                       String id, supplierCode;
                                       int isActive;
                                       bool attached;
-                                      if (showList[index].subWarehouseId != -1)
+                                      if (showList[index].subWarehouseId != -1) {
                                         id = showList[index].subWarehouseId.toString();
-                                      else {
+                                      } else {
                                         List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
                                             .map((warehouse) => warehouse.id)
                                             .toList();
@@ -144,38 +144,39 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                             .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
                                             .toList();
                                         subWarehousesIds.removeWhere((id) => !productIds.contains(id));
-                                        if (subWarehousesIds.length > 0)
+                                        if (subWarehousesIds.isNotEmpty) {
                                           id = subWarehousesIds[0].toString();
-                                        else if (showList[index].warehouses.isNotEmpty)
+                                        } else if (showList[index].warehouses.isNotEmpty) {
                                           id = showList[index].warehouses[0].pivot.subWarehouseId;
+                                        }
                                       }
-                                      if (showList[index].supplierCode != null)
+                                      if (showList[index].supplierCode != null) {
                                         supplierCode = showList[index].supplierCode;
-                                      else if (showList[index].warehouses.isNotEmpty)
+                                      } else if (showList[index].warehouses.isNotEmpty) {
                                         supplierCode = showList[index]
                                             .warehouses
                                             .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
                                             .pivot
                                             .supplierCode;
+                                      }
                                       if (showList[index].isActive != 'null') {
                                         isActive = int.parse(showList[index].isActive);
                                       } else if (showList[index].warehouses.isNotEmpty) {
                                         isActive = int.parse(showList[index].warehouses[0].pivot.isActive);
                                       }
                                       attached = false;
-                                      if (showList[index].supplierCode != 'null')
+                                      if (showList[index].supplierCode != 'null') {
                                         attached = true;
-                                      else if (showList[index].warehouses != null) if (showList[index]
-                                          .warehouses
-                                          .isNotEmpty) {
-                                        attached = showList[index]
-                                                .warehouses
-                                                .map((warehouse) => warehouse.pivot.supplierCode)
-                                                .toList()
-                                                .where((code) => code != 'null')
-                                                .toList()
-                                                .length >
-                                            0;
+                                      } else if (showList[index].warehouses != null) {
+                                        if (showList[index].warehouses.isNotEmpty) {
+                                          attached = showList[index]
+                                              .warehouses
+                                              .map((warehouse) => warehouse.pivot.supplierCode)
+                                              .toList()
+                                              .where((code) => code != 'null')
+                                              .toList()
+                                              .isNotEmpty;
+                                        }
                                       }
                                       if (selectedList == 1) attached = false;
                                       return InventoryProductsViewCard(

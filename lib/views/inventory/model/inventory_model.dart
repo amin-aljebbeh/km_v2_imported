@@ -20,7 +20,7 @@ class ProductsToReview {
   List<ProductData> productsToDeactivate;
 
   factory ProductsToReview.fromJson(Map<String, dynamic> json) => ProductsToReview(
-        success: json["success"] == null ? null : json["success"],
+        success: json["success"],
         productsToActivate: json["products_to_activate"] == null
             ? null
             : List<ProductData>.from(json["products_to_activate"].map((x) => ProductData.fromJson(x))),
@@ -30,7 +30,7 @@ class ProductsToReview {
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success == null ? null : success,
+        "success": success,
         "products_to_activate":
             productsToActivate == null ? null : List<dynamic>.from(productsToActivate.map((x) => x.toJson())),
         "products_to_deactivate":

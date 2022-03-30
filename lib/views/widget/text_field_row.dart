@@ -6,11 +6,11 @@ class TextFieldRow extends StatefulWidget {
   final TextEditingController controller;
   final MainAxisAlignment mainAxisAlignment;
   final String text;
-  final hint;
+  final String hint;
   final TextInputType inputType;
   final double width;
 
-  TextFieldRow({
+  const TextFieldRow({
     Key key,
     @required this.controller,
     @required this.text,

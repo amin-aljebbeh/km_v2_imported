@@ -135,7 +135,7 @@ class OrdersOriginalData {
   double shopperProfit;
 
   factory OrdersOriginalData.fromJson(Map<String, dynamic> json) => OrdersOriginalData(
-        id: json["id"] == null ? null : json["id"],
+        id: json["id"],
         expectedTimeMinutes: json["expected_time_minutes"].toString(),
         deliveryCost: json["delivery_cost"].toString(),
         supportedCityCost: json["supported_city_cost"].toString(),
@@ -160,13 +160,12 @@ class OrdersOriginalData {
         products: List<OrderProducts>.from(json["products"].map((x) => OrderProducts.fromJson(x))),
         shopper: json["shopper"] == null ? null : Assigned.fromJson(json["shopper"]),
         delivery: json["delivery"] == null ? null : Assigned.fromJson(json["delivery"]),
-        images: json["images"] == null
-            ? new List<OrderImage>()
-            : List<OrderImage>.from(json["images"].map((x) => OrderImage.fromJson(x))),
-        orderAccountingRows: new List<OrderAccountingRow>(),
+        images:
+            json["images"] == null ? [] : List<OrderImage>.from(json["images"].map((x) => OrderImage.fromJson(x))),
+        orderAccountingRows: [],
         shopperProfit: 0,
         kammunProfit: 0,
-        userFeedback: json['user_feedback'] != null ? json['user_feedback'] : 'null',
+        userFeedback: json['user_feedback'] ?? 'null',
         deliveredAt: json['delivered_at'] != null
             ? DateTime.parse(json['delivered_at'])
             : DateTime.parse('2022-03-07 17:00:08'),
@@ -224,7 +223,7 @@ class OrdersOriginalData {
           ),
         )
         .toList();
-    for (int i = 0; i < products.length; i++)
+    for (int i = 0; i < products.length; i++) {
       if (products[i].pivot.deletedAt == 'null') {
         double netPrice = double.parse(products[i].pivot.purchasePrice) * int.parse(products[i].pivot.quantity);
         int increaseValue = products[i].pivot.increaseValue * int.parse(products[i].pivot.quantity);
@@ -255,6 +254,7 @@ class OrdersOriginalData {
             )
             .payToSubWarehouse -= (netPrice * discountPercentage);
       }
+    }
     return orderAccountingRows;
   }
 
@@ -264,10 +264,11 @@ class OrdersOriginalData {
       kammunProfit = 0;
     } else {
       Level orderLevel;
-      if (Services.isShopper())
+      if (Services.isShopper()) {
         orderLevel = Services.shopper.level;
-      else
+      } else {
         orderLevel = LoadingScreenServices.levels.firstWhere((level) => level.id == shopper.levelId);
+      }
       for (int i = 0; i < orderAccountingRows.length; i++) {
         double shopperSubWarehouseProfit = 0.0;
         double increaseProfit = 0.0;
@@ -314,15 +315,15 @@ class Assigned {
   int levelId;
 
   factory Assigned.fromJson(Map<String, dynamic> json) => Assigned(
-        id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
+        id: json["id"],
+        name: json["name"],
         admin: json["admin"] == null ? null : AdminModel.fromJson(json["admin"]),
-        levelId: json['level_id'] == null ? 0 : json['level_id'],
+        levelId: json['level_id'] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "name": name == null ? null : name,
-        "admin": admin == null ? null : admin,
+        "id": id,
+        "name": name,
+        "admin": admin,
       };
 }

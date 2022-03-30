@@ -16,7 +16,7 @@ class AddProductsView extends StatefulWidget {
   final String supplierCode;
   final int barcode;
 
-  AddProductsView({@required this.categoryId, this.barcode, this.supplierCode});
+  const AddProductsView({Key key, @required this.categoryId, this.barcode, this.supplierCode}) : super(key: key);
 
   @override
   _AddProductsViewState createState() => _AddProductsViewState();
@@ -45,8 +45,6 @@ class _AddProductsViewState extends State<AddProductsView> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
       }
     });
   }
@@ -57,8 +55,6 @@ class _AddProductsViewState extends State<AddProductsView> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-      } else {
-        print('No image selected.');
       }
     });
   }
@@ -66,7 +62,7 @@ class _AddProductsViewState extends State<AddProductsView> {
   Widget imagesBody() {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.only(top: 10),
       child: SelectedFileToUpload(
         image: _image,
         name: '',
@@ -125,20 +121,20 @@ class _AddProductsViewState extends State<AddProductsView> {
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
-          boxShadows: [
+          boxShadows: const [
             BoxShadow(
               color: Colors.red,
               offset: Offset(0.0, 2.0),
               blurRadius: 3.0,
             )
           ],
-          icon: Icon(
+          icon: const Icon(
             Icons.close,
             size: 28.0,
             color: Colors.white,
           ),
-          duration: Duration(seconds: 1),
-        )..show(context);
+          duration: const Duration(seconds: 1),
+        ).show(context);
       }
     } else if (productIds == null) {
       Flushbar(
@@ -148,21 +144,21 @@ class _AddProductsViewState extends State<AddProductsView> {
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
         ),
-        boxShadows: [
+        boxShadows: const [
           BoxShadow(
             color: Colors.purple,
             offset: Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
         ],
-        icon: Icon(
+        icon: const Icon(
           Icons.close,
           size: 28.0,
           color: Colors.white,
         ),
-        duration: Duration(seconds: 10),
+        duration: const Duration(seconds: 10),
         // leftBarIndicatorColor: ColorUtils.kmColors,
-      )..show(context);
+      ).show(context);
     }
   }
 
@@ -189,7 +185,7 @@ class _AddProductsViewState extends State<AddProductsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 210, 178, 2),
+        backgroundColor: const Color.fromARGB(255, 210, 178, 2),
         automaticallyImplyLeading: false,
         // hides leading widget
 
@@ -200,7 +196,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Opacity(
+                  const Opacity(
                     opacity: 0.0,
                     child: Icon(
                       Icons.home,
@@ -232,7 +228,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     padding: const EdgeInsets.only(top: 5.0, left: 0),
                     child: IconButton(
                       onPressed: () => Navigator.of(context).pop(true),
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.arrow_forward_ios,
                         color: Colors.white,
                         size: 40,
@@ -250,7 +246,7 @@ class _AddProductsViewState extends State<AddProductsView> {
         child: Padding(
           padding: const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
           child: isLoading
-              ? Center(child: Loader())
+              ? const Center(child: Loader())
               : ListView(
                   shrinkWrap: true,
                   children: [
@@ -262,18 +258,18 @@ class _AddProductsViewState extends State<AddProductsView> {
                       ),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
                         children: LoadingScreenServices.subWarehouses
                             .map((data) => Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Colors.white,
                                   ),
                                   child: RadioListTile(
                                     controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
                                     title: Text(
-                                      "${data.name}",
+                                      data.name,
                                       style: TextStyle(
                                         fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       ),
@@ -333,7 +329,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        FlatButton(
+                        TextButton(
                           child: Icon(
                             Icons.camera,
                             color: ColorUtils.kmColors,
@@ -342,7 +338,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                             getImageCamera();
                           },
                         ),
-                        FlatButton(
+                        TextButton(
                           child: Icon(
                             Icons.image,
                             color: ColorUtils.kmColors,
@@ -358,7 +354,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                             margin: const EdgeInsets.all(15.0),
                             padding: const EdgeInsets.all(3.0),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                     Radius.circular(10.0) //                 <--- border radius here
                                     ),
                                 border: Border.all(
@@ -390,9 +386,9 @@ class _AddProductsViewState extends State<AddProductsView> {
                           margin: const EdgeInsets.all(15.0),
                           padding: const EdgeInsets.all(3.0),
                           decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                                      ),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(10.0) //                 <--- border radius here
+                                  ),
                               border: Border.all(
                                   color:
                                       autoActivationController ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,

@@ -3,12 +3,12 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class AddedProductsServices {
-  static Future<List<ProductData>> getAddedProductsToWarehouse() async {
+  static Future<List<ProductData>> getAddedProductsToWarehouseService() async {
     var response = await ApiProvider.sendRequest(
-      url: GET_ADDED_PRODUCTS_TO_WAREHOUSE,
+      url: getAddedProductsToWarehouse,
       method: HttpMethods.get,
     );
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+    if (response.statusCode == successCode && response.data["success"]) {
       return syncCartFromJson(jsonEncode(response.data["data"]));
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
@@ -16,12 +16,12 @@ class AddedProductsServices {
     }
   }
 
-  static Future<List<ProductData>> getNotAddedProductsToWarehouse() async {
+  static Future<List<ProductData>> getNotAddedProductsToWarehouseService() async {
     var response = await ApiProvider.sendRequest(
-      url: GET_NOT_ADDED_PRODUCTS_TO_WAREHOUSE,
+      url: getNotAddedProductsToWarehouse,
       method: HttpMethods.get,
     );
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+    if (response.statusCode == successCode && response.data["success"]) {
       return syncCartFromJson(jsonEncode(response.data["data"]));
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
@@ -29,16 +29,16 @@ class AddedProductsServices {
     }
   }
 
-  static Future<bool> unAttachProductsToSubWarehouse({
+  static Future<bool> unAttachProductsToSubWarehouseService({
     String productsId,
     String subWarehouse,
   }) async {
     var response = await ApiProvider.sendRequest(
-        url: UN_ATTACH_PRODUCTS_TO_SUB_WAREHOUSE + productsId,
+        url: unAttachProductsToSubWarehouse + productsId,
         method: HttpMethods.delete,
         body: jsonEncode({"sub_warehouse_id": int.parse(subWarehouse)}));
 
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+    if (response.statusCode == successCode && response.data["success"]) {
       return true;
     } else {
       Tools.logToConsole("------------ ERROR remove product --------------");
@@ -46,15 +46,15 @@ class AddedProductsServices {
     }
   }
 
-  static Future<bool> attachProductsToSubWarehouse({
+  static Future<bool> attachProductsToSubWarehouseService({
     dynamic fullRequestBody,
   }) async {
     try {
       Tools.logToConsole(fullRequestBody);
       var response = await ApiProvider.sendRequest(
-          url: ATTACH_PRODUCTS_TO_SUB_WAREHOUSE, method: HttpMethods.post, body: jsonEncode(fullRequestBody));
+          url: attachProductsToSubWarehouse, method: HttpMethods.post, body: jsonEncode(fullRequestBody));
 
-      if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+      if (response.statusCode == successCode && response.data["success"]) {
         return true;
       } else {
         Tools.logToConsole(response.data['reason']);
@@ -68,10 +68,10 @@ class AddedProductsServices {
 
   static Future<List<ProductData>> getAllProducts() async {
     var response = await ApiProvider.sendRequest(
-      url: GET_PRODUCT,
+      url: getProduct,
       method: HttpMethods.get,
     );
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+    if (response.statusCode == successCode && response.data["success"]) {
       return syncCartFromJson(jsonEncode(response.data["data"]));
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
@@ -96,14 +96,16 @@ class AddedProductsServices {
     };
     try {
       bool removed;
-      if (remove)
-        removed = await AddedProductsServices.unAttachProductsToSubWarehouse(
+      if (remove) {
+        removed = await AddedProductsServices.unAttachProductsToSubWarehouseService(
             productsId: product.id.toString(), subWarehouse: product.subWarehouseId.toString());
-      else
+      } else {
         removed = true;
+      }
       bool add = false;
-      if (removed)
-        add = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: subWarehouseBody);
+      if (removed) {
+        add = await AddedProductsServices.attachProductsToSubWarehouseService(fullRequestBody: subWarehouseBody);
+      }
       if (!add && removed) {
         var subWarehouseBody = {
           "product_id": product.id.toString(),
@@ -118,7 +120,7 @@ class AddedProductsServices {
           "price_factor": product.priceFactor,
           "automatic_activation": product.automaticActivation.toString(),
         };
-        await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: subWarehouseBody);
+        await AddedProductsServices.attachProductsToSubWarehouseService(fullRequestBody: subWarehouseBody);
       }
       return removed && add;
     } catch (e) {

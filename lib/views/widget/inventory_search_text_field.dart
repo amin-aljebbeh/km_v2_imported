@@ -24,14 +24,14 @@ class _InventorySearchTextFieldState extends State<InventorySearchTextField> {
       title: Container(
         padding: const EdgeInsets.only(bottom: 10.0),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+            borderRadius: const BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                 ),
             border: Border.all(color: ColorUtils.primaryColor, width: 2)),
         child: TextField(
           style: flushBarStyle,
           decoration: InputDecoration(
             suffixIcon: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.close,
                   size: 20,
                   color: Colors.white,
@@ -58,7 +58,7 @@ class _InventorySearchTextFieldState extends State<InventorySearchTextField> {
           padding: const EdgeInsets.only(left: 8.0),
           child: IconButton(
             onPressed: widget.onReload,
-            icon: Icon(
+            icon: const Icon(
               Icons.refresh,
               size: 35,
             ),

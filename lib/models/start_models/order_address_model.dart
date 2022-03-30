@@ -23,15 +23,15 @@ class OrderAddress {
   String entrance;
 
   factory OrderAddress.fromJson(Map<String, dynamic> json) => OrderAddress(
-        id: json["id"] == null ? null : json["id"],
+        id: json["id"],
         supportedCityId: json["supported_city_id"].toString(),
         street: json["street"].toString(),
         building: json["building"].toString(),
         floor: json["floor"].toString(),
         description: json["description"].toString(),
         deliveryPrice: json["deliveryPrice"] == null ? null : json['deliveryPrice'],
-        lat: json["lat"] != null ? json["lat"] : -1,
-        lon: json["lon"] != null ? json["lon"] : -1,
+        lat: json["lat"] ?? -1,
+        lon: json["lon"] ?? -1,
         entrance: json["entrance"].toString(),
       );
 

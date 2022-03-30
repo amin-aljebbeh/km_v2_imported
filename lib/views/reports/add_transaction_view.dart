@@ -53,12 +53,12 @@ class _AddTransactionViewState extends State<AddTransactionView> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
-          child: Container(
+          padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+          child: SizedBox(
             height: MediaQuery.of(context).size.height,
             child: ListView(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 KSearchableDropdown(
@@ -74,10 +74,10 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                     );
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: DropdownButton(
                     underline: Container(),
@@ -101,7 +101,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 TextFieldRow(
@@ -111,7 +111,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   inputType: TextInputType.text,
                   width: 150,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 TextFieldRow(
@@ -121,7 +121,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   inputType: TextInputType.text,
                   width: 150,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 TextFieldRow(
@@ -131,7 +131,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   inputType: TextInputType.text,
                   width: MediaQuery.of(context).size.width * 0.65,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 KammunButton(
@@ -151,7 +151,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                             String description =
                                 descriptionController.text.isNotEmpty ? descriptionController.text : ' ';
                             shopperId = Services.selectedShopperId(shopperName);
-                            bool result = await ReportsServices.addTransaction(
+                            bool result = await ReportsServices.addTransactionService(
                               shopperId: shopperId,
                               value: moneyController.text,
                               transactionTypeId: LoadingScreenServices.transactionTypes
@@ -198,10 +198,11 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               .where((type) => type.automatic == 0)
               .toList()[transactionTypeIndex]
               .arabicName ==
-          'خصم')
+          'خصم') {
         return shopperName != null && moneyController.text.isNotEmpty && descriptionController.text.isNotEmpty;
-      else
+      } else {
         return shopperName != null && moneyController.text.isNotEmpty;
+      }
     } else {
       return false;
     }

@@ -8,11 +8,11 @@ class MediaIcon extends StatelessWidget {
   final String url;
   final String mobileNumber;
 
-  MediaIcon({Key key, @required this.icon, @required this.url, this.mobileNumber = ''}) : super(key: key);
+  const MediaIcon({Key key, @required this.icon, @required this.url, this.mobileNumber = ''}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       onPressed: () => Services.openUrl(url, mobileNumber: mobileNumber),
       icon: Icon(
         icon,

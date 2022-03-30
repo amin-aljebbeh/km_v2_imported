@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kammun_app/core/core_importer.dart';
@@ -17,23 +18,23 @@ class ProductsServices {
     String subWarehouseId,
   }) async {
     try {
-      var body;
+      Map<String, String> body;
 
       body = {bodyKey: value};
 
-      var response;
+      Response response;
       if (bodyKey == "category_id") {
         response = await ApiProvider.sendRequest(
-            url: ADD_PRODUCTS_TO_CATEGORY + productId, method: HttpMethods.post, body: jsonEncode(body));
+            url: addProductToCategory + productId, method: HttpMethods.post, body: jsonEncode(body));
       } else if (!isForSubWarehouse) {
         response = await ApiProvider.sendRequest(
-          url: GET_PRODUCT + productId,
+          url: getProduct + productId,
           method: HttpMethods.put,
           body: jsonEncode(body),
         );
       } else {
         response = await ApiProvider.sendRequest(
-          url: UPDATE_SUB_WAREHOUSE_PRODUCTS + productId,
+          url: updateSubWarehouseProducts + productId,
           method: HttpMethods.put,
           body: jsonEncode(
             {
@@ -43,7 +44,7 @@ class ProductsServices {
           ),
         );
       }
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         return true;
       } else {
         return false;
@@ -54,17 +55,19 @@ class ProductsServices {
     }
   }
 
-  static Future<bool> removeProductFromCategory({@required String productId, @required String categoryId}) async {
+  static Future<bool> removeProductFromCategoryService(
+      {@required String productId, @required String categoryId}) async {
     try {
       var response = await ApiProvider.sendRequest(
         queryParameters: {'category_id': categoryId},
-        url: REMOVE_PRODUCT_FROM_CATEGORY + productId,
+        url: removeProductFromCategory + productId,
         method: HttpMethods.delete,
       );
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         return true;
-      } else
+      } else {
         return false;
+      }
     } catch (e) {
       Tools.logToConsole(e.toString());
       return false;
@@ -98,12 +101,12 @@ class ProductsServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: GET_PRODUCT,
+        url: getProduct,
         method: HttpMethods.post,
         body: jsonEncode(productBody),
       );
 
-      if (response.statusCode == SUCCESS_CODE && response.data["success"] == true) {
+      if (response.statusCode == successCode && response.data["success"] == true) {
         var subWarehouseBody = {
           "product_id": response.data["data"]["id"],
           "sub_warehouse_id": subWarehouseId,
@@ -117,7 +120,8 @@ class ProductsServices {
           "price_factor": priceFactor,
           "automatic_activation": autoActivation,
         };
-        bool result = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: subWarehouseBody);
+        bool result =
+            await AddedProductsServices.attachProductsToSubWarehouseService(fullRequestBody: subWarehouseBody);
         if (result) {
           return int.parse(response.data["data"]["id"].toString());
         } else {
@@ -134,9 +138,9 @@ class ProductsServices {
 
   static Future<bool> setImageToProducts({File image, int productId}) async {
     var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
-    var request = http.MultipartRequest('POST', Uri.parse(BASE_URL + ADD_IMAGE_TO_PRODUCTS));
+    var request = http.MultipartRequest('POST', Uri.parse(baseUrl + addImageToProduct));
     request.fields.addAll({'product_id': '$productId'});
-    request.files.add(await http.MultipartFile.fromPath('image', '${image.path}'));
+    request.files.add(await http.MultipartFile.fromPath('image', image.path));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
     if (response.statusCode == 200) {
@@ -153,45 +157,48 @@ class ProductsServices {
     };
     try {
       var response = await ApiProvider.sendRequest(
-        url: PRODUCT_BARCODE,
+        url: productBarcode,
         method: HttpMethods.post,
         body: jsonEncode(requestBody),
       );
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         Barcode barcode = barcodeFromJson(jsonEncode(response.data['data']));
         return barcode.barcode;
-      } else
+      } else {
         return 'error';
+      }
     } catch (e) {
       return 'error';
     }
   }
 
-  static Future<List<ProductData>> searchProductByBarcode({@required String bareCode}) async {
+  static Future<List<ProductData>> searchProductByBarcodeService({@required String bareCode}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: SEARCH_PRODUCT_BY_BARCODE + bareCode,
+        url: searchProductByBarcode + bareCode,
         method: HttpMethods.get,
       );
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         return syncCartFromJson(jsonEncode(response.data["data"]));
-      } else
+      } else {
         return null;
+      }
     } catch (e) {
       return null;
     }
   }
 
-  static Future<List<ProductData>> checkProductBarcode({@required String bareCode}) async {
+  static Future<List<ProductData>> checkProductBarcodeService({@required String bareCode}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: CHECK_PRODUCT_BARCODE + bareCode,
+        url: checkProductBarcode + bareCode,
         method: HttpMethods.get,
       );
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         return syncCartFromJson(jsonEncode(response.data["data"]));
-      } else
+      } else {
         return null;
+      }
     } catch (e) {
       return null;
     }
@@ -200,28 +207,30 @@ class ProductsServices {
   static Future<bool> deleteBarcode({@required String bareCodeId}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: PRODUCT_BARCODE + bareCodeId,
+        url: productBarcode + bareCodeId,
         method: HttpMethods.delete,
       );
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         return true;
-      } else
+      } else {
         return false;
+      }
     } catch (e) {
       return false;
     }
   }
 
-  static Future<bool> deleteProduct(String productId) async {
+  static Future<bool> deleteProductService(String productId) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: DELETE_PRODUCT + productId,
+        url: deleteProduct + productId,
         method: HttpMethods.delete,
       );
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         return true;
-      } else
+      } else {
         return false;
+      }
     } catch (e) {
       Tools.logToConsole(e.toString());
       return false;

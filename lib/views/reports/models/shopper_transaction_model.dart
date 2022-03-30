@@ -21,14 +21,14 @@ class ShopperTransactionResponse {
   List<TransactionModel> data;
 
   factory ShopperTransactionResponse.fromJson(Map<String, dynamic> json) => ShopperTransactionResponse(
-        success: json["success"] == null ? null : json["success"],
+        success: json["success"],
         data: json["data"] == null
             ? null
             : List<TransactionModel>.from(json["data"].map((x) => TransactionModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success == null ? null : success,
+        "success": success,
         "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }

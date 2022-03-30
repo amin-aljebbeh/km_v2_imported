@@ -12,11 +12,12 @@ class OrderDeletedProducts extends StatefulWidget {
   final OrderTypes orderType;
 
   OrderDeletedProducts({
+    Key key,
     this.subTotal,
     this.total,
     this.order,
     @required this.orderType,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -28,7 +29,7 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
     with AutomaticKeepAliveClientMixin<OrderDeletedProducts> {
   static List<OrderProducts> productsAry;
   getArray() {
-    productsAry = List<OrderProducts>();
+    productsAry = [];
     productsAry.addAll(widget.order.products);
     productsAry.removeWhere((product) => product.pivot.deletedAt == 'null');
 
@@ -38,8 +39,9 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
           return -1;
         } else if (a.subWarehouseId < b.subWarehouseId) {
           return 1;
-        } else
+        } else {
           return 0;
+        }
       });
     } else {
       productsAry.sort((a, b) {
@@ -47,8 +49,9 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
           return 1;
         } else if (a.subWarehouseId < b.subWarehouseId) {
           return -1;
-        } else
+        } else {
           return 0;
+        }
       });
     }
   }
@@ -69,9 +72,9 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       body: Padding(
-        padding: EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
+        padding: const EdgeInsets.only(left: 0, top: 10, right: 20, bottom: 10),
         child: isLoading
-            ? Center(child: Loader())
+            ? const Center(child: Loader())
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
@@ -84,7 +87,7 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                       : Container(),
                   Expanded(
                     child: ListView.builder(
-                      padding: EdgeInsets.only(left: 20.0, top: 20.0),
+                      padding: const EdgeInsets.only(left: 20.0, top: 20.0),
                       primary: false,
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -95,7 +98,7 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                           children: [
                             if (newSubWarehouse(index))
                               Container(
-                                margin: EdgeInsets.only(bottom: 10),
+                                margin: const EdgeInsets.only(bottom: 10),
                                 color: ColorUtils.searchGreyColor,
                                 child: Center(
                                   child: Text(
@@ -121,7 +124,7 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                       },
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                 ],

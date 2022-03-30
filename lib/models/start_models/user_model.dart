@@ -78,7 +78,7 @@ class UserData {
   int orderCount;
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-        id: json["id"] == null ? null : json["id"],
+        id: json["id"],
         name: json["name"],
         phone: json["phone"],
         email: json["email"],
@@ -90,7 +90,7 @@ class UserData {
         warehouseId: json["warehouse_id"].toString(),
         supportedCityId: json["supported_city_id"].toString(),
         coupon: json["coupon"] == null ? null : json['coupon'],
-        orderCount: json['order_count'] != null ? json['order_count'] : -1,
+        orderCount: json['order_count'] ?? -1,
       );
 
   Map<String, dynamic> toJson() => {

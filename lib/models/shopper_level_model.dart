@@ -34,14 +34,14 @@ class Level {
   List<SupportedCity> supportedCities;
 
   factory Level.fromJson(Map<String, dynamic> json) => Level(
-        id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
+        id: json["id"],
+        name: json["name"],
         description: json["description"],
-        maxProductsToHandle: json["max_products_to_handle"] == null ? null : json["max_products_to_handle"],
-        maxOrdersToHandle: json["max_orders_to_handle"] == null ? null : json["max_orders_to_handle"],
-        maxCompanyBalance: json["max_company_balance"] == null ? null : json["max_company_balance"],
-        points: json["points"] == null ? null : json["points"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        maxProductsToHandle: json["max_products_to_handle"],
+        maxOrdersToHandle: json["max_orders_to_handle"],
+        maxCompanyBalance: json["max_company_balance"],
+        points: json["points"],
+        createdAt: DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"],
         subWarehouses: json["sub_warehouses"] == null
             ? []
@@ -52,13 +52,13 @@ class Level {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "name": name == null ? null : name,
+        "id": id,
+        "name": name,
         "description": description,
-        "max_products_to_handle": maxProductsToHandle == null ? null : maxProductsToHandle,
-        "max_orders_to_handle": maxOrdersToHandle == null ? null : maxOrdersToHandle,
-        "points": points == null ? null : points,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+        "max_products_to_handle": maxProductsToHandle,
+        "max_orders_to_handle": maxOrdersToHandle,
+        "points": points,
+        "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt,
       };
 }

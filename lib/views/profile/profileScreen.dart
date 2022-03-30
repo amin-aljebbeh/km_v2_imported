@@ -6,6 +6,8 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import '../../Services.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key key}) : super(key: key);
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -21,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     super.initState();
 
     animationController = AnimationController(
-      duration: Duration(seconds: 5),
+      duration: const Duration(seconds: 5),
       vsync: this,
     );
     animation = CurvedAnimation(parent: animationController, curve: Curves.decelerate);
@@ -53,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(),
+            const SizedBox(),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Column(
@@ -77,10 +79,10 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
+          padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
           child: ListView(
             children: [
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.85,
                 child: ListView(
                   children: [
@@ -101,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     ),
                     Center(
                       child: Container(
-                        margin: EdgeInsets.all(15),
+                        margin: const EdgeInsets.all(15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
@@ -156,7 +158,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               ),
                               Center(
                                 child: Container(
-                                  margin: EdgeInsets.all(15),
+                                  margin: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
@@ -173,12 +175,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       children: LoadingScreenServices.subWarehouses
                                           .map(
                                             (subWarehouse) => Container(
-                                              padding: EdgeInsets.all(5),
-                                              decoration: BoxDecoration(
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: const BoxDecoration(
                                                 color: Colors.white,
                                               ),
                                               child: Text(
-                                                "${subWarehouse.name}",
+                                                subWarehouse.name,
                                                 style: TextStyle(
                                                   fontFamily: StringUtils.fontFamilyHKGrotesk,
                                                   fontSize: 25,
@@ -207,7 +209,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               ),
                               Center(
                                 child: Container(
-                                  margin: EdgeInsets.all(15),
+                                  margin: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.white,
@@ -273,7 +275,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     ),
                     Center(
                       child: Container(
-                        margin: EdgeInsets.all(15),
+                        margin: const EdgeInsets.all(15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,

@@ -30,6 +30,7 @@ class InventoryProductsViewCard extends StatefulWidget {
   final int deleteTimes;
 
   InventoryProductsViewCard({
+    Key key,
     this.onChangeStatus,
     this.oldPrice,
     this.productData,
@@ -44,7 +45,7 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.attached,
     this.index,
     this.deleteTimes = -1,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -56,7 +57,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   String subWarehouseName = '';
 
   _unAttachProduct() async {
-    bool result = await AddedProductsServices.unAttachProductsToSubWarehouse(
+    bool result = await AddedProductsServices.unAttachProductsToSubWarehouseService(
       productsId: widget.productData.id.toString(),
       subWarehouse: widget.id,
     );
@@ -81,15 +82,15 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
     return Container(
       color: Theme.of(context).primaryColorLight,
       child: Padding(
-        padding: EdgeInsets.only(left: 0, right: 0, top: 10),
+        padding: const EdgeInsets.only(left: 0, right: 0, top: 10),
         child: GestureDetector(
           onTap: () {
             if (widget.productData != null && widget.supplierCode != null) {
               widget.productData.isActive = widget.isActive.toString();
               Navigator.push(
                 context,
-                new MaterialPageRoute(
-                  builder: (context) => new ProductDetailView(
+                MaterialPageRoute(
+                  builder: (context) => ProductDetailView(
                     product: widget.productData,
                   ),
                 ),
@@ -108,79 +109,76 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                 children: <Widget>[
                   KCacheImage(
                     tag: widget.productData.id + widget.index,
-                    image: widget.productData.images.length > 0
+                    image: widget.productData.images.isNotEmpty
                         ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
                         : "",
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Expanded(
-                    child: Container(
-                      child: Wrap(
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Wrap(
-                                children: <Widget>[
-                                  Text(
-                                    widget.productData.name,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      fontSize: 18,
-                                    ),
+                    child: Wrap(
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Wrap(
+                              children: <Widget>[
+                                Text(
+                                  widget.productData.name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 18,
                                   ),
-                                ],
-                              ),
-                              SizedBox(height: 6),
-                              Text(
-                                widget.productData.quantity +
-                                    ' ' +
-                                    (widget.productData.unit != 'null' ? widget.productData.unit : ''),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 17,
                                 ),
+                              ],
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              widget.productData.quantity +
+                                  ' ' +
+                                  (widget.productData.unit != 'null' ? widget.productData.unit : ''),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: ColorUtils.greyColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 17,
                               ),
-                              SizedBox(height: 8),
-                              Wrap(
-                                children: [
-                                  Text(
-                                    StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() + "  ",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: ColorUtils.primaryColor,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      fontSize: 18,
-                                    ),
+                            ),
+                            const SizedBox(height: 8),
+                            Wrap(
+                              children: [
+                                Text(
+                                  StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() + "  ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: ColorUtils.primaryColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 18,
                                   ),
-                                  widget.oldPrice != null
-                                      ? RichText(
-                                          text: new TextSpan(
-                                            children: <TextSpan>[
-                                              new TextSpan(
-                                                text: StringUtils()
-                                                    .oCcy
-                                                    .format(
-                                                        widget.oldPrice - widget.productData.increasePercentage)
-                                                    .toString(),
-                                                style: new TextStyle(
-                                                  color: Colors.grey,
-                                                  decoration: TextDecoration.lineThrough,
-                                                ),
+                                ),
+                                widget.oldPrice != null
+                                    ? RichText(
+                                        text: TextSpan(
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text: StringUtils()
+                                                  .oCcy
+                                                  .format(widget.oldPrice - widget.productData.increasePercentage)
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                color: Colors.grey,
+                                                decoration: TextDecoration.lineThrough,
                                               ),
-                                            ],
-                                          ),
-                                        )
-                                      : Container()
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                   Center(
@@ -217,7 +215,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                 height: 58,
                                 width: 69,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
+                                    borderRadius: const BorderRadius.all(
                                         Radius.circular(10.0) //                 <--- border radius here
                                         ),
                                     border: Border.all(color: Colors.red, width: 2)),
@@ -234,13 +232,13 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                               margin: const EdgeInsets.all(15.0),
                               padding: const EdgeInsets.all(3.0),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                       Radius.circular(10.0) //                 <--- border radius here
                                       ),
                                   border: Border.all(color: ColorUtils.primaryColor, width: 2)),
                               child: widget.attached && widget.supplierCode != 'null' && !widget.fromInventory
                                   ? IconButton(
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.close_sharp,
                                         color: Colors.red,
                                       ),
@@ -275,7 +273,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                     )
                                   : !widget.fromInventory
                                       ? IconButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.add,
                                             color: Colors.green,
                                           ),
@@ -296,7 +294,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                 ),
                                               );
                                             } else {
-                                              if (widget.barcode == null)
+                                              if (widget.barcode == null) {
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -305,14 +303,15 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                       requestType: BarcodeRequestType.attachProduct,
                                                       onIgnore: (barcode) async {
                                                         int param;
-                                                        if (barcode == null)
+                                                        if (barcode == null) {
                                                           param = null;
-                                                        else
+                                                        } else {
                                                           param = int.parse(barcode);
+                                                        }
                                                         Navigator.push(
                                                           widget.scaffoldKey.currentContext,
-                                                          new MaterialPageRoute(
-                                                            builder: (context) => new AddProductsToSubWarehouse(
+                                                          MaterialPageRoute(
+                                                            builder: (context) => AddProductsToSubWarehouse(
                                                               barcode: param,
                                                               productData: widget.productData,
                                                             ),
@@ -322,20 +321,21 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                     ),
                                                   ),
                                                 );
-                                              else
+                                              } else {
                                                 Navigator.push(
                                                   widget.scaffoldKey.currentContext,
-                                                  new MaterialPageRoute(
-                                                    builder: (context) => new AddProductsToSubWarehouse(
+                                                  MaterialPageRoute(
+                                                    builder: (context) => AddProductsToSubWarehouse(
                                                       productData: widget.productData,
                                                     ),
                                                   ),
                                                 );
+                                              }
                                             }
                                           },
                                         )
                                       : IconButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.check_sharp,
                                             color: Colors.green,
                                           ),

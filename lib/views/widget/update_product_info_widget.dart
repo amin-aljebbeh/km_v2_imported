@@ -23,7 +23,8 @@ class UpdateProductInfoWidget extends StatefulWidget {
   final int increasePercentage;
   final double priceFactor;
 
-  UpdateProductInfoWidget({
+  const UpdateProductInfoWidget({
+    Key key,
     this.onSavePressed,
     this.initialText = "",
     this.title,
@@ -36,7 +37,7 @@ class UpdateProductInfoWidget extends StatefulWidget {
     this.isForPriceRate = false,
     this.increasePercentage,
     this.priceFactor,
-  });
+  }) : super(key: key);
 
   @override
   _UpdateProductInfoWidgetState createState() => _UpdateProductInfoWidgetState();
@@ -59,7 +60,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.75,
               child: TextFieldRow(
                 hint: widget.textHint,
@@ -82,7 +83,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                     widget.onSavePressed('success');
                   } else {
                     if (widget.isForPriceRate) {
-                      bool result = await InventoryServices.updatePriceRateThreshold(textController.text);
+                      bool result = await InventoryServices.updatePriceRateThresholdService(textController.text);
                       Services.resultFlushBar(context: context, result: result);
                     } else {
                       if (widget.bodyKey == "supplier_code" &&
@@ -99,18 +100,18 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                           boxShadows: [
                             BoxShadow(
                               color: ColorUtils.primaryColor,
-                              offset: Offset(0.0, 2.0),
+                              offset: const Offset(0.0, 2.0),
                               blurRadius: 3.0,
                             )
                           ],
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.error,
                             size: 28.0,
                             color: Colors.white,
                           ),
-                          duration: Duration(seconds: 3),
+                          duration: const Duration(seconds: 3),
                           leftBarIndicatorColor: ColorUtils.kmColors,
-                        )..show(context);
+                        ).show(context);
                       } else {
                         String newValue = textController.text;
                         if (widget.bodyKey == 'price') {
@@ -138,7 +139,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
             ),
           ],
         ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
       ],
     );
   }

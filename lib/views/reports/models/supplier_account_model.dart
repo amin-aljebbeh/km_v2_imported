@@ -21,7 +21,7 @@ class SupplierAccountModelResponse {
   TransactionDate date;
 
   factory SupplierAccountModelResponse.fromJson(Map<String, dynamic> json) => SupplierAccountModelResponse(
-        success: json["success"] == null ? null : json["success"],
+        success: json["success"],
         data: json["data"] == null
             ? null
             : List<SupplierAccountModel>.from(json["data"].map((x) => SupplierAccountModel.fromJson(x))),
@@ -29,9 +29,8 @@ class SupplierAccountModelResponse {
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success == null ? null : success,
-        "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
-        "date": date == null ? null : date.toJson(),
+        "success": success,
+        "date": date.toJson(),
       };
 }
 
@@ -47,16 +46,15 @@ class SupplierAccountModel {
   String remainingMonyForSupplier;
 
   factory SupplierAccountModel.fromJson(Map<String, dynamic> json) => SupplierAccountModel(
-        subWarehouseId: json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
-        name: json["name"] == null ? null : json["name"],
-        remainingMonyForSupplier:
-            json["remaining_mony_for_supplier"] == null ? null : json["remaining_mony_for_supplier"],
+        subWarehouseId: json["sub_warehouse_id"],
+        name: json["name"],
+        remainingMonyForSupplier: json["remaining_mony_for_supplier"],
       );
 
   Map<String, dynamic> toJson() => {
-        "sub_warehouse_id": subWarehouseId == null ? null : subWarehouseId,
-        "name": name == null ? null : name,
-        "remaining_mony_for_supplier": remainingMonyForSupplier == null ? null : remainingMonyForSupplier,
+        "sub_warehouse_id": subWarehouseId,
+        "name": name,
+        "remaining_mony_for_supplier": remainingMonyForSupplier,
       };
 }
 
@@ -75,7 +73,7 @@ class TransactionDate {
       );
 
   Map<String, dynamic> toJson() => {
-        "from_date": fromDate == null ? null : fromDate.toIso8601String(),
-        "to_date": toDate == null ? null : toDate.toIso8601String(),
+        "from_date": fromDate.toIso8601String(),
+        "to_date": toDate.toIso8601String(),
       };
 }

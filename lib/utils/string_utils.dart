@@ -103,15 +103,15 @@ class StringUtils {
   //Messages:
   static String chooseShopper = 'اختر متسوق';
   static String errorMessage = 'حدث خطأ اثناء محاولة جلب البيانات';
-  final oCcy = new NumberFormat('#,##0', 'en_US');
+  final oCcy = NumberFormat('#,##0', 'en_US');
 
   static List<String> productFilter = ['الغير مفعلة', 'عدد مرات البيع', 'عدد مرات العرض', 'المنتجات المحذوفة'];
 
   static List<String> productFilterUrls = [
-    FILTER_BY_LAST_ACTIVATION_DATE,
-    FILTER_BY_NUMBER_OF_SALES,
-    FILTER_BY_NUMBER_OF_VISITS,
-    PRODUCTS_DELETED_FROM_ORDERS
+    filterByLastActivationDate,
+    filterByNumberOfSales,
+    filterByNumberOfVisits,
+    productsDeletedFromOrders
   ];
 
   static List<String> productFilterParams = ['number_of_days', 'number_of_sale', 'number_of_visit'];

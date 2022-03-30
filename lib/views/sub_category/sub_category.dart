@@ -19,7 +19,13 @@ class SubCategory extends StatefulWidget {
   final String supplierCode;
 
   SubCategory(
-      {this.heroIndex, this.subCategory, this.forProductAdding = false, this.scaffoldKey, this.supplierCode});
+      {Key key,
+      this.heroIndex,
+      this.subCategory,
+      this.forProductAdding = false,
+      this.scaffoldKey,
+      this.supplierCode})
+      : super(key: key);
 
   @override
   _SubCategoryState createState() => _SubCategoryState();
@@ -36,11 +42,11 @@ class _SubCategoryState extends State<SubCategory> {
           .where((category) => category.parentCategoryId.toString() == index.toString())
           .toList();
 
-      if (subCategoryList.length > 0) {
+      if (subCategoryList.isNotEmpty) {
         Navigator.push(
           context,
-          new MaterialPageRoute(
-            builder: (context) => new SubCategory(
+          MaterialPageRoute(
+            builder: (context) => SubCategory(
               subCategory: subCategoryList,
               scaffoldKey: widget.scaffoldKey,
               forProductAdding: widget.forProductAdding,
@@ -64,8 +70,8 @@ class _SubCategoryState extends State<SubCategory> {
                   }
                   Navigator.push(
                     widget.scaffoldKey.currentContext,
-                    new MaterialPageRoute(
-                      builder: (screenContext) => new AddProductsView(
+                    MaterialPageRoute(
+                      builder: (screenContext) => AddProductsView(
                         categoryId: index.toString(),
                         barcode: param,
                         supplierCode: widget.supplierCode,
@@ -76,15 +82,16 @@ class _SubCategoryState extends State<SubCategory> {
               ),
             ),
           );
-        } else
+        } else {
           Navigator.push(
             context,
-            new MaterialPageRoute(
-              builder: (context) => new ProductsView(
+            MaterialPageRoute(
+              builder: (context) => ProductsView(
                 categoryId: index.toString(),
               ),
             ),
           );
+        }
       }
     }
 
@@ -95,18 +102,19 @@ class _SubCategoryState extends State<SubCategory> {
           leading: Padding(
             padding: const EdgeInsets.only(top: 8.0, right: 25),
             child: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.shopping_cart,
                 size: 35,
                 color: Colors.white,
               ),
               onPressed: () {
-                if (!widget.forProductAdding)
+                if (!widget.forProductAdding) {
                   Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
+                }
               },
             ),
           ),
-          backgroundColor: Color.fromARGB(255, 210, 178, 2),
+          backgroundColor: const Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false,
           flexibleSpace: SafeArea(
             child: Column(
@@ -115,15 +123,15 @@ class _SubCategoryState extends State<SubCategory> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(
+                    const SizedBox(
                       width: 40,
                     ),
-                    AppBarKammunImage(),
+                    const AppBarKammunImage(),
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0, left: 0),
                       child: IconButton(
                         onPressed: () => Navigator.of(context).pop(true),
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.white,
                           size: 40,
@@ -141,9 +149,9 @@ class _SubCategoryState extends State<SubCategory> {
             ),
           ),
         ),
-        preferredSize: Size.fromHeight(105),
+        preferredSize: const Size.fromHeight(105),
       ),
-      body: widget.subCategory.length == 0
+      body: widget.subCategory.isEmpty
           ? Align(
               alignment: Alignment.center,
               child: Padding(
@@ -166,7 +174,7 @@ class _SubCategoryState extends State<SubCategory> {
               itemBuilder: (BuildContext context, int index) {
                 var eachProduct = widget.subCategory[index];
 //todo : add to exist widget
-                return new GestureDetector(
+                return GestureDetector(
                   behavior: HitTestBehavior.translucent,
                   onTap: () => _onTileClicked(widget.subCategory[index].id),
                   child: Card(
@@ -178,20 +186,20 @@ class _SubCategoryState extends State<SubCategory> {
                       ),
                     ),
                     elevation: 4,
-                    margin: EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
                     child: Column(
                       children: <Widget>[
                         Stack(
                           children: <Widget>[
                             ClipRRect(
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(30),
                               ),
                               child: Image(
                                 image: AdvImageCache(
                                   LoadingScreenServices.imagePrefixUrl + eachProduct.imageFileName,
                                   useMemCache: true,
-                                  diskCacheExpire: Duration(days: 400),
+                                  diskCacheExpire: const Duration(days: 400),
                                 ),
                                 width: MediaQuery.of(context).size.width,
                                 height: MediaQuery.of(context).size.height * 0.25,
@@ -199,14 +207,14 @@ class _SubCategoryState extends State<SubCategory> {
                               ),
                             ),
                             ClipRRect(
-                              borderRadius: BorderRadius.all(
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(30),
                               ),
                               child: Container(
                                 height: MediaQuery.of(context).size.height * 0.25,
                                 width: double.infinity,
                                 color: Colors.black54,
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                   vertical: 5,
                                   horizontal: 20,
                                 ),

@@ -15,20 +15,20 @@ import '../../views/reports/services/reports_services.dart';
 import 'Loading.dart';
 
 class LoadingScreenServices {
-  static StartModel startRequest = new StartModel();
-  static CompanyOriginalData companyInformation = new CompanyOriginalData();
-  static List<Level> levels = List<Level>();
+  static StartModel startRequest = StartModel();
+  static CompanyOriginalData companyInformation = CompanyOriginalData();
+  static List<Level> levels = [];
 
-  static List<CategoryOriginalData> categoryList = List<CategoryOriginalData>();
+  static List<CategoryOriginalData> categoryList = [];
 
-  static List<SubWarehouse> subWarehouses = new List<SubWarehouse>();
-  static List<Warehouse> warehouses = new List<Warehouse>();
+  static List<SubWarehouse> subWarehouses = [];
+  static List<Warehouse> warehouses = [];
 
-  static List<DropdownMenuItem> fullCategoryList = List<DropdownMenuItem>();
+  static List<DropdownMenuItem> fullCategoryList = [];
 
   static String imagePrefixUrl = "";
 
-  static List<FadeInImage> bannerListNetwork = List<FadeInImage>();
+  static List<FadeInImage> bannerListNetwork = [];
 
   // Mobile Configuration variables
   static String updateUrl = "";
@@ -48,25 +48,25 @@ class LoadingScreenServices {
 
   // Supported City variables
 
-  static List<DropdownMenuItem> supportedCitiesList = List<DropdownMenuItem>();
+  static List<DropdownMenuItem> supportedCitiesList = [];
 
-  static List<IndigoDatum> supportedCitiesListIntro = List<IndigoDatum>();
+  static List<IndigoDatum> supportedCitiesListIntro = [];
 
   // -------------------------------------------------------//
 
   // User Variables
-  static List<ProductData> allProducts = List<ProductData>();
-  static List<ProductData> notAddedProducts = List<ProductData>();
-  static List<OrdersOriginalData> myOrdersList = new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> allOrdersList = new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> phoneOrderList = new List<OrdersOriginalData>();
-  static List<ShopperModel> allShoppers = List<ShopperModel>();
-  static List<DeliveryModel> allDeliveries = List<DeliveryModel>();
-  static List<OrdersOriginalData> shoppersAssignedOrdersList = new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> deliveriesAssignedOrdersList = new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> notAssignedOrdersList = new List<OrdersOriginalData>();
-  static List<OrdersOriginalData> supplierOrderList = new List<OrdersOriginalData>();
-  static List<TransactionTypeModel> transactionTypes = List<TransactionTypeModel>();
+  static List<ProductData> allProducts = [];
+  static List<ProductData> notAddedProducts = [];
+  static List<OrdersOriginalData> myOrdersList = [];
+  static List<OrdersOriginalData> allOrdersList = [];
+  static List<OrdersOriginalData> phoneOrderList = [];
+  static List<ShopperModel> allShoppers = [];
+  static List<DeliveryModel> allDeliveries = [];
+  static List<OrdersOriginalData> shoppersAssignedOrdersList = [];
+  static List<OrdersOriginalData> deliveriesAssignedOrdersList = [];
+  static List<OrdersOriginalData> notAssignedOrdersList = [];
+  static List<OrdersOriginalData> supplierOrderList = [];
+  static List<TransactionTypeModel> transactionTypes = [];
   static String phoneNumber = "لم تقم بتسجيل رقم";
   static String name;
   static String userName;
@@ -77,13 +77,13 @@ class LoadingScreenServices {
 
   static RegExp subSupplierCodeHint = RegExp(".*kh");
 
-  Future<bool> updateFirebaseToken(String firebaseToken) async {
+  Future<bool> updateFirebaseTokenService(String firebaseToken) async {
     try {
       Map body = {
         "firebase_token": firebaseToken,
       };
       await ApiProvider.sendRequest(
-        url: UPDATE_ADMIN_FIREBASE_TOKEN,
+        url: updateFirebaseToken,
         method: HttpMethods.post,
         body: jsonEncode(body),
       );
@@ -105,6 +105,8 @@ class LoadingScreenServices {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       List<SubWarehouse> response = await InventoryServices.getSubWarehoused(adminId: prefs.getString("adminId"));
+      Tools.logToConsole('getSubWarehouse');
+
       if (response != null) {
         subWarehouses.addAll(response);
         return true;
@@ -120,12 +122,13 @@ class LoadingScreenServices {
   Future<bool> getSupportedCity() async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: GET_SUPPORTED_CITIES,
+        url: getSupportedCities,
         method: HttpMethods.get,
       );
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
         supportedCityOriginal = supportedCitiesResponse;
+        Tools.logToConsole('getSupportedCity');
 
         supportedCitiesListIntro.clear();
 
@@ -150,9 +153,9 @@ class LoadingScreenServices {
       if (userToken != null) {
         LoadingScreen.userToken = "Bearer " + userToken;
         if (userToken == "APPLE_VERIFICATION") {
-          BASE_URL = APPLE_BASE_URL;
+          baseUrl = appleBaseUrl;
         } else {
-          BASE_URL = PRODUCTION_BASE_URL;
+          baseUrl = productionBaseUrl;
         }
         return true;
       } else {
@@ -167,17 +170,18 @@ class LoadingScreenServices {
   int finishedRequests = 0;
   int contractsLength = 0;
 
-  Future<bool> getCategory() async {
+  Future<bool> getCategoryService() async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: GET_CATEGORY,
+        url: getCategory,
         method: HttpMethods.get,
       );
 
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         categoryList.clear();
         fullCategoryList.clear();
         final categories = categoryOriginalFromJson(jsonEncode(response.data)).data;
+        Tools.logToConsole('getCategoryService');
         fullCategoryList = categories
             .where((category) => category.parentCategoryId == null)
             .toList()
@@ -185,7 +189,7 @@ class LoadingScreenServices {
               (category) => DropdownMenuItem(
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 287,
                       child: Text(
                         category.name + " من القائمة الرئيسية",
@@ -224,16 +228,17 @@ class LoadingScreenServices {
               .toList(),
         );
         categoryList = categories
-            .where((category) => category.warehouses.length > 0 && category.warehouses[0].pivot.isActive == "1")
+            .where((category) => category.warehouses.isNotEmpty && category.warehouses[0].pivot.isActive == "1")
             .toList();
 
         categoryList.sort((a, b) {
-          if ((int.parse(a.warehouses[0].pivot.priority)) > (int.parse(b.warehouses[0].pivot.priority)))
+          if ((int.parse(a.warehouses[0].pivot.priority)) > (int.parse(b.warehouses[0].pivot.priority))) {
             return 1;
-          else if ((int.parse(a.warehouses[0].pivot.priority) < (int.parse(b.warehouses[0].pivot.priority))))
+          } else if ((int.parse(a.warehouses[0].pivot.priority) < (int.parse(b.warehouses[0].pivot.priority)))) {
             return -1;
-          else
+          } else {
             return 0;
+          }
         });
         return true;
       } else {
@@ -250,7 +255,7 @@ class LoadingScreenServices {
     int lastSupported;
     int currentVersion;
 
-    companyInformation = new CompanyOriginalData(
+    companyInformation = CompanyOriginalData(
         email: "support@kammun.com",
         whatsappNumber: "+963969999204",
         supportNumber: "0969999204",
@@ -263,7 +268,7 @@ class LoadingScreenServices {
         currency: "S.P",
         additionalInfo: "http://m.me/KammunApp");
 
-    imagePrefixUrl = APP_URL + "/images/";
+    imagePrefixUrl = appUrl + "/images/";
 
     // --------------------------------------------------------------------- //
 
@@ -302,11 +307,11 @@ class LoadingScreenServices {
         image: AdvImageCache(
           LoadingScreenServices.imagePrefixUrl + "slide3.png",
           useMemCache: true,
-          diskCacheExpire: Duration(days: 400),
+          diskCacheExpire: const Duration(days: 400),
         ),
         fadeInDuration: const Duration(seconds: 1),
         fadeInCurve: Curves.fastOutSlowIn,
-        placeholder: AssetImage("assets/kmlogoo.png"),
+        placeholder: const AssetImage("assets/kmlogoo.png"),
         fit: BoxFit.cover,
       ),
     );
@@ -318,16 +323,18 @@ class LoadingScreenServices {
 
   Future<bool> fetchStartInformation() async {
     try {
+      Tools.logToConsole('start');
       bool userLoggedIn = await checkIfUserLoadedIn();
       if (userLoggedIn) {
+        Tools.logToConsole('userLoggedIn');
         try {
           List responses;
           try {
             responses = await Future.wait([
               getSupportedCity(),
               getSubWarehouse(),
-              getCategory(),
-              Services.getWarehouses(),
+              getCategoryService(),
+              Services.getWarehousesService(),
               fetchAdminInformation(),
             ]);
             if (Services.isOperationManager() ||

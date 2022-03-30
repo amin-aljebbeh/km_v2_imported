@@ -10,13 +10,13 @@ class LevelModelResponse {
   Level data;
 
   factory LevelModelResponse.fromJson(Map<String, dynamic> json) => LevelModelResponse(
-        success: json["success"] == null ? null : json["success"],
+        success: json["success"],
         data: json["data"] == null ? null : Level.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success == null ? null : success,
-        "data": data == null ? null : data.toJson(),
+        "success": success,
+        "data": data.toJson(),
       };
 }
 
@@ -34,12 +34,12 @@ class LevelsResponse {
   List<Level> levels;
 
   factory LevelsResponse.fromJson(Map<String, dynamic> json) => LevelsResponse(
-        success: json["success"] == null ? null : json["success"],
+        success: json["success"],
         levels: json["data"] == null ? null : List<Level>.from(json["data"].map((x) => Level.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success == null ? null : success,
+        "success": success,
         "data": levels == null ? null : List<dynamic>.from(levels.map((x) => x.toJson())),
       };
 }

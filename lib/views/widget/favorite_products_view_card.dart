@@ -1,8 +1,8 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 
 class FavoriteProductsViewCard extends StatefulWidget {
   final String img;
@@ -12,7 +12,7 @@ class FavoriteProductsViewCard extends StatefulWidget {
   final int index;
   final int active;
 
-  FavoriteProductsViewCard({this.img, this.productName, this.quantity, this.price, this.index, this.active});
+  const FavoriteProductsViewCard({Key key, this.img, this.productName, this.quantity, this.price, this.index, this.active}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -28,7 +28,7 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
     return Container(
       color: Theme.of(context).primaryColorLight,
       child: Padding(
-        padding: EdgeInsets.only(left: 0, right: 0, top: 10),
+        padding: const EdgeInsets.only(left: 0, right: 0, top: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,49 +40,47 @@ class FavoriteProductsViewCardState extends State<FavoriteProductsViewCard> {
                   tag: widget.index + 100,
                   image: widget.img,
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
-                    child: Container(
-                  child: Wrap(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Wrap(
-                            children: <Widget>[
-                              Text(
-                                widget.productName,
+                    child: Wrap(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Wrap(
+                              children: <Widget>[
+                                Text(
+                                  widget.productName,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                      fontSize: 18),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              widget.quantity,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: ColorUtils.greyColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontSize: 17),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                                StringUtils().oCcy.format(widget.price).toString() +
+                                    " ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
+                                    color: ColorUtils.primaryColor,
                                     fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            widget.quantity,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: ColorUtils.greyColor,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 17),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                              StringUtils().oCcy.format(widget.price).toString() +
-                                  " ${LoadingScreenServices.companyInformation.currency}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: ColorUtils.primaryColor,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 18)),
-                        ],
-                      ),
-                    ],
-                  ),
-                )),
+                                    fontSize: 18)),
+                          ],
+                        ),
+                      ],
+                    )),
                 widget.active == 0
                     ? Badge(
                         borderRadius: BorderRadius.zero,

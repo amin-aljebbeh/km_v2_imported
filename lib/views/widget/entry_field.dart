@@ -9,14 +9,14 @@ class EntryField extends StatefulWidget {
   final bool isPhoneNumber;
   final Function(bool) onSubmit;
 
-  EntryField({
+  const EntryField({Key key,
     this.canBeEmpty = true,
     this.controller,
     this.hint,
     this.width,
     this.isPhoneNumber = false,
     this.onSubmit,
-  });
+  }) : super(key: key);
 
   @override
   _EntryFieldState createState() => _EntryFieldState();
@@ -33,7 +33,7 @@ class _EntryFieldState extends State<EntryField> {
         color: Colors.white,
         border: Border.all(width: 1.0, color: ColorUtils.kmColors),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.16), offset: Offset(0, 3.0), blurRadius: 6.0),
+          BoxShadow(color: Colors.black.withOpacity(0.16), offset: const Offset(0, 3.0), blurRadius: 6.0),
         ],
       ),
       child: TextFormField(
@@ -44,19 +44,20 @@ class _EntryFieldState extends State<EntryField> {
           widget.onSubmit(string.isNotEmpty);
         },
         validator: (value) {
-          RegExp regExp = new RegExp("^(?:9)?[0-9]{3}(?:-)[0-9]{9}\$");
+          RegExp regExp = RegExp("^(?:9)?[0-9]{3}(?:-)[0-9]{9}\$");
 
           if (value.isEmpty && !widget.canBeEmpty) return "This field can not be empty";
-          if (widget.isPhoneNumber && !regExp.hasMatch(widget.controller.text))
+          if (widget.isPhoneNumber && !regExp.hasMatch(widget.controller.text)) {
             return "Please make sure you enter a 9-digit number (e.g. 5503394244)";
-          else
+          } else {
             return null;
+          }
         },
         controller: widget.controller,
         keyboardType: TextInputType.text,
         maxLines: null,
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
           hintText: widget.hint,
           hintStyle: TextStyle(
             fontFamily: StringUtils.fontFamilyHKGrotesk,
@@ -65,14 +66,14 @@ class _EntryFieldState extends State<EntryField> {
           filled: true,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.0),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Colors.white,
               width: 3.0,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4.0),
-            borderSide: BorderSide(
+            borderSide: const BorderSide(
               color: Color(0xFF999999),
               width: 1.0,
             ),

@@ -18,7 +18,7 @@ class KDrawer extends StatelessWidget {
           child: Drawer(
             child: Column(
               children: [
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width / 1.5,
                   height: 60,
                   child: Align(
@@ -28,7 +28,7 @@ class KDrawer extends StatelessWidget {
                           BoxDecoration(color: Colors.white, border: Border.all(color: ColorUtils.kmColors)),
                       child: InkWell(
                         onTap: () => Navigator.of(context).pop(),
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.width / 1.5,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,7 +61,7 @@ class KDrawer extends StatelessWidget {
                 Divider(
                   color: ColorUtils.kmColors,
                 ),
-                Container(
+                SizedBox(
                   height: 550,
                   child: ListView(
                     primary: false,
@@ -69,7 +69,7 @@ class KDrawer extends StatelessWidget {
                       Column(
                         children: children,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 100,
                       ),
                     ],

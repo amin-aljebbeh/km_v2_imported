@@ -12,23 +12,20 @@ import '../../Services.dart';
 
 // ignore: must_be_immutable
 class HomeView extends StatefulWidget {
-  final int routeIndex;
-  final bool isFromUpdateOrder;
-  dynamic notificationValue;
+  int routeIndex;
+  bool isFromUpdateOrder;
+  final dynamic notificationValue;
 
-  HomeView({this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue});
+  HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return HomeViewState(routeIndex, isFromUpdateOrder);
+    return HomeViewState();
   }
 }
 
 class HomeViewState extends State<HomeView> {
-  int _selectedIndex;
-  bool _isFromUpdateOrder;
-
-  HomeViewState(this._selectedIndex, this._isFromUpdateOrder);
+  HomeViewState();
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   String firebaseToken;
@@ -89,7 +86,7 @@ class HomeViewState extends State<HomeView> {
     if (prefs.get("firebase_token") == null) {
       firebaseToken = await _firebaseMessaging.getToken();
       prefs.setString("firebase_token", firebaseToken);
-      LoadingScreenServices().updateFirebaseToken(firebaseToken);
+      LoadingScreenServices().updateFirebaseTokenService(firebaseToken);
     } else {
       firebaseToken = prefs.get("firebase_token");
     }
@@ -256,7 +253,7 @@ class HomeViewState extends State<HomeView> {
     return BottomNavigationBar(
       backgroundColor: Colors.white,
       items: bottomList,
-      currentIndex: _selectedIndex,
+      currentIndex: widget.routeIndex,
       type: BottomNavigationBarType.fixed,
       fixedColor: Colors.white,
       onTap: _onItemTapped,
@@ -266,29 +263,29 @@ class HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _tabs = [];
-    _tabs.add(StoreView());
+    _tabs.add(const StoreView());
     _tabs.add(CartView(
-      isFromUpdateOrder: _isFromUpdateOrder,
+      isFromUpdateOrder: widget.isFromUpdateOrder,
     ));
     if ((Services.isOperationManager())) {
       _tabs.add(
-        OrdersView(),
+        const OrdersView(),
       );
     }
 
     if (Services.isDelivery() || Services.isShopper() || Services.isSupplierManager()) {
       _tabs.add(
-        AssignedOrdersView(),
+        const AssignedOrdersView(),
       );
     }
 
-    return Scaffold(body: _tabs[_selectedIndex], bottomNavigationBar: _bottomNavBar(context: context));
+    return Scaffold(body: _tabs[widget.routeIndex], bottomNavigationBar: _bottomNavBar(context: context));
   }
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
-      _isFromUpdateOrder = false;
+      widget.routeIndex = index;
+      widget.isFromUpdateOrder = false;
     });
   }
 }

@@ -10,7 +10,7 @@ import 'widgets_importer.dart';
 class AddImageWidget extends StatefulWidget {
   final Function onSubmit;
 
-  AddImageWidget({Key key, @required this.onSubmit}) : super(key: key);
+  const AddImageWidget({Key key, @required this.onSubmit}) : super(key: key);
 
   @override
   _AddImageWidgetState createState() => _AddImageWidgetState();
@@ -28,7 +28,7 @@ class _AddImageWidgetState extends State<AddImageWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            FlatButton(
+            TextButton(
               child: Icon(
                 Icons.camera,
                 color: ColorUtils.kmColors,
@@ -38,7 +38,7 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                 getImage(ImageSource.camera);
               },
             ),
-            FlatButton(
+            TextButton(
               child: Icon(
                 Icons.image,
                 color: ColorUtils.kmColors,
@@ -51,13 +51,13 @@ class _AddImageWidgetState extends State<AddImageWidget> {
           ],
         ),
         isLoading
-            ? Loader()
+            ? const Loader()
             : image != null
                 ? Column(
                     children: [
                       Container(
                         alignment: Alignment.center,
-                        padding: EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 10),
                         child: SelectedFileToUpload(
                           image: image,
                           name: '',

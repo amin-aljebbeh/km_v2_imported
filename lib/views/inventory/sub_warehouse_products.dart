@@ -9,18 +9,18 @@ import 'package:kammun_app/views/widget/widgets_importer.dart';
 class SubWarehouseProducts extends StatefulWidget {
   final String subWarehouseId;
 
-  SubWarehouseProducts({this.subWarehouseId});
+  const SubWarehouseProducts({Key key, this.subWarehouseId}) : super(key: key);
 
   @override
   _SubWarehouseProductsState createState() => _SubWarehouseProductsState();
 }
 
 class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
-  List<ProductData> productsList = List<ProductData>();
+  List<ProductData> productsList = [];
   bool isLoading = false;
   bool isError = false;
   bool displayToActiveProducts = true;
-  TextEditingController _controller = new TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   String filter;
   int filterProducts;
   int isActiveFilter;
@@ -33,7 +33,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       isError = false;
     });
     try {
-      var response = await InventoryServices.getSubWarehouseProducts(subWarehouseId: widget.subWarehouseId);
+      var response = await InventoryServices.getSubWarehouseProductsService(subWarehouseId: widget.subWarehouseId);
       if (response != null) {
         productsList.addAll(response);
         setState(() {
@@ -60,7 +60,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
 
   @override
   initState() {
-    if (this.mounted) {
+    if (mounted) {
       super.initState();
     }
     _loadData();
@@ -82,10 +82,11 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       // sort not active first
       setState(() {
         productsList.sort((a, b) {
-          if (int.parse(a.isActive) == 0)
+          if (int.parse(a.isActive) == 0) {
             return -1;
-          else
+          } else {
             return 1;
+          }
         });
         filterIndex = 1;
       });
@@ -98,21 +99,22 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
         boxShadows: [
           BoxShadow(
             color: ColorUtils.primaryColor,
-            offset: Offset(0.0, 2.0),
+            offset: const Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
         ],
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
         leftBarIndicatorColor: ColorUtils.kmColors,
-      )..show(context);
+      ).show(context);
     } else if (filterIndex == 1) {
       // Active first
       setState(() {
         productsList.sort((a, b) {
-          if (int.parse(a.isActive) == 0)
+          if (int.parse(a.isActive) == 0) {
             return 1;
-          else
+          } else {
             return -1;
+          }
         });
         filterIndex = 2;
       });
@@ -125,23 +127,24 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
         boxShadows: [
           BoxShadow(
             color: ColorUtils.primaryColor,
-            offset: Offset(0.0, 2.0),
+            offset: const Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
         ],
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
         leftBarIndicatorColor: ColorUtils.kmColors,
-      )..show(context);
+      ).show(context);
     } else if (filterIndex == 2) {
       // Oldest First
       setState(() {
         productsList.sort((a, b) {
-          if (a.id > b.id)
+          if (a.id > b.id) {
             return -1;
-          else if (a.id < b.id)
+          } else if (a.id < b.id) {
             return 1;
-          else
+          } else {
             return 0;
+          }
         });
         filterIndex = 0;
       });
@@ -155,13 +158,13 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
         boxShadows: [
           BoxShadow(
             color: ColorUtils.primaryColor,
-            offset: Offset(0.0, 2.0),
+            offset: const Offset(0.0, 2.0),
             blurRadius: 3.0,
           )
         ],
-        duration: Duration(seconds: 3),
+        duration: const Duration(seconds: 3),
         leftBarIndicatorColor: ColorUtils.kmColors,
-      )..show(context);
+      ).show(context);
     }
   }
 
@@ -174,7 +177,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
         onPressed: () {
           _filterProducts();
         },
-        child: Icon(
+        child: const Icon(
           Icons.filter_list_rounded,
           size: 35,
         ),
@@ -190,9 +193,9 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       body: Column(
         children: <Widget>[
           isLoading
-              ? Center(
+              ? const Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
+                    padding: EdgeInsets.only(top: 30.0),
                     child: Loader(),
                   ),
                 )
@@ -206,7 +209,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                               messageType: "internetError",
                               headerText: "حدث خطأ",
                             ),
-                            RaisedButton(
+                            ElevatedButton(
                                 child: Text(StringUtils.tryAgain, style: blackBold),
                                 onPressed: () {
                                   _loadData();
@@ -230,43 +233,46 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                             String id, supplierCode;
                             int isActive;
                             bool attached;
-                            if (eachProduct.subWarehouseId != -1)
+                            if (eachProduct.subWarehouseId != -1) {
                               id = eachProduct.subWarehouseId.toString();
-                            else {
+                            } else {
                               List<int> subWarehousesIds =
                                   LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
                               List<int> productIds = eachProduct.warehouses
                                   .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
                                   .toList();
                               subWarehousesIds.removeWhere((id) => !productIds.contains(id));
-                              if (subWarehousesIds.length > 0)
+                              if (subWarehousesIds.isNotEmpty) {
                                 id = subWarehousesIds[0].toString();
-                              else if (eachProduct.warehouses.isNotEmpty)
+                              } else if (eachProduct.warehouses.isNotEmpty) {
                                 id = eachProduct.warehouses[0].pivot.subWarehouseId;
+                              }
                             }
-                            if (eachProduct.supplierCode != null)
+                            if (eachProduct.supplierCode != null) {
                               supplierCode = eachProduct.supplierCode;
-                            else if (eachProduct.warehouses.isNotEmpty)
+                            } else if (eachProduct.warehouses.isNotEmpty) {
                               supplierCode = eachProduct.warehouses
                                   .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
                                   .pivot
                                   .supplierCode;
+                            }
                             if (eachProduct.isActive != 'null') {
                               isActive = int.parse(eachProduct.isActive);
                             } else if (eachProduct.warehouses.isNotEmpty) {
                               isActive = int.parse(eachProduct.warehouses[0].pivot.isActive);
                             }
                             attached = false;
-                            if (eachProduct.supplierCode != 'null')
+                            if (eachProduct.supplierCode != 'null') {
                               attached = true;
-                            else if (eachProduct.warehouses != null) if (eachProduct.warehouses.isNotEmpty) {
-                              attached = eachProduct.warehouses
-                                      .map((warehouse) => warehouse.pivot.supplierCode)
-                                      .toList()
-                                      .where((code) => code != 'null')
-                                      .toList()
-                                      .length >
-                                  0;
+                            } else if (eachProduct.warehouses != null) {
+                              if (eachProduct.warehouses.isNotEmpty) {
+                                attached = eachProduct.warehouses
+                                    .map((warehouse) => warehouse.pivot.supplierCode)
+                                    .toList()
+                                    .where((code) => code != 'null')
+                                    .toList()
+                                    .isNotEmpty;
+                              }
                             }
                             return InventoryProductsViewCard(
                               index: 0,

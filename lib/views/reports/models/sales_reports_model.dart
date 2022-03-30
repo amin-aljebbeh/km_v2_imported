@@ -4,11 +4,9 @@
 
 import 'dart:convert';
 
-GetDailyStatistics getDailyStatisticsFromJson(String str) =>
-    GetDailyStatistics.fromJson(json.decode(str));
+GetDailyStatistics getDailyStatisticsFromJson(String str) => GetDailyStatistics.fromJson(json.decode(str));
 
-String getDailyStatisticsToJson(GetDailyStatistics data) =>
-    json.encode(data.toJson());
+String getDailyStatisticsToJson(GetDailyStatistics data) => json.encode(data.toJson());
 
 class GetDailyStatistics {
   GetDailyStatistics({
@@ -21,21 +19,16 @@ class GetDailyStatistics {
   List<Datum> data;
   Date date;
 
-  factory GetDailyStatistics.fromJson(Map<String, dynamic> json) =>
-      GetDailyStatistics(
-        success: json["success"] == null ? null : json["success"],
-        data: json["data"] == null
-            ? null
-            : List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-        date: json["date"] == null ? null : Date.fromJson(json["date"]),
+  factory GetDailyStatistics.fromJson(Map<String, dynamic> json) => GetDailyStatistics(
+        success: json["success"],
+        data: json["data"] == null ? null : List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        date: Date.fromJson(json["date"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success == null ? null : success,
-        "data": data == null
-            ? null
-            : List<dynamic>.from(data.map((x) => x.toJson())),
-        "date": date == null ? null : date.toJson(),
+        "success": success,
+        "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
+        "date": date.toJson(),
       };
 }
 
@@ -61,44 +54,37 @@ class Datum {
   List<StatisticsSupportedCity> statisticsSupportedCities;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
-        description: json["description"] == null ? null : json["description"],
-        numberOfWorkers: json["number_of_workers"] == null
-            ? null
-            : json["number_of_workers"],
-        isActive: json["is_active"] == null ? null : json["is_active"],
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        numberOfWorkers: json["number_of_workers"],
+        isActive: json["is_active"],
         statisticsWarehouses: json["statistics_warehouses"] == null
             ? null
             : StatisticsWarehouses.fromJson(json["statistics_warehouses"]),
         statisticsSubWarehouses: json["statistics_sub_warehouses"] == null
             ? null
             : List<StatisticsSubWarehouse>.from(
-                json["statistics_sub_warehouses"]
-                    .map((x) => StatisticsSubWarehouse.fromJson(x))),
+                json["statistics_sub_warehouses"].map((x) => StatisticsSubWarehouse.fromJson(x))),
         statisticsSupportedCities: json["statistics_supported_cities"] == null
             ? null
             : List<StatisticsSupportedCity>.from(
-                json["statistics_supported_cities"]
-                    .map((x) => StatisticsSupportedCity.fromJson(x))),
+                json["statistics_supported_cities"].map((x) => StatisticsSupportedCity.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "name": name == null ? null : name,
-        "description": description == null ? null : description,
-        "number_of_workers": numberOfWorkers == null ? null : numberOfWorkers,
-        "is_active": isActive == null ? null : isActive,
-        "statistics_warehouses":
-            statisticsWarehouses == null ? null : statisticsWarehouses.toJson(),
+        "id": id,
+        "name": name,
+        "description": description,
+        "number_of_workers": numberOfWorkers,
+        "is_active": isActive,
+        "statistics_warehouses": statisticsWarehouses.toJson(),
         "statistics_sub_warehouses": statisticsSubWarehouses == null
             ? null
-            : List<dynamic>.from(
-                statisticsSubWarehouses.map((x) => x.toJson())),
+            : List<dynamic>.from(statisticsSubWarehouses.map((x) => x.toJson())),
         "statistics_supported_cities": statisticsSupportedCities == null
             ? null
-            : List<dynamic>.from(
-                statisticsSupportedCities.map((x) => x.toJson())),
+            : List<dynamic>.from(statisticsSupportedCities.map((x) => x.toJson())),
       };
 }
 
@@ -117,26 +103,20 @@ class StatisticsSubWarehouse {
   String businessDomain;
   String sumPurchasePrice;
 
-  factory StatisticsSubWarehouse.fromJson(Map<String, dynamic> json) =>
-      StatisticsSubWarehouse(
-        warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"],
-        subWarehouseId:
-            json["sub_warehouse_id"] == null ? null : json["sub_warehouse_id"],
-        name: json["name"] == null ? null : json["name"],
-        businessDomain:
-            json["business_domain"] == null ? null : json["business_domain"],
-        sumPurchasePrice: json["sum_purchase_price"] == null
-            ? null
-            : json["sum_purchase_price"],
+  factory StatisticsSubWarehouse.fromJson(Map<String, dynamic> json) => StatisticsSubWarehouse(
+        warehouseId: json["warehouse_id"],
+        subWarehouseId: json["sub_warehouse_id"],
+        name: json["name"],
+        businessDomain: json["business_domain"],
+        sumPurchasePrice: json["sum_purchase_price"],
       );
 
   Map<String, dynamic> toJson() => {
-        "warehouse_id": warehouseId == null ? null : warehouseId,
-        "sub_warehouse_id": subWarehouseId == null ? null : subWarehouseId,
-        "name": name == null ? null : name,
-        "business_domain": businessDomain == null ? null : businessDomain,
-        "sum_purchase_price":
-            sumPurchasePrice == null ? null : sumPurchasePrice,
+        "warehouse_id": warehouseId,
+        "sub_warehouse_id": subWarehouseId,
+        "name": name,
+        "business_domain": businessDomain,
+        "sum_purchase_price": sumPurchasePrice,
       };
 }
 
@@ -155,25 +135,20 @@ class StatisticsSupportedCity {
   int ordersCount;
   String deliveryPrice;
 
-  factory StatisticsSupportedCity.fromJson(Map<String, dynamic> json) =>
-      StatisticsSupportedCity(
-        supportedCityId: json["supported_city_id"] == null
-            ? null
-            : json["supported_city_id"],
-        name: json["name"] == null ? null : json["name"],
-        deliveryIncome:
-            json["delivery_income"] == null ? null : json["delivery_income"],
-        ordersCount: json["orders_count"] == null ? null : json["orders_count"],
-        deliveryPrice:
-            json["delivery_price"] == null ? null : json["delivery_price"],
+  factory StatisticsSupportedCity.fromJson(Map<String, dynamic> json) => StatisticsSupportedCity(
+        supportedCityId: json["supported_city_id"],
+        name: json["name"],
+        deliveryIncome: json["delivery_income"],
+        ordersCount: json["orders_count"],
+        deliveryPrice: json["delivery_price"],
       );
 
   Map<String, dynamic> toJson() => {
-        "supported_city_id": supportedCityId == null ? null : supportedCityId,
-        "name": name == null ? null : name,
-        "delivery_income": deliveryIncome == null ? null : deliveryIncome,
-        "orders_count": ordersCount == null ? null : ordersCount,
-        "delivery_price": deliveryPrice == null ? null : deliveryPrice,
+        "supported_city_id": supportedCityId,
+        "name": name,
+        "delivery_income": deliveryIncome,
+        "orders_count": ordersCount,
+        "delivery_price": deliveryPrice,
       };
 }
 
@@ -188,18 +163,16 @@ class StatisticsWarehouses {
   int deliveryIncome;
   int total;
 
-  factory StatisticsWarehouses.fromJson(Map<String, dynamic> json) =>
-      StatisticsWarehouses(
-        totalSales: json["total_sales"] == null ? null : json["total_sales"],
-        deliveryIncome:
-            json["delivery_income"] == null ? null : json["delivery_income"],
-        total: json["total"] == null ? null : json["total"],
+  factory StatisticsWarehouses.fromJson(Map<String, dynamic> json) => StatisticsWarehouses(
+        totalSales: json["total_sales"],
+        deliveryIncome: json["delivery_income"],
+        total: json["total"],
       );
 
   Map<String, dynamic> toJson() => {
-        "total_sales": totalSales == null ? null : totalSales,
-        "delivery_income": deliveryIncome == null ? null : deliveryIncome,
-        "total": total == null ? null : total,
+        "total_sales": totalSales,
+        "delivery_income": deliveryIncome,
+        "total": total,
       };
 }
 
@@ -213,15 +186,12 @@ class Date {
   DateTime toDate;
 
   factory Date.fromJson(Map<String, dynamic> json) => Date(
-        fromDate: json["from_date"] == null
-            ? null
-            : DateTime.parse(json["from_date"]),
-        toDate:
-            json["to_date"] == null ? null : DateTime.parse(json["to_date"]),
+        fromDate: json["from_date"] == null ? null : DateTime.parse(json["from_date"]),
+        toDate: DateTime.parse(json["to_date"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "from_date": fromDate == null ? null : fromDate.toIso8601String(),
-        "to_date": toDate == null ? null : toDate.toIso8601String(),
+        "from_date": fromDate.toIso8601String(),
+        "to_date": toDate.toIso8601String(),
       };
 }

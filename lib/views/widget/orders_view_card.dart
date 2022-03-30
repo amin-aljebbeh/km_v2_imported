@@ -16,10 +16,11 @@ class OrdersViewCard extends StatefulWidget {
   final OrdersOriginalData orderData;
   final OrderTypes orderType;
 
-  OrdersViewCard({
+  const OrdersViewCard({
+    Key key,
     @required this.orderData,
     @required this.orderType,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -30,7 +31,7 @@ class OrdersViewCard extends StatefulWidget {
 openMapsSheet({context, double lat, double lon}) async {
   try {
     final coords = Coords(lat, lon);
-    final title = "Ocean Beach";
+    const title = "Ocean Beach";
     final availableMaps = await MapLauncher.installedMaps;
 
     showModalBottomSheet(
@@ -38,20 +39,18 @@ openMapsSheet({context, double lat, double lon}) async {
       builder: (BuildContext context) {
         return SafeArea(
           child: SingleChildScrollView(
-            child: Container(
-              child: Wrap(
-                children: <Widget>[
-                  for (var map in availableMaps)
-                    ListTile(
-                      onTap: () => map.showMarker(
-                        coords: coords,
-                        title: title,
-                      ),
-                      title: Text(map.mapName),
-                      leading: Icon(Icons.map),
+            child: Wrap(
+              children: <Widget>[
+                for (var map in availableMaps)
+                  ListTile(
+                    onTap: () => map.showMarker(
+                      coords: coords,
+                      title: title,
                     ),
-                ],
-              ),
+                    title: Text(map.mapName),
+                    leading: const Icon(Icons.map),
+                  ),
+              ],
             ),
           ),
         );
@@ -117,8 +116,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
       onTap: () {
         Navigator.push(
           context,
-          new MaterialPageRoute(
-            builder: (context) => new OrderDetailsTabView(
+          MaterialPageRoute(
+            builder: (context) => OrderDetailsTabView(
               orderData: widget.orderData,
               subTotal: int.parse(widget.orderData.total.toString().split(".")[0]) -
                   int.parse(widget.orderData.supportedCityCost.toString().split(".")[0]) -
@@ -132,7 +131,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
       child: Container(
         decoration: BoxDecoration(border: Border.all(color: color, width: 5)),
         child: Padding(
-          padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
+          padding: const EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,12 +141,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 children: <Widget>[
                   LabelRow(
                     rightSideText: StringUtils.bill,
-                    leftSideText: "${StringUtils().oCcy.format(int.parse(widget.orderData.total)).toString()}" +
+                    leftSideText: "${StringUtils().oCcy.format(int.parse(widget.orderData.total)).toString()}"
                         " ${LoadingScreenServices.companyInformation.currency.toString()}",
                     leftSideStyle: informationStyle,
                   ),
                   Container(
-                    padding: EdgeInsets.all(6),
+                    padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2)),
                     ),
@@ -162,7 +161,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   ),
                   if ((Services.isAdmin() || Services.isOperationManager()) && deletedCount > 0)
                     Container(
-                      padding: EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.red.withOpacity(0.2)),
                       ),
@@ -216,7 +215,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       ),
                       RichText(
                         text: TextSpan(
-                          text: "${StringUtils().oCcy.format(widget.orderData.shopperProfit).toString()}",
+                          text: StringUtils().oCcy.format(widget.orderData.shopperProfit).toString(),
                           style: profitStyle,
                         ),
                       ),
@@ -246,9 +245,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                             color: ColorUtils.kmColors,
                             size: 25,
                           ),
-                          padding: EdgeInsets.all(0),
+                          padding: const EdgeInsets.all(0),
                           onPressed: () {
-                            Clipboard.setData(new ClipboardData(text: widget.orderData.userData.phone));
+                            Clipboard.setData(ClipboardData(text: widget.orderData.userData.phone));
                             Toast.show('تم نسخ الرقم', context,
                                 duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
                           },
@@ -263,14 +262,14 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                             color: ColorUtils.kmColors,
                             size: 30,
                           ),
-                          padding: EdgeInsets.all(0),
+                          padding: const EdgeInsets.all(0),
                           onPressed: () {
                             LoadingScreenServices.allOrdersList.clear();
 
                             Navigator.push(
                               context,
-                              new MaterialPageRoute(
-                                builder: (screenContext) => new PhoneNumberOrdersView(
+                              MaterialPageRoute(
+                                builder: (screenContext) => PhoneNumberOrdersView(
                                   phoneNumber: widget.orderData.userData.phone,
                                 ),
                               ),
@@ -286,7 +285,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         color: ColorUtils.kmColors,
                         size: 30,
                       ),
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       onPressed: () {
                         openMapsSheet(
                             context: context,
@@ -386,11 +385,11 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     String shopperId = Services.selectedShopperId(value);
                     setState(() {
                       shopper = value;
-                      widget.orderData.shopper = new Assigned(
+                      widget.orderData.shopper = Assigned(
                           name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''), id: int.parse(shopperId));
                     });
                     bool result =
-                        await OrderServices.assignOrderToShopper(shopperId, widget.orderData.id.toString());
+                        await OrderServices.assignOrderToShopperService(shopperId, widget.orderData.id.toString());
                     Services.resultFlushBar(context: context, result: result);
                   }
                 },

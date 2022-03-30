@@ -18,13 +18,13 @@ class TransactionResponse {
   TransactionPage data;
 
   factory TransactionResponse.fromJson(Map<String, dynamic> json) => TransactionResponse(
-        success: json["success"] == null ? null : json["success"],
-        data: json["data"] == null ? null : TransactionPage.fromJson(json["data"]),
+        success: json["success"],
+        data: TransactionPage.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success == null ? null : success,
-        "data": data == null ? null : data.toJson(),
+        "success": success,
+        "data": data.toJson(),
       };
 }
 
@@ -58,35 +58,35 @@ class TransactionPage {
   int total;
 
   factory TransactionPage.fromJson(Map<String, dynamic> json) => TransactionPage(
-        currentPage: json["current_page"] == null ? null : json["current_page"],
+        currentPage: json["current_page"],
         data: json["data"] == null
             ? null
             : List<TransactionModel>.from(json["data"].map((x) => TransactionModel.fromJson(x))),
-        firstPageUrl: json["first_page_url"] == null ? null : json["first_page_url"],
-        from: json["from"] == null ? null : json["from"],
-        lastPage: json["last_page"] == null ? null : json["last_page"],
-        lastPageUrl: json["last_page_url"] == null ? null : json["last_page_url"],
+        firstPageUrl: json["first_page_url"],
+        from: json["from"],
+        lastPage: json["last_page"],
+        lastPageUrl: json["last_page_url"],
         nextPageUrl: json["next_page_url"],
-        path: json["path"] == null ? null : json["path"],
-        perPage: json["per_page"] == null ? null : json["per_page"],
+        path: json["path"],
+        perPage: json["per_page"],
         prevPageUrl: json["prev_page_url"],
-        to: json["to"] == null ? null : json["to"],
-        total: json["total"] == null ? null : json["total"],
+        to: json["to"],
+        total: json["total"],
       );
 
   Map<String, dynamic> toJson() => {
-        "current_page": currentPage == null ? null : currentPage,
-        "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
-        "first_page_url": firstPageUrl == null ? null : firstPageUrl,
-        "from": from == null ? null : from,
-        "last_page": lastPage == null ? null : lastPage,
-        "last_page_url": lastPageUrl == null ? null : lastPageUrl,
+        "current_page": currentPage,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "first_page_url": firstPageUrl,
+        "from": from,
+        "last_page": lastPage,
+        "last_page_url": lastPageUrl,
         "next_page_url": nextPageUrl,
-        "path": path == null ? null : path,
-        "per_page": perPage == null ? null : perPage,
+        "path": path,
+        "per_page": perPage,
         "prev_page_url": prevPageUrl,
-        "to": to == null ? null : to,
-        "total": total == null ? null : total,
+        "to": to,
+        "total": total,
       };
 }
 
@@ -112,24 +112,24 @@ class TransactionModel {
   DateTime createdAt;
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) => TransactionModel(
-        id: json["id"] == null ? null : json["id"].toString(),
-        orderId: json["order_id"] == null ? null : json["order_id"].toString(),
-        shopperId: json["shopper_id"] == null ? null : json["shopper_id"].toString(),
-        transactionTypeId: json["transaction_type_id"] == null ? null : json["transaction_type_id"].toString(),
-        valueShopper: json["value_shopper"] == null ? null : json["value_shopper"].toString(),
-        valueCompany: json["value_company"] == null ? null : json["value_company"].toString(),
-        description: json["description"] == null ? null : json["description"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        id: json["id"].toString(),
+        orderId: json["order_id"].toString(),
+        shopperId: json["shopper_id"].toString(),
+        transactionTypeId: json["transaction_type_id"].toString(),
+        valueShopper: json["value_shopper"].toString(),
+        valueCompany: json["value_company"].toString(),
+        description: json["description"],
+        createdAt: DateTime.parse(json["created_at"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "order_id": orderId == null ? null : orderId,
-        "shopper_id": shopperId == null ? null : shopperId,
-        "transaction_type_id": transactionTypeId == null ? null : transactionTypeId,
-        "value_shopper": valueShopper == null ? null : valueShopper,
-        "value_company": valueCompany == null ? null : valueCompany,
-        "description": description == null ? null : description,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
+        "id": id,
+        "order_id": orderId,
+        "shopper_id": shopperId,
+        "transaction_type_id": transactionTypeId,
+        "value_shopper": valueShopper,
+        "value_company": valueCompany,
+        "description": description,
+        "created_at": createdAt.toIso8601String(),
       };
 }

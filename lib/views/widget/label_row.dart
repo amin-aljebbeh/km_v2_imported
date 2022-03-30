@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
 import '../../utils/utils_importer.dart';
 
 class LabelRow extends StatefulWidget {
@@ -40,7 +41,7 @@ class _LabelRowState extends State<LabelRow> {
             ],
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
       ],
     );
   }

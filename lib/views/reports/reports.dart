@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class DailyStatistics extends StatefulWidget {
+  const DailyStatistics({Key key}) : super(key: key);
+
   @override
   _DailyStatisticsState createState() => _DailyStatisticsState();
 }
@@ -18,11 +20,11 @@ class _DailyStatisticsState extends State<DailyStatistics> {
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: ListView(
             children: [
               ListTile(
-                leading: Icon(Icons.info),
+                leading: const Icon(Icons.info),
                 // trailing: Icon(Icons.arrow_back),
                 title: Text("إحصائيات المبيعات",
                     style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 25)),
@@ -31,7 +33,7 @@ class _DailyStatisticsState extends State<DailyStatistics> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.info),
+                leading: const Icon(Icons.info),
                 // trailing: Icon(Icons.arrow_back),
                 title: Text(
                   "تقرير المطابقة",

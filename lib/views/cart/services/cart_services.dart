@@ -7,7 +7,7 @@ import 'package:kammun_app/views/loading/LoadingServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartServices {
-  static List<ProductData> cartProducts = List<ProductData>();
+  static List<ProductData> cartProducts = [];
 
   static String userNote;
   static String userCopoun;
@@ -15,7 +15,7 @@ class CartServices {
   static Future getUserCart() async {
     Tools.logToConsole("------------ GET USER CART FROM SHARED  --------------");
 
-    Map<String, String> productsIdCount = new Map<String, String>();
+    Map<String, String> productsIdCount = <String, String>{};
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String userCart = prefs.getString('userCart');
@@ -29,7 +29,7 @@ class CartServices {
       }
 
       var response = await ApiProvider.sendRequest(
-          url: SYNC_CART,
+          url: syncCart,
           method: HttpMethods.post,
           body: jsonEncode({
             "product_ids": userCart
@@ -37,7 +37,7 @@ class CartServices {
                 .replaceRange(userCart.split("@")[0].length - 1, userCart.split("@")[0].length, "")
           }));
 
-      if (response.statusCode == SUCCESS_CODE && response.data['success'] == true) {
+      if (response.statusCode == successCode && response.data['success'] == true) {
         final product = syncCartFromJson(jsonEncode(response.data["data"]));
         for (int i = 0; i < product.length; i++) {
           if (product[i] != null) {
@@ -59,7 +59,7 @@ class CartServices {
 
   static addProductToCart(ProductData product) {
     bool added = false;
-    if (LoadingScreenServices.categoryList.length == 0) {
+    if (LoadingScreenServices.categoryList.isEmpty) {
       CartServices.cartProducts.add(product);
       added = true;
     }

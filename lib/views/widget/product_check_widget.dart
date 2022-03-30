@@ -57,7 +57,7 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                     padding: const EdgeInsets.all(3.0),
                     decoration: BoxDecoration(
                         borderRadius:
-                            BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+                            const BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
                                 ),
                         border: Border.all(color: ColorUtils.primaryColor, width: 2)),
                     child: Center(
@@ -68,7 +68,7 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                     ),
                   ),
                   IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.library_add_check_outlined,
                         color: Colors.green,
                       ),

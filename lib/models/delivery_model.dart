@@ -16,21 +16,20 @@ class DeliveryModel {
   int warehouseId;
 
   factory DeliveryModel.fromJson(Map<String, dynamic> json) => DeliveryModel(
-        id: json["id"] == null ? null : json["id"],
-        username: json["username"] == null ? null : json["username"],
-        name: json["name"] == null ? null : json["name"],
+        id: json["id"],
+        username: json["username"],
+        name: json["name"],
         phone: json["phone"],
-        isSuperUser:
-            json["is_super_user"] == null ? null : json["is_super_user"],
-        warehouseId: json["warehouse_id"] == null ? null : json["warehouse_id"],
+        isSuperUser: json["is_super_user"],
+        warehouseId: json["warehouse_id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "username": username == null ? null : username,
-        "name": name == null ? null : name,
+        "id": id,
+        "username": username,
+        "name": name,
         "phone": phone,
-        "is_super_user": isSuperUser == null ? null : isSuperUser,
-        "warehouse_id": warehouseId == null ? null : warehouseId,
+        "is_super_user": isSuperUser,
+        "warehouse_id": warehouseId,
       };
 }

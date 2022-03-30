@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
+
 import '../../Services.dart';
 
 class ShopperManagementView extends StatefulWidget {
+  const ShopperManagementView({Key key}) : super(key: key);
+
   @override
   _ShopperManagementViewState createState() => _ShopperManagementViewState();
 }
@@ -35,10 +38,10 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
           style: mainStyle,
         ),
       ),
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: loading
-            ? Loader()
+            ? const Loader()
             : ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                 primary: false,

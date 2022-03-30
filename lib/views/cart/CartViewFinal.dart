@@ -18,6 +18,8 @@ import 'order_problem_sheet.dart';
 class CartViewFinal extends StatefulWidget {
   static String message = "";
 
+  const CartViewFinal({Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _CartViewFinalState();
@@ -33,8 +35,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
   String errorMessage = "يرجى المحاولة مرة أخرى و التأكد من إتصالك بالإنترنت";
 
   int total = 0;
-  TextEditingController _userNotes = TextEditingController();
-  TextEditingController _copouns = TextEditingController();
+  final TextEditingController _userNotes = TextEditingController();
+  final TextEditingController _copouns = TextEditingController();
 
   _reloadPrices() async {
     Navigator.of(context).pop();
@@ -63,7 +65,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
     OrderServices.updateOrderNote != null
         ? WidgetsBinding.instance.addPostFrameCallback((_) => _userNotesInitial())
-        : print('');
+        : {};
 
     super.initState();
   }
@@ -73,7 +75,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
       cards.removeAt(item);
       CartViewState.cards.removeAt(item);
 
-      if (cards.length == 0) {
+      if (cards.isEmpty) {
         KammunRestart.restartApp(context);
       }
     });
@@ -102,10 +104,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
+        padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
         child: SafeArea(
           child: loadingScreen
-              ? Center(
+              ? const Center(
                   child: Loader(),
                 )
               : Column(
@@ -159,20 +161,18 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         shrinkWrap: true,
                         itemCount: orderArray == null ? 0 : cards.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return new GestureDetector(
+                          return GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () => {},
-                            child: Container(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 0, right: 0, top: 0),
-                                child: cardBody(index, context),
-                              ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
+                              child: cardBody(index, context),
                             ),
                           );
                         },
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -195,7 +195,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -216,7 +216,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -237,10 +237,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     SafeArea(
                       child: loadingScreen
-                          ? Loader()
+                          ? const Loader()
                           : Column(
                               children: <Widget>[
                                 KammunButton(
@@ -251,8 +251,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                     children: <Widget>[
                                       Container(
                                         alignment: Alignment.center,
-                                        padding: EdgeInsets.only(top: 0, bottom: 0, right: 15),
-                                        child: Icon(
+                                        padding: const EdgeInsets.only(top: 0, bottom: 0, right: 15),
+                                        child: const Icon(
                                           Icons.add_box_outlined,
                                           color: Colors.white,
                                           size: 32,
@@ -261,31 +261,27 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                       Expanded(
                                         child: Align(
                                           alignment: Alignment.center,
-                                          child: Container(
-                                            child: Text(
-                                              'إضافة ملاحظة',
-                                              textAlign: TextAlign.start,
-                                              style: new TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: StringUtils.fontFamilyHKGrotesk),
-                                            ),
+                                          child: Text(
+                                            'إضافة ملاحظة',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: StringUtils.fontFamilyHKGrotesk),
                                           ),
                                         ),
                                       ),
-                                      Container(
-                                        child: Icon(
-                                          Icons.add,
-                                          color: Colors.transparent,
-                                          size: 32,
-                                        ),
+                                      const Icon(
+                                        Icons.add,
+                                        color: Colors.transparent,
+                                        size: 32,
                                       ),
                                     ],
                                   ),
                                   onTap: () {
                                     showMyDialog(
                                       title: 'إضافة ملاحظة',
-                                      dialogButtons: List<DialogButton>(),
+                                      dialogButtons: [],
                                       content: Stack(
                                         clipBehavior: Clip.none,
                                         children: <Widget>[
@@ -296,7 +292,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                               onTap: () {
                                                 Navigator.of(context).pop();
                                               },
-                                              child: CircleAvatar(
+                                              child: const CircleAvatar(
                                                 child: Icon(Icons.close),
                                                 backgroundColor: Colors.red,
                                               ),
@@ -319,14 +315,14 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                               Container(
                                                 padding: const EdgeInsets.only(left: 8, right: 8),
                                                 decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.all(
+                                                    borderRadius: const BorderRadius.all(
                                                         Radius.circular(5.0) //         <--- border radius here
                                                         ),
                                                     border: Border.all(
                                                       width: 2,
                                                       color: ColorUtils.kmColors,
                                                     )),
-                                                child: new TextField(
+                                                child: TextField(
                                                   controller: _userNotes,
                                                   textAlign: TextAlign.right,
                                                   keyboardType: TextInputType.multiline,
@@ -355,7 +351,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 ),
                                 KammunButton(
                                   width: MediaQuery.of(context).size.width,
-                                  color: CartServices.cartProducts.length > 0
+                                  color: CartServices.cartProducts.isNotEmpty
                                       ? ColorUtils.primaryColor
                                       : Colors.grey[400],
                                   text: StringUtils.confirmOrder,
@@ -365,7 +361,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   },
                                   height: 50,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 )
                               ],
@@ -380,154 +376,148 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   Widget cardBody(int index, BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              new Container(
-                width: 75.0,
-                height: 75.0,
-                decoration: new BoxDecoration(borderRadius: new BorderRadius.all(Radius.circular(20.0))),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Hero(
-                    tag: index + 100,
-                    child: Image(
-                      image: orderArray[index].images.length != 0
-                          ? AdvImageCache(
-                              LoadingScreenServices.imagePrefixUrl +
-                                  orderArray[index].images[0].imageFileName.toString(),
-                              useMemCache: true,
-                              diskCacheExpire: Duration(days: 400),
-                            )
-                          : AssetImage("assets/kmIcon.png"),
-                      width: MediaQuery.of(context).size.width,
-                      height: 120,
-                      fit: BoxFit.contain,
-                    ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Container(
+              width: 75.0,
+              height: 75.0,
+              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Hero(
+                  tag: index + 100,
+                  child: Image(
+                    image: orderArray[index].images.isNotEmpty
+                        ? AdvImageCache(
+                            LoadingScreenServices.imagePrefixUrl +
+                                orderArray[index].images[0].imageFileName.toString(),
+                            useMemCache: true,
+                            diskCacheExpire: const Duration(days: 400),
+                          )
+                        : const AssetImage("assets/kmIcon.png"),
+                    width: MediaQuery.of(context).size.width,
+                    height: 120,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
-              //SizedBox(width: 10),
-              SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  child: Wrap(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              orderArray[index].name,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 18),
-                            ),
-                            SizedBox(height: 6),
-                            Text(
-                              orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 17),
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                                "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorUtils.primaryColor,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    fontSize: 18)),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
+            ),
+            //SizedBox(width: 10),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Wrap(
                 children: <Widget>[
-                  Container(
-                    width: 30,
-                    height: 30,
-                    decoration:
-                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          orderArray[index].productCount += 1;
-                          subtotal += (int.parse(orderArray[index].price.split(".")[0]));
-
-                          total += (int.parse(orderArray[index].price.split(".")[0]));
-                        });
-                        _cartChanged();
-                      },
-                      child: Image.asset(
-                        "assets/add.png",
-                        width: 60,
-                        height: 60,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Text(orderArray[index].productCount.toString(),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).primaryColorDark,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          fontSize: 18)),
-                  SizedBox(height: 5),
-                  Container(
-                    width: 30,
-                    height: 30,
-                    decoration:
-                        BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          if (orderArray[index].productCount > 1) {
-                            subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
-                            orderArray[index].productCount = orderArray[index].productCount - 1;
-
-                            total -= (int.parse(orderArray[index].price.split(".")[0]));
-                          } else if (orderArray[index].productCount == 1) {
-                            subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
-
-                            total -= (int.parse(orderArray[index].price.split(".")[0]));
-                            onrRemove(index);
-                            CartServices.cartProducts.removeAt(index);
-                          }
-                        });
-                        _cartChanged();
-                      },
-                      child: Image.asset(
-                        "assets/remove.png",
-                        width: 60,
-                        height: 60,
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          orderArray[index].name,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 18),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: ColorUtils.greyColor,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 17),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                            "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: ColorUtils.primaryColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 18)),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ],
-          ),
-          SizedBox(height: 4),
-          Divider(
-            thickness: 3,
-          )
-        ],
-      ),
+            ),
+
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        orderArray[index].productCount += 1;
+                        subtotal += (int.parse(orderArray[index].price.split(".")[0]));
+
+                        total += (int.parse(orderArray[index].price.split(".")[0]));
+                      });
+                      _cartChanged();
+                    },
+                    child: Image.asset(
+                      "assets/add.png",
+                      width: 60,
+                      height: 60,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(orderArray[index].productCount.toString(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).primaryColorDark,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontSize: 18)),
+                const SizedBox(height: 5),
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        if (orderArray[index].productCount > 1) {
+                          subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
+                          orderArray[index].productCount = orderArray[index].productCount - 1;
+
+                          total -= (int.parse(orderArray[index].price.split(".")[0]));
+                        } else if (orderArray[index].productCount == 1) {
+                          subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
+
+                          total -= (int.parse(orderArray[index].price.split(".")[0]));
+                          onrRemove(index);
+                          CartServices.cartProducts.removeAt(index);
+                        }
+                      });
+                      _cartChanged();
+                    },
+                    child: Image.asset(
+                      "assets/remove.png",
+                      width: 60,
+                      height: 60,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+        const Divider(
+          thickness: 3,
+        )
+      ],
     );
   }
 
@@ -583,8 +573,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
               errorCode = true;
               errorMessage =
                   "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
-            } else if (orderResponse.changedPriceProducts.length > 0 ||
-                orderResponse.inactiveProducts.length > 0) {
+            } else if (orderResponse.changedPriceProducts.isNotEmpty ||
+                orderResponse.inactiveProducts.isNotEmpty) {
               _showBottomSheet(
                   notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
 
@@ -617,10 +607,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
         CartServices.userCopoun = "";
 
         Navigator.push(
-            context, new MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
+            context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
       }
-    } on NoSuchMethodError catch (e) {
-      print(e);
+    } catch (e) {
+/**/
     }
   }
 }

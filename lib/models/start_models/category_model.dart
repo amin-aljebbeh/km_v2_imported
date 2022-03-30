@@ -1,8 +1,8 @@
 import 'dart:convert';
+
 import 'start_model_importer.dart';
 
-CategoryOriginal categoryOriginalFromJson(String str) =>
-    CategoryOriginal.fromJson(json.decode(str));
+CategoryOriginal categoryOriginalFromJson(String str) => CategoryOriginal.fromJson(json.decode(str));
 
 class Category {
   Category({
@@ -37,11 +37,9 @@ class CategoryOriginal {
   bool success;
   List<CategoryOriginalData> data;
 
-  factory CategoryOriginal.fromJson(Map<String, dynamic> json) =>
-      CategoryOriginal(
+  factory CategoryOriginal.fromJson(Map<String, dynamic> json) => CategoryOriginal(
         success: json["success"],
-        data: List<CategoryOriginalData>.from(
-            json["data"].map((x) => CategoryOriginalData.fromJson(x))),
+        data: List<CategoryOriginalData>.from(json["data"].map((x) => CategoryOriginalData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,27 +65,22 @@ class CategoryOriginalData {
   String isCompany;
   List<Warehouse> warehouses;
 
-  factory CategoryOriginalData.fromJson(Map<String, dynamic> json) =>
-      CategoryOriginalData(
+  factory CategoryOriginalData.fromJson(Map<String, dynamic> json) => CategoryOriginalData(
         id: json["id"],
         name: json["name"],
         imageFileName: json["image_file_name"],
-        parentCategoryId: json["parent_category_id"] == null
-            ? null
-            : json["parent_category_id"].toString(),
+        parentCategoryId: json["parent_category_id"].toString(),
         isCompany: json["is_company"].toString(),
         warehouses: json["warehouses"] == null
             ? null
-            : List<Warehouse>.from(
-                json["warehouses"].map((x) => Warehouse.fromJson(x))),
+            : List<Warehouse>.from(json["warehouses"].map((x) => Warehouse.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "image_file_name": imageFileName,
-        "parent_category_id":
-            parentCategoryId == null ? null : parentCategoryId,
+        "parent_category_id": parentCategoryId,
         "is_company": isCompany,
         "warehouses": List<dynamic>.from(warehouses.map((x) => x.toJson())),
       };

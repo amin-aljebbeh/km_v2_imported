@@ -10,7 +10,7 @@ class DialogButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text(
         text,
         style: dialogStyle,

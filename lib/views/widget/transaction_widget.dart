@@ -19,108 +19,106 @@ class Transaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          newTransaction
-              ? Column(
-                  children: [
-                    Divider(
-                      thickness: 5,
-                      color: ColorUtils.primaryColor,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          DateFormat('EEEE', 'ar').format(transaction.createdAt) +
-                              ' ' +
-                              DateFormat('dd-MM-yyyy', 'en').format(transaction.createdAt),
-                          style: disableStyle,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15.0),
-                          child: KammunButton(
-                            color: ColorUtils.primaryColor,
-                            onTap: () {
-                              show(transaction.createdAt);
-                            },
-                            text: 'المجموع',
-                            width: MediaQuery.of(context).size.width * 0.25,
-                          ),
-                        ),
-                      ],
-                    ),
-                    KTableRow(
-                      children: [
-                        KTableElement(text: StringUtils.shopper),
-                        KTableElement(text: StringUtils.kammun),
-                        KTableElement(text: 'النوع'),
-                        KTableElement(text: 'الطلب'),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                  ],
-                )
-              : Container(),
-          Stack(
-            children: [
-              KTableRow(
+    return Column(
+      children: [
+        newTransaction
+            ? Column(
                 children: [
-                  KTableElement(
-                    text: StringUtils().oCcy.format(int.parse(transaction.valueShopper).abs()).toString(),
-                    style: int.parse(transaction.valueShopper) >= 0
-                        ? mainStyle.copyWith(color: Colors.green)
-                        : mainStyle.copyWith(color: Colors.red),
+                  Divider(
+                    thickness: 5,
+                    color: ColorUtils.primaryColor,
                   ),
-                  KTableElement(
-                    text: StringUtils().oCcy.format(int.parse(transaction.valueCompany).abs()).toString(),
-                    style: int.parse(transaction.valueCompany) >= 0
-                        ? mainStyle.copyWith(color: Colors.green)
-                        : mainStyle.copyWith(color: Colors.red),
-                  ),
-                  Stack(
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      KTableElement(
-                        text: LoadingScreenServices.transactionTypes
-                            .firstWhere((type) => type.id == int.parse(transaction.transactionTypeId))
-                            .arabicName,
+                      Text(
+                        DateFormat('EEEE', 'ar').format(transaction.createdAt) +
+                            ' ' +
+                            DateFormat('dd-MM-yyyy', 'en').format(transaction.createdAt),
+                        style: disableStyle,
                       ),
-                      if (transaction.description != null)
-                        IconButton(
-                          icon: Icon(
-                            Icons.device_unknown,
-                            color: ColorUtils.primaryColor,
-                          ),
-                          onPressed: () {
-                            showMyDialog(
-                              title: 'الوصف',
-                              context: context,
-                              text: transaction.description,
-                            );
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 15.0),
+                        child: KammunButton(
+                          color: ColorUtils.primaryColor,
+                          onTap: () {
+                            show(transaction.createdAt);
                           },
-                          padding: EdgeInsets.only(top: 25, right: 15),
+                          text: 'المجموع',
+                          width: MediaQuery.of(context).size.width * 0.25,
                         ),
+                      ),
                     ],
                   ),
-                  KTableElement(
-                    text: transaction.orderId != null ? transaction.orderId.toString() : 'null',
-                    style: mainStyle.copyWith(
-                      color: Colors.purple,
-                    ),
+                  KTableRow(
+                    children: [
+                      KTableElement(text: StringUtils.shopper),
+                      KTableElement(text: StringUtils.kammun),
+                      const KTableElement(text: 'النوع'),
+                      const KTableElement(text: 'الطلب'),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                 ],
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 10,
-          ),
-        ],
-      ),
+              )
+            : Container(),
+        Stack(
+          children: [
+            KTableRow(
+              children: [
+                KTableElement(
+                  text: StringUtils().oCcy.format(int.parse(transaction.valueShopper).abs()).toString(),
+                  style: int.parse(transaction.valueShopper) >= 0
+                      ? mainStyle.copyWith(color: Colors.green)
+                      : mainStyle.copyWith(color: Colors.red),
+                ),
+                KTableElement(
+                  text: StringUtils().oCcy.format(int.parse(transaction.valueCompany).abs()).toString(),
+                  style: int.parse(transaction.valueCompany) >= 0
+                      ? mainStyle.copyWith(color: Colors.green)
+                      : mainStyle.copyWith(color: Colors.red),
+                ),
+                Stack(
+                  children: [
+                    KTableElement(
+                      text: LoadingScreenServices.transactionTypes
+                          .firstWhere((type) => type.id == int.parse(transaction.transactionTypeId))
+                          .arabicName,
+                    ),
+                    if (transaction.description != null)
+                      IconButton(
+                        icon: Icon(
+                          Icons.device_unknown,
+                          color: ColorUtils.primaryColor,
+                        ),
+                        onPressed: () {
+                          showMyDialog(
+                            title: 'الوصف',
+                            context: context,
+                            text: transaction.description,
+                          );
+                        },
+                        padding: const EdgeInsets.only(top: 25, right: 15),
+                      ),
+                  ],
+                ),
+                KTableElement(
+                  text: transaction.orderId != null ? transaction.orderId.toString() : 'null',
+                  style: mainStyle.copyWith(
+                    color: Colors.purple,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+      ],
     );
   }
 }

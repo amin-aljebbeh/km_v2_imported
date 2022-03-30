@@ -1,94 +1,71 @@
 import 'package:kammun_app/core/core_importer.dart';
 
-const String TEST_URL = 'http://test.kammun.com';
-const String APP_URL = 'https://kammun.app';
+const String testUrl = 'http://test.kammun.com';
+const String appUrl = 'https://kammun.app';
 
-const String API = '/api/';
+const String api = '/api/';
 
-const String USER = 'user/';
+const String user = 'user/';
 
-const String SEARCH = 'search/';
+const String search = 'search/';
 
-// ignore: non_constant_identifier_names
-String BASE_URL = TEST_URL;
+const String address = 'address/';
 
-const String APPLE_BASE_URL = 'https://kammun.app';
-const String PRODUCTION_BASE_URL = TEST_URL;
+const String supportedCity = 'supported_city/';
 
-const String GET_COMPANY = API + 'company';
-const String GET_MOBILE_VERSION = API + 'mob_v_config';
-const String GET_PRODUCT = API + PRODUCT;
+String baseUrl = testUrl;
 
-const String ADD_IMAGE_TO_PRODUCTS = API + 'product_image';
-const String GET_CATEGORY = API + 'category/';
-const String GET_BANNER = API + 'banner/';
-const String GET_SUPPORTED_CITY = API + 'supported_city';
-const String GET_USER = API + USER + 'self/';
-const String GET_USER_ORDER = API + USER + 'user_orders';
-const String SYNC_CART = API + 'cart/sync_cart';
-const String FAVORITES_PRODUCTS = API + USER + 'my_favorite_products/';
+const String appleBaseUrl = 'https://kammun.app';
+const String productionBaseUrl = testUrl;
 
-const String DELIVERY_METHODS = API + 'supported_city/get_delivery_methods/';
-const String UPDATE_USER_SUPPORTED_CITY = API + USER + 'update_supported_city';
+const String getCompany = api + 'company';
+const String getMobileVersion = api + 'mob_v_config';
+const String getProduct = api + product;
 
-const String ADD_TO_FAVORITE = API + USER + 'add_product_to_favorites/';
-const String REMOVE_FROM_FAVORITE = API + USER + 'remove_`product`_from_favorites/';
-const String USER_ADDRESS = API + 'address';
+const String addImageToProduct = api + 'product_image';
+const String getCategory = api + 'category/';
+const String getBanner = api + 'banner/';
+const String getSupportedCities = api + supportedCity;
+const String getUser = api + user + 'self/';
+const String getUserOrder = api + user + 'user_orders';
+const String syncCart = api + 'cart/sync_cart';
+const String favoritesProducts = api + user + 'my_favorite_products/';
 
-const String OTP_VERIFICATION = API + 'verification_code/verify_account/';
+const String deliveryMethods = api + supportedCity + 'get_delivery_methods/';
+const String updateUserSupportedCity = api + user + 'update_supported_city';
+
+const String addToFavorite = api + user + 'add_product_to_favorites/';
+const String removeFromFavorite = api + user + 'remove_`product`_from_favorites/';
+const String userAddress = api + address;
+
+const String otpVerification = api + 'verification_code/verify_account/';
 //Orders:
-const String ORDER = 'order/';
+const String order = 'order/';
 
-const String ORDERS_NOT_ASSIGNED_TO_DELIVERIES = API + ORDER + 'get_orders_not_assigned_to_deliveries';
+const String deliveryViewsHisOwnOrders = api + order + 'delivery_views_his_own_orders';
 
-const String GET_ORDERS_ASSIGNED_TO_DELIVERIES = API + ORDER + 'get_orders_assigned_to_deliveries';
+const String shopperViewsHisOwnOrders = api + order + 'shopper_views_his_own_orders';
 
-const String DELIVERY_VIEWS_HIS_OWN_ORDERS = API + ORDER + 'delivery_views_his_own_orders';
+const String unlockOrder = api + order + 'unlock_order/';
 
-const String GET_ORDERS_NOT_ASSIGNED_TO_SHOPPERS = API + ORDER + 'get_orders_not_assigned_to_shoppers';
+const String cancelOrder = api + order + 'change_order_status/';
 
-const String GET_ORDERS_ASSIGNED_TO_SHOPPERS = API + ORDER + 'get_orders_assigned_to_shoppers';
+const String lockOrder = api + order + 'lock_order/';
 
-const String SHOPPER_VIEWS_HIS_OWN_ORDERS = API + ORDER + 'shopper_views_his_own_orders';
+const String assignOrderToShopper = api + order + 'assign_order_to_shopper';
 
-const String UNLOCK_ORDER = API + ORDER + 'unlock_order/';
+const String changeOrderStatus = api + order + 'change_order_status/';
 
-const String CANCEL_ORDER = API + ORDER + 'change_order_status/';
-
-const String LOCK_ORDER = API + ORDER + 'lock_order/';
-
-const String RATE_ORDER = API + ORDER + 'rate_order/';
-
-const String ASSIGN_DELIVERY_ORDER_HIMSELF = API + ORDER + 'assign_delivery_order_himself/';
-
-const String ASSIGN_SHOPPER_ORDER_HIMSELF = API + ORDER + 'assign_shopper_order_himself/';
-
-const String ASSIGN_ORDER_TO_SHOPPER = API + ORDER + 'assign_order_to_shopper';
-
-const String ASSIGN_ORDER_TO_DELIVERY = API + ORDER + 'assign_order_to_delivery';
-
-const String CHANGE_ORDER_STATUS = API + ORDER + 'change_order_status/';
-
-const String GET_ORDER_BY_USER_PHONE_NUMBER = API + ORDER + 'get_order_by_phone/';
+const String getOrdersByUserPhoneNumber = api + order + 'get_order_by_phone/';
 
 // BareCode
 
-const String PRODUCT_BARCODE = API + 'product_barcode/';
+const String productBarcode = api + 'product_barcode/';
 
-const String SEARCH_PRODUCT_BY_BARCODE = PRODUCT_BARCODE + SEARCH;
+const String searchProductByBarcode = productBarcode + search;
 
-const String CHECK_PRODUCT_BARCODE = PRODUCT_BARCODE + 'search_in_products/';
-
-/// NEW Version ///
-
-const String GET_START_REQUEST = API + 'mobile/startup';
-
-const String GET_SUPPORTED_CITIES = API + 'supported_city';
-
-const String LOGIN_URL = API + 'auth/user_signin';
-
-const String UPDATE_FIREBASE_TOKEN = API + USER + 'update_firebase_token';
+const String checkProductBarcode = productBarcode + 'search_in_products/';
 
 // Products:
 
-const String SEARCH_PRODUCTS = API + PRODUCT + SEARCH;
+const String searchProducts = api + product + search;

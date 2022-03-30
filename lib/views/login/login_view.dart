@@ -12,6 +12,8 @@ class LoginScreen extends StatefulWidget {
   static String phoneNumber = "";
   static String supportedCityId;
 
+  const LoginScreen({Key key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -34,14 +36,14 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     setState(() {
       loadingScreen = true;
     });
-    if (_usernameController.text.length == 0) {
+    if (_usernameController.text.isEmpty) {
       setState(() {
         errorCode = true;
         loadingScreen = false;
 
         errorMessage = "يرجى إدخال اسم المستخدم";
       });
-    } else if (_passwordController.text.length == 0) {
+    } else if (_passwordController.text.isEmpty) {
       setState(() {
         errorCode = true;
         loadingScreen = false;
@@ -76,14 +78,17 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         keyboardType: TextInputType.text,
         //dima
         onEditingComplete: () => TextInput.finishAutofillContext(),
-        autofillHints: [AutofillHints.password],
+        autofillHints: const [AutofillHints.password],
         enableSuggestions: false,
         autocorrect: false,
         obscureText: true,
+        cursorColor: ColorUtils.primaryColor,
         decoration: InputDecoration(
+          floatingLabelStyle:
+              TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30, color: ColorUtils.primaryColor),
           labelText: "كلمة المرور",
           labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
-          hintStyle: TextStyle(color: Colors.black45),
+          hintStyle: const TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
               color: ColorUtils.primaryColor,
@@ -106,21 +111,18 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
       child: TextFormField(
         textDirection: TextDirection.ltr,
-
-        // maxLengthEnforced: true,
-        // maxLength: 20,
-
-        // keyboardType: TextInputType.multiline,
         maxLines: 1,
         controller: _usernameController,
         keyboardType: TextInputType.text,
-        //dima
         onEditingComplete: () => TextInput.finishAutofillContext(),
-        autofillHints: [AutofillHints.username],
+        cursorColor: ColorUtils.primaryColor,
+        autofillHints: const [AutofillHints.username],
         decoration: InputDecoration(
           labelText: "اسم المستخدم",
+          floatingLabelStyle:
+              TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30, color: ColorUtils.primaryColor),
           labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
-          hintStyle: TextStyle(color: Colors.black45),
+          hintStyle: const TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
             borderSide: BorderSide(
               color: ColorUtils.primaryColor,
@@ -150,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
               vsync: this,
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.90,
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(MediaQuery.of(context).viewInsets.bottom != 0 ? 0 : 180),
@@ -161,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
             ),
             errorCode
                 ? AlertMessages(
-                    text: "$errorMessage",
+                    text: errorMessage,
                     messageType: "internetError",
                     headerText: "مشكلة بالبيانات المدخلة",
                   )
@@ -171,16 +173,13 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
             ListView(
               shrinkWrap: true,
               children: [
-                Container(
-                  //  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 50.0),
-                    child: Center(
-                      child: Image.asset(
-                        "assets/kmlogoo.png",
-                        height: 150,
-                        width: 200,
-                      ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 50.0),
+                  child: Center(
+                    child: Image.asset(
+                      "assets/kmlogoo.png",
+                      height: 150,
+                      width: 200,
                     ),
                   ),
                 ),
@@ -202,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 Container(
                   padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 20, top: 5),
                   child: loadingScreen
-                      ? Padding(
+                      ? const Padding(
                           padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
                           child: Loader(),
                         )

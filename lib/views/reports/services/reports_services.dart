@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -9,10 +10,10 @@ import '../models/report_model_importer.dart';
 
 class ReportsServices {
   static Future<GetDailyStatistics> getSalesReports({String fromDate, String toDate, String warehouseId}) async {
-    var response;
+    Response response;
 
     response = await ApiProvider.sendRequest(
-      url: GET_DAILY_STATISTICS,
+      url: getDailyStatistics,
       queryParameters: {
         "from_date": fromDate,
         "to_date": toDate,
@@ -20,7 +21,7 @@ class ReportsServices {
       method: HttpMethods.get,
     );
 
-    if (response.statusCode == SUCCESS_CODE) {
+    if (response.statusCode == successCode) {
       return getDailyStatisticsFromJson(jsonEncode(response.data));
     } else {
       return null;
@@ -29,21 +30,22 @@ class ReportsServices {
 
   static Future<List<TransactionModel>> getTransactions({String shopperId, int pageNumber}) async {
     try {
-      var response;
+      Response response;
 
       response = await ApiProvider.sendRequest(
-        url: GET_SHOPPER_TRANSACTIONS + shopperId,
+        url: getShopperTransactions + shopperId,
         method: HttpMethods.get,
         queryParameters: {"page": pageNumber},
       );
 
-      if (response.statusCode == SUCCESS_CODE) {
-        List<TransactionModel> transactions = List<TransactionModel>();
+      if (response.statusCode == successCode) {
+        List<TransactionModel> transactions = [];
         if (response.data["success"].toString() == "true") {
           transactions = transactionResponseFromJson(jsonEncode(response.data)).data.data;
           return transactions;
-        } else
+        } else {
           return transactions;
+        }
       } else {
         return null;
       }
@@ -54,20 +56,21 @@ class ReportsServices {
 
   static Future<List<TransactionModel>> getShopperTransaction() async {
     try {
-      var response;
+      Response response;
 
       response = await ApiProvider.sendRequest(
-        url: SHOPPER_VIEWS_HIS_OWN_TRANSACTION,
+        url: shopperViewsHisOwnTransactions,
         method: HttpMethods.get,
       );
 
-      if (response.statusCode == SUCCESS_CODE) {
-        List<TransactionModel> transactions = List<TransactionModel>();
+      if (response.statusCode == successCode) {
+        List<TransactionModel> transactions = [];
         if (response.data["success"].toString() == "true") {
           transactions = shopperTransactionResponseFromJson(jsonEncode(response.data)).data;
           return transactions;
-        } else
+        } else {
           return transactions;
+        }
       } else {
         return null;
       }
@@ -79,40 +82,42 @@ class ReportsServices {
   }
 
   static Future<FinancialDuesModel> getShopperFinancialDues({@required String shopperId}) async {
-    var response;
+    Response response;
 
     response = await ApiProvider.sendRequest(
-      url: GET_STATISTICS_SHOPPER_TRANSACTION + shopperId,
+      url: getStatisticsShopperTransaction + shopperId,
       method: HttpMethods.get,
     );
 
-    if (response.statusCode == SUCCESS_CODE) {
+    if (response.statusCode == successCode) {
       FinancialDuesModel financialDues = FinancialDuesModel();
       if (response.data["success"].toString() == "true") {
         financialDues = financialDuesResponseModelFromJson(jsonEncode(response.data)).data;
         return financialDues;
-      } else
+      } else {
         return financialDues;
+      }
     } else {
       return null;
     }
   }
 
-  static Future<String> getShopperMonthProfit({@required String shopperId}) async {
-    var response;
+  static Future<String> getShopperMonthProfitService({@required String shopperId}) async {
+    Response response;
 
     response = await ApiProvider.sendRequest(
-      url: GET_MONTH_SHOPPER_PROFIT + shopperId,
+      url: getShopperMonthProfit + shopperId,
       method: HttpMethods.get,
     );
 
-    if (response.statusCode == SUCCESS_CODE) {
+    if (response.statusCode == successCode) {
       String dailyProfit;
       if (response.data["success"].toString() == "true") {
         dailyProfit = dailyProfitModelFromJson(jsonEncode(response.data)).profit;
         return dailyProfit;
-      } else
+      } else {
         return dailyProfit;
+      }
     } else {
       return null;
     }
@@ -121,13 +126,13 @@ class ReportsServices {
   static financialDues({@required BuildContext context, @required String shopperId}) async {
     FinancialDuesModel financialDues = await getShopperFinancialDues(shopperId: shopperId);
     Widget content;
-    if (financialDues == null)
+    if (financialDues == null) {
       content = AlertMessages(
         text: StringUtils.errorMessage,
         messageType: "internetError",
         headerText: "حدث خطأ",
       );
-    else
+    } else {
       content = Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -157,6 +162,7 @@ class ReportsServices {
           ),
         ],
       );
+    }
     List<DialogButton> dialogButtons = [
       DialogButton(
         text: 'إغلاق',
@@ -173,26 +179,7 @@ class ReportsServices {
     );
   }
 
-  static Future<MatchingProducts> getMatchingReport(
-      {String reportDate, String toDate, String subWarehouseId}) async {
-    var response;
-    response = await ApiProvider.sendRequest(
-      url: GET_MATCHING_REPORT,
-      queryParameters: {
-        "sub_warehouse_id": subWarehouseId,
-        "report_date": reportDate,
-      },
-      method: HttpMethods.get,
-    );
-
-    if (response.statusCode == SUCCESS_CODE && response.data["success"] == true) {
-      return matchingProductsFromJson(jsonEncode(response.shopper));
-    } else {
-      return null;
-    }
-  }
-
-  static Future<bool> addTransaction({
+  static Future<bool> addTransactionService({
     @required String shopperId,
     @required String transactionTypeId,
     @required String value,
@@ -208,9 +195,9 @@ class ReportsServices {
     };
     try {
       var response = await ApiProvider.sendRequest(
-          url: ADD_TRANSACTION, method: HttpMethods.post, body: jsonEncode(transaction));
+          url: addTransaction, method: HttpMethods.post, body: jsonEncode(transaction));
 
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         return response.data['success'];
       } else {
         return false;
@@ -224,10 +211,10 @@ class ReportsServices {
   static Future<List<TransactionTypeModel>> getTransactionTypes() async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: GET_TRANSACTION_TYPES,
+        url: getTransactionType,
         method: HttpMethods.get,
       );
-      if (response.statusCode == SUCCESS_CODE && response.data["success"] == true) {
+      if (response.statusCode == successCode && response.data["success"] == true) {
         return transactionTypeResponseFromJson(jsonEncode(response.data)).data;
       } else {
         return null;
@@ -239,9 +226,9 @@ class ReportsServices {
 
   static Future<List<SupplierAccountModel>> getSupplierAccounts({String fromDate, String toDate}) async {
     try {
-      var response;
+      Response response;
       response = await ApiProvider.sendRequest(
-        url: REMAINING_MONEY_FOR_SUPPLIER,
+        url: remainingMoneyForSupplier,
         queryParameters: {
           "from_date": fromDate,
           "to_date": toDate,
@@ -249,7 +236,7 @@ class ReportsServices {
         method: HttpMethods.get,
       );
 
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         return supplierAccountModelResponseFromJson(jsonEncode(response.data)).data;
       } else {
         return null;

@@ -8,18 +8,18 @@ import 'package:kammun_app/views/order_details/full_screen_image.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 
-// ignore: must_be_immutable
 class OrderDetailViewMainCard extends StatefulWidget {
   final int index;
   final OrderProducts productData;
 
-  Function(int) onCheckbox;
+  final Function(int) onCheckbox;
 
-  OrderDetailViewMainCard({
+  const OrderDetailViewMainCard({
+    Key key,
     this.index,
     this.productData,
     this.onCheckbox,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -73,7 +73,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                   MaterialPageRoute(
                     builder: (_) {
                       return FullScreenImage(
-                        imageUrl: widget.productData.images.length != 0
+                        imageUrl: widget.productData.images.isNotEmpty
                             ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
                             : "",
                         tag: "generate_a_unique_tag",
@@ -84,7 +84,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
               },
               child: KCacheImage(
                 tag: widget.index + int.parse(widget.productData.pivot.productId),
-                image: widget.productData.images.length != 0
+                image: widget.productData.images.isNotEmpty
                     ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
                     : "",
               ),
@@ -102,9 +102,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     ),
                   ),
                   Text(
-                    widget.productData.quantity +
-                        " " +
-                        (widget.productData.unit == null ? '' : widget.productData.unit),
+                    widget.productData.quantity + " " + (widget.productData.unit ?? ''),
                     style: darkBold,
                   ),
                   Text(
@@ -118,7 +116,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                           " ${LoadingScreenServices.companyInformation.currency}",
                       style: paragraphStyle,
                     ),
-                  if ((!Services.isSupplierManager()) && subWarehouseList.length > 0)
+                  if ((!Services.isSupplierManager()) && subWarehouseList.isNotEmpty)
                     DropdownButton(
                       items: subWarehouseList,
                       onChanged: (a) {
@@ -136,7 +134,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                       hint: subWarehouseList
                           .firstWhere((element) => element.value == widget.productData.subWarehouseId, orElse: () {
                         subWarehouseList.clear();
-                        return DropdownMenuItem<int>(
+                        return const DropdownMenuItem<int>(
                           child: Text("No element"),
                           value: 0,
                         );
@@ -159,7 +157,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
             ),
           ],
         ),
-        Divider()
+        const Divider()
       ],
     );
   }

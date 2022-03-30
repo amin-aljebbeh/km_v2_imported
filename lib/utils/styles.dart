@@ -30,7 +30,7 @@ TextStyle flushBarStyle = mainStyle.copyWith(
 );
 
 TextStyle naveBarStyle = mainStyle.copyWith(
-  color: Color.fromARGB(255, 53, 99, 124),
+  color: const Color.fromARGB(255, 53, 99, 124),
   fontWeight: FontWeight.w500,
   fontSize: 15,
 );

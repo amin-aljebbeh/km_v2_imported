@@ -41,14 +41,15 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
   @override
   Widget build(BuildContext context) {
     return loading
-        ? Loader()
+        ? const Loader()
         : Container(
             height: widget.height,
             width: widget.width,
             padding: const EdgeInsets.all(3.0),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                    ),
+                borderRadius:
+                    const BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+                        ),
                 border: Border.all(
                     color: widget.preState == 1 ? ColorUtils.kmColors : ColorUtils.searchGreyColor, width: 2)),
             child: Center(

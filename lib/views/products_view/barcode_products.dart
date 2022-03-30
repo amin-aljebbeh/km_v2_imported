@@ -17,11 +17,11 @@ class BarcodeProducts extends StatefulWidget {
 }
 
 class _BarcodeProductsState extends State<BarcodeProducts> {
-  List<ProductData> productsList = List<ProductData>();
+  List<ProductData> productsList = [];
   bool isLoading = false;
   bool isError = false;
   bool displayToActiveProducts = true;
-  TextEditingController _controller = new TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   String filter;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -32,12 +32,13 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
       isError = false;
     });
     try {
-      var response;
+      List<ProductData> response;
       if (widget.requestType == BarcodeRequestType.addProduct ||
-          widget.requestType == BarcodeRequestType.addBarcode)
-        response = await ProductsServices.checkProductBarcode(bareCode: widget.barcode);
-      else
-        response = await ProductsServices.searchProductByBarcode(bareCode: widget.barcode);
+          widget.requestType == BarcodeRequestType.addBarcode) {
+        response = await ProductsServices.checkProductBarcodeService(bareCode: widget.barcode);
+      } else {
+        response = await ProductsServices.searchProductByBarcodeService(bareCode: widget.barcode);
+      }
       if (response != null) {
         productsList.addAll(response);
         if (productsList.isEmpty) {
@@ -68,7 +69,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
 
   @override
   initState() {
-    if (this.mounted) {
+    if (mounted) {
       super.initState();
     }
     _loadData();
@@ -97,12 +98,12 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height * 0.75,
               child: isLoading
-                  ? Center(
+                  ? const Center(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 30.0),
+                        padding: EdgeInsets.only(top: 30.0),
                         child: Loader(),
                       ),
                     )
@@ -116,7 +117,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                   messageType: "internetError",
                                   headerText: "حدث خطأ",
                                 ),
-                                RaisedButton(
+                                ElevatedButton(
                                     child: Text(StringUtils.tryAgain, style: blackBold),
                                     onPressed: () {
                                       _loadData();
@@ -140,9 +141,9 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                 String id, supplierCode;
                                 int isActive;
                                 bool attached;
-                                if (productsList[index].subWarehouseId != -1)
+                                if (productsList[index].subWarehouseId != -1) {
                                   id = productsList[index].subWarehouseId.toString();
-                                else {
+                                } else {
                                   List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
                                       .map((warehouse) => warehouse.id)
                                       .toList();
@@ -151,38 +152,39 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                       .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
                                       .toList();
                                   subWarehousesIds.removeWhere((id) => !productIds.contains(id));
-                                  if (subWarehousesIds.length > 0)
+                                  if (subWarehousesIds.isNotEmpty) {
                                     id = subWarehousesIds[0].toString();
-                                  else if (productsList[index].warehouses.isNotEmpty)
+                                  } else if (productsList[index].warehouses.isNotEmpty) {
                                     id = productsList[index].warehouses[0].pivot.subWarehouseId;
+                                  }
                                 }
-                                if (productsList[index].supplierCode != null)
+                                if (productsList[index].supplierCode != null) {
                                   supplierCode = productsList[index].supplierCode;
-                                else if (productsList[index].warehouses.isNotEmpty)
+                                } else if (productsList[index].warehouses.isNotEmpty) {
                                   supplierCode = productsList[index]
                                       .warehouses
                                       .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
                                       .pivot
                                       .supplierCode;
+                                }
                                 if (productsList[index].isActive != 'null') {
                                   isActive = int.parse(productsList[index].isActive);
                                 } else if (productsList[index].warehouses.isNotEmpty) {
                                   isActive = int.parse(productsList[index].warehouses[0].pivot.isActive);
                                 }
                                 attached = false;
-                                if (productsList[index].supplierCode != 'null')
+                                if (productsList[index].supplierCode != 'null') {
                                   attached = true;
-                                else if (productsList[index].warehouses != null) if (productsList[index]
-                                    .warehouses
-                                    .isNotEmpty) {
-                                  attached = productsList[index]
-                                          .warehouses
-                                          .map((warehouse) => warehouse.pivot.supplierCode)
-                                          .toList()
-                                          .where((code) => code != 'null')
-                                          .toList()
-                                          .length >
-                                      0;
+                                } else if (productsList[index].warehouses != null) {
+                                  if (productsList[index].warehouses.isNotEmpty) {
+                                    attached = productsList[index]
+                                        .warehouses
+                                        .map((warehouse) => warehouse.pivot.supplierCode)
+                                        .toList()
+                                        .where((code) => code != 'null')
+                                        .toList()
+                                        .isNotEmpty;
+                                  }
                                 }
                                 return InventoryProductsViewCard(
                                   index: index + 100,
@@ -219,7 +221,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                   },
                                 );
                               }
-                            } catch (e) {}
+                            } catch (e) {/**/}
                             return Container();
                           },
                         ),

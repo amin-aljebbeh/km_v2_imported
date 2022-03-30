@@ -6,7 +6,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 class ThankYouView extends StatefulWidget {
   final String orderMessage;
 
-  ThankYouView({this.orderMessage});
+  const ThankYouView({Key key, this.orderMessage}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -55,7 +55,7 @@ class ThankYouViewState extends State<ThankYouView> {
           elevation: 0.0,
         ),
         body: Padding(
-          padding: EdgeInsets.only(left: 30, top: 0, right: 30, bottom: 10),
+          padding: const EdgeInsets.only(left: 30, top: 0, right: 30, bottom: 10),
           child: SafeArea(
             child: SingleChildScrollView(
               child: Column(
@@ -63,7 +63,7 @@ class ThankYouViewState extends State<ThankYouView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Image.asset('assets/like.png', width: 200, height: 200),
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   Text(
                     StringUtils.thankYou,
                     style: TextStyle(
@@ -73,7 +73,7 @@ class ThankYouViewState extends State<ThankYouView> {
                         fontSize: 30),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
+                    padding: const EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
                     child: Text(
                       StringUtils.thankYouDescribe,
                       textAlign: TextAlign.justify,
@@ -86,7 +86,7 @@ class ThankYouViewState extends State<ThankYouView> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
+                    padding: const EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
                     child: Text(
                       widget.orderMessage.toString(),
                       textAlign: TextAlign.justify,
@@ -98,7 +98,7 @@ class ThankYouViewState extends State<ThankYouView> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   KammunButton(
                     text: StringUtils.continueShopping,
                     color: Theme.of(context).primaryColor,

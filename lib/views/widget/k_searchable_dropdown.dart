@@ -25,7 +25,7 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
   @override
   Widget build(BuildContext context) {
     return SearchChoices.single(
-      closeButton: FlatButton(
+      closeButton: TextButton(
         child: Text(
           StringUtils.close,
           style: dropdownItemStyle,

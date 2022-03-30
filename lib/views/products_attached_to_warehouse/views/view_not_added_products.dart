@@ -6,15 +6,17 @@ import 'package:kammun_app/views/products_attached_to_warehouse/services/added_p
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 class NotAddedProductsToWarehouse extends StatefulWidget {
+  const NotAddedProductsToWarehouse({Key key}) : super(key: key);
+
   @override
   _NotAddedProductsToWarehouseState createState() => _NotAddedProductsToWarehouseState();
 }
 
 class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehouse> {
-  List<ProductData> productsList = List<ProductData>();
+  List<ProductData> productsList = [];
   bool isLoading = false;
   bool isError = false;
-  TextEditingController _controller = new TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   String filter;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -31,14 +33,16 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
       });
     } else {
       try {
-        var response = await AddedProductsServices.getNotAddedProductsToWarehouse();
+        var response = await AddedProductsServices.getNotAddedProductsToWarehouseService();
         if (response != null) {
           LoadingScreenServices.notAddedProducts.addAll(response);
           productsList.addAll(response);
           productsList.sort((a, b) {
             if (a.id > b.id) {
               return -1;
-            } else if (a.id < b.id) return 1;
+            } else if (a.id < b.id) {
+              return 1;
+            }
             return 0;
           });
           setState(() {
@@ -63,7 +67,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
 
   @override
   initState() {
-    if (this.mounted) {
+    if (mounted) {
       super.initState();
     }
     _loadData();
@@ -92,9 +96,9 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
       body: Column(
         children: <Widget>[
           isLoading
-              ? Center(
+              ? const Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
+                    padding: EdgeInsets.only(top: 30.0),
                     child: Loader(),
                   ),
                 )
@@ -108,7 +112,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                               messageType: "internetError",
                               headerText: "حدث خطأ",
                             ),
-                            RaisedButton(child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () {}),
+                            ElevatedButton(child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () {}),
                           ],
                         ),
                       ),
@@ -128,9 +132,9 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                             String id, supplierCode;
                             int isActive;
                             bool attached;
-                            if (productsList[index].subWarehouseId != -1)
+                            if (productsList[index].subWarehouseId != -1) {
                               id = productsList[index].subWarehouseId.toString();
-                            else {
+                            } else {
                               List<int> subWarehousesIds =
                                   LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
                               List<int> productIds = productsList[index]
@@ -138,38 +142,39 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                                   .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
                                   .toList();
                               subWarehousesIds.removeWhere((id) => !productIds.contains(id));
-                              if (subWarehousesIds.length > 0)
+                              if (subWarehousesIds.isNotEmpty) {
                                 id = subWarehousesIds[0].toString();
-                              else if (productsList[index].warehouses.isNotEmpty)
+                              } else if (productsList[index].warehouses.isNotEmpty) {
                                 id = productsList[index].warehouses[0].pivot.subWarehouseId;
+                              }
                             }
-                            if (productsList[index].supplierCode != null)
+                            if (productsList[index].supplierCode != null) {
                               supplierCode = productsList[index].supplierCode;
-                            else if (productsList[index].warehouses.isNotEmpty)
+                            } else if (productsList[index].warehouses.isNotEmpty) {
                               supplierCode = productsList[index]
                                   .warehouses
                                   .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
                                   .pivot
                                   .supplierCode;
+                            }
                             if (productsList[index].isActive != 'null') {
                               isActive = int.parse(productsList[index].isActive);
                             } else if (productsList[index].warehouses.isNotEmpty) {
                               isActive = int.parse(productsList[index].warehouses[0].pivot.isActive);
                             }
                             attached = false;
-                            if (productsList[index].supplierCode != 'null')
+                            if (productsList[index].supplierCode != 'null') {
                               attached = true;
-                            else if (productsList[index].warehouses != null) if (productsList[index]
-                                .warehouses
-                                .isNotEmpty) {
-                              attached = productsList[index]
-                                      .warehouses
-                                      .map((warehouse) => warehouse.pivot.supplierCode)
-                                      .toList()
-                                      .where((code) => code != 'null')
-                                      .toList()
-                                      .length >
-                                  0;
+                            } else if (productsList[index].warehouses != null) {
+                              if (productsList[index].warehouses.isNotEmpty) {
+                                attached = productsList[index]
+                                    .warehouses
+                                    .map((warehouse) => warehouse.pivot.supplierCode)
+                                    .toList()
+                                    .where((code) => code != 'null')
+                                    .toList()
+                                    .isNotEmpty;
+                              }
                             }
                             return InventoryProductsViewCard(
                               index: 0,

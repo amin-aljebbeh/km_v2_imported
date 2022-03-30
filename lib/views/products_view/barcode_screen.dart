@@ -36,10 +36,10 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorUtils.kmColors2,
-        flexibleSpace: SafeArea(
+        flexibleSpace: const SafeArea(
           top: true,
           child: Padding(
-            padding: const EdgeInsets.only(right: 120),
+            padding: EdgeInsets.only(right: 120),
             child: AppBarKammunImage(),
           ),
         ),
@@ -47,12 +47,12 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height,
               child: QrCamera(
                 onError: (context, error) => Text(
                   error.toString(),
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                 ),
                 qrCodeCallback: (code) {
                   setState(() async {
@@ -119,25 +119,25 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                     width: MediaQuery.of(context).size.width * 0.2,
                     decoration: BoxDecoration(color: Colors.black.withOpacity(0.5)),
                   ),
-                  Container(
+                  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.2017,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.6,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               RotationTransition(
-                                turns: AlwaysStoppedAnimation(-45 / 360),
+                                turns: const AlwaysStoppedAnimation(-45 / 360),
                                 child: Icon(
                                   Icons.arrow_back_ios,
                                   color: ColorUtils.kmColors2,
                                 ),
                               ),
                               RotationTransition(
-                                turns: AlwaysStoppedAnimation(225 / 360),
+                                turns: const AlwaysStoppedAnimation(225 / 360),
                                 child: Icon(
                                   Icons.arrow_back_ios,
                                   color: ColorUtils.kmColors2,
@@ -151,20 +151,20 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                           height: 0.1,
                           decoration: BoxDecoration(border: Border.all(color: Colors.red, width: 0.5)),
                         ),
-                        Container(
+                        SizedBox(
                           width: MediaQuery.of(context).size.width * 0.6,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               RotationTransition(
-                                turns: AlwaysStoppedAnimation(45 / 360),
+                                turns: const AlwaysStoppedAnimation(45 / 360),
                                 child: Icon(
                                   Icons.arrow_back_ios,
                                   color: ColorUtils.kmColors2,
                                 ),
                               ),
                               RotationTransition(
-                                turns: AlwaysStoppedAnimation(135 / 360),
+                                turns: const AlwaysStoppedAnimation(135 / 360),
                                 child: Icon(
                                   Icons.arrow_back_ios,
                                   color: ColorUtils.kmColors2,
@@ -191,7 +191,7 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 1,
                     ),
                     KammunButton(

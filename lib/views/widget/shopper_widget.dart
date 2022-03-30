@@ -37,7 +37,7 @@ class ShopperWidgetState extends State<ShopperWidget> {
     return Container(
       color: Theme.of(context).primaryColorLight,
       child: Padding(
-        padding: EdgeInsets.only(left: 0, right: 0, top: 10),
+        padding: const EdgeInsets.only(left: 0, right: 0, top: 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,36 +52,34 @@ class ShopperWidgetState extends State<ShopperWidget> {
                   tag: widget.shopper.id,
                   image: '',
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
-                  child: Container(
-                    child: Wrap(
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Wrap(
-                              children: <Widget>[
-                                Text(
-                                  widget.shopper.name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    fontSize: 18,
-                                  ),
+                  child: Wrap(
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Wrap(
+                            children: <Widget>[
+                              Text(
+                                widget.shopper.name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontSize: 18,
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: loading
-                      ? Loader()
+                      ? const Loader()
                       : SwitchProductStatusWidget(
                           productId: 'null',
                           subWarehouseId: -1,
@@ -91,7 +89,7 @@ class ShopperWidgetState extends State<ShopperWidget> {
                             setState(() {
                               loading = true;
                             });
-                            bool result = await Services.changeShopperStatus(
+                            bool result = await Services.changeShopperStatusService(
                                 shopperId: widget.shopper.id.toString(),
                                 newStatus: widget.shopper.status == 1 ? '0' : '1');
                             setState(() {

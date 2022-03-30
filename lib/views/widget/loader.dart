@@ -1,9 +1,11 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+
 import '../../utils/utils_importer.dart';
 
 class Actor extends StatelessWidget {
-  final size;
+  final double size;
 
   const Actor({Key key, this.size = 20.0}) : super(key: key);
 
@@ -12,13 +14,14 @@ class Actor extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration:
-          BoxDecoration(shape: BoxShape.circle, color: ColorUtils.kmColors),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.kmColors),
     );
   }
 }
 
 class Loader extends StatefulWidget {
+  const Loader({Key key}) : super(key: key);
+
   @override
   _Loader createState() => _Loader();
 }
@@ -44,7 +47,7 @@ class _Loader extends State<Loader> with SingleTickerProviderStateMixin {
   void _initLoadingAnimationController() {
     _loadingAnimationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1800),
+      duration: const Duration(milliseconds: 1800),
     )..addStatusListener((AnimationStatus status) {
         if (status == AnimationStatus.completed) {
           _loadingAnimationController.forward(from: 0);
@@ -55,7 +58,7 @@ class _Loader extends State<Loader> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
+      child: SizedBox(
         width: 80,
         height: 50,
         child: Column(
@@ -80,7 +83,7 @@ class _Loader extends State<Loader> with SingleTickerProviderStateMixin {
           child: child,
         );
       },
-      child: Actor(),
+      child: const Actor(),
     );
   }
 

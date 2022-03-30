@@ -45,14 +45,14 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 text: StringUtils.yes,
                 onTap: () async {
                   Navigator.of(context).pop();
-                  bool result = await OrderDetailsServices.deleteImageFromOrder(
+                  bool result = await OrderDetailsServices.deleteImageFromOrderService(
                     imageId: images[i].id.toString(),
                   );
                   Services.resultFlushBar(
                     context: context,
                     result: result,
                   );
-                  if (result)
+                  if (result) {
                     setState(() {
                       widget.orderData.images.removeWhere(
                         (image) => image.id == widget.orderData.images[i].id,
@@ -61,6 +61,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                       images.addAll(widget.orderData.images);
                       widget.onDelete();
                     });
+                  }
                 },
               ),
               DialogButton(
@@ -88,12 +89,12 @@ class _OrderAccountingState extends State<OrderAccounting> {
               ),
             );
           },
-          child: widget.orderData.images != null && widget.orderData.images.length > 0
+          child: widget.orderData.images != null && widget.orderData.images.isNotEmpty
               ? KCacheImage(
                   tag: widget.orderData.images[i].imageFileName,
                   image:
                       LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName)
-              : AssetImage("assets/kmIcon.png"),
+              : const AssetImage("assets/kmIcon.png"),
         ),
       );
     }
@@ -104,7 +105,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
       () {
         subWarehouseTotal.clear();
         subWarehouseTotal.add(
-          KTableRow(
+          const KTableRow(
             children: [
               KTableElement(text: 'المورد'),
               KTableElement(text: 'الدفع للمورد'),
@@ -113,7 +114,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
           ),
         );
         for (int i = 0; i < widget.orderData.orderAccountingRows.length; i++) {
-          if (widget.orderData.orderAccountingRows[i].payToSubWarehouse != 0)
+          if (widget.orderData.orderAccountingRows[i].payToSubWarehouse != 0) {
             subWarehouseTotal.add(KTableRow(
               children: [
                 KTableElement(
@@ -134,6 +135,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 ),
               ],
             ));
+          }
         }
         int delivery = int.parse(widget.orderData.supportedCityCost.split('.')[0]) +
             int.parse(widget.orderData.deliveryCost.split('.')[0]);
@@ -146,7 +148,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
         ));
         subWarehouseTotal.add(KTableRow(
           children: [
-            KTableElement(text: "أجور التوصيل"),
+            const KTableElement(text: "أجور التوصيل"),
             KTableElement(text: delivery.toString()),
           ],
         ));
@@ -189,14 +191,14 @@ class _OrderAccountingState extends State<OrderAccounting> {
                     },
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height * 0.35,
                   child: GridView(
                     scrollDirection: Axis.vertical,
                     primary: false,
                     shrinkWrap: true,
-                    padding: EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
-                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                    padding: const EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 8,
@@ -205,7 +207,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                     children: imageWidgets,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 100,
                 ),
               ],
@@ -213,12 +215,12 @@ class _OrderAccountingState extends State<OrderAccounting> {
             Positioned(
               top: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height * 0.71),
               right: MediaQuery.of(context).size.width * 0.05,
-              child: Container(
+              child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 1,
                     ),
                     Column(
@@ -227,21 +229,21 @@ class _OrderAccountingState extends State<OrderAccounting> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 1,
                             ),
-                            Container(
+                            SizedBox(
                               width: MediaQuery.of(context).size.width * 0.9,
                               child: AddImageWidget(
                                 onSubmit: (image) async {
-                                  bool result = await OrderDetailsServices.addImageToOrder(
+                                  bool result = await OrderDetailsServices.addImageToOrderService(
                                       image: image, orderId: widget.orderData.id.toString());
                                   Services.resultFlushBar(context: context, result: result);
                                   setState(() {});
                                 },
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 1,
                             ),
                           ],
@@ -249,7 +251,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 1,
                             ),
                             Services.isOperationManager()
@@ -276,7 +278,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                     height: 50,
                                   )
                                 : Container(),
-                            SizedBox(
+                            const SizedBox(
                               width: 1,
                             ),
                           ],

@@ -8,6 +8,8 @@ import '../../Services.dart';
 import 'models/transaction_model.dart';
 
 class ShopperTransactionView extends StatefulWidget {
+  const ShopperTransactionView({Key key}) : super(key: key);
+
   @override
   _ShopperTransactionViewState createState() => _ShopperTransactionViewState();
 }
@@ -17,7 +19,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
   bool empty;
   bool loading;
   bool profitLoading;
-  List<TransactionModel> transactions = List<TransactionModel>();
+  List<TransactionModel> transactions = [];
   String profit;
 
   @override
@@ -55,7 +57,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
   }
 
   getMonthlyProfit(String shopperId) async {
-    String result = await ReportsServices.getShopperMonthProfit(shopperId: shopperId);
+    String result = await ReportsServices.getShopperMonthProfitService(shopperId: shopperId);
     setState(() {
       profitLoading = false;
       profit = result;
@@ -81,7 +83,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+          padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
           child: ListView(
             children: [
               Column(
@@ -105,7 +107,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                               : loseStyle,
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height * 0.75,
                     child: error
@@ -117,10 +119,10 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                             ),
                           )
                         : loading
-                            ? Loader()
+                            ? const Loader()
                             : empty
-                                ? Padding(
-                                    padding: const EdgeInsets.all(75),
+                                ? const Padding(
+                                    padding: EdgeInsets.all(75),
                                     child: ScreenMessage(
                                       message: 'لا يوجد حركة',
                                     ),

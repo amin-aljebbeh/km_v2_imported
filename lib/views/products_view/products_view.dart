@@ -16,7 +16,7 @@ class ProductsView extends StatefulWidget {
   final String queryString;
   final String barcode;
 
-  ProductsView({@required this.categoryId, this.queryString, this.barcode});
+  const ProductsView({Key key, @required this.categoryId, this.queryString, this.barcode}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -31,12 +31,12 @@ class ProductsViewState extends State<ProductsView> {
   bool isLoading = false;
   bool firstLoading = false;
   int page = 1;
-  List<ProductData> productsList = List<ProductData>();
+  List<ProductData> productsList = [];
   bool searchLoading = false;
   bool theEndOfProducts = false;
   String errorMessage = "لم يتم العثور على المنتج";
 
-  final _random = new Random();
+  final _random = Random();
 
   bool badWordMatched = false;
 
@@ -53,13 +53,13 @@ class ProductsViewState extends State<ProductsView> {
     if (!badWordMatched) {
       switch (type) {
         case ProductsViewTypes.search:
-          url = SEARCH_PRODUCTS + "$query?page=" + page.toString();
+          url = searchProducts + "$query?page=" + page.toString();
           break;
         case ProductsViewTypes.category:
-          url = GET_CATEGORY + "$query?page=$page";
+          url = getCategory + "$query?page=$page";
           break;
         case ProductsViewTypes.barcode:
-          url = SEARCH_PRODUCT_BY_BARCODE + query;
+          url = searchProductByBarcode + query;
           break;
       }
 
@@ -69,18 +69,18 @@ class ProductsViewState extends State<ProductsView> {
             url: url,
             method: HttpMethods.get,
           );
-          if (response.statusCode == SUCCESS_CODE) {
+          if (response.statusCode == successCode) {
             if (!response.data["success"] && response.data["reason"] == "No results") {
               setState(() {
                 searchLoading = false;
                 if (firstLoading == true) firstLoading = false;
                 isLoading = false;
-                if (productsList.length != 0) {
+                if (productsList.isNotEmpty) {
                   theEndOfProducts = true;
                 }
               });
             } else {
-              var products;
+              dynamic products;
               switch (type) {
                 case ProductsViewTypes.search:
                 case ProductsViewTypes.category:
@@ -96,7 +96,7 @@ class ProductsViewState extends State<ProductsView> {
                   break;
               }
 
-              if (this.mounted) {
+              if (mounted) {
                 setState(() {
                   if (type != ProductsViewTypes.barcode && page - 1 == products.data.lastPage) {
                     theEndOfProducts = true;
@@ -108,10 +108,11 @@ class ProductsViewState extends State<ProductsView> {
                 });
               }
             }
-            if (response.statusCode == 200)
+            if (response.statusCode == 200) {
               return true;
-            else
+            } else {
               return false;
+            }
           } else {
             setState(() {
               errorMessage = "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
@@ -133,7 +134,7 @@ class ProductsViewState extends State<ProductsView> {
 
   @override
   initState() {
-    if (this.mounted) {
+    if (mounted) {
       super.initState();
     }
     if (widget.barcode != null) {
@@ -173,8 +174,8 @@ class ProductsViewState extends State<ProductsView> {
                         }
                         Navigator.push(
                           scaffoldKey.currentContext,
-                          new MaterialPageRoute(
-                            builder: (screenContext) => new AddProductsView(
+                          MaterialPageRoute(
+                            builder: (screenContext) => AddProductsView(
                               categoryId: widget.categoryId,
                               barcode: param,
                             ),
@@ -186,12 +187,12 @@ class ProductsViewState extends State<ProductsView> {
                 );
               },
               tooltip: 'Pick Image',
-              child: Icon(Icons.add),
+              child: const Icon(Icons.add),
             )
           : null,
       appBar: PreferredSize(
         child: AppBar(
-          backgroundColor: Color.fromARGB(255, 210, 178, 2),
+          backgroundColor: const Color.fromARGB(255, 210, 178, 2),
           automaticallyImplyLeading: false, // hides leading widget
           flexibleSpace: SafeArea(
             top: true,
@@ -207,7 +208,7 @@ class ProductsViewState extends State<ProductsView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.shopping_cart,
                           size: 35,
                           color: Colors.white,
@@ -217,12 +218,12 @@ class ProductsViewState extends State<ProductsView> {
                         },
                       ),
                     ),
-                    AppBarKammunImage(),
+                    const AppBarKammunImage(),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: InkWell(
                         onTap: () => Navigator.of(context).pop(true),
-                        child: Icon(
+                        child: const Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.white,
                           size: 40,
@@ -245,19 +246,17 @@ class ProductsViewState extends State<ProductsView> {
             ),
           ),
         ),
-        preferredSize: Size.fromHeight(105.0),
+        preferredSize: const Size.fromHeight(105.0),
       ),
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
         child: badWordMatched
-            ? Container(
-                child: Center(
-                  child: funnyImages[_random.nextInt(funnyImages.length)],
-                ),
+            ? Center(
+                child: funnyImages[_random.nextInt(funnyImages.length)],
               )
-            : productsList.length == 0
+            : productsList.isEmpty
                 ? (searchLoading || firstLoading)
-                    ? FacebookLoader()
+                    ? const FacebookLoader()
                     : Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Center(
@@ -265,7 +264,7 @@ class ProductsViewState extends State<ProductsView> {
                         ),
                       )
                 : Padding(
-                    padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 0),
+                    padding: const EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -324,7 +323,7 @@ class ProductsViewState extends State<ProductsView> {
                                           fontFamily: StringUtils.fontFamilyHKGrotesk,
                                         ),
                                       )
-                                    : Loader()
+                                    : const Loader()
                                 : Container(),
                           ),
                         ),

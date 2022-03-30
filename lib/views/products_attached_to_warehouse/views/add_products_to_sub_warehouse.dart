@@ -11,7 +11,7 @@ class AddProductsToSubWarehouse extends StatefulWidget {
   final ProductData productData;
   final int barcode;
 
-  AddProductsToSubWarehouse({this.productData, this.barcode});
+  const AddProductsToSubWarehouse({Key key, this.productData, this.barcode}) : super(key: key);
 
   @override
   _AddProductsToSubWarehouseState createState() => _AddProductsToSubWarehouseState();
@@ -31,19 +31,19 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
     dynamic body = {
       "product_id": widget.productData.id.toString(),
       "sub_warehouse_id": _selectedValue.toString(),
-      "price": priceController.text != null ? priceController.text : "0",
+      "price": priceController.text ?? "0",
       "is_featured": "0",
       "is_active": switchController ? "1" : "0",
       "priority": "100",
       "supplier_code": supplierCodeController.text,
       "min_threshold": "0",
       "increase_percentage": "0",
-      "price_factor": priceFactorController.text != null ? priceFactorController.text : "1",
+      "price_factor": priceFactorController.text ?? "1",
       "automatic_activation": "0",
       'barcode': barcode,
     };
 
-    bool response = await AddedProductsServices.attachProductsToSubWarehouse(fullRequestBody: body);
+    bool response = await AddedProductsServices.attachProductsToSubWarehouseService(fullRequestBody: body);
     Services.resultFlushBar(context: context, result: response);
     if (response) {
       setState(() {
@@ -75,7 +75,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 210, 178, 2),
+        backgroundColor: const Color.fromARGB(255, 210, 178, 2),
         automaticallyImplyLeading: false,
         flexibleSpace: SafeArea(
           child: Column(
@@ -84,7 +84,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Opacity(
+                    const Opacity(
                       opacity: 0.0,
                       child: Icon(
                         Icons.home,
@@ -116,7 +116,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         padding: const EdgeInsets.only(top: 5.0, left: 0),
                         child: IconButton(
                             onPressed: () => Navigator.of(context).pop(true),
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_forward_ios,
                               color: Colors.white,
                               size: 40,
@@ -131,7 +131,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
         child: Padding(
           padding: const EdgeInsets.only(top: 25.0, bottom: 8, left: 8, right: 8),
           child: isLoading
-              ? Center(child: Loader())
+              ? const Center(child: Loader())
               : ListView(
                   shrinkWrap: true,
                   children: [
@@ -143,18 +143,18 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       ),
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
                         children: LoadingScreenServices.subWarehouses
                             .map((data) => Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Colors.white,
                                   ),
                                   child: RadioListTile(
                                     controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
                                     title: Text(
-                                      "${data.name}",
+                                      data.name,
                                       style: TextStyle(
                                         fontFamily: StringUtils.fontFamilyHKGrotesk,
                                       ),
@@ -201,7 +201,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                             margin: const EdgeInsets.all(15.0),
                             padding: const EdgeInsets.all(3.0),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                     Radius.circular(10.0) //                 <--- border radius here
                                     ),
                                 border: Border.all(color: ColorUtils.primaryColor, width: 2)),

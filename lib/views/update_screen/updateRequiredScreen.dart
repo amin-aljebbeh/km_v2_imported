@@ -1,12 +1,15 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/Loading.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io' show Platform;
-import 'package:kammun_app/utils/utils_importer.dart';
 
 class UpdateScreen extends StatelessWidget {
-  static final String routeName = "/update";
+  static const String routeName = "/update";
+
+  const UpdateScreen({Key key}) : super(key: key);
 
   _iosUpdateLink() async {
     String url = LoadingScreen.updateUrl;

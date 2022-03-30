@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:intl/intl.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 import 'models/supplier_account_model.dart';
 import 'services/reports_services.dart';
 
 class SupplierAccounts extends StatefulWidget {
+  const SupplierAccounts({Key key}) : super(key: key);
+
   @override
   _SupplierAccountsState createState() => _SupplierAccountsState();
 }
@@ -35,11 +37,12 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
     );
     if (response != null) {
       accounts = response;
-      if (Services.isSupplierManager())
+      if (Services.isSupplierManager()) {
         accounts.removeWhere((account) => !LoadingScreenServices.subWarehouses
             .map((subWarehouse) => subWarehouse.id)
             .toList()
             .contains(account.subWarehouseId));
+      }
       setState(() {
         isLoading = false;
       });
@@ -69,90 +72,90 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
         ),
       ),
       body: SafeArea(
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                KDatePicker(
-                  onConfirmStart: (date) {
-                    setState(() {
-                      fromDateTimeValue = date;
-                    });
-                  },
-                  onConfirmEnd: (date) {
-                    setState(() {
-                      toDateTimeValue = date;
-                    });
-                  },
-                ),
-                KammunButton(
-                  text: StringUtils.send,
-                  color: validDates() ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
-                  onTap: () {
-                    if (validDates())
-                      getSupplierAccounts();
-                    else
-                      Toast.show('الرجاء إدخال كافة البيانات', context,
-                          duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                  },
-                  height: 50,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.65,
-                    child: isError
-                        ? Center(
-                            child: AlertMessages(
-                              text: StringUtils.errorMessage,
-                              messageType: "internetError",
-                              headerText: "حدث خطأ",
-                            ),
-                          )
-                        : isLoading
-                            ? Loader()
-                            : selected
-                                ? ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: accounts.length + 1,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      if (index == 0)
-                                        return KTableRow(
-                                          children: [
-                                            KTableElement(
-                                              text: 'المورد',
-                                              style: mainStyle,
-                                            ),
-                                            KTableElement(
-                                              text: 'الرصيد',
-                                              style: mainStyle,
-                                            ),
-                                          ],
-                                        );
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              KDatePicker(
+                onConfirmStart: (date) {
+                  setState(() {
+                    fromDateTimeValue = date;
+                  });
+                },
+                onConfirmEnd: (date) {
+                  setState(() {
+                    toDateTimeValue = date;
+                  });
+                },
+              ),
+              KammunButton(
+                text: StringUtils.send,
+                color: validDates() ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
+                onTap: () {
+                  if (validDates()) {
+                    getSupplierAccounts();
+                  } else {
+                    Toast.show('الرجاء إدخال كافة البيانات', context,
+                        duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                  }
+                },
+                height: 50,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.65,
+                  child: isError
+                      ? Center(
+                          child: AlertMessages(
+                            text: StringUtils.errorMessage,
+                            messageType: "internetError",
+                            headerText: "حدث خطأ",
+                          ),
+                        )
+                      : isLoading
+                          ? const Loader()
+                          : selected
+                              ? ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: accounts.length + 1,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    if (index == 0) {
                                       return KTableRow(
                                         children: [
                                           KTableElement(
-                                            text: accounts[index - 1].name,
+                                            text: 'المورد',
                                             style: mainStyle,
                                           ),
                                           KTableElement(
-                                            text: StringUtils()
-                                                .oCcy
-                                                .format(int.parse(accounts[index - 1].remainingMonyForSupplier))
-                                                .toString(),
+                                            text: 'الرصيد',
                                             style: mainStyle,
                                           ),
                                         ],
                                       );
-                                    },
-                                  )
-                                : Container(),
-                  ),
-                )
-              ],
-            ),
+                                    }
+                                    return KTableRow(
+                                      children: [
+                                        KTableElement(
+                                          text: accounts[index - 1].name,
+                                          style: mainStyle,
+                                        ),
+                                        KTableElement(
+                                          text: StringUtils()
+                                              .oCcy
+                                              .format(int.parse(accounts[index - 1].remainingMonyForSupplier))
+                                              .toString(),
+                                          style: mainStyle,
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                )
+                              : Container(),
+                ),
+              )
+            ],
           ),
         ),
       ),

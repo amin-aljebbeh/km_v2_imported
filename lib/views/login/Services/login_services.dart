@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginServices {
   static String replaceFarsiNumber(String s) {
-    var sb = new StringBuffer();
+    var sb = StringBuffer();
     for (int i = 0; i < s.length; i++) {
       switch (s[i]) {
         //Persian digits
@@ -91,13 +91,10 @@ class LoginServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-          url: LOGIN_ADMIN,
-          method: HttpMethods.post,
-          body: jsonEncode(loginBody),
-          responseType: ResponseType.json);
+          url: login, method: HttpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
       var theResponse = response.data;
 
-      if (response.statusCode == SUCCESS_CODE && (theResponse["success"].toString() == "true")) {
+      if (response.statusCode == successCode && (theResponse["success"].toString() == "true")) {
         final newResponse = adminLoginResponseFromJson(jsonEncode(response.data));
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("userToken", newResponse.data.apiToken);

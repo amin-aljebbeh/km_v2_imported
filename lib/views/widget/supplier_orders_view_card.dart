@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
-import 'package:intl/intl.dart';
 import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
 
 import '../../Services.dart';
@@ -67,8 +67,8 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
       onTap: () => {
         Navigator.push(
           context,
-          new MaterialPageRoute(
-            builder: (context) => new OrderDetailsTabView(
+          MaterialPageRoute(
+            builder: (context) => OrderDetailsTabView(
               subTotal: Services.kRound(subTotal),
               total: widget.order.total,
               orderData: widget.order,
@@ -82,7 +82,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
+            padding: const EdgeInsets.only(left: 0, right: 0, top: 10, bottom: 0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,12 +96,12 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                                 int.parse(
                                   widget.order.total.split('.')[0],
                                 ),
-                              ).toString()}" +
+                              ).toString()}"
                           " ${LoadingScreenServices.companyInformation.currency.toString()}",
                       leftSideStyle: informationStyle,
                     ),
                     Container(
-                      padding: EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
                         border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2)),
                       ),
@@ -126,7 +126,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 LabelRow(

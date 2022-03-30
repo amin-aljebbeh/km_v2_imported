@@ -2,6 +2,8 @@
 //
 //     final barcode = barcodeFromJson(jsonString);
 
+// ignore_for_file: prefer_null_aware_operators
+
 import 'dart:convert';
 
 Barcode barcodeFromJson(String str) => Barcode.fromJson(json.decode(str));
@@ -37,11 +39,11 @@ class Barcode {
   }
 
   Map<String, dynamic> toJson() => {
-        "product_id": productId == null ? null : productId,
-        "barcode": barcode == null ? null : barcode,
-        "warehouse_id": warehouseId == null ? null : warehouseId,
+        "product_id": productId,
+        "barcode": barcode,
+        "warehouse_id": warehouseId,
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "id": id == null ? null : id,
+        "id": id,
       };
 }

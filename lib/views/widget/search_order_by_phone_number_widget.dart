@@ -10,7 +10,7 @@ class SearchOrderByPhoneNumber extends StatefulWidget {
   final Function(String) onChoose;
   final BuildContext context;
 
-  SearchOrderByPhoneNumber({Key key, this.controller, this.onChoose, this.context}) : super(key: key);
+  const SearchOrderByPhoneNumber({Key key, this.controller, this.onChoose, this.context}) : super(key: key);
 
   @override
   _SearchOrderByPhoneNumberState createState() => _SearchOrderByPhoneNumberState();
@@ -65,7 +65,7 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                       },
                     ),
                   ],
-                  content: Container(
+                  content: SizedBox(
                     height: 500,
                     width: 500,
                     child: ListView.builder(

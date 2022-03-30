@@ -8,13 +8,15 @@ import 'package:kammun_app/views/widget/widgets_importer.dart';
 import '../../Services.dart';
 
 class ProductsFilterScreen extends StatefulWidget {
+  const ProductsFilterScreen({Key key}) : super(key: key);
+
   @override
   _ProductsFilterScreenState createState() => _ProductsFilterScreenState();
 }
 
 class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
-  TextEditingController searchController = new TextEditingController();
-  TextEditingController valueController = new TextEditingController();
+  TextEditingController searchController = TextEditingController();
+  TextEditingController valueController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   String _fromDateTimeValue = "يرجى أختيار تاريخ البداية";
   String _toDateTimeValue = "يرجى إختيار تاريخ النهاية";
@@ -26,7 +28,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   int page;
   int filter;
   String searchFilter;
-  List<ProductData> productsList = List<ProductData>();
+  List<ProductData> productsList = [];
   int total;
 
   @override
@@ -85,7 +87,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
         onPressed: () {},
         child: Text(
           total.toString(),
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
         ),
       ),
       appBar: InventorySearchTextField(
@@ -147,9 +149,10 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                   loading = true;
                                 });
                                 getProducts();
-                              } else
+                              } else {
                                 Toast.show('الرجاء إدخال كافة البيانات', context,
                                     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                              }
                             },
                           )
                         ],
@@ -186,10 +189,11 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                   onPressed: () {
                     if (valueController.text.isNotEmpty && filter != null && filter != 3) {
                       setState(() {
-                        if (biggerThan == 1)
+                        if (biggerThan == 1) {
                           biggerThan = 0;
-                        else
+                        } else {
                           biggerThan = 1;
+                        }
                       });
                       getProducts();
                     }
@@ -232,7 +236,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.78,
               child: (valueController.text.isNotEmpty || filter == 3) && filter != null
@@ -245,10 +249,10 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                           ),
                         )
                       : loading
-                          ? Loader()
+                          ? const Loader()
                           : empty
-                              ? Padding(
-                                  padding: const EdgeInsets.all(75),
+                              ? const Padding(
+                                  padding: EdgeInsets.all(75),
                                   child: ScreenMessage(
                                     message: 'لا يوجد منتجات',
                                   ),
@@ -267,9 +271,9 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                       String id, supplierCode;
                                       int isActive;
                                       bool attached;
-                                      if (eachProduct.subWarehouseId != -1)
+                                      if (eachProduct.subWarehouseId != -1) {
                                         id = eachProduct.subWarehouseId.toString();
-                                      else {
+                                      } else {
                                         List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
                                             .map((warehouse) => warehouse.id)
                                             .toList();
@@ -277,35 +281,37 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                             .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
                                             .toList();
                                         subWarehousesIds.removeWhere((id) => !productIds.contains(id));
-                                        if (subWarehousesIds.length > 0)
+                                        if (subWarehousesIds.isNotEmpty) {
                                           id = subWarehousesIds[0].toString();
-                                        else if (eachProduct.warehouses.isNotEmpty)
+                                        } else if (eachProduct.warehouses.isNotEmpty) {
                                           id = eachProduct.warehouses[0].pivot.subWarehouseId;
+                                        }
                                       }
-                                      if (eachProduct.supplierCode != null)
+                                      if (eachProduct.supplierCode != null) {
                                         supplierCode = eachProduct.supplierCode;
-                                      else if (eachProduct.warehouses.isNotEmpty)
+                                      } else if (eachProduct.warehouses.isNotEmpty) {
                                         supplierCode = eachProduct.warehouses
                                             .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
                                             .pivot
                                             .supplierCode;
+                                      }
                                       if (eachProduct.isActive != 'null') {
                                         isActive = int.parse(eachProduct.isActive);
                                       } else if (eachProduct.warehouses.isNotEmpty) {
                                         isActive = int.parse(eachProduct.warehouses[0].pivot.isActive);
                                       }
                                       attached = false;
-                                      if (eachProduct.supplierCode != 'null')
+                                      if (eachProduct.supplierCode != 'null') {
                                         attached = true;
-                                      else if (eachProduct.warehouses != null) if (eachProduct
-                                          .warehouses.isNotEmpty) {
-                                        attached = eachProduct.warehouses
-                                                .map((warehouse) => warehouse.pivot.supplierCode)
-                                                .toList()
-                                                .where((code) => code != 'null')
-                                                .toList()
-                                                .length >
-                                            0;
+                                      } else if (eachProduct.warehouses != null) {
+                                        if (eachProduct.warehouses.isNotEmpty) {
+                                          attached = eachProduct.warehouses
+                                              .map((warehouse) => warehouse.pivot.supplierCode)
+                                              .toList()
+                                              .where((code) => code != 'null')
+                                              .toList()
+                                              .isNotEmpty;
+                                        }
                                       }
                                       return InventoryProductsViewCard(
                                         index: 0,
@@ -332,9 +338,9 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                             });
                                           }
                                         },
-                                        onDelete: (bool) {
+                                        onDelete: (boolean) {
                                           setState(() {
-                                            if (bool) {
+                                            if (boolean) {
                                               setState(() {
                                                 productsList.removeAt(index);
                                               });

@@ -8,7 +8,7 @@ class ColorUtils {
   Color violetColor = HexColor("5120AE");
   Color lightVioletColor = HexColor("7085C3");
 
-  static Color kmColors = Color.fromARGB(255, 210, 178, 2);
+  static Color kmColors = const Color.fromARGB(255, 210, 178, 2);
   Color blueColor = HexColor("396b89");
 
   static Color kmColors2 = HexColor("e5cb37");

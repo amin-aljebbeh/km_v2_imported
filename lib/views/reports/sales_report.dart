@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 import 'models/sales_reports_model.dart';
 import 'services/reports_services.dart';
 
 class SalesReport extends StatefulWidget {
+  const SalesReport({Key key}) : super(key: key);
+
   @override
   _SalesReportState createState() => _SalesReportState();
 }
@@ -47,7 +49,7 @@ class _SalesReportState extends State<SalesReport> {
             child: Table(
               border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
               children: [
-                TableRow(children: [
+                const TableRow(children: [
                   KTableElement(text: "إجمالي المبيعات"),
                   KTableElement(text: "إجمالي التوصيل"),
                   KTableElement(text: "المجموع الكلي"),
@@ -100,10 +102,10 @@ class _SalesReportState extends State<SalesReport> {
                   KTableElement(
                     text: response.data[i].statisticsSupportedCities[j].name,
                   ),
-                  KTableElement(
+                  const KTableElement(
                     text: "عدد الطلبات",
                   ),
-                  KTableElement(
+                  const KTableElement(
                     text: "تسعيرة التوصيل",
                   ),
                 ],
@@ -183,7 +185,7 @@ class _SalesReportState extends State<SalesReport> {
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: ListView(
             shrinkWrap: true,
             children: [
@@ -203,21 +205,22 @@ class _SalesReportState extends State<SalesReport> {
                 text: StringUtils.send,
                 color: validDates() ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
                 onTap: () {
-                  if (validDates())
+                  if (validDates()) {
                     _getSailsReport();
-                  else
+                  } else {
                     Toast.show('الرجاء إدخال كافة البيانات', context,
                         duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                  }
                 },
                 height: 50,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               isError ? AlertMessages(text: StringUtils.errorMessage, messageType: "internetError") : Container(),
               isLoading
-                  ? Loader()
-                  : totalSubWarehouses.length > 0
+                  ? const Loader()
+                  : totalSubWarehouses.isNotEmpty
                       ? Column(
                           children: totalSubWarehouses,
                         )

@@ -1,3 +1,4 @@
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/login/models/admin_model.dart';
 
 class Warehouse {
@@ -23,12 +24,12 @@ class Warehouse {
 
   factory Warehouse.fromJson(Map<String, dynamic> json) => Warehouse(
         pivot: json["pivot"] == null ? null : WarehousePivot.fromJson(json["pivot"]),
-        id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
-        description: json["description"] == null ? null : json["description"],
-        numberOfWorkers: json["number_of_workers"] == null ? null : json["number_of_workers"].toString(),
-        shopperAlgorithmId: json["shopper_algorithm_id"] == null ? null : json["shopper_algorithm_id"],
-        isActive: json["is_active"] == null ? null : json["is_active"].toString(),
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        numberOfWorkers: json["number_of_workers"].toString(),
+        shopperAlgorithmId: json["shopper_algorithm_id"],
+        isActive: json["is_active"].toString(),
         admin: json["admin"] == null ? null : AdminModel.fromJson(json["admin"]),
       );
 
@@ -38,7 +39,7 @@ class Warehouse {
         "description": description,
         "number_of_workers": numberOfWorkers,
         "is_active": isActive,
-        "pivot": pivot == null ? null : pivot.toJson(),
+        "pivot": pivot.toJson(),
       };
 }
 
@@ -63,16 +64,33 @@ class WarehousePivot {
   String supplierCode;
   String price;
 
-  factory WarehousePivot.fromJson(Map<String, dynamic> json) => WarehousePivot(
-        subWarehouseId: json['sub_warehouse_id'].toString(),
-        warehouseId: json["warehouse_id"].toString(),
-        price: json["price"].toString(),
-        isActive: json["is_active"].toString(),
-        isFeatured: json["is_featured"].toString(),
-        priority: json["priority"].toString(),
-        numberOfVisits: json["number_of_visits"].toString(),
-        supplierCode: json['supplier_code'] != null ? json['supplier_code'].toString() : 'null',
-      );
+  factory WarehousePivot.fromJson(Map<String, dynamic> json) {
+    Tools.logToConsole('ware pivot 1');
+    Tools.logToConsole('id 1');
+    Tools.logToConsole(json['sub_warehouse_id']);
+    Tools.logToConsole('id 2');
+    WarehousePivot(
+      subWarehouseId: json['sub_warehouse_id'],
+      warehouseId: json["warehouse_id"].toString(),
+      price: json["price"].toString(),
+      isActive: json["is_active"].toString(),
+      isFeatured: json["is_featured"].toString(),
+      priority: json["priority"].toString(),
+      numberOfVisits: json["number_of_visits"].toString(),
+      supplierCode: json['supplier_code'] != null ? json['supplier_code'].toString() : 'null',
+    );
+    Tools.logToConsole('ware pivot 2');
+    return WarehousePivot(
+      subWarehouseId: json['sub_warehouse_id'].toString(),
+      warehouseId: json["warehouse_id"].toString(),
+      price: json["price"].toString(),
+      isActive: json["is_active"].toString(),
+      isFeatured: json["is_featured"].toString(),
+      priority: json["priority"].toString(),
+      numberOfVisits: json["number_of_visits"].toString(),
+      supplierCode: json['supplier_code'] != null ? json['supplier_code'].toString() : 'null',
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "warehouse_id": warehouseId,

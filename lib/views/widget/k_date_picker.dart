@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:kammun_app/utils/styles.dart';
 import 'package:intl/intl.dart';
+import 'package:kammun_app/utils/styles.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class KDatePicker extends StatefulWidget {
   final Function(String) onConfirmStart;
   final Function(String) onConfirmEnd;
 
-  KDatePicker({
+  const KDatePicker({
     Key key,
     @required this.onConfirmStart,
     @required this.onConfirmEnd,
@@ -36,7 +36,7 @@ class _KDatePickerState extends State<KDatePicker> with AutomaticKeepAliveClient
               style: mainStyle,
             ),
             IconButton(
-              icon: Icon(Icons.timer),
+              icon: const Icon(Icons.timer),
               onPressed: () {
                 DatePicker.showDateTimePicker(context, showTitleActions: true, onChanged: (date) {},
                     onConfirm: (date) {
@@ -60,7 +60,7 @@ class _KDatePickerState extends State<KDatePicker> with AutomaticKeepAliveClient
           children: [
             Text("إلى تاريخ", style: mainStyle),
             IconButton(
-              icon: Icon(Icons.timeline),
+              icon: const Icon(Icons.timeline),
               onPressed: () {
                 DatePicker.showDateTimePicker(context, showTitleActions: true, onChanged: (date) {},
                     onConfirm: (date) {

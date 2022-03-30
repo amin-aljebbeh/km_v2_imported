@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_null_aware_operators
+
 import 'models_importer.dart';
 
 class Permission {
@@ -20,23 +22,19 @@ class Permission {
   PermissionPivot pivot;
 
   factory Permission.fromJson(Map<String, dynamic> json) => Permission(
-        id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
-        slug: json["slug"] == null ? null : json["slug"],
+        id: json["id"],
+        name: json["name"],
+        slug: json["slug"],
         description: json["description"],
-        createdAt: json["created_at"] == null
-            ? null
-            : DateTime.parse(json["created_at"]),
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"],
-        pivot: json["pivot"] == null
-            ? null
-            : PermissionPivot.fromJson(json["pivot"]),
+        pivot: json["pivot"] == null ? null : PermissionPivot.fromJson(json["pivot"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "name": name == null ? null : name,
-        "slug": slug == null ? null : slug,
+        "id": id,
+        "name": name,
+        "slug": slug,
         "description": description,
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
         "updated_at": updatedAt,

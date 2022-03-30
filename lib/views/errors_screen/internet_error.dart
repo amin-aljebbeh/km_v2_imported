@@ -4,14 +4,16 @@ import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class InternetError extends StatelessWidget {
+  const InternetError({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        iconTheme: new IconThemeData(color: Colors.transparent),
+        iconTheme: const IconThemeData(color: Colors.transparent),
 
-        backgroundColor: Color.fromARGB(255, 210, 178, 2),
+        backgroundColor: const Color.fromARGB(255, 210, 178, 2),
         automaticallyImplyLeading: false, // hides leading widget
         flexibleSpace: SafeArea(
           top: true,
@@ -41,7 +43,7 @@ class InternetError extends StatelessWidget {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.only(top: 20),
         width: double.infinity,
         height: double.infinity,
         child: Column(

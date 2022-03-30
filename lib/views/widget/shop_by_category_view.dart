@@ -10,7 +10,8 @@ class ShopByCategory extends StatefulWidget {
   final int index;
   final BoxFit fit;
 
-  ShopByCategory({kKey, key, @required this.img, @required this.categoryName, @required this.index, this.fit})
+  const ShopByCategory(
+      {kKey, key, @required this.img, @required this.categoryName, @required this.index, this.fit})
       : super(key: key);
 
   @override
@@ -23,7 +24,7 @@ class ShopByCategoryState extends State<ShopByCategory> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 2, left: 2),
+      padding: const EdgeInsets.only(right: 2, left: 2),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
         child: Stack(
@@ -33,14 +34,14 @@ class ShopByCategoryState extends State<ShopByCategory> {
                   ? AdvImageCache(
                       LoadingScreenServices.imagePrefixUrl + widget.img,
                       useMemCache: true,
-                      diskCacheExpire: Duration(days: 400),
+                      diskCacheExpire: const Duration(days: 400),
                     )
-                  : AssetImage("assets/kmIcon.png"),
+                  : const AssetImage("assets/kmIcon.png"),
               width: MediaQuery.of(context).size.width / 2,
               fit: widget.fit,
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,

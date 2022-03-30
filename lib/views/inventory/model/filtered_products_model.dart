@@ -19,13 +19,13 @@ class FilteredProductsModel {
   FilterPagination data;
 
   factory FilteredProductsModel.fromJson(Map<String, dynamic> json) => FilteredProductsModel(
-        success: json["success"] == null ? null : json["success"],
-        data: json["data"] == null ? null : FilterPagination.fromJson(json["data"]),
+        success: json["success"],
+        data: FilterPagination.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success == null ? null : success,
-        "data": data == null ? null : data.toJson(),
+        "success": success,
+        "data": data.toJson(),
       };
 }
 
@@ -59,33 +59,32 @@ class FilterPagination {
   int total;
 
   factory FilterPagination.fromJson(Map<String, dynamic> json) => FilterPagination(
-        currentPage: json["current_page"] == null ? null : json["current_page"],
-        products:
-            json["data"] == null ? null : List<ProductData>.from(json["data"].map((x) => ProductData.fromJson(x))),
-        firstPageUrl: json["first_page_url"] == null ? null : json["first_page_url"],
-        from: json["from"] == null ? null : json["from"],
-        lastPage: json["last_page"] == null ? null : json["last_page"],
-        lastPageUrl: json["last_page_url"] == null ? null : json["last_page_url"],
-        nextPageUrl: json["next_page_url"] == null ? null : json["next_page_url"],
-        path: json["path"] == null ? null : json["path"],
-        perPage: json["per_page"] == null ? null : json["per_page"],
+        currentPage: json["current_page"],
+        products: List<ProductData>.from(json["data"].map((x) => ProductData.fromJson(x))),
+        firstPageUrl: json["first_page_url"],
+        from: json["from"],
+        lastPage: json["last_page"],
+        lastPageUrl: json["last_page_url"],
+        nextPageUrl: json["next_page_url"],
+        path: json["path"],
+        perPage: json["per_page"],
         prevPageUrl: json["prev_page_url"],
-        to: json["to"] == null ? null : json["to"],
-        total: json["total"] == null ? null : json["total"],
+        to: json["to"],
+        total: json["total"],
       );
 
   Map<String, dynamic> toJson() => {
-        "current_page": currentPage == null ? null : currentPage,
-        "data": products == null ? null : List<dynamic>.from(products.map((x) => x.toJson())),
-        "first_page_url": firstPageUrl == null ? null : firstPageUrl,
-        "from": from == null ? null : from,
-        "last_page": lastPage == null ? null : lastPage,
-        "last_page_url": lastPageUrl == null ? null : lastPageUrl,
-        "next_page_url": nextPageUrl == null ? null : nextPageUrl,
-        "path": path == null ? null : path,
-        "per_page": perPage == null ? null : perPage,
+        "current_page": currentPage,
+        "data": List<dynamic>.from(products.map((x) => x.toJson())),
+        "first_page_url": firstPageUrl,
+        "from": from,
+        "last_page": lastPage,
+        "last_page_url": lastPageUrl,
+        "next_page_url": nextPageUrl,
+        "path": path,
+        "per_page": perPage,
         "prev_page_url": prevPageUrl,
-        "to": to == null ? null : to,
-        "total": total == null ? null : total,
+        "to": to,
+        "total": total,
       };
 }

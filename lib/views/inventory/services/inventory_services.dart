@@ -12,13 +12,13 @@ import 'package:kammun_app/views/login/models/login_admin_model.dart';
 import '../../../Services.dart';
 
 class InventoryServices {
-  static Future<bool> getInventoryProducts() async {
+  static Future<bool> getInventoryProductsService() async {
     var response = await ApiProvider.sendRequest(
-      url: GET_INVENTORY_PRODUCTS,
+      url: getInventoryProducts,
       method: HttpMethods.get,
     );
 
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+    if (response.statusCode == successCode && response.data["success"]) {
       return true;
     } else {
       Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
@@ -28,18 +28,18 @@ class InventoryServices {
 
   static Future<List<SubWarehouse>> getSubWarehoused({String adminId}) async {
     var response = await ApiProvider.sendRequest(
-      url: GET_ADMIN_INFO + adminId,
+      url: getAdminInfo + adminId,
       method: HttpMethods.get,
     );
 
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+    if (response.statusCode == successCode && response.data["success"]) {
       final result = adminLoginResponseFromJson(jsonEncode(response.data));
 
-      if (result.data.roles.length > 0) {
+      if (result.data.roles.isNotEmpty) {
         Services.roles = result.data.roles;
         if (result.data.shopper != null) {
           Services.shopper = result.data.shopper;
-          Services.shopper.level = await Services.getLevel(result.data.shopper.levelId.toString());
+          Services.shopper.level = await Services.getLevelService(result.data.shopper.levelId.toString());
         }
       }
       LoadingScreenServices.name = result.data.name;
@@ -52,12 +52,12 @@ class InventoryServices {
     }
   }
 
-  static Future<List<ProductData>> getSubWarehouseProducts({String subWarehouseId}) async {
+  static Future<List<ProductData>> getSubWarehouseProductsService({String subWarehouseId}) async {
     var response = await ApiProvider.sendRequest(
-      url: GET_SUB_WAREHOUSE_PRODUCTS + subWarehouseId,
+      url: getSubWarehouseProducts + subWarehouseId,
       method: HttpMethods.get,
     );
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+    if (response.statusCode == successCode && response.data["success"]) {
       final result = syncCartFromJson(jsonEncode(response.data["data"]["products"]));
 
       return result;
@@ -75,16 +75,17 @@ class InventoryServices {
       String fromDate = ' ',
       String toDate = ' '}) async {
     Map<String, dynamic> params;
-    if (filterIndex < 3)
+    if (filterIndex < 3) {
       params = {StringUtils.productFilterParams[filterIndex]: number, 'page': page, 'biggar_than': biggerThan};
-    else
+    } else {
       params = {'page': page, "from_date": fromDate, "to_date": toDate};
+    }
     var response = await ApiProvider.sendRequest(
       url: StringUtils.productFilterUrls[filterIndex],
       method: HttpMethods.get,
       queryParameters: params,
     );
-    if (response.statusCode == SUCCESS_CODE && response.data["success"]) {
+    if (response.statusCode == successCode && response.data["success"]) {
       final result = filteredProductsModelFromJson(jsonEncode(response.data)).data;
 
       return result;
@@ -94,13 +95,13 @@ class InventoryServices {
     }
   }
 
-  static Future<bool> updatePriceRateThreshold(String threshold) async {
+  static Future<bool> updatePriceRateThresholdService(String threshold) async {
     Map thresholdMap = {'threshold': threshold};
     try {
       var response = await ApiProvider.sendRequest(
-          url: UPDATE_PRICE_RATE_THRESHOLD, method: HttpMethods.put, body: jsonEncode(thresholdMap));
+          url: updatePriceRateThreshold, method: HttpMethods.put, body: jsonEncode(thresholdMap));
 
-      if (response.statusCode == SUCCESS_CODE) {
+      if (response.statusCode == successCode) {
         return true;
       } else {
         Tools.logToConsole("------------ ERROR UPDATE ADDRESS --------------");
@@ -115,9 +116,9 @@ class InventoryServices {
   static Future<PriceFileProductModel> fromFileChangedPriceProducts({String subWarehouseId, File file}) async {
     try {
       var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
-      var request = http.MultipartRequest('POST', Uri.parse(BASE_URL + IMPORT_PRODUCT_PRICES_IN_WAREHOUSE));
-      request.fields.addAll({'sub_warehouse_id': '$subWarehouseId'});
-      request.files.add(await http.MultipartFile.fromPath('file', '${file.path}'));
+      var request = http.MultipartRequest('POST', Uri.parse(baseUrl + importProductPricesInWareHouse));
+      request.fields.addAll({'sub_warehouse_id': subWarehouseId});
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
       request.headers.addAll(headers);
       var response = await request.send();
       if (response.statusCode == 200) {
@@ -137,9 +138,9 @@ class InventoryServices {
     http.StreamedResponse response;
     try {
       var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
-      var request = http.MultipartRequest('POST', Uri.parse(BASE_URL + IMPORT_PRODUCT_ACTIVATION_IN_WAREHOUSE));
-      request.fields.addAll({'sub_warehouse_id': '$subWarehouseId'});
-      request.files.add(await http.MultipartFile.fromPath('file', '${file.path}'));
+      var request = http.MultipartRequest('POST', Uri.parse(baseUrl + importProductActivationInWarehouse));
+      request.fields.addAll({'sub_warehouse_id': subWarehouseId});
+      request.files.add(await http.MultipartFile.fromPath('file', file.path));
       request.headers.addAll(headers);
       response = await request.send();
       if (response.statusCode == 200) {
