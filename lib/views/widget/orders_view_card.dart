@@ -335,7 +335,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     LabelRow(
-                      rightSideText: 'الساعات بين قبول الطلب وتوصيله : ',
+                      rightSideText: 'بين قبول الطلب وتوصيله : ',
                       leftSideText: '  ' +
                           widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours.toString() +
                           ':' +
@@ -353,13 +353,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                               : disableStyle,
                     ),
                     LabelRow(
-                      rightSideText: 'الأيام بين إنشاء الطلب وتوصيله : ',
+                      rightSideText: 'بين إنشاء الطلب وتوصيله : ',
                       leftSideText: '  ' +
-                          widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inDays.toString() +
-                          ':' +
-                          (widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inHours -
-                                  widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inDays * 24)
-                              .toString() +
+                          widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inHours.toString() +
                           ':' +
                           (widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes -
                                   (widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inHours *
@@ -376,24 +372,26 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     ),
                   ],
                 ),
-              KSearchableDropdown(
-                hint: widget.orderData.shopper != null ? widget.orderData.shopper.name : StringUtils.chooseShopper,
-                search: shopper,
-                items: Services.shoppersNameList(),
-                onChanged: (value) async {
-                  if (value != null) {
-                    String shopperId = Services.selectedShopperId(value);
-                    setState(() {
-                      shopper = value;
-                      widget.orderData.shopper = Assigned(
-                          name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''), id: int.parse(shopperId));
-                    });
-                    bool result =
-                        await OrderServices.assignOrderToShopperService(shopperId, widget.orderData.id.toString());
-                    Services.resultFlushBar(context: context, result: result);
-                  }
-                },
-              ),
+              if (Services.isOperationManager())
+                KSearchableDropdown(
+                  hint:
+                      widget.orderData.shopper != null ? widget.orderData.shopper.name : StringUtils.chooseShopper,
+                  search: shopper,
+                  items: Services.shoppersNameList(),
+                  onChanged: (value) async {
+                    if (value != null) {
+                      String shopperId = Services.selectedShopperId(value);
+                      setState(() {
+                        shopper = value;
+                        widget.orderData.shopper = Assigned(
+                            name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''), id: int.parse(shopperId));
+                      });
+                      bool result = await OrderServices.assignOrderToShopperService(
+                          shopperId, widget.orderData.id.toString());
+                      Services.resultFlushBar(context: context, result: result);
+                    }
+                  },
+                ),
             ],
           ),
         ),

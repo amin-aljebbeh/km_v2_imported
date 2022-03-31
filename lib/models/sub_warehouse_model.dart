@@ -2,7 +2,6 @@
 //
 //     final subWarehouse = subWarehouseFromJson(jsonString);
 
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/LoadingServices.dart';
 
 import 'models_importer.dart';
@@ -48,36 +47,19 @@ class SubWarehouse {
         100);
   }
 
-  factory SubWarehouse.fromJson(Map<String, dynamic> json) {
-    Tools.logToConsole('SubWarehouse  1');
-    SubWarehouse(
-      id: json["id"],
-      name: json["name"],
-      description: json["description"],
-      phone: json["phone"],
-      businessDomain: json["business_domain"],
-      accountingSystemId: json["accounting_system_id"],
-      warehouseId: json["warehouse_id"],
-      adminPivot: json["pivot"]["admin_id"] == null ? null : SubWarehouseAdminPivot.fromJson(json["pivot"]),
-      levelPivot: json["pivot"]["level_id"] == null ? null : SubWarehouseLevelPivot.fromJson(json["pivot"]),
-      discountPercentage: json["discount_percentage"] == null ? null : double.parse(json["discount_percentage"]),
-      directDiscount: json['direct_discount'],
-    );
-    Tools.logToConsole('SubWarehouse  2');
-    return SubWarehouse(
-      id: json["id"],
-      name: json["name"],
-      description: json["description"],
-      phone: json["phone"],
-      businessDomain: json["business_domain"],
-      accountingSystemId: json["accounting_system_id"],
-      warehouseId: json["warehouse_id"],
-      adminPivot: json["pivot"]["admin_id"] == null ? null : SubWarehouseAdminPivot.fromJson(json["pivot"]),
-      levelPivot: json["pivot"]["level_id"] == null ? null : SubWarehouseLevelPivot.fromJson(json["pivot"]),
-      discountPercentage: json["discount_percentage"] == null ? null : double.parse(json["discount_percentage"]),
-      directDiscount: json['direct_discount'],
-    );
-  }
+  factory SubWarehouse.fromJson(Map<String, dynamic> json) => SubWarehouse(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        phone: json["phone"],
+        businessDomain: json["business_domain"],
+        accountingSystemId: json["accounting_system_id"],
+        warehouseId: json["warehouse_id"],
+        adminPivot: json["pivot"]["admin_id"] == null ? null : SubWarehouseAdminPivot.fromJson(json["pivot"]),
+        levelPivot: json["pivot"]["level_id"] == null ? null : SubWarehouseLevelPivot.fromJson(json["pivot"]),
+        discountPercentage: json["discount_percentage"] == null ? null : double.parse(json["discount_percentage"]),
+        directDiscount: json['direct_discount'],
+      );
 
   Map<String, dynamic> toJson() => {
         "id": id,

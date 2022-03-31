@@ -251,6 +251,8 @@ class HomeViewState extends State<HomeView> {
       );
     }
     return BottomNavigationBar(
+      selectedFontSize: 0,
+      unselectedFontSize: 0,
       backgroundColor: Colors.white,
       items: bottomList,
       currentIndex: widget.routeIndex,

@@ -21,6 +21,7 @@ class _InventorySearchTextFieldState extends State<InventorySearchTextField> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: ColorUtils.primaryColor,
       title: Container(
         padding: const EdgeInsets.only(bottom: 10.0),
         decoration: BoxDecoration(

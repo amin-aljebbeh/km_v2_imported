@@ -25,10 +25,23 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
   @override
   Widget build(BuildContext context) {
     return SearchChoices.single(
+      displayClearIcon: false,
+      rightToLeft: true,
+      searchInputDecoration: InputDecoration(
+        suffixIcon: Icon(
+          Icons.search,
+          size: 24,
+          color: ColorUtils.primaryColor,
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12),
+      ),
+      iconEnabledColor: ColorUtils.primaryColor,
       closeButton: TextButton(
         child: Text(
           StringUtils.close,
-          style: dropdownItemStyle,
+          style: dropdownItemStyle.copyWith(
+            color: ColorUtils.primaryColor,
+          ),
         ),
         onPressed: () => Navigator.of(context).pop(),
       ),

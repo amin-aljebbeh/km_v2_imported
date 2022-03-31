@@ -33,6 +33,7 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorUtils.primaryColor,
         title: Text(
           'فريق التوصيل',
           style: mainStyle,

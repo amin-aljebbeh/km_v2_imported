@@ -105,7 +105,6 @@ class LoadingScreenServices {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       List<SubWarehouse> response = await InventoryServices.getSubWarehoused(adminId: prefs.getString("adminId"));
-      Tools.logToConsole('getSubWarehouse');
 
       if (response != null) {
         subWarehouses.addAll(response);
@@ -114,7 +113,6 @@ class LoadingScreenServices {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -128,7 +126,6 @@ class LoadingScreenServices {
       if (response.statusCode == successCode) {
         final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
         supportedCityOriginal = supportedCitiesResponse;
-        Tools.logToConsole('getSupportedCity');
 
         supportedCitiesListIntro.clear();
 
@@ -139,7 +136,6 @@ class LoadingScreenServices {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -162,7 +158,6 @@ class LoadingScreenServices {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -181,9 +176,8 @@ class LoadingScreenServices {
         categoryList.clear();
         fullCategoryList.clear();
         final categories = categoryOriginalFromJson(jsonEncode(response.data)).data;
-        Tools.logToConsole('getCategoryService');
         fullCategoryList = categories
-            .where((category) => category.parentCategoryId == null)
+            .where((category) => category.parentCategoryId == 'null')
             .toList()
             .map(
               (category) => DropdownMenuItem(
@@ -245,7 +239,6 @@ class LoadingScreenServices {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -323,10 +316,8 @@ class LoadingScreenServices {
 
   Future<bool> fetchStartInformation() async {
     try {
-      Tools.logToConsole('start');
       bool userLoggedIn = await checkIfUserLoadedIn();
       if (userLoggedIn) {
-        Tools.logToConsole('userLoggedIn');
         try {
           List responses;
           try {
@@ -348,8 +339,6 @@ class LoadingScreenServices {
               transactionTypes = await ReportsServices.getTransactionTypes();
             }
           } catch (e) {
-            Tools.logToConsole("--------- error call -----");
-            Tools.logToConsole(e.toString());
             return false;
           }
 
@@ -364,15 +353,12 @@ class LoadingScreenServices {
           }
           return true;
         } catch (e) {
-          Tools.logToConsole(e.toString());
           return false;
         }
       } else {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole("Error While checking user if loggedIn");
-      Tools.logToConsole(e.toString());
       return false;
     }
   }

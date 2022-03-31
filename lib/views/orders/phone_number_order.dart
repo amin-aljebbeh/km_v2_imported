@@ -30,17 +30,10 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
     setState(() {
       phoneNumber = widget.phoneNumber;
     });
-    if (LoadingScreenServices.phoneOrderList.isEmpty) {
-      getOrders = _getOrder();
-    } else {
-      getOrders = _initialFunction();
-      orderDataList = LoadingScreenServices.phoneOrderList;
-    }
-
+    getOrders = _getOrder();
+    orderDataList = LoadingScreenServices.phoneOrderList;
     super.initState();
   }
-
-  _initialFunction() {}
 
   bool orderLoaded = true;
   bool errorMessage = false;
@@ -62,12 +55,10 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
       orderDataList.clear();
     });
     List<OrdersOriginalData> orderList;
-    if (LoadingScreenServices.phoneOrderList.isEmpty) {
-      orderList =
-          await OrderServices.getOrdersByUserPhoneNumberService(phoneNumber: phoneNumber, pageNumber: page);
-    } else {
-      orderList = LoadingScreenServices.phoneOrderList;
-    }
+    LoadingScreenServices.phoneOrderList =
+        await OrderServices.getOrdersByUserPhoneNumberService(phoneNumber: phoneNumber, pageNumber: page);
+    orderList = LoadingScreenServices.phoneOrderList;
+
     if (orderList != null) {
       if (orderList.isEmpty) {
         setState(() {
@@ -145,14 +136,9 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                         ),
                         SearchOrderByPhoneNumber(
                           context: context,
-                          onChoose: (number) async {
-                            setState(() {
-                              phoneNumber = number;
-                              page = 1;
-                            });
-                            _getOrder();
+                          onChoose: () {
+                            Navigator.of(context).pop();
                           },
-                          controller: controller,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15),

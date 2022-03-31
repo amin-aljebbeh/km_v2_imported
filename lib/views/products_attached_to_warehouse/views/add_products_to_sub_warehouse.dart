@@ -23,7 +23,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
   bool isLoading = false;
   bool isError = false;
 
-  Future<bool> attachProduct(int barcode) async {
+  Future<bool> attachProduct(int barcode, BuildContext context) async {
     setState(() {
       isLoading = true;
       isError = false;
@@ -44,7 +44,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
     };
 
     bool response = await AddedProductsServices.attachProductsToSubWarehouseService(fullRequestBody: body);
-    Services.resultFlushBar(context: context, result: response);
     if (response) {
       setState(() {
         isLoading = false;
@@ -225,7 +224,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       color: completeData() ? ColorUtils.kmColors : ColorUtils.searchGreyColor,
                       onTap: () async {
                         if (completeData()) {
-                          bool result = await attachProduct(widget.barcode);
+                          bool result = await attachProduct(widget.barcode, context);
 
                           if (result) {
                             int count = 0;

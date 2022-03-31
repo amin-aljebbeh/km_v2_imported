@@ -148,7 +148,7 @@ class _AllProductsState extends State<AllProducts> {
                                 id = productsList[index].warehouses[0].pivot.subWarehouseId;
                               }
                             }
-                            if (productsList[index].supplierCode != null) {
+                            if (productsList[index].supplierCode != 'null') {
                               supplierCode = productsList[index].supplierCode;
                             } else if (productsList[index].warehouses.isNotEmpty) {
                               supplierCode = productsList[index]

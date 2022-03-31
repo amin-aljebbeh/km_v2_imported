@@ -66,6 +66,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorUtils.primaryColor,
         title: Text(
           'كشف حساب مورد',
           style: mainStyle,

@@ -1,4 +1,3 @@
-import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/login/models/admin_model.dart';
 
 class Warehouse {
@@ -64,33 +63,16 @@ class WarehousePivot {
   String supplierCode;
   String price;
 
-  factory WarehousePivot.fromJson(Map<String, dynamic> json) {
-    Tools.logToConsole('ware pivot 1');
-    Tools.logToConsole('id 1');
-    Tools.logToConsole(json['sub_warehouse_id']);
-    Tools.logToConsole('id 2');
-    WarehousePivot(
-      subWarehouseId: json['sub_warehouse_id'],
-      warehouseId: json["warehouse_id"].toString(),
-      price: json["price"].toString(),
-      isActive: json["is_active"].toString(),
-      isFeatured: json["is_featured"].toString(),
-      priority: json["priority"].toString(),
-      numberOfVisits: json["number_of_visits"].toString(),
-      supplierCode: json['supplier_code'] != null ? json['supplier_code'].toString() : 'null',
-    );
-    Tools.logToConsole('ware pivot 2');
-    return WarehousePivot(
-      subWarehouseId: json['sub_warehouse_id'].toString(),
-      warehouseId: json["warehouse_id"].toString(),
-      price: json["price"].toString(),
-      isActive: json["is_active"].toString(),
-      isFeatured: json["is_featured"].toString(),
-      priority: json["priority"].toString(),
-      numberOfVisits: json["number_of_visits"].toString(),
-      supplierCode: json['supplier_code'] != null ? json['supplier_code'].toString() : 'null',
-    );
-  }
+  factory WarehousePivot.fromJson(Map<String, dynamic> json) => WarehousePivot(
+        subWarehouseId: json['sub_warehouse_id'].toString(),
+        warehouseId: json["warehouse_id"].toString(),
+        price: json["price"].toString(),
+        isActive: json["is_active"].toString(),
+        isFeatured: json["is_featured"].toString(),
+        priority: json["priority"].toString(),
+        numberOfVisits: json["number_of_visits"].toString(),
+        supplierCode: json['supplier_code'] != null ? json['supplier_code'].toString() : 'null',
+      );
 
   Map<String, dynamic> toJson() => {
         "warehouse_id": warehouseId,

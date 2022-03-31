@@ -176,21 +176,22 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 Column(
                   children: subWarehouseTotal,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: UpdateProductInfoWidget(
-                    textHint: '',
-                    title: 'إضافة حسم',
-                    inputType: TextInputType.text,
-                    bodyKey: "discount",
-                    productId: 0,
-                    onSavePressed: (newValue) {
-                      setState(() {
-                        Services.resultFlushBar(context: context, result: newValue == 'success');
-                      });
-                    },
+                if (Services.isOperationManager())
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: UpdateProductInfoWidget(
+                      textHint: '',
+                      title: 'إضافة حسم',
+                      inputType: TextInputType.text,
+                      bodyKey: "discount",
+                      productId: 0,
+                      onSavePressed: (newValue) {
+                        setState(() {
+                          Services.resultFlushBar(context: context, result: newValue == 'success');
+                        });
+                      },
+                    ),
                   ),
-                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.35,
                   child: GridView(

@@ -34,9 +34,13 @@ class StoreSearchTextField extends StatelessWidget {
                     onPressed: onSubmit ?? () {},
                     requestType: BarcodeRequestType.search,
                     scaffoldKey: scaffoldKey,
+                    color: ColorUtils.primaryColor,
                   ),
                   IconButton(
-                    icon: const Icon(Icons.search),
+                    icon: Icon(
+                      Icons.search,
+                      color: ColorUtils.primaryColor,
+                    ),
                     onPressed: () {
                       submit(context);
                     },

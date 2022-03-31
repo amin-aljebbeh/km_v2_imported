@@ -1,17 +1,22 @@
+import 'package:dio/dio.dart';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class AddedProductsServices {
   static Future<List<ProductData>> getAddedProductsToWarehouseService() async {
-    var response = await ApiProvider.sendRequest(
-      url: getAddedProductsToWarehouse,
-      method: HttpMethods.get,
-    );
-    if (response.statusCode == successCode && response.data["success"]) {
-      return syncCartFromJson(jsonEncode(response.data["data"]));
-    } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: getAddedProductsToWarehouse,
+        method: HttpMethods.get,
+      );
+      if (response.statusCode == successCode && response.data["success"]) {
+        return syncCartFromJson(jsonEncode(response.data["data"]));
+      } else {
+        Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+        return null;
+      }
+    } catch (e) {
       return null;
     }
   }
@@ -33,15 +38,22 @@ class AddedProductsServices {
     String productsId,
     String subWarehouse,
   }) async {
-    var response = await ApiProvider.sendRequest(
+    try {
+      Map<String, int> body = {'sub_warehouse_id': int.parse(subWarehouse)};
+      var response = await ApiProvider.sendRequest(
+        queryParameters: body,
+        responseType: ResponseType.json,
         url: unAttachProductsToSubWarehouse + productsId,
         method: HttpMethods.delete,
-        body: jsonEncode({"sub_warehouse_id": int.parse(subWarehouse)}));
+      );
 
-    if (response.statusCode == successCode && response.data["success"]) {
-      return true;
-    } else {
-      Tools.logToConsole("------------ ERROR remove product --------------");
+      if (response.statusCode == successCode && response.data["success"]) {
+        return true;
+      } else {
+        Tools.logToConsole("------------ ERROR remove product --------------");
+        return false;
+      }
+    } catch (e) {
       return false;
     }
   }

@@ -57,22 +57,20 @@ class ProductResponse {
   int to;
   int total;
 
-  factory ProductResponse.fromJson(Map<String, dynamic> json) {
-    return ProductResponse(
-      currentPage: json["current_page"],
-      data: List<ProductData>.from(json["data"].map((x) => x == null ? null : ProductData.fromJson(x))),
-      firstPageUrl: json["first_page_url"],
-      from: json["from"],
-      lastPage: json["last_page"],
-      lastPageUrl: json["last_page_url"],
-      nextPageUrl: json["next_page_url"],
-      path: json["path"],
-      perPage: json["per_page"],
-      prevPageUrl: json["prev_page_url"],
-      to: json["to"],
-      total: json["total"],
-    );
-  }
+  factory ProductResponse.fromJson(Map<String, dynamic> json) => ProductResponse(
+        currentPage: json["current_page"],
+        data: List<ProductData>.from(json["data"].map((x) => x == null ? null : ProductData.fromJson(x))),
+        firstPageUrl: json["first_page_url"],
+        from: json["from"],
+        lastPage: json["last_page"],
+        lastPageUrl: json["last_page_url"],
+        nextPageUrl: json["next_page_url"],
+        path: json["path"],
+        perPage: json["per_page"],
+        prevPageUrl: json["prev_page_url"],
+        to: json["to"],
+        total: json["total"],
+      );
 
   Map<String, dynamic> toJson() => {
         "current_page": currentPage,
@@ -175,7 +173,7 @@ class ProductData {
       isFeatured: json["is_featured"],
       priority: json["priority"],
       numberOfVisits: json["number_of_visits"],
-      minThreshold: json["min_threshold"].toDouble(),
+      minThreshold: json["min_threshold"]?.toDouble(),
       increasePercentage: json["increase_percentage"] ?? 0,
       priceFactor: json["price_factor"],
       automaticActivation: json["automatic_activation"],

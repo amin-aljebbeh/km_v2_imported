@@ -9,7 +9,8 @@ class EntryField extends StatefulWidget {
   final bool isPhoneNumber;
   final Function(bool) onSubmit;
 
-  const EntryField({Key key,
+  const EntryField({
+    Key key,
     this.canBeEmpty = true,
     this.controller,
     this.hint,
@@ -37,12 +38,14 @@ class _EntryFieldState extends State<EntryField> {
         ],
       ),
       child: TextFormField(
+        cursorColor: ColorUtils.kmColors,
         onChanged: (value) {
           setState(() {});
         },
         onFieldSubmitted: (string) {
           widget.onSubmit(string.isNotEmpty);
         },
+        onTap: () {},
         validator: (value) {
           RegExp regExp = RegExp("^(?:9)?[0-9]{3}(?:-)[0-9]{9}\$");
 
@@ -57,6 +60,7 @@ class _EntryFieldState extends State<EntryField> {
         keyboardType: TextInputType.text,
         maxLines: null,
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.zero,
           border: const OutlineInputBorder(),
           hintText: widget.hint,
           hintStyle: TextStyle(

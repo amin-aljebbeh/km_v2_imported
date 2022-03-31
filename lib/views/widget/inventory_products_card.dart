@@ -61,10 +61,10 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
       productsId: widget.productData.id.toString(),
       subWarehouse: widget.id,
     );
-    Services.resultFlushBar(context: context, result: result);
     if (result) {
       widget.onDelete(true);
     }
+    return result;
   }
 
   @override
@@ -246,9 +246,10 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                         List<DialogButton> dialogButtons = [
                                           DialogButton(
                                             text: StringUtils.yes,
-                                            onTap: () {
-                                              _unAttachProduct();
+                                            onTap: () async {
+                                              bool result = await _unAttachProduct();
                                               Navigator.of(context).pop();
+                                              Services.resultFlushBar(context: context, result: result);
                                             },
                                           ),
                                           DialogButton(

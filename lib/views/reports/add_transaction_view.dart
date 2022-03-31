@@ -46,6 +46,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: ColorUtils.primaryColor,
         title: Text(
           'إضافة مناقلة',
           style: mainStyle,

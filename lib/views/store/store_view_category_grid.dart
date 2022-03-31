@@ -32,7 +32,7 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
     setState(() {
       categoryListHome.clear();
       categoryListHome =
-          LoadingScreenServices.categoryList.where((category) => category.parentCategoryId == null).toList();
+          LoadingScreenServices.categoryList.where((category) => category.parentCategoryId == 'null').toList();
     });
   }
 

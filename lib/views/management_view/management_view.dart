@@ -10,6 +10,7 @@ class ManagementView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorUtils.primaryColor,
         title: Text(
           title,
           style: mainStyle,

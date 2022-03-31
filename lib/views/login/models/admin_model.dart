@@ -1,5 +1,4 @@
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/tools.dart';
 
 class AdminModel {
   AdminModel(
@@ -47,64 +46,33 @@ class AdminModel {
   List<Permission> permissions;
   ShopperModel shopper;
 
-  factory AdminModel.fromJson(Map<String, dynamic> json) {
-    Tools.logToConsole('admin 1');
-    AdminModel(
-      id: json['id'],
-      username: json['username'],
-      name: json['name'],
-      phone: json['phone'],
-      apiToken: json['api_token'],
-      productOperationsPermission: json['product_operations_permission'],
-      addCategoryPermission: json['add_category_permission'],
-      addSpecialOfferPermission: json['add_special_offer_permission'],
-      viewOrdersPermission: json['view_orders_permission'],
-      banUserPermission: json['ban_user_permission'],
-      viewReportPermission: json['view_report_permission'],
-      addNotificationPermission: json['add_notification_permission'],
-      warehouseId: json['warehouse_id'],
-      firebaseToken: json['firebase_token'],
-      updateCategoryWarehousePermission: json['update_category_warehouse_permission'],
-      productWarehouseOperationsPermission: json['product_warehouse_operations_permission'],
-      updateOrderPermission: json['update_order_permission'],
-      subWarehouses: json['sub_warehouses'] == null
-          ? null
-          : List<SubWarehouse>.from(json['sub_warehouses'].map((x) => SubWarehouse.fromJson(x))),
-      roles: json['roles'] == null ? null : List<Role>.from(json['roles'].map((x) => Role.fromJson(x))),
-      permissions: json['permissions'] == null
-          ? null
-          : List<Permission>.from(json['permissions'].map((x) => Permission.fromJson(x))),
-      shopper: json['shopper'] == null ? null : ShopperModel.fromJson(json['shopper']),
-    );
-    Tools.logToConsole('admin 2');
-    return AdminModel(
-      id: json['id'],
-      username: json['username'],
-      name: json['name'],
-      phone: json['phone'],
-      apiToken: json['api_token'],
-      productOperationsPermission: json['product_operations_permission'],
-      addCategoryPermission: json['add_category_permission'],
-      addSpecialOfferPermission: json['add_special_offer_permission'],
-      viewOrdersPermission: json['view_orders_permission'],
-      banUserPermission: json['ban_user_permission'],
-      viewReportPermission: json['view_report_permission'],
-      addNotificationPermission: json['add_notification_permission'],
-      warehouseId: json['warehouse_id'],
-      firebaseToken: json['firebase_token'],
-      updateCategoryWarehousePermission: json['update_category_warehouse_permission'],
-      productWarehouseOperationsPermission: json['product_warehouse_operations_permission'],
-      updateOrderPermission: json['update_order_permission'],
-      subWarehouses: json['sub_warehouses'] == null
-          ? null
-          : List<SubWarehouse>.from(json['sub_warehouses'].map((x) => SubWarehouse.fromJson(x))),
-      roles: json['roles'] == null ? null : List<Role>.from(json['roles'].map((x) => Role.fromJson(x))),
-      permissions: json['permissions'] == null
-          ? null
-          : List<Permission>.from(json['permissions'].map((x) => Permission.fromJson(x))),
-      shopper: json['shopper'] == null ? null : ShopperModel.fromJson(json['shopper']),
-    );
-  }
+  factory AdminModel.fromJson(Map<String, dynamic> json) => AdminModel(
+        id: json['id'],
+        username: json['username'],
+        name: json['name'],
+        phone: json['phone'],
+        apiToken: json['api_token'],
+        productOperationsPermission: json['product_operations_permission'],
+        addCategoryPermission: json['add_category_permission'],
+        addSpecialOfferPermission: json['add_special_offer_permission'],
+        viewOrdersPermission: json['view_orders_permission'],
+        banUserPermission: json['ban_user_permission'],
+        viewReportPermission: json['view_report_permission'],
+        addNotificationPermission: json['add_notification_permission'],
+        warehouseId: json['warehouse_id'],
+        firebaseToken: json['firebase_token'],
+        updateCategoryWarehousePermission: json['update_category_warehouse_permission'],
+        productWarehouseOperationsPermission: json['product_warehouse_operations_permission'],
+        updateOrderPermission: json['update_order_permission'],
+        subWarehouses: json['sub_warehouses'] == null
+            ? null
+            : List<SubWarehouse>.from(json['sub_warehouses'].map((x) => SubWarehouse.fromJson(x))),
+        roles: json['roles'] == null ? null : List<Role>.from(json['roles'].map((x) => Role.fromJson(x))),
+        permissions: json['permissions'] == null
+            ? null
+            : List<Permission>.from(json['permissions'].map((x) => Permission.fromJson(x))),
+        shopper: json['shopper'] == null ? null : ShopperModel.fromJson(json['shopper']),
+      );
 
   Map<String, dynamic> toJson() => {
         'id': id,

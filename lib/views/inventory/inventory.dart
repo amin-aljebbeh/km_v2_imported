@@ -73,11 +73,12 @@ class _InventoryState extends State<Inventory> {
     } catch (e) {
       Tools.logToConsole("Error While getting Inventory Products");
       Tools.logToConsole(e.toString());
-
-      setState(() {
-        isLoading = false;
-        isError = true;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+          isError = true;
+        });
+      }
       return false;
     }
   }

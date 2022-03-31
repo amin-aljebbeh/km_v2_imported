@@ -63,6 +63,7 @@ class _ExcelInventoryState extends State<ExcelInventory> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: ColorUtils.primaryColor,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
             child: Container(

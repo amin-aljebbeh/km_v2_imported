@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/utils/styles.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class KDatePicker extends StatefulWidget {
@@ -36,17 +35,26 @@ class _KDatePickerState extends State<KDatePicker> with AutomaticKeepAliveClient
               style: mainStyle,
             ),
             IconButton(
-              icon: const Icon(Icons.timer),
+              icon: Icon(
+                Icons.timer,
+                color: ColorUtils.primaryColor,
+              ),
               onPressed: () {
-                DatePicker.showDateTimePicker(context, showTitleActions: true, onChanged: (date) {},
-                    onConfirm: (date) {
-                  setState(
-                    () {
-                      _fromDateTimeValue = fullDateFormatter.format(date).toString();
-                      widget.onConfirmStart(_fromDateTimeValue);
-                    },
-                  );
-                }, currentTime: DateTime.now(), locale: 'en');
+                DatePicker.showDateTimePicker(
+                  context,
+                  showTitleActions: true,
+                  onChanged: (date) {},
+                  onConfirm: (date) {
+                    setState(
+                      () {
+                        _fromDateTimeValue = fullDateFormatter.format(date).toString();
+                        widget.onConfirmStart(_fromDateTimeValue);
+                      },
+                    );
+                  },
+                  currentTime: DateTime.now().toLocal(),
+                  locale: LocaleType.en,
+                );
               },
             ),
             Text(
@@ -60,17 +68,26 @@ class _KDatePickerState extends State<KDatePicker> with AutomaticKeepAliveClient
           children: [
             Text("إلى تاريخ", style: mainStyle),
             IconButton(
-              icon: const Icon(Icons.timeline),
+              icon: Icon(
+                Icons.timeline,
+                color: ColorUtils.primaryColor,
+              ),
               onPressed: () {
-                DatePicker.showDateTimePicker(context, showTitleActions: true, onChanged: (date) {},
-                    onConfirm: (date) {
-                  setState(
-                    () {
-                      _toDateTimeValue = fullDateFormatter.format(date).toString();
-                      widget.onConfirmEnd(_toDateTimeValue);
-                    },
-                  );
-                }, currentTime: DateTime.now(), locale: 'en');
+                DatePicker.showDateTimePicker(
+                  context,
+                  showTitleActions: true,
+                  onChanged: (date) {},
+                  onConfirm: (date) {
+                    setState(
+                      () {
+                        _toDateTimeValue = fullDateFormatter.format(date).toString();
+                        widget.onConfirmEnd(_toDateTimeValue);
+                      },
+                    );
+                  },
+                  currentTime: DateTime.now(),
+                  locale: LocaleType.en,
+                );
               },
             ),
             Text(

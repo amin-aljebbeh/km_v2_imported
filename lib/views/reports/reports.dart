@@ -13,6 +13,7 @@ class _DailyStatisticsState extends State<DailyStatistics> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorUtils.primaryColor,
         title: Text(
           "لوحة تحكم المدير",
           style: mainStyle,

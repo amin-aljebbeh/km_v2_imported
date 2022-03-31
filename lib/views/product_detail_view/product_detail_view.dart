@@ -638,12 +638,23 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     ),
                                     child: Center(
                                       child: SearchChoices.single(
-                                        style: decisionButtonStyle,
+                                        rightToLeft: true,
+                                        searchInputDecoration: InputDecoration(
+                                          suffixIcon: Icon(
+                                            Icons.search,
+                                            size: 24,
+                                            color: ColorUtils.primaryColor,
+                                          ),
+                                          contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                                        ),
+                                        iconDisabledColor: Colors.black,
+                                        displayClearIcon: false,
+                                        style: dropdownItemStyle,
                                         closeButton: TextButton(
                                           child: Text(
                                             StringUtils.close,
                                             style: decisionButtonStyle.copyWith(
-                                              color: ColorUtils.greyColor,
+                                              color: ColorUtils.primaryColor,
                                             ),
                                           ),
                                           onPressed: () => Navigator.of(context).pop(),

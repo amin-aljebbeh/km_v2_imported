@@ -178,6 +178,7 @@ class _SalesReportState extends State<SalesReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ColorUtils.primaryColor,
         title: Text(
           "إحصائيات المبيعات",
           style: mainStyle,

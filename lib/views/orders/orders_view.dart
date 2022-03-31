@@ -8,7 +8,6 @@ import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Services.dart';
-import 'orders_view_importer.dart';
 import 'services/order_services.dart';
 
 class OrdersView extends StatefulWidget {
@@ -153,9 +152,7 @@ class OrdersViewState extends State<OrdersView> {
                             messageType: "internetError",
                             headerText: "حدث خطأ",
                           )
-                        : Container(
-                            padding: EdgeInsets.zero,
-                          ),
+                        : Container(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -198,17 +195,7 @@ class OrdersViewState extends State<OrdersView> {
                                 children: [
                                   SearchOrderByPhoneNumber(
                                     context: context,
-                                    onChoose: (number) async {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (screenContext) => PhoneNumberOrdersView(
-                                            phoneNumber: number,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    controller: phoneNumberController,
+                                    onChoose: () {},
                                   ),
                                   IconButton(
                                     onPressed: () {
@@ -271,22 +258,25 @@ class OrdersViewState extends State<OrdersView> {
                                         _getOrder();
                                       },
                                     ),
-                                    EntryField(
-                                      controller: pageController,
-                                      onSubmit: (notEmpty) {
-                                        if (notEmpty) {
-                                          if (int.parse(pageController.text) > 0) {
-                                            setState(() {
-                                              indexPage = int.parse(pageController.text);
-                                              if (indexPage <= 15) page = indexPage;
-                                              _getOrder();
-                                            });
+                                    SizedBox(
+                                      height: 30,
+                                      child: EntryField(
+                                        controller: pageController,
+                                        onSubmit: (notEmpty) {
+                                          if (notEmpty) {
+                                            if (int.parse(pageController.text) > 0) {
+                                              setState(() {
+                                                indexPage = int.parse(pageController.text);
+                                                if (indexPage <= 15) page = indexPage;
+                                                _getOrder();
+                                              });
+                                            }
                                           }
-                                        }
-                                      },
-                                      width: MediaQuery.of(context).size.width * 0.13,
-                                      isPhoneNumber: false,
-                                      canBeEmpty: false,
+                                        },
+                                        width: MediaQuery.of(context).size.width * 0.13,
+                                        isPhoneNumber: false,
+                                        canBeEmpty: false,
+                                      ),
                                     ),
                                   ],
                                 )
