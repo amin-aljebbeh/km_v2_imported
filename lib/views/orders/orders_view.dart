@@ -20,7 +20,6 @@ class OrdersView extends StatefulWidget {
 }
 
 class OrdersViewState extends State<OrdersView> {
-  TextEditingController phoneNumberController = TextEditingController();
   TextEditingController pageController = TextEditingController();
   Future getOrders;
   int rateValue;
@@ -249,8 +248,6 @@ class OrdersViewState extends State<OrdersView> {
                                       items: Services.dropdownStringList(warehouses),
                                       onChanged: (value) {
                                         setState(() {
-                                          // generalLoaded = false;
-                                          // warehouseLoaded = true;
                                           warehouseFilter = value;
                                           page = 1;
                                           indexPage = 1;

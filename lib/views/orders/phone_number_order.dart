@@ -21,7 +21,6 @@ class PhoneNumberOrdersView extends StatefulWidget {
 
 class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
   Future getOrders;
-  TextEditingController controller = TextEditingController();
 
   @override
   void initState() {

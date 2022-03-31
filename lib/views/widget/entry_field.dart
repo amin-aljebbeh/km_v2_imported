@@ -46,16 +46,6 @@ class _EntryFieldState extends State<EntryField> {
           widget.onSubmit(string.isNotEmpty);
         },
         onTap: () {},
-        validator: (value) {
-          RegExp regExp = RegExp("^(?:9)?[0-9]{3}(?:-)[0-9]{9}\$");
-
-          if (value.isEmpty && !widget.canBeEmpty) return "This field can not be empty";
-          if (widget.isPhoneNumber && !regExp.hasMatch(widget.controller.text)) {
-            return "Please make sure you enter a 9-digit number (e.g. 5503394244)";
-          } else {
-            return null;
-          }
-        },
         controller: widget.controller,
         keyboardType: TextInputType.text,
         maxLines: null,

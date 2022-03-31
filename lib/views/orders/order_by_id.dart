@@ -23,8 +23,6 @@ class OrderByID extends StatefulWidget {
 
 class _OrderByIDState extends State<OrderByID> {
   Future getOrders;
-  TextEditingController controller = TextEditingController();
-  TextEditingController idController = TextEditingController();
   OrdersOriginalData order;
   @override
   void initState() {

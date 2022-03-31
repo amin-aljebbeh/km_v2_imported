@@ -194,7 +194,6 @@ class Services {
       if (response.statusCode == successCode && response.data['success'].toString() == 'true') {
         LoadingScreenServices.warehouses =
             List<Warehouse>.from(response.data["data"].map((x) => Warehouse.fromJson(x)));
-        Tools.logToConsole('getWarehousesService');
 
         return LoadingScreenServices.warehouses;
       } else {

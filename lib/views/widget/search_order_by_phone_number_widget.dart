@@ -77,7 +77,6 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                           }
                         },
                         canBeEmpty: true,
-                        isPhoneNumber: true,
                       ),
                     ),
                   ],
@@ -128,7 +127,6 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                         }
                       },
                       canBeEmpty: true,
-                      isPhoneNumber: true,
                     ),
                   ),
                 ],
