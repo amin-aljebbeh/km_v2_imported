@@ -8,7 +8,6 @@ import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Services.dart';
-import 'orders_view_importer.dart';
 import 'services/order_services.dart';
 
 class OrdersView extends StatefulWidget {
@@ -19,8 +18,9 @@ class OrdersView extends StatefulWidget {
 }
 
 class OrdersViewState extends State<OrdersView> {
-  TextEditingController phoneNumberController = TextEditingController();
   TextEditingController pageController = TextEditingController();
+  TextEditingController idController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   Future getOrders;
   int rateValue;
 
@@ -192,18 +192,12 @@ class OrdersViewState extends State<OrdersView> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SearchOrderByPhoneNumber(
+                                    idController: idController,
+                                    phoneController: phoneController,
                                     context: context,
-                                    onChoose: (number) async {
-                                      Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                          builder: (screenContext) => new PhoneNumberOrdersView(
-                                            phoneNumber: number,
-                                          ),
-                                        ),
-                                      );
+                                    onChoose: () {
+                                      Tools.logToConsole('sosso');
                                     },
-                                    controller: phoneNumberController,
                                   ),
                                   IconButton(
                                     onPressed: () {

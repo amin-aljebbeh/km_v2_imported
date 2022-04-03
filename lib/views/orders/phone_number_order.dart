@@ -13,7 +13,7 @@ import 'services/order_services.dart';
 class PhoneNumberOrdersView extends StatefulWidget {
   final String phoneNumber;
 
-  PhoneNumberOrdersView({Key key, this.phoneNumber}) : super(key: key);
+  const PhoneNumberOrdersView({Key key, this.phoneNumber}) : super(key: key);
 
   @override
   _PhoneNumberOrdersViewState createState() => _PhoneNumberOrdersViewState();
@@ -21,8 +21,8 @@ class PhoneNumberOrdersView extends StatefulWidget {
 
 class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
   Future getOrders;
-  TextEditingController controller = TextEditingController();
-
+  TextEditingController idController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   @override
   void initState() {
     filterOrders = 0;
@@ -30,17 +30,10 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
     setState(() {
       phoneNumber = widget.phoneNumber;
     });
-    if (LoadingScreenServices.phoneOrderList.length == 0) {
-      getOrders = _getOrder();
-    } else {
-      getOrders = _initialFunction();
-      orderDataList = LoadingScreenServices.phoneOrderList;
-    }
-
+    getOrders = _getOrder();
+    orderDataList = LoadingScreenServices.phoneOrderList;
     super.initState();
   }
-
-  _initialFunction() {}
 
   bool orderLoaded = true;
   bool errorMessage = false;
@@ -61,15 +54,15 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
       errorMessage = false;
       orderDataList.clear();
     });
-    var orderList;
-    if (LoadingScreenServices.phoneOrderList.length == 0)
-      orderList = await OrderServices.getOrdersByUserPhoneNumber(phoneNumber: phoneNumber, pageNumber: page);
-    else
-      orderList = LoadingScreenServices.phoneOrderList;
+    List<OrdersOriginalData> orderList;
+    LoadingScreenServices.phoneOrderList =
+        await OrderServices.getOrdersByUserPhoneNumber(phoneNumber: phoneNumber, pageNumber: page);
+    orderList = LoadingScreenServices.phoneOrderList;
+
     if (orderList != null) {
-      if (orderList.length == 0) {
+      if (orderList.isEmpty) {
         setState(() {
-          if (LoadingScreenServices.phoneOrderList.length != 0) theEndOfOrders = true;
+          if (LoadingScreenServices.phoneOrderList.isNotEmpty) theEndOfOrders = true;
           orderLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -85,7 +78,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
             }
           }
 
-          orderDataList.removeWhere((order) => order.products.length == 0);
+          orderDataList.removeWhere((order) => order.products.isEmpty);
           LoadingScreenServices.phoneOrderList = orderDataList;
           orderLoaded = true;
           errorMessage = false;
@@ -110,7 +103,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
+          padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
           child: !orderLoaded || isLoading
               ? Center(
                   child: Loader(),
@@ -142,24 +135,22 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                           },
                         ),
                         SearchOrderByPhoneNumber(
+                          idController: idController,
+                          phoneController: phoneController,
                           context: context,
-                          onChoose: (number) async {
-                            setState(() {
-                              phoneNumber = number;
-                              page = 1;
-                            });
-                            _getOrder();
+                          onChoose: () {
+                            Navigator.of(context).pop();
                           },
-                          controller: controller,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15),
                           child: IconButton(
                             onPressed: () {
-                              if (page < 14)
+                              if (page < 14) {
                                 setState(() {
                                   page++;
                                 });
+                              }
 
                               _getOrder();
                             },
@@ -201,19 +192,17 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                         ),
                       ],
                     ),
-                    orderDataList.length == 0
-                        ? Container(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: screenHeight * 0.4),
-                              child: Center(
-                                child: Text(
-                                  "لا يوجد أي طلبات سابقة",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorUtils.greyColor,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                    fontSize: 20.0,
-                                  ),
+                    orderDataList.isEmpty
+                        ? Padding(
+                            padding: EdgeInsets.only(top: screenHeight * 0.4),
+                            child: Center(
+                              child: Text(
+                                "لا يوجد أي طلبات سابقة",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: ColorUtils.greyColor,
+                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontSize: 20.0,
                                 ),
                               ),
                             ),
@@ -266,13 +255,15 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                             isLoading = true;
                                             errorMessage = false;
                                           });
-                                          if (orderDataList[index].orderStatusId == "1")
+                                          if (orderDataList[index].orderStatusId == "1") {
                                             changeStatus = 2;
-                                          else if (orderDataList[index].orderStatusId == "2")
+                                          } else if (orderDataList[index].orderStatusId == "2") {
                                             changeStatus = 3;
-                                          else if (orderDataList[index].orderStatusId == "3")
+                                          } else if (orderDataList[index].orderStatusId == "3") {
                                             changeStatus = 4;
-                                          else if (orderDataList[index].orderStatusId == "4") changeStatus = 5;
+                                          } else if (orderDataList[index].orderStatusId == "4") {
+                                            changeStatus = 5;
+                                          }
 
                                           bool x = await OrderServices.changeOrderStatus(
                                               orderDataList[index].id.toString(), changeStatus);
@@ -548,7 +539,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                     theEndOfOrders
                         ? Padding(
                             padding: EdgeInsets.only(top: screenHeight * 0.4),
-                            child: ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
+                            child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
                           )
                         : Container(),
                   ],
@@ -566,7 +557,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
 
     for (int i = 0; i < orderProducts.length; i++) {
       if (orderProducts[i].pivot.deletedAt == 'null') {
-        ProductData product = new ProductData();
+        ProductData product = ProductData();
 
         product.id = orderProducts[i].id;
         product.images = orderProducts[i].images;

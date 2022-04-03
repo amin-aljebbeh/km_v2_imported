@@ -97,6 +97,7 @@ class OrderProductPivot {
     this.quantity,
     this.deletedAt,
     this.increaseValue,
+    this.subWarehouseId,
   });
 
   String orderId;
@@ -105,6 +106,7 @@ class OrderProductPivot {
   String deletedAt;
   String quantity;
   int increaseValue;
+  int subWarehouseId;
 
   factory OrderProductPivot.fromJson(Map<String, dynamic> json) => OrderProductPivot(
         orderId: json["order_id"].toString(),
@@ -112,7 +114,8 @@ class OrderProductPivot {
         purchasePrice: json["purchase_price"].toString(),
         quantity: json["quantity"].toString(),
         deletedAt: json["deleted_at"] != null ? json['deleted_at'] : 'null',
-        increaseValue: json["increase_value"] == null ? 0 : json["increase_value"],
+        increaseValue: json["increase_value"] ?? 0,
+        subWarehouseId: json["sub_warehouse_id"] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {

@@ -464,4 +464,22 @@ class OrderServices {
       return null;
     }
   }
+
+  static Future<OrdersOriginalData> getOrder({String orderId}) async {
+    try {
+      var response = await ApiProvider.sendRequest(
+        url: API + ORDER + orderId,
+        method: httpMethods.get,
+      );
+
+      if (response.statusCode == SUCCESS_CODE) {
+        Tools.logToConsole(OrdersOriginalData.fromJson(response.data['order']).products[0].name);
+        return OrdersOriginalData.fromJson(response.data['order']);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
 }
