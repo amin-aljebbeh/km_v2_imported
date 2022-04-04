@@ -82,6 +82,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final home = HomeView(routeIndex: 0);
+    final cart = HomeView(routeIndex: 1);
+    final cartFromUpdate = HomeView(routeIndex: 1, isFromUpdateOrder: true);
+    final orders = HomeView(routeIndex: 2);
     return KammunRestart(
       child: MaterialApp(
         localizationsDelegates: const [
@@ -98,19 +102,15 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           LoginScreen.routeName: (_) => const LoginScreen(),
-          '/home': (_) => HomeView(routeIndex: 0),
+          '/home': (_) => home,
           '/myApp': (_) => const MyApp(),
           'loading': (_) => const LoadingScreen(),
-          '/favoraites': (_) => HomeView(routeIndex: 3),
           '/cartFinal': (_) => const CartViewFinal(),
           ServerUpdate.routeName: (_) => const ServerUpdate(),
           '/thankyou': (_) => const ThankYouView(),
-          '/cart': (_) => HomeView(routeIndex: 1),
-          '/cartFromUpdate': (_) => HomeView(
-                routeIndex: 1,
-                isFromUpdateOrder: true,
-              ),
-          '/orders': (_) => HomeView(routeIndex: 2),
+          '/cart': (_) => cart,
+          '/cartFromUpdate': (_) => cartFromUpdate,
+          '/orders': (_) => orders,
           '/profile': (_) => const ProfileScreen(),
           '/statistics': (_) => const DailyStatistics(),
           '/sales_reports': (_) => const SalesReport(),

@@ -101,6 +101,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
           } else if (LoadingScreenServices.serverMaintain) {
             return const ServerUpdate();
           } else {
+            final child = HomeView(
+              routeIndex: 0,
+              notificationValue: notificationValue,
+            );
             return AnimatedSwitcher(
               transitionBuilder: (Widget child, Animation<double> animation) {
                 var begin = const Offset(0.0, 1.0);
@@ -113,19 +117,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   curve: curve,
                 );
 
+                final slide = HomeView(
+                  routeIndex: 0,
+                  notificationValue: notificationValue,
+                );
                 return SlideTransition(
                   position: tween.animate(curvedAnimation),
-                  child: HomeView(
-                    routeIndex: 0,
-                    notificationValue: notificationValue,
-                  ),
+                  child: slide,
                 );
               },
               duration: const Duration(milliseconds: 250),
-              child: HomeView(
-                routeIndex: 0,
-                notificationValue: notificationValue,
-              ),
+              child: child,
             );
           }
         } else {

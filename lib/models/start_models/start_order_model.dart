@@ -91,7 +91,6 @@ class OrdersOriginalData {
     this.createdAt,
     this.deliveredAt,
     this.acceptedAt,
-    this.delivery,
     this.shopper,
     this.images,
     this.orderAccountingRows,
@@ -127,7 +126,6 @@ class OrdersOriginalData {
   dynamic deliveryStaffId;
   List<OrderProducts> products;
   List<OrderImage> images;
-  Assigned delivery;
   Assigned shopper;
 
   List<OrderAccountingRow> orderAccountingRows;
@@ -159,7 +157,6 @@ class OrdersOriginalData {
         deliveryStaffId: json["delivery_staff_id"].toString(),
         products: List<OrderProducts>.from(json["products"].map((x) => OrderProducts.fromJson(x))),
         shopper: json["shopper"] == null ? null : Assigned.fromJson(json["shopper"]),
-        delivery: json["delivery"] == null ? null : Assigned.fromJson(json["delivery"]),
         images:
             json["images"] == null ? [] : List<OrderImage>.from(json["images"].map((x) => OrderImage.fromJson(x))),
         orderAccountingRows: [],

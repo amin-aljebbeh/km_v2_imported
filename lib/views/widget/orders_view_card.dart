@@ -15,11 +15,13 @@ import 'package:map_launcher/map_launcher.dart';
 class OrdersViewCard extends StatefulWidget {
   final OrdersOriginalData orderData;
   final OrderTypes orderType;
+  final bool pop;
 
   const OrdersViewCard({
     Key key,
     @required this.orderData,
     @required this.orderType,
+    this.pop,
   }) : super(key: key);
 
   @override
@@ -266,6 +268,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           onPressed: () {
                             LoadingScreenServices.allOrdersList.clear();
 
+                            if (widget.pop) {
+                              Navigator.of(context).pop();
+                            }
                             Navigator.push(
                               context,
                               MaterialPageRoute(

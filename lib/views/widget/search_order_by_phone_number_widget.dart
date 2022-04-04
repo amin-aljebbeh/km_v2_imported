@@ -10,18 +10,16 @@ import 'widgets_importer.dart';
 class SearchOrderByPhoneNumber extends StatefulWidget {
   final Function onChoose;
   final BuildContext context;
-
-  const SearchOrderByPhoneNumber({Key key, this.onChoose, this.context}) : super(key: key);
+  final TextEditingController idController;
+  final TextEditingController phoneController;
+  const SearchOrderByPhoneNumber({Key key, this.onChoose, this.context, this.idController, this.phoneController})
+      : super(key: key);
 
   @override
   _SearchOrderByPhoneNumberState createState() => _SearchOrderByPhoneNumberState();
 }
 
 class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
-  TextEditingController idController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  static GlobalKey<FormState> idFormKey = GlobalKey<FormState>();
-  static GlobalKey<FormState> phoneFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -37,14 +35,14 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        if (idController.text.isNotEmpty) {
+                        if (widget.idController.text.isNotEmpty) {
                           widget.onChoose();
                           Navigator.of(context).pop();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => OrderByID(
-                                id: idController.text,
+                                id: widget.idController.text,
                               ),
                             ),
                           );
@@ -58,11 +56,11 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                     ),
                     Expanded(
                       child: EntryField(
-                        formKey: idFormKey,
+                        controller: widget.idController,
                         width: MediaQuery.of(context).size.width,
                         hint: 'رقم الطلب',
                         onSubmit: (notEmpty) {
-                          if (idController.text.isNotEmpty) {
+                          if (notEmpty) {
                             widget.onChoose();
                             Navigator.of(context).pop();
 
@@ -70,7 +68,7 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => OrderByID(
-                                  id: idController.text,
+                                  id: widget.idController.text,
                                 ),
                               ),
                             );
@@ -85,14 +83,14 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      if (phoneController.text.isNotEmpty) {
+                      if (widget.phoneController.text.isNotEmpty) {
                         widget.onChoose();
                         Navigator.of(context).pop();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => PhoneNumberOrdersView(
-                              phoneNumber: phoneController.text,
+                              phoneNumber: widget.phoneController.text,
                             ),
                           ),
                         );
@@ -106,18 +104,18 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                   ),
                   Expanded(
                     child: EntryField(
-                      formKey: phoneFormKey,
+                      controller: widget.phoneController,
                       width: MediaQuery.of(context).size.width,
                       hint: 'رقم الزبون',
                       onSubmit: (notEmpty) {
-                        if (phoneController.text.isNotEmpty) {
+                        if (widget.phoneController.text.isNotEmpty) {
                           widget.onChoose();
                           Navigator.of(context).pop();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => PhoneNumberOrdersView(
-                                phoneNumber: phoneController.text,
+                                phoneNumber: widget.phoneController.text,
                               ),
                             ),
                           );

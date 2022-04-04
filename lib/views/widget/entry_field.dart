@@ -6,9 +6,7 @@ class EntryField extends StatefulWidget {
   final String hint;
   final double width;
   final Function(bool) onSubmit;
-  final GlobalKey<FormState> formKey;
-  const EntryField({Key key, this.controller, this.hint, this.width, this.onSubmit, this.formKey})
-      : super(key: key);
+  const EntryField({Key key, this.controller, this.hint, this.width, this.onSubmit}) : super(key: key);
 
   @override
   _EntryFieldState createState() => _EntryFieldState();
@@ -29,7 +27,6 @@ class _EntryFieldState extends State<EntryField> {
         ],
       ),
       child: TextFormField(
-        key: widget.formKey,
         cursorColor: ColorUtils.kmColors,
         onChanged: (value) {
           setState(() {});
@@ -37,9 +34,7 @@ class _EntryFieldState extends State<EntryField> {
         onFieldSubmitted: (string) {
           widget.onSubmit(string.isNotEmpty);
         },
-        onTap: () {
-          Tools.logToConsole('message from on tap');
-        },
+        onTap: () {},
         controller: widget.controller,
         keyboardType: TextInputType.text,
         maxLines: null,

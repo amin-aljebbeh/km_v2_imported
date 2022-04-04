@@ -20,8 +20,9 @@ class OrdersView extends StatefulWidget {
 }
 
 class OrdersViewState extends State<OrdersView> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController pageController;
+  TextEditingController idController;
+  TextEditingController phoneController;
   static GlobalKey<FormState> formKey;
   EntryField field;
   Future getOrders;
@@ -29,9 +30,11 @@ class OrdersViewState extends State<OrdersView> {
 
   @override
   void initState() {
+    pageController = TextEditingController();
+    phoneController = TextEditingController();
+    idController = TextEditingController();
     field = EntryField(
       controller: pageController,
-      formKey: formKey,
       onSubmit: (notEmpty) {
         if (notEmpty) {
           if (int.parse(pageController.text) > 0) {
@@ -46,7 +49,6 @@ class OrdersViewState extends State<OrdersView> {
       width: 51,
     );
     orderDataList = [];
-    pageController = TextEditingController();
     formKey = GlobalKey<FormState>();
     warehouses = ['جميع المستودعات'];
     warehouses.addAll(LoadingScreenServices.warehouses.map((warehouse) => warehouse.name).toList());
@@ -117,15 +119,9 @@ class OrdersViewState extends State<OrdersView> {
           } else {
             switch (ordersTypeFilter) {
               case (0):
-                orderDataList.removeWhere((order) => order.delivery == null);
-                break;
-              case (1):
-                orderDataList.removeWhere((order) => order.delivery != null);
-                break;
-              case (2):
                 orderDataList.removeWhere((order) => order.shopper == null);
                 break;
-              case (3):
+              case (1):
                 orderDataList.removeWhere((order) => order.shopper != null);
                 break;
             }
@@ -154,7 +150,6 @@ class OrdersViewState extends State<OrdersView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -215,6 +210,8 @@ class OrdersViewState extends State<OrdersView> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SearchOrderByPhoneNumber(
+                                    phoneController: phoneController,
+                                    idController: idController,
                                     context: context,
                                     onChoose: () {},
                                   ),
@@ -321,6 +318,7 @@ class OrdersViewState extends State<OrdersView> {
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(
+                                pop: false,
                                 orderData: orderDataList[index],
                                 orderType: OrderTypes.allOrder,
                               ),

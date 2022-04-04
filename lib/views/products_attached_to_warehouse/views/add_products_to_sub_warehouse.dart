@@ -62,9 +62,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
   final TextEditingController priceFactorController = TextEditingController();
   final TextEditingController supplierCodeController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
-  static GlobalKey<FormState> priceFactorFormKey = GlobalKey<FormState>();
-  static GlobalKey<FormState> supplierCodeFormKey = GlobalKey<FormState>();
-  static GlobalKey<FormState> princeFormKey = GlobalKey<FormState>();
   bool switchController = false;
 
   @override
@@ -177,13 +174,11 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       children: [
                         ProductEntryField(
                             controller: supplierCodeController,
-                            formKey: supplierCodeFormKey,
                             title: StringUtils.supplierCode,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
                             controller: priceController,
-                            formKey: priceFactorFormKey,
                             title: StringUtils.price,
                             hint: "5000",
                             width: MediaQuery.of(context).size.width / 3),
@@ -194,7 +189,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       children: [
                         ProductEntryField(
                             controller: priceFactorController,
-                            formKey: priceFactorFormKey,
                             title: StringUtils.priceFactor,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
@@ -228,6 +222,12 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       height: 50,
                       color: completeData() ? ColorUtils.kmColors : ColorUtils.searchGreyColor,
                       onTap: () async {
+                        Tools.logToConsole('supplierCodeController.text');
+                        Tools.logToConsole(supplierCodeController.text);
+                        Tools.logToConsole('priceController.text');
+                        Tools.logToConsole(priceController.text);
+                        Tools.logToConsole('priceFactorController.text');
+                        Tools.logToConsole(priceFactorController.text);
                         if (completeData()) {
                           bool result = await attachProduct(widget.barcode, context);
 

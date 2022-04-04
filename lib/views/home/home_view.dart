@@ -12,21 +12,25 @@ import '../../Services.dart';
 
 // ignore: must_be_immutable
 class HomeView extends StatefulWidget {
-  int routeIndex;
-  bool isFromUpdateOrder;
+  final int routeIndex;
+  final bool isFromUpdateOrder;
   final dynamic notificationValue;
 
-  HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue}) : super(key: key);
+  const HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return HomeViewState();
+    return HomeViewState(routeIndex, isFromUpdateOrder);
   }
 }
 
 class HomeViewState extends State<HomeView> {
-  HomeViewState();
+  int _selectedIndex;
+  bool _isFromUpdateOrder;
 
+  HomeViewState(this._selectedIndex, this._isFromUpdateOrder);
+  List<Widget> tabs;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   String firebaseToken;
 
@@ -53,6 +57,21 @@ class HomeViewState extends State<HomeView> {
         : Tools.logToConsole('');
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _initializeNotification(ctx: context));
+    tabs = [];
+    tabs.add(const StoreView());
+    tabs.add(CartView(
+      isFromUpdateOrder: _isFromUpdateOrder,
+    ));
+    const view = OrdersView();
+    if ((Services.isOperationManager())) {
+      tabs.add(view);
+    }
+
+    if (Services.isShopper() || Services.isSupplierManager()) {
+      tabs.add(
+        const AssignedOrdersView(),
+      );
+    }
     super.initState();
   }
 
@@ -95,167 +114,155 @@ class HomeViewState extends State<HomeView> {
   Widget _bottomNavBar({BuildContext context}) {
     List<BottomNavigationBarItem> bottomList = [];
 
-    bottomList.add(
-      BottomNavigationBarItem(
-        activeIcon: Column(
-          children: [
-            const Icon(
-              Icons.store,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            Text(
-              StringUtils.store,
-              style: TextStyle(
-                  color: const Color.fromARGB(255, 53, 99, 124),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                  fontSize: 15),
-            ),
-          ],
-        ),
-        icon: Column(
-          children: [
-            const Icon(
-              Icons.store,
-              color: Color.fromARGB(255, 53, 99, 124),
-            ),
-            Text(
-              StringUtils.store,
-              style: TextStyle(
-                  color: const Color.fromARGB(255, 53, 99, 124),
-                  // fontWeight: FontWeight.w500,
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                  fontSize: 15),
-            ),
-          ],
-        ),
-        // ignore: deprecated_member_use
-        label: '',
+    bottomList.add(BottomNavigationBarItem(
+      activeIcon: Column(
+        children: [
+          const Icon(
+            Icons.store,
+            color: Color.fromARGB(255, 210, 178, 2),
+          ),
+          Text(
+            StringUtils.store,
+            style: TextStyle(
+                color: const Color.fromARGB(255, 53, 99, 124),
+                fontWeight: FontWeight.w500,
+                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                fontSize: 15),
+          ),
+        ],
       ),
-    );
-    bottomList.add(
-      BottomNavigationBarItem(
-        activeIcon: Column(
-          children: [
-            const Icon(
-              Icons.shopping_cart,
-              color: Color.fromARGB(255, 210, 178, 2),
-            ),
-            Text(
-              StringUtils.cart,
-              style: TextStyle(
-                  color: const Color.fromARGB(255, 53, 99, 124),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                  fontSize: 15),
-            ),
-          ],
-        ),
-        icon: Column(
-          children: [
-            const Icon(
-              Icons.shopping_cart,
-              color: Color.fromARGB(255, 53, 99, 124),
-            ),
-            Text(
-              StringUtils.cart,
-              style: TextStyle(
-                  color: const Color.fromARGB(255, 53, 99, 124),
-                  // fontWeight: FontWeight.w500,
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                  fontSize: 15),
-            ),
-          ],
-        ),
-        label: '',
+      icon: Column(
+        children: [
+          const Icon(
+            Icons.store,
+            color: Color.fromARGB(255, 53, 99, 124),
+          ),
+          Text(
+            StringUtils.store,
+            style: TextStyle(
+                color: const Color.fromARGB(255, 53, 99, 124),
+                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                fontSize: 15),
+          ),
+        ],
       ),
-    );
+      label: '',
+    ));
+    bottomList.add(BottomNavigationBarItem(
+      activeIcon: Column(
+        children: [
+          const Icon(
+            Icons.shopping_cart,
+            color: Color.fromARGB(255, 210, 178, 2),
+          ),
+          Text(
+            StringUtils.cart,
+            style: TextStyle(
+                color: const Color.fromARGB(255, 53, 99, 124),
+                fontWeight: FontWeight.w500,
+                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                fontSize: 15),
+          ),
+        ],
+      ),
+      icon: Column(
+        children: [
+          const Icon(
+            Icons.shopping_cart,
+            color: Color.fromARGB(255, 53, 99, 124),
+          ),
+          Text(
+            StringUtils.cart,
+            style: TextStyle(
+                color: const Color.fromARGB(255, 53, 99, 124),
+                // fontWeight: FontWeight.w500,
+                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                fontSize: 15),
+          ),
+        ],
+      ),
+      label: '',
+    ));
 
     if (Services.isOperationManager()) {
-      bottomList.add(
-        BottomNavigationBarItem(
-          activeIcon: Column(
-            children: [
-              const Icon(
-                Icons.reorder,
-                color: Color.fromARGB(255, 210, 178, 2),
-              ),
-              Text(
-                StringUtils.orders,
-                style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15),
-              ),
-            ],
-          ),
-          icon: Column(
-            children: [
-              const Icon(
-                Icons.reorder,
-                color: Color.fromARGB(255, 53, 99, 124),
-              ),
-              Text(
-                StringUtils.orders,
-                style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    // fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15),
-              ),
-            ],
-          ),
-          label: '',
+      bottomList.add(BottomNavigationBarItem(
+        activeIcon: Column(
+          children: [
+            const Icon(
+              Icons.reorder,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            Text(
+              StringUtils.orders,
+              style: TextStyle(
+                  color: const Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                  fontSize: 15),
+            ),
+          ],
         ),
-      );
+        icon: Column(
+          children: [
+            const Icon(
+              Icons.reorder,
+              color: Color.fromARGB(255, 53, 99, 124),
+            ),
+            Text(
+              StringUtils.orders,
+              style: TextStyle(
+                  color: const Color.fromARGB(255, 53, 99, 124),
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                  fontSize: 15),
+            ),
+          ],
+        ),
+        label: '',
+      ));
     }
 
-    if (Services.isDelivery() || Services.isShopper() || Services.isSupplierManager()) {
-      bottomList.add(
-        BottomNavigationBarItem(
-          activeIcon: Column(
-            children: [
-              const Icon(
-                Icons.playlist_add_check_outlined,
-                color: Color.fromARGB(255, 210, 178, 2),
-              ),
-              Text(
-                StringUtils.myOrders,
-                style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15),
-              ),
-            ],
-          ),
-          icon: Column(
-            children: [
-              const Icon(
-                Icons.playlist_add_check_outlined,
-                color: Color.fromARGB(255, 53, 99, 124),
-              ),
-              Text(
-                StringUtils.myOrders,
-                style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    // fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15),
-              ),
-            ],
-          ),
-          label: '',
+    if (Services.isShopper() || Services.isSupplierManager()) {
+      bottomList.add(BottomNavigationBarItem(
+        activeIcon: Column(
+          children: [
+            const Icon(
+              Icons.playlist_add_check_outlined,
+              color: Color.fromARGB(255, 210, 178, 2),
+            ),
+            Text(
+              StringUtils.myOrders,
+              style: TextStyle(
+                  color: const Color.fromARGB(255, 53, 99, 124),
+                  fontWeight: FontWeight.w500,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                  fontSize: 15),
+            ),
+          ],
         ),
-      );
+        icon: Column(
+          children: [
+            const Icon(
+              Icons.playlist_add_check_outlined,
+              color: Color.fromARGB(255, 53, 99, 124),
+            ),
+            Text(
+              StringUtils.myOrders,
+              style: TextStyle(
+                  color: const Color.fromARGB(255, 53, 99, 124),
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                  fontSize: 15),
+            ),
+          ],
+        ),
+        label: '',
+      ));
     }
     return BottomNavigationBar(
       selectedFontSize: 0,
       unselectedFontSize: 0,
       backgroundColor: Colors.white,
       items: bottomList,
-      currentIndex: widget.routeIndex,
+      currentIndex: _selectedIndex,
       type: BottomNavigationBarType.fixed,
       fixedColor: Colors.white,
       onTap: _onItemTapped,
@@ -264,30 +271,13 @@ class HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _tabs = [];
-    _tabs.add(const StoreView());
-    _tabs.add(CartView(
-      isFromUpdateOrder: widget.isFromUpdateOrder,
-    ));
-    if ((Services.isOperationManager())) {
-      _tabs.add(
-        const OrdersView(),
-      );
-    }
-
-    if (Services.isDelivery() || Services.isShopper() || Services.isSupplierManager()) {
-      _tabs.add(
-        const AssignedOrdersView(),
-      );
-    }
-
-    return Scaffold(body: _tabs[widget.routeIndex], bottomNavigationBar: _bottomNavBar(context: context));
+    return Scaffold(body: tabs[_selectedIndex], bottomNavigationBar: _bottomNavBar(context: context));
   }
 
   void _onItemTapped(int index) {
     setState(() {
-      widget.routeIndex = index;
-      widget.isFromUpdateOrder = false;
+      _selectedIndex = index;
+      _isFromUpdateOrder = false;
     });
   }
 }

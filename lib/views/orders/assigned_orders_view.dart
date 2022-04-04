@@ -55,7 +55,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     });
     List<OrdersOriginalData> orderList;
     if (LoadingScreenServices.myOrdersList.isEmpty) {
-      if (Services.isDelivery()) orderList = await OrderServices.getDeliveryOrders(pageNumber: page);
       if (Services.isShopper()) orderList = await OrderServices.getShopperOrders(pageNumber: page);
       if (Services.isSupplierManager()) orderList = await OrderServices.getSupplierOrders(pageNumber: page);
     } else {
@@ -223,6 +222,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(
+                                pop: false,
                                 orderData: orderDataList[index],
                                 orderType: OrderTypes.myOrder,
                               ),

@@ -76,6 +76,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: ColorUtils.primaryColor,
         title: Text(
           'كشف حساب متسوق',
           style: mainStyle,

@@ -24,8 +24,12 @@ class OrderByID extends StatefulWidget {
 class _OrderByIDState extends State<OrderByID> {
   Future getOrders;
   OrdersOriginalData order;
+  TextEditingController idController;
+  TextEditingController phoneController;
   @override
   void initState() {
+    phoneController = TextEditingController();
+    idController = TextEditingController();
     setState(() {
       id = widget.id;
     });
@@ -96,6 +100,8 @@ class _OrderByIDState extends State<OrderByID> {
                           ),
                     Center(
                       child: SearchOrderByPhoneNumber(
+                        phoneController: phoneController,
+                        idController: idController,
                         context: context,
                         onChoose: () {
                           Navigator.of(context).pop();
@@ -105,6 +111,7 @@ class _OrderByIDState extends State<OrderByID> {
                     Column(
                       children: <Widget>[
                         OrdersViewCard(
+                          pop: true,
                           orderData: order,
                           orderType: OrderTypes.myOrder,
                         ),

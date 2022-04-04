@@ -334,10 +334,6 @@ class Services {
     return Services.roles.where((element) => element.slug.contains(StringUtils.accountingRole)).isNotEmpty;
   }
 
-  static bool isDelivery() {
-    return Services.roles.where((element) => element.slug.contains(StringUtils.deliveryRole)).isNotEmpty;
-  }
-
   static bool isShopper() {
     return Services.roles.where((element) => element.slug.contains(StringUtils.shopperRole)).isNotEmpty;
   }

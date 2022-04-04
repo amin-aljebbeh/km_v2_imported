@@ -21,11 +21,11 @@ class PhoneNumberOrdersView extends StatefulWidget {
 
 class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
   Future getOrders;
-
+  TextEditingController idController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   @override
   void initState() {
     filterOrders = 0;
-
     setState(() {
       phoneNumber = widget.phoneNumber;
     });
@@ -134,6 +134,8 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                           },
                         ),
                         SearchOrderByPhoneNumber(
+                          phoneController: phoneController,
+                          idController: idController,
                           context: context,
                           onChoose: () {
                             Navigator.of(context).pop();
@@ -222,6 +224,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(
+                                pop: true,
                                 orderData: orderDataList[index],
                                 orderType: OrderTypes.myOrder,
                               ),

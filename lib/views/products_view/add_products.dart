@@ -169,13 +169,6 @@ class _AddProductsViewState extends State<AddProductsView> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController supplierCodeController = TextEditingController();
   TextEditingController priceController = TextEditingController();
-  static GlobalKey<FormState> nameFormKey = GlobalKey<FormState>();
-  static GlobalKey<FormState> quantityFormKey = GlobalKey<FormState>();
-  static GlobalKey<FormState> unitFormKey = GlobalKey<FormState>();
-  static GlobalKey<FormState> priceFactorFormKey = GlobalKey<FormState>();
-  static GlobalKey<FormState> descriptionFormKey = GlobalKey<FormState>();
-  static GlobalKey<FormState> supplierCodeFormKey = GlobalKey<FormState>();
-  static GlobalKey<FormState> priceFormKey = GlobalKey<FormState>();
 
   bool switchController = false;
 
@@ -295,7 +288,6 @@ class _AddProductsViewState extends State<AddProductsView> {
                     ),
                     ProductEntryField(
                       controller: nameController,
-                      formKey: nameFormKey,
                       title: "اسم المنتج",
                       hint: "زيت سولينا",
                     ),
@@ -304,19 +296,16 @@ class _AddProductsViewState extends State<AddProductsView> {
                       children: [
                         ProductEntryField(
                             controller: quantityController,
-                            formKey: quantityFormKey,
                             title: StringUtils.quantity,
                             hint: "100",
                             width: MediaQuery.of(context).size.width / 4),
                         ProductEntryField(
                             controller: unitController,
-                            formKey: unitFormKey,
                             title: StringUtils.unit,
                             hint: "لتر",
                             width: MediaQuery.of(context).size.width / 4),
                         ProductEntryField(
                             controller: priceFactorController,
-                            formKey: priceFactorFormKey,
                             title: StringUtils.priceFactor,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
@@ -324,7 +313,6 @@ class _AddProductsViewState extends State<AddProductsView> {
                     ),
                     ProductEntryField(
                         controller: descriptionController,
-                        formKey: descriptionFormKey,
                         title: StringUtils.description,
                         hint: "زيت دوار الشمس الصافي @كلمات مفتاحية"),
                     Row(
@@ -332,13 +320,11 @@ class _AddProductsViewState extends State<AddProductsView> {
                       children: [
                         ProductEntryField(
                             controller: supplierCodeController,
-                            formKey: supplierCodeFormKey,
                             title: StringUtils.supplierCode,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
                             controller: priceController,
-                            formKey: priceFormKey,
                             title: StringUtils.price,
                             hint: "5000",
                             width: MediaQuery.of(context).size.width / 3),
