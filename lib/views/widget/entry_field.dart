@@ -2,22 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
 class EntryField extends StatefulWidget {
-  final bool canBeEmpty;
   final TextEditingController controller;
   final String hint;
   final double width;
-  final bool isPhoneNumber;
   final Function(bool) onSubmit;
-
-  const EntryField({
-    Key key,
-    this.canBeEmpty = true,
-    this.controller,
-    this.hint,
-    this.width,
-    this.isPhoneNumber = false,
-    this.onSubmit,
-  }) : super(key: key);
+  final GlobalKey<FormState> formKey;
+  const EntryField({Key key, this.controller, this.hint, this.width, this.onSubmit, this.formKey})
+      : super(key: key);
 
   @override
   _EntryFieldState createState() => _EntryFieldState();
@@ -38,6 +29,7 @@ class _EntryFieldState extends State<EntryField> {
         ],
       ),
       child: TextFormField(
+        key: widget.formKey,
         cursorColor: ColorUtils.kmColors,
         onChanged: (value) {
           setState(() {});
@@ -45,7 +37,9 @@ class _EntryFieldState extends State<EntryField> {
         onFieldSubmitted: (string) {
           widget.onSubmit(string.isNotEmpty);
         },
-        onTap: () {},
+        onTap: () {
+          Tools.logToConsole('message from on tap');
+        },
         controller: widget.controller,
         keyboardType: TextInputType.text,
         maxLines: null,

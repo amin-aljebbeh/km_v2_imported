@@ -19,7 +19,9 @@ class SearchOrderByPhoneNumber extends StatefulWidget {
 
 class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
   TextEditingController idController = TextEditingController();
-  TextEditingController controller = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  static GlobalKey<FormState> idFormKey = GlobalKey<FormState>();
+  static GlobalKey<FormState> phoneFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -36,7 +38,6 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                     IconButton(
                       onPressed: () {
                         if (idController.text.isNotEmpty) {
-                          controller.clear();
                           widget.onChoose();
                           Navigator.of(context).pop();
                           Navigator.push(
@@ -57,12 +58,11 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                     ),
                     Expanded(
                       child: EntryField(
-                        controller: idController,
+                        formKey: idFormKey,
                         width: MediaQuery.of(context).size.width,
                         hint: 'رقم الطلب',
                         onSubmit: (notEmpty) {
                           if (idController.text.isNotEmpty) {
-                            controller.clear();
                             widget.onChoose();
                             Navigator.of(context).pop();
 
@@ -76,7 +76,6 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                             );
                           }
                         },
-                        canBeEmpty: true,
                       ),
                     ),
                   ],
@@ -86,15 +85,14 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      if (controller.text.isNotEmpty) {
-                        idController.clear();
+                      if (phoneController.text.isNotEmpty) {
                         widget.onChoose();
                         Navigator.of(context).pop();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => PhoneNumberOrdersView(
-                              phoneNumber: controller.text,
+                              phoneNumber: phoneController.text,
                             ),
                           ),
                         );
@@ -108,25 +106,23 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                   ),
                   Expanded(
                     child: EntryField(
-                      controller: controller,
+                      formKey: phoneFormKey,
                       width: MediaQuery.of(context).size.width,
                       hint: 'رقم الزبون',
                       onSubmit: (notEmpty) {
-                        if (controller.text.isNotEmpty) {
-                          idController.clear();
+                        if (phoneController.text.isNotEmpty) {
                           widget.onChoose();
                           Navigator.of(context).pop();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => PhoneNumberOrdersView(
-                                phoneNumber: controller.text,
+                                phoneNumber: phoneController.text,
                               ),
                             ),
                           );
                         }
                       },
-                      canBeEmpty: true,
                     ),
                   ),
                 ],

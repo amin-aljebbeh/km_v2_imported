@@ -8,6 +8,7 @@ class ProductEntryField extends StatelessWidget {
   final String hint;
   final String title;
   final double width;
+  final GlobalKey<FormState> formKey;
 
   const ProductEntryField({
     Key key,
@@ -15,6 +16,7 @@ class ProductEntryField extends StatelessWidget {
     this.hint,
     @required this.title,
     this.width,
+    this.formKey,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -27,11 +29,9 @@ class ProductEntryField extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         EntryField(
+          formKey: formKey,
           width: width,
           onSubmit: (notEmpty) {},
-          isPhoneNumber: false,
-          canBeEmpty: false,
-          controller: controller,
           hint: hint,
         ),
         const SizedBox(height: 20),

@@ -18,6 +18,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   TextEditingController searchController = TextEditingController();
   TextEditingController valueController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String _fromDateTimeValue = "يرجى أختيار تاريخ البداية";
   String _toDateTimeValue = "يرجى إختيار تاريخ النهاية";
 
@@ -208,10 +209,9 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                         getProducts();
                       }
                     },
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    canBeEmpty: false,
-                    isPhoneNumber: false,
                     controller: valueController,
+                    formKey: formKey,
+                    width: MediaQuery.of(context).size.width * 0.2,
                   ),
                 ),
                 IconButton(

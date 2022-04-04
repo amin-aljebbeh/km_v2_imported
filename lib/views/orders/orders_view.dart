@@ -20,12 +20,34 @@ class OrdersView extends StatefulWidget {
 }
 
 class OrdersViewState extends State<OrdersView> {
-  TextEditingController pageController = TextEditingController();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController pageController;
+  static GlobalKey<FormState> formKey;
+  EntryField field;
   Future getOrders;
   int rateValue;
 
   @override
   void initState() {
+    field = EntryField(
+      controller: pageController,
+      formKey: formKey,
+      onSubmit: (notEmpty) {
+        if (notEmpty) {
+          if (int.parse(pageController.text) > 0) {
+            setState(() {
+              indexPage = int.parse(pageController.text);
+              if (indexPage <= 15) page = indexPage;
+              _getOrder();
+            });
+          }
+        }
+      },
+      width: 51,
+    );
+    orderDataList = [];
+    pageController = TextEditingController();
+    formKey = GlobalKey<FormState>();
     warehouses = ['جميع المستودعات'];
     warehouses.addAll(LoadingScreenServices.warehouses.map((warehouse) => warehouse.name).toList());
     rateValue = 0;
@@ -59,7 +81,7 @@ class OrdersViewState extends State<OrdersView> {
   int ordersTypeFilter;
   List<String> warehouses;
 
-  List<OrdersOriginalData> orderDataList = [];
+  List<OrdersOriginalData> orderDataList;
 
   _getOrder() async {
     setState(() {
@@ -131,8 +153,8 @@ class OrdersViewState extends State<OrdersView> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -257,23 +279,7 @@ class OrdersViewState extends State<OrdersView> {
                                     ),
                                     SizedBox(
                                       height: 30,
-                                      child: EntryField(
-                                        controller: pageController,
-                                        onSubmit: (notEmpty) {
-                                          if (notEmpty) {
-                                            if (int.parse(pageController.text) > 0) {
-                                              setState(() {
-                                                indexPage = int.parse(pageController.text);
-                                                if (indexPage <= 15) page = indexPage;
-                                                _getOrder();
-                                              });
-                                            }
-                                          }
-                                        },
-                                        width: MediaQuery.of(context).size.width * 0.13,
-                                        isPhoneNumber: false,
-                                        canBeEmpty: false,
-                                      ),
+                                      child: field,
                                     ),
                                   ],
                                 )
@@ -284,7 +290,7 @@ class OrdersViewState extends State<OrdersView> {
                     ),
                     orderDataList.isEmpty
                         ? Padding(
-                            padding: EdgeInsets.only(top: screenHeight * 0.4),
+                            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.4),
                             child: Center(
                               child: Text(
                                 "لا يوجد أي طلبات سابقة",

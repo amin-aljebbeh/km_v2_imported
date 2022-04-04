@@ -22,9 +22,8 @@ import 'views/thank_you/thank_you_view.dart';
 Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
-    //   await Firebase.initializeApp();
   } catch (e) {
-    // TODO
+    /**/
   }
 
   RenderErrorBox.backgroundColor = Colors.transparent;
