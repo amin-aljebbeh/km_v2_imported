@@ -10,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'core/core_importer.dart';
 import 'models/models_importer.dart';
 import 'utils/utils_importer.dart';
-import 'views/loading/LoadingServices.dart';
+import 'views/loading/loading_services.dart';
 import 'views/restart/kammunapp_restart.dart';
 
 class Services {
@@ -417,6 +417,12 @@ class Services {
         .firstWhere((shopper) => shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
         .id
         .toString();
+  }
+
+  static int selectedShopperLevelId(String name) {
+    return LoadingScreenServices.allShoppers
+        .firstWhere((shopper) => shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
+        .levelId;
   }
 
   static int kRound(double number) {

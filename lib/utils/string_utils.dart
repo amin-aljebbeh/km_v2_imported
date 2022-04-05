@@ -116,7 +116,7 @@ class StringUtils {
 
   static List<String> productFilterParams = ['number_of_days', 'number_of_sale', 'number_of_visit'];
 
-  static List<String> orderTypes = ['مسند لمتسوق', 'بحاجة لمتسوق'];
+  static List<String> orderTypes = ['جميع الطلبات', 'مسند لمتسوق', 'بحاجة لمتسوق'];
 
   static List<String> orderStatus = [
     'فلترة الطلبات',

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/Services.dart';
+import 'package:kammun_app/service.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../Services.dart';
+import '../../service.dart';
 import 'services/order_services.dart';
 
 class OrdersView extends StatefulWidget {
@@ -24,7 +24,6 @@ class OrdersViewState extends State<OrdersView> {
   TextEditingController idController;
   TextEditingController phoneController;
   static GlobalKey<FormState> formKey;
-  EntryField field;
   Future getOrders;
   int rateValue;
 
@@ -33,21 +32,6 @@ class OrdersViewState extends State<OrdersView> {
     pageController = TextEditingController();
     phoneController = TextEditingController();
     idController = TextEditingController();
-    field = EntryField(
-      controller: pageController,
-      onSubmit: (notEmpty) {
-        if (notEmpty) {
-          if (int.parse(pageController.text) > 0) {
-            setState(() {
-              indexPage = int.parse(pageController.text);
-              if (indexPage <= 15) page = indexPage;
-              _getOrder();
-            });
-          }
-        }
-      },
-      width: 51,
-    );
     orderDataList = [];
     formKey = GlobalKey<FormState>();
     warehouses = ['جميع المستودعات'];
@@ -69,7 +53,6 @@ class OrdersViewState extends State<OrdersView> {
   _initialFunction() {}
 
   bool orderLoaded = true;
-  bool generalLoaded = true;
   bool warehouseLoaded = false;
   bool errorMessage = false;
   String errorMessageValue = "";
@@ -110,21 +93,20 @@ class OrdersViewState extends State<OrdersView> {
       } else {
         setState(() {
           orderDataList.addAll(orderList);
-          if (generalLoaded) {
-            if (ordersFilter == 0) {
-              orderDataList.removeWhere((order) => int.parse(order.orderStatusId) > 4);
-            } else {
-              orderDataList.removeWhere((order) => int.parse(order.orderStatusId) != ordersFilter);
-            }
+          if (ordersFilter == 0) {
+            orderDataList.removeWhere((order) => int.parse(order.orderStatusId) > 4);
           } else {
-            switch (ordersTypeFilter) {
-              case (0):
-                orderDataList.removeWhere((order) => order.shopper == null);
-                break;
-              case (1):
-                orderDataList.removeWhere((order) => order.shopper != null);
-                break;
-            }
+            orderDataList.removeWhere((order) => int.parse(order.orderStatusId) != ordersFilter);
+          }
+          switch (ordersTypeFilter) {
+            case (0):
+              break;
+            case (1):
+              orderDataList.removeWhere((order) => order.shopper == null);
+              break;
+            case (2):
+              orderDataList.removeWhere((order) => order.shopper != null);
+              break;
           }
           if (warehouseFilter != 0) {
             orderDataList.removeWhere((order) => int.parse(order.warehouseId) != warehouseFilter);
@@ -179,11 +161,11 @@ class OrdersViewState extends State<OrdersView> {
                               items: Services.dropdownStringList(StringUtils.orderStatus),
                               onChanged: (value) {
                                 setState(() {
-                                  generalLoaded = true;
                                   ordersFilter = value;
                                   LoadingScreenServices.ordersViewFilter = value;
                                   page = 1;
                                   indexPage = 1;
+                                  pageController.clear();
                                 });
                                 _getOrder();
                               },
@@ -193,7 +175,6 @@ class OrdersViewState extends State<OrdersView> {
                               items: Services.dropdownStringList(StringUtils.orderTypes),
                               onChanged: (value) {
                                 setState(() {
-                                  generalLoaded = false;
                                   ordersTypeFilter = value;
                                   page = 1;
                                   indexPage = 1;
@@ -276,7 +257,21 @@ class OrdersViewState extends State<OrdersView> {
                                     ),
                                     SizedBox(
                                       height: 30,
-                                      child: field,
+                                      child: EntryField(
+                                        controller: pageController,
+                                        onSubmit: (notEmpty) {
+                                          if (notEmpty) {
+                                            if (int.parse(pageController.text) > 0) {
+                                              setState(() {
+                                                indexPage = int.parse(pageController.text);
+                                                if (indexPage <= 15) page = indexPage;
+                                                _getOrder();
+                                              });
+                                            }
+                                          }
+                                        },
+                                        width: 51,
+                                      ),
                                     ),
                                   ],
                                 )

@@ -36,6 +36,7 @@ class _TextFieldRowState extends State<TextFieldRow> {
           style: paragraphStyle,
         ),
         EntryField(
+          controller: widget.controller,
           hint: widget.hint,
           width: widget.width,
           onSubmit: (result) {},

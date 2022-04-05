@@ -6,14 +6,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'utils/utils_importer.dart';
-import 'views/cart/CartViewFinal.dart';
+import 'views/cart/cart_view_final.dart';
 import 'views/home/home_view.dart';
 import 'views/inventory/inventory_importer.dart';
-import 'views/loading/Loading.dart';
+import 'views/loading/loading.dart';
 import 'views/login/login_view.dart';
 import 'views/prices_changes/prices.dart';
 import 'views/products_attached_to_warehouse/views/products_attached_to_warehouse_importer.dart';
-import 'views/profile/profileScreen.dart';
+import 'views/profile/profile_screen.dart';
 import 'views/reports/reports_importer.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
@@ -82,10 +82,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final home = HomeView(routeIndex: 0);
-    final cart = HomeView(routeIndex: 1);
-    final cartFromUpdate = HomeView(routeIndex: 1, isFromUpdateOrder: true);
-    final orders = HomeView(routeIndex: 2);
     return KammunRestart(
       child: MaterialApp(
         localizationsDelegates: const [
@@ -102,15 +98,15 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           LoginScreen.routeName: (_) => const LoginScreen(),
-          '/home': (_) => home,
+          '/home': (_) => const HomeView(routeIndex: 0),
           '/myApp': (_) => const MyApp(),
           'loading': (_) => const LoadingScreen(),
           '/cartFinal': (_) => const CartViewFinal(),
           ServerUpdate.routeName: (_) => const ServerUpdate(),
           '/thankyou': (_) => const ThankYouView(),
-          '/cart': (_) => cart,
-          '/cartFromUpdate': (_) => cartFromUpdate,
-          '/orders': (_) => orders,
+          '/cart': (_) => const HomeView(routeIndex: 1),
+          '/cartFromUpdate': (_) => const HomeView(routeIndex: 1, isFromUpdateOrder: true),
+          '/orders': (_) => const HomeView(routeIndex: 2),
           '/profile': (_) => const ProfileScreen(),
           '/statistics': (_) => const DailyStatistics(),
           '/sales_reports': (_) => const SalesReport(),

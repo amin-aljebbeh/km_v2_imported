@@ -5,11 +5,11 @@ import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/inventory/model/inventory_model_importer.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
-import '../../../Services.dart';
+import '../../../service.dart';
 
 class InventoryServices {
   static Future<bool> getInventoryProductsService() async {

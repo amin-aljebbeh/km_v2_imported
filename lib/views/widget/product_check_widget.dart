@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/start_models/order_product_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
-import '../../Services.dart';
+import '../../service.dart';
 import 'widgets_importer.dart';
 
 class ProductCheckWidget extends StatefulWidget {

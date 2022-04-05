@@ -4,7 +4,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 
-import '../../Services.dart';
+import '../../service.dart';
 
 class BarcodeIcon extends StatelessWidget {
   final BarcodeRequestType requestType;

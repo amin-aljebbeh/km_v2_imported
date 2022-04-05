@@ -2,13 +2,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/orders_view_importer.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../Services.dart';
+import '../../service.dart';
 
 // ignore: must_be_immutable
 class HomeView extends StatefulWidget {
@@ -62,9 +62,8 @@ class HomeViewState extends State<HomeView> {
     tabs.add(CartView(
       isFromUpdateOrder: _isFromUpdateOrder,
     ));
-    const view = OrdersView();
     if ((Services.isOperationManager())) {
-      tabs.add(view);
+      tabs.add(const OrdersView());
     }
 
     if (Services.isShopper() || Services.isSupplierManager()) {

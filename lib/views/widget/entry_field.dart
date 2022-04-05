@@ -6,7 +6,7 @@ class EntryField extends StatefulWidget {
   final String hint;
   final double width;
   final Function(bool) onSubmit;
-  const EntryField({Key key, this.controller, this.hint, this.width, this.onSubmit}) : super(key: key);
+  const EntryField({Key key, @required this.controller, this.hint, this.width, this.onSubmit}) : super(key: key);
 
   @override
   _EntryFieldState createState() => _EntryFieldState();

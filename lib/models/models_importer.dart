@@ -1,6 +1,6 @@
 export 'dart:convert';
 
-export 'addAddressResponse.dart';
+export 'add_address_response.dart';
 export 'barcode_model.dart';
 export 'cart_model.dart';
 export 'delivery_model.dart';
@@ -13,7 +13,7 @@ export 'order_image.dart';
 export 'orders_response.dart';
 export 'permission_model.dart';
 export 'permission_pivot_model.dart';
-export 'productsCategoriesModel.dart';
+export 'products_categories_model.dart';
 export 'role_model.dart';
 export 'role_pivot_model.dart';
 export 'shopper_level_model.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
-import '../../Services.dart';
+import '../../service.dart';
 
 class MediaIcon extends StatelessWidget {
   final IconData icon;

@@ -4,7 +4,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/order_details/order_accounting.dart';
 import 'package:kammun_app/views/order_details/order_deleted_products.dart';
 
-import '../../Services.dart';
+import '../../service.dart';
 import 'order_details_view_main.dart';
 
 // ignore: must_be_immutable

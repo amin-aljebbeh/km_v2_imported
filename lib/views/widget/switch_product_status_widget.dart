@@ -3,7 +3,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 
-import '../../Services.dart';
+import '../../service.dart';
 
 class SwitchProductStatusWidget extends StatefulWidget {
   final double height;

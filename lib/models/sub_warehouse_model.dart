@@ -2,7 +2,7 @@
 //
 //     final subWarehouse = subWarehouseFromJson(jsonString);
 
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 
 import 'models_importer.dart';
 

@@ -188,6 +188,7 @@ class _SalesReportState extends State<SalesReport> {
         child: Container(
           padding: const EdgeInsets.all(10),
           child: ListView(
+            padding: const EdgeInsets.only(bottom: 25),
             shrinkWrap: true,
             children: [
               KDatePicker(

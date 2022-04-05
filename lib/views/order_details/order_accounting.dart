@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/reports/add_transaction_view.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 
-import '../../Services.dart';
+import '../../service.dart';
 import 'full_screen_image.dart';
 import 'services/order_details_services.dart';
 

@@ -5,10 +5,10 @@ import '../../models/models_importer.dart';
 import '../../utils/utils_importer.dart';
 import '../../views/errors_screen/internet_error.dart';
 import '../../views/home/home_view.dart';
-import '../../views/loading/LoadingServices.dart';
+import '../../views/loading/loading_services.dart';
 import '../../views/login/login_view.dart';
 import '../../views/server_update/server_update.dart';
-import '../../views/update_screen/updateRequiredScreen.dart';
+import '../../views/update_screen/update_required_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
   static String userToken = "Bearer ";

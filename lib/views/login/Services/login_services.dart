@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
+import 'package:kammun_app/views/loading/loading.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../Services.dart';
 import '../../../core/core_importer.dart';
 import '../../../models/models_importer.dart';
+import '../../../service.dart';
 import '../../../utils/utils_importer.dart';
 import '../../../views/cart/services/cart_services.dart';
-import '../../../views/loading/LoadingServices.dart';
+import '../../../views/loading/loading_services.dart';
 
 class OrderServices {
   static String deliverySupportedCityId = '';

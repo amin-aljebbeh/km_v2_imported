@@ -1,6 +1,6 @@
-import 'package:kammun_app/Services.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/service.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/login/models/admin_model.dart';
 
 OrdersOriginal ordersFromJson(String str) => OrdersOriginal.fromJson(json.decode(str));

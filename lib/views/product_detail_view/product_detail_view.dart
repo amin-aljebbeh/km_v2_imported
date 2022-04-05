@@ -8,8 +8,8 @@ import 'package:full_screen_image/full_screen_image.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
@@ -18,7 +18,7 @@ import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../Services.dart';
+import '../../service.dart';
 
 class ProductDetailView extends StatefulWidget {
   final ProductData product;
@@ -290,11 +290,12 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     ),
                                   ];
                                   showMyDialog(
-                                      title: '',
-                                      context: context,
-                                      text:
-                                          'هل تريد إزالة ${widget.product.name} من ${widget.product.categories[index].name} ؟',
-                                      dialogButtons: dialogButtons);
+                                    title: '',
+                                    context: context,
+                                    text:
+                                        'هل تريد إزالة ${widget.product.name} من ${widget.product.categories[index].name} ؟',
+                                    dialogButtons: dialogButtons,
+                                  );
                                 }
                               },
                               child: ShopByCategory(
