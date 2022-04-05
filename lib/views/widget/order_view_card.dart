@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 
 class OrdersViewCard extends StatefulWidget {
   final int orderQuantity;

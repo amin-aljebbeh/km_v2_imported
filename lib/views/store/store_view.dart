@@ -2,11 +2,11 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../Services.dart';
+import '../../service.dart';
 
 class StoreView extends StatefulWidget {
   const StoreView({Key key}) : super(key: key);

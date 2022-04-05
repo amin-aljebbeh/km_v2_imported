@@ -5,8 +5,8 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-import '../../Services.dart';
-import 'Counter.dart';
+import '../../service.dart';
+import 'counter.dart';
 import 'Services/login_services.dart';
 
 class OTPVerification extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/models/products_categories_model.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartServices {

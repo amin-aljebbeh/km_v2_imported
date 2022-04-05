@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';

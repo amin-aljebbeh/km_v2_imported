@@ -8,10 +8,10 @@ import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../Services.dart';
+import '../../../service.dart';
 
 class OrderServices {
   static String deliverySupportedCityId = "";

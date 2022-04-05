@@ -12,7 +12,7 @@ import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
-import 'Loading.dart';
+import 'loading.dart';
 
 class LoadingScreenServices {
   static StartModel startRequest = StartModel();

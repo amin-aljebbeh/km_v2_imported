@@ -5,18 +5,13 @@ import 'alert_text_view.dart';
 
 // ignore: must_be_immutable
 class AlertMessages extends StatelessWidget {
-  String text;
+  final String text;
   final String messageType;
   FontWeight textWeight = FontWeight.normal;
   String headerText = " ";
   Color textColor = Colors.black;
   Color outsideBorderColor = const Color.fromRGBO(61, 49, 19, 1);
-  Color insideBorderColor = const Color.fromARGB(
-    255,
-    246,
-    233,
-    181,
-  );
+  Color insideBorderColor = const Color.fromARGB(255, 246, 233, 181);
   Color headerTextColor = Colors.green[800];
   double headerTextSize = 15;
   double messageTextSize = 13;

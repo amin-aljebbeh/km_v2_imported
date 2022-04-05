@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/favoraites/favoraites.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:kammun_app/views/widget/dialog_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// ignore: must_be_immutable
 class HomeView extends StatefulWidget {
-  int routeIndex;
-  bool isFromUpdateOrder;
+  final int routeIndex;
+  final bool isFromUpdateOrder;
   final dynamic notificationValue;
 
-  HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue}) : super(key: key);
+  const HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -26,9 +26,12 @@ class HomeView extends StatefulWidget {
 class HomeViewState extends State<HomeView> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   String firebaseToken;
-
+  int selectedIndex;
+  bool isFromUpdateOrder;
   @override
   void initState() {
+    selectedIndex = widget.routeIndex;
+    isFromUpdateOrder = widget.isFromUpdateOrder;
     widget.notificationValue != null
         ? WidgetsBinding.instance.addPostFrameCallback((_) => _showNotificationDialog(ctx: context))
         : Tools.logToConsole('');
@@ -79,7 +82,6 @@ class HomeViewState extends State<HomeView> {
           ),
           content: Text(
             "$body",
-            // maxLines: 20,
             style: TextStyle(
               fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
@@ -87,10 +89,11 @@ class HomeViewState extends State<HomeView> {
           scrollable: true,
           actions: <Widget>[
             DialogButton(
-                text: StringUtils.close,
-                onTap: () {
-                  Navigator.of(context).pop();
-                }),
+              text: StringUtils.close,
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ],
         );
       },
@@ -113,7 +116,6 @@ class HomeViewState extends State<HomeView> {
           ),
           content: Text(
             body,
-            // maxLines: 20,
             style: TextStyle(
               fontFamily: StringUtils.fontFamilyHKGrotesk,
             ),
@@ -121,10 +123,11 @@ class HomeViewState extends State<HomeView> {
           scrollable: true,
           actions: <Widget>[
             DialogButton(
-                text: StringUtils.close,
-                onTap: () {
-                  Navigator.of(context).pop();
-                }),
+              text: StringUtils.close,
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ],
         );
       },
@@ -136,13 +139,13 @@ class HomeViewState extends State<HomeView> {
     final _tabs = [
       const StoreView(),
       CartView(
-        isFromUpdateOrder: widget.isFromUpdateOrder,
+        isFromUpdateOrder: isFromUpdateOrder,
       ),
       const OrdersView(),
       const Favoraites(),
-    ]; /*Color.fromARGB(255, 53, 99, 124)*/
+    ];
     return Scaffold(
-      body: _tabs[widget.routeIndex],
+      body: _tabs[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         unselectedFontSize: 0,
         selectedFontSize: 0,
@@ -160,10 +163,11 @@ class HomeViewState extends State<HomeView> {
                 Text(
                   StringUtils.store,
                   style: TextStyle(
-                      color: const Color.fromARGB(255, 53, 99, 124),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                      fontSize: 15),
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15,
+                  ),
                 ),
               ],
             ),
@@ -176,10 +180,10 @@ class HomeViewState extends State<HomeView> {
                 Text(
                   StringUtils.store,
                   style: TextStyle(
-                      color: const Color.fromARGB(255, 53, 99, 124),
-                      // fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                      fontSize: 15),
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15,
+                  ),
                 ),
               ],
             ),
@@ -195,10 +199,11 @@ class HomeViewState extends State<HomeView> {
                 Text(
                   StringUtils.cart,
                   style: TextStyle(
-                      color: const Color.fromARGB(255, 53, 99, 124),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                      fontSize: 15),
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15,
+                  ),
                 ),
               ],
             ),
@@ -211,49 +216,51 @@ class HomeViewState extends State<HomeView> {
                 Text(
                   StringUtils.cart,
                   style: TextStyle(
-                      color: const Color.fromARGB(255, 53, 99, 124),
-                      // fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                      fontSize: 15),
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15,
+                  ),
                 ),
               ],
             ),
             label: '',
           ),
           BottomNavigationBarItem(
-              activeIcon: Column(
-                children: [
-                  const Icon(
-                    Icons.reorder,
-                    color: Color.fromARGB(255, 210, 178, 2),
+            activeIcon: Column(
+              children: [
+                const Icon(
+                  Icons.reorder,
+                  color: Color.fromARGB(255, 210, 178, 2),
+                ),
+                Text(
+                  StringUtils.orders,
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15,
                   ),
-                  Text(
-                    StringUtils.orders,
-                    style: TextStyle(
-                        color: const Color.fromARGB(255, 53, 99, 124),
-                        fontWeight: FontWeight.w500,
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                        fontSize: 15),
+                ),
+              ],
+            ),
+            icon: Column(
+              children: [
+                const Icon(
+                  Icons.reorder,
+                  color: Color.fromARGB(255, 53, 99, 124),
+                ),
+                Text(
+                  StringUtils.orders,
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15,
                   ),
-                ],
-              ),
-              icon: Column(
-                children: [
-                  const Icon(
-                    Icons.reorder,
-                    color: Color.fromARGB(255, 53, 99, 124),
-                  ),
-                  Text(
-                    StringUtils.orders,
-                    style: TextStyle(
-                        color: const Color.fromARGB(255, 53, 99, 124),
-                        // fontWeight: FontWeight.w500,
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                        fontSize: 15),
-                  ),
-                ],
-              ),
-              label: ''),
+                ),
+              ],
+            ),
+            label: '',
+          ),
           BottomNavigationBarItem(
             activeIcon: Column(
               children: [
@@ -264,10 +271,11 @@ class HomeViewState extends State<HomeView> {
                 Text(
                   StringUtils.favorite,
                   style: TextStyle(
-                      color: const Color.fromARGB(255, 53, 99, 124),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                      fontSize: 15),
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    fontWeight: FontWeight.w500,
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15,
+                  ),
                 ),
               ],
             ),
@@ -280,17 +288,17 @@ class HomeViewState extends State<HomeView> {
                 Text(
                   StringUtils.favorite,
                   style: TextStyle(
-                      color: const Color.fromARGB(255, 53, 99, 124),
-                      // fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                      fontSize: 15),
+                    color: const Color.fromARGB(255, 53, 99, 124),
+                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                    fontSize: 15,
+                  ),
                 ),
               ],
             ),
             label: '',
           ),
         ],
-        currentIndex: widget.routeIndex,
+        currentIndex: selectedIndex,
         type: BottomNavigationBarType.fixed,
         fixedColor: Colors.white,
         onTap: _onItemTapped,
@@ -300,8 +308,8 @@ class HomeViewState extends State<HomeView> {
 
   void _onItemTapped(int index) {
     setState(() {
-      widget.routeIndex = index;
-      widget.isFromUpdateOrder = false;
+      selectedIndex = index;
+      isFromUpdateOrder = false;
     });
   }
 }

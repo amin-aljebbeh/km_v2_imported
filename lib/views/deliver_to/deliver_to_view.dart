@@ -3,9 +3,9 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/add_address/add_address_view.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
-import '../../Services.dart';
+import '../../service.dart';
 import 'delivery_method.dart';
 
 class DeliverToView extends StatefulWidget {

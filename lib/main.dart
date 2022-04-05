@@ -3,15 +3,15 @@ import 'package:flutter/rendering.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/home/home_view.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
+import 'package:kammun_app/views/loading/loading.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/supported_city/supported_city.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
-import 'views/login/OTPVerification.dart';
+import 'views/login/otp_verification.dart';
 import 'dart:ui' as ui;
-import 'views/profile/profileScreen.dart';
+import 'views/profile/profile_screen.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
 
@@ -95,21 +95,18 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           LoginScreen.routeName: (_) => const LoginScreen(),
-          '/home': (_) => HomeView(routeIndex: 0),
+          '/home': (_) => const HomeView(routeIndex: 0),
           '/myApp': (_) => const MyApp(),
           'loading': (_) => const LoadingScreen(),
-          '/favoraites': (_) => HomeView(routeIndex: 3),
+          '/favoraites': (_) => const HomeView(routeIndex: 3),
           OTPVerification.routeName: (_) => const OTPVerification(),
           ServerUpdate.routeName: (_) => const ServerUpdate(),
           '/supportedCity': (_) => const SupportedCityView(),
           '/thankyou': (_) => const ThankYouView(),
           '/delivery': (_) => const DeliverToView(),
-          '/cart': (_) => HomeView(routeIndex: 1),
-          '/cartFromUpdate': (_) => HomeView(
-                routeIndex: 1,
-                isFromUpdateOrder: true,
-              ),
-          '/orders': (_) => HomeView(routeIndex: 2),
+          '/cart': (_) => const HomeView(routeIndex: 1),
+          '/cartFromUpdate': (_) => const HomeView(routeIndex: 1, isFromUpdateOrder: true),
+          '/orders': (_) => const HomeView(routeIndex: 2),
           '/profile': (_) => const ProfileScreen(),
         },
         theme: CustomTheme.of(context),

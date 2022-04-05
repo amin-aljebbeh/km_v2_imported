@@ -2,12 +2,12 @@
 
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/products_categories_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 
-import '../../Services.dart';
+import '../../service.dart';
 import 'widgets_importer.dart';
 
 class ProductsViewCard extends StatefulWidget {
@@ -94,22 +94,11 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           ),
                         );
                       },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Hero(
+                      child: KCacheImage(
                           tag: widget.index + 100,
-                          child: FadeInImage.assetNetwork(
-                            fadeInCurve: Curves.fastOutSlowIn,
-                            placeholder: "assets/kmIcon.png",
-                            fit: BoxFit.contain,
-                            image: widget.product.images.isNotEmpty
-                                ? LoadingScreenServices.imagePrefixUrl + widget.product.images[0].imageFileName
-                                : "",
-                            width: MediaQuery.of(context).size.width,
-                            height: 120,
-                          ),
-                        ),
-                      ),
+                          image: widget.product.images.isNotEmpty
+                              ? LoadingScreenServices.imagePrefixUrl + widget.product.images[0].imageFileName
+                              : ""),
                     ),
                   ),
                   const SizedBox(width: 10),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/products_categories_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
 import 'package:kammun_app/views/deliver_to/delivery_method.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,7 +61,7 @@ class CartViewState extends State<CartView> {
             color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
         child: Center(
           child: Text(
-            "موافق",
+            StringUtils.approveUsagePolicy,
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -353,30 +353,12 @@ class CartViewState extends State<CartView> {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Container(
-              width: 100.0,
-              height: 100.0,
-              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Hero(
-                  tag: index + 100,
-                  child: FadeInImage(
-                      image: orderArray[index].images.isNotEmpty
-                          ? NetworkImage(
-                              LoadingScreenServices.imagePrefixUrl +
-                                  orderArray[index].images[0].imageFileName.toString(),
-                            )
-                          : const AssetImage("assets/kmIcon.png"),
-                      width: MediaQuery.of(context).size.width,
-                      height: 120,
-                      fadeInCurve: Curves.fastOutSlowIn,
-                      placeholder: const AssetImage("assets/kmIcon.png"),
-                      fit: BoxFit.contain),
-                ),
-              ),
+            KCacheImage(
+              tag: index + 100,
+              image: orderArray[index].images.isNotEmpty
+                  ? LoadingScreenServices.imagePrefixUrl + orderArray[index].images[0].imageFileName
+                  : '',
             ),
-            // SizedBox(width: 10),
             const SizedBox(width: 10),
             Expanded(
               child: Wrap(

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/products_categories_model.dart';
 
 class FavoraitesProductsServices {
   static int lastPageNumber = 1;

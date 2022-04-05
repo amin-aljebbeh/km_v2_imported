@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
+import 'package:kammun_app/views/loading/loading.dart';
 import '../../core/core_importer.dart';
 
 class ApiProvider {

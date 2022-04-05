@@ -27,7 +27,7 @@ class KCacheImage extends StatelessWidget {
                 ? AdvImageCache(
                     image,
                     useMemCache: true,
-                    diskCacheExpire: const Duration(days: 400),
+                    diskCacheExpire: const Duration(days: 15),
                   )
                 : const AssetImage("assets/kmIcon.png"),
             width: MediaQuery.of(context).size.width,

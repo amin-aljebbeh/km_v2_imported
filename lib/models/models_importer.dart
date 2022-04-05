@@ -1,4 +1,4 @@
-export 'addAddressResponse.dart';
+export 'add_address_response.dart';
 export 'address_model.dart';
 export 'cart_product_model.dart';
 export 'category_model.dart';
@@ -8,7 +8,7 @@ export 'headers_model.dart';
 export 'mobile_app_configs_model.dart';
 export 'orders_response.dart';
 export 'product_model.dart';
-export 'productsCategoriesModel.dart';
+export 'products_categories_model.dart';
 export 'start_delivery_method_model.dart';
 export 'start_model.dart';
 export 'start_order_model.dart';

@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/products_categories_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/productsCategoriesModel.dart';
+import 'package:kammun_app/models/products_categories_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/favoraites/services/product_favoraites_services.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 
 class Favoraites extends StatefulWidget {
   const Favoraites({Key key}) : super(key: key);

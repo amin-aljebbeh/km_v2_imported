@@ -8,7 +8,7 @@ import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/deliver_to/services/delivery_method_services.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:group_button/group_button.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';

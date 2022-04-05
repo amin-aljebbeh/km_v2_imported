@@ -5,11 +5,11 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/blocked_user/blocked_user.dart';
 import 'package:kammun_app/views/errors_screen/internet_error.dart';
 import 'package:kammun_app/views/home/home_view.dart';
-import 'package:kammun_app/views/loading/LoadingServices.dart';
+import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/server_update/server_update.dart';
 import 'package:kammun_app/views/supported_city/supported_city.dart';
-import 'package:kammun_app/views/update_screen/updateRequiredScreen.dart';
+import 'package:kammun_app/views/update_screen/update_required_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
   static String userToken = "Bearer ";
@@ -23,7 +23,6 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   Future fetchInformation;
-  Future checkUpdate;
 
   CartProduct cartLoad = CartProduct();
 
