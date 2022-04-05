@@ -53,7 +53,7 @@ android {
         applicationId "com.kammun.app"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 10
+        versionCode 11
         versionName '2.00'
         multiDexEnabled true
     }
