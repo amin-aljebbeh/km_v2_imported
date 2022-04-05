@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../service.dart';
 
-// ignore: must_be_immutable
 class HomeView extends StatefulWidget {
   final int routeIndex;
   final bool isFromUpdateOrder;
@@ -21,21 +20,22 @@ class HomeView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return HomeViewState(routeIndex, isFromUpdateOrder);
+    return HomeViewState();
   }
 }
 
 class HomeViewState extends State<HomeView> {
-  int _selectedIndex;
-  bool _isFromUpdateOrder;
+  int selectedIndex;
+  bool isFromUpdateOrder;
 
-  HomeViewState(this._selectedIndex, this._isFromUpdateOrder);
   List<Widget> tabs;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   String firebaseToken;
 
   @override
   void initState() {
+    selectedIndex = widget.routeIndex;
+    isFromUpdateOrder = widget.isFromUpdateOrder;
     widget.notificationValue != null
         ? WidgetsBinding.instance.addPostFrameCallback(
             (_) {
@@ -60,7 +60,7 @@ class HomeViewState extends State<HomeView> {
     tabs = [];
     tabs.add(const StoreView());
     tabs.add(CartView(
-      isFromUpdateOrder: _isFromUpdateOrder,
+      isFromUpdateOrder: isFromUpdateOrder,
     ));
     if ((Services.isOperationManager())) {
       tabs.add(const OrdersView());
@@ -261,7 +261,7 @@ class HomeViewState extends State<HomeView> {
       unselectedFontSize: 0,
       backgroundColor: Colors.white,
       items: bottomList,
-      currentIndex: _selectedIndex,
+      currentIndex: selectedIndex,
       type: BottomNavigationBarType.fixed,
       fixedColor: Colors.white,
       onTap: _onItemTapped,
@@ -270,13 +270,13 @@ class HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: tabs[_selectedIndex], bottomNavigationBar: _bottomNavBar(context: context));
+    return Scaffold(body: tabs[selectedIndex], bottomNavigationBar: _bottomNavBar(context: context));
   }
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
-      _isFromUpdateOrder = false;
+      selectedIndex = index;
+      isFromUpdateOrder = false;
     });
   }
 }
