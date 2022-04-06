@@ -157,7 +157,6 @@ class _AddProductsViewState extends State<AddProductsView> {
           color: Colors.white,
         ),
         duration: const Duration(seconds: 10),
-        // leftBarIndicatorColor: ColorUtils.kmColors,
       ).show(context);
     }
   }
@@ -177,7 +176,9 @@ class _AddProductsViewState extends State<AddProductsView> {
   @override
   void initState() {
     if (widget.supplierCode != null) supplierCodeController.text = widget.supplierCode;
-    nameController.text = null;
+    if (Services.productToAddName != 'null') {
+      nameController.text = Services.productToAddName;
+    }
     super.initState();
   }
 
@@ -187,8 +188,6 @@ class _AddProductsViewState extends State<AddProductsView> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 210, 178, 2),
         automaticallyImplyLeading: false,
-        // hides leading widget
-
         flexibleSpace: SafeArea(
           child: Column(
             children: <Widget>[

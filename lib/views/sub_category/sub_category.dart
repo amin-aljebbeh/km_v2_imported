@@ -9,22 +9,15 @@ import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:responsive_flutter/responsive_flutter.dart';
 
-// ignore: must_be_immutable
 class SubCategory extends StatefulWidget {
-  int heroIndex;
   static int cartCount = 0;
-  List<CategoryOriginalData> subCategory = [];
+  final List<CategoryOriginalData> subCategory;
   final bool forProductAdding;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String supplierCode;
 
-  SubCategory(
-      {Key key,
-      this.heroIndex,
-      this.subCategory,
-      this.forProductAdding = false,
-      this.scaffoldKey,
-      this.supplierCode})
+  const SubCategory(
+      {Key key, this.subCategory, this.forProductAdding = false, this.scaffoldKey, this.supplierCode})
       : super(key: key);
 
   @override

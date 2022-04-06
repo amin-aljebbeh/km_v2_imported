@@ -255,9 +255,10 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           },
                         ),
                         MediaIcon(
-                            icon: FontAwesomeIcons.whatsapp,
-                            url: "customer_whatsapp",
-                            mobileNumber: widget.orderData.userData.phone),
+                          icon: FontAwesomeIcons.whatsapp,
+                          url: "customer_whatsapp",
+                          mobileNumber: widget.orderData.userData.phone,
+                        ),
                         IconButton(
                           icon: Icon(
                             Icons.search_rounded,

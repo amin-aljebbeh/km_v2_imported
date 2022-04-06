@@ -21,6 +21,7 @@ class Services {
   static String prefixUrl = "http://kammun.com/lsapp/public/api/";
   static String googlePlayUrl = "";
   static String appStoreUrl = "";
+  static String productToAddName = "null";
 
   static int deliveryPrice = 50;
 
@@ -475,27 +476,6 @@ class Services {
         url = 'whatsapp://send?phone=' + mobileNumber;
         break;
     }
-    /*if (selected == "whatsapp") {
-      url = 'whatsapp://send?phone=' + LoadingScreenServices.companyInformation.whatsappNumber;
-    } else if (selected == "messenger") {
-      url = LoadingScreenServices.companyInformation.messengerUrl;
-    } else if (selected == "facebook") {
-      url = "fb://page/" + LoadingScreenServices.companyInformation.facebookUrl.toString();
-    } else if (selected == "instagram") {
-      url = LoadingScreenServices.companyInformation.instagramUrl.toString();
-    } else if (selected == "website") {
-      url = LoadingScreenServices.companyInformation.websiteUrl.toString();
-    } else if (selected == "email") {
-      String platform = "Android";
-      if (Platform.isIOS) {
-        platform = "iPhone";
-      }
-      url =
-          "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
-    } else if (selected == "number") {
-      url = "tel:${LoadingScreenServices.supportPhoneNumber}";
-    }*/
-
     launch(url);
   }
 

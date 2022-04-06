@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
@@ -159,32 +157,6 @@ class StoreViewState extends State<StoreView> {
     );
   }
 
-  _openUrl(String selected) async {
-    String url = "";
-    if (selected == "whatsapp") {
-      url = 'whatsapp://send?phone=' + LoadingScreenServices.companyInformation.whatsappNumber;
-    } else if (selected == "messenger") {
-      url = LoadingScreenServices.companyInformation.messengerUrl;
-    } else if (selected == "facebook") {
-      url = "fb://page/" + LoadingScreenServices.companyInformation.facebookUrl.toString();
-    } else if (selected == "instagram") {
-      url = LoadingScreenServices.companyInformation.instagramUrl.toString();
-    } else if (selected == "website") {
-      url = LoadingScreenServices.companyInformation.websiteUrl.toString();
-    } else if (selected == "email") {
-      String platform = "Android";
-      if (Platform.isIOS) {
-        platform = "iPhone";
-      }
-      url =
-          "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
-    } else if (selected == "number") {
-      url = "tel:${LoadingScreenServices.supportPhoneNumber}";
-    }
-
-    launch(url);
-  }
-
   _shareApp() {
     String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
     String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
@@ -206,7 +178,7 @@ class StoreViewState extends State<StoreView> {
           SideBarRow(
             icon: Icons.phone,
             text: "الإتصال بكمون",
-            onTap: () => _openUrl("number"),
+            onTap: () => Services.openUrl("number"),
           ),
           SideBarRow(
             icon: Icons.share,

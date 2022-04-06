@@ -280,6 +280,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                           ),
                                           onPressed: () {
                                             if (widget.productData.id == 0) {
+                                              Services.productToAddName = widget.productData.name;
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
