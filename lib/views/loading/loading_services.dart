@@ -295,7 +295,6 @@ class LoadingScreenServices {
         // Get User
 
         userAddress.clear();
-        //userFavoriteProducts.clear();
         myOrdersList.clear();
 
         userNumber = startRequest.user.original.data.phone;

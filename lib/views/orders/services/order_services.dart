@@ -169,6 +169,7 @@ class OrderServices {
 
         return "true";
       } else {
+        Tools.logToConsole(response.data["reason"]);
         if (response.data["reason"].toString().contains("admin")) {
           return "admin";
         } else if (response.data["reason"].toString().contains("Another")) {

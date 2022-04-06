@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/products_categories_model.dart';
@@ -77,7 +75,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                   Container(
                     width: 100.0,
                     height: 100.0,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.all(const Radius.circular(20.0))),
+                    decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     child: InkWell(
                       onTap: () {
                         Navigator.push(

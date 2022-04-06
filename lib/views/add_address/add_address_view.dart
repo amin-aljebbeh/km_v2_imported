@@ -109,7 +109,82 @@ class AddAddressViewState extends State<AddAddressView> {
                               headerText: " حدث خطأ اثناء محاولة إضافة عنوان ",
                             )
                           : Container(),
-                      _showStreetInput(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
+                        child: Column(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                "المدينة :",
+                                style: TextStyle(
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 20,
+                                    color: ColorUtils.primaryColor,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.only(left: 5, right: 5),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(width: 5, color: ColorUtils.greyColor),
+                              ),
+                              child: Center(
+                                child: SearchChoices.single(
+                                  rightToLeft: true,
+                                  searchInputDecoration: InputDecoration(
+                                    suffixIcon: Icon(
+                                      Icons.search,
+                                      size: 24,
+                                      color: ColorUtils.primaryColor,
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                                  ),
+                                  iconDisabledColor: Colors.black,
+                                  displayClearIcon: false,
+                                  style: dropdownItemStyle,
+                                  closeButton: TextButton(
+                                    child: Text(
+                                      StringUtils.close,
+                                      style: decisionButtonStyle.copyWith(
+                                        color: ColorUtils.primaryColor,
+                                      ),
+                                    ),
+                                    onPressed: () => Navigator.of(context).pop(),
+                                  ),
+                                  isCaseSensitiveSearch: false,
+                                  underline: Container(),
+                                  isExpanded: false,
+                                  items: LoadingScreenServices.supportedCitiesList,
+                                  iconEnabledColor: ColorUtils.greyColor,
+                                  value: selectedValue,
+                                  hint: Text(
+                                    'يرجى إختيار المدينة التابع لها ',
+                                    style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor),
+                                  ),
+                                  searchHint: Text(
+                                    'إختيار المنطقة',
+                                    style: decisionButtonStyle.copyWith(
+                                      color: ColorUtils.greyColor,
+                                    ),
+                                  ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value != null) {
+                                        setState(() {
+                                          selectedValue = value;
+                                        });
+                                      }
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       KTextField(
                         controller: streetController,
                         maxLine: 1,
@@ -176,55 +251,6 @@ class AddAddressViewState extends State<AddAddressView> {
     );
   }
 
-  Widget _showStreetInput() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
-      child: Column(
-        children: <Widget>[
-          Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                "المدينة :",
-                style: TextStyle(
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 20,
-                    color: ColorUtils.primaryColor,
-                    fontWeight: FontWeight.w500),
-              )),
-          Container(
-            padding: const EdgeInsets.only(left: 5, right: 5),
-            decoration: BoxDecoration(
-              border: Border.all(width: 5, color: ColorUtils.kmColors),
-            ),
-            child: SearchChoices.single(
-              isCaseSensitiveSearch: false,
-              underline: Container(),
-              isExpanded: true,
-              items: LoadingScreenServices.supportedCitiesList,
-              value: selectedValue,
-              hint: Text(
-                'يرجى إختيار المدينة التابع لها ',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                ),
-              ),
-              searchHint: Text(
-                'إختيار المنطقة',
-                style: TextStyle(fontSize: 20, fontFamily: StringUtils.fontFamilyHKGrotesk),
-              ),
-              onChanged: (value) {
-                setState(() {
-                  selectedValue = value;
-                });
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _settingModalBottomSheet(context) {
     double screenHeight = MediaQuery.of(context).size.height;
     showModalBottomSheet(
@@ -243,13 +269,15 @@ class AddAddressViewState extends State<AddAddressView> {
                     decoration: const BoxDecoration(
                       border: Border(bottom: BorderSide()),
                     ),
-                    child: Text('هل تريد مشاركة موقعك؟',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            color: ColorUtils.kmColors,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25)),
+                    child: Text(
+                      'هل تريد مشاركة موقعك؟',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                          color: ColorUtils.kmColors,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25),
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.fromLTRB(17, screenHeight * 0.03, 17, 0),
