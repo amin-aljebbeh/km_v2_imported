@@ -14,6 +14,7 @@ import 'dart:ui' as ui;
 import 'views/profile/profile_screen.dart';
 import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
+import 'package:v_chat_sdk/v_chat_sdk.dart';
 
 Future<void> main() async {
   try {

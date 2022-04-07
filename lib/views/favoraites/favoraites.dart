@@ -148,14 +148,7 @@ class FavoraitesViewState extends State<Favoraites> {
                   ],
                 ),
                 StoreSearchTextField(
-                    scaffoldKey: scaffoldKey,
-                    searchController: searchController,
-                    onSubmit: () {
-                      setState(() {
-                        favoraitesProductData.clear();
-                        Navigator.of(context).pop();
-                      });
-                    }),
+                    scaffoldKey: scaffoldKey, searchController: searchController, onSubmit: () {}),
               ],
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
+import 'package:kammun_app/views/chat/chat_view.dart';
 import 'package:kammun_app/views/favoraites/favoraites.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
@@ -143,6 +144,7 @@ class HomeViewState extends State<HomeView> {
       ),
       const OrdersView(),
       const Favoraites(),
+      const ChatView()
     ];
     return Scaffold(
       body: _tabs[selectedIndex],
@@ -156,34 +158,25 @@ class HomeViewState extends State<HomeView> {
           BottomNavigationBarItem(
             activeIcon: Column(
               children: [
-                const Icon(
+                Icon(
                   Icons.store,
-                  color: Color.fromARGB(255, 210, 178, 2),
+                  color: ColorUtils.kmColors,
                 ),
                 Text(
                   StringUtils.store,
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15,
-                  ),
+                  style: homeActiveIconStyle,
                 ),
               ],
             ),
             icon: Column(
               children: [
-                const Icon(
+                Icon(
                   Icons.store,
-                  color: Color.fromARGB(255, 53, 99, 124),
+                  color: ColorUtils.primaryColor,
                 ),
                 Text(
                   StringUtils.store,
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15,
-                  ),
+                  style: homeIconStyle,
                 ),
               ],
             ),
@@ -192,34 +185,25 @@ class HomeViewState extends State<HomeView> {
           BottomNavigationBarItem(
             activeIcon: Column(
               children: [
-                const Icon(
+                Icon(
                   Icons.shopping_cart,
-                  color: Color.fromARGB(255, 210, 178, 2),
+                  color: ColorUtils.kmColors,
                 ),
                 Text(
                   StringUtils.cart,
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15,
-                  ),
+                  style: homeActiveIconStyle,
                 ),
               ],
             ),
             icon: Column(
               children: [
-                const Icon(
+                Icon(
                   Icons.shopping_cart,
-                  color: Color.fromARGB(255, 53, 99, 124),
+                  color: ColorUtils.primaryColor,
                 ),
                 Text(
                   StringUtils.cart,
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15,
-                  ),
+                  style: homeIconStyle,
                 ),
               ],
             ),
@@ -228,34 +212,25 @@ class HomeViewState extends State<HomeView> {
           BottomNavigationBarItem(
             activeIcon: Column(
               children: [
-                const Icon(
+                Icon(
                   Icons.reorder,
-                  color: Color.fromARGB(255, 210, 178, 2),
+                  color: ColorUtils.kmColors,
                 ),
                 Text(
                   StringUtils.orders,
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15,
-                  ),
+                  style: homeActiveIconStyle,
                 ),
               ],
             ),
             icon: Column(
               children: [
-                const Icon(
+                Icon(
                   Icons.reorder,
-                  color: Color.fromARGB(255, 53, 99, 124),
+                  color: ColorUtils.primaryColor,
                 ),
                 Text(
                   StringUtils.orders,
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15,
-                  ),
+                  style: homeIconStyle,
                 ),
               ],
             ),
@@ -264,39 +239,57 @@ class HomeViewState extends State<HomeView> {
           BottomNavigationBarItem(
             activeIcon: Column(
               children: [
-                const Icon(
+                Icon(
                   Icons.favorite,
-                  color: Color.fromARGB(255, 210, 178, 2),
+                  color: ColorUtils.kmColors,
                 ),
                 Text(
                   StringUtils.favorite,
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    fontWeight: FontWeight.w500,
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15,
-                  ),
+                  style: homeActiveIconStyle,
                 ),
               ],
             ),
             icon: Column(
               children: [
-                const Icon(
+                Icon(
                   Icons.favorite,
-                  color: Color.fromARGB(255, 53, 99, 124),
+                  color: ColorUtils.primaryColor,
                 ),
                 Text(
                   StringUtils.favorite,
-                  style: TextStyle(
-                    color: const Color.fromARGB(255, 53, 99, 124),
-                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                    fontSize: 15,
-                  ),
+                  style: homeIconStyle,
                 ),
               ],
             ),
             label: '',
           ),
+          BottomNavigationBarItem(
+            activeIcon: Column(
+              children: [
+                Icon(
+                  Icons.chat_rounded,
+                  color: ColorUtils.kmColors,
+                ),
+                Text(
+                  'المحادثات',
+                  style: homeActiveIconStyle,
+                ),
+              ],
+            ),
+            icon: Column(
+              children: [
+                Icon(
+                  Icons.chat_rounded,
+                  color: ColorUtils.primaryColor,
+                ),
+                Text(
+                  'المحادثات',
+                  style: homeIconStyle,
+                ),
+              ],
+            ),
+            label: '',
+          )
         ],
         currentIndex: selectedIndex,
         type: BottomNavigationBarType.fixed,

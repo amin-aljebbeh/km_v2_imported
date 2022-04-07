@@ -82,3 +82,12 @@ TextStyle userNameStyle = mainStyle.copyWith(fontWeight: FontWeight.w700, fontSi
 TextStyle blackBold = flushBarStyle.copyWith(
   color: Colors.black,
 );
+
+TextStyle homeIconStyle = mainStyle.copyWith(
+  color: ColorUtils.primaryColor,
+  fontSize: 15,
+);
+
+TextStyle homeActiveIconStyle = homeIconStyle.copyWith(
+  fontWeight: FontWeight.w500,
+);
