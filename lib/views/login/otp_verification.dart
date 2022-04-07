@@ -5,7 +5,9 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+import 'package:v_chat_sdk/v_chat_sdk.dart';
 import '../../service.dart';
+import '../loading/loading_services.dart';
 import 'counter.dart';
 import 'Services/login_services.dart';
 
@@ -32,10 +34,30 @@ class _OTPVerificationState extends State<OTPVerification> {
         loadingScreen = true;
       });
       bool response = await Services.verifyCode(
-          LoginServices.replaceFarsiNumber(LoginServices.replaceFarsiNumber(verificationCode.toString())));
+          LoginServices.replaceFarsiNumber(
+              LoginServices.replaceFarsiNumber(verificationCode.toString())));
 
       if (response) {
-        await Navigator.of(context).pushNamedAndRemoveUntil('/supportedCity', (Route<dynamic> route) => false);
+        try {
+          final u = await VChatController.instance.register(
+            dto: VChatRegisterDto(
+              name: "Test",
+
+              /// if you pass imagePath to null v chat will use the default user image
+              /// see here for msore info
+              userImage: null,
+              email: '5000000001',
+            ),
+            context: context,
+          );
+          Tools.logToConsole("V_chat Start register");
+        } on VChatSdkException catch (err) {
+          final u = await VChatController.instance
+              .login(context: context, email: '5000000001');
+          Tools.logToConsole("V_chat start login user already registered");
+        }
+        await Navigator.of(context).pushNamedAndRemoveUntil(
+            '/supportedCity', (Route<dynamic> route) => false);
       } else {
         setState(() {
           errorCode = true;
@@ -77,7 +99,8 @@ class _OTPVerificationState extends State<OTPVerification> {
         child: Container(
           height: 50.0,
           decoration: BoxDecoration(
-              color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+              color: ColorUtils.primaryColor,
+              borderRadius: const BorderRadius.all(Radius.circular(6.0))),
           child: Center(
             child: Text(
               "تأكيد الرمز",
@@ -97,7 +120,8 @@ class _OTPVerificationState extends State<OTPVerification> {
               child: Loader(),
             )
           : Padding(
-              padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
+              padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+              child: loginButtonWithGesture);
     }
 
     return Scaffold(
@@ -134,7 +158,8 @@ class _OTPVerificationState extends State<OTPVerification> {
                   color: Colors.white),
               Container(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 50.0, right: 10, left: 10),
+                    padding:
+                        const EdgeInsets.only(top: 50.0, right: 10, left: 10),
                     child: Center(
                       child: RichText(
                         text: TextSpan(
@@ -168,7 +193,8 @@ class _OTPVerificationState extends State<OTPVerification> {
                             ),
                             TextSpan(
                               recognizer: TapGestureRecognizer()
-                                ..onTap = () => Navigator.of(context).pushReplacementNamed(
+                                ..onTap = () =>
+                                    Navigator.of(context).pushReplacementNamed(
                                       LoginScreen.routeName,
                                     ),
                               text: " تغيير الرقم ",
@@ -187,7 +213,8 @@ class _OTPVerificationState extends State<OTPVerification> {
                   ),
                   color: Colors.white),
               Padding(
-                padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 15, left: 15.0),
+                padding: const EdgeInsets.only(
+                    top: 5.0, bottom: 5.0, right: 15, left: 15.0),
                 child: PinFieldAutoFill(
                   currentCode: _textController.text,
                   onCodeChanged: (finalCode) {
@@ -197,7 +224,8 @@ class _OTPVerificationState extends State<OTPVerification> {
                         ? checkOtpValidation(_textController.text)
                         : Tools.logToConsole('');
                   },
-                  onCodeSubmitted: (finalCode) => _textController.text = finalCode,
+                  onCodeSubmitted: (finalCode) =>
+                      _textController.text = finalCode,
                 ),
               ),
               Padding(

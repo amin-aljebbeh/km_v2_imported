@@ -9,6 +9,7 @@ import 'package:kammun_app/views/supported_city/supported_city.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:v_chat_sdk/v_chat_sdk.dart';
 import 'views/login/otp_verification.dart';
 import 'dart:ui' as ui;
 import 'views/profile/profile_screen.dart';
@@ -18,6 +19,26 @@ import 'views/server_update/server_update.dart';
 Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
+    await VChatController.instance.init(
+      baseUrl: Uri.parse("http://90.153.255.31"),
+      appName: "Kammun",
+      vChatNotificationType: VChatNotificationType.none,
+      //widgetsBuilder: VChatCustomWidgets(),
+
+      enableLogger: true,
+      maxMediaUploadSize: 50 * 1000 * 1000,
+      passwordHashKey: "sdgsdfgdfghtyh56756urtyjrtyj56ru567thjtyfg45645yrtyujj",
+      maxGroupChatUsers: 512,
+    );
+
+    VChatController.instance.setLocaleMessages(vChatAddLanguageModel: [
+      //pass your language
+      VChatAddLanguageModel(
+        languageCode: "ar",
+        countryCode: "AE",
+        lookupMessages: ArLanguage(),
+      ),
+    ]);
   } catch (e) {
     /**/
   }
@@ -105,7 +126,8 @@ class _MyAppState extends State<MyApp> {
           '/thankyou': (_) => const ThankYouView(),
           '/delivery': (_) => const DeliverToView(),
           '/cart': (_) => const HomeView(routeIndex: 1),
-          '/cartFromUpdate': (_) => const HomeView(routeIndex: 1, isFromUpdateOrder: true),
+          '/cartFromUpdate': (_) =>
+              const HomeView(routeIndex: 1, isFromUpdateOrder: true),
           '/orders': (_) => const HomeView(routeIndex: 2),
           '/profile': (_) => const ProfileScreen(),
         },

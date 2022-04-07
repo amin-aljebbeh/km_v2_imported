@@ -8,13 +8,18 @@ import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:kammun_app/views/widget/dialog_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:v_chat_sdk/v_chat_sdk.dart';
 
 class HomeView extends StatefulWidget {
   final int routeIndex;
   final bool isFromUpdateOrder;
   final dynamic notificationValue;
 
-  const HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue})
+  const HomeView(
+      {Key key,
+      this.routeIndex,
+      this.isFromUpdateOrder = false,
+      this.notificationValue})
       : super(key: key);
 
   @override
@@ -30,13 +35,17 @@ class HomeViewState extends State<HomeView> {
   bool isFromUpdateOrder;
   @override
   void initState() {
+    VChatController.instance.bindChatControllers(context: context);
+
     selectedIndex = widget.routeIndex;
     isFromUpdateOrder = widget.isFromUpdateOrder;
     widget.notificationValue != null
-        ? WidgetsBinding.instance.addPostFrameCallback((_) => _showNotificationDialog(ctx: context))
+        ? WidgetsBinding.instance
+            .addPostFrameCallback((_) => _showNotificationDialog(ctx: context))
         : Tools.logToConsole('');
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => _initializeNotification(ctx: context));
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _initializeNotification(ctx: context));
     super.initState();
   }
 
@@ -44,7 +53,8 @@ class HomeViewState extends State<HomeView> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final notification = message.notification;
 
-      if (message.data['route_name'] != null) Navigator.pushNamed(context, message.data['route_name']);
+      if (message.data['route_name'] != null)
+        Navigator.pushNamed(context, message.data['route_name']);
 
       _showDialog(notification.title, notification.body);
     });
@@ -64,7 +74,8 @@ class HomeViewState extends State<HomeView> {
     } else {
       firebaseToken = prefs.get("firebase_token");
     }
-    if (LoadingScreenServices.userOriginal.data.firebaseToken != firebaseToken) {
+    if (LoadingScreenServices.userOriginal.data.firebaseToken !=
+        firebaseToken) {
       LoadingScreenServices().updateFirebaseTokenService(firebaseToken);
     }
   }
