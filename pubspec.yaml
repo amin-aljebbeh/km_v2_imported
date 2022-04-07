@@ -50,7 +50,6 @@ dependencies:
   group_button: ^4.6.0
   flushbar: ^1.10.4
   shimmer: ^2.0.0
-  flutter_bloc: ^6.1.0
   location: ^4.3.0
   responsive_flutter: ^0.0.4
   modal_bottom_sheet: ^2.0.1
@@ -58,6 +57,7 @@ dependencies:
   animated_background: ^2.0.0
   custom_splash: ^0.0.2
   qr_mobile_vision: ^3.0.1
+  v_chat_sdk: ^1.1.1
   countdown_flutter: ^0.1.2
 
 

@@ -5,7 +5,10 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+import 'package:v_chat_sdk/v_chat_sdk.dart';
 import '../../service.dart';
+import '../loading/loading_services.dart';
+import 'counter.dart';
 import 'Services/login_services.dart';
 import 'package:countdown_flutter/countdown_flutter.dart';
 
@@ -32,10 +35,30 @@ class _OTPVerificationState extends State<OTPVerification> {
         loadingScreen = true;
       });
       bool response = await Services.verifyCode(
-          LoginServices.replaceFarsiNumber(LoginServices.replaceFarsiNumber(verificationCode.toString())));
+          LoginServices.replaceFarsiNumber(
+              LoginServices.replaceFarsiNumber(verificationCode.toString())));
 
       if (response) {
-        await Navigator.of(context).pushNamedAndRemoveUntil('/supportedCity', (Route<dynamic> route) => false);
+        try {
+          final u = await VChatController.instance.register(
+            dto: VChatRegisterDto(
+              name: "Test",
+
+              /// if you pass imagePath to null v chat will use the default user image
+              /// see here for msore info
+              userImage: null,
+              email: '5000000001',
+            ),
+            context: context,
+          );
+          Tools.logToConsole("V_chat Start register");
+        } on VChatSdkException catch (err) {
+          final u = await VChatController.instance
+              .login(context: context, email: '5000000001');
+          Tools.logToConsole("V_chat start login user already registered");
+        }
+        await Navigator.of(context).pushNamedAndRemoveUntil(
+            '/supportedCity', (Route<dynamic> route) => false);
       } else {
         setState(() {
           errorCode = true;
@@ -67,8 +90,48 @@ class _OTPVerificationState extends State<OTPVerification> {
 
       SmsAutoFill().listenForCode;
 
-      String signature = await SmsAutoFill().getAppSignature;
+  @override
+  Widget build(BuildContext context) {
+    ScrollController _scroll = ScrollController();
 
+    Widget _showAddAddressButton() {
+      final GestureDetector loginButtonWithGesture = GestureDetector(
+        onTap: () {
+          if (_textController.text.length == 6) {
+            checkOtpValidation(_textController.text);
+          } else {
+            setState(() {
+              errorCode = true;
+            });
+          }
+        },
+        child: Container(
+          height: 50.0,
+          decoration: BoxDecoration(
+              color: ColorUtils.primaryColor,
+              borderRadius: const BorderRadius.all(Radius.circular(6.0))),
+          child: Center(
+            child: Text(
+              "تأكيد الرمز",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk),
+            ),
+          ),
+        ),
+      );
+
+      return loadingScreen
+          ? const Padding(
+              padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+              child: Loader(),
+            )
+          : Padding(
+              padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
+              child: loginButtonWithGesture);
+    }
       if (signature.toString().length != 11) {
         signature = "";
       }
@@ -129,64 +192,68 @@ class _OTPVerificationState extends State<OTPVerification> {
                       ),
                     ),
                   ),
+                  // width: double.infinity,
+                  // height: MediaQuery.of(context).size.height,
                   color: Colors.white),
               Container(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 50.0, right: 10, left: 10),
-                  child: Center(
-                    child: RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "سوف يتم إرسال رسالة تفعيل إلى الرقم ",
-                            style: TextStyle(
-                              color: Colors.grey[900],
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 50.0, right: 10, left: 10),
+                    child: Center(
+                      child: RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "سوف يتم إرسال رسالة تفعيل إلى الرقم ",
+                              style: TextStyle(
+                                color: Colors.grey[900],
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            text: " ${LoginScreen.phoneNumber} ",
-                            style: TextStyle(
-                              color: ColorUtils.primaryColor,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                            TextSpan(
+                              text: " ${LoginScreen.phoneNumber} ",
+                              style: TextStyle(
+                                color: ColorUtils.primaryColor,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            text: "عبر رسالة (SMS)",
-                            style: TextStyle(
-                              color: Colors.grey[900],
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
+                            TextSpan(
+                              text: "عبر رسالة (SMS)",
+                              style: TextStyle(
+                                color: Colors.grey[900],
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => Navigator.of(context).pushReplacementNamed(
-                                    LoginScreen.routeName,
-                                  ),
-                            text: " تغيير الرقم ",
-                            style: TextStyle(
-                              color: ColorUtils.kmColors,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
+                            TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () =>
+                                    Navigator.of(context).pushReplacementNamed(
+                                      LoginScreen.routeName,
+                                    ),
+                              text: " تغيير الرقم ",
+                              style: TextStyle(
+                                color: ColorUtils.kmColors,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                color: Colors.white,
-              ),
+                  color: Colors.white),
               Padding(
-                padding: const EdgeInsets.only(top: 5.0, bottom: 5.0, right: 15, left: 15.0),
+                padding: const EdgeInsets.only(
+                    top: 5.0, bottom: 5.0, right: 15, left: 15.0),
                 child: PinFieldAutoFill(
                   currentCode: _textController.text,
                   onCodeChanged: (finalCode) {
@@ -196,11 +263,8 @@ class _OTPVerificationState extends State<OTPVerification> {
                         ? checkOtpValidation(_textController.text)
                         : Tools.logToConsole('');
                   },
-                  onCodeSubmitted: (finalCode) {
-                    setState(() {
-                      _textController.text = finalCode;
-                    });
-                  },
+                  onCodeSubmitted: (finalCode) =>
+                      _textController.text = finalCode,
                 ),
               ),
               loadingScreen
