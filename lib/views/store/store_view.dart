@@ -7,6 +7,7 @@ import 'package:kammun_app/views/store/store_view_category_grid.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:v_chat_sdk/v_chat_sdk.dart';
 
 import '../../service.dart';
 import '../management_view/management_view.dart';
@@ -353,6 +354,7 @@ class StoreViewState extends State<StoreView> {
             text: "تسجيل الخروج",
             onTap: () async {
               await Services.logOutAdmin(context);
+              await VChatController.instance.logOut();
             },
           ),
           Divider(

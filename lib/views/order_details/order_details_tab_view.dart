@@ -36,7 +36,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
         child: Center(
           child: Text(
             'المنتجات',
-            style: naveBarStyle.copyWith(color: Colors.white),
+            style: tabStyle,
           ),
         ),
       ),
@@ -58,7 +58,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
               child: Center(
                 child: Text(
                   ' المحذوفة',
-                  style: naveBarStyle.copyWith(color: Colors.white),
+                  style: tabStyle,
                 ),
               ),
             ),
@@ -79,7 +79,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
           child: Center(
             child: Text(
               'الحسابات',
-              style: naveBarStyle.copyWith(color: Colors.white),
+              style: tabStyle,
             ),
           ),
         ),

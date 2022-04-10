@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
+import 'package:v_chat_sdk/v_chat_sdk.dart';
 
 import 'Services/login_services.dart';
 
@@ -51,10 +52,25 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         errorMessage = "يرجى إدخال كلمة السر";
       });
     } else {
+      //todo replace with real accounts
       bool response =
           await LoginServices.loginAdmin(username: _usernameController.text, password: _passwordController.text);
       if (response) {
-        //dima
+        try {
+          await VChatController.instance.register(
+            dto: VChatRegisterDto(
+              name: 'rabie',
+              userImage: null,
+              email: 'rabie',
+            ),
+            context: context,
+          );
+          Tools.logToConsole('chat register admin');
+        } on VChatSdkException catch (err) {
+          Tools.logToConsole(err.data);
+          await VChatController.instance.login(context: context, email: 'rabie');
+          Tools.logToConsole('chat login admin');
+        }
         TextInput.finishAutofillContext();
         KammunRestart.restartApp(context);
       } else {

@@ -29,8 +29,8 @@ TextStyle flushBarStyle = mainStyle.copyWith(
   fontWeight: FontWeight.bold,
 );
 
-TextStyle naveBarStyle = mainStyle.copyWith(
-  color: const Color.fromARGB(255, 53, 99, 124),
+TextStyle tabStyle = mainStyle.copyWith(
+  color: Colors.white,
   fontWeight: FontWeight.w500,
   fontSize: 15,
 );
@@ -67,12 +67,24 @@ TextStyle loseStyle = warehouseStyle.copyWith(
   fontSize: 25,
 );
 
-TextStyle userNameStyle = mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 15);
+TextStyle userNameStyle = mainStyle.copyWith(
+  fontWeight: FontWeight.w700,
+  fontSize: 15,
+);
 
 TextStyle blackBold = flushBarStyle.copyWith(
   color: Colors.black,
 );
 
-TextStyle worningStyle = paragraphStyle.copyWith(
+TextStyle warningStyle = paragraphStyle.copyWith(
   color: Colors.red,
+);
+
+TextStyle homeIconStyle = mainStyle.copyWith(
+  color: ColorUtils.primaryColor,
+  fontSize: 15,
+);
+
+TextStyle homeActiveIconStyle = homeIconStyle.copyWith(
+  fontWeight: FontWeight.w500,
 );

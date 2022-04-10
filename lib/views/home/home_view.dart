@@ -2,11 +2,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
+import 'package:kammun_app/views/chat/chat_view.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/orders_view_importer.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:v_chat_sdk/v_chat_sdk.dart';
 
 import '../../service.dart';
 
@@ -39,6 +41,8 @@ class HomeViewState extends State<HomeView> {
     widget.notificationValue != null
         ? WidgetsBinding.instance.addPostFrameCallback(
             (_) {
+              VChatController.instance.bindChatControllers(context: context);
+              // VChatController.instance.changeLanguage('en');
               List<DialogButton> decisionButtons = [
                 DialogButton(
                   text: StringUtils.close,
@@ -48,10 +52,11 @@ class HomeViewState extends State<HomeView> {
                 )
               ];
               showMyDialog(
-                  title: widget.notificationValue['title'],
-                  text: widget.notificationValue['body'],
-                  dialogButtons: decisionButtons,
-                  context: context);
+                title: widget.notificationValue['title'],
+                text: widget.notificationValue['body'],
+                dialogButtons: decisionButtons,
+                context: context,
+              );
             },
           )
         : Tools.logToConsole('');
@@ -69,6 +74,12 @@ class HomeViewState extends State<HomeView> {
     if (Services.isShopper() || Services.isSupplierManager()) {
       tabs.add(
         const AssignedOrdersView(),
+      );
+    }
+
+    if (Services.isShopper() || Services.isOperationManager()) {
+      tabs.add(
+        const ChatView(),
       );
     }
     super.initState();
@@ -116,32 +127,25 @@ class HomeViewState extends State<HomeView> {
     bottomList.add(BottomNavigationBarItem(
       activeIcon: Column(
         children: [
-          const Icon(
+          Icon(
             Icons.store,
-            color: Color.fromARGB(255, 210, 178, 2),
+            color: ColorUtils.kmColors,
           ),
           Text(
             StringUtils.store,
-            style: TextStyle(
-                color: const Color.fromARGB(255, 53, 99, 124),
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                fontSize: 15),
+            style: homeActiveIconStyle,
           ),
         ],
       ),
       icon: Column(
         children: [
-          const Icon(
+          Icon(
             Icons.store,
-            color: Color.fromARGB(255, 53, 99, 124),
+            color: ColorUtils.primaryColor,
           ),
           Text(
             StringUtils.store,
-            style: TextStyle(
-                color: const Color.fromARGB(255, 53, 99, 124),
-                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                fontSize: 15),
+            style: homeIconStyle,
           ),
         ],
       ),
@@ -150,33 +154,25 @@ class HomeViewState extends State<HomeView> {
     bottomList.add(BottomNavigationBarItem(
       activeIcon: Column(
         children: [
-          const Icon(
+          Icon(
             Icons.shopping_cart,
-            color: Color.fromARGB(255, 210, 178, 2),
+            color: ColorUtils.kmColors,
           ),
           Text(
             StringUtils.cart,
-            style: TextStyle(
-                color: const Color.fromARGB(255, 53, 99, 124),
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                fontSize: 15),
+            style: homeActiveIconStyle,
           ),
         ],
       ),
       icon: Column(
         children: [
-          const Icon(
+          Icon(
             Icons.shopping_cart,
-            color: Color.fromARGB(255, 53, 99, 124),
+            color: ColorUtils.primaryColor,
           ),
           Text(
             StringUtils.cart,
-            style: TextStyle(
-                color: const Color.fromARGB(255, 53, 99, 124),
-                // fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                fontSize: 15),
+            style: homeIconStyle,
           ),
         ],
       ),
@@ -187,32 +183,25 @@ class HomeViewState extends State<HomeView> {
       bottomList.add(BottomNavigationBarItem(
         activeIcon: Column(
           children: [
-            const Icon(
+            Icon(
               Icons.reorder,
-              color: Color.fromARGB(255, 210, 178, 2),
+              color: ColorUtils.kmColors,
             ),
             Text(
               StringUtils.orders,
-              style: TextStyle(
-                  color: const Color.fromARGB(255, 53, 99, 124),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                  fontSize: 15),
+              style: homeActiveIconStyle,
             ),
           ],
         ),
         icon: Column(
           children: [
-            const Icon(
+            Icon(
               Icons.reorder,
-              color: Color.fromARGB(255, 53, 99, 124),
+              color: ColorUtils.primaryColor,
             ),
             Text(
               StringUtils.orders,
-              style: TextStyle(
-                  color: const Color.fromARGB(255, 53, 99, 124),
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                  fontSize: 15),
+              style: homeIconStyle,
             ),
           ],
         ),
@@ -224,32 +213,55 @@ class HomeViewState extends State<HomeView> {
       bottomList.add(BottomNavigationBarItem(
         activeIcon: Column(
           children: [
-            const Icon(
+            Icon(
               Icons.playlist_add_check_outlined,
-              color: Color.fromARGB(255, 210, 178, 2),
+              color: ColorUtils.kmColors,
             ),
             Text(
               StringUtils.myOrders,
-              style: TextStyle(
-                  color: const Color.fromARGB(255, 53, 99, 124),
-                  fontWeight: FontWeight.w500,
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                  fontSize: 15),
+              style: homeActiveIconStyle,
             ),
           ],
         ),
         icon: Column(
           children: [
-            const Icon(
+            Icon(
               Icons.playlist_add_check_outlined,
-              color: Color.fromARGB(255, 53, 99, 124),
+              color: ColorUtils.primaryColor,
             ),
             Text(
               StringUtils.myOrders,
-              style: TextStyle(
-                  color: const Color.fromARGB(255, 53, 99, 124),
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                  fontSize: 15),
+              style: homeIconStyle,
+            ),
+          ],
+        ),
+        label: '',
+      ));
+    }
+
+    if (Services.isShopper() || Services.isOperationManager()) {
+      bottomList.add(BottomNavigationBarItem(
+        activeIcon: Column(
+          children: [
+            Icon(
+              Icons.chat_rounded,
+              color: ColorUtils.kmColors,
+            ),
+            Text(
+              'المحادثات',
+              style: homeActiveIconStyle,
+            ),
+          ],
+        ),
+        icon: Column(
+          children: [
+            Icon(
+              Icons.chat_rounded,
+              color: ColorUtils.primaryColor,
+            ),
+            Text(
+              'المحادثات',
+              style: homeIconStyle,
             ),
           ],
         ),

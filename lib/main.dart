@@ -26,13 +26,21 @@ Future<void> main() async {
     await VChatController.instance.init(
       baseUrl: Uri.parse("http://90.153.255.31"),
       appName: "Kammun",
-      vChatNotificationType: VChatNotificationType.none,
+      vChatNotificationType: VChatNotificationType.firebase,
       //widgetsBuilder: VChatCustomWidgets(),
       enableLogger: true,
       maxMediaUploadSize: 50 * 1000 * 1000,
       passwordHashKey: "sdgsdfgdfghtyh56756urtyjrtyj56ru567thjtyfg45645yrtyujj",
       maxGroupChatUsers: 512,
     );
+    VChatController.instance.setLocaleMessages(vChatAddLanguageModel: [
+      //pass your language
+      VChatAddLanguageModel(
+        languageCode: "ar",
+        countryCode: "AE",
+        lookupMessages: ArLanguage(),
+      ),
+    ]);
   } catch (e) {
     /**/
   }
@@ -116,24 +124,19 @@ class _MyAppState extends State<MyApp> {
           ServerUpdate.routeName: (_) => const ServerUpdate(),
           '/thankyou': (_) => const ThankYouView(),
           '/cart': (_) => const HomeView(routeIndex: 1),
-          '/cartFromUpdate': (_) =>
-              const HomeView(routeIndex: 1, isFromUpdateOrder: true),
+          '/cartFromUpdate': (_) => const HomeView(routeIndex: 1, isFromUpdateOrder: true),
           '/orders': (_) => const HomeView(routeIndex: 2),
           '/profile': (_) => const ProfileScreen(),
           '/statistics': (_) => const DailyStatistics(),
           '/sales_reports': (_) => const SalesReport(),
-          '/products_added_to_warehouse': (_) =>
-              const AddedProductsToWarehouse(),
-          '/products_not_added_to_warehouse': (_) =>
-              const NotAddedProductsToWarehouse(),
+          '/products_added_to_warehouse': (_) => const AddedProductsToWarehouse(),
+          '/products_not_added_to_warehouse': (_) => const NotAddedProductsToWarehouse(),
           '/all_products': (_) => const AllProducts(),
-          '/attach_product_to_sub_warehouse': (_) =>
-              const AddProductsToSubWarehouse(),
+          '/attach_product_to_sub_warehouse': (_) => const AddProductsToSubWarehouse(),
           '/subWarehouseManagement': (_) => const GetSubWarehouse(),
           '/priceChange': (_) => const Prices(),
           '/Inventory': (_) => const Inventory(),
-          '/AccountantTransactionView': (_) =>
-              const AccountantTransactionView(),
+          '/AccountantTransactionView': (_) => const AccountantTransactionView(),
           '/ShopperTransactionView': (_) => const ShopperTransactionView(),
           '/AddTransactionView': (_) => AddTransactionView(),
           '/products_filter': (_) => const ProductsFilterScreen(),

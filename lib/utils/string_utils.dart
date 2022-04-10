@@ -55,7 +55,6 @@ class StringUtils {
 
   //Roles:
   static String shopperRole = 'shopper';
-  static String deliveryRole = 'delivery';
   static String adminRole = 'admin';
   static String superAdminRole = 'super-admin';
   static String operationManager = 'operation-manager';

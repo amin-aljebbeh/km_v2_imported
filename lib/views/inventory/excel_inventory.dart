@@ -25,7 +25,7 @@ class _ExcelInventoryState extends State<ExcelInventory> {
         child: Center(
           child: Text(
             'الجرد',
-            style: naveBarStyle.copyWith(color: Colors.white),
+            style: tabStyle,
           ),
         ),
       ),
@@ -35,7 +35,7 @@ class _ExcelInventoryState extends State<ExcelInventory> {
         child: Center(
           child: Text(
             'الأسعار',
-            style: naveBarStyle.copyWith(color: Colors.white),
+            style: tabStyle,
           ),
         ),
       ),

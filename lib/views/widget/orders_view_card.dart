@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/service.dart';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/service.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
@@ -11,6 +11,7 @@ import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
 import 'package:kammun_app/views/orders/orders_view_importer.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:map_launcher/map_launcher.dart';
+import 'package:v_chat_sdk/v_chat_sdk.dart';
 
 class OrdersViewCard extends StatefulWidget {
   final OrdersOriginalData orderData;
@@ -183,6 +184,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         color: ColorUtils.kmColors2,
                         size: 30,
                       ),
+                      padding: EdgeInsets.zero,
                       onPressed: () {
                         showMyDialog(
                           title: StringUtils.ratingOrder,
@@ -204,6 +206,39 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         );
                       },
                     ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.chat,
+                      color: ColorUtils.kmColors,
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      String txt;
+                      showMyDialog(
+                        title: "إبدأ المحادثة",
+                        context: context,
+                        dialogButtons: [
+                          DialogButton(
+                            text: StringUtils.send,
+                            onTap: () async {
+                              await VChatController.instance.createSingleChat(
+                                peerEmail: "5000000001" /*widget.orderData.userData.phone*/,
+                                message: txt,
+                                context: context,
+                              );
+                            },
+                          ),
+                        ],
+                        content: TextField(
+                          cursorColor: ColorUtils.primaryColor,
+                          onChanged: (value) {
+                            txt = value;
+                          },
+                        ),
+                      );
+                    },
+                    padding: EdgeInsets.zero,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -351,11 +386,11 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                               .toString(),
                       leftSideStyle: (widget.orderData.deliveryMethodId == "2" &&
                               widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes > 45)
-                          ? worningStyle
+                          ? warningStyle
                           : (widget.orderData.deliveryMethodId == "1" &&
                                   widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes >
                                       90)
-                              ? worningStyle
+                              ? warningStyle
                               : disableStyle,
                     ),
                     LabelRow(
@@ -367,13 +402,13 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                   (widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inHours *
                                       60))
                               .toString(),
-                      leftSideStyle: (widget.orderData.deliveryMethodId == "2" && //todo
+                      leftSideStyle: (widget.orderData.deliveryMethodId == "2" &&
                               widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes > 45)
-                          ? worningStyle
+                          ? warningStyle
                           : (widget.orderData.deliveryMethodId == "1" &&
                                   widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes >
                                       90)
-                              ? worningStyle
+                              ? warningStyle
                               : disableStyle,
                     ),
                   ],

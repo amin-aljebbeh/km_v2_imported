@@ -35,7 +35,7 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorUtils.kmColors2,
+        backgroundColor: ColorUtils.kmColors,
         flexibleSpace: const SafeArea(
           top: true,
           child: Padding(
@@ -133,14 +133,14 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                                 turns: const AlwaysStoppedAnimation(-45 / 360),
                                 child: Icon(
                                   Icons.arrow_back_ios,
-                                  color: ColorUtils.kmColors2,
+                                  color: ColorUtils.kmColors,
                                 ),
                               ),
                               RotationTransition(
                                 turns: const AlwaysStoppedAnimation(225 / 360),
                                 child: Icon(
                                   Icons.arrow_back_ios,
-                                  color: ColorUtils.kmColors2,
+                                  color: ColorUtils.kmColors,
                                 ),
                               ),
                             ],
@@ -160,14 +160,14 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                                 turns: const AlwaysStoppedAnimation(45 / 360),
                                 child: Icon(
                                   Icons.arrow_back_ios,
-                                  color: ColorUtils.kmColors2,
+                                  color: ColorUtils.kmColors,
                                 ),
                               ),
                               RotationTransition(
                                 turns: const AlwaysStoppedAnimation(135 / 360),
                                 child: Icon(
                                   Icons.arrow_back_ios,
-                                  color: ColorUtils.kmColors2,
+                                  color: ColorUtils.kmColors,
                                 ),
                               ),
                             ],
@@ -236,7 +236,7 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                               ],
                             ),
                 ),
-                color: ColorUtils.kmColors2,
+                color: ColorUtils.kmColors,
               ),
             ),
           ],
