@@ -9,6 +9,7 @@ class StringUtils {
 
   static String cancelOrder = 'إلغاء الطلب';
   static String edit = 'تعديل';
+  static String send = 'إرسال';
 
   static String editOrder = 'تعديل الطلب';
   static String submitFeedback = 'تقييم الطلب';

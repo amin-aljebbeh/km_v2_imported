@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:v_chat_sdk/v_chat_sdk.dart';
+import 'package:v_chat_sdk/v_chat_sdk.dart';
 
 import '../../utils/utils_importer.dart';
 import '../Widget/widgets_importer.dart';
@@ -10,8 +10,7 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
-      // body: const VChatRoomsView(),
+      body: const VChatRoomsView(),
       appBar: AppBar(
         backgroundColor: ColorUtils.kmColors,
         flexibleSpace: const SafeArea(

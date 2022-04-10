@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
+import 'package:v_chat_sdk/v_chat_sdk.dart';
 import '../order_details/order_detail_view.dart';
 
 class OrdersViewCard extends StatefulWidget {
@@ -82,10 +84,11 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     child: Text(
                       widget.orderQuantity.toString(),
                       style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                          fontSize: 15),
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontSize: 15,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -100,33 +103,70 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                            RichText(
-                              text: TextSpan(
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: "الفاتورة : ",
-                                    style: TextStyle(
-                                      color: ColorUtils.primaryColor,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              RichText(
+                                text: TextSpan(
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: "الفاتورة : ",
+                                      style: TextStyle(
+                                        color: ColorUtils.primaryColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                      ),
                                     ),
-                                  ),
-                                  TextSpan(
-                                    text: StringUtils().oCcy.format(int.parse(widget.orderTotalPrice)).toString() +
-                                        " ${LoadingScreenServices.companyInformation.currency.toString()}",
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    TextSpan(
+                                      text:
+                                          StringUtils().oCcy.format(int.parse(widget.orderTotalPrice)).toString() +
+                                              " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ]),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.chat,
+                                  color: ColorUtils.kmColors,
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  String txt;
+                                  showMyDialog(
+                                    title: "إبدأ المحادثة",
+                                    context: context,
+                                    dialogButtons: [
+                                      DialogButton(
+                                        text: StringUtils.send,
+                                        onTap: () async {
+                                          await VChatController.instance.createSingleChat(
+                                            peerEmail: 'rabie',
+                                            message: txt,
+                                            context: context,
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                    content: TextField(
+                                      cursorColor: ColorUtils.primaryColor,
+                                      onChanged: (value) {
+                                        txt = value;
+                                      },
+                                    ),
+                                  );
+                                },
+                                padding: EdgeInsets.zero,
+                              ),
+                            ],
+                          ),
                           const SizedBox(height: 10),
                           RichText(
                             text: TextSpan(
