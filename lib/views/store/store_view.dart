@@ -47,7 +47,7 @@ class StoreViewState extends State<StoreView> {
     if (Services.updateOption) WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog());
 
     if (isThereOrderUnderUpdate) {
-      WidgetsBinding.instance.addPostFrameCallback((_) => _showUpdateOrderInstruction(context: context));
+      WidgetsBinding.instance.addPostFrameCallback((_) => Services.showUpdateOrderInstruction(context: context));
     }
   }
 
@@ -61,30 +61,6 @@ class StoreViewState extends State<StoreView> {
         child: Center(
           child: Text(
             " التحديث الآن ",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
-  }
-
-  Widget _okButton() {
-    final GestureDetector loginButtonWithGesture = GestureDetector(
-      onTap: () => Navigator.of(context).pop(),
-      child: Container(
-        height: 50.0,
-        decoration: BoxDecoration(
-            color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
-        child: Center(
-          child: Text(
-            "موافق",
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -221,49 +197,6 @@ class StoreViewState extends State<StoreView> {
         );
       },
     );
-  }
-
-  _showUpdateOrderInstruction({BuildContext context}) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "لديك طلب قيد التعديل",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 18),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "يرجى التأكد من تثبيت الطلب بعد الإنتهاء من تعديله، يمكنك مشاهدة محتويات الطلب ضمن سلة المشتريات أو مراجعة الطلب ضمن صفحة الطلبات",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: Colors.grey[800],
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 18),
-                      ),
-                    ),
-                    _okButton(),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
   }
 
   @override

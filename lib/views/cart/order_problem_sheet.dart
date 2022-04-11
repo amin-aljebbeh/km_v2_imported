@@ -6,6 +6,7 @@ import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'package:kammun_app/views/widget/kammun_button.dart';
 
 class OrderProblemBottomSheet extends StatefulWidget {
   final List<int> notActiveProducts;
@@ -62,7 +63,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // return object of type Dialog
         return AlertDialog(
           title: Text(
             "حدث خطأ بالطلب",
@@ -110,7 +110,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        // backgroundColor: Theme.of(context).primaryColorLight,
         body: Padding(
           padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
           child: SafeArea(
@@ -199,17 +198,36 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         ),
                       )
                     : Container(),
-                SafeArea(
-                  child: Center(
-                    child: Wrap(
-                      spacing: 5,
-                      children: [
-                        _applyChanges(),
-                        _showEditOrder(),
-                      ],
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: SafeArea(
+                    child: Center(
+                      child: Wrap(
+                        spacing: 5,
+                        children: [
+                          KammunButton(
+                            color: Colors.green,
+                            onTap: () {
+                              widget.applyChanges();
+                            },
+                            text: "تحديث الطلب",
+                            height: 50,
+                            width: MediaQuery.of(context).size.width / 2.3,
+                          ),
+                          KammunButton(
+                            color: ColorUtils.primaryColor,
+                            onTap: () {
+                              KammunRestart.restartApp(context);
+                            },
+                            text: "محاولة إيجاد بدائل",
+                            width: MediaQuery.of(context).size.width / 2.3,
+                            height: 50,
+                          ),
+                        ],
+                      ),
                     ),
+                    top: false,
                   ),
-                  top: false,
                 ),
               ],
             ),
@@ -229,19 +247,22 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
               height: 75.0,
               decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Hero(
-                      tag: index + 100,
-                      child: FadeInImage(
-                          image: orderArray[index].images.isNotEmpty
-                              ? NetworkImage(LoadingScreenServices.imagePrefixUrl +
-                                  orderArray[index].images[0].imageFileName.toString())
-                              : const AssetImage("assets/kmIcon.png"),
-                          width: MediaQuery.of(context).size.width,
-                          height: 120,
-                          fadeInCurve: Curves.fastOutSlowIn,
-                          placeholder: const AssetImage("assets/kmIcon.png"),
-                          fit: BoxFit.contain))),
+                borderRadius: BorderRadius.circular(8.0),
+                child: Hero(
+                  tag: index + 100,
+                  child: FadeInImage(
+                    image: orderArray[index].images.isNotEmpty
+                        ? NetworkImage(LoadingScreenServices.imagePrefixUrl +
+                            orderArray[index].images[0].imageFileName.toString())
+                        : const AssetImage("assets/kmIcon.png"),
+                    width: MediaQuery.of(context).size.width,
+                    height: 120,
+                    fadeInCurve: Curves.fastOutSlowIn,
+                    placeholder: const AssetImage("assets/kmIcon.png"),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
             ),
             //SizedBox(width: 10),
             const SizedBox(width: 10),
@@ -256,17 +277,19 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         Text(
                           orderArray[index].name,
                           style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 18),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
+                            fontSize: 18,
+                          ),
                         ),
                         Text(
                           orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
                           style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: ColorUtils.greyColor,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 17),
+                            fontWeight: FontWeight.w400,
+                            color: ColorUtils.greyColor,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
+                            fontSize: 17,
+                          ),
                         ),
                       ],
                     ),
@@ -295,19 +318,22 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
               height: 75.0,
               decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20.0))),
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Hero(
-                      tag: index + 100,
-                      child: FadeInImage(
-                          image: orderArray[index].images.isNotEmpty
-                              ? NetworkImage(LoadingScreenServices.imagePrefixUrl +
-                                  orderArray[index].images[0].imageFileName.toString())
-                              : const AssetImage("assets/kmIcon.png"),
-                          width: MediaQuery.of(context).size.width,
-                          height: 120,
-                          fadeInCurve: Curves.fastOutSlowIn,
-                          placeholder: const AssetImage("assets/kmIcon.png"),
-                          fit: BoxFit.contain))),
+                borderRadius: BorderRadius.circular(8.0),
+                child: Hero(
+                  tag: index + 100,
+                  child: FadeInImage(
+                    image: orderArray[index].images.isNotEmpty
+                        ? NetworkImage(LoadingScreenServices.imagePrefixUrl +
+                            orderArray[index].images[0].imageFileName.toString())
+                        : const AssetImage("assets/kmIcon.png"),
+                    width: MediaQuery.of(context).size.width,
+                    height: 120,
+                    fadeInCurve: Curves.fastOutSlowIn,
+                    placeholder: const AssetImage("assets/kmIcon.png"),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -321,27 +347,31 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         Text(
                           orderArray[index].name,
                           style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 18),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
+                            fontSize: 18,
+                          ),
                         ),
                         const SizedBox(height: 6),
                         Text(
                           orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
                           style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: ColorUtils.greyColor,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 17),
+                            fontWeight: FontWeight.w400,
+                            color: ColorUtils.greyColor,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
+                            fontSize: 17,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Text(
-                            "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: ColorUtils.primaryColor,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 18)),
+                          "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: ColorUtils.primaryColor,
+                            fontFamily: StringUtils.fontFamilyHKGrotesk,
+                            fontSize: 18,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -350,75 +380,10 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
             ),
           ],
         ),
-        // SizedBox(height: 4),
         const Divider(
           thickness: 3,
         )
       ],
     );
-  }
-
-  Widget _applyChanges() {
-    final GestureDetector showConfirmButtonWithGesture = GestureDetector(
-      onTap: widget.applyChanges,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          height: 50.0,
-          width: MediaQuery.of(context).size.width / 2.3,
-          decoration:
-              const BoxDecoration(color: Colors.green, borderRadius: BorderRadius.all(Radius.circular(6.0))),
-          child: Center(
-            child: AutoSizeText(
-              "تحديث الطلب",
-              style: TextStyle(
-                  color: Colors.white,
-                  //  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: StringUtils.fontFamilyHKGrotesk),
-              maxLines: 1,
-              wrapWords: false,
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
-  }
-
-  Widget _showEditOrder() {
-    final GestureDetector showConfirmButtonWithGesture = GestureDetector(
-      onTap: () {
-        KammunRestart.restartApp(context);
-      },
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          height: 50.0,
-          width: MediaQuery.of(context).size.width / 2.3,
-          decoration: BoxDecoration(
-              color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
-          child: Center(
-            child: AutoSizeText(
-              "محاولة إيجاد بدائل",
-              style: TextStyle(
-                  color: Colors.white,
-                  //  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: StringUtils.fontFamilyHKGrotesk),
-              maxLines: 1,
-              wrapWords: false,
-            ),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showConfirmButtonWithGesture);
   }
 }

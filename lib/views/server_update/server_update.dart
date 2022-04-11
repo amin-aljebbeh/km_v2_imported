@@ -52,7 +52,6 @@ class ServerUpdate extends StatelessWidget {
             ),
           ),
           color: Colors.white,
-          // color: Color.fromARGB(255, 40, 51, 140),
         ),
       ),
     );

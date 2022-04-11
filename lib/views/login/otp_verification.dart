@@ -50,9 +50,15 @@ class _OTPVerificationState extends State<OTPVerification> {
           );
           Tools.logToConsole("V_chat Start register");
         } on VChatSdkException catch (err) {
-          await VChatController.instance.login(context: context, email: '5000000001');
-          Tools.logToConsole("V_chat start login user already registered");
-          Tools.logToConsole(err.data);
+          try {
+            await VChatController.instance.login(context: context, email: '5000000001');
+            Tools.logToConsole("V_chat start login user already registered");
+            Tools.logToConsole(err.data);
+          } catch (e) {
+            Tools.logToConsole(e.toString());
+          }
+        } catch (e) {
+          Tools.logToConsole(e.toString());
         }
         await Navigator.of(context).pushNamedAndRemoveUntil('/supportedCity', (Route<dynamic> route) => false);
       } else {

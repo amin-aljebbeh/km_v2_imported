@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'package:kammun_app/views/widget/dialog_button.dart';
+import 'package:kammun_app/views/widget/kammun_button.dart';
+import 'package:kammun_app/views/widget/my_dialog.dart';
 
 class ThankYouView extends StatefulWidget {
   final String orderMessage;
@@ -14,8 +17,19 @@ class ThankYouView extends StatefulWidget {
 class ThankYouViewState extends State<ThankYouView> {
   @override
   void initState() {
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _showDialog(title: 'ملاحظة على الطلب', body: widget.orderMessage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showMyDialog(
+        title: 'شكراً',
+        context: context,
+        text: widget.orderMessage,
+        dialogButtons: [
+          DialogButton(
+            text: StringUtils.close,
+            onTap: () => Navigator.of(context).pop(),
+          ),
+        ],
+      );
+    });
 
     super.initState();
   }
@@ -23,43 +37,6 @@ class ThankYouViewState extends State<ThankYouView> {
   @override
   dispose() {
     super.dispose();
-  }
-
-  void _showDialog({title, body}) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          title: Text(
-            "$title",
-            style: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-          ),
-          content: Text(
-            "$body",
-            // maxLines: 20,
-            style: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-          ),
-          scrollable: true,
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            TextButton(
-              child: Text(
-                "إغلاق",
-                style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -120,7 +97,13 @@ class ThankYouViewState extends State<ThankYouView> {
                     ),
                   ),
                   const SizedBox(height: 40),
-                  _showContinueShoppingButton()
+                  KammunButton(
+                    color: ColorUtils.primaryColor,
+                    onTap: _showContinueShoppingBtnTapped,
+                    text: StringUtils.continueShopping,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: 50,
+                  ),
                 ],
               ),
             ),
@@ -128,31 +111,6 @@ class ThankYouViewState extends State<ThankYouView> {
         ),
       ),
     );
-  }
-
-  Widget _showContinueShoppingButton() {
-    final GestureDetector showContinueShoppingButtonWithGesture = GestureDetector(
-      onTap: _showContinueShoppingBtnTapped,
-      child: Container(
-        height: 50.0,
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
-        child: Center(
-          child: Text(
-            StringUtils.continueShopping,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0),
-        child: showContinueShoppingButtonWithGesture);
   }
 
   void _showContinueShoppingBtnTapped() {

@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/loading.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:share/share.dart';
@@ -237,4 +240,47 @@ class Services {
 
     Share.share(infoMessage + androidUrl + iPhoneUrl);
   }
+
+  static showUpdateOrderInstruction({BuildContext context}) {
+    showMyDialog(
+      title: '',
+      context: context,
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "انت تقوم حالياً بتعديل طلبك",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                  fontSize: 18),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "بإمكانك إضافة أو حذف او تعديل المنتجات الخاصة بك ضمن سلة المشتريات بالشكل الطبيعي الذي تقوم به عادة",
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey[800],
+                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                  fontSize: 18),
+            ),
+          ),
+          KammunButton(
+            color: ColorUtils.primaryColor,
+            onTap: () => Navigator.of(context).pop(),
+            text: StringUtils.approveUsagePolicy,
+            width: MediaQuery.of(context).size.width / 2,
+          ),
+        ],
+      ),
+      dialogButtons: [],
+    );
+  }
+
 }

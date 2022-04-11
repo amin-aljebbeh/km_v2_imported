@@ -89,11 +89,6 @@ class _SupportedCityViewState extends State<SupportedCityView> {
               )
             ],
           );
-          // _showDialog(
-          //   title:,
-          //   body:
-          //   ,
-          // );
         },
       );
     } else {

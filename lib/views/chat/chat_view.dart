@@ -21,6 +21,11 @@ class ChatView extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {},
+        backgroundColor: ColorUtils.kmColors,
+      ),
     );
   }
 }

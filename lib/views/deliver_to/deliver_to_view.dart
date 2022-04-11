@@ -66,21 +66,24 @@ class DeliverToViewState extends State<DeliverToView> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         IconButton(
-                            icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).primaryColorDark, size: 45),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            }),
+                          icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).primaryColorDark, size: 45),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                         InkWell(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              StringUtils.deliverTo,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 30),
-                            )),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            StringUtils.deliverTo,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontSize: 30,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     isError
@@ -131,61 +134,49 @@ class DeliverToViewState extends State<DeliverToView> {
                             },
                           ),
                           Align(
-                              alignment: Alignment.center,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 30.0, top: 10.0),
-                                child: TextButton(
-                                  child: Text(StringUtils.addNewAddress,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: ColorUtils.greyColor,
-                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                          fontSize: 17)),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const AddAddressView(
-                                                  isFromDeliveryScreen: true,
-                                                )));
-                                  },
+                            alignment: Alignment.center,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 30.0, top: 10.0),
+                              child: TextButton(
+                                child: Text(
+                                  StringUtils.addNewAddress,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: ColorUtils.greyColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 17,
+                                  ),
                                 ),
-                              )),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const AddAddressView(
+                                        isFromDeliveryScreen: true,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    _showProceedToPayButton()
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20, left: 20),
+                      child: KammunButton(
+                        color: DeliverToView.selectedIndex != null ? ColorUtils.primaryColor : Colors.grey[400],
+                        onTap: _showProceedToPayBtnTapped,
+                        text: StringUtils.proceedToPay,
+                        height: 50,
+                      ),
+                    ),
                   ],
                 ),
               ),
       ),
     );
-  }
-
-  Widget _showProceedToPayButton() {
-    final GestureDetector showProceedToPayButtonWithGesture = GestureDetector(
-      onTap: _showProceedToPayBtnTapped,
-      child: Container(
-        margin: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10.0),
-        height: 50.0,
-        decoration: BoxDecoration(
-            color: DeliverToView.selectedIndex != null ? ColorUtils.primaryColor : Colors.grey[400],
-            borderRadius: const BorderRadius.all(Radius.circular(6.0))),
-        child: Center(
-          child: Text(
-            StringUtils.proceedToPay.toUpperCase(),
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 5.0), child: showProceedToPayButtonWithGesture);
   }
 
   void _showProceedToPayBtnTapped() {

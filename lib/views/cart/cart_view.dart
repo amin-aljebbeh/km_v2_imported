@@ -9,6 +9,7 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../service.dart';
 import 'services/cart_services.dart';
 
 class CartView extends StatefulWidget {
@@ -52,73 +53,6 @@ class CartViewState extends State<CartView> {
     prefs.setString("userCart", productsId + "@" + productsQuantity);
   }
 
-  Widget _okButton() {
-    final GestureDetector loginButtonWithGesture = GestureDetector(
-      onTap: () => Navigator.of(context).pop(),
-      child: Container(
-        height: 50.0,
-        decoration: BoxDecoration(
-            color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
-        child: Center(
-          child: Text(
-            StringUtils.approveUsagePolicy,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
-  }
-
-  _showUpdateOrderInstruction({BuildContext context}) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Stack(
-              clipBehavior: Clip.none,
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "انت تقوم حالياً بتعديل طلبك",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 18),
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "بإمكانك إضافة أو حذف او تعديل المنتجات الخاصة بك ضمن سلة المشتريات بالشكل الطبيعي الذي تقوم به عادة",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: Colors.grey[800],
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 18),
-                      ),
-                    ),
-                    _okButton(),
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -133,7 +67,8 @@ class CartViewState extends State<CartView> {
         ? WidgetsBinding.instance.addPostFrameCallback((_) => _userNotesInitial())
         : Tools.logToConsole('');
     widget.isFromUpdateOrder
-        ? WidgetsBinding.instance.addPostFrameCallback((_) => _showUpdateOrderInstruction(context: context))
+        ? WidgetsBinding.instance
+            .addPostFrameCallback((_) => Services.showUpdateOrderInstruction(context: context))
         : Tools.logToConsole('');
   }
 

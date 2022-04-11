@@ -38,54 +38,6 @@ class _RatingViewState extends State<RatingView> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _textFieldController = TextEditingController();
 
-  Widget _submitRating() {
-    final GestureDetector showConfirmButtonWithGesture = GestureDetector(
-      onTap: () async {
-        if (rateValue > 0) {
-          setState(() {
-            isLoading = true;
-          });
-          bool response = await OrderServices.rateOrderService(
-              orderId: widget.orderId, userFeedback: _textFieldController.text + ".", rating: rateValue);
-          if (response) {
-            Navigator.of(context).pop();
-
-            widget.onRequestDone();
-          } else {
-            setState(() {
-              error = true;
-              errorMessage =
-                  "حدث خطأ أثناء محاولة إرسال التقييم يرجى التحقق من إتصالك بالإنترنت و المحاولة مجدداً";
-            });
-          }
-        } else {
-          setState(() {
-            error = true;
-            errorMessage = "يرجى اختيار وجه مناسب مع مدى رضاكم عن الخدمة";
-          });
-        }
-      },
-      child: Container(
-        height: 40.0,
-        decoration: const BoxDecoration(color: Colors.green, borderRadius: BorderRadius.all(Radius.circular(6.0))),
-        child: Center(
-          child: Text(
-            StringUtils.submitFeedback,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0, bottom: 20),
-        child: showConfirmButtonWithGesture);
-  }
-
   final ScrollController _scroll = ScrollController();
 
   @override
@@ -188,7 +140,38 @@ class _RatingViewState extends State<RatingView> {
                         ),
                       ),
                     ),
-                    _submitRating(),
+                    KammunButton(
+                      color: Colors.green,
+                      onTap: () async {
+                        if (rateValue > 0) {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          bool response = await OrderServices.rateOrderService(
+                              orderId: widget.orderId,
+                              userFeedback: _textFieldController.text + ".",
+                              rating: rateValue);
+                          if (response) {
+                            Navigator.of(context).pop();
+
+                            widget.onRequestDone();
+                          } else {
+                            setState(() {
+                              error = true;
+                              errorMessage =
+                                  "حدث خطأ أثناء محاولة إرسال التقييم يرجى التحقق من إتصالك بالإنترنت و المحاولة مجدداً";
+                            });
+                          }
+                        } else {
+                          setState(() {
+                            error = true;
+                            errorMessage = "يرجى اختيار وجه مناسب مع مدى رضاكم عن الخدمة";
+                          });
+                        }
+                      },
+                      width: MediaQuery.of(context).size.width * 0.95,
+                      text: StringUtils.submitFeedback,
+                    ),
                   ],
                 ),
         ),

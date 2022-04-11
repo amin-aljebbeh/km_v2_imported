@@ -27,7 +27,7 @@ class LoadingScreenServices {
   static String iOSShareUrl = "";
   static bool serverMaintain = false;
   static bool userBlocked = false;
-  static bool updateRequired = false;
+  static bool updateRequired = true;
   static bool updateOptional = false;
   static bool checkIfLoggedIn = false;
   static bool showOnLunchNotification = true;

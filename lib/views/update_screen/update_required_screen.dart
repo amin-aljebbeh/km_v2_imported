@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading.dart';
+import 'package:kammun_app/views/widget/kammun_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 
@@ -29,33 +30,10 @@ class UpdateScreen extends StatelessWidget {
     }
   }
 
-  Widget _showAddAddressButton() {
-    final GestureDetector loginButtonWithGesture = GestureDetector(
-      onTap: Platform.isAndroid ? () => _androidUpdateLink() : () => _iosUpdateLink(),
-      child: Container(
-        height: 50.0,
-        decoration: BoxDecoration(
-            color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
-        child: Center(
-          child: Text(
-            " التحديث الآن ",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-                fontFamily: StringUtils.fontFamilyHKGrotesk),
-          ),
-        ),
-      ),
-    );
-
-    return Padding(
-        padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
           width: double.infinity,
@@ -94,12 +72,17 @@ class UpdateScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(padding: const EdgeInsets.all(8.0), child: _showAddAddressButton()),
+                KammunButton(
+                  color: ColorUtils.primaryColor,
+                  onTap: Platform.isAndroid ? () => _androidUpdateLink() : () => _iosUpdateLink(),
+                  height: 50,
+                  text: " التحديث الآن ",
+                  width: MediaQuery.of(context).size.width * 0.95,
+                ),
               ],
             ),
           ),
           color: Colors.white,
-          // color: Color.fromARGB(255, 40, 51, 140),
         ),
       ),
     );

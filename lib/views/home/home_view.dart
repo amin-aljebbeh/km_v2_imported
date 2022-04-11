@@ -8,6 +8,7 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/orders_view.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:kammun_app/views/widget/dialog_button.dart';
+import 'package:kammun_app/views/widget/my_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:v_chat_sdk/v_chat_sdk.dart';
 
@@ -52,7 +53,19 @@ class HomeViewState extends State<HomeView> {
         Navigator.pushNamed(context, message.data['route_name']);
       }
 
-      _showDialog(notification.title, notification.body);
+      showMyDialog(
+        title: notification.title,
+        context: context,
+        text: notification.body,
+        dialogButtons: [
+          DialogButton(
+            text: StringUtils.close,
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
     });
     FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: true,
@@ -75,68 +88,19 @@ class HomeViewState extends State<HomeView> {
     }
   }
 
-  void _showDialog(title, body) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            "$title",
-            style: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-          ),
-          content: Text(
-            "$body",
-            style: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-          ),
-          scrollable: true,
-          actions: <Widget>[
-            DialogButton(
-              text: StringUtils.close,
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   _showNotificationDialog({BuildContext ctx}) {
-    String title = widget.notificationValue["title"];
-    String body = widget.notificationValue["body"];
-
-    showDialog(
-      context: ctx,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            title,
-            style: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-          ),
-          content: Text(
-            body,
-            style: TextStyle(
-              fontFamily: StringUtils.fontFamilyHKGrotesk,
-            ),
-          ),
-          scrollable: true,
-          actions: <Widget>[
-            DialogButton(
-              text: StringUtils.close,
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
+    showMyDialog(
+      title: widget.notificationValue["title"],
+      context: context,
+      text: widget.notificationValue["body"],
+      dialogButtons: [
+        DialogButton(
+          text: StringUtils.close,
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     );
   }
 
