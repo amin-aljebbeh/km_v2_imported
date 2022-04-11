@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/service.dart';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/service.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/order_details/full_screen_image.dart';
@@ -33,7 +33,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
   void initState() {
     subWarehouseList = LoadingScreenServices.subWarehouses
         .map(
-          (subWarehouse) => DropdownMenuItem(
+          (subWarehouse) => DropdownMenuItem<dynamic>(
             child: AutoSizeText(
               subWarehouse.name,
               maxLines: 2,
@@ -132,13 +132,20 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                         });
                       },
                       hint: subWarehouseList
-                          .firstWhere((element) => element.value == widget.productData.subWarehouseId, orElse: () {
-                        subWarehouseList.clear();
-                        return const DropdownMenuItem<int>(
-                          child: Text("No element"),
-                          value: 0,
-                        );
-                      }).child,
+                          .firstWhere(
+                            (subWarehouse) => subWarehouse.value == widget.productData.subWarehouseId,
+                            orElse: () => subWarehouseList.firstWhere(
+                              (subWarehouse) => subWarehouse.value == widget.productData.pivot.subWarehouseId,
+                              orElse: () {
+                                subWarehouseList.clear();
+                                return const DropdownMenuItem<int>(
+                                  child: Text("No element"),
+                                  value: 0,
+                                );
+                              },
+                            ),
+                          )
+                          .child,
                     ),
                 ],
               ),

@@ -35,9 +35,9 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
 
     if (LoadingScreenServices.subWarehouses.length == 1) {
       productsAry.sort((a, b) {
-        if (a.subWarehouseId > b.subWarehouseId) {
+        if (a.pivot.subWarehouseId > b.pivot.subWarehouseId) {
           return -1;
-        } else if (a.subWarehouseId < b.subWarehouseId) {
+        } else if (a.pivot.subWarehouseId < b.pivot.subWarehouseId) {
           return 1;
         } else {
           return 0;
@@ -45,9 +45,9 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
       });
     } else {
       productsAry.sort((a, b) {
-        if (a.subWarehouseId > b.subWarehouseId) {
+        if (a.pivot.subWarehouseId > b.pivot.subWarehouseId) {
           return 1;
-        } else if (a.subWarehouseId < b.subWarehouseId) {
+        } else if (a.pivot.subWarehouseId < b.pivot.subWarehouseId) {
           return -1;
         } else {
           return 0;
@@ -104,7 +104,7 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                                   child: Text(
                                     LoadingScreenServices.subWarehouses
                                         .firstWhere(
-                                          (subWarehouse) => subWarehouse.id == productDetail.subWarehouseId,
+                                          (subWarehouse) => subWarehouse.id == productDetail.pivot.subWarehouseId,
                                           orElse: () => SubWarehouse(name: 'No element'),
                                         )
                                         .name,
@@ -135,7 +135,7 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
 
   bool newSubWarehouse(int index) {
     if (index == 0) return true;
-    return productsAry[index].subWarehouseId != productsAry[index - 1].subWarehouseId;
+    return productsAry[index].pivot.subWarehouseId != productsAry[index - 1].pivot.subWarehouseId;
   }
 
   @override

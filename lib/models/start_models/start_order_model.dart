@@ -227,26 +227,26 @@ class OrdersOriginalData {
         netPrice -= increaseValue;
         orderAccountingRows
             .firstWhere(
-              (row) => row.subWarehouseId == products[i].subWarehouseId,
+              (row) => row.subWarehouseId == products[i].pivot.subWarehouseId,
               orElse: () => row,
             )
             .increaseValuesSum += increaseValue;
         orderAccountingRows
             .firstWhere(
-              (row) => row.subWarehouseId == products[i].subWarehouseId,
+              (row) => row.subWarehouseId == products[i].pivot.subWarehouseId,
               orElse: () => row,
             )
             .netPrice += netPrice;
-        double discountPercentage = SubWarehouse.getDiscountPercentage(products[i].subWarehouseId);
+        double discountPercentage = SubWarehouse.getDiscountPercentage(products[i].pivot.subWarehouseId);
         orderAccountingRows
             .firstWhere(
-              (row) => row.subWarehouseId == products[i].subWarehouseId,
+              (row) => row.subWarehouseId == products[i].pivot.subWarehouseId,
               orElse: () => row,
             )
             .payToSubWarehouse += netPrice;
         orderAccountingRows
             .firstWhere(
-              (row) => row.subWarehouseId == products[i].subWarehouseId && row.directDiscount == 1,
+              (row) => row.subWarehouseId == products[i].pivot.subWarehouseId && row.directDiscount == 1,
               orElse: () => row,
             )
             .payToSubWarehouse -= (netPrice * discountPercentage);
@@ -281,8 +281,15 @@ class OrdersOriginalData {
         kammunProfit +=
             orderAccountingRows[i].increaseValuesSum - (orderAccountingRows[i].increaseValuesSum * increaseProfit);
         double productKammunProfit = orderAccountingRows[i].netPrice * discountPercentage;
-        kammunProfit += (productKammunProfit - (productKammunProfit * shopperSubWarehouseProfit));
-        shopperProfit += productKammunProfit * shopperSubWarehouseProfit;
+        double addedProfit = productKammunProfit * shopperSubWarehouseProfit;
+        if (addedProfit > pivot.maxProfit) {
+          addedProfit = pivot.maxProfit.toDouble();
+        } else if (addedProfit < pivot.minProfit) {
+          addedProfit = pivot.minProfit.toDouble();
+        }
+
+        kammunProfit += (productKammunProfit - addedProfit);
+        shopperProfit += addedProfit;
       }
       double deliverProfit = 0.0;
       double cityCost = double.parse(supportedCityCost);

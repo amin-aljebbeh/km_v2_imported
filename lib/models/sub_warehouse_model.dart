@@ -12,18 +12,19 @@ List<SubWarehouse> subWarehouseFromJson(String str) =>
 String subWarehouseToJson(List<SubWarehouse> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class SubWarehouse {
-  SubWarehouse(
-      {this.id,
-      this.name,
-      this.description,
-      this.phone,
-      this.businessDomain,
-      this.accountingSystemId,
-      this.warehouseId,
-      this.adminPivot,
-      this.levelPivot,
-      this.discountPercentage,
-      this.directDiscount});
+  SubWarehouse({
+    this.id,
+    this.name,
+    this.description,
+    this.phone,
+    this.businessDomain,
+    this.accountingSystemId,
+    this.warehouseId,
+    this.adminPivot,
+    this.levelPivot,
+    this.discountPercentage,
+    this.directDiscount,
+  });
 
   int id;
   String name;

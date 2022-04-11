@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/service.dart';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/service.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
@@ -59,6 +59,10 @@ class _OrderByIDState extends State<OrderByID> {
 
     if (orderList != null) {
       order = orderList;
+      if (Services.isShopper() || order.shopper != null) {
+        order.orderArithmeticOperations();
+        order.orderProfits();
+      }
       setState(() {
         orderLoaded = true;
         errorMessage = false;

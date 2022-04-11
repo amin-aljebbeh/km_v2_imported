@@ -302,7 +302,6 @@ class OrderServices {
       );
 
       if (response.statusCode == successCode) {
-        // Tools.logToConsole(OrdersOriginalData.fromJson(response.data['order']).products[0].);
         return OrdersOriginalData.fromJson(response.data['order']);
       } else {
         return null;
