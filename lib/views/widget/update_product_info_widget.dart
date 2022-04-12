@@ -10,7 +10,7 @@ import 'package:kammun_app/views/products_view/services/products_services.dart';
 import '../../utils/utils_importer.dart';
 
 class UpdateProductInfoWidget extends StatefulWidget {
-  final Function(String) onSavePressed;
+  final Function(String, bool) onSavePressed;
   final String title;
   final TextInputType inputType;
   final String textHint;
@@ -80,7 +80,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
               onPressed: () async {
                 if (textController.text.isNotEmpty) {
                   if (widget.bodyKey == 'discount') {
-                    widget.onSavePressed('success');
+                    widget.onSavePressed('success', true);
                   } else {
                     if (widget.isForPriceRate) {
                       bool result = await InventoryServices.updatePriceRateThresholdService(textController.text);
@@ -127,7 +127,12 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                             subWarehouseId: widget.productData.subWarehouseId.toString(),
                             productId: widget.productId.toString());
 
-                        if (result) widget.onSavePressed(textController.text);
+                        if (result) {
+                          widget.onSavePressed(newValue, result);
+                          setState(() {
+                            textController.text = newValue;
+                          });
+                        }
                         Services.resultFlushBar(context: context, result: result);
                       }
                     }

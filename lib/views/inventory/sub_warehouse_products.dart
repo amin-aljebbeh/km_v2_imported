@@ -306,6 +306,11 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                                   });
                                 }
                               },
+                              onChangePrice: (newValue) {
+                                setState(() {
+                                  productsList[index].price = newValue;
+                                });
+                              },
                             );
                           }
                           return Container();

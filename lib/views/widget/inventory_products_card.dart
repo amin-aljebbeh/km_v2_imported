@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/service.dart';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/service.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
@@ -28,6 +28,7 @@ class InventoryProductsViewCard extends StatefulWidget {
   final bool attached;
   final int index;
   final int deleteTimes;
+  final Function(String) onChangePrice;
 
   InventoryProductsViewCard({
     Key key,
@@ -45,6 +46,7 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.attached,
     this.index,
     this.deleteTimes = -1,
+    this.onChangePrice,
   }) : super(key: key);
 
   @override
@@ -92,6 +94,12 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                 MaterialPageRoute(
                   builder: (context) => ProductDetailView(
                     product: widget.productData,
+                    onChangePrice: (newValue) {
+                      setState(() {
+                        widget.productData.price = newValue;
+                        widget.onChangePrice(newValue);
+                      });
+                    },
                   ),
                 ),
               );

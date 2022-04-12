@@ -23,8 +23,9 @@ import '../../service.dart';
 class ProductDetailView extends StatefulWidget {
   final ProductData product;
   final Function(String) onAddBarcode;
+  final Function(String) onChangePrice;
 
-  const ProductDetailView({Key key, this.product, this.onAddBarcode}) : super(key: key);
+  const ProductDetailView({Key key, this.product, this.onAddBarcode, this.onChangePrice}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -466,9 +467,12 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           priceFactor:
                               widget.product.priceFactor != null ? double.parse(widget.product.priceFactor) : 1,
                           initialText: price,
-                          onSavePressed: (newValue) {
+                          onSavePressed: (newValue, result) {
                             setState(() {
-                              widget.product.price = newValue;
+                              if (result) {
+                                widget.product.price = newValue;
+                                widget.onChangePrice(newValue);
+                              }
                             });
                           },
                         ),
@@ -480,7 +484,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           bodyKey: "supplier_code",
                           productId: widget.product.id,
                           productData: widget.product,
-                          onSavePressed: (newValue) {
+                          onSavePressed: (newValue, result) {
                             setState(() {
                               widget.product.supplierCode = newValue;
                             });
@@ -494,7 +498,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           productData: widget.product,
                           textHint: widget.product.priceFactor,
                           initialText: widget.product.priceFactor,
-                          onSavePressed: (newValue) {
+                          onSavePressed: (newValue, result) {
                             setState(() {
                               widget.product.priceFactor = newValue;
                             });
@@ -512,7 +516,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     isForSubWarehouse: true,
                                     productData: widget.product,
                                     initialText: widget.product.priority.toString(),
-                                    onSavePressed: (newValue) {
+                                    onSavePressed: (newValue, result) {
                                       setState(() {
                                         widget.product.priority = int.parse(newValue);
                                       });
@@ -527,7 +531,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     initialText: widget.product.name,
                                     isForSubWarehouse: false,
                                     productData: widget.product,
-                                    onSavePressed: (newValue) {
+                                    onSavePressed: (newValue, result) {
                                       setState(() {
                                         widget.product.name = newValue;
                                       });
@@ -542,7 +546,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     productData: widget.product,
                                     textHint: widget.product.unit,
                                     initialText: widget.product.unit,
-                                    onSavePressed: (newValue) {
+                                    onSavePressed: (newValue, result) {
                                       setState(() {
                                         widget.product.unit = newValue;
                                       });
@@ -557,7 +561,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     bodyKey: "quantity",
                                     productId: widget.product.id,
                                     initialText: widget.product.quantity,
-                                    onSavePressed: (newValue) {
+                                    onSavePressed: (newValue, result) {
                                       setState(() {
                                         widget.product.quantity = newValue;
                                       });
@@ -572,7 +576,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     isForSubWarehouse: false,
                                     productData: widget.product,
                                     initialText: widget.product.description,
-                                    onSavePressed: (newValue) {
+                                    onSavePressed: (newValue, result) {
                                       setState(() {
                                         widget.product.description = newValue;
                                       });

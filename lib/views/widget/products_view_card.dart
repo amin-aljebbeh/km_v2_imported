@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/service.dart';
 import 'package:kammun_app/models/products_categories_model.dart';
+import 'package:kammun_app/service.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
@@ -14,6 +14,7 @@ class ProductsViewCard extends StatefulWidget {
   final ProductData productData;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final Function(String) onAddBarcode;
+  final Function(String) onChangePrice;
 
   const ProductsViewCard({
     Key key,
@@ -21,6 +22,7 @@ class ProductsViewCard extends StatefulWidget {
     this.productData,
     this.scaffoldKey,
     this.onAddBarcode,
+    this.onChangePrice,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,12 @@ class ProductsViewCardState extends State<ProductsViewCard> {
               product: widget.productData,
               onAddBarcode: (result) {
                 widget.onAddBarcode(result);
+              },
+              onChangePrice: (newValue) {
+                setState(() {
+                  widget.productData.price = newValue;
+                  widget.onChangePrice(newValue);
+                });
               },
             ),
           ),

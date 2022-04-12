@@ -185,9 +185,9 @@ class _OrderAccountingState extends State<OrderAccounting> {
                       inputType: TextInputType.text,
                       bodyKey: "discount",
                       productId: 0,
-                      onSavePressed: (newValue) {
+                      onSavePressed: (newValue, result) {
                         setState(() {
-                          Services.resultFlushBar(context: context, result: newValue == 'success');
+                          Services.resultFlushBar(context: context, result: result);
                         });
                       },
                     ),

@@ -208,6 +208,11 @@ class _AllProductsState extends State<AllProducts> {
                                   });
                                 }
                               },
+                              onChangePrice: (newValue) {
+                                setState(() {
+                                  productsList[index].price = newValue;
+                                });
+                              },
                             );
                           }
                           return Container();

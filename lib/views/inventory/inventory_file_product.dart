@@ -207,6 +207,11 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                                             });
                                           }
                                         },
+                                        onChangePrice: (newValue) {
+                                          setState(() {
+                                            showList[index].price = newValue;
+                                          });
+                                        },
                                       );
                                     },
                                   ),

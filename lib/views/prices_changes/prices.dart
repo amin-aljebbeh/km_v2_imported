@@ -208,6 +208,11 @@ class _PricesState extends State<Prices> {
                                           int.parse(productsList.productsPriceChange[index].priceChange
                                               .toString()
                                               .split(".")[0]),
+                                  onChangePrice: (newValue) {
+                                    setState(() {
+                                      productsList.productsPriceChange[index].price = newValue;
+                                    });
+                                  },
                                 );
                               }
                               return Container();

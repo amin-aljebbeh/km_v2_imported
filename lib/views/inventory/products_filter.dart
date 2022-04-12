@@ -346,6 +346,11 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                           });
                                         },
                                         deleteTimes: productsList[index].deleteTimes,
+                                        onChangePrice: (newValue) {
+                                          setState(() {
+                                            productsList[index].price = newValue;
+                                          });
+                                        },
                                       );
                                     }
                                     return Container();

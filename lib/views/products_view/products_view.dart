@@ -304,6 +304,11 @@ class ProductsViewState extends State<ProductsView> {
                                       });
                                     }
                                   },
+                                  onChangePrice: (newValue) {
+                                    setState(() {
+                                      productsList[index].price = newValue;
+                                    });
+                                  },
                                 );
                               },
                             ),

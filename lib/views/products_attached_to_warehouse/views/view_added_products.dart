@@ -198,6 +198,11 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                     });
                                   }
                                 },
+                                onChangePrice: (newValue) {
+                                  setState(() {
+                                    productsList[index].price = newValue;
+                                  });
+                                },
                               );
                             }
                           } catch (e) {/**/}

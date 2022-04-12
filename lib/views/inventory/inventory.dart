@@ -307,6 +307,11 @@ class _InventoryState extends State<Inventory> {
                                         });
                                       }
                                     },
+                                    onChangePrice: (newValue) {
+                                      setState(() {
+                                        productsList[index].price = newValue;
+                                      });
+                                    },
                                   );
                                 }
                                 return Container();

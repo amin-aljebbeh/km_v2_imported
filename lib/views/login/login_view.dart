@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           Tools.logToConsole(err.data);
           await VChatController.instance.login(context: context, email: 'rabie');
           Tools.logToConsole('chat login admin');
-        }
+        } catch (e) {/**/}
         TextInput.finishAutofillContext();
         KammunRestart.restartApp(context);
       } else {
