@@ -203,6 +203,16 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                             showList[index].price = newValue;
                                           });
                                         },
+                                        onChangeUnit: (newValue) {
+                                          setState(() {
+                                            showList[index].unit = newValue;
+                                          });
+                                        },
+                                        onChangeQuantity: (newValue) {
+                                          setState(() {
+                                            showList[index].quantity = newValue;
+                                          });
+                                        },
                                       );
                                     },
                                   ),

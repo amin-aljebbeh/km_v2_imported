@@ -213,6 +213,16 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                                   productsList[index].price = newValue;
                                 });
                               },
+                              onChangeUnit: (newValue) {
+                                setState(() {
+                                  productsList[index].unit = newValue;
+                                });
+                              },
+                              onChangeQuantity: (newValue) {
+                                setState(() {
+                                  productsList[index].quantity = newValue;
+                                });
+                              },
                             );
                           }
                           return Container();

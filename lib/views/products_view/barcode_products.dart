@@ -224,6 +224,16 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                       productsList[index].price = newValue;
                                     });
                                   },
+                                  onChangeUnit: (newValue) {
+                                    setState(() {
+                                      productsList[index].unit = newValue;
+                                    });
+                                  },
+                                  onChangeQuantity: (newValue) {
+                                    setState(() {
+                                      productsList[index].quantity = newValue;
+                                    });
+                                  },
                                 );
                               }
                             } catch (e) {/**/}

@@ -203,6 +203,16 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                     productsList[index].price = newValue;
                                   });
                                 },
+                                onChangeUnit: (newValue) {
+                                  setState(() {
+                                    productsList[index].unit = newValue;
+                                  });
+                                },
+                                onChangeQuantity: (newValue) {
+                                  setState(() {
+                                    productsList[index].quantity = newValue;
+                                  });
+                                },
                               );
                             }
                           } catch (e) {/**/}

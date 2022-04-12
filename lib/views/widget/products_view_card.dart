@@ -15,7 +15,8 @@ class ProductsViewCard extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final Function(String) onAddBarcode;
   final Function(String) onChangePrice;
-
+  final Function(String) onChangeUnit;
+  final Function(String) onChangeQuantity;
   const ProductsViewCard({
     Key key,
     this.index,
@@ -23,6 +24,8 @@ class ProductsViewCard extends StatefulWidget {
     this.scaffoldKey,
     this.onAddBarcode,
     this.onChangePrice,
+    this.onChangeUnit,
+    this.onChangeQuantity,
   }) : super(key: key);
 
   @override
@@ -54,6 +57,18 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 setState(() {
                   widget.productData.price = newValue;
                   widget.onChangePrice(newValue);
+                });
+              },
+              onChangeUnit: (newValue) {
+                setState(() {
+                  widget.productData.unit = newValue;
+                  widget.onChangeUnit(newValue);
+                });
+              },
+              onChangeQuantity: (newValue) {
+                setState(() {
+                  widget.productData.quantity = newValue;
+                  widget.onChangeQuantity(newValue);
                 });
               },
             ),

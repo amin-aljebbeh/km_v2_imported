@@ -24,8 +24,12 @@ class ProductDetailView extends StatefulWidget {
   final ProductData product;
   final Function(String) onAddBarcode;
   final Function(String) onChangePrice;
+  final Function(String) onChangeUnit;
+  final Function(String) onChangeQuantity;
 
-  const ProductDetailView({Key key, this.product, this.onAddBarcode, this.onChangePrice}) : super(key: key);
+  const ProductDetailView(
+      {Key key, this.product, this.onAddBarcode, this.onChangePrice, this.onChangeUnit, this.onChangeQuantity})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -549,6 +553,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     onSavePressed: (newValue, result) {
                                       setState(() {
                                         widget.product.unit = newValue;
+                                        widget.onChangeUnit(newValue);
                                       });
                                     },
                                   ),
@@ -564,6 +569,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     onSavePressed: (newValue, result) {
                                       setState(() {
                                         widget.product.quantity = newValue;
+                                        widget.onChangeQuantity(newValue);
                                       });
                                     },
                                   ),

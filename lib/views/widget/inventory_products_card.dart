@@ -29,7 +29,8 @@ class InventoryProductsViewCard extends StatefulWidget {
   final int index;
   final int deleteTimes;
   final Function(String) onChangePrice;
-
+  final Function(String) onChangeUnit;
+  final Function(String) onChangeQuantity;
   InventoryProductsViewCard({
     Key key,
     this.onChangeStatus,
@@ -47,6 +48,8 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.index,
     this.deleteTimes = -1,
     this.onChangePrice,
+    this.onChangeUnit,
+    this.onChangeQuantity,
   }) : super(key: key);
 
   @override
@@ -98,6 +101,18 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                       setState(() {
                         widget.productData.price = newValue;
                         widget.onChangePrice(newValue);
+                      });
+                    },
+                    onChangeUnit: (newValue) {
+                      setState(() {
+                        widget.productData.unit = newValue;
+                        widget.onChangeUnit(newValue);
+                      });
+                    },
+                    onChangeQuantity: (newValue) {
+                      setState(() {
+                        widget.productData.price = newValue;
+                        widget.onChangeQuantity(newValue);
                       });
                     },
                   ),

@@ -213,6 +213,16 @@ class _PricesState extends State<Prices> {
                                       productsList.productsPriceChange[index].price = newValue;
                                     });
                                   },
+                                  onChangeUnit: (newValue) {
+                                    setState(() {
+                                      productsList.productsPriceChange[index].unit = newValue;
+                                    });
+                                  },
+                                  onChangeQuantity: (newValue) {
+                                    setState(() {
+                                      productsList.productsPriceChange[index].quantity = newValue;
+                                    });
+                                  },
                                 );
                               }
                               return Container();
