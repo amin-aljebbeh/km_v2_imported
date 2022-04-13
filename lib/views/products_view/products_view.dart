@@ -85,7 +85,7 @@ class ProductsViewState extends State<ProductsView> {
                 case ProductsViewTypes.search:
                 case ProductsViewTypes.category:
                   products = categoryProductFromJson(jsonEncode(response.data));
-                  productsList.addAll(products.data.data);
+                  productsList.addAll(products.warehouses.warehouses);
                   break;
                 case ProductsViewTypes.barcode:
                   products = syncCartFromJson(jsonEncode(response.data['data']));
@@ -98,7 +98,7 @@ class ProductsViewState extends State<ProductsView> {
 
               if (mounted) {
                 setState(() {
-                  if (type != ProductsViewTypes.barcode && page - 1 == products.data.lastPage) {
+                  if (type != ProductsViewTypes.barcode && page - 1 == products.warehouses.lastPage) {
                     theEndOfProducts = true;
                   }
                   searchLoading = false;

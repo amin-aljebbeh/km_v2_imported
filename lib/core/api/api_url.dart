@@ -13,10 +13,10 @@ const String address = 'address/';
 
 const String supportedCity = 'supported_city/';
 
-String baseUrl = testUrl;
+String baseUrl = appUrl;
 
 const String appleBaseUrl = 'https://kammun.app';
-const String productionBaseUrl = testUrl;
+const String productionBaseUrl = appUrl;
 
 const String getCompany = api + 'company';
 const String getMobileVersion = api + 'mob_v_config';

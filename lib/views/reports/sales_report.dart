@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
-
 import 'models/sales_reports_model.dart';
 import 'services/reports_services.dart';
 
@@ -28,14 +27,48 @@ class _SalesReportState extends State<SalesReport> {
 
   _reportCard(GetDailyStatistics response) {
     totalSubWarehouses.clear();
-    for (int i = 0; i < response.data.length; i++) {
-      if (response.data[i].statisticsWarehouses != null) {
+    totalSubWarehouses.add(Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          'إحصائيات عامة',
+          style: informationStyle,
+        ),
+      ),
+    ));
+    totalSubWarehouses.add(
+      Table(
+        border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
+        children: [
+          TableRow(children: [
+            KTableElement(text: StringUtils.totalSales),
+            KTableElement(text: StringUtils.shoppingProfits),
+            KTableElement(text: StringUtils.deliveryProfits),
+          ]),
+          TableRow(
+            children: [
+              KTableElement(
+                text: StringUtils().oCcy.format(response.generalStatistics.totalSales),
+              ),
+              KTableElement(
+                text: StringUtils().oCcy.format(response.generalStatistics.totalShoppingProfits),
+              ),
+              KTableElement(
+                text: StringUtils().oCcy.format(response.generalStatistics.totalDeliveryProfits),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+    for (int i = 0; i < response.warehouses.length; i++) {
+      if (response.warehouses[i].statisticsWarehouses != null) {
         totalSubWarehouses.add(
           Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                response.data[i].name,
+                response.warehouses[i].name,
                 style: TextStyle(
                   fontFamily: StringUtils.fontFamilyHKGrotesk,
                   fontSize: 25,
@@ -45,65 +78,108 @@ class _SalesReportState extends State<SalesReport> {
           ),
         );
         totalSubWarehouses.add(
-          Center(
-            child: Table(
-              border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
-              children: [
-                const TableRow(children: [
-                  KTableElement(text: "إجمالي المبيعات"),
-                  KTableElement(text: "إجمالي التوصيل"),
-                  KTableElement(text: "المجموع الكلي"),
-                ]),
-                TableRow(
-                  children: [
-                    KTableElement(
-                      text: StringUtils().oCcy.format(response.data[i].statisticsWarehouses.totalSales).toString(),
-                    ),
-                    KTableElement(
-                      text: StringUtils()
-                          .oCcy
-                          .format(response.data[i].statisticsWarehouses.deliveryIncome)
-                          .toString(),
-                    ),
-                    KTableElement(
-                      text: StringUtils().oCcy.format(response.data[i].statisticsWarehouses.total).toString(),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-        if (response.data[i].statisticsSubWarehouses != null) {
-          for (int j = 0; j < response.data[i].statisticsSubWarehouses.length; j++) {
-            totalSubWarehouses.add(
-              KTableRow(
+          Table(
+            border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
+            children: [
+              TableRow(children: [
+                KTableElement(text: StringUtils.totalSales),
+                const KTableElement(text: "إجمالي التوصيل"),
+                const KTableElement(text: "المجموع الكلي"),
+              ]),
+              TableRow(
                 children: [
                   KTableElement(
-                    text: response.data[i].statisticsSubWarehouses[j].name,
+                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.totalSales),
                   ),
                   KTableElement(
-                    text: StringUtils()
-                        .oCcy
-                        .format(int.parse(response.data[i].statisticsSubWarehouses[j].sumPurchasePrice))
-                        .toString(),
+                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.deliveryIncome),
+                  ),
+                  KTableElement(
+                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.total),
+                  ),
+                ],
+              ),
+              TableRow(children: [
+                KTableElement(text: StringUtils.ordersCount),
+                KTableElement(text: StringUtils.shoppingProfits),
+                KTableElement(text: StringUtils.deliveryProfits),
+              ]),
+              TableRow(
+                children: [
+                  KTableElement(
+                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.orderCount),
+                  ),
+                  KTableElement(
+                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.shoppingProfits),
+                  ),
+                  KTableElement(
+                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.deliveryProfits),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+        if (response.warehouses[i].statisticsSubWarehouses != null) {
+          for (int j = 0; j < response.warehouses[i].statisticsSubWarehouses.length; j++) {
+            totalSubWarehouses.add(
+              Column(
+                children: [
+                  KTableElement(
+                    text: response.warehouses[i].statisticsSubWarehouses[j].name,
+                  ),
+                  KTableRow(
+                    children: [
+                      const KTableElement(
+                        text: 'مجموع سعر المبيع',
+                      ),
+                      KTableElement(
+                        text: StringUtils.shoppingProfits,
+                      ),
+                      const KTableElement(
+                        text: 'مجموع القيم المضافة',
+                      ),
+                    ],
+                  ),
+                  KTableRow(
+                    children: [
+                      KTableElement(
+                        text: StringUtils()
+                            .oCcy
+                            .format(int.parse(response.warehouses[i].statisticsSubWarehouses[j].sumPurchasePrice)),
+                      ),
+                      KTableElement(
+                        text: StringUtils().oCcy.format(int.parse(
+                            response.warehouses[i].statisticsSubWarehouses[j].totalShoppingProfits.split('.')[0])),
+                      ),
+                      KTableElement(
+                        text: StringUtils()
+                            .oCcy
+                            .format(
+                                int.parse(response.warehouses[i].statisticsSubWarehouses[j].totalIncreaseValue))
+                            .toString(),
+                      ),
+                    ],
                   ),
                 ],
               ),
             );
           }
+          totalSubWarehouses.add(const KTableElement(
+            text: 'المناطق المدعومة',
+          ));
         }
 
-        if (response.data[i].statisticsSupportedCities != null) {
-          for (int j = 0; j < response.data[i].statisticsSupportedCities.length; j++) {
+        if (response.warehouses[i].statisticsSupportedCities != null) {
+          for (int j = 0; j < response.warehouses[i].statisticsSupportedCities.length; j++) {
             totalSubWarehouses.add(
               KTableRow(
                 children: [
                   KTableElement(
-                    text: response.data[i].statisticsSupportedCities[j].name,
+                    text: response.warehouses[i].statisticsSupportedCities[j].name,
                   ),
-                  const KTableElement(
-                    text: "عدد الطلبات",
+                  KTableElement(
+                    text: StringUtils.ordersCount,
                   ),
                   const KTableElement(
                     text: "تسعيرة التوصيل",
@@ -115,31 +191,25 @@ class _SalesReportState extends State<SalesReport> {
               KTableRow(
                 children: [
                   KTableElement(
-                    text: StringUtils()
-                        .oCcy
-                        .format(
-                            int.parse(response.data[i].statisticsSupportedCities[j].deliveryIncome.split(".")[0]))
-                        .toString(),
+                    text: StringUtils().oCcy.format(int.parse(
+                        response.warehouses[i].statisticsSupportedCities[j].deliveryIncome.split(".")[0])),
                   ),
                   KTableElement(
                     text: StringUtils()
                         .oCcy
                         .format(
-                          int.parse(
-                            response.data[i].statisticsSupportedCities[j].ordersCount.toString(),
-                          ),
+                          response.warehouses[i].statisticsSupportedCities[j].ordersCount,
                         )
                         .toString(),
                   ),
                   KTableElement(
-                    text: StringUtils()
-                        .oCcy
-                        .format(
+                    text: StringUtils().oCcy.format(
                           int.parse(
-                            response.data[i].statisticsSupportedCities[j].deliveryPrice.split(".")[0].toString(),
+                            response.warehouses[i].statisticsSupportedCities[j].deliveryPrice
+                                .split(".")[0]
+                                .toString(),
                           ),
-                        )
-                        .toString(),
+                        ),
                   ),
                 ],
               ),

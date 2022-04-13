@@ -11,29 +11,54 @@ String getDailyStatisticsToJson(GetDailyStatistics data) => json.encode(data.toJ
 class GetDailyStatistics {
   GetDailyStatistics({
     this.success,
-    this.data,
-    this.date,
+    this.generalStatistics,
+    this.warehouses,
   });
 
   bool success;
-  List<Datum> data;
-  Date date;
+  List<WarehouseStatistics> warehouses;
+  GeneralStatistics generalStatistics;
 
   factory GetDailyStatistics.fromJson(Map<String, dynamic> json) => GetDailyStatistics(
         success: json["success"],
-        data: json["data"] == null ? null : List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-        date: Date.fromJson(json["date"]),
+        generalStatistics: GeneralStatistics.fromJson(json['general_statistics']),
+        warehouses: json["data"] == null
+            ? null
+            : List<WarehouseStatistics>.from(json["data"].map((x) => WarehouseStatistics.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
-        "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
-        "date": date.toJson(),
+        "data": warehouses == null ? null : List<dynamic>.from(warehouses.map((x) => x.toJson())),
       };
 }
 
-class Datum {
-  Datum({
+class GeneralStatistics {
+  GeneralStatistics({
+    this.totalShoppingProfits,
+    this.totalDeliveryProfits,
+    this.totalSales,
+  });
+
+  int totalShoppingProfits;
+  int totalDeliveryProfits;
+  int totalSales;
+
+  factory GeneralStatistics.fromJson(Map<String, dynamic> json) => GeneralStatistics(
+        totalShoppingProfits: json["total_shopping_profits"],
+        totalDeliveryProfits: json["total_delivery_profits"],
+        totalSales: json["total_sales"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "total_shopping_profits": totalShoppingProfits,
+        "total_delivery_profits": totalDeliveryProfits,
+        "total_sales": totalSales,
+      };
+}
+
+class WarehouseStatistics {
+  WarehouseStatistics({
     this.id,
     this.name,
     this.description,
@@ -53,7 +78,7 @@ class Datum {
   List<StatisticsSubWarehouse> statisticsSubWarehouses;
   List<StatisticsSupportedCity> statisticsSupportedCities;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory WarehouseStatistics.fromJson(Map<String, dynamic> json) => WarehouseStatistics(
         id: json["id"],
         name: json["name"],
         description: json["description"],
@@ -95,6 +120,8 @@ class StatisticsSubWarehouse {
     this.name,
     this.businessDomain,
     this.sumPurchasePrice,
+    this.totalIncreaseValue,
+    this.totalShoppingProfits,
   });
 
   int warehouseId;
@@ -102,6 +129,8 @@ class StatisticsSubWarehouse {
   String name;
   String businessDomain;
   String sumPurchasePrice;
+  String totalIncreaseValue;
+  String totalShoppingProfits;
 
   factory StatisticsSubWarehouse.fromJson(Map<String, dynamic> json) => StatisticsSubWarehouse(
         warehouseId: json["warehouse_id"],
@@ -109,6 +138,8 @@ class StatisticsSubWarehouse {
         name: json["name"],
         businessDomain: json["business_domain"],
         sumPurchasePrice: json["sum_purchase_price"],
+        totalIncreaseValue: json['total_increase_value'],
+        totalShoppingProfits: json['total_shopping_profits'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -157,41 +188,30 @@ class StatisticsWarehouses {
     this.totalSales,
     this.deliveryIncome,
     this.total,
+    this.orderCount,
+    this.deliveryProfits,
+    this.shoppingProfits,
   });
 
   int totalSales;
   int deliveryIncome;
   int total;
+  int orderCount;
+  int shoppingProfits;
+  int deliveryProfits;
 
   factory StatisticsWarehouses.fromJson(Map<String, dynamic> json) => StatisticsWarehouses(
         totalSales: json["total_sales"],
         deliveryIncome: json["delivery_income"],
         total: json["total"],
+        deliveryProfits: json['delivery_profits'],
+        orderCount: json['count_orders'],
+        shoppingProfits: json['shopping_profits'],
       );
 
   Map<String, dynamic> toJson() => {
         "total_sales": totalSales,
         "delivery_income": deliveryIncome,
         "total": total,
-      };
-}
-
-class Date {
-  Date({
-    this.fromDate,
-    this.toDate,
-  });
-
-  DateTime fromDate;
-  DateTime toDate;
-
-  factory Date.fromJson(Map<String, dynamic> json) => Date(
-        fromDate: json["from_date"] == null ? null : DateTime.parse(json["from_date"]),
-        toDate: DateTime.parse(json["to_date"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "from_date": fromDate.toIso8601String(),
-        "to_date": toDate.toIso8601String(),
       };
 }

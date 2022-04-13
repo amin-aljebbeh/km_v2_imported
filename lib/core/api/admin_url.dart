@@ -93,3 +93,6 @@ const String getShopperMonthProfit = api + shopper + shopperTransaction + 'shopp
 const String addTransaction = api + shopper + shopperTransaction + 'add_transaction';
 
 const String remainingMoneyForSupplier = api + shopper + shopperTransaction + 'remining_mony_for_supplier';
+
+const String financialReportUrl =
+    api + shopper + shopperTransaction + 'statistics_financial_transactions_with_shoppers';

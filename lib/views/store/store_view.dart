@@ -25,8 +25,6 @@ class StoreViewState extends State<StoreView> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController searchController = TextEditingController();
 
-  bool isDarkThemeMode = false;
-
   _updateApplication() async {
     String url = LoadingScreen.updateUrl;
 
@@ -330,10 +328,17 @@ class StoreViewState extends State<StoreView> {
                       title: StringUtils.adminPanel,
                       children: [
                         SideBarRow(
-                          icon: Icons.report_sharp,
+                          icon: Icons.insert_chart_outlined_rounded,
                           text: "إحصائيات المبيعات",
                           onTap: () {
                             Navigator.of(context).pushNamed('/sales_reports');
+                          },
+                        ),
+                        SideBarRow(
+                          icon: Icons.payment,
+                          text: "الأرباح والمستحقات المالية",
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/financial_report_view');
                           },
                         ),
                         SideBarRow(

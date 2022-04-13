@@ -5,9 +5,9 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../service.dart';
 import '../../core/core_importer.dart';
 import '../../models/models_importer.dart';
+import '../../service.dart';
 import '../../utils/utils_importer.dart';
 import '../../views/inventory/services/inventory_services.dart';
 import '../../views/reports/models/transaction_type_model.dart';
@@ -15,7 +15,6 @@ import '../../views/reports/services/reports_services.dart';
 import 'loading.dart';
 
 class LoadingScreenServices {
-  static StartModel startRequest = StartModel();
   static CompanyOriginalData companyInformation = CompanyOriginalData();
   static List<Level> levels = [];
 
@@ -31,24 +30,19 @@ class LoadingScreenServices {
   static List<FadeInImage> bannerListNetwork = [];
 
   // Mobile Configuration variables
-  static String updateUrl = "";
   static String androidShareUrl = "";
   static String iOSShareUrl = "";
   static bool serverMaintain = false;
   static bool updateRequired = false;
   static bool updateOptional = false;
-  static bool checkIfLoggedIn = false;
 
   static SupportedCityOriginal supportedCityOriginal;
   static String supportPhoneNumber;
   static String systemMaintenanceMessages;
-  static UserOriginal userOriginal;
 
   // -------------------------------------------------------//
 
   // Supported City variables
-
-  static List<DropdownMenuItem> supportedCitiesList = [];
 
   static List<IndigoDatum> supportedCitiesListIntro = [];
 
@@ -61,11 +55,6 @@ class LoadingScreenServices {
   static List<OrdersOriginalData> allOrdersList = [];
   static List<OrdersOriginalData> phoneOrderList = [];
   static List<ShopperModel> allShoppers = [];
-  static List<DeliveryModel> allDeliveries = [];
-  static List<OrdersOriginalData> shoppersAssignedOrdersList = [];
-  static List<OrdersOriginalData> deliveriesAssignedOrdersList = [];
-  static List<OrdersOriginalData> notAssignedOrdersList = [];
-  static List<OrdersOriginalData> supplierOrderList = [];
   static List<TransactionTypeModel> transactionTypes = [];
   static String phoneNumber = "لم تقم بتسجيل رقم";
   static String name;

@@ -93,6 +93,10 @@ class StringUtils {
   static String priority = 'الأولوية';
   static String logout = 'تسجيل الخروج';
   static String shopper = 'متسوق';
+  static String shoppingProfits = 'مرابح التسوق';
+  static String deliveryProfits = 'مرابح التوصيل';
+  static String totalSales = 'إجمالي المبيعات';
+  static String ordersCount = 'عدد الطلبات';
 
   //Dialogs:
   static String costumerNote = 'ملاحظة العميل';

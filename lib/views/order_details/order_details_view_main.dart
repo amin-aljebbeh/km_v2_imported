@@ -133,12 +133,6 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                           .products
                                           .removeWhere((product) => product.id == productDetail.id);
                                       break;
-                                    case OrderTypes.orders:
-                                      LoadingScreenServices.notAssignedOrdersList
-                                          .firstWhere((order) => order.id == widget.order.id)
-                                          .products
-                                          .removeWhere((product) => product.id == productDetail.id);
-                                      break;
                                   }
                                   productsAry.removeAt(index);
                                 });

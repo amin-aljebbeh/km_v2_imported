@@ -372,9 +372,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                                 "هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل",
                                             dialogButtons: decisionButtons,
                                             context: context);
-                                        // _showDialog(
-                                        //     body: orderDataList[index]
-                                        //         .userNotes);
                                       },
                                       color: Colors.blue[800],
                                     )

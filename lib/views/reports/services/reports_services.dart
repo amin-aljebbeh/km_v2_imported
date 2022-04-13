@@ -9,7 +9,7 @@ import 'package:kammun_app/views/widget/widgets_importer.dart';
 import '../models/report_model_importer.dart';
 
 class ReportsServices {
-  static Future<GetDailyStatistics> getSalesReports({String fromDate, String toDate, String warehouseId}) async {
+  static Future<GetDailyStatistics> getSalesReports({String fromDate, String toDate}) async {
     Response response;
 
     response = await ApiProvider.sendRequest(
@@ -23,6 +23,25 @@ class ReportsServices {
 
     if (response.statusCode == successCode) {
       return getDailyStatisticsFromJson(jsonEncode(response.data));
+    } else {
+      return null;
+    }
+  }
+
+  static Future<FinancialReport> getFinancialReport({String fromDate, String toDate}) async {
+    Response response;
+
+    response = await ApiProvider.sendRequest(
+      url: financialReportUrl,
+      queryParameters: {
+        "from_date": fromDate,
+        "to_date": toDate,
+      },
+      method: HttpMethods.get,
+    );
+
+    if (response.statusCode == successCode) {
+      return financialReportFromJson(jsonEncode(response.data));
     } else {
       return null;
     }

@@ -18,9 +18,6 @@ class Services {
   static ShopperModel shopper;
   static bool updateOption = false;
 
-  static String prefixUrl = "http://kammun.com/lsapp/public/api/";
-  static String googlePlayUrl = "";
-  static String appStoreUrl = "";
   static String productToAddName = "null";
 
   static int deliveryPrice = 50;
@@ -143,7 +140,6 @@ class Services {
       }
     } catch (e) {
       Tools.logToConsole(e.toString());
-      Tools.logToConsole('e.toString()');
       return null;
     }
   }
