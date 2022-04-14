@@ -123,7 +123,9 @@ class _FinancialReportViewState extends State<FinancialReportView> {
                             : mainStyle.copyWith(color: Colors.red)),
                     KTableElement(
                       text: warehouse.shoppers[index].avgDeliveryMinutes,
-                      style: mainStyle.copyWith(color: ColorUtils.kmColors),
+                      style: double.parse(warehouse.shoppers[index].avgDeliveryMinutes) < 45
+                          ? mainStyle.copyWith(color: Colors.green)
+                          : mainStyle.copyWith(color: Colors.red),
                     ),
                     KTableElement(
                       text: warehouse.shoppers[index].avgOrderRating,
