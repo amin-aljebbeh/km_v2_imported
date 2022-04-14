@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/service.dart';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/service.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
@@ -226,7 +226,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                               OrdersViewCard(
                                 pop: true,
                                 orderData: orderDataList[index],
-                                orderType: OrderTypes.myOrder,
+                                orderType: OrderTypes.none,
                               ),
                               if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
                                   int.parse(orderDataList[index].underUpdate) != 1)

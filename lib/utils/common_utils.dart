@@ -10,7 +10,7 @@ class CommonUtils {
 
 enum MyThemeKeys { light, dark, darker }
 
-enum OrderTypes { myOrder, allOrder }
+enum OrderTypes { myOrder, allOrder, none }
 
 enum BarcodeRequestType { addBarcode, search, addProduct, attachProduct }
 

@@ -71,15 +71,11 @@ class Transaction extends StatelessWidget {
               children: [
                 KTableElement(
                   text: StringUtils().oCcy.format(int.parse(transaction.valueShopper).abs()).toString(),
-                  style: int.parse(transaction.valueShopper) >= 0
-                      ? mainStyle.copyWith(color: Colors.green)
-                      : mainStyle.copyWith(color: Colors.red),
+                  style: int.parse(transaction.valueShopper) >= 0 ? lightProfitStyle : lightLoseStyle,
                 ),
                 KTableElement(
                   text: StringUtils().oCcy.format(int.parse(transaction.valueCompany).abs()).toString(),
-                  style: int.parse(transaction.valueCompany) >= 0
-                      ? mainStyle.copyWith(color: Colors.green)
-                      : mainStyle.copyWith(color: Colors.red),
+                  style: int.parse(transaction.valueCompany) >= 0 ? lightProfitStyle : lightLoseStyle,
                 ),
                 Stack(
                   children: [

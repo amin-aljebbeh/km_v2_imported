@@ -133,6 +133,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                           .products
                                           .removeWhere((product) => product.id == productDetail.id);
                                       break;
+                                    case OrderTypes.none:
+                                      break;
                                   }
                                   productsAry.removeAt(index);
                                 });

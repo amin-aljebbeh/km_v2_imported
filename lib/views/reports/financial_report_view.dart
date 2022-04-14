@@ -112,26 +112,26 @@ class _FinancialReportViewState extends State<FinancialReportView> {
                             .oCcy
                             .format(int.parse(warehouse.shoppers[index].companyDues.replaceAll('-', ''))),
                         style: !warehouse.shoppers[index].companyDues.contains('-')
-                            ? mainStyle.copyWith(color: Colors.green)
-                            : mainStyle.copyWith(color: Colors.red)),
+                            ? lightProfitStyle
+                            : lightLoseStyle),
                     KTableElement(
                         text: StringUtils()
                             .oCcy
                             .format(int.parse(warehouse.shoppers[index].totalProfits.replaceAll('-', ''))),
                         style: !warehouse.shoppers[index].totalProfits.contains('-')
-                            ? mainStyle.copyWith(color: Colors.green)
-                            : mainStyle.copyWith(color: Colors.red)),
+                            ? lightProfitStyle
+                            : lightLoseStyle),
                     KTableElement(
                       text: warehouse.shoppers[index].avgDeliveryMinutes,
                       style: double.parse(warehouse.shoppers[index].avgDeliveryMinutes) < 45
-                          ? mainStyle.copyWith(color: Colors.green)
-                          : mainStyle.copyWith(color: Colors.red),
+                          ? lightProfitStyle
+                          : lightLoseStyle,
                     ),
                     KTableElement(
                       text: warehouse.shoppers[index].avgOrderRating,
                       style: double.parse(warehouse.shoppers[index].avgOrderRating) > 30
-                          ? mainStyle.copyWith(color: Colors.green)
-                          : mainStyle.copyWith(color: Colors.red),
+                          ? lightProfitStyle
+                          : lightLoseStyle,
                     ),
                   ],
                 );

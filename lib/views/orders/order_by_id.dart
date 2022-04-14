@@ -118,7 +118,7 @@ class _OrderByIDState extends State<OrderByID> {
                         OrdersViewCard(
                           pop: true,
                           orderData: order,
-                          orderType: OrderTypes.myOrder,
+                          orderType: OrderTypes.none,
                         ),
                         if (int.parse(order.orderStatusId) <= 4 && int.parse(order.underUpdate) != 1)
                           Padding(

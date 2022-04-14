@@ -67,6 +67,14 @@ TextStyle loseStyle = warehouseStyle.copyWith(
   fontSize: 25,
 );
 
+TextStyle lightProfitStyle = mainStyle.copyWith(
+  color: Colors.green,
+);
+
+TextStyle lightLoseStyle = mainStyle.copyWith(
+  color: Colors.red,
+);
+
 TextStyle userNameStyle = mainStyle.copyWith(
   fontWeight: FontWeight.w700,
   fontSize: 15,
