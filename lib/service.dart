@@ -101,6 +101,7 @@ class Services {
 
   static Future<void> logOutAdmin(BuildContext context) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
+    baseUrl = appUrl;
     await preferences.clear();
     KammunRestart.restartApp(context);
   }

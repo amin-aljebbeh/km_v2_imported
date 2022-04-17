@@ -128,6 +128,7 @@ class _MyAppState extends State<MyApp> {
           '/orders': (_) => const HomeView(routeIndex: 2),
           '/profile': (_) => const ProfileScreen(),
           '/sales_reports': (_) => const SalesReport(),
+          '/sales_charts': (_) => const SalesCharts(),
           '/products_added_to_warehouse': (_) => const AddedProductsToWarehouse(),
           '/products_not_added_to_warehouse': (_) => const NotAddedProductsToWarehouse(),
           '/all_products': (_) => const AllProducts(),

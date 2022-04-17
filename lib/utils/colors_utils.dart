@@ -12,10 +12,10 @@ class ColorUtils {
   Color blueColor = HexColor("396b89");
 
   static Color kmColors2 = HexColor("e5cb37");
-
+  static List<Color> warehousesColors = [ColorUtils.primaryColor, ColorUtils.kmColors, ColorUtils.kmColors2];
   Color khawajaColor = Colors.purple;
   Color vegetableColor = Colors.green[800];
-  Color libraryColor = Colors.indigo;
+  static Color libraryColor = Colors.indigo;
   Color normalColor = Colors.transparent;
   Color meetColor = Colors.deepOrange;
   Color pharmaColor = Colors.blueAccent;

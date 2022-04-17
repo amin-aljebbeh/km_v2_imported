@@ -65,6 +65,7 @@ dependencies:
   call_log: ^3.2.2
   v_chat_sdk: ^1.1.1
   expandable: ^5.0.1
+  syncfusion_flutter_charts: ^20.1.48
 
 flutter_icons:
   image_path: 'assets/kmIcon.png'

@@ -1,5 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../utils/utils_importer.dart';
 import '../Widget/widgets_importer.dart';
@@ -141,6 +142,51 @@ class _FinancialReportViewState extends State<FinancialReportView> {
         ),
       ));
     }
+    totalSubWarehouses.add(Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Divider(
+        thickness: 5,
+        color: ColorUtils.primaryColor,
+        height: 5,
+      ),
+    ));
+    totalSubWarehouses.add(Center(
+      child: SfCircularChart(
+        title: ChartTitle(text: 'توزع مستحقات الشركة', textStyle: informationStyle),
+        legend: Legend(isVisible: true, textStyle: informationStyle),
+        series: <PieSeries<Warehouse, String>>[
+          PieSeries<Warehouse, String>(
+              pointColorMapper: (Warehouse warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
+              explode: true,
+              explodeIndex: 0,
+              dataSource: response.data.warehouses,
+              xValueMapper: (Warehouse warehouse, _) =>
+                  StringUtils().oCcy.format(warehouse.totalCompanyDues).toString(),
+              yValueMapper: (Warehouse warehouse, _) => warehouse.totalCompanyDues,
+              dataLabelMapper: (Warehouse warehouse, _) => warehouse.name,
+              dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),
+        ],
+      ),
+    ));
+    totalSubWarehouses.add(Center(
+      child: SfCircularChart(
+        title: ChartTitle(text: 'توزع أرباح المتسوقين', textStyle: informationStyle),
+        legend: Legend(isVisible: true, textStyle: informationStyle),
+        series: <PieSeries<Warehouse, String>>[
+          PieSeries<Warehouse, String>(
+              pointColorMapper: (Warehouse warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
+              strokeColor: Colors.red,
+              explode: true,
+              explodeIndex: 0,
+              dataSource: response.data.warehouses,
+              xValueMapper: (Warehouse warehouse, _) =>
+                  StringUtils().oCcy.format(warehouse.totalProfitsShoppers).toString(),
+              yValueMapper: (Warehouse warehouse, _) => warehouse.totalProfitsShoppers,
+              dataLabelMapper: (Warehouse warehouse, _) => warehouse.name,
+              dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),
+        ],
+      ),
+    ));
   }
 
   _getSailsReport() async {

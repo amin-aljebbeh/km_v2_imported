@@ -6,6 +6,7 @@ import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:v_chat_sdk/v_chat_sdk.dart';
 
+import '../../core/core_importer.dart';
 import 'Services/login_services.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -53,6 +54,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       });
     } else {
       //todo replace with real accounts
+      if (['rabie', 'supplier', 'rabia'].contains(_usernameController.text)) {
+        baseUrl = testUrl;
+      }
       bool response =
           await LoginServices.loginAdmin(username: _usernameController.text, password: _passwordController.text);
       if (response) {

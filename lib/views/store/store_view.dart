@@ -328,10 +328,17 @@ class StoreViewState extends State<StoreView> {
                       title: StringUtils.adminPanel,
                       children: [
                         SideBarRow(
+                          icon: Icons.table_view_rounded,
+                          text: "تقرير المبيعات",
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/sales_reports');
+                          },
+                        ),
+                        SideBarRow(
                           icon: Icons.insert_chart_outlined_rounded,
                           text: "إحصائيات المبيعات",
                           onTap: () {
-                            Navigator.of(context).pushNamed('/sales_reports');
+                            Navigator.of(context).pushNamed('/sales_charts');
                           },
                         ),
                         SideBarRow(

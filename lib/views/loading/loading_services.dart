@@ -129,18 +129,20 @@ class LoadingScreenServices {
     }
   }
 
-  Future<bool> checkIfUserLoadedIn() async {
+  Future<bool> checkIfUserLoggedIn() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       preferLeftSide = prefs.getBool('preferLeftSide');
       String userToken = prefs.getString('userToken');
-
       if (userToken != null) {
         LoadingScreen.userToken = "Bearer " + userToken;
         if (userToken == "APPLE_VERIFICATION") {
           baseUrl = appleBaseUrl;
         } else {
           baseUrl = productionBaseUrl;
+        }
+        if (['rabie', 'supplier', 'rabia'].contains(userToken)) {
+          baseUrl = testUrl;
         }
         return true;
       } else {
@@ -305,7 +307,7 @@ class LoadingScreenServices {
 
   Future<bool> fetchStartInformation() async {
     try {
-      bool userLoggedIn = await checkIfUserLoadedIn();
+      bool userLoggedIn = await checkIfUserLoggedIn();
       if (userLoggedIn) {
         try {
           List responses;
