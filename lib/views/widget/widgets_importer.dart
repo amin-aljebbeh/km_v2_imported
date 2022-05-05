@@ -4,7 +4,7 @@ export 'alert_messages.dart';
 export 'app_bar_kammun_image.dart';
 export 'barcode_icon.dart';
 export 'dialog_button.dart';
-// export 'entry_field.dart';
+export 'entry_field.dart';
 export 'facebook_loader.dart';
 export 'full_screen_image.dart';
 // export 'favorite_products_view_card.dart';

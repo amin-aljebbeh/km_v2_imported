@@ -63,7 +63,7 @@ class ThankYouViewState extends State<ThankYouView> {
                   Image.asset('assets/like.png', width: 200, height: 200),
                   const SizedBox(height: 50),
                   Text(
-                    StringUtils.thankyou,
+                    StringUtils.thankYou,
                     style: TextStyle(
                         color: ColorUtils.primaryColor,
                         fontWeight: FontWeight.w700,

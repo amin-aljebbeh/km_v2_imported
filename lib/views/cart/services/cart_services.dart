@@ -8,9 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CartServices {
   static List<ProductData> cartProducts = [];
 
-  static String userNote;
-  static String userCopoun;
-
   static Future getUserCart() async {
     try {
       Map<String, String> productsIdCount = <String, String>{};

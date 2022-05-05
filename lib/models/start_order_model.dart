@@ -63,28 +63,29 @@ class PageData {
 }
 
 class OrdersOriginalData {
-  OrdersOriginalData(
-      {this.id,
-      this.expectedTimeMinutes,
-      this.deliveryCost,
-      this.supportedCityCost,
-      this.orderStatusId,
-      this.paymentMethodId,
-      this.deliveryMethodId,
-      this.warehouseId,
-      this.addressId,
-      this.userId,
-      this.couponId,
-      this.userDeliveryRating,
-      this.userPriceRating,
-      this.userComment,
-      this.total,
-      this.userNotes,
-      this.supportedCityId,
-      this.underUpdate,
-      this.deliveryStaffId,
-      this.products,
-      this.createdAt});
+  OrdersOriginalData({
+    this.id,
+    this.expectedTimeMinutes,
+    this.deliveryCost,
+    this.supportedCityCost,
+    this.orderStatusId,
+    this.paymentMethodId,
+    this.deliveryMethodId,
+    this.warehouseId,
+    this.addressId,
+    this.userId,
+    this.couponId,
+    this.userDeliveryRating,
+    this.userPriceRating,
+    this.userComment,
+    this.total,
+    this.userNotes,
+    this.supportedCityId,
+    this.underUpdate,
+    this.deliveryStaffId,
+    this.products,
+    this.createdAt,
+  });
 
   int id;
   String expectedTimeMinutes;

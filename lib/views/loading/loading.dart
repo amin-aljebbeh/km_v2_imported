@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/blocked_user/blocked_user.dart';
 import 'package:kammun_app/views/errors_screen/internet_error.dart';
@@ -23,8 +22,6 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   Future fetchInformation;
-
-  CartProduct cartLoad = CartProduct();
 
   dynamic notificationValue;
 
@@ -63,19 +60,19 @@ class _LoadingScreenState extends State<LoadingScreen> {
             fit: BoxFit.contain,
           ),
         ),
-        child: Stack(children: <Widget>[
-          Positioned(
-            left: MediaQuery.of(context).size.width - 80,
-            bottom: MediaQuery.of(context).size.height / 2 - 37,
-            height: 100,
-            width: 100,
-            child: Image.asset(
-              "assets/Loading.gif",
-              // width: 20,
-              // color: Colors.transparent,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              left: MediaQuery.of(context).size.width - 80,
+              bottom: MediaQuery.of(context).size.height / 2 - 37,
+              height: 100,
+              width: 100,
+              child: Image.asset(
+                "assets/Loading.gif",
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }

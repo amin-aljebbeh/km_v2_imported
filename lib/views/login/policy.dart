@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class UsagePolicy extends StatefulWidget {
   final Function(bool) onApprove;
-  const UsagePolicy(this.onApprove, {Key key}) : super(key: key);
+  const UsagePolicy({this.onApprove, Key key}) : super(key: key);
   @override
   _UsagePolicyState createState() => _UsagePolicyState();
 }

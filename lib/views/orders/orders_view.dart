@@ -183,7 +183,7 @@ class OrdersViewState extends State<OrdersView> {
                                   orderQuantity: orderDataList[index].products.length,
                                   orderCreatedDate: dateTime,
                                 ),
-                                if (int.parse(orderDataList[index].orderStatusId) == 1)
+                                if (orderDataList[index].orderStatusId == '1')
                                   KammunButton(
                                     color: Colors.red[700],
                                     onTap: () async {
@@ -240,8 +240,8 @@ class OrdersViewState extends State<OrdersView> {
                                     },
                                     text: StringUtils.cancelOrder,
                                   ),
-                                if ((int.parse(orderDataList[index].orderStatusId) < 3) &&
-                                    orderDataList[index].underUpdate == "0")
+                                if ((orderDataList[index].orderStatusId == '1') &&
+                                    orderDataList[index].underUpdate == '0')
                                   KammunButton(
                                     color: Colors.green,
                                     onTap: () async {
@@ -294,7 +294,7 @@ class OrdersViewState extends State<OrdersView> {
                                     },
                                     text: StringUtils.editOrder,
                                   ),
-                                if (int.parse(orderDataList[index].orderStatusId) == 5 &&
+                                if (orderDataList[index].orderStatusId == '5' &&
                                     orderDataList[index].userDeliveryRating == null)
                                   KammunButton(
                                     color: ColorUtils.kmColors,

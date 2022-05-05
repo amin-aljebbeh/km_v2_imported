@@ -1,6 +1,5 @@
 export 'add_address_response.dart';
 export 'address_model.dart';
-export 'cart_product_model.dart';
 export 'category_model.dart';
 export 'company_model.dart';
 export 'delivery_method_model.dart';

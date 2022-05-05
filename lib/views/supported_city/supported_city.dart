@@ -32,7 +32,10 @@ class _SupportedCityViewState extends State<SupportedCityView> {
             onSubmitted: (_) {},
             cursorColor: ColorUtils.primaryColor,
             decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search),
+              prefixIcon: Icon(
+                Icons.search,
+                color: ColorUtils.primaryColor,
+              ),
               contentPadding: const EdgeInsets.only(top: 4.0),
               hintText: "ابحث عن منطقتك",
               hintStyle: TextStyle(

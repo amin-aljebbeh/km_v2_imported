@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/models/products_categories_model.dart';
 
-class FavoraitesProductsServices {
+class FavoritesProductsServices {
   static int lastPageNumber = 1;
   static bool theEndOfFavoraites = false;
-  static Future<ProductResponse> getUserFavoraites({int pageNumber}) async {
+  static Future<ProductResponse> getUserFavorites({int pageNumber}) async {
     var response = await ApiProvider.sendRequest(
       url: favoritesProducts,
       method: HttpMethods.get,

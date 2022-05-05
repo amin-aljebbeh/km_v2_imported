@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/models/products_categories_model.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:kammun_app/views/favoraites/services/product_favoraites_services.dart';
+import 'package:kammun_app/views/favorites/services/product_favorites_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 
-class Favoraites extends StatefulWidget {
-  const Favoraites({Key key}) : super(key: key);
+class Favorites extends StatefulWidget {
+  const Favorites({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return FavoraitesViewState();
+    return FavoritesViewState();
   }
 }
 
-class FavoraitesViewState extends State<Favoraites> {
+class FavoritesViewState extends State<Favorites> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController searchController = TextEditingController();
 
@@ -29,18 +29,18 @@ class FavoraitesViewState extends State<Favoraites> {
   List<ProductData> favoraitesProductData = [];
   _getFavoraites() async {
     setState(() {
-      FavoraitesProductsServices.lastPageNumber = page;
+      FavoritesProductsServices.lastPageNumber = page;
       if (page == 1) productLoaded = false;
       if (!theEndOfFavoraites) isLoading = true;
       errorMessage = false;
     });
 
-    final productList = await FavoraitesProductsServices.getUserFavoraites(pageNumber: page);
+    final productList = await FavoritesProductsServices.getUserFavorites(pageNumber: page);
     if (productList != null) {
       if (productList.data == null) {
         setState(() {
           theEndOfFavoraites = true;
-          FavoraitesProductsServices.theEndOfFavoraites = true;
+          FavoritesProductsServices.theEndOfFavoraites = true;
           productLoaded = true;
           errorMessage = false;
           isLoading = false;
@@ -68,13 +68,13 @@ class FavoraitesViewState extends State<Favoraites> {
 
   @override
   void initState() {
-    if (FavoraitesProductsServices.lastPageNumber == 1) {
+    if (FavoritesProductsServices.lastPageNumber == 1) {
       getFavoraites = _getFavoraites();
     } else {
       favoraitesProductData = LoadingScreenServices.userFavoriteProducts;
     }
-    page = FavoraitesProductsServices.lastPageNumber;
-    theEndOfFavoraites = FavoraitesProductsServices.theEndOfFavoraites;
+    page = FavoritesProductsServices.lastPageNumber;
+    theEndOfFavoraites = FavoritesProductsServices.theEndOfFavoraites;
     super.initState();
   }
 

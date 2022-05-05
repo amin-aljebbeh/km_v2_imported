@@ -452,15 +452,16 @@ class AddAddressViewState extends State<AddAddressView> {
           isError = false;
         });
         bool successAddingAddress = await Services.addNewAddress(
-            newUserAddress.supportedCityName,
-            newUserAddress.street,
-            newUserAddress.building,
-            newUserAddress.floor,
-            newUserAddress.description,
-            newUserAddress.supportedCityId.toString(),
-            lat,
-            lon,
-            newUserAddress.entrance);
+          city: newUserAddress.supportedCityName,
+          street: newUserAddress.street,
+          building: newUserAddress.building,
+          floor: newUserAddress.floor,
+          description: newUserAddress.description,
+          supportedCityId: newUserAddress.supportedCityId.toString(),
+          lat: lat,
+          lon: lon,
+          entrance: newUserAddress.entrance,
+        );
 
         if (successAddingAddress) {
           setState(() {

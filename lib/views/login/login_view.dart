@@ -57,9 +57,10 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           signature = "";
         }
         bool response = await Services.loginUser(
-            phoneNumber: LoginServices.replaceFarsiNumber(myController.text.toString()),
-            signCode: signature,
-            supportedCityId: "1");
+          phoneNumber: LoginServices.replaceFarsiNumber(myController.text.toString()),
+          signCode: signature,
+          supportedCityId: "1",
+        );
 
         if (response) {
           SmsAutoFill().listenForCode;
@@ -120,61 +121,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       );
     }
 
-    void _settingModalBottomSheet(context) {
-      showMaterialModalBottomSheet(
-        context: context,
-        builder: (context) => Container(
-          height: MediaQuery.of(context).size.height * 0.5,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(25.0),
-              topRight: Radius.circular(25.0),
-            ),
-          ),
-          child: UsagePolicy(
-            (approve) {
-              if (approve) {
-                Navigator.of(context).pop();
-                fetchOtp();
-              }
-            },
-          ),
-        ),
-      );
-    }
-
-    Widget _showSubmit() {
-      final GestureDetector loginButtonWithGesture = GestureDetector(
-        onTap: () {
-          _settingModalBottomSheet(context);
-        },
-        child: Container(
-          height: 50.0,
-          decoration: BoxDecoration(
-              color: ColorUtils.primaryColor, borderRadius: const BorderRadius.all(Radius.circular(6.0))),
-          child: Center(
-            child: Text(
-              "تأكيد رقم الموبايل",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: StringUtils.fontFamilyHKGrotesk),
-            ),
-          ),
-        ),
-      );
-
-      return loadingScreen
-          ? const Padding(
-              padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-              child: Loader(),
-            )
-          : Padding(
-              padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: loginButtonWithGesture);
-    }
-
     return Scaffold(
       backgroundColor: ColorUtils.kmColors,
       body: SafeArea(
@@ -220,13 +166,44 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                   padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
                   child: _showCountryInput(),
                 ),
-                Container(
+                Padding(
                   padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 20, top: 5),
-                  child: _showSubmit(),
-                )
+                  child: KammunButton(
+                    color: ColorUtils.primaryColor,
+                    onTap: () {
+                      settingModalBottomSheet(context);
+                    },
+                    height: 50,
+                    text: 'تأكيد رقم الموبايل',
+                  ),
+                ),
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  settingModalBottomSheet(context) {
+    showMaterialModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.5,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25.0),
+            topRight: Radius.circular(25.0),
+          ),
+        ),
+        child: UsagePolicy(
+          onApprove: (approve) {
+            if (approve) {
+              Navigator.of(context).pop();
+              fetchOtp();
+            }
+          },
         ),
       ),
     );

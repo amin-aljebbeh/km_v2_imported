@@ -51,7 +51,7 @@ class StringUtils {
 
   static String addNewAddress = '+ إضافة عنوان جديد';
 
-  static String thankyou = 'شكراً لطلبك عن طريق كمّـون';
+  static String thankYou = 'شكراً لطلبك عن طريق كمّـون';
   static String thankYouDescribe =
       'تم إستلام طلبك بنجاح، يمكنك الآن العودة للقائمة الرئيسة و الذهاب لصفحة الطلبات لتفقد حالة الطلب';
 

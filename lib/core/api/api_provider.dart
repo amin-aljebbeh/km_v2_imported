@@ -3,22 +3,15 @@ import 'package:kammun_app/views/loading/loading.dart';
 import '../../core/core_importer.dart';
 
 class ApiProvider {
-  static Future<Response> sendRequest(
-      {String url,
-      dynamic body,
-      Map<String, dynamic> queryParameters,
-      HttpMethods method,
-      ResponseType responseType,
-      bool mapService,
-      bool isUrlEncodedFormat}) async {
-    mapService ??= false;
-    isUrlEncodedFormat ??= false;
-
+  static Future<Response> sendRequest({
+    String url,
+    dynamic body,
+    Map<String, dynamic> queryParameters,
+    HttpMethods method,
+    ResponseType responseType,
+  }) async {
     var options = BaseOptions(
-        baseUrl: mapService ? "" : baseUrl,
-        connectTimeout: 30000,
-        receiveTimeout: 30000,
-        contentType: isUrlEncodedFormat ? Headers.formUrlEncodedContentType : Headers.jsonContentType);
+        baseUrl: baseUrl, connectTimeout: 30000, receiveTimeout: 30000, contentType: Headers.jsonContentType);
 
     var dio = Dio(options);
 

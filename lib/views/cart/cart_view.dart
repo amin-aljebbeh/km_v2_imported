@@ -72,7 +72,7 @@ class CartViewState extends State<CartView> {
         : Tools.logToConsole('');
   }
 
-  void onrRemove(item) {
+  void onRemove(item) {
     setState(() {
       cards.removeAt(item);
     });
@@ -212,9 +212,7 @@ class CartViewState extends State<CartView> {
                                   textAlign: TextAlign.right,
                                   keyboardType: TextInputType.multiline,
                                   maxLines: 5,
-                                  style: TextStyle(
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  ),
+                                  style: mainStyle,
                                 ),
                               ),
                               KammunButton(
@@ -223,6 +221,9 @@ class CartViewState extends State<CartView> {
                                 height: 40,
                                 color: ColorUtils.primaryColor,
                                 onTap: () {
+                                  setState(() {
+                                    OrderServices.updateOrderNote = _userNotes.text;
+                                  });
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -380,7 +381,7 @@ class CartViewState extends State<CartView> {
                           orderArray[index].productCount = orderArray[index].productCount - 1;
                         } else if (orderArray[index].productCount == 1) {
                           subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
-                          onrRemove(index);
+                          onRemove(index);
                           CartServices.cartProducts.removeAt(index);
                         }
                       });

@@ -49,7 +49,7 @@ class OrderServices {
     Response response;
     try {
       response = await ApiProvider.sendRequest(
-        url: api + '/' + order,
+        url: api + order,
         method: HttpMethods.post,
         body: jsonEncode(orderData),
       );

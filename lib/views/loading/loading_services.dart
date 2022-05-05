@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/core/core_importer.dart';
@@ -7,7 +5,7 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
-import 'package:kammun_app/views/favoraites/services/product_favoraites_services.dart';
+import 'package:kammun_app/views/favorites/services/product_favorites_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,43 +20,28 @@ class LoadingScreenServices {
   static String imagePrefixUrl = "";
   static List<AssetImage> bannerList = [];
   static List<Image> bannerListNetwork = [];
-  static String updateUrl = "";
   static String androidShareUrl = "";
   static String iOSShareUrl = "";
   static bool serverMaintain = false;
   static bool userBlocked = false;
-  static bool updateRequired = true;
+  static bool updateRequired = false;
   static bool updateOptional = false;
-  static bool checkIfLoggedIn = false;
-  static bool showOnLunchNotification = true;
 
   static SupportedCityOriginal supportedCityOriginal;
   static String supportPhoneNumber;
   static String systemMaintenanceMessages;
   static UserOriginal userOriginal;
-  // -------------------------------------------------------//
 
   // Supported City variables
 
   static List<DropdownMenuItem> supportedCitiesList = [];
   static List<DropdownMenuItem> supportedCitiesListIntro = [];
 
-  // -------------------------------------------------------//
-
   // User Variables
   static List<Address> userAddress = [];
   static List<ProductData> userFavoriteProducts = [];
   static List<OrdersOriginalData> myOrdersList = [];
   static String userNumber = "لم تقم بتسجيل رقم";
-
-  // -------------------------------------------------------//
-
-  /// -------- selected supported city information ------- ///
-
-  static String selectedSupportedCityName;
-  static String selectedSupportedCityPrice;
-  static String selectedSupportedCityIsActive;
-  static String selectedSupportedCityId;
 
   // -------------------------------------------------------//
 
@@ -159,13 +142,13 @@ class LoadingScreenServices {
               getStartScreenInformation(),
             ]);
             int page = 1;
-            ProductResponse temp = await FavoraitesProductsServices.getUserFavoraites(pageNumber: page);
+            ProductResponse temp = await FavoritesProductsServices.getUserFavorites(pageNumber: page);
 
             if (temp.data.isNotEmpty) LoadingScreenServices.userFavoriteProducts.addAll(temp.data);
             while (temp.currentPage != temp.lastPage) {
               page++;
 
-              temp = await FavoraitesProductsServices.getUserFavoraites(pageNumber: page);
+              temp = await FavoritesProductsServices.getUserFavorites(pageNumber: page);
               LoadingScreenServices.userFavoriteProducts.addAll(temp.data);
             }
           } catch (e) {
@@ -212,8 +195,6 @@ class LoadingScreenServices {
         companyInformation = startRequest.company.original.data[1];
         imagePrefixUrl = startRequest.company.original.data[1].imageBaseUrl;
 
-        // --------------------------------------------------------------------- //
-
         // Mobile Configuration
 
         androidShareUrl = startRequest.mobileAppConfigs.original.data[0].appStoreUrl;
@@ -238,8 +219,6 @@ class LoadingScreenServices {
           updateOptional = true;
         }
 
-        // --------------------------------------------------------------------- //
-
         // Get Category
         categoryList.clear();
         final category = startRequest.category.original.data;
@@ -258,8 +237,6 @@ class LoadingScreenServices {
             return 0;
           }
         });
-
-        // --------------------------------------------------------------------- //
 
         // Get Banner
         bannerList.clear();
@@ -291,7 +268,6 @@ class LoadingScreenServices {
           }
         }
 
-        // --------------------------------------------------------------------- //
         // Get User
 
         userAddress.clear();

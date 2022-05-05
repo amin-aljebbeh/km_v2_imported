@@ -34,6 +34,9 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
   bool isLoading = false;
   bool error;
   String errorMessage;
+  TextEditingController copounController;
+  TextEditingController walletController;
+  GroupButtonController controller;
 
   _showBottomSheet({List<String> notActive, List<String> priceProblem}) {
     List<int> notActiveId = [];
@@ -167,20 +170,17 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
         await prefs.remove("userCart");
         CartServices.cartProducts.clear();
 
-        CartServices.userNote = "";
-        CartServices.userCopoun = "";
-
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
       }
     }
   }
 
-  GroupButtonController controller;
-
   @override
   void initState() {
     controller = GroupButtonController(selectedIndex: 0);
+    copounController = TextEditingController();
+    walletController = TextEditingController();
     getDeliveryMethods = _getDeliveryMethods();
     orderArray = CartServices.cartProducts;
     makeCards();
@@ -278,9 +278,8 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                               shrinkWrap: true,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(30.0),
+                                  padding: const EdgeInsets.all(5.0),
                                   child: Container(
-                                    padding: const EdgeInsets.all(10.0),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                         borderRadius: const BorderRadius.all(
@@ -301,10 +300,11 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                         groupingType: GroupingType.column,
                                         textAlign: TextAlign.center,
                                         unselectedTextStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20.0,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: StringUtils.fontFamilyHKGrotesk),
+                                          color: Colors.black,
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.w500,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                        ),
                                         selectedTextStyle: TextStyle(
                                             color: Colors.white,
                                             fontSize: 20.0,
@@ -333,16 +333,12 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                   ),
                                 ),
                                 Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 18.0),
-                                    child: AlertMessages(
-                                      headerTextSize: 23,
-                                      messageTextSize: 20,
-                                      messageType: "Successfully",
-                                      headerText: "شرح عن طريقة التوصيل",
-                                      text:
-                                          DeliveryMethodServices.deliveryMethodsList[selectedIndex].pivot.message,
-                                    ),
+                                  child: AlertMessages(
+                                    headerTextSize: 23,
+                                    messageTextSize: 20,
+                                    messageType: "Successfully",
+                                    headerText: "شرح عن طريقة التوصيل",
+                                    text: DeliveryMethodServices.deliveryMethodsList[selectedIndex].pivot.message,
                                   ),
                                 ),
                                 const SizedBox(
@@ -350,91 +346,175 @@ class _DeliveryMethodViewState extends State<DeliveryMethodView> {
                                 ),
                                 Center(
                                   // padding: const EdgeInsets.all(8.0),
-                                  child: Text("اجرةالتوصيل النهائية",
-                                      style: TextStyle(
-                                          color: ColorUtils.primaryColor,
-                                          fontSize: 30.0,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                                  child: Text(
+                                    "اجرةالتوصيل النهائية",
+                                    style: TextStyle(
+                                      color: ColorUtils.primaryColor,
+                                      fontSize: 30.0,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 15,
                                 ),
                                 Center(
                                   child: Text(
-                                      "${int.parse(DeliveryMethodServices.deliveryMethodsList[selectedIndex].pivot.price.split(".")[0]) + LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice} ${LoadingScreenServices.companyInformation.currency}",
-                                      style: TextStyle(
-                                          color: ColorUtils.primaryColor,
-                                          fontSize: 30.0,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                                    "${int.parse(DeliveryMethodServices.deliveryMethodsList[selectedIndex].pivot.price.split(".")[0]) + LoadingScreenServices.userAddress[DeliverToView.selectedIndex].deliveryPrice} ${LoadingScreenServices.companyInformation.currency}",
+                                    style: TextStyle(
+                                      color: ColorUtils.primaryColor,
+                                      fontSize: 30.0,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'السحب من المحفظة',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context).primaryColorDark,
+                                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                              fontSize: 17.0),
+                                        ),
+                                        SizedBox(
+                                          height: 30,
+                                          child: EntryField(
+                                            controller: walletController,
+                                            width: MediaQuery.of(context).size.width / 2,
+                                            hint: 'المبلغ',
+                                            onSubmit: (notEmpty) {
+                                              if (notEmpty) {}
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'ادخل كود الكوبون',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context).primaryColorDark,
+                                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                              fontSize: 17.0),
+                                        ),
+                                        SizedBox(
+                                          height: 30,
+                                          child: EntryField(
+                                            controller: copounController,
+                                            width: MediaQuery.of(context).size.width / 2,
+                                            hint: 'الكود',
+                                            onSubmit: (notEmpty) {
+                                              if (notEmpty) {}
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          StringUtils.subtotal,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            color: Theme.of(context).primaryColorDark,
+                                            fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                            fontSize: 17.0,
+                                          ),
+                                        ),
+                                        Text(
+                                          "${StringUtils().oCcy.format(subTotal)} ${LoadingScreenServices.companyInformation.currency}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context).primaryColorDark,
+                                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                              fontSize: 17.0),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(StringUtils.delivery,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              color: Theme.of(context).primaryColorDark,
+                                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                              fontSize: 16.0,
+                                            )),
+                                        Text(
+                                          "${StringUtils().oCcy.format(deliveryCost)} ${LoadingScreenServices.companyInformation.currency}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context).primaryColorDark,
+                                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(StringUtils.total,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              color: Theme.of(context).primaryColorDark,
+                                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                              fontSize: 19.0,
+                                            )),
+                                        Text(
+                                          "${StringUtils().oCcy.format(subTotal + deliveryCost)} ${LoadingScreenServices.companyInformation.currency}",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              color: Theme.of(context).primaryColorDark,
+                                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                              fontSize: 19),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
                           ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          StringUtils.subtotal,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).primaryColorDark,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 17.0,
-                          ),
-                        ),
-                        Text(
-                          "${StringUtils().oCcy.format(subTotal)} ${LoadingScreenServices.companyInformation.currency}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 17.0),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(StringUtils.delivery,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 16.0,
-                            )),
-                        Text(
-                          "${StringUtils().oCcy.format(deliveryCost)} ${LoadingScreenServices.companyInformation.currency}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 16),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(StringUtils.total,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 19.0,
-                            )),
-                        Text(
-                          "${StringUtils().oCcy.format(subTotal + deliveryCost)} ${LoadingScreenServices.companyInformation.currency}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 19),
-                        ),
-                      ],
+                    KammunButton(
+                      color: ColorUtils.primaryColor,
+                      onTap: () {},
+                      text: 'الدفع إلكترونياً',
+                      height: 50,
                     ),
                     error
                         ? KammunButton(

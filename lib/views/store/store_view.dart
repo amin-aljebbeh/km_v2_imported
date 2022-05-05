@@ -21,8 +21,6 @@ class StoreViewState extends State<StoreView> {
   TextEditingController searchController = TextEditingController();
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  bool isDarkThemeMode = false;
-
   _updateApplication() async {
     String url = LoadingScreen.updateUrl;
 
@@ -312,7 +310,7 @@ class StoreViewState extends State<StoreView> {
 
   Widget _imageCarousel() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.25,
+      height: MediaQuery.of(context).size.height * 0.20,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
           color: ColorUtils.searchGreyColor, borderRadius: const BorderRadius.all(Radius.circular(20.0))),
@@ -325,6 +323,7 @@ class StoreViewState extends State<StoreView> {
         animationDuration: const Duration(milliseconds: 1000),
         dotSize: 6.0,
         indicatorBgPadding: 2.0,
+        dotBgColor: Colors.transparent,
       ),
     );
   }

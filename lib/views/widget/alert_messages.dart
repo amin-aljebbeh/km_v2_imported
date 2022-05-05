@@ -75,6 +75,13 @@ class AlertMessages extends StatelessWidget {
         headerText = "";
       }
     }
+    if (messageType.contains('order')) {
+      outsideBorderColor = ColorUtils.kmColors2;
+      insideBorderColor = ColorUtils.kmColors2.withAlpha(0100);
+      textWeight = FontWeight.w600;
+      headerText = headerText + "\n";
+      headerTextColor = ColorUtils.kmColors2;
+    }
   }
 
   @override

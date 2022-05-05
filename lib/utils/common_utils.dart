@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 
-class CommonUtils {
-  Size deviceScreenSize(BuildContext context) {
-    return MediaQuery.of(context).size;
-  }
-}
-
 enum MyThemeKeys { light, dark, darker }
 
 enum ProductsViewTypes { search, category, barcode }

@@ -14,9 +14,6 @@ import 'models/models_importer.dart';
 
 class Services {
   static bool updateOption = false;
-  static String prefixUrl = "http://kammun.com/lsapp/public/api/";
-  static String googlePlayUrl = "";
-  static String appStoreUrl = "";
 
   static Future<bool> addToFavorites(String productsId) async {
     var response = await ApiProvider.sendRequest(
@@ -44,8 +41,17 @@ class Services {
     }
   }
 
-  static Future<bool> addNewAddress(String city, String street, String building, String floor, String description,
-      String supportedCityId, double lat, double lon, String entrance) async {
+  static Future<bool> addNewAddress({
+    String city,
+    String street,
+    String building,
+    String floor,
+    String description,
+    String supportedCityId,
+    double lat,
+    double lon,
+    String entrance,
+  }) async {
     Map addressData = {
       'street': street,
       'building': building,
@@ -73,17 +79,18 @@ class Services {
     }
   }
 
-  static Future<bool> updateAddress(
-      {String addressId,
-      String city,
-      String street,
-      String building,
-      String floor,
-      String description,
-      String supportedCityId,
-      double lat,
-      double lon,
-      String entrance}) async {
+  static Future<bool> updateAddress({
+    String addressId,
+    String city,
+    String street,
+    String building,
+    String floor,
+    String description,
+    String supportedCityId,
+    double lat,
+    double lon,
+    String entrance,
+  }) async {
     Map addressData = {
       'city': city,
       'street': street,
@@ -234,9 +241,9 @@ class Services {
     String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
     String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
 
-    String androidUrl = androidGrating + LoadingScreenServices.iOSShareUrl;
+    String androidUrl = androidGrating + LoadingScreenServices.androidShareUrl;
     String iosGrating = "\n لتحميل التطبيق على الآيفون \n";
-    String iPhoneUrl = iosGrating + LoadingScreenServices.androidShareUrl;
+    String iPhoneUrl = iosGrating + LoadingScreenServices.iOSShareUrl;
 
     Share.share(infoMessage + androidUrl + iPhoneUrl);
   }
@@ -282,5 +289,4 @@ class Services {
       dialogButtons: [],
     );
   }
-
 }
