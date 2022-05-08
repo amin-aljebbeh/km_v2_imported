@@ -59,6 +59,7 @@ class _OrderByIDState extends State<OrderByID> {
 
     if (orderList != null) {
       order = orderList;
+      LoadingScreenServices.phoneOrderList = [order];
       if (Services.isShopper() || order.shopper != null) {
         order.orderArithmeticOperations();
         order.orderProfits();
@@ -118,7 +119,7 @@ class _OrderByIDState extends State<OrderByID> {
                         OrdersViewCard(
                           pop: true,
                           orderData: order,
-                          orderType: OrderTypes.none,
+                          orderType: OrderTypes.search,
                         ),
                         if (int.parse(order.orderStatusId) <= 4 && int.parse(order.underUpdate) != 1)
                           Padding(

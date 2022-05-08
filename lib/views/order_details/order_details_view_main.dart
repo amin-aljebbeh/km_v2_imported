@@ -133,6 +133,12 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                           .products
                                           .removeWhere((product) => product.id == productDetail.id);
                                       break;
+                                    case OrderTypes.search:
+                                      LoadingScreenServices.phoneOrderList
+                                          .firstWhere((order) => order.id == widget.order.id)
+                                          .products
+                                          .removeWhere((product) => product.id == productDetail.id);
+                                      break;
                                     case OrderTypes.none:
                                       break;
                                   }

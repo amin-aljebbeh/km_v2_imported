@@ -227,7 +227,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                               OrdersViewCard(
                                 pop: true,
                                 orderData: orderDataList[index],
-                                orderType: OrderTypes.none,
+                                orderType: OrderTypes.search,
                               ),
                               if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
                                   int.parse(orderDataList[index].underUpdate) != 1)
