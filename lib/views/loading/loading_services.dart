@@ -40,13 +40,11 @@ class LoadingScreenServices {
   static String supportPhoneNumber;
   static String systemMaintenanceMessages;
 
-  // -------------------------------------------------------//
 
   // Supported City variables
 
   static List<IndigoDatum> supportedCitiesListIntro = [];
 
-  // -------------------------------------------------------//
 
   // User Variables
   static List<ProductData> allProducts = [];
@@ -62,7 +60,6 @@ class LoadingScreenServices {
   static bool preferLeftSide = true;
   static int ordersViewFilter = 0;
 
-  // -------------------------------------------------------//
 
   static RegExp subSupplierCodeHint = RegExp(".*kh");
 
@@ -254,7 +251,6 @@ class LoadingScreenServices {
 
     imagePrefixUrl = appUrl + "/images/";
 
-    // --------------------------------------------------------------------- //
 
     // Mobile Configuration
 

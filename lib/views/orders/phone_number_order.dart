@@ -52,6 +52,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
       if (!theEndOfOrders) isLoading = true;
       errorMessage = false;
       orderDataList.clear();
+      LoadingScreenServices.phoneOrderList.clear();
     });
     List<OrdersOriginalData> orderList;
     LoadingScreenServices.phoneOrderList =

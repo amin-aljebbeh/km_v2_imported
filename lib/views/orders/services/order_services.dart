@@ -282,8 +282,13 @@ class OrderServices {
         },
       );
 
+      Tools.logToConsole(response);
       if (response.statusCode == successCode) {
-        return ordersFromJson(jsonEncode(response.data)).data.data;
+        if (response.data['success']) {
+          return ordersFromJson(jsonEncode(response.data)).data.data;
+        } else {
+          return [];
+        }
       } else {
         return null;
       }

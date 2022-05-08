@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:search_choices/search_choices.dart';
 
-// ignore: must_be_immutable
 class KSearchableDropdown extends StatefulWidget {
   final String hint;
-  String search;
+  final String search;
   final List<DropdownMenuItem> items;
   final Function(String) onChanged;
 
-  KSearchableDropdown({
+  const KSearchableDropdown({
     Key key,
     @required this.hint,
     @required this.search,

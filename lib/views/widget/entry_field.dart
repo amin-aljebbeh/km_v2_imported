@@ -42,9 +42,7 @@ class _EntryFieldState extends State<EntryField> {
           contentPadding: EdgeInsets.zero,
           border: const OutlineInputBorder(),
           hintText: widget.hint,
-          hintStyle: TextStyle(
-            fontFamily: StringUtils.fontFamilyHKGrotesk,
-          ),
+          hintStyle: mainStyle,
           fillColor: Colors.white,
           filled: true,
           enabledBorder: OutlineInputBorder(

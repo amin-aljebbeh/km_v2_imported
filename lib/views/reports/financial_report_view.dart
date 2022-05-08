@@ -130,7 +130,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
                     ),
                     KTableElement(
                       text: warehouse.shoppers[index].avgOrderRating,
-                      style: double.parse(warehouse.shoppers[index].avgOrderRating) > 30
+                      style: double.parse(warehouse.shoppers[index].avgOrderRating) > 3.5
                           ? lightProfitStyle
                           : lightLoseStyle,
                     ),
