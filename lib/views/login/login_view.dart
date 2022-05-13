@@ -63,9 +63,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         try {
           await VChatController.instance.register(
             dto: VChatRegisterDto(
-              name: 'rabie',
+              name: _usernameController.text,
               userImage: null,
-              email: 'rabie',
+              email: _usernameController.text,
             ),
             context: context,
           );
