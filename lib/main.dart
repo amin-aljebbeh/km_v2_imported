@@ -20,7 +20,7 @@ Future<void> main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
     await VChatController.instance.init(
-      baseUrl: Uri.parse("http://90.153.255.31"),
+      baseUrl: Uri.parse("http://chat.kammun.com"),
       appName: "Kammun",
       vChatNotificationType: VChatNotificationType.none,
       //widgetsBuilder: VChatCustomWidgets(),
