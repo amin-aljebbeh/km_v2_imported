@@ -210,13 +210,13 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         shrinkWrap: true,
                         itemCount: orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
+                          orderDataList[index].orderArithmeticOperations();
                           if (!Services.isSupplierManager()) {
-                            orderDataList[index].orderArithmeticOperations();
                             orderDataList[index].orderProfits();
                           }
                           if (Services.isSupplierManager()) {
                             return SupplierOrdersViewCard(
-                              order: orderDataList[index],
+                              order: orderDataList[index]
                             );
                           }
                           return Column(
@@ -224,7 +224,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                               OrdersViewCard(
                                 pop: false,
                                 orderData: orderDataList[index],
-                                orderType: OrderTypes.myOrder,
+                                orderType: OrderTypes.myOrder
                               ),
                               if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
                                   int.parse(orderDataList[index].underUpdate) != 1)

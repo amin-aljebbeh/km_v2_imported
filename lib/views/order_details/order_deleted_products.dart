@@ -6,14 +6,12 @@ import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 // ignore: must_be_immutable
 class OrderDeletedProducts extends StatefulWidget {
-  int subTotal;
   String total;
   OrdersOriginalData order;
   final OrderTypes orderType;
 
   OrderDeletedProducts({
     Key key,
-    this.subTotal,
     this.total,
     this.order,
     @required this.orderType,

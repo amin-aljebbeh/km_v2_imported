@@ -12,12 +12,8 @@ import 'services/order_details_services.dart';
 class OrderAccounting extends StatefulWidget {
   final OrdersOriginalData orderData;
   final Function onDelete;
-
-  const OrderAccounting({
-    Key key,
-    @required this.orderData,
-    this.onDelete,
-  }) : super(key: key);
+  final int subTotal;
+  const OrderAccounting({Key key, @required this.orderData, this.onDelete, this.subTotal}) : super(key: key);
 
   @override
   _OrderAccountingState createState() => _OrderAccountingState();
@@ -137,27 +133,30 @@ class _OrderAccountingState extends State<OrderAccounting> {
             ));
           }
         }
-        int delivery = int.parse(widget.orderData.supportedCityCost.split('.')[0]) +
-            int.parse(widget.orderData.deliveryCost.split('.')[0]);
-        int subTotal = int.parse(widget.orderData.total.split(".")[0]) - delivery;
-        subWarehouseTotal.add(KTableRow(
-          children: [
-            KTableElement(text: StringUtils.subtotal),
-            KTableElement(text: subTotal.toString()),
-          ],
-        ));
-        subWarehouseTotal.add(KTableRow(
-          children: [
-            const KTableElement(text: "أجور التوصيل"),
-            KTableElement(text: delivery.toString()),
-          ],
-        ));
-        subWarehouseTotal.add(KTableRow(
-          children: [
-            KTableElement(text: StringUtils.total),
-            KTableElement(text: widget.orderData.total.split(".")[0]),
-          ],
-        ));
+        if (!Services.isSupplierManager()) {
+          int delivery = int.parse(widget.orderData.supportedCityCost.split('.')[0]) +
+              int.parse(widget.orderData.deliveryCost.split('.')[0]);
+          int subTotal = int.parse(widget.orderData.total.split(".")[0]) - delivery;
+          subWarehouseTotal.add(KTableRow(
+            children: [KTableElement(text: StringUtils.subtotal), KTableElement(text: subTotal.toString())],
+          ));
+          subWarehouseTotal.add(KTableRow(
+            children: [const KTableElement(text: "أجور التوصيل"), KTableElement(text: delivery.toString())],
+          ));
+          subWarehouseTotal.add(KTableRow(
+            children: [
+              KTableElement(text: StringUtils.total),
+              KTableElement(text: widget.orderData.total.split(".")[0]),
+            ],
+          ));
+        } else {
+          subWarehouseTotal.add(KTableRow(
+            children: [
+              KTableElement(text: StringUtils.total),
+              KTableElement(text: widget.subTotal.toString()),
+            ],
+          ));
+        }
       },
     );
   }

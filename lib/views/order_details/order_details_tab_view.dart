@@ -31,16 +31,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
   TabController controller;
 
   tabBarList() {
-    tabList.add(
-      Tab(
-        child: Center(
-          child: Text(
-            'المنتجات',
-            style: tabStyle,
-          ),
-        ),
-      ),
-    );
+    tabList.add(Tab(child: Center(child: Text('المنتجات', style: tabStyle))));
     screenList.add(
       OrderDetailViewMain(
         subTotal: widget.subTotal,
@@ -52,47 +43,22 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
     );
     if (!Services.isSupplierManager()) {
       if (deletedProducts) {
-        tabList.add(
-          Center(
-            child: Tab(
-              child: Center(
-                child: Text(
-                  ' المحذوفة',
-                  style: tabStyle,
-                ),
-              ),
-            ),
-          ),
-        );
+        tabList.add(Center(child: Tab(child: Center(child: Text(' المحذوفة', style: tabStyle)))));
         screenList.add(
           OrderDeletedProducts(
-            subTotal: widget.subTotal,
             total: widget.total.split('.')[0],
             order: widget.orderData,
             orderType: widget.orderType,
           ),
         );
       }
-
-      tabList.add(
-        Tab(
-          child: Center(
-            child: Text(
-              'الحسابات',
-              style: tabStyle,
-            ),
-          ),
-        ),
-      );
-      screenList.add(
-        OrderAccounting(
-          orderData: widget.orderData,
-          onDelete: () {
-            controller.animateTo(0);
-          },
-        ),
-      );
     }
+    tabList.add(Tab(child: Center(child: Text('الحسابات', style: tabStyle))));
+    screenList.add(OrderAccounting(
+      orderData: widget.orderData,
+      onDelete: () => controller.animateTo(0),
+      subTotal: widget.subTotal,
+    ));
   }
 
   @override
@@ -115,6 +81,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
 
   bool isLoading = false;
   bool errorAlert = false;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

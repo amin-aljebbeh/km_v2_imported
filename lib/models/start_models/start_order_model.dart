@@ -226,29 +226,18 @@ class OrdersOriginalData {
         int increaseValue = products[i].pivot.increaseValue * int.parse(products[i].pivot.quantity);
         netPrice -= increaseValue;
         orderAccountingRows
-            .firstWhere(
-              (row) => row.subWarehouseId == products[i].pivot.subWarehouseId,
-              orElse: () => row,
-            )
+            .firstWhere((row) => row.subWarehouseId == products[i].pivot.subWarehouseId, orElse: () => row)
             .increaseValuesSum += increaseValue;
         orderAccountingRows
-            .firstWhere(
-              (row) => row.subWarehouseId == products[i].pivot.subWarehouseId,
-              orElse: () => row,
-            )
+            .firstWhere((row) => row.subWarehouseId == products[i].pivot.subWarehouseId, orElse: () => row)
             .netPrice += netPrice;
         double discountPercentage = SubWarehouse.getDiscountPercentage(products[i].pivot.subWarehouseId);
         orderAccountingRows
-            .firstWhere(
-              (row) => row.subWarehouseId == products[i].pivot.subWarehouseId,
-              orElse: () => row,
-            )
+            .firstWhere((row) => row.subWarehouseId == products[i].pivot.subWarehouseId, orElse: () => row)
             .payToSubWarehouse += netPrice;
         orderAccountingRows
-            .firstWhere(
-              (row) => row.subWarehouseId == products[i].pivot.subWarehouseId && row.directDiscount == 1,
-              orElse: () => row,
-            )
+            .firstWhere((row) => row.subWarehouseId == products[i].pivot.subWarehouseId && row.directDiscount == 1,
+                orElse: () => row)
             .payToSubWarehouse -= (netPrice * discountPercentage);
       }
     }

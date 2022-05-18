@@ -176,9 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                           .map(
                                             (subWarehouse) => Container(
                                               padding: const EdgeInsets.all(5),
-                                              decoration: const BoxDecoration(
-                                                color: Colors.white,
-                                              ),
+                                              decoration: const BoxDecoration(color: Colors.white),
                                               child: Text(
                                                 subWarehouse.name,
                                                 style: TextStyle(
