@@ -6,7 +6,10 @@ class EntryField extends StatefulWidget {
   final String hint;
   final double width;
   final Function(bool) onSubmit;
-  const EntryField({Key key, @required this.controller, this.hint, this.width, this.onSubmit}) : super(key: key);
+  final EdgeInsetsGeometry edgeInsetsGeometry;
+  const EntryField(
+      {Key key, @required this.controller, this.hint, this.width, this.onSubmit, this.edgeInsetsGeometry})
+      : super(key: key);
 
   @override
   _EntryFieldState createState() => _EntryFieldState();
@@ -28,18 +31,14 @@ class _EntryFieldState extends State<EntryField> {
       ),
       child: TextFormField(
         cursorColor: ColorUtils.kmColors,
-        onChanged: (value) {
-          setState(() {});
-        },
-        onFieldSubmitted: (string) {
-          widget.onSubmit(string.isNotEmpty);
-        },
+        onChanged: (value) => setState(() {}),
+        onFieldSubmitted: (string) => widget.onSubmit(string.isNotEmpty),
         onTap: () {},
         controller: widget.controller,
         keyboardType: TextInputType.text,
         maxLines: null,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.zero,
+          contentPadding: widget.edgeInsetsGeometry,
           border: const OutlineInputBorder(),
           hintText: widget.hint,
           hintStyle: mainStyle,
@@ -47,17 +46,11 @@ class _EntryFieldState extends State<EntryField> {
           filled: true,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5.0),
-            borderSide: const BorderSide(
-              color: Colors.white,
-              width: 3.0,
-            ),
+            borderSide: const BorderSide(color: Colors.white, width: 3.0),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4.0),
-            borderSide: const BorderSide(
-              color: Color(0xFF999999),
-              width: 1.0,
-            ),
+            borderSide: const BorderSide(color: Color(0xFF999999), width: 1.0),
           ),
         ),
       ),

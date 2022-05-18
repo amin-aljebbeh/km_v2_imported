@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/service.dart';
 import 'package:kammun_app/models/models_importer.dart';
+import 'package:kammun_app/service.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
@@ -258,6 +258,7 @@ class OrdersViewState extends State<OrdersView> {
                                     SizedBox(
                                       height: 30,
                                       child: EntryField(
+                                        edgeInsetsGeometry: EdgeInsets.zero,
                                         controller: pageController,
                                         onSubmit: (notEmpty) {
                                           if (notEmpty) {
