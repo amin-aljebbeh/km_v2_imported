@@ -119,10 +119,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: ColorUtils.primaryColor,
-        title: Text(
-          'كشف حساب متسوق',
-          style: mainStyle,
-        ),
+        title: Text('كشف حساب متسوق', style: mainStyle),
       ),
       body: SafeArea(
         child: Padding(
@@ -167,7 +164,6 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                               shopperId = Services.selectedShopperId(value);
                               profitLoading = true;
                             });
-
                             getTransaction(shopperId);
                             getDailyProfit(shopperId);
                           },

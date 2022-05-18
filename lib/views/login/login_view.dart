@@ -53,7 +53,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         errorMessage = "يرجى إدخال كلمة السر";
       });
     } else {
-      //todo replace with real accounts
       if (['rabie', 'supplier', 'rabia'].contains(_usernameController.text)) {
         baseUrl = testUrl;
       }

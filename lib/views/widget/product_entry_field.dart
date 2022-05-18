@@ -10,6 +10,7 @@ class ProductEntryField extends StatelessWidget {
   final double width;
 
   const ProductEntryField({
+    // reorder in add product view
     Key key,
     this.controller,
     this.hint,

@@ -35,7 +35,7 @@ class _EntryFieldState extends State<EntryField> {
         onFieldSubmitted: (string) => widget.onSubmit(string.isNotEmpty),
         onTap: () {},
         controller: widget.controller,
-        keyboardType: TextInputType.text,
+        keyboardType: TextInputType.text, //todo const TextInputType.numberWithOptions(decimal: true, signed: true)
         maxLines: null,
         decoration: InputDecoration(
           contentPadding: widget.edgeInsetsGeometry,

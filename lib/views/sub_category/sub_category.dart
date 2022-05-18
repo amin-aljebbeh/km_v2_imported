@@ -173,10 +173,7 @@ class _SubCategoryState extends State<SubCategory> {
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
-                      side: BorderSide(
-                        color: ColorUtils.kmColors,
-                        width: 4.0,
-                      ),
+                      side: BorderSide(color: ColorUtils.kmColors, width: 4.0),
                     ),
                     elevation: 4,
                     margin: const EdgeInsets.all(10),
