@@ -164,7 +164,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         fit: BoxFit.contain,
                                       )
                                     : Image.asset(
-                                        "assets/logobw.png",
+                                        'assets/logobw.png',
                                       ),
                               ),
                             ),
@@ -187,7 +187,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 ),
                               )
                             : Image.asset(
-                                "assets/logobw.png",
+                                'assets/logobw.png',
                               ),
                   ),
                 ),
@@ -230,8 +230,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             Text(StringUtils.quantity + ' :', style: paragraphStyle),
                             const SizedBox(width: 5),
                             Text(
-                              widget.product.unit.toString() != "null"
-                                  ? widget.product.quantity.toString() + " " + widget.product.unit.toString()
+                              widget.product.unit.toString() != 'null'
+                                  ? widget.product.quantity.toString() + ' ' + widget.product.unit.toString()
                                   : widget.product.quantity.toString(),
                               style: informationStyle,
                             ),
@@ -242,7 +242,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             Text(StringUtils.price + ' :', style: paragraphStyle),
                             const SizedBox(width: 5),
                             Text(
-                                "${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                '${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
                                 style: informationStyle),
                           ],
                         ),
@@ -255,7 +255,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         LabelRow(
                           rightSideText: StringUtils.description + ' :',
                           leftSideText:
-                              widget.product.description != null ? widget.product.description.split("@")[0] : "",
+                              widget.product.description != null ? widget.product.description.split('@')[0] : "",
                           leftSideStyle: informationStyle,
                         ),
                       ],
@@ -351,7 +351,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               });
                             },
                             child: Image.asset(
-                              "assets/remove.png",
+                              'assets/remove.png',
                               width: 60,
                               height: 60,
                             ),
@@ -381,7 +381,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               });
                             },
                             child: Image.asset(
-                              "assets/add.png",
+                              'assets/add.png',
                               width: 60,
                               height: 60,
                             ),
@@ -412,7 +412,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       ),
                     KammunButton(
                       text:
-                          '${StringUtils.addToCart}  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split(".")[0]))})',
+                          '${StringUtils.addToCart}  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split('.')[0]))})',
                       height: 50,
                       color: Theme.of(context).primaryColor,
                       onTap: () async {
@@ -427,7 +427,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           Flushbar(
                             backgroundColor: Colors.green,
                             messageText: Text(
-                              "تم إضافة ${widget.product.name} لسلة المشتريات",
+                              'تم إضافة ${widget.product.name} لسلة المشتريات',
                               style: flushBarStyle,
                             ),
                             boxShadows: [
@@ -451,7 +451,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               CartServices.cartProducts.fold('', (ids, product) => product.id.toString() + ';');
                           productsQuantity = CartServices.cartProducts
                               .fold('', (counts, product) => product.productCount.toString() + ';');
-                          prefs.setString("userCart", productsId + "@" + productsQuantity);
+                          prefs.setString('userCart', productsId + '@' + productsQuantity);
                         } else {
                           Navigator.of(context).pushNamed(LoginScreen.routeName);
                         }
@@ -463,7 +463,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         UpdateProductInfoWidget(
                           title: StringUtils.edit + ' ' + StringUtils.price + ' :',
                           inputType: TextInputType.text,
-                          bodyKey: "price",
+                          bodyKey: 'price',
                           productId: widget.product.id,
                           productData: widget.product,
                           textHint: price,
@@ -485,7 +485,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           inputType: TextInputType.text,
                           textHint: widget.product.supplierCode,
                           initialText: widget.product.supplierCode,
-                          bodyKey: "supplier_code",
+                          bodyKey: 'supplier_code',
                           productId: widget.product.id,
                           productData: widget.product,
                           onSavePressed: (newValue, result) {
@@ -497,7 +497,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         UpdateProductInfoWidget(
                           title: StringUtils.priceFactor + ' :',
                           inputType: TextInputType.text,
-                          bodyKey: "price_factor",
+                          bodyKey: 'price_factor',
                           productId: widget.product.id,
                           productData: widget.product,
                           textHint: widget.product.priceFactor,
@@ -515,7 +515,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     title: StringUtils.edit + ' ' + StringUtils.priority + ' :',
                                     textHint: widget.product.priority.toString(),
                                     inputType: TextInputType.text,
-                                    bodyKey: "priority",
+                                    bodyKey: 'priority',
                                     productId: widget.product.id,
                                     isForSubWarehouse: true,
                                     productData: widget.product,
@@ -530,7 +530,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     title: StringUtils.edit + ' ' + StringUtils.name,
                                     textHint: widget.product.name,
                                     inputType: TextInputType.multiline,
-                                    bodyKey: "name",
+                                    bodyKey: 'name',
                                     productId: widget.product.id,
                                     initialText: widget.product.name,
                                     isForSubWarehouse: false,
@@ -544,7 +544,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   UpdateProductInfoWidget(
                                     title: StringUtils.edit + ' ' + StringUtils.unit + ' :',
                                     inputType: TextInputType.multiline,
-                                    bodyKey: "unit",
+                                    bodyKey: 'unit',
                                     productId: widget.product.id,
                                     isForSubWarehouse: false,
                                     productData: widget.product,
@@ -563,7 +563,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     inputType: TextInputType.text,
                                     productData: widget.product,
                                     textHint: widget.product.quantity,
-                                    bodyKey: "quantity",
+                                    bodyKey: 'quantity',
                                     productId: widget.product.id,
                                     initialText: widget.product.quantity,
                                     onSavePressed: (newValue, result) {
@@ -575,9 +575,9 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   ),
                                   UpdateProductInfoWidget(
                                     title: StringUtils.edit + ' ' + StringUtils.description + ' :',
-                                    textHint: "الوصف الجديد",
+                                    textHint: 'الوصف الجديد',
                                     inputType: TextInputType.multiline,
-                                    bodyKey: "description",
+                                    bodyKey: 'description',
                                     productId: widget.product.id,
                                     isForSubWarehouse: false,
                                     productData: widget.product,
@@ -689,7 +689,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         onChanged: (value) {
                                           setState(() {
                                             if (value != null) {
-                                              selectedValueCategoryValue = value.toString().split(";")[1];
+                                              selectedValueCategoryValue = value.toString().split(';')[1];
                                             }
                                           });
                                         },
@@ -704,27 +704,35 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Text(
-                                                "حذف الصورة",
+                                                'حذف الصورة',
                                                 overflow: TextOverflow.clip,
                                                 style: decisionButtonStyle,
                                               ),
-                                              const Icon(
-                                                Icons.delete,
-                                                color: Colors.white,
-                                                size: 30,
-                                              ),
+                                              const Icon(Icons.delete, color: Colors.white, size: 30),
                                             ],
                                           ),
                                           onTap: () async {
-                                            bool result = await PricesChangesServices.deleteImage(
-                                                imageId: widget.product.images[0].id);
-                                            Services.resultFlushBar(context: context, result: result);
+                                            showMyDialog(
+                                                title: 'حذف صورة',
+                                                context: context,
+                                                text: 'هل أنت متأكد من رغبتك في حذف صورة المنتج ؟',
+                                                dialogButtons: [
+                                                  const CloseButton(),
+                                                  DialogButton(
+                                                    text: StringUtils.yes,
+                                                    onTap: () async {
+                                                      bool result = await PricesChangesServices.deleteImage(
+                                                          imageId: widget.product.images[0].id);
+                                                      Services.resultFlushBar(context: context, result: result);
+                                                    },
+                                                  )
+                                                ]);
                                           },
                                         )
                                       : Container(),
                                   KammunButton(
                                     height: 50,
-                                    text: "الإضافة لصنف جديد",
+                                    text: 'الإضافة لصنف جديد',
                                     color: Theme.of(context).primaryColor,
                                     onTap: () async {
                                       bool result = await _saveCategory(
@@ -865,7 +873,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                 .any((element) => element.id == widget.product.subWarehouseId))
                                               KammunButton(
                                                 height: 50,
-                                                text: "إزالة من المستودع",
+                                                text: 'إزالة من المستودع',
                                                 color: Colors.red,
                                                 onTap: () {
                                                   List<DialogButton> dialogButtons = [
@@ -900,7 +908,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                               ),
                                             KammunButton(
                                               height: 50,
-                                              text: "حذف المنتج",
+                                              text: 'حذف المنتج',
                                               color: Colors.red,
                                               onTap: () {
                                                 List<DialogButton> dialogButtons = [
@@ -941,7 +949,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         .any((element) => element.id == widget.product.subWarehouseId))
                                 ? KammunButton(
                                     height: 50,
-                                    text: "إزالة من المستودع",
+                                    text: 'إزالة من المستودع',
                                     color: Colors.red,
                                     onTap: () {
                                       List<DialogButton> dialogButtons = [
@@ -989,7 +997,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
 Future<bool> _saveCategory({BuildContext context, int productId, String categoryId}) async {
   bool result = await ProductsServices.updateProductsDetails(
-      bodyKey: "category_id", value: categoryId, productId: productId.toString());
+      bodyKey: 'category_id', value: categoryId, productId: productId.toString());
 
   Services.resultFlushBar(context: context, result: result);
   return result;

@@ -34,7 +34,7 @@ class OrdersViewCard extends StatefulWidget {
 openMapsSheet({context, double lat, double lon}) async {
   try {
     final coords = Coords(lat, lon);
-    const title = "Ocean Beach";
+    const title = 'Ocean Beach';
     final availableMaps = await MapLauncher.installedMaps;
 
     showModalBottomSheet(
@@ -73,36 +73,36 @@ class OrdersViewCardState extends State<OrdersViewCard> {
     super.initState();
   }
 
-  String orderStatus = "طلبك قيد المعالجة ⌛️";
+  String orderStatus = 'طلبك قيد المعالجة ⌛️';
 
   @override
   Widget build(BuildContext context) {
     switch (widget.orderData.orderStatusId) {
       case '2':
-        orderStatus = "تم قبول الطلب ✅";
+        orderStatus = 'تم قبول الطلب ✅';
         break;
       case '3':
-        orderStatus = "تم تجهيز الطلب 😎";
+        orderStatus = 'تم تجهيز الطلب 😎';
         break;
       case '4':
-        orderStatus = "تم إرسال الطلب مع كابتن التوصيل";
+        orderStatus = 'تم إرسال الطلب مع كابتن التوصيل';
         break;
       case '5':
-        orderStatus = "تم توصيل الطلب بنجاح";
+        orderStatus = 'تم توصيل الطلب بنجاح';
         break;
       case '6':
-        orderStatus = "تم إلغاء الطلب من قبلكم 🚫";
+        orderStatus = 'تم إلغاء الطلب من قبلكم 🚫';
         break;
       case '7':
-        orderStatus = "😔 لم نستطع تأمين الطلب 😔";
+        orderStatus = '😔 لم نستطع تأمين الطلب 😔';
         break;
     }
     switch (widget.orderData.underUpdate) {
       case '1':
-        orderStatus = "الطلب معلق حتى يأكد الزبون التعديل";
+        orderStatus = 'الطلب معلق حتى يأكد الزبون التعديل';
         break;
       case '2':
-        orderStatus = "الطلب معلق حتى تقوم بتأكيد التعديل";
+        orderStatus = 'الطلب معلق حتى تقوم بتأكيد التعديل';
         break;
     }
 
@@ -122,9 +122,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
           MaterialPageRoute(
             builder: (context) => OrderDetailsTabView(
               orderData: widget.orderData,
-              subTotal: int.parse(widget.orderData.total.toString().split(".")[0]) -
-                  int.parse(widget.orderData.supportedCityCost.toString().split(".")[0]) -
-                  int.parse(widget.orderData.deliveryCost.split(".")[0]),
+              subTotal: int.parse(widget.orderData.total.toString().split('.')[0]) -
+                  int.parse(widget.orderData.supportedCityCost.toString().split('.')[0]) -
+                  int.parse(widget.orderData.deliveryCost.split('.')[0]),
               total: widget.orderData.total.toString(),
               orderType: widget.orderType,
             ),
@@ -144,8 +144,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 children: <Widget>[
                   LabelRow(
                     rightSideText: StringUtils.bill,
-                    leftSideText: "${StringUtils().oCcy.format(int.parse(widget.orderData.total)).toString()}"
-                        " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                    leftSideText: '${StringUtils().oCcy.format(int.parse(widget.orderData.total)).toString()}'
+                        ' ${LoadingScreenServices.companyInformation.currency.toString()}',
                     leftSideStyle: informationStyle,
                   ),
                   Container(
@@ -170,20 +170,14 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       ),
                       child: Text(
                         deletedCount.toString(),
-                        style: loseStyle.copyWith(
-                          fontSize: 18,
-                        ),
+                        style: loseStyle.copyWith(fontSize: 18),
                         textAlign: TextAlign.center,
                       ),
                     ),
                   if (Services.isOperationManager() &&
                       (widget.orderData.userDeliveryRating != 'null' || widget.orderData.userFeedback != 'null'))
                     IconButton(
-                      icon: Icon(
-                        Icons.star,
-                        color: ColorUtils.kmColors2,
-                        size: 30,
-                      ),
+                      icon: Icon(Icons.star, color: ColorUtils.kmColors2, size: 30),
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         showMyDialog(
@@ -207,22 +201,19 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       },
                     ),
                   IconButton(
-                    icon: Icon(
-                      Icons.chat,
-                      color: ColorUtils.kmColors,
-                      size: 30,
-                    ),
+                    icon: Icon(Icons.chat, color: ColorUtils.kmColors, size: 30),
                     onPressed: () {
                       String txt;
                       showMyDialog(
-                        title: "إبدأ المحادثة",
+                        title: 'إبدأ المحادثة',
                         context: context,
                         dialogButtons: [
                           DialogButton(
                             text: StringUtils.send,
                             onTap: () async {
                               await VChatController.instance.createSingleChat(
-                                peerEmail: "5000000001" /*widget.orderData.userData.phone*/,
+                                orderId: widget.orderData.id.toString(),
+                                peerEmail: '1000000009' /*widget.orderData.userData.phone*/,
                                 message: txt,
                                 context: context,
                               );
@@ -231,9 +222,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         ],
                         content: TextField(
                           cursorColor: ColorUtils.primaryColor,
-                          onChanged: (value) {
-                            txt = value;
-                          },
+                          onChanged: (value) => txt = value,
                         ),
                       );
                     },
@@ -244,11 +233,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     children: [
                       Text(
                         widget.orderData.id.toString().length >= 3
-                            ? "#${widget.orderData.id.toString().substring(widget.orderData.id.toString().length - 3, widget.orderData.id.toString().length)}"
+                            ? '#${widget.orderData.id.toString().substring(widget.orderData.id.toString().length - 3, widget.orderData.id.toString().length)}'
                             : '#${widget.orderData.id.toString()}',
-                        style: profitStyle.copyWith(
-                          color: Colors.purple,
-                        ),
+                        style: profitStyle.copyWith(color: Colors.purple),
                       ),
                       RichText(
                         text: TextSpan(
@@ -267,9 +254,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   LabelRow(
                     rightSideText: StringUtils.phoneNumber,
                     leftSideText: widget.orderData.userData.phone,
-                    leftSideStyle: paragraphStyle.copyWith(
-                      color: ColorUtils.kmColors,
-                    ),
+                    leftSideStyle: paragraphStyle.copyWith(color: ColorUtils.kmColors),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () => Services.makePhoneCall(widget.orderData.userData.phone),
                   ),
@@ -277,11 +262,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     Row(
                       children: [
                         IconButton(
-                          icon: Icon(
-                            Icons.copy,
-                            color: ColorUtils.kmColors,
-                            size: 25,
-                          ),
+                          icon: Icon(Icons.copy, color: ColorUtils.kmColors, size: 25),
                           padding: const EdgeInsets.all(0),
                           onPressed: () {
                             Clipboard.setData(ClipboardData(text: widget.orderData.userData.phone));
@@ -291,28 +272,22 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         ),
                         MediaIcon(
                           icon: FontAwesomeIcons.whatsapp,
-                          url: "customer_whatsapp",
+                          url: 'customer_whatsapp',
                           mobileNumber: widget.orderData.userData.phone,
                         ),
                         IconButton(
-                          icon: Icon(
-                            Icons.search_rounded,
-                            color: ColorUtils.kmColors,
-                            size: 30,
-                          ),
+                          icon: Icon(Icons.search_rounded, color: ColorUtils.kmColors, size: 30),
                           padding: const EdgeInsets.all(0),
                           onPressed: () {
                             LoadingScreenServices.allOrdersList.clear();
-
                             if (widget.pop) {
                               Navigator.of(context).pop();
                             }
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (screenContext) => PhoneNumberOrdersView(
-                                  phoneNumber: widget.orderData.userData.phone,
-                                ),
+                                builder: (screenContext) =>
+                                    PhoneNumberOrdersView(phoneNumber: widget.orderData.userData.phone),
                               ),
                             );
                           },
@@ -337,13 +312,13 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 ],
               ),
               LabelRow(
-                rightSideText: StringUtils.address + " : ",
+                rightSideText: StringUtils.address + ' : ',
                 leftSideText: widget.orderData.address.street +
-                    " " +
+                    ' ' +
                     widget.orderData.address.building +
-                    " طابق " +
+                    ' طابق ' +
                     widget.orderData.address.floor +
-                    " " +
+                    ' ' +
                     widget.orderData.address.description,
                 leftSideStyle: informationStyle,
               ),
@@ -353,7 +328,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         .where((supportedCity) => supportedCity.id == widget.orderData.supportedCityId)
                         .first
                         .name +
-                    "   ",
+                    '   ',
                 leftSideStyle: informationStyle,
               ),
               LabelRow(
@@ -384,10 +359,10 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                   (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours *
                                       60))
                               .toString(),
-                      leftSideStyle: (widget.orderData.deliveryMethodId == "2" &&
+                      leftSideStyle: (widget.orderData.deliveryMethodId == '2' &&
                               widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes > 45)
                           ? warningStyle
-                          : (widget.orderData.deliveryMethodId == "1" &&
+                          : (widget.orderData.deliveryMethodId == '1' &&
                                   widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes >
                                       90)
                               ? warningStyle
@@ -402,10 +377,10 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                   (widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inHours *
                                       60))
                               .toString(),
-                      leftSideStyle: (widget.orderData.deliveryMethodId == "2" &&
+                      leftSideStyle: (widget.orderData.deliveryMethodId == '2' &&
                               widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes > 45)
                           ? warningStyle
-                          : (widget.orderData.deliveryMethodId == "1" &&
+                          : (widget.orderData.deliveryMethodId == '1' &&
                                   widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes >
                                       90)
                               ? warningStyle

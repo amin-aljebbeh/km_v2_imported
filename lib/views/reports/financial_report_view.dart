@@ -23,21 +23,15 @@ class _FinancialReportViewState extends State<FinancialReportView> {
 
   @override
   void initState() {
-    fromDateTimeValue = "يرجى أختيار تاريخ البداية";
-    toDateTimeValue = "يرجى إختيار تاريخ النهاية";
+    fromDateTimeValue = 'يرجى أختيار تاريخ البداية';
+    toDateTimeValue = 'يرجى إختيار تاريخ النهاية';
     super.initState();
   }
 
   _reportCard(FinancialReport response) {
     totalSubWarehouses.clear();
     totalSubWarehouses.add(Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          'إحصائيات عامة',
-          style: informationStyle,
-        ),
-      ),
+      child: Padding(padding: const EdgeInsets.all(8.0), child: Text('إحصائيات عامة', style: informationStyle)),
     ));
     totalSubWarehouses.add(Column(
       children: [
@@ -55,22 +49,13 @@ class _FinancialReportViewState extends State<FinancialReportView> {
     ));
     totalSubWarehouses.add(Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Divider(
-        thickness: 5,
-        color: ColorUtils.primaryColor,
-        height: 5,
-      ),
+      child: Divider(thickness: 5, color: ColorUtils.primaryColor, height: 5),
     ));
     for (var warehouse in response.data.warehouses) {
       totalSubWarehouses.add(ExpandablePanel(
         header: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Text(
-              warehouse.name,
-              style: informationStyle,
-            ),
-          ),
+          child: Center(child: Text(warehouse.name, style: informationStyle)),
         ),
         collapsed: Center(
           child: Column(
@@ -144,11 +129,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
     }
     totalSubWarehouses.add(Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Divider(
-        thickness: 5,
-        color: ColorUtils.primaryColor,
-        height: 5,
-      ),
+      child: Divider(thickness: 5, color: ColorUtils.primaryColor, height: 5),
     ));
     totalSubWarehouses.add(Center(
       child: SfCircularChart(
@@ -195,10 +176,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
       isLoading = true;
     });
 
-    var response = await ReportsServices.getFinancialReport(
-      fromDate: fromDateTimeValue,
-      toDate: toDateTimeValue,
-    );
+    var response = await ReportsServices.getFinancialReport(fromDate: fromDateTimeValue, toDate: toDateTimeValue);
     if (response != null) {
       _reportCard(response);
 
@@ -218,10 +196,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorUtils.primaryColor,
-        title: Text(
-          "الأرباح والمستحقات المالية",
-          style: mainStyle,
-        ),
+        title: Text('الأرباح والمستحقات المالية', style: mainStyle),
       ),
       body: SafeArea(
         child: Container(
@@ -231,16 +206,8 @@ class _FinancialReportViewState extends State<FinancialReportView> {
             shrinkWrap: true,
             children: [
               KDatePicker(
-                onConfirmStart: (date) {
-                  setState(() {
-                    fromDateTimeValue = date;
-                  });
-                },
-                onConfirmEnd: (date) {
-                  setState(() {
-                    toDateTimeValue = date;
-                  });
-                },
+                onConfirmStart: (date) => setState(() => fromDateTimeValue = date),
+                onConfirmEnd: (date) => setState(() => toDateTimeValue = date),
               ),
               KammunButton(
                 text: StringUtils.send,
@@ -255,17 +222,13 @@ class _FinancialReportViewState extends State<FinancialReportView> {
                 },
                 height: 50,
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              isError ? AlertMessages(text: StringUtils.errorMessage, messageType: "internetError") : Container(),
+              const SizedBox(height: 20),
+              isError ? AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError') : Container(),
               isLoading
                   ? const Loader()
                   : totalSubWarehouses.isNotEmpty
-                      ? Column(
-                          children: totalSubWarehouses,
-                        )
-                      : Container(),
+                      ? Column(children: totalSubWarehouses)
+                      : Container()
             ],
           ),
         ),
@@ -274,6 +237,6 @@ class _FinancialReportViewState extends State<FinancialReportView> {
   }
 
   bool validDates() {
-    return fromDateTimeValue != "يرجى أختيار تاريخ البداية" && toDateTimeValue != "يرجى إختيار تاريخ النهاية";
+    return fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
   }
 }

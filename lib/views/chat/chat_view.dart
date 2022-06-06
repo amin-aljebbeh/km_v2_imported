@@ -15,10 +15,7 @@ class ChatView extends StatelessWidget {
         backgroundColor: ColorUtils.kmColors,
         flexibleSpace: const SafeArea(
           top: true,
-          child: Padding(
-            padding: EdgeInsets.only(right: 120),
-            child: AppBarKammunImage(),
-          ),
+          child: Padding(padding: EdgeInsets.only(right: 120), child: AppBarKammunImage()),
         ),
       ),
     );

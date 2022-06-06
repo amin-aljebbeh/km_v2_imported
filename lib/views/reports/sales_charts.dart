@@ -23,8 +23,8 @@ class _SalesChartsState extends State<SalesCharts> {
 
   @override
   void initState() {
-    fromDateTimeValue = "يرجى أختيار تاريخ البداية";
-    toDateTimeValue = "يرجى إختيار تاريخ النهاية";
+    fromDateTimeValue = 'يرجى أختيار تاريخ البداية';
+    toDateTimeValue = 'يرجى إختيار تاريخ النهاية';
     tooltipBehavior = TooltipBehavior(enable: true, textStyle: mainStyle, color: ColorUtils.primaryColor);
     super.initState();
   }
@@ -177,10 +177,7 @@ class _SalesChartsState extends State<SalesCharts> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: ColorUtils.primaryColor,
-          title: Text(
-            "إحصائيات المبيعات",
-            style: mainStyle,
-          ),
+          title: Text('إحصائيات المبيعات', style: mainStyle),
         ),
         body: SafeArea(
           child: Container(
@@ -218,7 +215,7 @@ class _SalesChartsState extends State<SalesCharts> {
                   height: 20,
                 ),
                 isError
-                    ? AlertMessages(text: StringUtils.errorMessage, messageType: "internetError")
+                    ? AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError')
                     : Container(),
                 isLoading
                     ? const Loader()
@@ -236,6 +233,6 @@ class _SalesChartsState extends State<SalesCharts> {
   }
 
   bool validDates() {
-    return fromDateTimeValue != "يرجى أختيار تاريخ البداية" && toDateTimeValue != "يرجى إختيار تاريخ النهاية";
+    return fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
   }
 }

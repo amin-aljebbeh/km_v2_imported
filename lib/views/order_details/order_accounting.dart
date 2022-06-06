@@ -44,10 +44,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   bool result = await OrderDetailsServices.deleteImageFromOrderService(
                     imageId: images[i].id.toString(),
                   );
-                  Services.resultFlushBar(
-                    context: context,
-                    result: result,
-                  );
+                  Services.resultFlushBar(context: context, result: result);
                   if (result) {
                     setState(() {
                       widget.orderData.images.removeWhere(
@@ -220,18 +217,14 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(
-                      height: 1,
-                    ),
+                    const SizedBox(height: 1),
                     Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const SizedBox(
-                              width: 1,
-                            ),
+                            const SizedBox(width: 1),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.9,
                               child: AddImageWidget(
@@ -243,17 +236,13 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                 },
                               ),
                             ),
-                            const SizedBox(
-                              width: 1,
-                            ),
+                            const SizedBox(width: 1),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const SizedBox(
-                              width: 1,
-                            ),
+                            const SizedBox(width: 1),
                             Services.isOperationManager()
                                 ? KammunButton(
                                     color: ColorUtils.kmColors,
@@ -278,9 +267,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                     height: 50,
                                   )
                                 : Container(),
-                            const SizedBox(
-                              width: 1,
-                            ),
+                            const SizedBox(width: 1),
                           ],
                         ),
                       ],

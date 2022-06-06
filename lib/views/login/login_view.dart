@@ -10,7 +10,7 @@ import '../../core/core_importer.dart';
 import 'Services/login_services.dart';
 
 class LoginScreen extends StatefulWidget {
-  static String routeName = "/login";
+  static String routeName = '/login';
   static String phoneNumber = "";
   static String supportedCityId;
 
@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
   bool errorCode = false;
   bool loadingScreen = false;
-  String errorMessage = " يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت";
+  String errorMessage = ' يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت';
 
   @override
   void initState() {
@@ -43,14 +43,14 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         errorCode = true;
         loadingScreen = false;
 
-        errorMessage = "يرجى إدخال اسم المستخدم";
+        errorMessage = 'يرجى إدخال اسم المستخدم';
       });
     } else if (_passwordController.text.isEmpty) {
       setState(() {
         errorCode = true;
         loadingScreen = false;
 
-        errorMessage = "يرجى إدخال كلمة السر";
+        errorMessage = 'يرجى إدخال كلمة السر';
       });
     } else {
       if (['rabie', 'supplier', 'rabia'].contains(_usernameController.text)) {
@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           Tools.logToConsole('chat register admin');
         } on VChatSdkException catch (err) {
           Tools.logToConsole(err.data);
-          await VChatController.instance.login(context: context, email: 'rabie');
+          await VChatController.instance.login(context: context, email: _usernameController.text);
           Tools.logToConsole('chat login admin');
         } catch (e) {/**/}
         TextInput.finishAutofillContext();
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           errorCode = true;
           loadingScreen = false;
 
-          errorMessage = "خطأ بإسم المستخدم أو كلمة المرور";
+          errorMessage = 'خطأ بإسم المستخدم أو كلمة المرور';
         });
       }
     }
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         decoration: InputDecoration(
           floatingLabelStyle:
               TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30, color: ColorUtils.primaryColor),
-          labelText: "كلمة المرور",
+          labelText: 'كلمة المرور',
           labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
           hintStyle: const TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         cursorColor: ColorUtils.primaryColor,
         autofillHints: const [AutofillHints.username],
         decoration: InputDecoration(
-          labelText: "اسم المستخدم",
+          labelText: 'اسم المستخدم',
           floatingLabelStyle:
               TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30, color: ColorUtils.primaryColor),
           labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
@@ -183,8 +183,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
             errorCode
                 ? AlertMessages(
                     text: errorMessage,
-                    messageType: "internetError",
-                    headerText: "مشكلة بالبيانات المدخلة",
+                    messageType: 'internetError',
+                    headerText: 'مشكلة بالبيانات المدخلة',
                   )
                 : Container(
                     padding: EdgeInsets.zero,
@@ -196,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                   padding: const EdgeInsets.only(top: 50.0),
                   child: Center(
                     child: Image.asset(
-                      "assets/kmlogoo.png",
+                      'assets/kmlogoo.png',
                       height: 150,
                       width: 200,
                     ),

@@ -1,6 +1,6 @@
 // To parse this JSON data, do
 //
-//     final financialReport = financialReportFromJson(jsonString);
+//     final financialReport = financialReportFromJson(jsonString);الأرباح والمستحقات المالية
 
 import 'dart:convert';
 
@@ -18,13 +18,13 @@ class FinancialReport {
   Data data;
 
   factory FinancialReport.fromJson(Map<String, dynamic> json) => FinancialReport(
-        success: json["success"],
-        data: Data.fromJson(json["data"]),
+        success: json['success'],
+        data: Data.fromJson(json['data']),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": data.toJson(),
+        'success': success,
+        'data': data.toJson(),
       };
 }
 
@@ -38,13 +38,13 @@ class Data {
   List<Warehouse> warehouses;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        general: General.fromJson(json["general"]),
-        warehouses: List<Warehouse>.from(json["warehouses"].map((x) => Warehouse.fromJson(x))),
+        general: General.fromJson(json['general']),
+        warehouses: List<Warehouse>.from(json['warehouses'].map((x) => Warehouse.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "general": general.toJson(),
-        "warehouses": List<dynamic>.from(warehouses.map((x) => x.toJson())),
+        'general': general.toJson(),
+        'warehouses': List<dynamic>.from(warehouses.map((x) => x.toJson())),
       };
 }
 
@@ -58,13 +58,13 @@ class General {
   int totalProfitsShoppers;
 
   factory General.fromJson(Map<String, dynamic> json) => General(
-        totalCompanyDues: json["total_company_dues"],
-        totalProfitsShoppers: json["total_profits_shoppers"],
+        totalCompanyDues: json['total_company_dues'],
+        totalProfitsShoppers: json['total_profits_shoppers'],
       );
 
   Map<String, dynamic> toJson() => {
-        "total_company_dues": totalCompanyDues,
-        "total_profits_shoppers": totalProfitsShoppers,
+        'total_company_dues': totalCompanyDues,
+        'total_profits_shoppers': totalProfitsShoppers,
       };
 }
 
@@ -84,19 +84,19 @@ class Warehouse {
   List<Shopper> shoppers;
 
   factory Warehouse.fromJson(Map<String, dynamic> json) => Warehouse(
-        id: json["id"],
-        name: json["name"],
-        totalCompanyDues: json["total_company_dues"],
-        totalProfitsShoppers: json["total_profits_shoppers"],
-        shoppers: List<Shopper>.from(json["shoppers"].map((x) => Shopper.fromJson(x))),
+        id: json['id'],
+        name: json['name'],
+        totalCompanyDues: json['total_company_dues'],
+        totalProfitsShoppers: json['total_profits_shoppers'],
+        shoppers: List<Shopper>.from(json['shoppers'].map((x) => Shopper.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "total_company_dues": totalCompanyDues,
-        "total_profits_shoppers": totalProfitsShoppers,
-        "shoppers": List<dynamic>.from(shoppers.map((x) => x.toJson())),
+        'id': id,
+        'name': name,
+        'total_company_dues': totalCompanyDues,
+        'total_profits_shoppers': totalProfitsShoppers,
+        'shoppers': List<dynamic>.from(shoppers.map((x) => x.toJson())),
       };
 }
 
@@ -118,20 +118,20 @@ class Shopper {
   String avgOrderRating;
 
   factory Shopper.fromJson(Map<String, dynamic> json) => Shopper(
-        shopperId: json["shopper_id"],
-        name: json["name"],
-        companyDues: json["company_dues"],
-        totalProfits: json["total_profits"],
-        avgDeliveryMinutes: json["avg_delivery_minutes"],
-        avgOrderRating: json["avg_order_rating"],
+        shopperId: json['shopper_id'],
+        name: json['name'],
+        companyDues: json['company_dues'],
+        totalProfits: json['total_profits'],
+        avgDeliveryMinutes: json['avg_delivery_minutes'],
+        avgOrderRating: json['avg_order_rating'],
       );
 
   Map<String, dynamic> toJson() => {
-        "shopper_id": shopperId,
-        "name": name,
-        "company_dues": companyDues,
-        "total_profits": totalProfits,
-        "avg_delivery_minutes": avgDeliveryMinutes,
-        "avg_order_rating": avgOrderRating,
+        'shopper_id': shopperId,
+        'name': name,
+        'company_dues': companyDues,
+        'total_profits': totalProfits,
+        'avg_delivery_minutes': avgDeliveryMinutes,
+        'avg_order_rating': avgOrderRating,
       };
 }

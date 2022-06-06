@@ -34,10 +34,7 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorUtils.primaryColor,
-        title: Text(
-          'فريق التوصيل',
-          style: mainStyle,
-        ),
+        title: Text('فريق التوصيل', style: mainStyle),
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,

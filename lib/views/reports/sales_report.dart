@@ -22,8 +22,8 @@ class _SalesReportState extends State<SalesReport> {
 
   @override
   void initState() {
-    fromDateTimeValue = "يرجى أختيار تاريخ البداية";
-    toDateTimeValue = "يرجى إختيار تاريخ النهاية";
+    fromDateTimeValue = 'يرجى أختيار تاريخ البداية';
+    toDateTimeValue = 'يرجى إختيار تاريخ النهاية';
     super.initState();
   }
 
@@ -32,10 +32,7 @@ class _SalesReportState extends State<SalesReport> {
     totalSubWarehouses.add(Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(
-          'إحصائيات عامة',
-          style: informationStyle,
-        ),
+        child: Text('إحصائيات عامة', style: informationStyle),
       ),
     ));
     totalSubWarehouses.add(Table(
@@ -122,7 +119,7 @@ class _SalesReportState extends State<SalesReport> {
                   text: StringUtils.ordersCount,
                 ),
                 const KTableElement(
-                  text: "تسعيرة التوصيل",
+                  text: 'تسعيرة التوصيل',
                 ),
               ],
             ));
@@ -130,7 +127,7 @@ class _SalesReportState extends State<SalesReport> {
               children: [
                 KTableElement(
                   text: StringUtils().oCcy.format(
-                      int.parse(response.warehouses[i].statisticsSupportedCities[j].deliveryIncome.split(".")[0])),
+                      int.parse(response.warehouses[i].statisticsSupportedCities[j].deliveryIncome.split('.')[0])),
                 ),
                 KTableElement(
                   text: StringUtils()
@@ -144,7 +141,7 @@ class _SalesReportState extends State<SalesReport> {
                   text: StringUtils().oCcy.format(
                         int.parse(
                           response.warehouses[i].statisticsSupportedCities[j].deliveryPrice
-                              .split(".")[0]
+                              .split('.')[0]
                               .toString(),
                         ),
                       ),
@@ -159,8 +156,8 @@ class _SalesReportState extends State<SalesReport> {
             children: [
               TableRow(children: [
                 KTableElement(text: StringUtils.totalSales),
-                const KTableElement(text: "إجمالي التوصيل"),
-                const KTableElement(text: "المجموع الكلي"),
+                const KTableElement(text: 'إجمالي التوصيل'),
+                const KTableElement(text: 'المجموع الكلي'),
               ]),
               TableRow(
                 children: [
@@ -244,10 +241,7 @@ class _SalesReportState extends State<SalesReport> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorUtils.primaryColor,
-        title: Text(
-          "تقرير المبيعات",
-          style: mainStyle,
-        ),
+        title: Text('تقرير المبيعات', style: mainStyle),
       ),
       body: SafeArea(
         child: Container(
@@ -284,7 +278,7 @@ class _SalesReportState extends State<SalesReport> {
               const SizedBox(
                 height: 20,
               ),
-              isError ? AlertMessages(text: StringUtils.errorMessage, messageType: "internetError") : Container(),
+              isError ? AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError') : Container(),
               isLoading
                   ? const Loader()
                   : totalSubWarehouses.isNotEmpty
@@ -300,6 +294,6 @@ class _SalesReportState extends State<SalesReport> {
   }
 
   bool validDates() {
-    return fromDateTimeValue != "يرجى أختيار تاريخ البداية" && toDateTimeValue != "يرجى إختيار تاريخ النهاية";
+    return fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
   }
 }

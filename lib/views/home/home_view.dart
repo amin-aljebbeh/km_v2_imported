@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:kammun_app/main.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/chat/chat_view.dart';
@@ -38,23 +39,16 @@ class HomeViewState extends State<HomeView> {
   void initState() {
     selectedIndex = widget.routeIndex;
     isFromUpdateOrder = widget.isFromUpdateOrder;
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => VChatController.instance.bindChatControllers(context: navigatorKey.currentContext));
+
     widget.notificationValue != null
         ? WidgetsBinding.instance.addPostFrameCallback(
             (_) {
-              VChatController.instance.bindChatControllers(context: context);
-              // VChatController.instance.changeLanguage('en');
-              List<DialogButton> decisionButtons = [
-                DialogButton(
-                  text: StringUtils.close,
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ];
               showMyDialog(
                 title: widget.notificationValue['title'],
                 text: widget.notificationValue['body'],
-                dialogButtons: decisionButtons,
+                dialogButtons: [const CloseButton()],
                 context: context,
               );
             },

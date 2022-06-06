@@ -322,9 +322,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AddTransactionView(
-                            shopperName: shopperName,
-                          ),
+                          builder: (context) => AddTransactionView(shopperName: shopperName),
                         ),
                       );
                     },

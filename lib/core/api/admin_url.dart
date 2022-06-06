@@ -48,7 +48,7 @@ const String importProductActivationInWarehouse = api + 'import_product_activati
 
 const String importProductPricesInWareHouse = api + 'import_product_prices_in_warehouse';
 
-const String deleteProduct = api + product + '';
+const String deleteProduct = api + product;
 
 const String getAddedProductsToWarehouse = api + product + 'show_Additional_Products_For_Warehouse';
 
@@ -96,3 +96,9 @@ const String remainingMoneyForSupplier = api + shopper + shopperTransaction + 'r
 
 const String financialReportUrl =
     api + shopper + shopperTransaction + 'statistics_financial_transactions_with_shoppers';
+
+const String getWorkingHour = api + shopper + 'get_working_hour/';
+
+const String monthlyShopperReports = api + shopper + 'monthly_shopper_reports/';
+
+const String shopperActivityHours = api + shopper + 'shopper_activity_hours/';
