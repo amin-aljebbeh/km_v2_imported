@@ -25,13 +25,13 @@ class LoadingScreenServices {
 
   static List<DropdownMenuItem> fullCategoryList = [];
 
-  static String imagePrefixUrl = "";
+  static String imagePrefixUrl = '';
 
   static List<FadeInImage> bannerListNetwork = [];
 
   // Mobile Configuration variables
-  static String androidShareUrl = "";
-  static String iOSShareUrl = "";
+  static String androidShareUrl = '';
+  static String iOSShareUrl = '';
   static bool serverMaintain = false;
   static bool updateRequired = false;
   static bool updateOptional = false;
@@ -40,11 +40,9 @@ class LoadingScreenServices {
   static String supportPhoneNumber;
   static String systemMaintenanceMessages;
 
-
   // Supported City variables
 
   static List<IndigoDatum> supportedCitiesListIntro = [];
-
 
   // User Variables
   static List<ProductData> allProducts = [];
@@ -54,25 +52,20 @@ class LoadingScreenServices {
   static List<OrdersOriginalData> phoneOrderList = [];
   static List<ShopperModel> allShoppers = [];
   static List<TransactionTypeModel> transactionTypes = [];
-  static String phoneNumber = "لم تقم بتسجيل رقم";
+  static String phoneNumber = 'لم تقم بتسجيل رقم';
   static String name;
   static String userName;
   static bool preferLeftSide = true;
   static int ordersViewFilter = 0;
 
-
-  static RegExp subSupplierCodeHint = RegExp(".*kh");
+  static RegExp subSupplierCodeHint = RegExp('.*kh');
 
   Future<bool> updateFirebaseTokenService(String firebaseToken) async {
     try {
       Map body = {
-        "firebase_token": firebaseToken,
+        'firebase_token': firebaseToken,
       };
-      await ApiProvider.sendRequest(
-        url: updateFirebaseToken,
-        method: HttpMethods.post,
-        body: jsonEncode(body),
-      );
+      await ApiProvider.sendRequest(url: updateFirebaseToken, method: HttpMethods.post, body: jsonEncode(body));
       return true;
     } catch (e) {
       return null;
@@ -90,7 +83,7 @@ class LoadingScreenServices {
       subWarehouses.clear();
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      List<SubWarehouse> response = await InventoryServices.getSubWarehoused(adminId: prefs.getString("adminId"));
+      List<SubWarehouse> response = await InventoryServices.getSubWarehoused(adminId: prefs.getString('adminId'));
 
       if (response != null) {
         subWarehouses.addAll(response);
@@ -105,10 +98,7 @@ class LoadingScreenServices {
 
   Future<bool> getSupportedCity() async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: getSupportedCities,
-        method: HttpMethods.get,
-      );
+      var response = await ApiProvider.sendRequest(url: getSupportedCities, method: HttpMethods.get);
       if (response.statusCode == successCode) {
         final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
         supportedCityOriginal = supportedCitiesResponse;
@@ -132,8 +122,8 @@ class LoadingScreenServices {
       preferLeftSide = prefs.getBool('preferLeftSide');
       String userToken = prefs.getString('userToken');
       if (userToken != null) {
-        LoadingScreen.userToken = "Bearer " + userToken;
-        if (userToken == "APPLE_VERIFICATION") {
+        LoadingScreen.userToken = 'Bearer ' + userToken;
+        if (userToken == 'APPLE_VERIFICATION') {
           baseUrl = appleBaseUrl;
         } else {
           baseUrl = productionBaseUrl;
@@ -155,10 +145,7 @@ class LoadingScreenServices {
 
   Future<bool> getCategoryService() async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: getCategory,
-        method: HttpMethods.get,
-      );
+      var response = await ApiProvider.sendRequest(url: getCategory, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         categoryList.clear();
@@ -174,7 +161,7 @@ class LoadingScreenServices {
                     SizedBox(
                       width: 287,
                       child: Text(
-                        category.name + " من القائمة الرئيسية",
+                        category.name + ' من القائمة الرئيسية',
                         overflow: TextOverflow.visible,
                         maxLines: 2,
                         style: warehouseStyle,
@@ -189,7 +176,7 @@ class LoadingScreenServices {
                     )
                   ],
                 ),
-                value: category.name + ";" + category.id.toString(),
+                value: category.name + ';' + category.id.toString(),
               ),
             )
             .toList();
@@ -204,13 +191,13 @@ class LoadingScreenServices {
                     category.name,
                     style: warehouseStyle.copyWith(fontSize: 18),
                   ),
-                  value: category.name + ";" + category.id.toString(),
+                  value: category.name + ';' + category.id.toString(),
                 ),
               )
               .toList(),
         );
         categoryList = categories
-            .where((category) => category.warehouses.isNotEmpty && category.warehouses[0].pivot.isActive == "1")
+            .where((category) => category.warehouses.isNotEmpty && category.warehouses[0].pivot.isActive == '1')
             .toList();
 
         categoryList.sort((a, b) {
@@ -232,47 +219,46 @@ class LoadingScreenServices {
   }
 
   Future<bool> fetchAdminInformation() async {
-    String buildNumber = "100";
+    String buildNumber = '100';
     int lastSupported;
     int currentVersion;
 
     companyInformation = CompanyOriginalData(
-        email: "support@kammun.com",
-        whatsappNumber: "+963969999204",
-        supportNumber: "0969999204",
-        facebookUrl: "106414764313952",
-        instagramUrl: "https://www.instagram.com/kammunapp",
-        messengerUrl: "http://m.me/KammunApp",
-        supportUrl: "https://www.instagram.com/",
-        baseUrl: "https://kammun.com",
-        imageBaseUrl: "https://kammun.app/images/",
-        currency: "S.P",
-        additionalInfo: "http://m.me/KammunApp");
+        email: 'support@kammun.com',
+        whatsappNumber: '+963969999204',
+        supportNumber: '0969999204',
+        facebookUrl: '106414764313952',
+        instagramUrl: 'https://www.instagram.com/kammunapp',
+        messengerUrl: 'http://m.me/KammunApp',
+        supportUrl: 'https://www.instagram.com/',
+        baseUrl: 'https://kammun.com',
+        imageBaseUrl: 'https://kammun.app/images/',
+        currency: 'S.P',
+        additionalInfo: 'http://m.me/KammunApp');
 
-    imagePrefixUrl = appUrl + "/images/";
-
+    imagePrefixUrl = appUrl + '/images/';
 
     // Mobile Configuration
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("adminRoll") != null && prefs.getString("adminRoll").contains("@")) {
-      subSupplierCodeHint = RegExp(".*${prefs.getString("adminRoll").split("@")[1]}");
+    if (prefs.getString('adminRoll') != null && prefs.getString('adminRoll').contains('@')) {
+      subSupplierCodeHint = RegExp('.*${prefs.getString('adminRoll').split('@')[1]}');
     } else {
-      subSupplierCodeHint = RegExp(".*");
+      subSupplierCodeHint = RegExp('.*');
     }
 
-    androidShareUrl = "https://play.google.com/store/apps/details?id=com.kammun.app";
-    iOSShareUrl = "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
+    androidShareUrl = 'https://play.google.com/store/apps/details?id=com.kammun.app';
+    iOSShareUrl = 'https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329';
 
     if (Platform.isIOS) {
       lastSupported = 100;
       currentVersion = 100;
 
-      LoadingScreen.updateUrl = "https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329";
+      LoadingScreen.updateUrl = 'https://apps.apple.com/us/app/%D9%83%D9%85-%D9%88%D9%86/id1505291329';
     } else {
       lastSupported = 100;
       currentVersion = 100;
-      LoadingScreen.updateUrl = "https://play.google.com/store/apps/details?id=com.kammun.app";
+      LoadingScreen.updateUrl = 'https://play.google.com/store/apps/details?id=com.kammun.app';
     }
 
     if (int.parse(buildNumber) < lastSupported) {
@@ -285,18 +271,18 @@ class LoadingScreenServices {
     bannerListNetwork.add(
       FadeInImage(
         image: AdvImageCache(
-          LoadingScreenServices.imagePrefixUrl + "slide3.png",
+          LoadingScreenServices.imagePrefixUrl + 'slide3.png',
           useMemCache: true,
           diskCacheExpire: const Duration(days: 400),
         ),
         fadeInDuration: const Duration(seconds: 1),
         fadeInCurve: Curves.fastOutSlowIn,
-        placeholder: const AssetImage("assets/kmlogoo.png"),
+        placeholder: const AssetImage('assets/kmlogoo.png'),
         fit: BoxFit.cover,
       ),
     );
 
-    phoneNumber = "0000000000";
+    phoneNumber = '0000000000';
 
     return true;
   }

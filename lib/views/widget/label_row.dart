@@ -29,15 +29,8 @@ class _LabelRowState extends State<LabelRow> {
         RichText(
           text: TextSpan(
             children: <TextSpan>[
-              TextSpan(
-                text: widget.rightSideText,
-                style: paragraphStyle,
-              ),
-              TextSpan(
-                text: widget.leftSideText,
-                style: widget.leftSideStyle,
-                recognizer: widget.recognizer,
-              ),
+              TextSpan(text: widget.rightSideText, style: paragraphStyle),
+              TextSpan(text: widget.leftSideText, style: widget.leftSideStyle, recognizer: widget.recognizer),
             ],
           ),
         ),

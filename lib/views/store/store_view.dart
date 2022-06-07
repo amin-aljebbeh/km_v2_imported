@@ -11,6 +11,7 @@ import 'package:v_chat_sdk/v_chat_sdk.dart';
 
 import '../../service.dart';
 import '../management_view/management_view.dart';
+import '../reports/shopper_information_view/shopper_information_view.dart';
 
 class StoreView extends StatefulWidget {
   const StoreView({Key key}) : super(key: key);
@@ -73,7 +74,7 @@ class StoreViewState extends State<StoreView> {
                     Padding(
                       padding: const EdgeInsets.only(right: 10.0),
                       child: Text(
-                        "تحديث متوفر",
+                        'تحديث متوفر',
                         style: TextStyle(
                             fontSize: 17,
                             color: ColorUtils.primaryColor,
@@ -104,7 +105,7 @@ class StoreViewState extends State<StoreView> {
                   text: TextSpan(
                     children: <TextSpan>[
                       TextSpan(
-                        text: "إصدار جديد من التطبيق اصبح متوفراً ! ",
+                        text: 'إصدار جديد من التطبيق اصبح متوفراً ! ',
                         style: TextStyle(
                             color: Colors.grey[900],
                             fontSize: 20,
@@ -126,7 +127,7 @@ class StoreViewState extends State<StoreView> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2.8,
                       child: KammunButton(
-                        text: " التحديث الآن ",
+                        text: ' التحديث الآن ',
                         height: 50,
                         color: ColorUtils.kmColors,
                         onTap: _updateApplication,
@@ -135,7 +136,7 @@ class StoreViewState extends State<StoreView> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2.8,
                       child: KammunButton(
-                        text: " التحديث لاحقاً ",
+                        text: ' التحديث لاحقاً ',
                         height: 50,
                         color: Colors.grey[700],
                         onTap: () {
@@ -157,11 +158,11 @@ class StoreViewState extends State<StoreView> {
   }
 
   _shareApp() {
-    String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
-    String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
+    String infoMessage = 'تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n';
+    String androidGrating = '\n لتحميل التطبيق على الأندوريد \n';
 
     String androidUrl = androidGrating + LoadingScreenServices.androidShareUrl;
-    String iosGrating = "\n لتحميل التطبيق على الآيفون \n";
+    String iosGrating = '\n لتحميل التطبيق على الآيفون \n';
     String iPhoneUrl = iosGrating + LoadingScreenServices.iOSShareUrl;
 
     Share.share(infoMessage + androidUrl + iPhoneUrl);
@@ -174,38 +175,24 @@ class StoreViewState extends State<StoreView> {
       backgroundColor: Colors.white,
       drawer: KDrawer(
         children: [
-          SideBarRow(
-            icon: Icons.phone,
-            text: "الإتصال بكمون",
-            onTap: () => Services.openUrl("number"),
-          ),
-          SideBarRow(
-            icon: Icons.share,
-            text: "إرسال التطبيق للأصدقاء",
-            onTap: () => _shareApp(),
-          ),
+          SideBarRow(icon: Icons.phone, text: 'الإتصال بكمون', onTap: () => Services.openUrl('number')),
+          SideBarRow(icon: Icons.share, text: 'إرسال التطبيق للأصدقاء', onTap: () => _shareApp()),
           SideBarRow(
             icon: Icons.person,
             text: StringUtils.profile,
-            onTap: () {
-              Navigator.of(context).pushNamed('/profile');
-            },
+            onTap: () => Navigator.of(context).pushNamed('/profile'),
           ),
           if (Services.isOperationManager())
             SideBarRow(
               icon: Icons.supervisor_account_sharp,
               text: 'فريق التوصيل',
-              onTap: () {
-                Navigator.of(context).pushNamed('/ShopperManagementView');
-              },
+              onTap: () => Navigator.of(context).pushNamed('/ShopperManagementView'),
             ),
           if (Services.isShopper())
             SideBarRow(
               icon: Icons.featured_play_list,
-              text: "كشف حساب المتسوق",
-              onTap: () {
-                Navigator.of(context).pushNamed('/ShopperTransactionView');
-              },
+              text: 'كشف حساب المتسوق',
+              onTap: () => Navigator.of(context).pushNamed('/ShopperTransactionView'),
             ),
           if (Services.isAccounting())
             SideBarRow(
@@ -220,7 +207,7 @@ class StoreViewState extends State<StoreView> {
                       children: [
                         SideBarRow(
                           icon: Icons.featured_play_list,
-                          text: "كشف حساب المتسوق",
+                          text: 'كشف حساب المتسوق',
                           onTap: () {
                             Navigator.of(context).pushNamed('/AccountantTransactionView');
                           },
@@ -234,10 +221,16 @@ class StoreViewState extends State<StoreView> {
                         ),
                         SideBarRow(
                           icon: Icons.account_balance_wallet_outlined,
-                          text: "أرصدة الموردين",
+                          text: 'أرصدة الموردين',
                           onTap: () {
                             Navigator.of(context).pushNamed('/SupplierAccounts');
                           },
+                        ),
+                        SideBarRow(
+                          icon: Icons.delivery_dining_rounded,
+                          text: 'معلومات المتسوقين',
+                          onTap: () => Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => const ShopperInformation())),
                         ),
                       ],
                     ),
@@ -248,18 +241,14 @@ class StoreViewState extends State<StoreView> {
           if (Services.isSupplierManager())
             SideBarRow(
               icon: Icons.account_balance,
-              text: "كشف حساب المورد",
-              onTap: () {
-                Navigator.of(context).pushNamed('/SupplierAccounts');
-              },
+              text: 'كشف حساب المورد',
+              onTap: () => Navigator.of(context).pushNamed('/SupplierAccounts'),
             ),
           Services.isSupplierManager() || Services.isProductsController() || Services.isAdmin()
               ? SideBarRow(
                   icon: Icons.inventory,
-                  text: "إدارة المستودعات",
-                  onTap: () {
-                    Navigator.of(context).pushNamed('/subWarehouseManagement');
-                  },
+                  text: 'إدارة المستودعات',
+                  onTap: () => Navigator.of(context).pushNamed('/subWarehouseManagement'),
                 )
               : Container(),
           if (Services.isProductsController())
@@ -275,14 +264,14 @@ class StoreViewState extends State<StoreView> {
                       children: [
                         SideBarRow(
                           icon: Icons.category,
-                          text: "المنتجات المضافة للمستودع",
+                          text: 'المنتجات المضافة للمستودع',
                           onTap: () {
                             Navigator.of(context).pushNamed('/products_added_to_warehouse');
                           },
                         ),
                         SideBarRow(
                           icon: Icons.category_outlined,
-                          text: "المنتجات الغير مضافة للمستودع",
+                          text: 'المنتجات الغير مضافة للمستودع',
                           onTap: () {
                             Navigator.of(context).pushNamed('/products_not_added_to_warehouse');
                           },
@@ -290,7 +279,7 @@ class StoreViewState extends State<StoreView> {
                         Services.isAdmin()
                             ? SideBarRow(
                                 icon: Icons.category_rounded,
-                                text: "جميع المنتجات",
+                                text: 'جميع المنتجات',
                                 onTap: () {
                                   Navigator.of(context).pushNamed('/all_products');
                                 },
@@ -329,28 +318,28 @@ class StoreViewState extends State<StoreView> {
                       children: [
                         SideBarRow(
                           icon: Icons.table_view_rounded,
-                          text: "تقرير المبيعات",
+                          text: 'تقرير المبيعات',
                           onTap: () {
                             Navigator.of(context).pushNamed('/sales_reports');
                           },
                         ),
                         SideBarRow(
                           icon: Icons.insert_chart_outlined_rounded,
-                          text: "إحصائيات المبيعات",
+                          text: 'إحصائيات المبيعات',
                           onTap: () {
                             Navigator.of(context).pushNamed('/sales_charts');
                           },
                         ),
                         SideBarRow(
                           icon: Icons.payment,
-                          text: "الأرباح والمستحقات المالية",
+                          text: 'الأرباح والمستحقات المالية',
                           onTap: () {
                             Navigator.of(context).pushNamed('/financial_report_view');
                           },
                         ),
                         SideBarRow(
                           icon: Icons.attach_money,
-                          text: "تغير الأسعار",
+                          text: 'تغير الأسعار',
                           onTap: () {
                             Navigator.of(context).pushNamed('/priceChange');
                           },
@@ -363,26 +352,23 @@ class StoreViewState extends State<StoreView> {
             ),
           SideBarRow(
             icon: Icons.logout,
-            text: "تسجيل الخروج",
+            text: 'تسجيل الخروج',
             onTap: () async {
               await Services.logOutAdmin(context);
               await VChatController.instance.logOut();
             },
           ),
-          Divider(
-            color: ColorUtils.kmColors,
-            height: 20,
-          ),
+          Divider(color: ColorUtils.kmColors, height: 20),
           Padding(
             padding: const EdgeInsets.only(top: 20.0),
             child: Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: const <Widget>[
-                  MediaIcon(icon: FontAwesomeIcons.facebookF, url: "facebook"),
-                  MediaIcon(icon: FontAwesomeIcons.instagram, url: "instagram"),
-                  MediaIcon(icon: FontAwesomeIcons.facebookMessenger, url: "messenger"),
-                  MediaIcon(icon: FontAwesomeIcons.whatsapp, url: "whatsapp"),
+                  MediaIcon(icon: FontAwesomeIcons.facebookF, url: 'facebook'),
+                  MediaIcon(icon: FontAwesomeIcons.instagram, url: 'instagram'),
+                  MediaIcon(icon: FontAwesomeIcons.facebookMessenger, url: 'messenger'),
+                  MediaIcon(icon: FontAwesomeIcons.whatsapp, url: 'whatsapp'),
                 ],
               ),
             ),
@@ -412,14 +398,8 @@ class StoreViewState extends State<StoreView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 12.0),
                       child: InkWell(
-                        onTap: () {
-                          scaffoldKey.currentState.openDrawer();
-                        },
-                        child: const Icon(
-                          Icons.menu,
-                          color: Colors.white,
-                          size: 40,
-                        ),
+                        onTap: () => scaffoldKey.currentState.openDrawer(),
+                        child: const Icon(Icons.menu, color: Colors.white, size: 40),
                       ),
                     ),
                     const AppBarKammunImage(),
@@ -436,7 +416,7 @@ class StoreViewState extends State<StoreView> {
                                   Services.shopper.status = Services.shopper.status == 1 ? 0 : 1;
                                 });
                               } else {
-                                Toast.show("يرجى الاتصال بالإنترنت", context,
+                                Toast.show('يرجى الاتصال بالإنترنت', context,
                                     duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                               }
                             },
@@ -444,11 +424,7 @@ class StoreViewState extends State<StoreView> {
                         : Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: IconButton(
-                              icon: const Icon(
-                                Icons.shopping_cart,
-                                size: 35,
-                                color: Colors.white,
-                              ),
+                              icon: const Icon(Icons.shopping_cart, size: 35, color: Colors.white),
                               onPressed: () {
                                 Navigator.of(context)
                                     .pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
@@ -457,10 +433,7 @@ class StoreViewState extends State<StoreView> {
                           ),
                   ],
                 ),
-                StoreSearchTextField(
-                  searchController: searchController,
-                  scaffoldKey: scaffoldKey,
-                ),
+                StoreSearchTextField(searchController: searchController, scaffoldKey: scaffoldKey),
               ],
             ),
           ),
@@ -489,7 +462,7 @@ class StoreViewState extends State<StoreView> {
                     ),
                   ),
                   Text(
-                    "  " + StringUtils.shopByCategory + "  ",
+                    '  ' + StringUtils.shopByCategory + '  ',
                     style: TextStyle(
                         color: ColorUtils.primaryColor,
                         fontWeight: FontWeight.w900,

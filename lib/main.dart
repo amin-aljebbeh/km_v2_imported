@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:kammun_app/views/reports/shopper_information_view/shopper_activity_hours.dart';
+import 'package:kammun_app/views/reports/shopper_information_view/shopper_month_report.dart';
+import 'package:kammun_app/views/reports/shopper_information_view/shopper_working_hours_view.dart';
 import 'package:v_chat_sdk/v_chat_sdk.dart';
 
 import 'utils/utils_importer.dart';
@@ -124,6 +127,9 @@ class _MyAppState extends State<MyApp> {
           'loading': (_) => const LoadingScreen(),
           '/cartFinal': (_) => const CartViewFinal(),
           ServerUpdate.routeName: (_) => const ServerUpdate(),
+          ShopperMonthReport.routeName: (_) => const ShopperMonthReport(),
+          ShopperWorkingHoursView.routeName: (_) => const ShopperWorkingHoursView(),
+          ActivityHoursView.routeName: (_) => const ActivityHoursView(),
           '/thankyou': (_) => const ThankYouView(),
           '/cart': (_) => const HomeView(routeIndex: 1),
           '/cartFromUpdate': (_) => const HomeView(routeIndex: 1, isFromUpdateOrder: true),

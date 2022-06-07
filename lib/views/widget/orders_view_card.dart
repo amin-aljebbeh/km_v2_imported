@@ -249,7 +249,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   LabelRow(
                     rightSideText: StringUtils.phoneNumber,

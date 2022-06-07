@@ -6,6 +6,7 @@ import 'package:kammun_app/views/reports/services/reports_services.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 import '../../service.dart';
+import 'models/mothly_profit_model.dart';
 import 'models/transaction_model.dart';
 
 class AccountantTransactionView extends StatefulWidget {
@@ -25,7 +26,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
   String shopperName;
   String shopperId;
   int page;
-  String profit;
+  MonthlyProfit profit;
 
   @override
   void initState() {
@@ -97,7 +98,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
   }
 
   getDailyProfit(String shopperId) async {
-    String result = await ReportsServices.getShopperMonthProfitService(shopperId: shopperId);
+    MonthlyProfit result = await ReportsServices.getShopperMonthProfitService(shopperId: shopperId);
     setState(() {
       profitLoading = false;
       profit = result;
@@ -126,208 +127,302 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
           padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
           child: ListView(
             children: [
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          size: 40,
-                          color: ColorUtils.primaryColor,
-                        ),
-                        onPressed: () {
-                          if (selected && !empty) {
-                            setState(() {
-                              page++;
-                              loading = true;
-                            });
-                            getTransaction(shopperId);
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        child: KSearchableDropdown(
-                          hint: StringUtils.chooseShopper,
-                          search: shopperFilter,
-                          items: Services.shoppersNameList(),
-                          onChanged: (value) {
-                            setState(() {
-                              page = 1;
-                              shopperFilter = value;
-                              shopperName = value;
-                              selected = true;
-                              loading = true;
-                              shopperId = Services.selectedShopperId(value);
-                              profitLoading = true;
-                            });
-                            getTransaction(shopperId);
-                            getDailyProfit(shopperId);
-                          },
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_forward,
-                          size: 40,
-                          color: ColorUtils.primaryColor,
-                        ),
-                        onPressed: () {
-                          if (selected) {
-                            setState(() {
-                              if (page > 1) {
-                                page--;
-                                loading = true;
-                              }
-                            });
-                            getTransaction(shopperId);
-                          }
-                        },
-                      ),
-                    ],
+                  IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      size: 40,
+                      color: ColorUtils.primaryColor,
+                    ),
+                    onPressed: () {
+                      if (selected && !empty) {
+                        setState(() {
+                          page++;
+                          loading = true;
+                        });
+                        getTransaction(shopperId);
+                      }
+                    },
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.043,
-                    child: selected
-                        ? profitLoading
-                            ? const Loader()
-                            : LabelRow(
-                                rightSideText: 'مرابح الشهر : ',
-                                leftSideText: profit != null
-                                    ? StringUtils().oCcy.format(int.parse(profit).abs()).toString()
-                                    : 'error',
-                                leftSideStyle: profit != null
-                                    ? int.parse(profit).isNegative
-                                        ? loseStyle
-                                        : profitStyle
-                                    : loseStyle,
-                              )
-                        : Container(),
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: KSearchableDropdown(
+                      hint: StringUtils.chooseShopper,
+                      search: shopperFilter,
+                      items: Services.shoppersNameList(),
+                      onChanged: (value) {
+                        if (value != null) {
+                          setState(() {
+                            page = 1;
+                            shopperFilter = value;
+                            shopperName = value;
+                            selected = true;
+                            loading = true;
+                            shopperId = Services.selectedShopperId(value);
+                            profitLoading = true;
+                          });
+                          getTransaction(shopperId);
+                          getDailyProfit(shopperId);
+                        }
+                      },
+                    ),
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.61,
-                    child: selected
-                        ? error
-                            ? Center(
-                                child: AlertMessages(
-                                  text: StringUtils.errorMessage,
-                                  messageType: "internetError",
-                                  headerText: "حدث خطأ",
-                                ),
-                              )
-                            : loading
-                                ? const Loader()
-                                : empty
-                                    ? const Padding(
-                                        padding: EdgeInsets.all(75),
-                                        child: ScreenMessage(
-                                          message: 'لا يوجد حركة',
+                  IconButton(
+                    icon: Icon(
+                      Icons.arrow_forward,
+                      size: 40,
+                      color: ColorUtils.primaryColor,
+                    ),
+                    onPressed: () {
+                      if (selected) {
+                        setState(() {
+                          if (page > 1) {
+                            page--;
+                            loading = true;
+                          }
+                        });
+                        getTransaction(shopperId);
+                      }
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.2,
+                child: selected
+                    ? profitLoading
+                        ? const Loader()
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: SizedBox(
+                              height: 110,
+                              child: Column(
+                                children: [
+                                  Text('معلومات الشهر', style: paragraphStyle),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        LabelRow(
+                                          rightSideText: ' المرابح : ',
+                                          leftSideText: profitLoading
+                                              ? 'جار الاتصال'
+                                              : profit != null
+                                                  ? StringUtils()
+                                                      .oCcy
+                                                      .format(int.parse(profit.profit).abs())
+                                                      .toString()
+                                                  : 'error',
+                                          leftSideStyle: profitLoading
+                                              ? paragraphStyle
+                                              : profit != null
+                                                  ? int.parse(profit.profit).isNegative
+                                                      ? loseStyle
+                                                      : profitStyle
+                                                  : loseStyle,
                                         ),
-                                      )
-                                    : ListView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        itemCount: transactions.length,
-                                        itemBuilder: (BuildContext context, int index) {
-                                          return Transaction(
-                                            transaction: transactions[index],
-                                            newTransaction: newTransaction(index),
-                                            show: (date) async {
-                                              int kammunProfit = transactions
-                                                  .where((transaction) =>
-                                                      transaction.createdAt.toString().split(' ')[0] ==
-                                                      date.toString().split(' ')[0])
-                                                  .toList()
-                                                  .fold(
-                                                      0,
-                                                      (value, transaction) =>
-                                                          value + int.parse(transaction.valueCompany));
-
-                                              int shopperProfit = transactions
-                                                  .where((transaction) =>
-                                                      transaction.createdAt.toString().split(' ')[0] ==
-                                                      date.toString().split(' ')[0])
-                                                  .toList()
-                                                  .fold(
-                                                      0,
-                                                      (value, transaction) =>
-                                                          value + int.parse(transaction.valueShopper));
-                                              List<int> completeProfits =
-                                                  await getCompleteProfits(date, shopperId);
-                                              kammunProfit += completeProfits[0];
-                                              shopperProfit += completeProfits[1];
-                                              showMyDialog(
-                                                title:
-                                                    'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
-                                                context: context,
-                                                content: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        LabelRow(
+                                          rightSideText: 'عدد الطلبات : ',
+                                          leftSideText: profitLoading
+                                              ? 'جار الاتصال'
+                                              : profit != null
+                                                  ? StringUtils()
+                                                      .oCcy
+                                                      .format((profit.countOrderThisMonth).abs())
+                                                      .toString()
+                                                  : 'error',
+                                          leftSideStyle: profitLoading
+                                              ? paragraphStyle
+                                              : profit != null
+                                                  ? profitStyle
+                                                  : loseStyle,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        LabelRow(
+                                          rightSideText: ' متوسط التقييم : ',
+                                          leftSideText: profitLoading
+                                              ? 'جار الاتصال'
+                                              : profit != null
+                                                  ? StringUtils()
+                                                      .oCcy
+                                                      .format(int.parse(profit.avgOrderRating.split('.')[0]).abs())
+                                                      .toString()
+                                                  : 'error',
+                                          leftSideStyle: profitLoading
+                                              ? paragraphStyle
+                                              : profit != null
+                                                  ? profitStyle
+                                                  : loseStyle,
+                                        ),
+                                        LabelRow(
+                                          rightSideText: 'ساعات العمل : ',
+                                          leftSideText: profitLoading
+                                              ? 'جار الاتصال'
+                                              : profit != null
+                                                  ? StringUtils()
+                                                      .oCcy
+                                                      .format((profit.workingHour).abs())
+                                                      .toString()
+                                                  : 'error',
+                                          leftSideStyle: profitLoading
+                                              ? paragraphStyle
+                                              : profit != null
+                                                  ? profitStyle
+                                                  : loseStyle,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Center(
+                                      child: LabelRow(
+                                        rightSideText: 'متوسط زمن التوصيل : ',
+                                        leftSideText: profitLoading
+                                            ? 'جار الاتصال'
+                                            : profit != null
+                                                ? StringUtils()
+                                                    .oCcy
+                                                    .format(
+                                                        int.parse(profit.avgDeliveryMinutes.split('.')[0]).abs())
+                                                    .toString()
+                                                : 'error',
+                                        leftSideStyle: profitLoading
+                                            ? paragraphStyle
+                                            : profit != null
+                                                ? profitStyle
+                                                : loseStyle,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                    : Container(),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.45,
+                child: selected
+                    ? error
+                        ? Center(
+                            child: AlertMessages(
+                              text: StringUtils.errorMessage,
+                              messageType: 'internetError',
+                              headerText: 'حدث خطأ',
+                            ),
+                          )
+                        : loading
+                            ? const Loader()
+                            : empty
+                                ? const Padding(
+                                    padding: EdgeInsets.all(75),
+                                    child: ScreenMessage(message: 'لا يوجد حركة'),
+                                  )
+                                : ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: transactions.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return Transaction(
+                                        transaction: transactions[index],
+                                        newTransaction: newTransaction(index),
+                                        show: (date) async {
+                                          int kammunProfit = transactions
+                                              .where((transaction) =>
+                                                  transaction.createdAt.toString().split(' ')[0] ==
+                                                  date.toString().split(' ')[0])
+                                              .toList()
+                                              .fold(
+                                                  0,
+                                                  (value, transaction) =>
+                                                      value + int.parse(transaction.valueCompany));
+                                          int shopperProfit = transactions
+                                              .where((transaction) =>
+                                                  transaction.createdAt.toString().split(' ')[0] ==
+                                                  date.toString().split(' ')[0])
+                                              .toList()
+                                              .fold(
+                                                  0,
+                                                  (value, transaction) =>
+                                                      value + int.parse(transaction.valueShopper));
+                                          List<int> completeProfits = await getCompleteProfits(date, shopperId);
+                                          kammunProfit += completeProfits[0];
+                                          shopperProfit += completeProfits[1];
+                                          showMyDialog(
+                                            title:
+                                                'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
+                                            context: context,
+                                            content: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Column(
                                                   children: [
-                                                    Column(
-                                                      children: [
-                                                        Text(
-                                                          StringUtils.shopper,
-                                                          style: mainStyle,
-                                                        ),
-                                                        Text(
-                                                          StringUtils()
-                                                              .oCcy
-                                                              .format(shopperProfit.abs())
-                                                              .toString(),
-                                                          style:
-                                                              shopperProfit.isNegative ? loseStyle : profitStyle,
-                                                        ),
-                                                      ],
+                                                    Text(
+                                                      StringUtils.shopper,
+                                                      style: mainStyle,
                                                     ),
-                                                    Column(
-                                                      children: [
-                                                        Text(
-                                                          StringUtils.kammun,
-                                                          style: mainStyle,
-                                                        ),
-                                                        Text(
-                                                          StringUtils().oCcy.format(kammunProfit.abs()).toString(),
-                                                          style: kammunProfit.isNegative ? loseStyle : profitStyle,
-                                                        ),
-                                                      ],
+                                                    Text(
+                                                      StringUtils().oCcy.format(shopperProfit.abs()).toString(),
+                                                      style: shopperProfit.isNegative ? loseStyle : profitStyle,
                                                     ),
                                                   ],
                                                 ),
-                                                dialogButtons: [
-                                                  DialogButton(
-                                                    text: StringUtils.close,
-                                                    onTap: () {
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                  )
-                                                ],
-                                              );
-                                            },
+                                                Column(
+                                                  children: [
+                                                    Text(
+                                                      StringUtils.kammun,
+                                                      style: mainStyle,
+                                                    ),
+                                                    Text(
+                                                      StringUtils().oCcy.format(kammunProfit.abs()).toString(),
+                                                      style: kammunProfit.isNegative ? loseStyle : profitStyle,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            dialogButtons: [
+                                              DialogButton(
+                                                text: StringUtils.close,
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              )
+                                            ],
                                           );
                                         },
-                                      )
-                        : const ScreenMessage(
-                            message: 'اختر متسوق',
-                          ),
-                  ),
-                  KammunButton(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    text: StringUtils.addTransaction,
-                    color: ColorUtils.primaryColor,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AddTransactionView(shopperName: shopperName),
-                        ),
-                      );
-                    },
-                  )
-                ],
+                                      );
+                                    },
+                                  )
+                    : const ScreenMessage(
+                        message: 'اختر متسوق',
+                      ),
+              ),
+              KammunButton(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                text: StringUtils.addTransaction,
+                color: ColorUtils.primaryColor,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddTransactionView(shopperName: shopperName),
+                    ),
+                  );
+                },
               ),
               KammunButton(
                 width: MediaQuery.of(context).size.width,
@@ -338,12 +433,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                   if (selected) {
                     ReportsServices.financialDues(context: context, shopperId: shopperId);
                   } else {
-                    Toast.show(
-                      "يرجى اختيار متسوق",
-                      context,
-                      duration: Toast.LENGTH_LONG,
-                      gravity: Toast.CENTER,
-                    );
+                    Toast.show('يرجى اختيار متسوق', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                   }
                 },
               ),

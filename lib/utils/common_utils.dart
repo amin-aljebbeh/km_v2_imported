@@ -12,6 +12,8 @@ enum MyThemeKeys { light, dark, darker }
 
 enum OrderTypes { myOrder, allOrder, search, none }
 
+enum DateFilter { day, month, year }
+
 enum BarcodeRequestType { addBarcode, search, addProduct, attachProduct }
 
 enum ProductsViewTypes { search, category, barcode }

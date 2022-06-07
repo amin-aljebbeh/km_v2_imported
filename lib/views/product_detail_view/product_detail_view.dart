@@ -249,6 +249,12 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       ],
                     ),
                     const SizedBox(height: 20),
+                    LabelRow(
+                      rightSideText: 'ProductId : ',
+                      leftSideText: widget.product.id.toString(),
+                      leftSideStyle: informationStyle,
+                    ),
+                    const SizedBox(height: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

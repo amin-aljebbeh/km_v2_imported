@@ -32,6 +32,7 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
   Widget build(BuildContext context) {
     return SearchChoices.single(
       displayClearIcon: false,
+      onTap: () {},
       rightToLeft: true,
       searchInputDecoration: InputDecoration(
         suffixIcon: Icon(Icons.search, size: 24, color: ColorUtils.primaryColor),

@@ -55,7 +55,7 @@ class OrdersViewState extends State<OrdersView> {
   bool orderLoaded = true;
   bool warehouseLoaded = false;
   bool errorMessage = false;
-  String errorMessageValue = "";
+  String errorMessageValue = '';
   bool isLoading = false;
   int page = 1;
   int indexPage = 1;
@@ -124,7 +124,7 @@ class OrdersViewState extends State<OrdersView> {
         orderLoaded = true;
         errorMessage = true;
         isLoading = false;
-        errorMessageValue = "حدث خطأ اثناء محاولة جلب الطلبات";
+        errorMessageValue = 'حدث خطأ اثناء محاولة جلب الطلبات';
       });
     }
   }
@@ -138,18 +138,13 @@ class OrdersViewState extends State<OrdersView> {
         child: Padding(
           padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
           child: !orderLoaded || isLoading
-              ? const Center(
-                  child: Loader(),
-                )
+              ? const Center(child: Loader())
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     errorMessage
                         ? AlertMessages(
-                            text: errorMessageValue,
-                            messageType: "internetError",
-                            headerText: "حدث خطأ",
-                          )
+                            text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
                         : Container(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -286,7 +281,7 @@ class OrdersViewState extends State<OrdersView> {
                             padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.4),
                             child: Center(
                               child: Text(
-                                "لا يوجد أي طلبات سابقة",
+                                'لا يوجد أي طلبات سابقة',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: ColorUtils.greyColor,
@@ -326,17 +321,17 @@ class OrdersViewState extends State<OrdersView> {
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       KammunButton(
-                                        text: orderDataList[index].orderStatusId == "1"
-                                            ? "قبول الطلب"
-                                            : orderDataList[index].orderStatusId == "2"
-                                                ? "الطلب جاهز"
-                                                : orderDataList[index].orderStatusId == "3"
-                                                    ? "مع التوصيل"
-                                                    : "تم التوصيل",
+                                        text: orderDataList[index].orderStatusId == '1'
+                                            ? 'قبول الطلب'
+                                            : orderDataList[index].orderStatusId == '2'
+                                                ? 'الطلب جاهز'
+                                                : orderDataList[index].orderStatusId == '3'
+                                                    ? 'مع التوصيل'
+                                                    : 'تم التوصيل',
                                         width: MediaQuery.of(context).size.width * 0.4,
-                                        color: orderDataList[index].orderStatusId == "1"
+                                        color: orderDataList[index].orderStatusId == '1'
                                             ? Colors.green[700]
-                                            : orderDataList[index].orderStatusId == "2"
+                                            : orderDataList[index].orderStatusId == '2'
                                                 ? Colors.yellow[700]
                                                 : Colors.cyan[700],
                                         onTap: () async {
@@ -345,13 +340,13 @@ class OrdersViewState extends State<OrdersView> {
                                             isLoading = true;
                                             errorMessage = false;
                                           });
-                                          if (orderDataList[index].orderStatusId == "1") {
+                                          if (orderDataList[index].orderStatusId == '1') {
                                             changeStatus = 2;
-                                          } else if (orderDataList[index].orderStatusId == "2") {
+                                          } else if (orderDataList[index].orderStatusId == '2') {
                                             changeStatus = 3;
-                                          } else if (orderDataList[index].orderStatusId == "3") {
+                                          } else if (orderDataList[index].orderStatusId == '3') {
                                             changeStatus = 4;
-                                          } else if (orderDataList[index].orderStatusId == "4") {
+                                          } else if (orderDataList[index].orderStatusId == '4') {
                                             changeStatus = 5;
                                           }
 
@@ -410,8 +405,8 @@ class OrdersViewState extends State<OrdersView> {
                                             ),
                                           ];
                                           showMyDialog(
-                                              title: "رفض الطلب",
-                                              text: "هل أنت متأكد انك تريد رفض الطلب ؟",
+                                              title: 'رفض الطلب',
+                                              text: 'هل أنت متأكد انك تريد رفض الطلب ؟',
                                               dialogButtons: decisionButton,
                                               context: context);
                                         },
@@ -456,8 +451,8 @@ class OrdersViewState extends State<OrdersView> {
                                             ),
                                           ];
                                           showMyDialog(
-                                              title: "إلغاء الطلب",
-                                              text: "هل أنت متأكد انك تريد إلغاء الطلب ؟",
+                                              title: 'إلغاء الطلب',
+                                              text: 'هل أنت متأكد انك تريد إلغاء الطلب ؟',
                                               dialogButtons: decisionButton,
                                               context: context);
                                         },
@@ -467,7 +462,7 @@ class OrdersViewState extends State<OrdersView> {
                                 ),
                               if (['6', '7'].contains(orderDataList[index].orderStatusId))
                                 KammunButton(
-                                  text: "استعادة الطلب",
+                                  text: 'استعادة الطلب',
                                   width: MediaQuery.of(context).size.width,
                                   color: ColorUtils.kmColors,
                                   onTap: () {
@@ -509,8 +504,8 @@ class OrdersViewState extends State<OrdersView> {
                                       ),
                                     ];
                                     showMyDialog(
-                                        title: "استعادة الطلب",
-                                        text: "هل أنت متأكد انك تريد استعادة الطلب ؟",
+                                        title: 'استعادة الطلب',
+                                        text: 'هل أنت متأكد انك تريد استعادة الطلب ؟',
                                         dialogButtons: decisionButton,
                                         context: context);
                                   },
@@ -539,14 +534,14 @@ class OrdersViewState extends State<OrdersView> {
                                       });
                                       _moveOrderProductsToCart(
                                           orderIndex: index, orderProducts: response.products);
-                                      orderDataList[index].underUpdate = "1";
+                                      orderDataList[index].underUpdate = '1';
                                     } else if (!response.success) {
                                       setState(() {
-                                        orderDataList[index].underUpdate = "2";
+                                        orderDataList[index].underUpdate = '2';
                                         orderLoaded = true;
                                         errorMessage = true;
                                         errorMessageValue =
-                                            "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
+                                            'لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً';
                                       });
                                     }
                                   } else {
@@ -554,13 +549,13 @@ class OrdersViewState extends State<OrdersView> {
                                       orderLoaded = true;
                                       errorMessage = true;
                                       errorMessageValue =
-                                          "حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت";
+                                          'حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت';
                                     });
                                   }
                                 },
                                 color: Colors.green,
                               ),
-                              orderDataList[index].userNotes.toString() != "null"
+                              orderDataList[index].userNotes.toString() != 'null'
                                   ? KammunButton(
                                       text: StringUtils.watchNote,
                                       onTap: () {
@@ -581,7 +576,7 @@ class OrdersViewState extends State<OrdersView> {
                                       color: Colors.indigoAccent,
                                     )
                                   : Container(),
-                              orderDataList[index].underUpdate.toString() != "0"
+                              orderDataList[index].underUpdate.toString() != '0'
                                   ? KammunButton(
                                       text: StringUtils.unLock,
                                       onTap: () {
@@ -633,7 +628,7 @@ class OrdersViewState extends State<OrdersView> {
                             color: Colors.transparent,
                             child: Center(
                               child: Text(
-                                "تم جلب جميع الطلبات",
+                                'تم جلب جميع الطلبات',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontFamily: StringUtils.fontFamilyHKGrotesk,
@@ -652,8 +647,8 @@ class OrdersViewState extends State<OrdersView> {
   _moveOrderProductsToCart({int orderIndex, List<OrderProducts> orderProducts}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     CartServices.cartProducts.clear();
-    String productsId = "";
-    String productsQuantity = "";
+    String productsId = '';
+    String productsQuantity = '';
 
     orderProducts.removeWhere((element) => element.pivot.deletedAt != 'null');
 
@@ -675,10 +670,10 @@ class OrdersViewState extends State<OrdersView> {
     }
 
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productsId += CartServices.cartProducts[i].id.toString() + ";";
-      productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
+      productsId += CartServices.cartProducts[i].id.toString() + ';';
+      productsQuantity += CartServices.cartProducts[i].productCount.toString() + ';';
     }
-    prefs.setString("userCart", productsId + "@" + productsQuantity);
+    prefs.setString('userCart', productsId + '@' + productsQuantity);
 
     Navigator.of(context).pushNamedAndRemoveUntil(
       '/cartFromUpdate',

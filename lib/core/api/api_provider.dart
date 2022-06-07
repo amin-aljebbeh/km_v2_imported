@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:kammun_app/utils/tools.dart';
 import 'package:kammun_app/views/loading/loading.dart';
 
 import '../../core/core_importer.dart';
@@ -66,6 +67,9 @@ class ApiProvider {
                 queryParameters: queryParameters, options: Options(headers: header), data: body);
             break;
           }
+      }
+      if (response != null) {
+        Tools.logToConsole(response);
       }
     } on DioError catch (e) {
       RequestOptions requestOptions = RequestOptions(

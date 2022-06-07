@@ -42,16 +42,10 @@ class ShopperWidgetState extends State<ShopperWidget> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Divider(
-              thickness: 0.8,
-              color: Colors.grey[800],
-            ),
+            Divider(thickness: 0.8, color: Colors.grey[800]),
             Row(
               children: <Widget>[
-                KCacheImage(
-                  tag: widget.shopper.id,
-                  image: '',
-                ),
+                KCacheImage(tag: widget.shopper.id, image: ''),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Wrap(
@@ -86,9 +80,7 @@ class ShopperWidgetState extends State<ShopperWidget> {
                           isForSubWarehouse: false,
                           preState: widget.shopper.status,
                           onChange: (int active, bool widgetResult) async {
-                            setState(() {
-                              loading = true;
-                            });
+                            setState(() => loading = true);
                             bool result = await Services.changeShopperStatusService(
                                 shopperId: widget.shopper.id.toString(),
                                 newStatus: widget.shopper.status == 1 ? '0' : '1');

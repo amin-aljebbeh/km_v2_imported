@@ -5,7 +5,7 @@ import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 class ServerUpdate extends StatelessWidget {
-  static const String routeName = "/server-update";
+  static const String routeName = '/server-update';
 
   const ServerUpdate({Key key}) : super(key: key);
 
@@ -20,13 +20,9 @@ class ServerUpdate extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image.asset(
-                  "assets/system_update.gif",
-                  // width: 100,
-                  // height: 150,
-                ),
+                Image.asset('assets/system_update.gif'),
                 Text(
-                  "تحديثات ضمن النظام",
+                  'تحديثات ضمن النظام',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 25.0,
@@ -63,7 +59,6 @@ class ServerUpdate extends StatelessWidget {
             ),
           ),
           color: Colors.white,
-          // color: Color.fromARGB(255, 40, 51, 140),
         ),
       ),
     );

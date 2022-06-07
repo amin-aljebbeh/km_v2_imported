@@ -67,12 +67,14 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   search: shopperFilter,
                   items: Services.shoppersNameList(),
                   onChanged: (value) {
-                    setState(
-                      () {
-                        shopperFilter = value;
-                        shopperName = value;
-                      },
-                    );
+                    if (value != null) {
+                      setState(
+                        () {
+                          shopperFilter = value;
+                          shopperName = value;
+                        },
+                      );
+                    }
                   },
                 ),
                 const SizedBox(

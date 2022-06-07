@@ -45,11 +45,11 @@ class ReportsServices {
     }
   }
 
-  static Future<ActivityHours> getShopperActivityHours({String fromDate, String toDate}) async {
+  static Future<ActivityHours> getShopperActivityHours({String shopperId, String fromDate, String toDate}) async {
     Response response;
 
     response = await ApiProvider.sendRequest(
-      url: shopperActivityHours,
+      url: shopperActivityHours + shopperId,
       queryParameters: {'from_date': fromDate, 'to_date': toDate},
       method: HttpMethods.get,
     );
@@ -61,26 +61,26 @@ class ReportsServices {
     }
   }
 
-  static Future<ShopperWorkingHours> getShopperWorkingHours({String filterBy}) async {
+  static Future<List<ShopperWorkingHoursData>> getShopperWorkingHours({String shopperId, String filterBy}) async {
     Response response;
-
+    Tools.logToConsole('filter by:');
+    Tools.logToConsole(filterBy);
     response = await ApiProvider.sendRequest(
-      url: getWorkingHour,
-      queryParameters: {'filter_by': filterBy},
-      method: HttpMethods.get,
-    );
+        url: getWorkingHour + shopperId,
+        queryParameters: {'filter_by': filterBy.split('.')[1]},
+        method: HttpMethods.get);
 
     if (response.statusCode == successCode) {
-      return shopperWorkingHoursFromJson(jsonEncode(response.data));
+      return shopperWorkingHoursFromJson(jsonEncode(response.data)).data;
     } else {
       return null;
     }
   }
 
-  static Future<ShopperMonthlyReportResponse> getMonthlyShopperReports({String filterBy}) async {
+  static Future<ShopperMonthlyReportResponse> getMonthlyShopperReports({String shopperId}) async {
     Response response;
 
-    response = await ApiProvider.sendRequest(url: monthlyShopperReports, method: HttpMethods.get);
+    response = await ApiProvider.sendRequest(url: monthlyShopperReports + shopperId, method: HttpMethods.get);
 
     if (response.statusCode == successCode) {
       return shopperMonthlyReportFromJson(jsonEncode(response.data));
@@ -130,8 +130,6 @@ class ReportsServices {
         return null;
       }
     } catch (e) {
-      Tools.logToConsole('message from transaction error');
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -155,15 +153,15 @@ class ReportsServices {
     }
   }
 
-  static Future<String> getShopperMonthProfitService({@required String shopperId}) async {
+  static Future<MonthlyProfit> getShopperMonthProfitService({@required String shopperId}) async {
     Response response;
 
     response = await ApiProvider.sendRequest(url: getShopperMonthProfit + shopperId, method: HttpMethods.get);
 
     if (response.statusCode == successCode) {
-      String dailyProfit;
+      MonthlyProfit dailyProfit;
       if (response.data['success'].toString() == 'true') {
-        dailyProfit = dailyProfitModelFromJson(jsonEncode(response.data)).profit;
+        dailyProfit = monthlyProfitFromJson(jsonEncode(response.data));
         return dailyProfit;
       } else {
         return dailyProfit;
@@ -231,7 +229,6 @@ class ReportsServices {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -264,8 +261,6 @@ class ReportsServices {
         return null;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
-
       return null;
     }
   }

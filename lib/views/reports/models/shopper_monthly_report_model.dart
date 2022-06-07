@@ -40,7 +40,7 @@ class ShopperMonthlyReport {
   factory ShopperMonthlyReport.fromJson(Map<String, dynamic> json) => ShopperMonthlyReport(
         date: json['date'],
         countOrder: json['count_order'] ?? 0,
-        monthlyProfit: json['monthly_profit'],
+        monthlyProfit: json['monthly_profit'] ?? '0',
       );
 
   Map<String, dynamic> toJson() => {
