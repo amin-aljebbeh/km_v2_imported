@@ -29,7 +29,7 @@ class MonthlyProfit {
         success: json['success'],
         profit: json['data'],
         countOrderThisMonth: json['count_order_this_month'],
-        workingHour: json['working_hour'].toDouble(),
+        workingHour: json['working_hour'] == null?0.0.toDouble(): json['working_hour'].toDouble(),
         avgOrderRating: json['avg_order_rating'],
         avgDeliveryMinutes: json['avg_delivery_minutes'],
       );

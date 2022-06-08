@@ -59,7 +59,8 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
   }
 
   getMonthlyProfit(String shopperId) async {
-    MonthlyProfit result = await ReportsServices.getShopperMonthProfitService(shopperId: shopperId);
+    MonthlyProfit result = await ReportsServices.getShopperMonthProfitService(
+        shopperId: shopperId);
     setState(() {
       profitLoading = false;
       profit = result;
@@ -83,116 +84,128 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+          padding:
+              const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
           child: ListView(
             children: [
+              const SizedBox(
+                height: 20,
+              ),
               profitLoading
                   ? const Loader()
-                  : Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Column(
-                        children: [
-                          Text('معلومات الشهر', style: paragraphStyle),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                LabelRow(
-                                  rightSideText: ' المرابح : ',
-                                  leftSideText: profitLoading
-                                      ? 'جار الاتصال'
-                                      : profit != null
-                                          ? StringUtils().oCcy.format(int.parse(profit.profit).abs()).toString()
-                                          : 'error',
-                                  leftSideStyle: profitLoading
-                                      ? paragraphStyle
-                                      : profit != null
-                                          ? int.parse(profit.profit).isNegative
-                                              ? loseStyle
-                                              : profitStyle
-                                          : loseStyle,
-                                ),
-                                LabelRow(
-                                  rightSideText: 'عدد الطلبات : ',
-                                  leftSideText: profitLoading
-                                      ? 'جار الاتصال'
-                                      : profit != null
-                                          ? StringUtils()
-                                              .oCcy
-                                              .format((profit.countOrderThisMonth).abs())
-                                              .toString()
-                                          : 'error',
-                                  leftSideStyle: profitLoading
-                                      ? paragraphStyle
-                                      : profit != null
-                                          ? profitStyle
-                                          : loseStyle,
-                                ),
-                              ],
+                  : Wrap(
+                      children: [
+                        LabelRow(
+                          rightSideText: 'مرابح الشهر : ',
+                          leftSideText: profitLoading
+                              ? 'جار الاتصال'
+                              : profit != null
+                                  ? StringUtils()
+                                      .oCcy
+                                      .format(int.parse(profit.profit).abs())
+                                      .toString()
+                                  : 'error',
+                          leftSideStyle: profitLoading
+                              ? paragraphStyle
+                              : profit != null
+                                  ? int.parse(profit.profit).isNegative
+                                      ? loseStyle
+                                      : profitStyle
+                                  : loseStyle,
+                        ),
+                        Wrap(
+                          children: [
+                            LabelRow(
+                              rightSideText: 'عدد الطلبات : ',
+                              leftSideText: profitLoading
+                                  ? 'جار الاتصال'
+                                  : profit != null
+                                      ? profit.countOrderThisMonth.toString()
+                                      : 'error',
+                              leftSideStyle: profitLoading
+                                  ? paragraphStyle
+                                  : profit != null
+                                      ? profitStyle
+                                      : loseStyle,
                             ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                LabelRow(
-                                  rightSideText: ' متوسط التقييم : ',
-                                  leftSideText: profitLoading
-                                      ? 'جار الاتصال'
-                                      : profit != null
-                                          ? StringUtils()
-                                              .oCcy
-                                              .format(int.parse(profit.avgOrderRating).abs())
-                                              .toString()
-                                          : 'error',
-                                  leftSideStyle: profitLoading
-                                      ? paragraphStyle
-                                      : profit != null
-                                          ? profitStyle
-                                          : loseStyle,
-                                ),
-                                LabelRow(
-                                  rightSideText: 'ساعات العمل : ',
-                                  leftSideText: profitLoading
-                                      ? 'جار الاتصال'
-                                      : profit != null
-                                          ? StringUtils().oCcy.format((profit.workingHour).abs()).toString()
-                                          : 'error',
-                                  leftSideStyle: profitLoading
-                                      ? paragraphStyle
-                                      : profit != null
-                                          ? profitStyle
-                                          : loseStyle,
-                                ),
-                              ],
+                            const SizedBox(
+                              width: 10,
                             ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Center(
-                              child: LabelRow(
-                                rightSideText: 'متوسط زمن التوصيل : ',
-                                leftSideText: profitLoading
-                                    ? 'جار الاتصال'
-                                    : profit != null
-                                        ? StringUtils()
-                                            .oCcy
-                                            .format(int.parse(profit.avgDeliveryMinutes).abs())
-                                            .toString()
-                                        : 'error',
-                                leftSideStyle: profitLoading
-                                    ? paragraphStyle
-                                    : profit != null
-                                        ? profitStyle
-                                        : loseStyle,
-                              ),
+                            LabelRow(
+                              rightSideText: 'ساعات العمل : ',
+                              leftSideText: profitLoading
+                                  ? 'جار الاتصال'
+                                  : profit != null
+                                      ? profit.workingHour.toString()
+                                      : 'error',
+                              leftSideStyle: profitLoading
+                                  ? paragraphStyle
+                                  : profit != null
+                                      ? profitStyle
+                                      : loseStyle,
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                        LabelRow(
+                          rightSideText: 'التقييم:',
+                          leftSideText: profitLoading
+                              ? 'جار الاتصال'
+                              : profit != null
+                                  ? profit.avgOrderRating.toString()
+                                  : 'error',
+                          leftSideStyle: profitLoading
+                              ? paragraphStyle
+                              : profit != null
+                                  ? profitStyle
+                                  : loseStyle,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        LabelRow(
+                          rightSideText: 'سرعة التوصيل:',
+                          leftSideText: profitLoading
+                              ? 'جار الاتصال'
+                              : profit != null
+                                  ? profit.avgDeliveryMinutes.toString()
+                                  : 'error',
+                          leftSideStyle: profitLoading
+                              ? paragraphStyle
+                              : profit != null
+                                  ? profitStyle
+                                  : loseStyle,
+                        ),
+                      ],
                     ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  KammunButton(
+                  //  width: MediaQuery.of(context).size.width/4,
+                    height: 50,
+                    text: '  المستحقات  ',
+                    color: ColorUtils.primaryColor,
+                    onTap: () {
+                      ReportsServices.financialDues(
+                          context: context,
+                          shopperId: Services.shopper.id.toString());
+                    },
+                  ),
+                  KammunButton(
+               // width: MediaQuery.of(context).size.width/4,
+               
+                height: 50,
+                text: '  إحصائيات  ',
+                color: ColorUtils.primaryColor,
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ShopperInformation())),
+              ),
+                ],
+              ),
+              
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.65,
@@ -208,7 +221,8 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                         ? const Loader()
                         : empty
                             ? const Padding(
-                                padding: EdgeInsets.all(75), child: ScreenMessage(message: 'لا يوجد حركة'))
+                                padding: EdgeInsets.all(75),
+                                child: ScreenMessage(message: 'لا يوجد حركة'))
                             : ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 itemCount: transactions.length,
@@ -219,25 +233,38 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                     show: (date) {
                                       int kammunProfit = transactions
                                           .where((transaction) =>
-                                              transaction.createdAt.toString().split(' ')[0] ==
+                                              transaction.createdAt
+                                                  .toString()
+                                                  .split(' ')[0] ==
                                               date.toString().split(' ')[0])
                                           .toList()
-                                          .fold(0,
-                                              (value, transaction) => value + int.parse(transaction.valueCompany));
+                                          .fold(
+                                              0,
+                                              (value, transaction) =>
+                                                  value +
+                                                  int.parse(transaction
+                                                      .valueCompany));
 
                                       int shopperProfit = transactions
                                           .where((transaction) =>
-                                              transaction.createdAt.toString().split(' ')[0] ==
+                                              transaction.createdAt
+                                                  .toString()
+                                                  .split(' ')[0] ==
                                               date.toString().split(' ')[0])
                                           .toList()
-                                          .fold(0,
-                                              (value, transaction) => value + int.parse(transaction.valueShopper));
+                                          .fold(
+                                              0,
+                                              (value, transaction) =>
+                                                  value +
+                                                  int.parse(transaction
+                                                      .valueShopper));
                                       showMyDialog(
                                         title:
                                             'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
                                         context: context,
                                         content: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
                                           children: [
                                             Column(
                                               children: [
@@ -246,8 +273,15 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                                   style: mainStyle,
                                                 ),
                                                 Text(
-                                                  StringUtils().oCcy.format(shopperProfit.abs()).toString(),
-                                                  style: shopperProfit.isNegative ? loseStyle : profitStyle,
+                                                  StringUtils()
+                                                      .oCcy
+                                                      .format(
+                                                          shopperProfit.abs())
+                                                      .toString(),
+                                                  style:
+                                                      shopperProfit.isNegative
+                                                          ? loseStyle
+                                                          : profitStyle,
                                                 ),
                                               ],
                                             ),
@@ -258,8 +292,14 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                                   style: mainStyle,
                                                 ),
                                                 Text(
-                                                  StringUtils().oCcy.format(kammunProfit.abs()).toString(),
-                                                  style: kammunProfit.isNegative ? loseStyle : profitStyle,
+                                                  StringUtils()
+                                                      .oCcy
+                                                      .format(
+                                                          kammunProfit.abs())
+                                                      .toString(),
+                                                  style: kammunProfit.isNegative
+                                                      ? loseStyle
+                                                      : profitStyle,
                                                 ),
                                               ],
                                             ),
@@ -278,23 +318,6 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                   );
                                 },
                               ),
-              ),
-              KammunButton(
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                text: 'المستحقات المالية',
-                color: ColorUtils.primaryColor,
-                onTap: () {
-                  ReportsServices.financialDues(context: context, shopperId: Services.shopper.id.toString());
-                },
-              ),
-              KammunButton(
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                text: 'إحصائيات عامة',
-                color: ColorUtils.primaryColor,
-                onTap: () =>
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ShopperInformation())),
               ),
             ],
           ),
