@@ -10,7 +10,6 @@ class CartServices {
   static List<ProductData> cartProducts = [];
 
   static String userNote;
-  static String userCopoun;
 
   static Future getUserCart() async {
     Tools.logToConsole("------------ GET USER CART FROM SHARED  --------------");

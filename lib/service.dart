@@ -18,7 +18,7 @@ class Services {
   static ShopperModel shopper;
   static bool updateOption = false;
 
-  static String productToAddName = "null";
+  static String productToAddName = 'null';
 
   static int deliveryPrice = 50;
 
@@ -32,7 +32,7 @@ class Services {
       if (response.statusCode == successCode) {
         return true;
       } else {
-        Tools.logToConsole("------------ ERROR ADD TO FAVORITES --------------");
+        Tools.logToConsole('------------ ERROR ADD TO FAVORITES --------------');
         return false;
       }
     } catch (e) {
@@ -50,7 +50,7 @@ class Services {
       if (response.statusCode == successCode) {
         return true;
       } else {
-        Tools.logToConsole("------------ ERROR REMOVE FROM FAVORITES --------------");
+        Tools.logToConsole('------------ ERROR REMOVE FROM FAVORITES --------------');
         return false;
       }
     } catch (e) {
@@ -61,14 +61,14 @@ class Services {
   static Future<bool> removeUserAddress(String addressId) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: userAddress + "/$addressId",
+        url: userAddress + '/$addressId',
         method: HttpMethods.delete,
       );
 
       if (response.statusCode == successCode) {
         return true;
       } else {
-        Tools.logToConsole("------------ ERROR REMOVE ADDRESS --------------");
+        Tools.logToConsole('------------ ERROR REMOVE ADDRESS --------------');
         return false;
       }
     } catch (e) {
@@ -80,10 +80,7 @@ class Services {
   static Future<List<OrdersOriginalData>> getAllOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: api + order,
-        method: HttpMethods.get,
-        queryParameters: {"page": pageNumber},
-      );
+          url: api + order, method: HttpMethods.get, queryParameters: {'page': pageNumber});
 
       if (response.statusCode == successCode) {
         LoadingScreenServices.allOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
@@ -93,7 +90,7 @@ class Services {
         return LoadingScreenServices.allOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole("------------ ERROR GET USER ORDER --------------");
+      Tools.logToConsole('------------ ERROR GET USER ORDER --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
@@ -108,10 +105,7 @@ class Services {
 
   static Future<List<ShopperModel>> getShoppers() async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: getShopper,
-        method: HttpMethods.get,
-      );
+      var response = await ApiProvider.sendRequest(url: getShopper, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         LoadingScreenServices.allShoppers = shoppersFromJson(jsonEncode(response.data)).data;
@@ -120,7 +114,7 @@ class Services {
         return LoadingScreenServices.allShoppers;
       }
     } catch (e) {
-      Tools.logToConsole("------------ ERROR GET SHOPPERS --------------");
+      Tools.logToConsole('------------ ERROR GET SHOPPERS --------------');
       Tools.logToConsole(e.toString());
       return null;
     }
@@ -128,10 +122,7 @@ class Services {
 
   static Future<Level> getLevelService(String levelId) async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: getLevel + levelId,
-        method: HttpMethods.get,
-      );
+      var response = await ApiProvider.sendRequest(url: getLevel + levelId, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         Level level = LevelModelResponse.fromJson(response.data).data;
@@ -147,10 +138,7 @@ class Services {
 
   static Future<List<Level>> getLevels() async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: getLevel,
-        method: HttpMethods.get,
-      );
+      var response = await ApiProvider.sendRequest(url: getLevel, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         List<Level> levels = LevelsResponse.fromJson(response.data).levels;
@@ -173,7 +161,7 @@ class Services {
       if (response.statusCode == successCode) {
         return true;
       } else {
-        Tools.logToConsole("------------ ERROR UPDATE ADDRESS --------------");
+        Tools.logToConsole('------------ ERROR UPDATE ADDRESS --------------');
         return false;
       }
     } catch (e) {
@@ -184,14 +172,11 @@ class Services {
 
   static Future<List<Warehouse>> getWarehousesService() async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: getWarehouses,
-        method: HttpMethods.get,
-      );
+      var response = await ApiProvider.sendRequest(url: getWarehouses, method: HttpMethods.get);
 
       if (response.statusCode == successCode && response.data['success'].toString() == 'true') {
         LoadingScreenServices.warehouses =
-            List<Warehouse>.from(response.data["data"].map((x) => Warehouse.fromJson(x)));
+            List<Warehouse>.from(response.data['data'].map((x) => Warehouse.fromJson(x)));
 
         return LoadingScreenServices.warehouses;
       } else {
@@ -242,13 +227,7 @@ class Services {
         .map(
           (value, string) => MapEntry(
             value,
-            DropdownMenuItem<int>(
-              child: Text(
-                string,
-                style: dropdownItemStyle,
-              ),
-              value: value + 1,
-            ),
+            DropdownMenuItem<int>(child: Text(string, style: dropdownItemStyle), value: value + 1),
           ),
         )
         .values
@@ -262,15 +241,7 @@ class Services {
         .map(
           (value, string) => MapEntry(
             value,
-            DropdownMenuItem<int>(
-              child: Center(
-                child: Text(
-                  string,
-                  style: dropdownItemStyle,
-                ),
-              ),
-              value: value,
-            ),
+            DropdownMenuItem<int>(child: Center(child: Text(string, style: dropdownItemStyle)), value: value),
           ),
         )
         .values
@@ -283,12 +254,7 @@ class Services {
         .where((shopper) => shopper.status == 1)
         .map(
           (shopper) => DropdownMenuItem<String>(
-            child: Center(
-              child: Text(
-                shopper.name + ' ✅',
-                style: dropdownItemStyle,
-              ),
-            ),
+            child: Center(child: Text(shopper.name + ' ✅', style: dropdownItemStyle)),
             value: shopper.name,
           ),
         )
@@ -344,7 +310,7 @@ class Services {
     return Flushbar(
       backgroundColor: Colors.red[900],
       messageText: Text(
-        "فشل في العملية يرجى المحاولة من جديد",
+        'فشل في العملية يرجى المحاولة من جديد',
         style: flushBarStyle,
       ),
       boxShadows: const [
@@ -367,7 +333,7 @@ class Services {
     return Flushbar(
       backgroundColor: Colors.green,
       messageText: Text(
-        "تمت العملية بنجاح",
+        'تمت العملية بنجاح',
         style: flushBarStyle,
       ),
       boxShadows: [
@@ -441,35 +407,35 @@ class Services {
   }
 
   static openUrl(String selected, {String mobileNumber}) async {
-    String url = "";
+    String url = '';
     switch (selected) {
-      case "whatsapp":
+      case 'whatsapp':
         url = 'whatsapp://send?phone=' + LoadingScreenServices.companyInformation.whatsappNumber;
         break;
-      case "messenger":
+      case 'messenger':
         url = LoadingScreenServices.companyInformation.messengerUrl;
         break;
-      case "facebook":
-        url = "fb://page/" + LoadingScreenServices.companyInformation.facebookUrl.toString();
+      case 'facebook':
+        url = 'fb://page/' + LoadingScreenServices.companyInformation.facebookUrl.toString();
         break;
-      case "instagram":
+      case 'instagram':
         url = LoadingScreenServices.companyInformation.instagramUrl.toString();
         break;
-      case "website":
+      case 'website':
         url = LoadingScreenServices.companyInformation.websiteUrl.toString();
         break;
-      case "email":
-        String platform = "Android";
+      case 'email':
+        String platform = 'Android';
         if (Platform.isIOS) {
-          platform = "iPhone";
+          platform = 'iPhone';
         }
         url =
-            "mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=";
+            'mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=';
         break;
-      case "number":
-        url = "tel:${LoadingScreenServices.supportPhoneNumber}";
+      case 'number':
+        url = 'tel:${LoadingScreenServices.supportPhoneNumber}';
         break;
-      case "customer_whatsapp":
+      case 'customer_whatsapp':
         url = 'whatsapp://send?phone=' + mobileNumber;
         break;
     }
@@ -477,11 +443,11 @@ class Services {
   }
 
   static shareApp() {
-    String infoMessage = "تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n";
-    String androidGrating = "\n لتحميل التطبيق على الأندوريد \n";
+    String infoMessage = 'تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n';
+    String androidGrating = '\n لتحميل التطبيق على الأندوريد \n';
 
     String androidUrl = androidGrating + LoadingScreenServices.iOSShareUrl;
-    String iosGrating = "\n لتحميل التطبيق على الآيفون \n";
+    String iosGrating = '\n لتحميل التطبيق على الآيفون \n';
     String iPhoneUrl = iosGrating + LoadingScreenServices.androidShareUrl;
 
     Share.share(infoMessage + androidUrl + iPhoneUrl);

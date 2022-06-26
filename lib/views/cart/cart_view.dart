@@ -35,8 +35,7 @@ class CartViewState extends State<CartView> {
     productsId = CartServices.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
     productsQuantity =
         CartServices.cartProducts.fold('', (counts, product) => counts + product.productCount.toString() + ';');
-    Tools.logToConsole(productsQuantity);
-    prefs.setString("userCart", productsId + "@" + productsQuantity);
+    prefs.setString('userCart', productsId + '@' + productsQuantity);
   }
 
   _calculateTotal() {
@@ -44,7 +43,7 @@ class CartViewState extends State<CartView> {
 
     setState(() {
       subtotal =
-          orderArray.fold(0, (sum, order) => sum + ((int.parse(order.price.split(".")[0])) * order.productCount));
+          orderArray.fold(0, (sum, order) => sum + ((int.parse(order.price.split('.')[0])) * order.productCount));
     });
   }
 
@@ -113,9 +112,7 @@ class CartViewState extends State<CartView> {
                       padding: EdgeInsets.only(top: screenHeight * 0.3),
                       child: const Center(child: ScreenMessage(message: 'سلة المشتريات فارغة')),
                     )
-                  : Container(
-                      padding: EdgeInsets.zero,
-                    ),
+                  : Container(padding: EdgeInsets.zero),
               Expanded(
                 child: ListView.builder(
                   primary: false,
@@ -145,7 +142,7 @@ class CartViewState extends State<CartView> {
                         fontSize: 19.0,
                       )),
                   Text(
-                    "${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
+                    '${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}',
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).primaryColorDark,
@@ -210,7 +207,7 @@ class CartViewState extends State<CartView> {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
+                          orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: ColorUtils.greyColor,
@@ -231,7 +228,7 @@ class CartViewState extends State<CartView> {
                                         textAlign: TextAlign.center,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
-                                          hintText: "السعر الجديد",
+                                          hintText: 'السعر الجديد',
                                           fillColor: Colors.white,
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(10.0),
@@ -242,7 +239,7 @@ class CartViewState extends State<CartView> {
                                     ),
                                   )
                                 : Text(
-                                    "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                                    '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
                                         color: ColorUtils.primaryColor,
@@ -262,6 +259,10 @@ class CartViewState extends State<CartView> {
                                         if (_priceController.text.isNotEmpty) {
                                           orderArray[index].price = _priceController.text;
 
+                                          orderArray[index].price =
+                                              (int.parse(_priceController.text.split('.')[0]) +
+                                                      orderArray[index].pivot.increaseValue)
+                                                  .toString();
                                           orderArray[index].quantity =
                                               (priceFactor * double.parse(_priceController.text))
                                                   .toStringAsFixed(2);
@@ -269,14 +270,14 @@ class CartViewState extends State<CartView> {
                                           OrderDetailsServices.updateOrder(
                                               orderId: OrderServices.orderUnderUpdateId,
                                               context: context,
-                                              updateKey: "product_quantity",
+                                              updateKey: 'product_quantity',
                                               updateValue: (priceFactor * double.parse(_priceController.text))
                                                   .toStringAsFixed(2),
                                               productId: orderArray[index].id.toString());
                                         }
                                       });
 
-                                      _priceController.text = "";
+                                      _priceController.text = '';
 
                                       _calculateTotal();
                                     },
@@ -286,9 +287,7 @@ class CartViewState extends State<CartView> {
                                     icon: const Icon(Icons.edit),
                                     color: Colors.green,
                                     onPressed: () {
-                                      setState(() {
-                                        indexToEdit = index;
-                                      });
+                                      setState(() => indexToEdit = index);
 
                                       _calculateTotal();
                                     },
@@ -314,15 +313,11 @@ class CartViewState extends State<CartView> {
                     onTap: () {
                       setState(() {
                         orderArray[index].productCount += 1;
-                        subtotal += (int.parse(orderArray[index].price.split(".")[0]));
+                        subtotal += (int.parse(orderArray[index].price.split('.')[0]));
                       });
                       _cartChanged();
                     },
-                    child: Image.asset(
-                      "assets/add.png",
-                      width: 60,
-                      height: 60,
-                    ),
+                    child: Image.asset('assets/add.png', width: 60, height: 60),
                   ),
                 ),
                 const SizedBox(height: 5),
@@ -341,10 +336,10 @@ class CartViewState extends State<CartView> {
                     onTap: () {
                       setState(() {
                         if (orderArray[index].productCount > 1) {
-                          subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
+                          subtotal -= (int.parse(orderArray[index].price.split('.')[0]));
                           orderArray[index].productCount = orderArray[index].productCount - 1;
                         } else if (orderArray[index].productCount == 1) {
-                          subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
+                          subtotal -= (int.parse(orderArray[index].price.split('.')[0]));
                           onrRemove(index);
                           CartServices.cartProducts.removeAt(index);
                         }
@@ -352,16 +347,8 @@ class CartViewState extends State<CartView> {
                       _cartChanged();
                     },
                     child: orderArray[index].productCount > 1
-                        ? Image.asset(
-                            "assets/remove.png",
-                            width: 60,
-                            height: 60,
-                          )
-                        : const Icon(
-                            Icons.delete_forever,
-                            size: 30,
-                            color: Colors.red,
-                          ),
+                        ? Image.asset('assets/remove.png', width: 60, height: 60)
+                        : const Icon(Icons.delete_forever, size: 30, color: Colors.red),
                   ),
                 ),
               ],
@@ -369,9 +356,7 @@ class CartViewState extends State<CartView> {
           ],
         ),
         const SizedBox(height: 4),
-        const Divider(
-          thickness: 3,
-        )
+        const Divider(thickness: 3)
       ],
     );
   }
@@ -382,7 +367,7 @@ class CartViewState extends State<CartView> {
         _calculateTotal();
       });
     } else {
-      Toast.show("يرجى إضافة منتج واحد على الأقل", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      Toast.show('يرجى إضافة منتج واحد على الأقل', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     }
   }
 }

@@ -57,12 +57,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   }
                 },
               ),
-              DialogButton(
-                text: StringUtils.no,
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+              DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
             ];
             showMyDialog(
                 title: '', context: context, text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
@@ -110,9 +105,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
           if (widget.orderData.orderAccountingRows[i].payToSubWarehouse != 0) {
             subWarehouseTotal.add(KTableRow(
               children: [
-                KTableElement(
-                  text: widget.orderData.orderAccountingRows[i].subWarehouseName,
-                ),
+                KTableElement(text: widget.orderData.orderAccountingRows[i].subWarehouseName),
                 KTableElement(
                   text: StringUtils().oCcy.format(
                         widget.orderData.orderAccountingRows[i].directDiscount == 1

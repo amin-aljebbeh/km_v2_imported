@@ -16,7 +16,7 @@ import '../../service.dart';
 import 'order_problem_sheet.dart';
 
 class CartViewFinal extends StatefulWidget {
-  static String message = "";
+  static String message = '';
 
   const CartViewFinal({Key key}) : super(key: key);
 
@@ -32,11 +32,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
   List<int> cards = [];
   bool loadingScreen = false;
   bool errorCode = false;
-  String errorMessage = "يرجى المحاولة مرة أخرى و التأكد من إتصالك بالإنترنت";
+  String errorMessage = 'يرجى المحاولة مرة أخرى و التأكد من إتصالك بالإنترنت';
 
   int total = 0;
   final TextEditingController _userNotes = TextEditingController();
-  final TextEditingController _copouns = TextEditingController();
 
   _reloadPrices() async {
     Navigator.of(context).pop();
@@ -83,20 +82,17 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
   _userNotesInitial() {
     _userNotes.text = OrderServices.updateOrderNote;
-    if (CartServices.userCopoun != null) {
-      _copouns.text = CartServices.userCopoun;
-    }
   }
 
   _cartChanged() async {
-    String productsId = "";
-    String productsQuantity = "";
+    String productsId = '';
+    String productsQuantity = '';
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     productsId = CartServices.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
     productsQuantity =
         CartServices.cartProducts.fold('', (counts, product) => counts + product.productCount.toString() + ';');
-    prefs.setString("userCart", productsId + "@" + productsQuantity);
+    prefs.setString('userCart', productsId + '@' + productsQuantity);
   }
 
   @override
@@ -115,9 +111,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
                   children: <Widget>[
                     errorCode
                         ? AlertMessages(
-                            text: " $errorMessage",
-                            messageType: "internetError",
-                            headerText: " حدث خطأ اثناء محاولة إرسال طلبك",
+                            text: ' $errorMessage',
+                            messageType: 'internetError',
+                            headerText: ' حدث خطأ اثناء محاولة إرسال طلبك',
                           )
                         : Container(
                             padding: EdgeInsets.zero,
@@ -136,13 +132,13 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 size: 45,
                               ),
                               onPressed: () {
-                                Navigator.of(context).pop("updatePrice");
+                                Navigator.of(context).pop('updatePrice');
                               },
                             ),
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.of(context).pop("updatePrice");
+                              Navigator.of(context).pop('updatePrice');
                             },
                             child: Text(
                               StringUtils.shoppingCart,
@@ -186,7 +182,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           ),
                         ),
                         Text(
-                          "${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}",
+                          '${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}',
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).primaryColorDark,
@@ -207,7 +203,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               fontSize: 16.0,
                             )),
                         Text(
-                          "${StringUtils().oCcy.format(Services.deliveryPrice)} ${LoadingScreenServices.companyInformation.currency}",
+                          '${StringUtils().oCcy.format(Services.deliveryPrice)} ${LoadingScreenServices.companyInformation.currency}',
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).primaryColorDark,
@@ -228,7 +224,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                               fontSize: 19.0,
                             )),
                         Text(
-                          "${StringUtils().oCcy.format(total)} ${LoadingScreenServices.companyInformation.currency}",
+                          '${StringUtils().oCcy.format(total)} ${LoadingScreenServices.companyInformation.currency}',
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).primaryColorDark,
@@ -305,7 +301,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                               Padding(
                                                 padding: const EdgeInsets.all(8.0),
                                                 child: Text(
-                                                  "ملاحظات على الطلب",
+                                                  'ملاحظات على الطلب',
                                                   style: TextStyle(
                                                       fontWeight: FontWeight.w700,
                                                       fontFamily: StringUtils.fontFamilyHKGrotesk,
@@ -398,7 +394,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             useMemCache: true,
                             diskCacheExpire: const Duration(days: 400),
                           )
-                        : const AssetImage("assets/kmIcon.png"),
+                        : const AssetImage('assets/kmIcon.png'),
                     width: MediaQuery.of(context).size.width,
                     height: 120,
                     fit: BoxFit.contain,
@@ -425,7 +421,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
+                          orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: ColorUtils.greyColor,
@@ -434,7 +430,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                            "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                            '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: ColorUtils.primaryColor,
@@ -459,14 +455,14 @@ class _CartViewFinalState extends State<CartViewFinal> {
                     onTap: () {
                       setState(() {
                         orderArray[index].productCount += 1;
-                        subtotal += (int.parse(orderArray[index].price.split(".")[0]));
+                        subtotal += (int.parse(orderArray[index].price.split('.')[0]));
 
-                        total += (int.parse(orderArray[index].price.split(".")[0]));
+                        total += (int.parse(orderArray[index].price.split('.')[0]));
                       });
                       _cartChanged();
                     },
                     child: Image.asset(
-                      "assets/add.png",
+                      'assets/add.png',
                       width: 60,
                       height: 60,
                     ),
@@ -488,14 +484,14 @@ class _CartViewFinalState extends State<CartViewFinal> {
                     onTap: () {
                       setState(() {
                         if (orderArray[index].productCount > 1) {
-                          subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
+                          subtotal -= (int.parse(orderArray[index].price.split('.')[0]));
                           orderArray[index].productCount = orderArray[index].productCount - 1;
 
-                          total -= (int.parse(orderArray[index].price.split(".")[0]));
+                          total -= (int.parse(orderArray[index].price.split('.')[0]));
                         } else if (orderArray[index].productCount == 1) {
-                          subtotal -= (int.parse(orderArray[index].price.split(".")[0]));
+                          subtotal -= (int.parse(orderArray[index].price.split('.')[0]));
 
-                          total -= (int.parse(orderArray[index].price.split(".")[0]));
+                          total -= (int.parse(orderArray[index].price.split('.')[0]));
                           onrRemove(index);
                           CartServices.cartProducts.removeAt(index);
                         }
@@ -503,7 +499,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       _cartChanged();
                     },
                     child: Image.asset(
-                      "assets/remove.png",
+                      'assets/remove.png',
                       width: 60,
                       height: 60,
                     ),
@@ -552,65 +548,69 @@ class _CartViewFinalState extends State<CartViewFinal> {
   }
 
   void _showConfirmOrderBtnTapped({bool checkOrderPrice = true}) async {
-    setState(() {
-      loadingScreen = true;
-      errorCode = false;
-    });
-    CartServices.userNote = _userNotes.text;
-    CartServices.userCopoun = _copouns.text;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    OrderResponse orderResponse;
-
-    if (OrderServices.orderUnderUpdateIndex != -1) {
-      orderResponse = await OrderServices.updateOrder(userNotes: _userNotes.text, checkPrices: checkOrderPrice);
-
+    try {
       setState(() {
-        try {
-          if (orderResponse != null) {
-            if (!orderResponse.success && orderResponse.reason.contains("discontinued")) {
-              loadingScreen = false;
-              errorCode = true;
-              errorMessage =
-                  "نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل";
-            } else if (orderResponse.changedPriceProducts.isNotEmpty ||
-                orderResponse.inactiveProducts.isNotEmpty) {
-              _showBottomSheet(
-                  notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
+        loadingScreen = true;
+        errorCode = false;
+      });
+      CartServices.userNote = _userNotes.text;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
 
-              loadingScreen = false;
-              errorCode = false;
-            } else if (orderResponse.success) {
-              CartViewFinal.message = orderResponse.data;
-              prefs.setString("orderUnderUpdateId", "-1");
-              OrderServices.orderUnderUpdateIndex = -1;
-            } else if (!orderResponse.success) {
+      OrderResponse orderResponse;
+
+      if (OrderServices.orderUnderUpdateIndex != -1) {
+        orderResponse = await OrderServices.updateOrder(userNotes: _userNotes.text, checkPrices: checkOrderPrice);
+
+        setState(() {
+          try {
+            if (orderResponse != null) {
+              if (!orderResponse.success && orderResponse.reason.contains('discontinued')) {
+                loadingScreen = false;
+                errorCode = true;
+                errorMessage =
+                    'نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل';
+              } else if (orderResponse.changedPriceProducts.isNotEmpty ||
+                  orderResponse.inactiveProducts.isNotEmpty) {
+                _showBottomSheet(
+                    notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
+
+                loadingScreen = false;
+                errorCode = false;
+              } else if (orderResponse.success) {
+                CartViewFinal.message = orderResponse.data;
+                prefs.setString('orderUnderUpdateId', '-1');
+                OrderServices.orderUnderUpdateIndex = -1;
+              } else if (!orderResponse.success) {
+                loadingScreen = false;
+                errorCode = true;
+              }
+            } else {
               loadingScreen = false;
               errorCode = true;
             }
-          } else {
+          } catch (e) {
             loadingScreen = false;
             errorCode = true;
           }
-        } catch (e) {
-          loadingScreen = false;
-          errorCode = true;
+        });
+      }
+      try {
+        if (orderResponse.success == true) {
+          await prefs.remove('userCart');
+          CartServices.cartProducts.clear();
+
+          CartServices.userNote = '';
+
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
         }
-      });
-    }
-    try {
-      if (orderResponse.success == true) {
-        await prefs.remove("userCart");
-        CartServices.cartProducts.clear();
-
-        CartServices.userNote = "";
-        CartServices.userCopoun = "";
-
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
+      } catch (e) {
+        Tools.logToConsole('error might be here');
+        Tools.logToConsole(e.toString());
       }
     } catch (e) {
-/**/
+      Tools.logToConsole('the whole code');
+      Tools.logToConsole(e.toString());
     }
   }
 }

@@ -18,74 +18,76 @@ class OrderServices {
   static String orderUnderUpdateId = '';
 
   static Future<OrderResponse> updateOrder({String userNotes, bool checkPrices = true}) async {
-    String productIds = '';
-    String quantities = '';
-    String productPrices = '';
-    String orderId;
-
-    int purchasePrices = 0;
-    for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productIds = productIds + CartServices.cartProducts[i].id.toString() + ';';
-      quantities = quantities + CartServices.cartProducts[i].productCount.toString() + ';';
-      purchasePrices = purchasePrices +
-          (int.parse(CartServices.cartProducts[i].price.split('.')[0]) *
-              CartServices.cartProducts[i].productCount);
-      productPrices = productPrices + int.parse(CartServices.cartProducts[i].price.split('.')[0]).toString() + ';';
-    }
-    String deliveryMethodId = '';
-    if (Services.isOperationManager() || Services.isAdmin()) {
-      deliveryMethodId = LoadingScreenServices.allOrdersList
-          .firstWhere((order) => order.id.toString() == orderUnderUpdateId,
-              orElse: () => LoadingScreenServices.phoneOrderList
-                  .firstWhere((order) => order.id.toString() == orderUnderUpdateId))
-          .deliveryMethodId;
-    } else if (Services.isShopper()) {
-      deliveryMethodId = LoadingScreenServices.myOrdersList
-          .firstWhere((order) => order.id.toString() == orderUnderUpdateId)
-          .deliveryMethodId;
-    }
-    Map orderData = {
-      'delivery_method_id': deliveryMethodId,
-      'product_ids': productIds.substring(0, productIds.length - 1),
-      'quantities': quantities.substring(0, quantities.length - 1),
-      'purchase_prices': purchasePrices.toString(),
-      'product_prices': productPrices.substring(0, productPrices.length - 1),
-      'user_notes': userNotes,
-      'check_changed_price_product': checkPrices ? '1' : '0'
-    };
-
-    orderId = orderUnderUpdateId;
-
     try {
-      var response = await ApiProvider.sendRequest(
-        url: api + order + orderId,
-        method: HttpMethods.put,
-        body: jsonEncode(orderData),
-      );
+      String productIds = '';
+      String quantities = '';
+      String productPrices = '';
+      String orderId;
 
-      if (response.data['reason'].toString().contains('discontinued')) {
-        return OrderResponse(success: false, reason: 'discontinued');
-      } else {
-        var parsedJson = orderResponseFromJson(jsonEncode(response.data));
+      int purchasePrices = 0;
+      for (int i = 0; i < CartServices.cartProducts.length; i++) {
+        productIds = productIds + CartServices.cartProducts[i].id.toString() + ';';
+        quantities = quantities + CartServices.cartProducts[i].productCount.toString() + ';';
+        purchasePrices = purchasePrices +
+            (int.parse(CartServices.cartProducts[i].price.split('.')[0]) *
+                CartServices.cartProducts[i].productCount);
+        productPrices =
+            productPrices + int.parse(CartServices.cartProducts[i].price.split('.')[0]).toString() + ';';
+      }
+      String deliveryMethodId = '';
+      if (Services.isOperationManager() || Services.isAdmin()) {
+        deliveryMethodId = LoadingScreenServices.allOrdersList
+            .firstWhere((order) => order.id.toString() == orderUnderUpdateId,
+                orElse: () => LoadingScreenServices.phoneOrderList
+                    .firstWhere((order) => order.id.toString() == orderUnderUpdateId))
+            .deliveryMethodId;
+      } else if (Services.isShopper()) {
+        deliveryMethodId = LoadingScreenServices.myOrdersList
+            .firstWhere((order) => order.id.toString() == orderUnderUpdateId)
+            .deliveryMethodId;
+      }
+      Map orderData = {
+        'delivery_method_id': deliveryMethodId,
+        'product_ids': productIds.substring(0, productIds.length - 1),
+        'quantities': quantities.substring(0, quantities.length - 1),
+        'purchase_prices': purchasePrices.toString(),
+        'product_prices': productPrices.substring(0, productPrices.length - 1),
+        'user_notes': userNotes,
+        'check_changed_price_product': checkPrices ? '1' : '0'
+      };
 
-        return parsedJson;
+      orderId = orderUnderUpdateId;
+
+      try {
+        var response = await ApiProvider.sendRequest(
+          url: api + order + orderId,
+          method: HttpMethods.put,
+          body: jsonEncode(orderData),
+        );
+
+        if (response.data['reason'].toString().contains('discontinued')) {
+          return OrderResponse(success: false, reason: 'discontinued');
+        } else {
+          var parsedJson = orderResponseFromJson(jsonEncode(response.data));
+
+          return parsedJson;
+        }
+      } catch (e) {
+        Tools.logToConsole('e');
+        Tools.logToConsole(e.toString());
+        return null;
       }
     } catch (e) {
-      Tools.logToConsole('e');
+      Tools.logToConsole('update error');
       Tools.logToConsole(e.toString());
       return null;
     }
   }
 
   static Future<String> cancelOrderService(String orderId) async {
-    Map cancelOrderBody = {
-      'order_status_id': 5,
-    };
+    Map cancelOrderBody = {'order_status_id': 5};
     var response = await ApiProvider.sendRequest(
-      url: cancelOrder + orderId,
-      method: HttpMethods.post,
-      body: jsonEncode(cancelOrderBody),
-    );
+        url: cancelOrder + orderId, method: HttpMethods.post, body: jsonEncode(cancelOrderBody));
 
     if (response.statusCode == successCode && response.data['success']) {
       return 'true';
@@ -249,10 +251,7 @@ class OrderServices {
   }
 
   static Future<bool> assignOrderToShopperService(String assignedId, String orderId) async {
-    Map assignOrderBody = {
-      'order_id': orderId,
-      'shopper_id': assignedId,
-    };
+    Map assignOrderBody = {'order_id': orderId, 'shopper_id': assignedId};
 
     try {
       var response = await ApiProvider.sendRequest(
@@ -301,10 +300,7 @@ class OrderServices {
 
   static Future<OrdersOriginalData> getOrder({String orderId}) async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: api + order + orderId,
-        method: HttpMethods.get,
-      );
+      var response = await ApiProvider.sendRequest(url: api + order + orderId, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         return OrdersOriginalData.fromJson(response.data['order']);

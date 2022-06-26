@@ -15,7 +15,7 @@ class OrderDetailsServices {
       String updateValue,
       String productId,
       @required BuildContext context}) async {
-    Map updateOrderBody = {updateKey: updateValue, "product_id": productId};
+    Map updateOrderBody = {updateKey: updateValue, 'product_id': productId};
     var response = await ApiProvider.sendRequest(
       url: updateOrderProducts + orderId,
       method: HttpMethods.put,
@@ -47,14 +47,14 @@ class OrderDetailsServices {
   static Future<bool> deleteImageFromOrderService({String imageId}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: deleteImageFromOrder + "/$imageId",
+        url: deleteImageFromOrder + '/$imageId',
         method: HttpMethods.delete,
       );
 
       if (response.statusCode == successCode) {
         return true;
       } else {
-        Tools.logToConsole("------------ ERROR REMOVE ADDRESS --------------");
+        Tools.logToConsole('------------ ERROR REMOVE ADDRESS --------------');
         return false;
       }
     } catch (e) {

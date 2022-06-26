@@ -6,8 +6,7 @@ import 'package:kammun_app/views/reports/shopper_information_view/shopper_inform
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 import '../../service.dart';
-import 'models/mothly_profit_model.dart';
-import 'models/transaction_model.dart';
+import 'models/report_model_importer.dart';
 
 class ShopperTransactionView extends StatefulWidget {
   const ShopperTransactionView({Key key}) : super(key: key);
@@ -59,8 +58,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
   }
 
   getMonthlyProfit(String shopperId) async {
-    MonthlyProfit result = await ReportsServices.getShopperMonthProfitService(
-        shopperId: shopperId);
+    MonthlyProfit result = await ReportsServices.getShopperMonthProfitService(shopperId: shopperId);
     setState(() {
       profitLoading = false;
       profit = result;
@@ -84,8 +82,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
       ),
       body: SafeArea(
         child: Padding(
-          padding:
-              const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+          padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
           child: ListView(
             children: [
               const SizedBox(
@@ -100,10 +97,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                           leftSideText: profitLoading
                               ? 'جار الاتصال'
                               : profit != null
-                                  ? StringUtils()
-                                      .oCcy
-                                      .format(int.parse(profit.profit).abs())
-                                      .toString()
+                                  ? StringUtils().oCcy.format(int.parse(profit.profit).abs()).toString()
                                   : 'error',
                           leftSideStyle: profitLoading
                               ? paragraphStyle
@@ -182,30 +176,25 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   KammunButton(
-                  //  width: MediaQuery.of(context).size.width/4,
+                    //  width: MediaQuery.of(context).size.width/4,
                     height: 50,
                     text: '  المستحقات  ',
                     color: ColorUtils.primaryColor,
                     onTap: () {
-                      ReportsServices.financialDues(
-                          context: context,
-                          shopperId: Services.shopper.id.toString());
+                      ReportsServices.financialDues(context: context, shopperId: Services.shopper.id.toString());
                     },
                   ),
                   KammunButton(
-               // width: MediaQuery.of(context).size.width/4,
-               
-                height: 50,
-                text: '  إحصائيات  ',
-                color: ColorUtils.primaryColor,
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ShopperInformation())),
-              ),
+                    // width: MediaQuery.of(context).size.width/4,
+
+                    height: 50,
+                    text: '  إحصائيات  ',
+                    color: ColorUtils.primaryColor,
+                    onTap: () => Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => const ShopperInformation())),
+                  ),
                 ],
               ),
-              
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.65,
@@ -221,8 +210,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                         ? const Loader()
                         : empty
                             ? const Padding(
-                                padding: EdgeInsets.all(75),
-                                child: ScreenMessage(message: 'لا يوجد حركة'))
+                                padding: EdgeInsets.all(75), child: ScreenMessage(message: 'لا يوجد حركة'))
                             : ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 itemCount: transactions.length,
@@ -233,38 +221,25 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                     show: (date) {
                                       int kammunProfit = transactions
                                           .where((transaction) =>
-                                              transaction.createdAt
-                                                  .toString()
-                                                  .split(' ')[0] ==
+                                              transaction.createdAt.toString().split(' ')[0] ==
                                               date.toString().split(' ')[0])
                                           .toList()
-                                          .fold(
-                                              0,
-                                              (value, transaction) =>
-                                                  value +
-                                                  int.parse(transaction
-                                                      .valueCompany));
+                                          .fold(0,
+                                              (value, transaction) => value + int.parse(transaction.valueCompany));
 
                                       int shopperProfit = transactions
                                           .where((transaction) =>
-                                              transaction.createdAt
-                                                  .toString()
-                                                  .split(' ')[0] ==
+                                              transaction.createdAt.toString().split(' ')[0] ==
                                               date.toString().split(' ')[0])
                                           .toList()
-                                          .fold(
-                                              0,
-                                              (value, transaction) =>
-                                                  value +
-                                                  int.parse(transaction
-                                                      .valueShopper));
+                                          .fold(0,
+                                              (value, transaction) => value + int.parse(transaction.valueShopper));
                                       showMyDialog(
                                         title:
                                             'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
                                         context: context,
                                         content: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
                                             Column(
                                               children: [
@@ -273,15 +248,8 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                                   style: mainStyle,
                                                 ),
                                                 Text(
-                                                  StringUtils()
-                                                      .oCcy
-                                                      .format(
-                                                          shopperProfit.abs())
-                                                      .toString(),
-                                                  style:
-                                                      shopperProfit.isNegative
-                                                          ? loseStyle
-                                                          : profitStyle,
+                                                  StringUtils().oCcy.format(shopperProfit.abs()).toString(),
+                                                  style: shopperProfit.isNegative ? loseStyle : profitStyle,
                                                 ),
                                               ],
                                             ),
@@ -292,14 +260,8 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                                   style: mainStyle,
                                                 ),
                                                 Text(
-                                                  StringUtils()
-                                                      .oCcy
-                                                      .format(
-                                                          kammunProfit.abs())
-                                                      .toString(),
-                                                  style: kammunProfit.isNegative
-                                                      ? loseStyle
-                                                      : profitStyle,
+                                                  StringUtils().oCcy.format(kammunProfit.abs()).toString(),
+                                                  style: kammunProfit.isNegative ? loseStyle : profitStyle,
                                                 ),
                                               ],
                                             ),

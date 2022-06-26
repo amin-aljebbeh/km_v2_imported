@@ -18,13 +18,13 @@ class CategoryProduct {
   ProductResponse data;
 
   factory CategoryProduct.fromJson(Map<String, dynamic> json) => CategoryProduct(
-        success: json["success"],
-        data: ProductResponse.fromJson(json["data"]),
+        success: json['success'],
+        data: ProductResponse.fromJson(json['data']),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": data.toJson(),
+        'success': success,
+        'data': data.toJson(),
       };
 }
 
@@ -58,33 +58,33 @@ class ProductResponse {
   int total;
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) => ProductResponse(
-        currentPage: json["current_page"],
-        data: List<ProductData>.from(json["data"].map((x) => x == null ? null : ProductData.fromJson(x))),
-        firstPageUrl: json["first_page_url"],
-        from: json["from"],
-        lastPage: json["last_page"],
-        lastPageUrl: json["last_page_url"],
-        nextPageUrl: json["next_page_url"],
-        path: json["path"],
-        perPage: json["per_page"],
-        prevPageUrl: json["prev_page_url"],
-        to: json["to"],
-        total: json["total"],
+        currentPage: json['current_page'],
+        data: List<ProductData>.from(json['data'].map((x) => x == null ? null : ProductData.fromJson(x))),
+        firstPageUrl: json['first_page_url'],
+        from: json['from'],
+        lastPage: json['last_page'],
+        lastPageUrl: json['last_page_url'],
+        nextPageUrl: json['next_page_url'],
+        path: json['path'],
+        perPage: json['per_page'],
+        prevPageUrl: json['prev_page_url'],
+        to: json['to'],
+        total: json['total'],
       );
 
   Map<String, dynamic> toJson() => {
-        "current_page": currentPage,
-        "data": List<dynamic>.from(data.map((x) => x?.toJson())),
-        "first_page_url": firstPageUrl,
-        "from": from,
-        "last_page": lastPage,
-        "last_page_url": lastPageUrl,
-        "next_page_url": nextPageUrl,
-        "path": path,
-        "per_page": perPage,
-        "prev_page_url": prevPageUrl,
-        "to": to,
-        "total": total,
+        'current_page': currentPage,
+        'data': List<dynamic>.from(data.map((x) => x?.toJson())),
+        'first_page_url': firstPageUrl,
+        'from': from,
+        'last_page': lastPage,
+        'last_page_url': lastPageUrl,
+        'next_page_url': nextPageUrl,
+        'path': path,
+        'per_page': perPage,
+        'prev_page_url': prevPageUrl,
+        'to': to,
+        'total': total,
       };
 }
 
@@ -118,6 +118,7 @@ class ProductData {
     this.barcodes,
     this.deleteTimes,
     this.availableQuantity,
+    this.pivot,
   });
 
   int id;
@@ -151,64 +152,66 @@ class ProductData {
   List<Barcode> barcodes;
   int deleteTimes;
   String availableQuantity;
+  OrderProductPivot pivot;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return null;
     }
     ProductData productData = ProductData(
-      id: json["id"] ?? json["product_id"] ?? 0,
-      name: json["name"] ?? json['nameProduct'],
-      description: json["description"],
-      unit: json["unit"].toString(),
-      price: json["price"] != null ? json["price"].toString() : '0',
-      priceChange: json["price_change"] == null ? '0' : json["price_change"].toString(),
-      isActive: json["is_active"] != null ? json["is_active"].toString() : '0',
-      quantity: json["quantity"] == null ? '0' : json["quantity"].toString(),
-      productCount: json["productCount"] ?? 0,
+      id: json['id'] ?? json['product_id'] ?? 0,
+      name: json['name'] ?? json['nameProduct'],
+      description: json['description'],
+      unit: json['unit'].toString(),
+      price: json['price'] != null ? json['price'].toString() : '0',
+      priceChange: json['price_change'] == null ? '0' : json['price_change'].toString(),
+      isActive: json['is_active'] != null ? json['is_active'].toString() : '0',
+      quantity: json['quantity'] == null ? '0' : json['quantity'].toString(),
+      productCount: json['productCount'] ?? 0,
       supplierCode:
-          json["supplier_code"] == null ? json["supplierCode"].toString() : json["supplier_code"].toString(),
-      warehouseId: json["warehouse_id"],
-      subWarehouseId: json["sub_warehouse_id"] ?? -1,
-      isFeatured: json["is_featured"],
-      priority: json["priority"],
-      numberOfVisits: json["number_of_visits"],
-      minThreshold: json["min_threshold"]?.toDouble(),
-      increasePercentage: json["increase_percentage"] ?? 0,
-      priceFactor: json["price_factor"],
-      automaticActivation: json["automatic_activation"],
-      underCheckAvailability: json["under_check_availability"],
-      images: json["images"] == null
+          json['supplier_code'] == null ? json['supplierCode'].toString() : json['supplier_code'].toString(),
+      warehouseId: json['warehouse_id'],
+      subWarehouseId: json['sub_warehouse_id'] ?? -1,
+      isFeatured: json['is_featured'],
+      priority: json['priority'],
+      numberOfVisits: json['number_of_visits'],
+      minThreshold: json['min_threshold']?.toDouble(),
+      increasePercentage: json['increase_percentage'] ?? 0,
+      priceFactor: json['price_factor'],
+      automaticActivation: json['automatic_activation'],
+      underCheckAvailability: json['under_check_availability'],
+      images: json['images'] == null
           ? []
-          : List<ProductImage>.from(json["images"].map((x) => ProductImage.fromJson(x))),
-      categories: json["categories"] == null
+          : List<ProductImage>.from(json['images'].map((x) => ProductImage.fromJson(x))),
+      categories: json['categories'] == null
           ? []
-          : List<CategoryOriginalData>.from(json["categories"].map((x) => CategoryOriginalData.fromJson(x))),
-      warehouses: json["warehouses"] == null
+          : List<CategoryOriginalData>.from(json['categories'].map((x) => CategoryOriginalData.fromJson(x))),
+      warehouses: json['warehouses'] == null
           ? []
-          : List<Warehouse>.from(json["warehouses"].map((x) => Warehouse.fromJson(x))),
+          : List<Warehouse>.from(json['warehouses'].map((x) => Warehouse.fromJson(x))),
       rate: json['rate'] ?? -1,
       numberOfSales: json['number_of_sale'],
       barcodes:
-          json["barcodes"] == null ? [] : List<Barcode>.from(json["barcodes"].map((x) => Barcode.fromJson(x))),
-      deleteTimes: json["count_deleted"] ?? -1,
-      availableQuantity: json["available_quantity"] == null ? 'null' : json["available_quantity"].toString(),
+          json['barcodes'] == null ? [] : List<Barcode>.from(json['barcodes'].map((x) => Barcode.fromJson(x))),
+      deleteTimes: json['count_deleted'] ?? -1,
+      availableQuantity: json['available_quantity'] == null ? 'null' : json['available_quantity'].toString(),
+      pivot: OrderProductPivot.fromJson(json['pivot']),
     );
     return productData;
   }
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "description": description,
-        "unit": unit,
-        "price": price,
-        "is_active": isActive,
-        "quantity": quantity,
-        "productCount": productCount,
-        "sub_warehouse_id": subWarehouseId,
-        "supplier_code": supplierCode,
-        "price_change": priceChange,
-        "images": List<dynamic>.from(images.map((x) => x.toJson())),
+        'id': id,
+        'name': name,
+        'description': description,
+        'unit': unit,
+        'price': price,
+        'is_active': isActive,
+        'quantity': quantity,
+        'productCount': productCount,
+        'sub_warehouse_id': subWarehouseId,
+        'supplier_code': supplierCode,
+        'price_change': priceChange,
+        'images': List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }

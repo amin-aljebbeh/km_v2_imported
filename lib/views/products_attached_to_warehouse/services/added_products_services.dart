@@ -10,10 +10,10 @@ class AddedProductsServices {
         url: getAddedProductsToWarehouse,
         method: HttpMethods.get,
       );
-      if (response.statusCode == successCode && response.data["success"]) {
-        return syncCartFromJson(jsonEncode(response.data["data"]));
+      if (response.statusCode == successCode && response.data['success']) {
+        return syncCartFromJson(jsonEncode(response.data['data']));
       } else {
-        Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+        Tools.logToConsole('------------ ERROR CANCEL ORDER --------------');
         return null;
       }
     } catch (e) {
@@ -26,10 +26,10 @@ class AddedProductsServices {
       url: getNotAddedProductsToWarehouse,
       method: HttpMethods.get,
     );
-    if (response.statusCode == successCode && response.data["success"]) {
-      return syncCartFromJson(jsonEncode(response.data["data"]));
+    if (response.statusCode == successCode && response.data['success']) {
+      return syncCartFromJson(jsonEncode(response.data['data']));
     } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+      Tools.logToConsole('------------ ERROR CANCEL ORDER --------------');
       return null;
     }
   }
@@ -47,10 +47,10 @@ class AddedProductsServices {
         method: HttpMethods.delete,
       );
 
-      if (response.statusCode == successCode && response.data["success"]) {
+      if (response.statusCode == successCode && response.data['success']) {
         return true;
       } else {
-        Tools.logToConsole("------------ ERROR remove product --------------");
+        Tools.logToConsole('------------ ERROR remove product --------------');
         return false;
       }
     } catch (e) {
@@ -66,7 +66,7 @@ class AddedProductsServices {
       var response = await ApiProvider.sendRequest(
           url: attachProductsToSubWarehouse, method: HttpMethods.post, body: jsonEncode(fullRequestBody));
 
-      if (response.statusCode == successCode && response.data["success"]) {
+      if (response.statusCode == successCode && response.data['success']) {
         return true;
       } else {
         Tools.logToConsole(response.data['reason']);
@@ -83,10 +83,10 @@ class AddedProductsServices {
       url: getProduct,
       method: HttpMethods.get,
     );
-    if (response.statusCode == successCode && response.data["success"]) {
-      return syncCartFromJson(jsonEncode(response.data["data"]));
+    if (response.statusCode == successCode && response.data['success']) {
+      return syncCartFromJson(jsonEncode(response.data['data']));
     } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
+      Tools.logToConsole('------------ ERROR CANCEL ORDER --------------');
       return null;
     }
   }
@@ -94,17 +94,17 @@ class AddedProductsServices {
   static Future<bool> changeProductSubWarehouse(
       ProductData product, String productSubWarehouseId, bool remove) async {
     var subWarehouseBody = {
-      "product_id": product.id.toString(),
-      "sub_warehouse_id": productSubWarehouseId,
-      "price": product.price,
-      "is_featured": product.isFeatured,
-      "is_active": product.isActive,
-      "priority": product.priority.toString(),
-      "supplier_code": product.supplierCode,
-      "min_threshold": product.minThreshold.toString(),
-      "increase_percentage": product.increasePercentage,
-      "price_factor": product.priceFactor,
-      "automatic_activation": product.automaticActivation,
+      'product_id': product.id.toString(),
+      'sub_warehouse_id': productSubWarehouseId,
+      'price': product.price,
+      'is_featured': product.isFeatured,
+      'is_active': product.isActive,
+      'priority': product.priority.toString(),
+      'supplier_code': product.supplierCode,
+      'min_threshold': product.minThreshold.toString(),
+      'increase_percentage': product.increasePercentage,
+      'price_factor': product.priceFactor,
+      'automatic_activation': product.automaticActivation,
     };
     try {
       bool removed;
@@ -120,17 +120,17 @@ class AddedProductsServices {
       }
       if (!add && removed) {
         var subWarehouseBody = {
-          "product_id": product.id.toString(),
-          "sub_warehouse_id": product.subWarehouseId.toString(),
-          "price": product.price,
-          "is_featured": product.isFeatured,
-          "is_active": product.isActive,
-          "priority": product.priority.toString(),
-          "supplier_code": product.supplierCode,
-          "min_threshold": product.minThreshold.toString(),
-          "increase_percentage": product.increasePercentage,
-          "price_factor": product.priceFactor,
-          "automatic_activation": product.automaticActivation.toString(),
+          'product_id': product.id.toString(),
+          'sub_warehouse_id': product.subWarehouseId.toString(),
+          'price': product.price,
+          'is_featured': product.isFeatured,
+          'is_active': product.isActive,
+          'priority': product.priority.toString(),
+          'supplier_code': product.supplierCode,
+          'min_threshold': product.minThreshold.toString(),
+          'increase_percentage': product.increasePercentage,
+          'price_factor': product.priceFactor,
+          'automatic_activation': product.automaticActivation.toString(),
         };
         await AddedProductsServices.attachProductsToSubWarehouseService(fullRequestBody: subWarehouseBody);
       }

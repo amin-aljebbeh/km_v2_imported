@@ -17,15 +17,15 @@ class Orders {
   dynamic exception;
 
   factory Orders.fromJson(Map<String, dynamic> json) => Orders(
-        headers: Headers.fromJson(json["headers"]),
-        original: OrdersOriginal.fromJson(json["original"]),
-        exception: json["exception"],
+        headers: Headers.fromJson(json['headers']),
+        original: OrdersOriginal.fromJson(json['original']),
+        exception: json['exception'],
       );
 
   Map<String, dynamic> toJson() => {
-        "headers": headers.toJson(),
-        "original": original.toJson(),
-        "exception": exception,
+        'headers': headers.toJson(),
+        'original': original.toJson(),
+        'exception': exception,
       };
 }
 
@@ -39,13 +39,13 @@ class OrdersOriginal {
   PageData data;
 
   factory OrdersOriginal.fromJson(Map<String, dynamic> json) => OrdersOriginal(
-        success: json["success"],
-        data: PageData.fromJson(json["data"]),
+        success: json['success'],
+        data: PageData.fromJson(json['data']),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": data.toJson(),
+        'success': success,
+        'data': data.toJson(),
       };
 }
 
@@ -57,11 +57,11 @@ class PageData {
   List<OrdersOriginalData> data;
 
   factory PageData.fromJson(Map<String, dynamic> json) => PageData(
-        data: List<OrdersOriginalData>.from(json["data"].map((x) => OrdersOriginalData.fromJson(x))),
+        data: List<OrdersOriginalData>.from(json['data'].map((x) => OrdersOriginalData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        'data': List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }
 
@@ -133,32 +133,32 @@ class OrdersOriginalData {
   double shopperProfit;
 
   factory OrdersOriginalData.fromJson(Map<String, dynamic> json) => OrdersOriginalData(
-        id: json["id"],
-        expectedTimeMinutes: json["expected_time_minutes"].toString(),
-        deliveryCost: json["delivery_cost"].toString(),
-        supportedCityCost: json["supported_city_cost"].toString(),
-        orderStatusId: json["order_status_id"].toString(),
-        paymentMethodId: json["payment_method_id"].toString(),
-        deliveryMethodId: json["delivery_method_id"].toString(),
-        warehouseId: json["warehouse_id"].toString(),
-        addressId: json["address_id"].toString(),
-        userId: json["user_id"].toString(),
-        couponId: json["coupon_id"].toString(),
+        id: json['id'],
+        expectedTimeMinutes: json['expected_time_minutes'].toString(),
+        deliveryCost: json['delivery_cost'].toString(),
+        supportedCityCost: json['supported_city_cost'].toString(),
+        orderStatusId: json['order_status_id'].toString(),
+        paymentMethodId: json['payment_method_id'].toString(),
+        deliveryMethodId: json['delivery_method_id'].toString(),
+        warehouseId: json['warehouse_id'].toString(),
+        addressId: json['address_id'].toString(),
+        userId: json['user_id'].toString(),
+        couponId: json['coupon_id'].toString(),
         userDeliveryRating:
-            json["user_delivery_rating"] == null ? 'null' : json["user_delivery_rating"].toString(),
-        userPriceRating: json["user_price_rating"].toString(),
-        total: json["total"].toString(),
-        userData: json["user"] == null ? null : UserData.fromJson(json["user"]),
-        address: json["address"] == null ? null : OrderAddress.fromJson(json["address"]),
-        userNotes: json["user_notes"] == null ? null : json['user_notes'],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        supportedCityId: json["supported_city_id"].toString(),
-        underUpdate: json["under_update"].toString(),
-        deliveryStaffId: json["delivery_staff_id"].toString(),
-        products: List<OrderProducts>.from(json["products"].map((x) => OrderProducts.fromJson(x))),
-        shopper: json["shopper"] == null ? null : Assigned.fromJson(json["shopper"]),
+            json['user_delivery_rating'] == null ? 'null' : json['user_delivery_rating'].toString(),
+        userPriceRating: json['user_price_rating'].toString(),
+        total: json['total'].toString(),
+        userData: json['user'] == null ? null : UserData.fromJson(json['user']),
+        address: json['address'] == null ? null : OrderAddress.fromJson(json['address']),
+        userNotes: json['user_notes'],
+        createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
+        supportedCityId: json['supported_city_id'].toString(),
+        underUpdate: json['under_update'].toString(),
+        deliveryStaffId: json['delivery_staff_id'].toString(),
+        products: List<OrderProducts>.from(json['products'].map((x) => OrderProducts.fromJson(x))),
+        shopper: json['shopper'] == null ? null : Assigned.fromJson(json['shopper']),
         images:
-            json["images"] == null ? [] : List<OrderImage>.from(json["images"].map((x) => OrderImage.fromJson(x))),
+            json['images'] == null ? [] : List<OrderImage>.from(json['images'].map((x) => OrderImage.fromJson(x))),
         orderAccountingRows: [],
         shopperProfit: 0,
         kammunProfit: 0,
@@ -172,28 +172,28 @@ class OrdersOriginalData {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "expected_time_minutes": expectedTimeMinutes,
-        "delivery_cost": deliveryCost,
-        "supported_city_cost": supportedCityCost,
-        "order_status_id": orderStatusId,
-        "payment_method_id": paymentMethodId,
-        "delivery_method_id": deliveryMethodId,
-        "warehouse_id": warehouseId,
-        "address_id": addressId,
-        "user_id": userId,
-        "coupon_id": couponId,
-        "user_delivery_rating": userDeliveryRating,
-        "user_price_rating": userPriceRating,
-        "total": total,
-        "created_at": createdAt.toIso8601String(),
-        "user_notes": userNotes,
-        "address": address.toJson(),
-        "user": userData.toJson(),
-        "supported_city_id": supportedCityId,
-        "under_update": underUpdate,
-        "delivery_staff_id": deliveryStaffId,
-        "products": List<dynamic>.from(products.map((x) => x.toJson())),
+        'id': id,
+        'expected_time_minutes': expectedTimeMinutes,
+        'delivery_cost': deliveryCost,
+        'supported_city_cost': supportedCityCost,
+        'order_status_id': orderStatusId,
+        'payment_method_id': paymentMethodId,
+        'delivery_method_id': deliveryMethodId,
+        'warehouse_id': warehouseId,
+        'address_id': addressId,
+        'user_id': userId,
+        'coupon_id': couponId,
+        'user_delivery_rating': userDeliveryRating,
+        'user_price_rating': userPriceRating,
+        'total': total,
+        'created_at': createdAt.toIso8601String(),
+        'user_notes': userNotes,
+        'address': address.toJson(),
+        'user': userData.toJson(),
+        'supported_city_id': supportedCityId,
+        'under_update': underUpdate,
+        'delivery_staff_id': deliveryStaffId,
+        'products': List<dynamic>.from(products.map((x) => x.toJson())),
       };
 
   OrderAccountingRow row = OrderAccountingRow(
@@ -308,15 +308,15 @@ class Assigned {
   int levelId;
 
   factory Assigned.fromJson(Map<String, dynamic> json) => Assigned(
-        id: json["id"],
-        name: json["name"],
-        admin: json["admin"] == null ? null : AdminModel.fromJson(json["admin"]),
+        id: json['id'],
+        name: json['name'],
+        admin: json['admin'] == null ? null : AdminModel.fromJson(json['admin']),
         levelId: json['level_id'] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "admin": admin,
+        'id': id,
+        'name': name,
+        'admin': admin,
       };
 }

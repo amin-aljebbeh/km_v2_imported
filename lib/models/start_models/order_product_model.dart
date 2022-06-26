@@ -31,35 +31,35 @@ class OrderProducts {
   List<ProductImage> images;
 
   factory OrderProducts.fromJson(Map<String, dynamic> json) => OrderProducts(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        unit: json["unit"].toString(),
-        isInFacebook: json["is_in_facebook"].toString(),
-        categoryId: json["category_id"].toString(),
-        supplierCode: json["supplier_code"].toString(),
-        isActive: json["is_active"],
-        subWarehouseId: json["sub_warehouse_id"],
-        quantity: json["quantity"].toString(),
+        id: json['id'],
+        name: json['name'],
+        description: json['description'],
+        unit: json['unit'].toString(),
+        isInFacebook: json['is_in_facebook'].toString(),
+        categoryId: json['category_id'].toString(),
+        supplierCode: json['supplier_code'].toString(),
+        isActive: json['is_active'],
+        subWarehouseId: json['sub_warehouse_id'],
+        quantity: json['quantity'].toString(),
         productAvailable: false,
-        pivot: OrderProductPivot.fromJson(json["pivot"]),
-        images: List<ProductImage>.from(json["images"].map((x) => ProductImage.fromJson(x))),
+        pivot: OrderProductPivot.fromJson(json['pivot']),
+        images: List<ProductImage>.from(json['images'].map((x) => ProductImage.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "description": description,
-        "unit": unit,
-        "is_in_facebook": isInFacebook,
-        "category_id": categoryId,
-        "quantity": quantity,
-        "pivot": pivot.toJson(),
-        "supplier_code": supplierCode,
-        "sub_warehouse_id": subWarehouseId,
-        "product_available": productAvailable,
-        "is_active": isActive,
-        "images": List<dynamic>.from(images.map((x) => x.toJson())),
+        'id': id,
+        'name': name,
+        'description': description,
+        'unit': unit,
+        'is_in_facebook': isInFacebook,
+        'category_id': categoryId,
+        'quantity': quantity,
+        'pivot': pivot.toJson(),
+        'supplier_code': supplierCode,
+        'sub_warehouse_id': subWarehouseId,
+        'product_available': productAvailable,
+        'is_active': isActive,
+        'images': List<dynamic>.from(images.map((x) => x.toJson())),
       };
 
   static sort() {}
@@ -77,15 +77,15 @@ class ProductImage {
   String imageFileName;
 
   factory ProductImage.fromJson(Map<String, dynamic> json) => ProductImage(
-        id: json["id"],
-        productId: json["product_id"].toString(),
-        imageFileName: json["image_file_name"],
+        id: json['id'],
+        productId: json['product_id'].toString(),
+        imageFileName: json['image_file_name'],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "product_id": productId,
-        "image_file_name": imageFileName,
+        'id': id,
+        'product_id': productId,
+        'image_file_name': imageFileName,
       };
 }
 
@@ -109,20 +109,20 @@ class OrderProductPivot {
   int subWarehouseId;
 
   factory OrderProductPivot.fromJson(Map<String, dynamic> json) => OrderProductPivot(
-        orderId: json["order_id"].toString(),
-        productId: json["product_id"].toString(),
-        purchasePrice: json["purchase_price"].toString(),
-        quantity: json["quantity"].toString(),
-        deletedAt: json["deleted_at"] != null ? json['deleted_at'] : 'null',
-        increaseValue: json["increase_value"] ?? 0,
-        subWarehouseId: json["sub_warehouse_id"] ?? 0,
+        orderId: json['order_id'].toString(),
+        productId: json['product_id'].toString(),
+        purchasePrice: json['purchase_price'].toString(),
+        quantity: json['quantity'].toString(),
+        deletedAt: json['deleted_at'] ?? 'null',
+        increaseValue: json['increase_value'] ?? 0,
+        subWarehouseId: json['sub_warehouse_id'] ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
-        "order_id": orderId,
-        "product_id": productId,
-        "purchase_price": purchasePrice,
-        "quantity": quantity,
-        "deleted_at": deletedAt
+        'order_id': orderId,
+        'product_id': productId,
+        'purchase_price': purchasePrice,
+        'quantity': quantity,
+        'deleted_at': deletedAt
       };
 }

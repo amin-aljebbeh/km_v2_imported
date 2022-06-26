@@ -75,8 +75,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                       return FullScreenImage(
                         imageUrl: widget.productData.images.isNotEmpty
                             ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
-                            : "",
-                        tag: "generate_a_unique_tag",
+                            : '',
+                        tag: 'generate_a_unique_tag',
                       );
                     },
                   ),
@@ -86,7 +86,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                 tag: widget.index + int.parse(widget.productData.pivot.productId),
                 image: widget.productData.images.isNotEmpty
                     ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
-                    : "",
+                    : '',
               ),
             ),
             Expanded(
@@ -102,18 +102,18 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                     ),
                   ),
                   Text(
-                    widget.productData.quantity + " " + (widget.productData.unit ?? ''),
+                    widget.productData.quantity + ' ' + (widget.productData.unit ?? ''),
                     style: darkBold,
                   ),
                   Text(
                     StringUtils().oCcy.format(purchasePrice).toString() +
-                        " ${LoadingScreenServices.companyInformation.currency}",
+                        ' ${LoadingScreenServices.companyInformation.currency}',
                     style: paragraphStyle,
                   ),
                   if (Services.isSupplierManager())
                     Text(
                       StringUtils().oCcy.format(purchasePrice - (purchasePrice * discountPercentage)).toString() +
-                          " ${LoadingScreenServices.companyInformation.currency}",
+                          ' ${LoadingScreenServices.companyInformation.currency}',
                       style: paragraphStyle,
                     ),
                   if ((!Services.isSupplierManager()) && subWarehouseList.isNotEmpty)
@@ -123,7 +123,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                         OrderDetailsServices.updateOrder(
                           orderId: widget.productData.pivot.orderId,
                           context: context,
-                          updateKey: "sub_warehouse_id",
+                          updateKey: 'sub_warehouse_id',
                           updateValue: a.toString(),
                           productId: widget.productData.pivot.productId,
                         );
@@ -139,7 +139,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                               orElse: () {
                                 subWarehouseList.clear();
                                 return const DropdownMenuItem<int>(
-                                  child: Text("No element"),
+                                  child: Text('No element'),
                                   value: 0,
                                 );
                               },
