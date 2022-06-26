@@ -29,8 +29,8 @@ class CartViewState extends State<CartView> {
   int indexToEdit = -1;
 
   _cartChanged() async {
-    String productsId = "";
-    String productsQuantity = "";
+    String productsId = '';
+    String productsQuantity = '';
     SharedPreferences prefs = await SharedPreferences.getInstance();
     productsId = CartServices.cartProducts.fold('', (ids, product) => ids + product.id.toString() + ';');
     productsQuantity =

@@ -42,7 +42,7 @@ class OrderProducts {
         subWarehouseId: json['sub_warehouse_id'],
         quantity: json['quantity'].toString(),
         productAvailable: false,
-        pivot: OrderProductPivot.fromJson(json['pivot']),
+        pivot: json['pivot'] == null ? null : OrderProductPivot.fromJson(json['pivot']),
         images: List<ProductImage>.from(json['images'].map((x) => ProductImage.fromJson(x))),
       );
 

@@ -71,7 +71,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                     imageUrl: LoadingScreenServices.imagePrefixUrl +
                         'orders/' +
                         widget.orderData.images[i].imageFileName,
-                    tag: "generate_a_unique_tag",
+                    tag: 'generate_a_unique_tag',
                   );
                 },
               ),
@@ -82,7 +82,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   tag: widget.orderData.images[i].imageFileName,
                   image:
                       LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName)
-              : const AssetImage("assets/kmIcon.png"),
+              : const AssetImage('assets/kmIcon.png'),
         ),
       );
     }
@@ -126,25 +126,22 @@ class _OrderAccountingState extends State<OrderAccounting> {
         if (!Services.isSupplierManager()) {
           int delivery = int.parse(widget.orderData.supportedCityCost.split('.')[0]) +
               int.parse(widget.orderData.deliveryCost.split('.')[0]);
-          int subTotal = int.parse(widget.orderData.total.split(".")[0]) - delivery;
+          int subTotal = int.parse(widget.orderData.total.split('.')[0]) - delivery;
           subWarehouseTotal.add(KTableRow(
             children: [KTableElement(text: StringUtils.subtotal), KTableElement(text: subTotal.toString())],
           ));
           subWarehouseTotal.add(KTableRow(
-            children: [const KTableElement(text: "أجور التوصيل"), KTableElement(text: delivery.toString())],
+            children: [const KTableElement(text: 'أجور التوصيل'), KTableElement(text: delivery.toString())],
           ));
           subWarehouseTotal.add(KTableRow(
             children: [
               KTableElement(text: StringUtils.total),
-              KTableElement(text: widget.orderData.total.split(".")[0]),
+              KTableElement(text: widget.orderData.total.split('.')[0])
             ],
           ));
         } else {
           subWarehouseTotal.add(KTableRow(
-            children: [
-              KTableElement(text: StringUtils.total),
-              KTableElement(text: widget.subTotal.toString()),
-            ],
+            children: [KTableElement(text: StringUtils.total), KTableElement(text: widget.subTotal.toString())],
           ));
         }
       },
@@ -172,13 +169,10 @@ class _OrderAccountingState extends State<OrderAccounting> {
                       textHint: '',
                       title: 'إضافة حسم',
                       inputType: TextInputType.text,
-                      bodyKey: "discount",
+                      bodyKey: 'discount',
                       productId: 0,
-                      onSavePressed: (newValue, result) {
-                        setState(() {
-                          Services.resultFlushBar(context: context, result: result);
-                        });
-                      },
+                      onSavePressed: (newValue, result) =>
+                          setState(() => Services.resultFlushBar(context: context, result: result)),
                     ),
                   ),
                 SizedBox(
@@ -197,9 +191,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                     children: imageWidgets,
                   ),
                 ),
-                const SizedBox(
-                  height: 100,
-                ),
+                const SizedBox(height: 100),
               ],
             ),
             Positioned(
@@ -241,7 +233,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                     color: ColorUtils.kmColors,
                                     onTap: () {
                                       if (widget.orderData.shopper == null) {
-                                        Toast.show("هذا الطلب غير مسند لمتسوق", context,
+                                        Toast.show('هذا الطلب غير مسند لمتسوق', context,
                                             duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                                       } else {
                                         Navigator.push(

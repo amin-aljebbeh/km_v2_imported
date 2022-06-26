@@ -2,97 +2,47 @@ import 'package:flutter/material.dart';
 
 import 'utils_importer.dart';
 
-TextStyle mainStyle = TextStyle(
-  fontFamily: StringUtils.fontFamilyHKGrotesk,
-);
+TextStyle mainStyle = TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk);
 
 TextStyle dialogStyle = mainStyle;
 
-TextStyle decisionButtonStyle = mainStyle.copyWith(
-  color: Colors.white,
-  fontSize: 20.0,
-  fontWeight: FontWeight.w500,
-);
+TextStyle decisionButtonStyle =
+    mainStyle.copyWith(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w500);
 
-TextStyle paragraphStyle = mainStyle.copyWith(
-  color: ColorUtils.primaryColor,
-  fontSize: 18,
-  fontWeight: FontWeight.bold,
-);
+TextStyle paragraphStyle =
+    mainStyle.copyWith(color: ColorUtils.primaryColor, fontSize: 18, fontWeight: FontWeight.bold);
 
-TextStyle informationStyle = paragraphStyle.copyWith(
-  color: Colors.black,
-);
+TextStyle informationStyle = paragraphStyle.copyWith(color: Colors.black);
 
-TextStyle flushBarStyle = mainStyle.copyWith(
-  color: Colors.white,
-  fontWeight: FontWeight.bold,
-);
+TextStyle flushBarStyle = mainStyle.copyWith(color: Colors.white, fontWeight: FontWeight.bold);
 
-TextStyle tabStyle = mainStyle.copyWith(
-  color: Colors.white,
-  fontWeight: FontWeight.w500,
-  fontSize: 15,
-);
+TextStyle tabStyle = mainStyle.copyWith(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 15);
 
-TextStyle darkBold = mainStyle.copyWith(
-  color: ColorUtils.primaryColor,
-  fontSize: 17,
-);
+TextStyle darkBold = mainStyle.copyWith(color: ColorUtils.primaryColor, fontSize: 17);
 
-TextStyle dropdownItemStyle = mainStyle.copyWith(
-  color: Colors.black,
-  fontWeight: FontWeight.w700,
-);
+TextStyle dropdownItemStyle = mainStyle.copyWith(color: Colors.black, fontWeight: FontWeight.w700);
 
-TextStyle labelStyle = mainStyle.copyWith(
-  fontSize: 15,
-  color: ColorUtils.greyColor,
-);
+TextStyle labelStyle = mainStyle.copyWith(fontSize: 15, color: ColorUtils.greyColor);
 
-TextStyle disableStyle = paragraphStyle.copyWith(
-  color: Colors.black38,
-);
-TextStyle warehouseStyle = mainStyle.copyWith(
-  fontWeight: FontWeight.bold,
-  color: ColorUtils.greyColor,
-  fontSize: 20,
-);
-TextStyle profitStyle = warehouseStyle.copyWith(
-  color: Colors.green,
-  fontSize: 25,
-);
-TextStyle loseStyle = warehouseStyle.copyWith(
-  color: Colors.red,
-  fontSize: 25,
-);
+TextStyle disableStyle = paragraphStyle.copyWith(color: Colors.black38);
 
-TextStyle lightProfitStyle = mainStyle.copyWith(
-  color: Colors.green,
-);
+TextStyle warehouseStyle =
+    mainStyle.copyWith(fontWeight: FontWeight.bold, color: ColorUtils.greyColor, fontSize: 20);
 
-TextStyle lightLoseStyle = mainStyle.copyWith(
-  color: Colors.red,
-);
+TextStyle profitStyle = warehouseStyle.copyWith(color: Colors.green, fontSize: 25);
 
-TextStyle userNameStyle = mainStyle.copyWith(
-  fontWeight: FontWeight.w700,
-  fontSize: 15,
-);
+TextStyle loseStyle = warehouseStyle.copyWith(color: Colors.red, fontSize: 25);
 
-TextStyle blackBold = flushBarStyle.copyWith(
-  color: Colors.black,
-);
+TextStyle lightProfitStyle = mainStyle.copyWith(color: Colors.green);
 
-TextStyle warningStyle = paragraphStyle.copyWith(
-  color: Colors.red,
-);
+TextStyle lightLoseStyle = mainStyle.copyWith(color: Colors.red);
 
-TextStyle homeIconStyle = mainStyle.copyWith(
-  color: ColorUtils.primaryColor,
-  fontSize: 15,
-);
+TextStyle userNameStyle = mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 15);
 
-TextStyle homeActiveIconStyle = homeIconStyle.copyWith(
-  fontWeight: FontWeight.w500,
-);
+TextStyle blackBold = flushBarStyle.copyWith(color: Colors.black);
+
+TextStyle warningStyle = paragraphStyle.copyWith(color: Colors.red);
+
+TextStyle homeIconStyle = mainStyle.copyWith(color: ColorUtils.primaryColor, fontSize: 15);
+
+TextStyle homeActiveIconStyle = homeIconStyle.copyWith(fontWeight: FontWeight.w500);

@@ -195,7 +195,7 @@ class ProductData {
           json['barcodes'] == null ? [] : List<Barcode>.from(json['barcodes'].map((x) => Barcode.fromJson(x))),
       deleteTimes: json['count_deleted'] ?? -1,
       availableQuantity: json['available_quantity'] == null ? 'null' : json['available_quantity'].toString(),
-      pivot: OrderProductPivot.fromJson(json['pivot']),
+      pivot: json['pivot'] == null ? null : OrderProductPivot.fromJson(json['pivot']),
     );
     return productData;
   }
