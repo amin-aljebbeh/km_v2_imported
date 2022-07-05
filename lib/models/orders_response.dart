@@ -15,10 +15,12 @@ class OrderResponse {
     this.inactiveProducts,
     this.changedPriceProducts,
     this.data,
+    this.message,
   });
 
   bool success;
   String reason;
+  String message;
   List<String> inactiveProducts;
   List<String> changedPriceProducts;
   String data;
@@ -28,23 +30,24 @@ class OrderResponse {
     List<String> changedPriceProducts = [];
 
     return OrderResponse(
-      success: json["success"],
-      data: json["data"],
-      reason: json["reason"].toString(),
-      inactiveProducts: json["inactive_products"] != null
-          ? List<String>.from(json["inactive_products"].map((x) => x))
+      success: json['success'],
+      data: json['data'],
+      reason: json['reason'].toString(),
+      inactiveProducts: json['inactive_products'] != null
+          ? List<String>.from(json['inactive_products'].map((x) => x))
           : inactiveProducts,
-      changedPriceProducts: json["changed_price_products"] != null
-          ? List<String>.from(json["changed_price_products"].map((x) => x))
+      changedPriceProducts: json['changed_price_products'] != null
+          ? List<String>.from(json['changed_price_products'].map((x) => x))
           : changedPriceProducts,
+      message: json['message'].toString(),
     );
   }
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "reason": reason,
-        "data": data,
-        "inactive_products": List<dynamic>.from(inactiveProducts.map((x) => x)),
-        "changed_price_products": List<dynamic>.from(changedPriceProducts.map((x) => x)),
+        'success': success,
+        'reason': reason,
+        'data': data,
+        'inactive_products': List<dynamic>.from(inactiveProducts.map((x) => x)),
+        'changed_price_products': List<dynamic>.from(changedPriceProducts.map((x) => x)),
       };
 }

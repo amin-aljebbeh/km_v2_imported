@@ -7,63 +7,25 @@ import '../../../core/core_importer.dart';
 import '../../../models/models_importer.dart';
 import '../../../service.dart';
 import '../../../utils/utils_importer.dart';
-import '../../../views/cart/services/cart_services.dart';
 import '../../../views/loading/loading_services.dart';
+import '../model/submit_order_model.dart';
 
 class OrderServices {
-  static String deliverySupportedCityId = '';
   static int orderUnderUpdateIndex = -1;
   static String updateOrderNote = '';
 
   static String orderUnderUpdateId = '';
 
-  static Future<OrderResponse> updateOrder({String userNotes, bool checkPrices = true}) async {
+  static Future<OrderResponse> updateOrder({SubmitOrderModel submitOrderModel, bool checkPrices = true}) async {
     try {
-      String productIds = '';
-      String quantities = '';
-      String productPrices = '';
+      Map orderMap = submitOrderModel.toJson();
       String orderId;
-
-      int purchasePrices = 0;
-      for (int i = 0; i < CartServices.cartProducts.length; i++) {
-        productIds = productIds + CartServices.cartProducts[i].id.toString() + ';';
-        quantities = quantities + CartServices.cartProducts[i].productCount.toString() + ';';
-        purchasePrices = purchasePrices +
-            (int.parse(CartServices.cartProducts[i].price.split('.')[0]) *
-                CartServices.cartProducts[i].productCount);
-        productPrices =
-            productPrices + int.parse(CartServices.cartProducts[i].price.split('.')[0]).toString() + ';';
-      }
-      String deliveryMethodId = '';
-      if (Services.isOperationManager() || Services.isAdmin()) {
-        deliveryMethodId = LoadingScreenServices.allOrdersList
-            .firstWhere((order) => order.id.toString() == orderUnderUpdateId,
-                orElse: () => LoadingScreenServices.phoneOrderList
-                    .firstWhere((order) => order.id.toString() == orderUnderUpdateId))
-            .deliveryMethodId;
-      } else if (Services.isShopper()) {
-        deliveryMethodId = LoadingScreenServices.myOrdersList
-            .firstWhere((order) => order.id.toString() == orderUnderUpdateId)
-            .deliveryMethodId;
-      }
-      Map orderData = {
-        'delivery_method_id': deliveryMethodId,
-        'product_ids': productIds.substring(0, productIds.length - 1),
-        'quantities': quantities.substring(0, quantities.length - 1),
-        'purchase_prices': purchasePrices.toString(),
-        'product_prices': productPrices.substring(0, productPrices.length - 1),
-        'user_notes': userNotes,
-        'check_changed_price_product': checkPrices ? '1' : '0'
-      };
 
       orderId = orderUnderUpdateId;
 
       try {
         var response = await ApiProvider.sendRequest(
-          url: api + order + orderId,
-          method: HttpMethods.put,
-          body: jsonEncode(orderData),
-        );
+            url: api + order + orderId, method: HttpMethods.put, body: jsonEncode(orderMap));
 
         if (response.data['reason'].toString().contains('discontinued')) {
           return OrderResponse(success: false, reason: 'discontinued');
