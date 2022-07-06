@@ -13,7 +13,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../service.dart';
-import '../orders/model/submit_order_model.dart';
 import 'order_problem_sheet.dart';
 
 class CartViewFinal extends StatefulWidget {
@@ -560,18 +559,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
       OrderResponse orderResponse;
 
       if (OrderServices.orderUnderUpdateIndex != -1) {
-        List<InvoiceProductModel> products = orderArray
-            .map((product) => InvoiceProductModel(
-                quantity: product.productCount,
-                price: int.parse(product.price.split('.')[0]),
-                productId: product.id))
-            .toList();
-        int purchasePrices = orderArray.fold(
-            0, (value, product) => value + (product.productCount * int.parse(product.price.split('.')[0])));
-        SubmitOrderModel submitOrderModel =
-            SubmitOrderModel(products: products, purchasePrices: purchasePrices, userNote: _userNotes.text);
-        orderResponse =
-            await OrderServices.updateOrder(submitOrderModel: submitOrderModel, checkPrices: checkOrderPrice);
+        orderResponse = await OrderServices.updateOrder(userNotes: _userNotes.text, checkPrices: checkOrderPrice);
 
         setState(() {
           try {
@@ -614,7 +602,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
           CartServices.userNote = '';
 
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.message)));
+              context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.data)));
         }
       } catch (e) {
         Tools.logToConsole('error might be here');
