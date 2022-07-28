@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'start_model_importer.dart';
 
-SupportedCityOriginal supportedCityOriginalFromJson(String str) =>
-    SupportedCityOriginal.fromJson(json.decode(str));
+SupportedCityOriginal supportedCityOriginalFromJson(String str) => SupportedCityOriginal.fromJson(json.decode(str));
 
 class SupportedCity {
   SupportedCity({
@@ -12,12 +11,12 @@ class SupportedCity {
     this.exception,
   });
 
-  Headers headers;
+  KHeaders headers;
   SupportedCityOriginal original;
   dynamic exception;
 
   factory SupportedCity.fromJson(Map<String, dynamic> json) => SupportedCity(
-        headers: Headers.fromJson(json["headers"]),
+        headers: KHeaders.fromJson(json["headers"]),
         original: SupportedCityOriginal.fromJson(json["original"]),
         exception: json["exception"],
       );

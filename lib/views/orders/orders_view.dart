@@ -143,8 +143,7 @@ class OrdersViewState extends State<OrdersView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     errorMessage
-                        ? AlertMessages(
-                            text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
+                        ? AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
                         : Container(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -407,8 +406,7 @@ class OrdersViewState extends State<OrdersView> {
                                           showMyDialog(
                                               title: 'رفض الطلب',
                                               text: 'هل أنت متأكد انك تريد رفض الطلب ؟',
-                                              dialogButtons: decisionButton,
-                                              context: context);
+                                              dialogButtons: decisionButton);
                                         },
                                         text: StringUtils.cancelOrder,
                                         width: MediaQuery.of(context).size.width * 0.4,
@@ -453,8 +451,7 @@ class OrdersViewState extends State<OrdersView> {
                                           showMyDialog(
                                               title: 'إلغاء الطلب',
                                               text: 'هل أنت متأكد انك تريد إلغاء الطلب ؟',
-                                              dialogButtons: decisionButton,
-                                              context: context);
+                                              dialogButtons: decisionButton);
                                         },
                                       ),
                                     ],
@@ -506,8 +503,7 @@ class OrdersViewState extends State<OrdersView> {
                                     showMyDialog(
                                         title: 'استعادة الطلب',
                                         text: 'هل أنت متأكد انك تريد استعادة الطلب ؟',
-                                        dialogButtons: decisionButton,
-                                        context: context);
+                                        dialogButtons: decisionButton);
                                   },
                                 ),
                               KammunButton(
@@ -524,16 +520,14 @@ class OrdersViewState extends State<OrdersView> {
                                       userNote: orderDataList[index].userNotes,
                                       supportedCityCost: orderDataList[index].supportedCityCost,
                                       deliveryMethodCost: orderDataList[index].deliveryCost,
-                                      deliveryMethodId:
-                                          int.parse(orderDataList[index].deliveryMethodId.toString()));
+                                      deliveryMethodId: int.parse(orderDataList[index].deliveryMethodId.toString()));
                                   if (response != null) {
                                     if (response.success) {
                                       setState(() {
                                         orderLoaded = true;
                                         errorMessage = false;
                                       });
-                                      _moveOrderProductsToCart(
-                                          orderIndex: index, orderProducts: response.products);
+                                      _moveOrderProductsToCart(orderIndex: index, orderProducts: response.products);
                                       orderDataList[index].underUpdate = '1';
                                     } else if (!response.success) {
                                       setState(() {
@@ -570,8 +564,7 @@ class OrdersViewState extends State<OrdersView> {
                                         showMyDialog(
                                             title: StringUtils.costumerNote,
                                             text: orderDataList[index].userNotes,
-                                            dialogButtons: decisionButtons,
-                                            context: context);
+                                            dialogButtons: decisionButtons);
                                       },
                                       color: Colors.indigoAccent,
                                     )
@@ -586,8 +579,7 @@ class OrdersViewState extends State<OrdersView> {
                                             text: 'نعم',
                                             onTap: () async {
                                               Navigator.of(context).pop();
-                                              bool result =
-                                                  await OrderServices.unlockOrderService(orderId.toString());
+                                              bool result = await OrderServices.unlockOrderService(orderId.toString());
                                               Services.resultFlushBar(context: context, result: result);
                                               setState(() {
                                                 if (result) orderDataList[index].underUpdate = '0';
@@ -604,8 +596,7 @@ class OrdersViewState extends State<OrdersView> {
                                         showMyDialog(
                                             title: StringUtils.unLock,
                                             text: StringUtils.unLockConfirm,
-                                            dialogButtons: decisionButtons,
-                                            context: context);
+                                            dialogButtons: decisionButtons);
                                       },
                                       color: Colors.blue[800],
                                     )

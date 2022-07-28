@@ -30,9 +30,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
       var response = await AddedProductsServices.getAddedProductsToWarehouseService();
       if (response != null) {
         productsList.addAll(response);
-        setState(() {
-          isLoading = false;
-        });
+        setState(() => isLoading = false);
         return true;
       } else {
         setState(() {
@@ -42,8 +40,6 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole("Error While getting Inventory Products");
-      Tools.logToConsole(e.toString());
       setState(() {
         isLoading = false;
         isError = true;
@@ -54,16 +50,10 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
 
   @override
   initState() {
-    if (mounted) {
-      super.initState();
-    }
+    if (mounted) super.initState();
     _loadData();
 
-    _controller.addListener(() {
-      setState(() {
-        filter = _controller.text;
-      });
-    });
+    _controller.addListener(() => setState(() => filter = _controller.text));
   }
 
   @override
@@ -71,37 +61,20 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
-      appBar: InventorySearchTextField(
-        onReload: () {
-          _loadData();
-        },
-        controller: _controller,
-        context: context,
-      ),
+      appBar: InventorySearchTextField(onReload: () => _loadData(), controller: _controller, context: context),
       body: Column(
         children: <Widget>[
           isLoading
-              ? const Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 30.0),
-                    child: Loader(),
-                  ),
-                )
+              ? const Center(child: Padding(padding: EdgeInsets.only(top: 30.0), child: Loader()))
               : isError
                   ? Center(
                       child: Expanded(
                         child: Column(
                           children: [
                             AlertMessages(
-                              text: StringUtils.errorMessage,
-                              messageType: "internetError",
-                              headerText: "حدث خطأ",
-                            ),
+                                text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
                             ElevatedButton(
-                                child: Text(StringUtils.tryAgain, style: blackBold),
-                                onPressed: () {
-                                  _loadData();
-                                }),
+                                child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () => _loadData())
                           ],
                         ),
                       ),
@@ -117,7 +90,7 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                           var eachProduct = productsList[index];
                           try {
                             if (filter == null ||
-                                filter == "" ||
+                                filter == '' ||
                                 eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
                               String id, supplierCode;
                               int isActive;
@@ -190,29 +163,17 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                                 onChangeStatus: (result) {
                                   if (result) {
                                     setState(() {
-                                      if (productsList[index].isActive == "1") {
-                                        productsList[index].isActive = "0";
+                                      if (productsList[index].isActive == '1') {
+                                        productsList[index].isActive = '0';
                                       } else {
-                                        productsList[index].isActive = "1";
+                                        productsList[index].isActive = '1';
                                       }
                                     });
                                   }
                                 },
-                                onChangePrice: (newValue) {
-                                  setState(() {
-                                    productsList[index].price = newValue;
-                                  });
-                                },
-                                onChangeUnit: (newValue) {
-                                  setState(() {
-                                    productsList[index].unit = newValue;
-                                  });
-                                },
-                                onChangeQuantity: (newValue) {
-                                  setState(() {
-                                    productsList[index].quantity = newValue;
-                                  });
-                                },
+                                onChangePrice: (newValue) => setState(() => productsList[index].price = newValue),
+                                onChangeUnit: (newValue) => setState(() => productsList[index].unit = newValue),
+                                onChangeQuantity: (newValue) => setState(() => productsList[index].quantity = newValue),
                               );
                             }
                           } catch (e) {/**/}

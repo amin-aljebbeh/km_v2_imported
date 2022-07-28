@@ -28,9 +28,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
     });
     if (LoadingScreenServices.notAddedProducts.isNotEmpty) {
       productsList.addAll(LoadingScreenServices.notAddedProducts);
-      setState(() {
-        isLoading = false;
-      });
+      setState(() => isLoading = false);
     } else {
       try {
         var response = await AddedProductsServices.getNotAddedProductsToWarehouseService();
@@ -45,9 +43,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
             }
             return 0;
           });
-          setState(() {
-            isLoading = false;
-          });
+          setState(() => isLoading = false);
         } else {
           setState(() {
             isLoading = false;
@@ -55,8 +51,6 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
           });
         }
       } catch (e) {
-        Tools.logToConsole("Error While getting Inventory Products");
-        Tools.logToConsole(e.toString());
         setState(() {
           isLoading = false;
           isError = true;
@@ -67,17 +61,11 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
 
   @override
   initState() {
-    if (mounted) {
-      super.initState();
-    }
+    if (mounted) super.initState();
     _loadData();
 
     filter = '';
-    _controller.addListener(() {
-      setState(() {
-        filter = _controller.text;
-      });
-    });
+    _controller.addListener(() => setState(() => filter = _controller.text));
   }
 
   @override
@@ -96,22 +84,14 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
       body: Column(
         children: <Widget>[
           isLoading
-              ? const Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 30.0),
-                    child: Loader(),
-                  ),
-                )
+              ? const Center(child: Padding(padding: EdgeInsets.only(top: 30.0), child: Loader()))
               : isError
                   ? Center(
                       child: Expanded(
                         child: Column(
                           children: [
                             AlertMessages(
-                              text: StringUtils.errorMessage,
-                              messageType: "internetError",
-                              headerText: "حدث خطأ",
-                            ),
+                                text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
                             ElevatedButton(child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () {}),
                           ],
                         ),
@@ -127,7 +107,7 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                         itemBuilder: (BuildContext context, int index) {
                           var eachProduct = productsList[index];
                           if (filter == null ||
-                              filter == "" ||
+                              filter == '' ||
                               eachProduct.description.toLowerCase().contains(filter.toLowerCase())) {
                             String id, supplierCode;
                             int isActive;
@@ -190,39 +170,23 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                               scaffoldKey: scaffoldKey,
                               fromInventory: false,
                               onDelete: (result) {
-                                if (result) {
-                                  setState(() {
-                                    productsList.removeAt(index);
-                                  });
-                                }
+                                if (result) setState(() => productsList.removeAt(index));
                               },
                               productData: eachProduct,
                               onChangeStatus: (result) {
                                 if (result) {
                                   setState(() {
-                                    if (productsList[index].isActive == "1") {
-                                      productsList[index].isActive = "0";
+                                    if (productsList[index].isActive == '1') {
+                                      productsList[index].isActive = '0';
                                     } else {
-                                      productsList[index].isActive = "1";
+                                      productsList[index].isActive = '1';
                                     }
                                   });
                                 }
                               },
-                              onChangePrice: (newValue) {
-                                setState(() {
-                                  productsList[index].price = newValue;
-                                });
-                              },
-                              onChangeUnit: (newValue) {
-                                setState(() {
-                                  productsList[index].unit = newValue;
-                                });
-                              },
-                              onChangeQuantity: (newValue) {
-                                setState(() {
-                                  productsList[index].quantity = newValue;
-                                });
-                              },
+                              onChangePrice: (newValue) => setState(() => productsList[index].price = newValue),
+                              onChangeUnit: (newValue) => setState(() => productsList[index].unit = newValue),
+                              onChangeQuantity: (newValue) => setState(() => productsList[index].quantity = newValue),
                             );
                           }
                           return Container();

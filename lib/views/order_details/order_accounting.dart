@@ -41,9 +41,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
                 text: StringUtils.yes,
                 onTap: () async {
                   Navigator.of(context).pop();
-                  bool result = await OrderDetailsServices.deleteImageFromOrderService(
-                    imageId: images[i].id.toString(),
-                  );
+                  bool result =
+                      await OrderDetailsServices.deleteImageFromOrderService(imageId: images[i].id.toString());
                   Services.resultFlushBar(context: context, result: result);
                   if (result) {
                     setState(() {
@@ -59,29 +58,21 @@ class _OrderAccountingState extends State<OrderAccounting> {
               ),
               DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
             ];
-            showMyDialog(
-                title: '', context: context, text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
+            showMyDialog(title: '', text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
           },
           onTap: () {
             Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) {
-                  return FullScreenImage(
-                    imageUrl: LoadingScreenServices.imagePrefixUrl +
-                        'orders/' +
-                        widget.orderData.images[i].imageFileName,
-                    tag: 'generate_a_unique_tag',
-                  );
-                },
-              ),
-            );
+                context,
+                MaterialPageRoute(
+                    builder: (_) => FullScreenImage(
+                        imageUrl:
+                            LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName,
+                        tag: 'generate_a_unique_tag')));
           },
           child: widget.orderData.images != null && widget.orderData.images.isNotEmpty
               ? KCacheImage(
                   tag: widget.orderData.images[i].imageFileName,
-                  image:
-                      LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName)
+                  image: LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName)
               : const AssetImage('assets/kmIcon.png'),
         ),
       );
@@ -92,32 +83,26 @@ class _OrderAccountingState extends State<OrderAccounting> {
     setState(
       () {
         subWarehouseTotal.clear();
-        subWarehouseTotal.add(
-          const KTableRow(
-            children: [
-              KTableElement(text: 'المورد'),
-              KTableElement(text: 'الدفع للمورد'),
-              KTableElement(text: 'السعر الصافي'),
-            ],
-          ),
-        );
+        subWarehouseTotal.add(const KTableRow(
+          children: [
+            KTableElement(text: 'المورد'),
+            KTableElement(text: 'الدفع للمورد'),
+            KTableElement(text: 'السعر الصافي')
+          ],
+        ));
         for (int i = 0; i < widget.orderData.orderAccountingRows.length; i++) {
           if (widget.orderData.orderAccountingRows[i].payToSubWarehouse != 0) {
             subWarehouseTotal.add(KTableRow(
               children: [
                 KTableElement(text: widget.orderData.orderAccountingRows[i].subWarehouseName),
                 KTableElement(
-                  text: StringUtils().oCcy.format(
-                        widget.orderData.orderAccountingRows[i].directDiscount == 1
-                            ? Services.kRound(widget.orderData.orderAccountingRows[i].payToSubWarehouse)
-                            : widget.orderData.orderAccountingRows[i].payToSubWarehouse,
-                      ),
+                  text: StringUtils().oCcy.format(widget.orderData.orderAccountingRows[i].directDiscount == 1
+                      ? Services.kRound(widget.orderData.orderAccountingRows[i].payToSubWarehouse)
+                      : widget.orderData.orderAccountingRows[i].payToSubWarehouse),
                 ),
                 KTableElement(
-                  text: StringUtils().oCcy.format(
-                        widget.orderData.orderAccountingRows[i].netPrice +
-                            widget.orderData.orderAccountingRows[i].increaseValuesSum,
-                      ),
+                  text: StringUtils().oCcy.format(widget.orderData.orderAccountingRows[i].netPrice +
+                      widget.orderData.orderAccountingRows[i].increaseValuesSum),
                 ),
               ],
             ));
@@ -159,22 +144,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
           children: [
             ListView(
               children: [
-                Column(
-                  children: subWarehouseTotal,
-                ),
-                if (Services.isOperationManager())
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: UpdateProductInfoWidget(
-                      textHint: '',
-                      title: 'إضافة حسم',
-                      inputType: TextInputType.text,
-                      bodyKey: 'discount',
-                      productId: 0,
-                      onSavePressed: (newValue, result) =>
-                          setState(() => Services.resultFlushBar(context: context, result: result)),
-                    ),
-                  ),
+                Column(children: subWarehouseTotal),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.35,
                   child: GridView(
@@ -237,14 +207,11 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                             duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                                       } else {
                                         Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => AddTransactionView(
-                                              orderId: widget.orderData.id,
-                                              shopperName: widget.orderData.shopper.name,
-                                            ),
-                                          ),
-                                        );
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => AddTransactionView(
+                                                    orderId: widget.orderData.id,
+                                                    shopperName: widget.orderData.shopper.name)));
                                       }
                                     },
                                     text: StringUtils.addTransaction,

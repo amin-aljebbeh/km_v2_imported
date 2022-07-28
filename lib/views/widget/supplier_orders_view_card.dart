@@ -5,6 +5,7 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
+import 'package:kammun_app/views/widget/close_widget.dart';
 
 import '../../service.dart';
 import 'widgets_importer.dart';
@@ -92,35 +93,24 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                   children: <Widget>[
                     LabelRow(
                       rightSideText: StringUtils.bill,
-                      leftSideText: "${StringUtils().oCcy.format(
-                                int.parse(
-                                  widget.order.total.split('.')[0],
-                                ),
-                              ).toString()}"
-                          " ${LoadingScreenServices.companyInformation.currency.toString()}",
+                      leftSideText:
+                          '${StringUtils().oCcy.format(int.parse(widget.order.total.split('.')[0])).toString()}'
+                          ' ${LoadingScreenServices.companyInformation.currency.toString()}',
                       leftSideStyle: informationStyle,
                     ),
                     Container(
                       padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2)),
-                      ),
-                      child: Text(
-                        productsCount().toString(),
-                        style: paragraphStyle,
-                        textAlign: TextAlign.center,
-                      ),
+                      decoration: BoxDecoration(border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2))),
+                      child: Text(productsCount().toString(), style: paragraphStyle, textAlign: TextAlign.center),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           widget.order.id.toString().length >= 3
-                              ? "#${widget.order.id.toString().substring(2, widget.order.id.toString().length)}"
+                              ? '#${widget.order.id.toString().substring(2, widget.order.id.toString().length)}'
                               : '#${widget.order.id.toString()}',
-                          style: profitStyle.copyWith(
-                            color: Colors.purple,
-                          ),
+                          style: profitStyle.copyWith(color: Colors.purple),
                         ),
                       ],
                     )
@@ -133,51 +123,36 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                   leftSideStyle: disableStyle,
                 ),
                 LabelRow(
-                  rightSideText: StringUtils.shopperName + " ",
-                  leftSideText: widget.order.shopper != null ? widget.order.shopper.name : " ",
+                  rightSideText: StringUtils.shopperName + ' ',
+                  leftSideText: widget.order.shopper != null ? widget.order.shopper.name : ' ',
                   leftSideStyle: paragraphStyle,
                 ),
                 LabelRow(
                   rightSideText: StringUtils.phoneNumber,
-                  leftSideText: widget.order.shopper != null ? widget.order.shopper.admin.phone : " ",
+                  leftSideText: widget.order.shopper != null ? widget.order.shopper.admin.phone : ' ',
                   leftSideStyle: paragraphStyle.copyWith(
                     color: ColorUtils.kmColors,
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => Services.makePhoneCall(
-                        widget.order.shopper != null ? widget.order.shopper.admin.phone : "0969999204"),
+                        widget.order.shopper != null ? widget.order.shopper.admin.phone : '0969999204'),
                 ),
               ],
             ),
           ),
-          widget.order.userNotes.toString() != "null"
+          widget.order.userNotes.toString() != 'null'
               ? KammunButton(
                   text: StringUtils.watchNote,
                   onTap: () {
-                    List<DialogButton> decisionButtons = [
-                      DialogButton(
-                        text: 'إغلاق',
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ];
                     showMyDialog(
                         title: StringUtils.costumerNote,
                         text: widget.order.userNotes,
-                        dialogButtons: decisionButtons,
-                        context: context);
+                        dialogButtons: [const CloseWidget()]);
                   },
                   color: Colors.indigoAccent,
                 )
               : Container(),
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Divider(
-              thickness: 5,
-              color: ColorUtils.kmColors2,
-            ),
-          ),
+          Padding(padding: const EdgeInsets.only(top: 8.0), child: Divider(thickness: 5, color: ColorUtils.kmColors2)),
         ],
       ),
     );

@@ -7,13 +7,12 @@ class MobileAppConfigs {
     this.exception,
   });
 
-  Headers headers;
+  KHeaders headers;
   MobileAppConfigsOriginal original;
   dynamic exception;
 
-  factory MobileAppConfigs.fromJson(Map<String, dynamic> json) =>
-      MobileAppConfigs(
-        headers: Headers.fromJson(json["headers"]),
+  factory MobileAppConfigs.fromJson(Map<String, dynamic> json) => MobileAppConfigs(
+        headers: KHeaders.fromJson(json["headers"]),
         original: MobileAppConfigsOriginal.fromJson(json["original"]),
         exception: json["exception"],
       );
@@ -34,11 +33,9 @@ class MobileAppConfigsOriginal {
   bool success;
   List<StickyDatum> data;
 
-  factory MobileAppConfigsOriginal.fromJson(Map<String, dynamic> json) =>
-      MobileAppConfigsOriginal(
+  factory MobileAppConfigsOriginal.fromJson(Map<String, dynamic> json) => MobileAppConfigsOriginal(
         success: json["success"],
-        data: List<StickyDatum>.from(
-            json["data"].map((x) => StickyDatum.fromJson(x))),
+        data: List<StickyDatum>.from(json["data"].map((x) => StickyDatum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -77,8 +74,7 @@ class StickyDatum {
         iosCurrentVersion: json["ios_current_version"].toString(),
         iosLastSupportedVersion: json["ios_last_supported_version"].toString(),
         androidCurrentVersion: json["android_current_version"].toString(),
-        androidLastSupportedVersion:
-            json["android_last_supported_version"].toString(),
+        androidLastSupportedVersion: json["android_last_supported_version"].toString(),
         googlePlayUrl: json["google_play_url"].toString(),
         appStoreUrl: json["app_store_url"].toString(),
         iosIsActive: json["ios_is_active"].toString(),

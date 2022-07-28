@@ -1,13 +1,6 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/service.dart';
 import 'package:kammun_app/utils/funny_images.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 import 'barcode_screen.dart';
 
@@ -19,9 +12,7 @@ class ProductsView extends StatefulWidget {
   const ProductsView({Key key, @required this.categoryId, this.queryString, this.barcode}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return ProductsViewState();
-  }
+  State<StatefulWidget> createState() => ProductsViewState();
 }
 
 class ProductsViewState extends State<ProductsView> {
@@ -34,29 +25,23 @@ class ProductsViewState extends State<ProductsView> {
   List<ProductData> productsList = [];
   bool searchLoading = false;
   bool theEndOfProducts = false;
-  String errorMessage = "لم يتم العثور على المنتج";
+  String errorMessage = 'لم يتم العثور على المنتج';
 
   final _random = Random();
 
   bool badWordMatched = false;
 
   Future<bool> _loadData(String query, ProductsViewTypes type) async {
-    setState(() {
-      badWordMatched = false;
-    });
-    String url = "";
-    if (badWord.contains(query)) {
-      setState(() {
-        badWordMatched = true;
-      });
-    }
+    setState(() => badWordMatched = false);
+    String url = '';
+    if (badWord.contains(query)) setState(() => badWordMatched = true);
     if (!badWordMatched) {
       switch (type) {
         case ProductsViewTypes.search:
-          url = searchProducts + "$query?page=" + page.toString();
+          url = searchProducts + '$query?page=' + page.toString();
           break;
         case ProductsViewTypes.category:
-          url = getCategory + "$query?page=$page";
+          url = getCategory + '$query?page=$page';
           break;
         case ProductsViewTypes.barcode:
           url = searchProductByBarcode + query;
@@ -65,19 +50,14 @@ class ProductsViewState extends State<ProductsView> {
 
       if (!theEndOfProducts) {
         try {
-          var response = await ApiProvider.sendRequest(
-            url: url,
-            method: HttpMethods.get,
-          );
+          var response = await ApiProvider.sendRequest(url: url, method: HttpMethods.get);
           if (response.statusCode == successCode) {
-            if (!response.data["success"] && response.data["reason"] == "No results") {
+            if (!response.data['success'] && response.data['reason'] == 'No results') {
               setState(() {
                 searchLoading = false;
                 if (firstLoading == true) firstLoading = false;
                 isLoading = false;
-                if (productsList.isNotEmpty) {
-                  theEndOfProducts = true;
-                }
+                if (productsList.isNotEmpty) theEndOfProducts = true;
               });
             } else {
               dynamic products;
@@ -98,9 +78,7 @@ class ProductsViewState extends State<ProductsView> {
 
               if (mounted) {
                 setState(() {
-                  if (type != ProductsViewTypes.barcode && page - 1 == products.data.lastPage) {
-                    theEndOfProducts = true;
-                  }
+                  if (type != ProductsViewTypes.barcode && page - 1 == products.data.lastPage) theEndOfProducts = true;
                   searchLoading = false;
 
                   if (firstLoading == true) firstLoading = false;
@@ -115,16 +93,13 @@ class ProductsViewState extends State<ProductsView> {
             }
           } else {
             setState(() {
-              errorMessage = "حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت";
+              errorMessage = 'حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت';
               isLoading = false;
               searchLoading = false;
               firstLoading = false;
             });
           }
-        } catch (e) {
-          Tools.logToConsole('e.toString()');
-          Tools.logToConsole(e.toString());
-        }
+        } catch (e) {/**/}
       } else {
         return false;
       }
@@ -135,9 +110,7 @@ class ProductsViewState extends State<ProductsView> {
 
   @override
   initState() {
-    if (mounted) {
-      super.initState();
-    }
+    if (mounted) super.initState();
     if (widget.barcode != null) {
       _loadData(widget.barcode, ProductsViewTypes.barcode);
     } else if (widget.queryString != null) {
@@ -146,9 +119,7 @@ class ProductsViewState extends State<ProductsView> {
     } else {
       _loadData(widget.categoryId, ProductsViewTypes.category);
     }
-    setState(() {
-      firstLoading = true;
-    });
+    setState(() => firstLoading = true);
   }
 
   @override
@@ -176,11 +147,8 @@ class ProductsViewState extends State<ProductsView> {
                         Navigator.push(
                           scaffoldKey.currentContext,
                           MaterialPageRoute(
-                            builder: (screenContext) => AddProductsView(
-                              categoryId: widget.categoryId,
-                              barcode: param,
-                            ),
-                          ),
+                              builder: (screenContext) =>
+                                  AddProductsView(categoryId: widget.categoryId, barcode: param)),
                         );
                       },
                     ),
@@ -209,14 +177,9 @@ class ProductsViewState extends State<ProductsView> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: IconButton(
-                        icon: const Icon(
-                          Icons.shopping_cart,
-                          size: 35,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
-                        },
+                        icon: const Icon(Icons.shopping_cart, size: 35, color: Colors.white),
+                        onPressed: () =>
+                            Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false),
                       ),
                     ),
                     const AppBarKammunImage(),
@@ -224,11 +187,7 @@ class ProductsViewState extends State<ProductsView> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: InkWell(
                         onTap: () => Navigator.of(context).pop(true),
-                        child: const Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.white,
-                          size: 40,
-                        ),
+                        child: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 40),
                       ),
                     ),
                   ],
@@ -236,12 +195,10 @@ class ProductsViewState extends State<ProductsView> {
                 StoreSearchTextField(
                   scaffoldKey: scaffoldKey,
                   searchController: searchController,
-                  onSubmit: () {
-                    setState(() {
-                      productsList.clear();
-                      Navigator.of(context).pop();
-                    });
-                  },
+                  onSubmit: () => setState(() {
+                    productsList.clear();
+                    Navigator.of(context).pop();
+                  }),
                 ),
               ],
             ),
@@ -252,18 +209,12 @@ class ProductsViewState extends State<ProductsView> {
       backgroundColor: Theme.of(context).primaryColorLight,
       body: SafeArea(
         child: badWordMatched
-            ? Center(
-                child: funnyImages[_random.nextInt(funnyImages.length)],
-              )
+            ? Center(child: funnyImages[_random.nextInt(funnyImages.length)])
             : productsList.isEmpty
                 ? (searchLoading || firstLoading)
                     ? const FacebookLoader()
                     : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(errorMessage, style: mainStyle),
-                        ),
-                      )
+                        padding: const EdgeInsets.all(8.0), child: Center(child: Text(errorMessage, style: mainStyle)))
                 : Padding(
                     padding: const EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 0),
                     child: Column(
@@ -278,7 +229,7 @@ class ProductsViewState extends State<ProductsView> {
                                   page++;
                                   isLoading = true;
                                 });
-                                searchController.text != ""
+                                searchController.text != ''
                                     ? _loadData(searchController.text, ProductsViewTypes.search)
                                     : _loadData(widget.categoryId, ProductsViewTypes.category);
                               }
@@ -298,28 +249,13 @@ class ProductsViewState extends State<ProductsView> {
                                   scaffoldKey: scaffoldKey,
                                   onAddBarcode: (result) {
                                     if (result != 'error') {
-                                      setState(() {
-                                        productsList[index].barcodes.add(Barcode(
-                                              barcode: result,
-                                            ));
-                                      });
+                                      setState(() => productsList[index].barcodes.add(Barcode(barcode: result)));
                                     }
                                   },
-                                  onChangePrice: (newValue) {
-                                    setState(() {
-                                      productsList[index].price = newValue;
-                                    });
-                                  },
-                                  onChangeUnit: (newValue) {
-                                    setState(() {
-                                      productsList[index].unit = newValue;
-                                    });
-                                  },
-                                  onChangeQuantity: (newValue) {
-                                    setState(() {
-                                      productsList[index].quantity = newValue;
-                                    });
-                                  },
+                                  onChangePrice: (newValue) => setState(() => productsList[index].price = newValue),
+                                  onChangeUnit: (newValue) => setState(() => productsList[index].unit = newValue),
+                                  onChangeQuantity: (newValue) =>
+                                      setState(() => productsList[index].quantity = newValue),
                                 );
                               },
                             ),
@@ -333,11 +269,9 @@ class ProductsViewState extends State<ProductsView> {
                             child: widget.barcode == null
                                 ? theEndOfProducts
                                     ? Text(
-                                        "تم جلب جميع المنتجات",
+                                        'تم جلب جميع المنتجات',
                                         style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                        ),
+                                            fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
                                       )
                                     : const Loader()
                                 : Container(),

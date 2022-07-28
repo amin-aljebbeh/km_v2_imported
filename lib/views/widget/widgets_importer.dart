@@ -8,6 +8,7 @@ export 'facebook_loader.dart';
 export 'inventory_products_card.dart';
 export 'inventory_search_text_field.dart';
 export 'k_cache_image.dart';
+export 'k_card.dart';
 export 'k_date_picker.dart';
 export 'k_drawer.dart';
 export 'k_searchable_dropdown.dart';

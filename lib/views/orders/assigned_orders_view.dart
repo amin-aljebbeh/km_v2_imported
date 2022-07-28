@@ -37,7 +37,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
 
   bool orderLoaded = true;
   bool errorMessage = false;
-  String errorMessageValue = "";
+  String errorMessageValue = '';
   bool isLoading = false;
   int page = 1;
   bool theEndOfOrders = false;
@@ -90,7 +90,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
         orderLoaded = true;
         errorMessage = true;
         isLoading = false;
-        errorMessageValue = "حدث خطأ اثناء محاولة جلب الطلبات";
+        errorMessageValue = 'حدث خطأ اثناء محاولة جلب الطلبات';
       });
     }
   }
@@ -114,8 +114,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                     errorMessage
                         ? AlertMessages(
                             text: errorMessageValue,
-                            messageType: "internetError",
-                            headerText: "حدث خطأ",
+                            messageType: 'internetError',
+                            headerText: 'حدث خطأ',
                           )
                         : Container(
                             padding: EdgeInsets.zero,
@@ -189,7 +189,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             padding: EdgeInsets.only(top: screenHeight * 0.4),
                             child: Center(
                               child: Text(
-                                "لا يوجد أي طلبات سابقة",
+                                'لا يوجد أي طلبات سابقة',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: ColorUtils.greyColor,
@@ -215,30 +215,25 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             orderDataList[index].orderProfits();
                           }
                           if (Services.isSupplierManager()) {
-                            return SupplierOrdersViewCard(
-                              order: orderDataList[index]
-                            );
+                            return SupplierOrdersViewCard(order: orderDataList[index]);
                           }
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(
-                                pop: false,
-                                orderData: orderDataList[index],
-                                orderType: OrderTypes.myOrder
-                              ),
+                                  pop: false, orderData: orderDataList[index], orderType: OrderTypes.myOrder),
                               if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
                                   int.parse(orderDataList[index].underUpdate) != 1)
                                 KammunButton(
-                                  text: orderDataList[index].orderStatusId == "1"
-                                      ? "قبول الطلب"
-                                      : orderDataList[index].orderStatusId == "2"
-                                          ? "الطلب جاهز"
-                                          : orderDataList[index].orderStatusId == "3"
-                                              ? "مع التوصيل"
-                                              : "تم التوصيل",
-                                  color: orderDataList[index].orderStatusId == "1"
+                                  text: orderDataList[index].orderStatusId == '1'
+                                      ? 'قبول الطلب'
+                                      : orderDataList[index].orderStatusId == '2'
+                                          ? 'الطلب جاهز'
+                                          : orderDataList[index].orderStatusId == '3'
+                                              ? 'مع التوصيل'
+                                              : 'تم التوصيل',
+                                  color: orderDataList[index].orderStatusId == '1'
                                       ? Colors.green[700]
-                                      : orderDataList[index].orderStatusId == "2"
+                                      : orderDataList[index].orderStatusId == '2'
                                           ? Colors.yellow[700]
                                           : Colors.cyan[700],
                                   onTap: () async {
@@ -247,13 +242,13 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                       isLoading = true;
                                       errorMessage = false;
                                     });
-                                    if (orderDataList[index].orderStatusId == "1") {
+                                    if (orderDataList[index].orderStatusId == '1') {
                                       changeStatus = 2;
-                                    } else if (orderDataList[index].orderStatusId == "2") {
+                                    } else if (orderDataList[index].orderStatusId == '2') {
                                       changeStatus = 3;
-                                    } else if (orderDataList[index].orderStatusId == "3") {
+                                    } else if (orderDataList[index].orderStatusId == '3') {
                                       changeStatus = 4;
-                                    } else if (orderDataList[index].orderStatusId == "4") {
+                                    } else if (orderDataList[index].orderStatusId == '4') {
                                       changeStatus = 5;
                                     }
 
@@ -288,24 +283,22 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                         userNote: orderDataList[index].userNotes,
                                         supportedCityCost: orderDataList[index].supportedCityCost,
                                         deliveryMethodCost: orderDataList[index].deliveryCost,
-                                        deliveryMethodId:
-                                            int.parse(orderDataList[index].deliveryMethodId.toString()));
+                                        deliveryMethodId: int.parse(orderDataList[index].deliveryMethodId.toString()));
                                     if (response != null) {
                                       if (response.success) {
                                         setState(() {
                                           orderLoaded = true;
                                           errorMessage = false;
                                         });
-                                        _moveOrderProductsToCart(
-                                            orderIndex: index, orderProducts: response.products);
-                                        orderDataList[index].underUpdate = "1";
+                                        _moveOrderProductsToCart(orderIndex: index, orderProducts: response.products);
+                                        orderDataList[index].underUpdate = '1';
                                       } else if (!response.success) {
                                         setState(() {
-                                          orderDataList[index].underUpdate = "2";
+                                          orderDataList[index].underUpdate = '2';
                                           orderLoaded = true;
                                           errorMessage = true;
                                           errorMessageValue =
-                                              "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
+                                              'لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً';
                                         });
                                       }
                                     } else {
@@ -313,13 +306,13 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                         orderLoaded = true;
                                         errorMessage = true;
                                         errorMessageValue =
-                                            "حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت";
+                                            'حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت';
                                       });
                                     }
                                   },
                                   color: Colors.green,
                                 ),
-                              orderDataList[index].userNotes.toString() != "null"
+                              orderDataList[index].userNotes.toString() != 'null'
                                   ? KammunButton(
                                       text: StringUtils.watchNote,
                                       onTap: () {
@@ -334,13 +327,12 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                         showMyDialog(
                                             title: 'ملاحظة العميل',
                                             text: orderDataList[index].userNotes,
-                                            dialogButtons: decisionButtons,
-                                            context: context);
+                                            dialogButtons: decisionButtons);
                                       },
                                       color: Colors.indigoAccent,
                                     )
                                   : Container(),
-                              orderDataList[index].underUpdate.toString() != "0"
+                              orderDataList[index].underUpdate.toString() != '0'
                                   ? KammunButton(
                                       text: StringUtils.unLock,
                                       onTap: () {
@@ -350,8 +342,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                             text: 'نعم',
                                             onTap: () async {
                                               Navigator.of(context).pop();
-                                              bool result =
-                                                  await OrderServices.unlockOrderService(orderId.toString());
+                                              bool result = await OrderServices.unlockOrderService(orderId.toString());
                                               Services.resultFlushBar(context: context, result: result);
                                               setState(() {
                                                 if (result) orderDataList[index].underUpdate = '0';
@@ -367,11 +358,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                         ];
 
                                         showMyDialog(
-                                            title: "إلغاء التعليق",
+                                            title: 'إلغاء التعليق',
                                             text:
-                                                "هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل",
-                                            dialogButtons: decisionButtons,
-                                            context: context);
+                                                'هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل',
+                                            dialogButtons: decisionButtons);
                                       },
                                       color: Colors.blue[800],
                                     )
@@ -404,8 +394,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
   _moveOrderProductsToCart({int orderIndex, List<OrderProducts> orderProducts}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     CartServices.cartProducts.clear();
-    String productsId = "";
-    String productsQuantity = "";
+    String productsId = '';
+    String productsQuantity = '';
 
     for (int i = 0; i < orderProducts.length; i++) {
       if (orderProducts[i].pivot.deletedAt == 'null') {
@@ -427,10 +417,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     }
 
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productsId += CartServices.cartProducts[i].id.toString() + ";";
-      productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
+      productsId += CartServices.cartProducts[i].id.toString() + ';';
+      productsQuantity += CartServices.cartProducts[i].productCount.toString() + ';';
     }
-    prefs.setString("userCart", productsId + "@" + productsQuantity);
+    prefs.setString('userCart', productsId + '@' + productsQuantity);
 
     Navigator.of(context).pushNamedAndRemoveUntil(
       '/cartFromUpdate',

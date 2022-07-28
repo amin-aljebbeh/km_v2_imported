@@ -1,12 +1,5 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/widget/close_widget.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-
 import '../models/activity_hours_model.dart';
 import '../models/report_model_importer.dart';
 import '../models/shopper_monthly_report_model.dart';
@@ -17,10 +10,7 @@ class ReportsServices {
     Response response;
 
     response = await ApiProvider.sendRequest(
-      url: getDailyStatistics,
-      queryParameters: {'from_date': fromDate, 'to_date': toDate},
-      method: HttpMethods.get,
-    );
+        url: getDailyStatistics, queryParameters: {'from_date': fromDate, 'to_date': toDate}, method: HttpMethods.get);
 
     if (response.statusCode == successCode) {
       return getDailyStatisticsFromJson(jsonEncode(response.data));
@@ -33,10 +23,7 @@ class ReportsServices {
     Response response;
 
     response = await ApiProvider.sendRequest(
-      url: financialReportUrl,
-      queryParameters: {'from_date': fromDate, 'to_date': toDate},
-      method: HttpMethods.get,
-    );
+        url: financialReportUrl, queryParameters: {'from_date': fromDate, 'to_date': toDate}, method: HttpMethods.get);
 
     if (response.statusCode == successCode) {
       return financialReportFromJson(jsonEncode(response.data));
@@ -49,10 +36,9 @@ class ReportsServices {
     Response response;
 
     response = await ApiProvider.sendRequest(
-      url: shopperActivityHours + shopperId,
-      queryParameters: {'from_date': fromDate, 'to_date': toDate},
-      method: HttpMethods.get,
-    );
+        url: shopperActivityHours + shopperId,
+        queryParameters: {'from_date': fromDate, 'to_date': toDate},
+        method: HttpMethods.get);
 
     if (response.statusCode == successCode) {
       return activityHoursFromJson(jsonEncode(response.data));
@@ -63,8 +49,6 @@ class ReportsServices {
 
   static Future<List<ShopperWorkingHoursData>> getShopperWorkingHours({String shopperId, String filterBy}) async {
     Response response;
-    Tools.logToConsole('filter by:');
-    Tools.logToConsole(filterBy);
     response = await ApiProvider.sendRequest(
         url: getWorkingHour + shopperId,
         queryParameters: {'filter_by': filterBy.split('.')[1]},
@@ -137,8 +121,7 @@ class ReportsServices {
   static Future<FinancialDuesModel> getShopperFinancialDues({@required String shopperId}) async {
     Response response;
 
-    response =
-        await ApiProvider.sendRequest(url: getStatisticsShopperTransaction + shopperId, method: HttpMethods.get);
+    response = await ApiProvider.sendRequest(url: getStatisticsShopperTransaction + shopperId, method: HttpMethods.get);
 
     if (response.statusCode == successCode) {
       FinancialDuesModel financialDues = FinancialDuesModel();
@@ -183,26 +166,21 @@ class ReportsServices {
           Column(
             children: [
               Text(StringUtils.shopper, style: mainStyle),
-              Text(
-                StringUtils().oCcy.format(int.parse(financialDues.totalShopperProfits).abs()).toString(),
-                style: int.parse(financialDues.totalShopperProfits).isNegative ? loseStyle : profitStyle,
-              ),
+              Text(StringUtils().oCcy.format(int.parse(financialDues.totalShopperProfits).abs()).toString(),
+                  style: int.parse(financialDues.totalShopperProfits).isNegative ? loseStyle : profitStyle),
             ],
           ),
           Column(
             children: [
               Text(StringUtils.kammun, style: mainStyle),
-              Text(
-                StringUtils().oCcy.format(int.parse(financialDues.companyDues).abs()).toString(),
-                style: int.parse(financialDues.companyDues).isNegative ? loseStyle : profitStyle,
-              ),
+              Text(StringUtils().oCcy.format(int.parse(financialDues.companyDues).abs()).toString(),
+                  style: int.parse(financialDues.companyDues).isNegative ? loseStyle : profitStyle),
             ],
           ),
         ],
       );
     }
-    showMyDialog(
-        title: 'المستحقات المالية', context: context, dialogButtons: [const CloseWidget()], content: content);
+    showMyDialog(title: 'المستحقات المالية', dialogButtons: [const CloseWidget()], content: content);
   }
 
   static Future<bool> addTransactionService({
@@ -217,11 +195,11 @@ class ReportsServices {
       'shopper_id': shopperId,
       'order_id': orderId,
       'value': value,
-      'description': description,
+      'description': description
     };
     try {
-      var response = await ApiProvider.sendRequest(
-          url: addTransaction, method: HttpMethods.post, body: jsonEncode(transaction));
+      var response =
+          await ApiProvider.sendRequest(url: addTransaction, method: HttpMethods.post, body: jsonEncode(transaction));
 
       if (response.statusCode == successCode) {
         return response.data['success'];
@@ -250,10 +228,9 @@ class ReportsServices {
     try {
       Response response;
       response = await ApiProvider.sendRequest(
-        url: remainingMoneyForSupplier,
-        queryParameters: {'from_date': fromDate, 'to_date': toDate},
-        method: HttpMethods.get,
-      );
+          url: remainingMoneyForSupplier,
+          queryParameters: {'from_date': fromDate, 'to_date': toDate},
+          method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         return supplierAccountModelResponseFromJson(jsonEncode(response.data)).data;

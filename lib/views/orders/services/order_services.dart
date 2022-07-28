@@ -1,13 +1,7 @@
 import 'package:call_log/call_log.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../core/core_importer.dart';
-import '../../../models/models_importer.dart';
-import '../../../service.dart';
-import '../../../utils/utils_importer.dart';
 import '../../../views/loading/loading_services.dart';
+import '../model/get_order_model.dart';
 import '../model/submit_order_model.dart';
 
 class OrderServices {
@@ -24,8 +18,8 @@ class OrderServices {
       orderId = orderUnderUpdateId;
 
       try {
-        var response = await ApiProvider.sendRequest(
-            url: api + order + orderId, method: HttpMethods.put, body: jsonEncode(orderMap));
+        var response =
+            await ApiProvider.sendRequest(url: order + orderId, method: HttpMethods.put, body: jsonEncode(orderMap));
 
         if (response.data['reason'].toString().contains('discontinued')) {
           return OrderResponse(success: false, reason: 'discontinued');
@@ -35,13 +29,9 @@ class OrderServices {
           return parsedJson;
         }
       } catch (e) {
-        Tools.logToConsole('e');
-        Tools.logToConsole(e.toString());
         return null;
       }
     } catch (e) {
-      Tools.logToConsole('update error');
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -54,7 +44,6 @@ class OrderServices {
     if (response.statusCode == successCode && response.data['success']) {
       return 'true';
     } else {
-      Tools.logToConsole('------------ ERROR CANCEL ORDER --------------');
       return 'تم قبول طلبك مسبقاً لايمكن إلغاء الطلب حاليا اذا كنت مصراً على إلغاء الطلب يرجى التواصل مع فريق الدعم';
     }
   }
@@ -66,10 +55,7 @@ class OrderServices {
       @required String deliveryMethodCost,
       @required String userNote}) async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: lockOrder + orderId,
-        method: HttpMethods.put,
-      );
+      var response = await ApiProvider.sendRequest(url: lockOrder + orderId, method: HttpMethods.put);
       if (response.data == null) {
         return null;
       }
@@ -99,8 +85,6 @@ class OrderServices {
         return lockOrderFromJson(json.encode(response.data));
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
-
       return null;
     }
   }
@@ -109,10 +93,7 @@ class OrderServices {
     try {
       var body = {'order_status_id': '$statusId'};
       var response = await ApiProvider.sendRequest(
-        url: changeOrderStatus + orderId,
-        method: HttpMethods.post,
-        body: jsonEncode(body),
-      );
+          url: changeOrderStatus + orderId, method: HttpMethods.post, body: jsonEncode(body));
 
       if (response.statusCode == successCode && response.data['success']) {
         return true;
@@ -126,10 +107,7 @@ class OrderServices {
 
   static Future<bool> unlockOrderService(String orderId) async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: unlockOrder + orderId,
-        method: HttpMethods.put,
-      );
+      var response = await ApiProvider.sendRequest(url: unlockOrder + orderId, method: HttpMethods.put);
       if (response.statusCode == successCode && response.data['success']) {
         return true;
       } else {
@@ -143,10 +121,7 @@ class OrderServices {
   static Future<List<OrdersOriginalData>> getDeliveryOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: deliveryViewsHisOwnOrders,
-        method: HttpMethods.get,
-        queryParameters: {'page': pageNumber},
-      );
+          url: deliveryViewsHisOwnOrders, method: HttpMethods.get, queryParameters: {'page': pageNumber});
 
       if (response.statusCode == successCode) {
         LoadingScreenServices.myOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
@@ -156,8 +131,6 @@ class OrderServices {
         return LoadingScreenServices.myOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole('------------ ERROR GET getDeliveryOrders ORDER --------------');
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -165,10 +138,7 @@ class OrderServices {
   static Future<List<OrdersOriginalData>> getShopperOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: shopperViewsHisOwnOrders,
-        method: HttpMethods.get,
-        queryParameters: {'page': pageNumber},
-      );
+          url: shopperViewsHisOwnOrders, method: HttpMethods.get, queryParameters: {'page': pageNumber});
 
       if (response.statusCode == successCode) {
         LoadingScreenServices.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
@@ -181,8 +151,6 @@ class OrderServices {
         return LoadingScreenServices.myOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole('------------ ERROR GET ShopperOrders ORDER --------------');
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -190,10 +158,7 @@ class OrderServices {
   static Future<List<OrdersOriginalData>> getSupplierOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: getSupplierOrder,
-        method: HttpMethods.get,
-        queryParameters: {'page': pageNumber},
-      );
+          url: getSupplierOrder, method: HttpMethods.get, queryParameters: {'page': pageNumber});
 
       if (response.statusCode == successCode) {
         LoadingScreenServices.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
@@ -206,8 +171,6 @@ class OrderServices {
         return LoadingScreenServices.myOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole('------------ ERROR GET SUPPLIER ORDERS --------------');
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -217,10 +180,7 @@ class OrderServices {
 
     try {
       var response = await ApiProvider.sendRequest(
-        url: assignOrderToShopper,
-        method: HttpMethods.post,
-        body: jsonEncode(assignOrderBody),
-      );
+          url: assignOrderToShopper, method: HttpMethods.post, body: jsonEncode(assignOrderBody));
       if (response.statusCode == successCode && response.data['success']) {
         return true;
       } else {
@@ -235,15 +195,10 @@ class OrderServices {
       {String phoneNumber, int pageNumber}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        url: getOrdersByUserPhoneNumber,
-        method: HttpMethods.get,
-        queryParameters: {
-          'page': pageNumber,
-          'phone': phoneNumber,
-        },
-      );
+          url: getOrdersByUserPhoneNumber,
+          method: HttpMethods.get,
+          queryParameters: {'page': pageNumber, 'phone': phoneNumber});
 
-      Tools.logToConsole(response);
       if (response.statusCode == successCode) {
         if (response.data['success']) {
           return ordersFromJson(jsonEncode(response.data)).data.data;
@@ -254,21 +209,19 @@ class OrderServices {
         return null;
       }
     } catch (e) {
-      Tools.logToConsole('------------ ERROR GET Phone Orders ORDER --------------');
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
 
-  static Future<OrdersOriginalData> getOrder({String orderId}) async {
+  static Future<GetOrderResponse> getOrder({String orderId}) async {
+    Response response;
     try {
-      var response = await ApiProvider.sendRequest(url: api + order + orderId, method: HttpMethods.get);
+      response = await ApiProvider.sendRequest(url: order + orderId, method: HttpMethods.get);
 
-      if (response.statusCode == successCode) {
-        return OrdersOriginalData.fromJson(response.data['order']);
-      } else {
-        return null;
+      if (response != null) {
+        if (response.statusCode == successCode) return getOrderResponseFromJson(jsonEncode(response.data));
       }
+      return null;
     } catch (e) {
       return null;
     }
@@ -282,8 +235,7 @@ class OrderServices {
       final Iterable<CallLogEntry> cLog = await CallLog.query(dateFrom: from, dateTo: to);
       return cLog.toList();
     } on PlatformException catch (e, s) {
-      Tools.logToConsole(e);
-      Tools.logToConsole(s);
+      s.toString();
       return null;
     }
   }

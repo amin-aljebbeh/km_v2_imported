@@ -73,7 +73,7 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                         color: Colors.green,
                       ),
                       onPressed: () {
-                        if (widget.productCount != "1") {
+                        if (widget.productCount != '1') {
                           List<DialogButton> decisionButtons = [
                             DialogButton(
                               text: 'نعم',
@@ -91,10 +91,9 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                             ),
                           ];
                           showMyDialog(
-                              title: "تحقق من الكمية",
-                              text: "هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}",
-                              dialogButtons: decisionButtons,
-                              context: context);
+                              title: 'تحقق من الكمية',
+                              text: 'هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}',
+                              dialogButtons: decisionButtons);
                         } else {
                           widget.onCheckbox(widget.index);
                         }

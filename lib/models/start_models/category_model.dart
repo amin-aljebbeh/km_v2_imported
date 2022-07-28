@@ -11,12 +11,12 @@ class Category {
     this.exception,
   });
 
-  Headers headers;
+  KHeaders headers;
   CategoryOriginal original;
   dynamic exception;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-        headers: Headers.fromJson(json["headers"]),
+        headers: KHeaders.fromJson(json["headers"]),
         original: CategoryOriginal.fromJson(json["original"]),
         exception: json["exception"],
       );

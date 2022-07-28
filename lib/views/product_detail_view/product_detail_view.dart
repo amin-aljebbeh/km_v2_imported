@@ -154,8 +154,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 child: widget.product.images.isNotEmpty
                                     ? Image(
                                         image: AdvImageCache(
-                                          LoadingScreenServices.imagePrefixUrl +
-                                              widget.product.images[0].imageFileName,
+                                          LoadingScreenServices.imagePrefixUrl + widget.product.images[0].imageFileName,
                                           useMemCache: true,
                                           diskCacheExpire: const Duration(days: 400),
                                         ),
@@ -175,8 +174,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   borderRadius: BorderRadius.circular(16),
                                   child: Image(
                                     image: AdvImageCache(
-                                      LoadingScreenServices.imagePrefixUrl +
-                                          widget.product.images[0].imageFileName,
+                                      LoadingScreenServices.imagePrefixUrl + widget.product.images[0].imageFileName,
                                       useMemCache: true,
                                       diskCacheExpire: const Duration(days: 400),
                                     ),
@@ -201,8 +199,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
               child: Container(
                 decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius:
-                        BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0))),
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(20.0), topLeft: Radius.circular(20.0))),
                 child: ListView(
                   shrinkWrap: true,
                   children: <Widget>[
@@ -302,7 +299,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   ];
                                   showMyDialog(
                                     title: '',
-                                    context: context,
                                     text:
                                         'هل تريد إزالة ${widget.product.name} من ${widget.product.categories[index].name} ؟',
                                     dialogButtons: dialogButtons,
@@ -402,17 +398,15 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         width: MediaQuery.of(context).size.width,
                         padding: const EdgeInsets.all(3.0),
                         decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(
-                                Radius.circular(10.0) //                 <--- border radius here
-                                ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
+                                    ),
                             border: Border.all(color: ColorUtils.primaryColor, width: 4)),
                         child: Center(
                           child: Text(
                             StringUtils.outOfStock,
                             style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk),
+                                fontSize: 25, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
                           ),
                         ),
                       ),
@@ -612,8 +606,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         hint: Text(
                                           LoadingScreenServices.subWarehouses
                                               .firstWhere(
-                                                  (subWarehouse) =>
-                                                      subWarehouse.id == widget.product.subWarehouseId,
+                                                  (subWarehouse) => subWarehouse.id == widget.product.subWarehouseId,
                                                   orElse: () => SubWarehouse(name: 'غير مضاف'))
                                               .name,
                                           style: decisionButtonStyle.copyWith(
@@ -623,12 +616,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         onChanged: (value) async {
                                           setState(() {
                                             isLoading = true;
-                                            widget.product.warehouses
-                                                .removeWhere((warehouse) => warehouse.id == 0);
+                                            widget.product.warehouses.removeWhere((warehouse) => warehouse.id == 0);
                                           });
                                           bool remove = LoadingScreenServices.subWarehouses
-                                              .where((subWarehouse) =>
-                                                  subWarehouse.id == widget.product.subWarehouseId)
+                                              .where((subWarehouse) => subWarehouse.id == widget.product.subWarehouseId)
                                               .toList()
                                               .isNotEmpty;
                                           bool result = await AddedProductsServices.changeProductSubWarehouse(
@@ -720,7 +711,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           onTap: () async {
                                             showMyDialog(
                                                 title: 'حذف صورة',
-                                                context: context,
                                                 text: 'هل أنت متأكد من رغبتك في حذف صورة المنتج ؟',
                                                 dialogButtons: [
                                                   const CloseButton(),
@@ -784,7 +774,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                               onPressed: () {
                                                 showMyDialog(
                                                   title: 'باركود',
-                                                  context: context,
                                                   content: Column(
                                                     children: widget.product.barcodes
                                                         .map(
@@ -797,8 +786,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                                 ),
                                                                 Text(
                                                                   barcode.barcode,
-                                                                  style: decisionButtonStyle.copyWith(
-                                                                      color: Colors.black),
+                                                                  style:
+                                                                      decisionButtonStyle.copyWith(color: Colors.black),
                                                                 ),
                                                                 const Divider(
                                                                   color: Colors.black,
@@ -810,7 +799,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                               Navigator.of(context).pop();
                                                               showMyDialog(
                                                                 title: 'إزالة باركود',
-                                                                context: context,
                                                                 dialogButtons: [
                                                                   DialogButton(
                                                                     text: StringUtils.yes,
@@ -889,8 +877,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                         bool result = await AddedProductsServices
                                                             .unAttachProductsToSubWarehouseService(
                                                                 productsId: widget.product.id.toString(),
-                                                                subWarehouse:
-                                                                    widget.product.subWarehouseId.toString());
+                                                                subWarehouse: widget.product.subWarehouseId.toString());
                                                         if (result) {
                                                           int count = 0;
                                                           Navigator.of(context).popUntil((_) => count++ >= 1);
@@ -907,7 +894,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                   ];
                                                   showMyDialog(
                                                       title: '',
-                                                      context: context,
                                                       text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
                                                       dialogButtons: dialogButtons);
                                                 },
@@ -939,7 +925,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                 ];
                                                 showMyDialog(
                                                     title: '',
-                                                    context: context,
                                                     text: 'هل تريد حذف ${widget.product.name} نهائياً ؟',
                                                     dialogButtons: dialogButtons);
                                               },
@@ -982,7 +967,6 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                       ];
                                       showMyDialog(
                                           title: '',
-                                          context: context,
                                           text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
                                           dialogButtons: dialogButtons);
                                     },

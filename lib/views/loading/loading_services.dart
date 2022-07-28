@@ -1,14 +1,5 @@
-import 'dart:async';
-import 'dart:io' show Platform;
-
 import 'package:adv_image_cache/adv_image_cache.dart';
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../core/core_importer.dart';
-import '../../models/models_importer.dart';
-import '../../service.dart';
-import '../../utils/utils_importer.dart';
 import '../../views/inventory/services/inventory_services.dart';
 import '../../views/reports/models/transaction_type_model.dart';
 import '../../views/reports/services/reports_services.dart';

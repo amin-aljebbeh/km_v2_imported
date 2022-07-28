@@ -32,39 +32,22 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
 
   tabBarList() {
     tabList.add(Tab(child: Center(child: Text('المنتجات', style: tabStyle))));
-    screenList.add(
-      OrderDetailViewMain(
+    screenList.add(OrderDetailViewMain(
         subTotal: widget.subTotal,
         order: widget.orderData,
         orderType: widget.orderType,
         remaining: widget.remaining,
-        totalDiscount: widget.totalDiscount,
-      ),
-    );
+        totalDiscount: widget.totalDiscount));
     if (!Services.isSupplierManager()) {
       if (deletedProducts) {
         tabList.add(Center(child: Tab(child: Center(child: Text(' المحذوفة', style: tabStyle)))));
-        screenList.add(
-          OrderDeletedProducts(
-            total: widget.total.split('.')[0],
-            order: widget.orderData,
-            orderType: widget.orderType,
-          ),
-        );
+        screenList.add(OrderDeletedProducts(
+            total: widget.total.split('.')[0], order: widget.orderData, orderType: widget.orderType));
       }
     }
     tabList.add(Tab(child: Center(child: Text('الحسابات', style: tabStyle))));
     screenList.add(OrderAccounting(
-      orderData: widget.orderData,
-      onDelete: () => controller.animateTo(0),
-      subTotal: widget.subTotal,
-    ));
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
+        orderData: widget.orderData, onDelete: () => controller.animateTo(0), subTotal: widget.subTotal));
   }
 
   @override
@@ -90,21 +73,12 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Container(
-            color: ColorUtils.primaryColor,
-            child: SafeArea(
-              child: TabBar(
-                controller: controller,
-                indicatorColor: Colors.white,
-                labelColor: Colors.white,
-                tabs: tabList,
-              ),
-            ),
-          ),
+              color: ColorUtils.primaryColor,
+              child: SafeArea(
+                  child: TabBar(
+                      controller: controller, indicatorColor: Colors.white, labelColor: Colors.white, tabs: tabList))),
         ),
-        body: TabBarView(
-          controller: controller,
-          children: screenList,
-        ),
+        body: TabBarView(controller: controller, children: screenList),
       ),
     );
   }

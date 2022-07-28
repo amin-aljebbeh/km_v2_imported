@@ -22,10 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   void initState() {
     super.initState();
 
-    animationController = AnimationController(
-      duration: const Duration(seconds: 5),
-      vsync: this,
-    );
+    animationController = AnimationController(duration: const Duration(seconds: 5), vsync: this);
     animation = CurvedAnimation(parent: animationController, curve: Curves.decelerate);
     animationController.forward();
     animation.addStatusListener((status) {
@@ -36,9 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       }
     });
 
-    animationController.addListener(() {
-      setState(() {});
-    });
+    animationController.addListener(() => setState(() {}));
   }
 
   @override
@@ -61,14 +56,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AutoSizeText(
-                    LoadingScreenServices.name,
-                    style: userNameStyle.copyWith(fontSize: 25),
-                  ),
-                  AutoSizeText(
-                    LoadingScreenServices.userName,
-                    style: userNameStyle,
-                  ),
+                  AutoSizeText(LoadingScreenServices.name, style: userNameStyle.copyWith(fontSize: 25)),
+                  AutoSizeText(LoadingScreenServices.userName, style: userNameStyle),
                 ],
                 textDirection: TextDirection.ltr,
               ),
@@ -91,12 +80,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Center(
                           child: Text(
-                            "الرقم الشخصي",
+                            'الرقم الشخصي',
                             style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 20,
-                            ),
+                                fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 20),
                           ),
                         ),
                       ),
@@ -105,34 +91,18 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       child: Container(
                         margin: const EdgeInsets.all(15),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: ColorUtils.kmColors,
-                              spreadRadius: 3,
-                            ),
-                          ],
-                        ),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: [BoxShadow(color: ColorUtils.kmColors, spreadRadius: 3)]),
                         child: ListTile(
                           leading: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Icon(
-                              FontAwesomeIcons.phone,
-                              color: ColorUtils.kmColors,
-                              size: 30,
-                            ),
-                          ),
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Icon(FontAwesomeIcons.phone, color: ColorUtils.kmColors, size: 30)),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
-                            child: Text(
-                              LoadingScreenServices.phoneNumber ?? "لا يوجد",
-                              style: TextStyle(
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 25,
-                                color: Colors.black,
-                              ),
-                            ),
+                            child: Text(LoadingScreenServices.phoneNumber ?? 'لا يوجد',
+                                style: TextStyle(
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 25, color: Colors.black)),
                           ),
                           onTap: () {},
                         ),
@@ -146,12 +116,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   padding: const EdgeInsets.only(top: 20.0),
                                   child: Center(
                                     child: Text(
-                                      "المستودع",
+                                      'المستودع',
                                       style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                        fontSize: 20,
-                                      ),
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                          fontSize: 20),
                                     ),
                                   ),
                                 ),
@@ -160,97 +129,60 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 child: Container(
                                   margin: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: ColorUtils.kmColors,
-                                        spreadRadius: 3,
-                                      ),
-                                    ],
-                                  ),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white,
+                                      boxShadow: [BoxShadow(color: ColorUtils.kmColors, spreadRadius: 3)]),
                                   child: Center(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: LoadingScreenServices.subWarehouses
-                                          .map(
-                                            (subWarehouse) => Container(
-                                              padding: const EdgeInsets.all(5),
-                                              decoration: const BoxDecoration(color: Colors.white),
-                                              child: Text(
-                                                subWarehouse.name,
-                                                style: TextStyle(
-                                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                                  fontSize: 25,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                          .toList(),
-                                    ),
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: LoadingScreenServices.subWarehouses
+                                            .map((subWarehouse) => Container(
+                                                padding: const EdgeInsets.all(5),
+                                                decoration: const BoxDecoration(color: Colors.white),
+                                                child: Text(subWarehouse.name,
+                                                    style: TextStyle(
+                                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                                        fontSize: 25,
+                                                        color: Colors.black))))
+                                            .toList()),
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Center(
-                                  child: Text(
-                                    "الجهة المفضلة لاستخدام الهاتف",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                              ),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                      child: Text('الجهة المفضلة لاستخدام الهاتف',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                              fontSize: 20)))),
                               Center(
                                 child: Container(
                                   margin: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: ColorUtils.kmColors,
-                                        spreadRadius: 3,
-                                      ),
-                                    ],
-                                  ),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white,
+                                      boxShadow: [BoxShadow(color: ColorUtils.kmColors, spreadRadius: 3)]),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
                                       IconButton(
-                                        icon: Icon(
-                                          Icons.library_add_check_outlined,
-                                          color: LoadingScreenServices.preferLeftSide
-                                              ? ColorUtils.searchGreyColor
-                                              : ColorUtils.kmColors2,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            LoadingScreenServices.preferLeftSide
-                                                ? LoadingScreenServices.setPreferLeftSide(false)
-                                                : Tools.logToConsole('');
-                                          });
-                                        },
+                                        icon: Icon(Icons.library_add_check_outlined,
+                                            color: LoadingScreenServices.preferLeftSide
+                                                ? ColorUtils.searchGreyColor
+                                                : ColorUtils.kmColors2),
+                                        onPressed: () => setState(() => LoadingScreenServices.preferLeftSide
+                                            ? LoadingScreenServices.setPreferLeftSide(false)
+                                            : {}),
                                       ), //right side
                                       IconButton(
-                                        icon: Icon(
-                                          Icons.library_add_check_outlined,
-                                          color: LoadingScreenServices.preferLeftSide
-                                              ? ColorUtils.kmColors2
-                                              : ColorUtils.searchGreyColor,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            LoadingScreenServices.preferLeftSide
-                                                ? Tools.logToConsole('')
-                                                : LoadingScreenServices.setPreferLeftSide(true);
-                                          });
-                                        },
-                                      ), //left side
+                                          icon: Icon(Icons.library_add_check_outlined,
+                                              color: LoadingScreenServices.preferLeftSide
+                                                  ? ColorUtils.kmColors2
+                                                  : ColorUtils.searchGreyColor),
+                                          onPressed: () => setState(() => LoadingScreenServices.preferLeftSide
+                                              ? {}
+                                              : LoadingScreenServices.setPreferLeftSide(true)))
                                     ],
                                   ),
                                 ),
@@ -261,53 +193,31 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
-                        child: Text(
-                          StringUtils.logout,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 20,
-                          ),
-                        ),
+                        child: Text(StringUtils.logout,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontSize: 20)),
                       ),
                     ),
                     Center(
                       child: Container(
                         margin: const EdgeInsets.all(15),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: ColorUtils.kmColors,
-                              spreadRadius: 3,
-                            ),
-                          ],
-                        ),
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: [BoxShadow(color: ColorUtils.kmColors, spreadRadius: 3)]),
                         child: ListTile(
                           leading: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: IconButton(
-                              onPressed: () {
-                                Services.logOutAdmin(context);
-                              },
-                              icon: Icon(
-                                Icons.logout,
-                                color: ColorUtils.kmColors,
-                                size: 30,
-                              ),
-                            ),
-                          ),
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: IconButton(
+                                  onPressed: () => Services.logOutAdmin(context),
+                                  icon: Icon(Icons.logout, color: ColorUtils.kmColors, size: 30))),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
-                            child: Text(
-                              StringUtils.logout,
-                              style: TextStyle(
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 25,
-                                color: Colors.black,
-                              ),
-                            ),
+                            child: Text(StringUtils.logout,
+                                style: TextStyle(
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 25, color: Colors.black)),
                           ),
                           onTap: () {},
                         ),

@@ -36,9 +36,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       var response = await InventoryServices.getSubWarehouseProductsService(subWarehouseId: widget.subWarehouseId);
       if (response != null) {
         productsList.addAll(response);
-        setState(() {
-          isLoading = false;
-        });
+        setState(() => isLoading = false);
         return true;
       } else {
         setState(() {
@@ -48,8 +46,6 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole("Error While getting Inventory Products");
-      Tools.logToConsole(e.toString());
       setState(() {
         isLoading = false;
         isError = true;
@@ -60,26 +56,19 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
 
   @override
   initState() {
-    if (mounted) {
-      super.initState();
-    }
+    if (mounted) super.initState();
     _loadData();
 
     filterProducts = 0;
     isActiveFilter = 0;
 
-    _controller.addListener(() {
-      setState(() {
-        filter = _controller.text;
-      });
-    });
+    _controller.addListener(() => setState(() => filter = _controller.text));
   }
 
-  int filterIndex = 0; // 1 soft by not active // 2 sort as newer // 0 active first;
+  int filterIndex = 0;
 
   _filterProducts() {
     if (filterIndex == 0) {
-      // sort not active first
       setState(() {
         productsList.sort((a, b) {
           if (int.parse(a.isActive) == 0) {
@@ -92,22 +81,12 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       });
       Flushbar(
         backgroundColor: Colors.green,
-        messageText: Text(
-          "فرز حسب المواد الغير مفعلة",
-          style: flushBarStyle,
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: ColorUtils.primaryColor,
-            offset: const Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
+        messageText: Text('فرز حسب المواد الغير مفعلة', style: flushBarStyle),
+        boxShadows: [BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
         duration: const Duration(seconds: 3),
         leftBarIndicatorColor: ColorUtils.kmColors,
       ).show(context);
     } else if (filterIndex == 1) {
-      // Active first
       setState(() {
         productsList.sort((a, b) {
           if (int.parse(a.isActive) == 0) {
@@ -120,22 +99,12 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       });
       Flushbar(
         backgroundColor: Colors.green,
-        messageText: Text(
-          "فرز حسب المواد  المفعلة",
-          style: flushBarStyle,
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: ColorUtils.primaryColor,
-            offset: const Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
+        messageText: Text('فرز حسب المواد  المفعلة', style: flushBarStyle),
+        boxShadows: [BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
         duration: const Duration(seconds: 3),
         leftBarIndicatorColor: ColorUtils.kmColors,
       ).show(context);
     } else if (filterIndex == 2) {
-      // Oldest First
       setState(() {
         productsList.sort((a, b) {
           if (a.id > b.id) {
@@ -151,17 +120,8 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
 
       Flushbar(
         backgroundColor: Colors.green,
-        messageText: Text(
-          "فرز حسب المواد المضافة حديثاً",
-          style: flushBarStyle,
-        ),
-        boxShadows: [
-          BoxShadow(
-            color: ColorUtils.primaryColor,
-            offset: const Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
+        messageText: Text('فرز حسب المواد المضافة حديثاً', style: flushBarStyle),
+        boxShadows: [BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
         duration: const Duration(seconds: 3),
         leftBarIndicatorColor: ColorUtils.kmColors,
       ).show(context);
@@ -173,47 +133,24 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
     return Scaffold(
       key: scaffoldKey,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorUtils.primaryColor,
-        onPressed: () {
-          _filterProducts();
-        },
-        child: const Icon(
-          Icons.filter_list_rounded,
-          size: 35,
-        ),
-      ),
+          backgroundColor: ColorUtils.primaryColor,
+          onPressed: () => _filterProducts(),
+          child: const Icon(Icons.filter_list_rounded, size: 35)),
       backgroundColor: Colors.white,
-      appBar: InventorySearchTextField(
-        onReload: () {
-          _loadData();
-        },
-        controller: _controller,
-        context: context,
-      ),
+      appBar: InventorySearchTextField(onReload: () => _loadData(), controller: _controller, context: context),
       body: Column(
         children: <Widget>[
           isLoading
-              ? const Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 30.0),
-                    child: Loader(),
-                  ),
-                )
+              ? const Center(child: Padding(padding: EdgeInsets.only(top: 30.0), child: Loader()))
               : isError
                   ? Center(
                       child: Expanded(
                         child: Column(
                           children: [
                             AlertMessages(
-                              text: StringUtils.errorMessage,
-                              messageType: "internetError",
-                              headerText: "حدث خطأ",
-                            ),
+                                text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
                             ElevatedButton(
-                                child: Text(StringUtils.tryAgain, style: blackBold),
-                                onPressed: () {
-                                  _loadData();
-                                }),
+                                child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () => _loadData()),
                           ],
                         ),
                       ),
@@ -228,7 +165,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                         itemBuilder: (BuildContext context, int index) {
                           var eachProduct = productsList[index];
                           if (filter == null ||
-                              filter == "" ||
+                              filter == '' ||
                               eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
                             String id, supplierCode;
                             int isActive;
@@ -288,39 +225,23 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                               scaffoldKey: scaffoldKey,
                               fromInventory: false,
                               onDelete: (result) {
-                                if (result) {
-                                  setState(() {
-                                    productsList.removeAt(index);
-                                  });
-                                }
+                                if (result) setState(() => productsList.removeAt(index));
                               },
                               productData: eachProduct,
                               onChangeStatus: (result) {
                                 if (result) {
                                   setState(() {
-                                    if (productsList[index].isActive == "1") {
-                                      productsList[index].isActive = "0";
+                                    if (productsList[index].isActive == '1') {
+                                      productsList[index].isActive = '0';
                                     } else {
-                                      productsList[index].isActive = "1";
+                                      productsList[index].isActive = '1';
                                     }
                                   });
                                 }
                               },
-                              onChangePrice: (newValue) {
-                                setState(() {
-                                  productsList[index].price = newValue;
-                                });
-                              },
-                              onChangeUnit: (newValue) {
-                                setState(() {
-                                  productsList[index].unit = newValue;
-                                });
-                              },
-                              onChangeQuantity: (newValue) {
-                                setState(() {
-                                  productsList[index].quantity = newValue;
-                                });
-                              },
+                              onChangePrice: (newValue) => setState(() => productsList[index].price = newValue),
+                              onChangeUnit: (newValue) => setState(() => productsList[index].unit = newValue),
+                              onChangeQuantity: (newValue) => setState(() => productsList[index].quantity = newValue),
                             );
                           }
                           return Container();

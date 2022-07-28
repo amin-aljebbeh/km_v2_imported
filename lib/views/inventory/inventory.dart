@@ -1,11 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/service.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-
 import 'model/inventory_model.dart';
 
 class Inventory extends StatefulWidget {
@@ -35,11 +29,8 @@ class _InventoryState extends State<Inventory> {
       isError = false;
     });
     try {
-      var response = await ApiProvider.sendRequest(
-        url: getInventoryProducts,
-        method: HttpMethods.get,
-      );
-      if (response.statusCode == successCode && response.data["success"]) {
+      var response = await ApiProvider.sendRequest(url: getInventoryProducts, method: HttpMethods.get);
+      if (response.statusCode == successCode && response.data['success']) {
         productsListToActive.addAll(productsToReviewFromJson(jsonEncode(response.data)).productsToActivate);
         productsListToInactive.addAll(productsToReviewFromJson(jsonEncode(response.data)).productsToDeactivate);
 
@@ -56,12 +47,10 @@ class _InventoryState extends State<Inventory> {
         List<ProductData> sortedProductsList = Services.productListSort(productsList);
         productsList = sortedProductsList;
         if (filterIndex < warehouseFilter.length - 1) {
-          productsList.removeWhere((data) => !warehouseFilter[filterIndex].hasMatch(data.supplierCode ?? "0"));
+          productsList.removeWhere((data) => !warehouseFilter[filterIndex].hasMatch(data.supplierCode ?? '0'));
         }
 
-        setState(() {
-          isLoading = false;
-        });
+        setState(() => isLoading = false);
         return true;
       } else {
         setState(() {
@@ -71,8 +60,6 @@ class _InventoryState extends State<Inventory> {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole("Error While getting Inventory Products");
-      Tools.logToConsole(e.toString());
       if (mounted) {
         setState(() {
           isLoading = false;
@@ -89,11 +76,7 @@ class _InventoryState extends State<Inventory> {
   int filterProducts;
   int isActiveFilter;
 
-  List<String> activeNotActive = [
-    "بحاجة تفعيل",
-    "بحاجة إيقاف تفعيل",
-    "الجميع",
-  ];
+  List<String> activeNotActive = ['بحاجة تفعيل', 'بحاجة إيقاف تفعيل', 'الجميع'];
 
   List<RegExp> warehouseFilter = [
     // ignore: unnecessary_string_escapes
@@ -101,25 +84,19 @@ class _InventoryState extends State<Inventory> {
     RegExp(".*kh"),
     RegExp(".*br"),
     RegExp(".*kt"),
-    RegExp(".*"),
+    RegExp(".*")
   ];
 
   @override
   initState() {
-    if (mounted) {
-      super.initState();
-    }
+    if (mounted) super.initState();
 
     selectedSubWarehouseId = LoadingScreenServices.subWarehouses[0].id;
     filterProducts = 0;
     isActiveFilter = 0;
     _loadData(filterIndex: filterProducts);
 
-    _controller.addListener(() {
-      setState(() {
-        filter = _controller.text;
-      });
-    });
+    _controller.addListener(() => setState(() => filter = _controller.text));
   }
 
   @override
@@ -128,12 +105,7 @@ class _InventoryState extends State<Inventory> {
       key: scaffoldKey,
       backgroundColor: Colors.white,
       appBar: InventorySearchTextField(
-        onReload: () {
-          _loadData(filterIndex: filterProducts);
-        },
-        controller: _controller,
-        context: context,
-      ),
+          onReload: () => _loadData(filterIndex: filterProducts), controller: _controller, context: context),
       body: Column(
         children: <Widget>[
           Padding(
@@ -165,7 +137,6 @@ class _InventoryState extends State<Inventory> {
                       productsList.clear();
                       isActiveFilter = value;
                     });
-
                     _loadData(filterIndex: filterProducts);
                   },
                 ),
@@ -174,23 +145,17 @@ class _InventoryState extends State<Inventory> {
           ),
           isLoading
               ? const Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 30.0),
-                    child: Loader(),
-                  ),
+                  child: Padding(padding: EdgeInsets.only(top: 30.0), child: Loader()),
                 )
               : isError
                   ? Expanded(
                       child: Column(
                         children: [
                           AlertMessages(
-                            text: StringUtils.errorMessage,
-                            messageType: "internetError",
-                            headerText: "حدث خطأ",
-                          ),
+                              text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
                           ElevatedButton(
                             child: Text(
-                              "المحاولة من جديد",
+                              'المحاولة من جديد',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -206,12 +171,12 @@ class _InventoryState extends State<Inventory> {
                           padding: const EdgeInsets.only(top: 30.0),
                           child: Center(
                             child: displayToActiveProducts
-                                ? Text("لا يوجد منتجات بحاجة تفعيل",
+                                ? Text('لا يوجد منتجات بحاجة تفعيل',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: StringUtils.fontFamilyHKGrotesk))
-                                : Text("لا يوجد منتجات بحاجة إلغاء تفعيل",
+                                : Text('لا يوجد منتجات بحاجة إلغاء تفعيل',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
@@ -237,9 +202,8 @@ class _InventoryState extends State<Inventory> {
                                   if (productsList[index].subWarehouseId != -1) {
                                     id = productsList[index].subWarehouseId.toString();
                                   } else {
-                                    List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
-                                        .map((warehouse) => warehouse.id)
-                                        .toList();
+                                    List<int> subWarehousesIds =
+                                        LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
                                     List<int> productIds = productsList[index]
                                         .warehouses
                                         .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
@@ -294,34 +258,15 @@ class _InventoryState extends State<Inventory> {
                                     fromInventory: true,
                                     productData: productsList[index],
                                     onChangeStatus: (result) {
-                                      if (result) {
-                                        setState(() {
-                                          productsList.removeAt(index);
-                                        });
-                                      }
+                                      if (result) setState(() => productsList.removeAt(index));
                                     },
                                     onDelete: (result) {
-                                      if (result) {
-                                        setState(() {
-                                          productsList.removeAt(index);
-                                        });
-                                      }
+                                      if (result) setState(() => productsList.removeAt(index));
                                     },
-                                    onChangePrice: (newValue) {
-                                      setState(() {
-                                        productsList[index].price = newValue;
-                                      });
-                                    },
-                                    onChangeUnit: (newValue) {
-                                      setState(() {
-                                        productsList[index].unit = newValue;
-                                      });
-                                    },
-                                    onChangeQuantity: (newValue) {
-                                      setState(() {
-                                        productsList[index].quantity = newValue;
-                                      });
-                                    },
+                                    onChangePrice: (newValue) => setState(() => productsList[index].price = newValue),
+                                    onChangeUnit: (newValue) => setState(() => productsList[index].unit = newValue),
+                                    onChangeQuantity: (newValue) =>
+                                        setState(() => productsList[index].quantity = newValue),
                                   );
                                 }
                                 return Container();

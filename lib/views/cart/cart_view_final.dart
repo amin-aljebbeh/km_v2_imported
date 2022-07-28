@@ -22,9 +22,7 @@ class CartViewFinal extends StatefulWidget {
   const CartViewFinal({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return _CartViewFinalState();
-  }
+  State<StatefulWidget> createState() => _CartViewFinalState();
 }
 
 class _CartViewFinalState extends State<CartViewFinal> {
@@ -41,15 +39,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
   _reloadPrices() async {
     Navigator.of(context).pop();
 
-    setState(() {
-      loadingScreen = true;
-    });
+    setState(() => loadingScreen = true);
 
     CartServices.cartProducts.clear();
     await CartServices.getUserCart();
-    setState(() {
-      loadingScreen = false;
-    });
+    setState(() => loadingScreen = false);
     Navigator.of(context).pop();
     Navigator.of(context).pushNamed('/cartFinal');
   }
@@ -59,8 +53,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     orderArray = CartServices.cartProducts;
     cards = List<int>.generate(orderArray.length, (i) => i + 1);
 
-    subtotal =
-        orderArray.fold(0, (sum, order) => sum + (int.parse(order.price.split('.')[0]) * order.productCount));
+    subtotal = orderArray.fold(0, (sum, order) => sum + (int.parse(order.price.split('.')[0]) * order.productCount));
     total = subtotal + Services.deliveryPrice;
 
     OrderServices.updateOrderNote != null
@@ -75,15 +68,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
       cards.removeAt(item);
       CartViewState.cards.removeAt(item);
 
-      if (cards.isEmpty) {
-        KammunRestart.restartApp(context);
-      }
+      if (cards.isEmpty) KammunRestart.restartApp(context);
     });
   }
 
-  _userNotesInitial() {
-    _userNotes.text = OrderServices.updateOrderNote;
-  }
+  _userNotesInitial() => _userNotes.text = OrderServices.updateOrderNote;
 
   _cartChanged() async {
     String productsId = '';
@@ -104,9 +93,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
         padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
         child: SafeArea(
           child: loadingScreen
-              ? const Center(
-                  child: Loader(),
-                )
+              ? const Center(child: Loader())
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -114,11 +101,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         ? AlertMessages(
                             text: ' $errorMessage',
                             messageType: 'internetError',
-                            headerText: ' حدث خطأ اثناء محاولة إرسال طلبك',
-                          )
-                        : Container(
-                            padding: EdgeInsets.zero,
-                          ),
+                            headerText: ' حدث خطأ اثناء محاولة إرسال طلبك')
+                        : Container(padding: EdgeInsets.zero),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Row(
@@ -127,20 +111,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10.0),
                             child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                color: Theme.of(context).primaryColorDark,
-                                size: 45,
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop('updatePrice');
-                              },
+                              icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).primaryColorDark, size: 45),
+                              onPressed: () => Navigator.of(context).pop('updatePrice'),
                             ),
                           ),
                           InkWell(
-                            onTap: () {
-                              Navigator.of(context).pop('updatePrice');
-                            },
+                            onTap: () => Navigator.of(context).pop('updatePrice'),
                             child: Text(
                               StringUtils.shoppingCart,
                               style: TextStyle(
@@ -249,11 +225,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                       Container(
                                         alignment: Alignment.center,
                                         padding: const EdgeInsets.only(top: 0, bottom: 0, right: 15),
-                                        child: const Icon(
-                                          Icons.add_box_outlined,
-                                          color: Colors.white,
-                                          size: 32,
-                                        ),
+                                        child: const Icon(Icons.add_box_outlined, color: Colors.white, size: 32),
                                       ),
                                       Expanded(
                                         child: Align(
@@ -268,11 +240,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                           ),
                                         ),
                                       ),
-                                      const Icon(
-                                        Icons.add,
-                                        color: Colors.transparent,
-                                        size: 32,
-                                      ),
+                                      const Icon(Icons.add, color: Colors.transparent, size: 32),
                                     ],
                                   ),
                                   onTap: () {
@@ -286,14 +254,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                             right: -40.0,
                                             top: -40.0,
                                             child: InkResponse(
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: const CircleAvatar(
-                                                child: Icon(Icons.close),
-                                                backgroundColor: Colors.red,
-                                              ),
-                                            ),
+                                                onTap: () => Navigator.of(context).pop(),
+                                                child: const CircleAvatar(
+                                                    child: Icon(Icons.close), backgroundColor: Colors.red)),
                                           ),
                                           Column(
                                             mainAxisSize: MainAxisSize.min,
@@ -312,21 +275,14 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                               Container(
                                                 padding: const EdgeInsets.only(left: 8, right: 8),
                                                 decoration: BoxDecoration(
-                                                    borderRadius: const BorderRadius.all(
-                                                        Radius.circular(5.0) //         <--- border radius here
-                                                        ),
-                                                    border: Border.all(
-                                                      width: 2,
-                                                      color: ColorUtils.kmColors,
-                                                    )),
+                                                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                                                    border: Border.all(width: 2, color: ColorUtils.kmColors)),
                                                 child: TextField(
                                                   controller: _userNotes,
                                                   textAlign: TextAlign.right,
                                                   keyboardType: TextInputType.multiline,
                                                   maxLines: 5,
-                                                  style: TextStyle(
-                                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                                  ),
+                                                  style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
                                                 ),
                                               ),
                                               KammunButton(
@@ -334,23 +290,19 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                 width: MediaQuery.of(context).size.width / 2.5,
                                                 height: 40,
                                                 color: ColorUtils.primaryColor,
-                                                onTap: () {
-                                                  Navigator.of(context).pop();
-                                                },
+                                                onTap: () => Navigator.of(context).pop(),
                                               ),
                                             ],
                                           ),
                                         ],
                                       ),
-                                      context: context,
                                     );
                                   },
                                 ),
                                 KammunButton(
                                   width: MediaQuery.of(context).size.width,
-                                  color: CartServices.cartProducts.isNotEmpty
-                                      ? ColorUtils.primaryColor
-                                      : Colors.grey[400],
+                                  color:
+                                      CartServices.cartProducts.isNotEmpty ? ColorUtils.primaryColor : Colors.grey[400],
                                   text: StringUtils.confirmOrder,
                                   onTap: () {
                                     _cartChanged();
@@ -358,9 +310,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   },
                                   height: 50,
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                )
+                                const SizedBox(height: 10)
                               ],
                             ),
                       top: false,
@@ -390,8 +340,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                   child: Image(
                     image: orderArray[index].images.isNotEmpty
                         ? AdvImageCache(
-                            LoadingScreenServices.imagePrefixUrl +
-                                orderArray[index].images[0].imageFileName.toString(),
+                            LoadingScreenServices.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
                             useMemCache: true,
                             diskCacheExpire: const Duration(days: 400),
                           )
@@ -416,9 +365,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                         Text(
                           orderArray[index].name,
                           style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 18),
+                              fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 18),
                         ),
                         const SizedBox(height: 6),
                         Text(
@@ -462,11 +409,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       });
                       _cartChanged();
                     },
-                    child: Image.asset(
-                      'assets/add.png',
-                      width: 60,
-                      height: 60,
-                    ),
+                    child: Image.asset('assets/add.png', width: 60, height: 60),
                   ),
                 ),
                 const SizedBox(height: 5),
@@ -499,11 +442,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       });
                       _cartChanged();
                     },
-                    child: Image.asset(
-                      'assets/remove.png',
-                      width: 60,
-                      height: 60,
-                    ),
+                    child: Image.asset('assets/remove.png', width: 60, height: 60),
                   ),
                 ),
               ],
@@ -511,9 +450,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
           ],
         ),
         const SizedBox(height: 4),
-        const Divider(
-          thickness: 3,
-        )
+        const Divider(thickness: 3)
       ],
     );
   }
@@ -522,11 +459,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
     List<int> notActiveId = [];
     List<int> priceId = [];
 
-    notActiveId = orderArray
-        .where((order) => notActive.contains(order.id.toString()))
-        .toList()
-        .map((order) => order.id)
-        .toList();
+    notActiveId =
+        orderArray.where((order) => notActive.contains(order.id.toString())).toList().map((order) => order.id).toList();
     priceId = orderArray
         .where((order) => priceProblem.contains(order.id.toString()))
         .toList()
@@ -562,9 +496,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
       if (OrderServices.orderUnderUpdateIndex != -1) {
         List<InvoiceProductModel> products = orderArray
             .map((product) => InvoiceProductModel(
-                quantity: product.productCount,
-                price: int.parse(product.price.split('.')[0]),
-                productId: product.id))
+                quantity: product.productCount, price: int.parse(product.price.split('.')[0]), productId: product.id))
             .toList();
         int purchasePrices = orderArray.fold(
             0, (value, product) => value + (product.productCount * int.parse(product.price.split('.')[0])));
@@ -581,8 +513,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                 errorCode = true;
                 errorMessage =
                     'نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل';
-              } else if (orderResponse.changedPriceProducts.isNotEmpty ||
-                  orderResponse.inactiveProducts.isNotEmpty) {
+              } else if (orderResponse.changedPriceProducts.isNotEmpty || orderResponse.inactiveProducts.isNotEmpty) {
                 _showBottomSheet(
                     notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
 
@@ -617,12 +548,10 @@ class _CartViewFinalState extends State<CartViewFinal> {
               context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.message)));
         }
       } catch (e) {
-        Tools.logToConsole('error might be here');
-        Tools.logToConsole(e.toString());
+        /**/
       }
     } catch (e) {
-      Tools.logToConsole('the whole code');
-      Tools.logToConsole(e.toString());
+      /**/
     }
   }
 }

@@ -1,22 +1,15 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 
 class ProductsServices {
-  static Future<bool> updateProductsDetails({
-    String bodyKey,
-    String value,
-    @required String productId,
-    bool isForSubWarehouse = true,
-    String subWarehouseId,
-  }) async {
+  static Future<bool> updateProductsDetails(
+      {String bodyKey,
+      String value,
+      @required String productId,
+      bool isForSubWarehouse = true,
+      String subWarehouseId}) async {
     try {
       Map<String, String> body;
 
@@ -27,17 +20,13 @@ class ProductsServices {
         response = await ApiProvider.sendRequest(
             url: addProductToCategory + productId, method: HttpMethods.post, body: jsonEncode(body));
       } else if (!isForSubWarehouse) {
-        response = await ApiProvider.sendRequest(
-          url: getProduct + productId,
-          method: HttpMethods.put,
-          body: jsonEncode(body),
-        );
+        response =
+            await ApiProvider.sendRequest(url: getProduct + productId, method: HttpMethods.put, body: jsonEncode(body));
       } else {
         response = await ApiProvider.sendRequest(
-          url: updateSubWarehouseProducts + productId,
-          method: HttpMethods.put,
-          body: jsonEncode({'sub_warehouse_id': subWarehouseId, bodyKey: value}),
-        );
+            url: updateSubWarehouseProducts + productId,
+            method: HttpMethods.put,
+            body: jsonEncode({'sub_warehouse_id': subWarehouseId, bodyKey: value}));
       }
       if (response.statusCode == successCode) {
         return true;
@@ -45,7 +34,6 @@ class ProductsServices {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole('Error While Adding the Product $e');
       return false;
     }
   }
@@ -54,36 +42,33 @@ class ProductsServices {
       {@required String productId, @required String categoryId}) async {
     try {
       var response = await ApiProvider.sendRequest(
-        queryParameters: {'category_id': categoryId},
-        url: removeProductFromCategory + productId,
-        method: HttpMethods.delete,
-      );
+          queryParameters: {'category_id': categoryId},
+          url: removeProductFromCategory + productId,
+          method: HttpMethods.delete);
       if (response.statusCode == successCode) {
         return true;
       } else {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return false;
     }
   }
 
-  static Future<int> addNewProducts({
-    String name,
-    String quantity,
-    String unit,
-    String description,
-    String categoryId,
-    int price,
-    int isActive,
-    String supplierCode,
-    String minThreshold,
-    String priceFactor,
-    bool autoActivation,
-    @required int subWarehouseId,
-    int barcode,
-  }) async {
+  static Future<int> addNewProducts(
+      {String name,
+      String quantity,
+      String unit,
+      String description,
+      String categoryId,
+      int price,
+      int isActive,
+      String supplierCode,
+      String minThreshold,
+      String priceFactor,
+      bool autoActivation,
+      @required int subWarehouseId,
+      int barcode}) async {
     var productBody = {
       'name': name,
       'unit': unit,
@@ -110,7 +95,7 @@ class ProductsServices {
           'min_threshold': 0,
           'increase_percentage': 0,
           'price_factor': priceFactor,
-          'automatic_activation': autoActivation,
+          'automatic_activation': autoActivation
         };
         bool result =
             await AddedProductsServices.attachProductsToSubWarehouseService(fullRequestBody: subWarehouseBody);
@@ -123,7 +108,6 @@ class ProductsServices {
         return 0;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return 0;
     }
   }
@@ -143,13 +127,10 @@ class ProductsServices {
   }
 
   static Future<String> setBarcodeToProduct({@required int bareCode, @required int productId}) async {
-    var requestBody = {
-      'product_id': productId,
-      'barcode': bareCode,
-    };
+    var requestBody = {'product_id': productId, 'barcode': bareCode};
     try {
-      var response = await ApiProvider.sendRequest(
-          url: productBarcode, method: HttpMethods.post, body: jsonEncode(requestBody));
+      var response =
+          await ApiProvider.sendRequest(url: productBarcode, method: HttpMethods.post, body: jsonEncode(requestBody));
       if (response.statusCode == successCode) {
         Barcode barcode = barcodeFromJson(jsonEncode(response.data['data']));
         return barcode.barcode;
@@ -163,8 +144,7 @@ class ProductsServices {
 
   static Future<List<ProductData>> searchProductByBarcodeService({@required String bareCode}) async {
     try {
-      var response =
-          await ApiProvider.sendRequest(url: searchProductByBarcode + bareCode, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: searchProductByBarcode + bareCode, method: HttpMethods.get);
       if (response.statusCode == successCode) {
         return syncCartFromJson(jsonEncode(response.data['data']));
       } else {
@@ -210,7 +190,6 @@ class ProductsServices {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return false;
     }
   }

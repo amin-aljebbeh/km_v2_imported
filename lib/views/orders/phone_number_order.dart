@@ -36,7 +36,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
 
   bool orderLoaded = true;
   bool errorMessage = false;
-  String errorMessageValue = "";
+  String errorMessageValue = '';
   bool isLoading = false;
   int page = 1;
   bool theEndOfOrders = false;
@@ -90,7 +90,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
         orderLoaded = true;
         errorMessage = true;
         isLoading = false;
-        errorMessageValue = "حدث خطأ اثناء محاولة جلب الطلبات";
+        errorMessageValue = 'حدث خطأ اثناء محاولة جلب الطلبات';
       });
     }
   }
@@ -114,8 +114,8 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                     errorMessage
                         ? AlertMessages(
                             text: errorMessageValue,
-                            messageType: "internetError",
-                            headerText: "حدث خطأ",
+                            messageType: 'internetError',
+                            headerText: 'حدث خطأ',
                           )
                         : Container(
                             padding: EdgeInsets.zero,
@@ -197,7 +197,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                             padding: EdgeInsets.only(top: screenHeight * 0.4),
                             child: Center(
                               child: Text(
-                                "لا يوجد أي طلبات سابقة",
+                                'لا يوجد أي طلبات سابقة',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: ColorUtils.greyColor,
@@ -237,17 +237,17 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       KammunButton(
-                                        text: orderDataList[index].orderStatusId == "1"
-                                            ? "قبول الطلب"
-                                            : orderDataList[index].orderStatusId == "2"
-                                                ? "الطلب جاهز"
-                                                : orderDataList[index].orderStatusId == "3"
-                                                    ? "مع التوصيل"
-                                                    : "تم التوصيل",
+                                        text: orderDataList[index].orderStatusId == '1'
+                                            ? 'قبول الطلب'
+                                            : orderDataList[index].orderStatusId == '2'
+                                                ? 'الطلب جاهز'
+                                                : orderDataList[index].orderStatusId == '3'
+                                                    ? 'مع التوصيل'
+                                                    : 'تم التوصيل',
                                         width: MediaQuery.of(context).size.width * 0.4,
-                                        color: orderDataList[index].orderStatusId == "1"
+                                        color: orderDataList[index].orderStatusId == '1'
                                             ? Colors.green[700]
-                                            : orderDataList[index].orderStatusId == "2"
+                                            : orderDataList[index].orderStatusId == '2'
                                                 ? Colors.yellow[700]
                                                 : Colors.cyan[700],
                                         onTap: () async {
@@ -256,13 +256,13 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                             isLoading = true;
                                             errorMessage = false;
                                           });
-                                          if (orderDataList[index].orderStatusId == "1") {
+                                          if (orderDataList[index].orderStatusId == '1') {
                                             changeStatus = 2;
-                                          } else if (orderDataList[index].orderStatusId == "2") {
+                                          } else if (orderDataList[index].orderStatusId == '2') {
                                             changeStatus = 3;
-                                          } else if (orderDataList[index].orderStatusId == "3") {
+                                          } else if (orderDataList[index].orderStatusId == '3') {
                                             changeStatus = 4;
-                                          } else if (orderDataList[index].orderStatusId == "4") {
+                                          } else if (orderDataList[index].orderStatusId == '4') {
                                             changeStatus = 5;
                                           }
 
@@ -321,10 +321,9 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                             ),
                                           ];
                                           showMyDialog(
-                                              title: "رفض الطلب",
-                                              text: "هل أنت متأكد انك تريد رفض الطلب ؟",
-                                              dialogButtons: decisionButton,
-                                              context: context);
+                                              title: 'رفض الطلب',
+                                              text: 'هل أنت متأكد انك تريد رفض الطلب ؟',
+                                              dialogButtons: decisionButton);
                                         },
                                         text: StringUtils.cancelOrder,
                                         width: MediaQuery.of(context).size.width * 0.4,
@@ -367,10 +366,9 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                             ),
                                           ];
                                           showMyDialog(
-                                              title: "إلغاء الطلب",
-                                              text: "هل أنت متأكد انك تريد إلغاء الطلب ؟",
-                                              dialogButtons: decisionButton,
-                                              context: context);
+                                              title: 'إلغاء الطلب',
+                                              text: 'هل أنت متأكد انك تريد إلغاء الطلب ؟',
+                                              dialogButtons: decisionButton);
                                         },
                                       ),
                                     ],
@@ -378,7 +376,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                 ),
                               if (['6', '7'].contains(orderDataList[index].orderStatusId))
                                 KammunButton(
-                                  text: "استعادة الطلب",
+                                  text: 'استعادة الطلب',
                                   width: MediaQuery.of(context).size.width,
                                   color: ColorUtils.kmColors,
                                   onTap: () {
@@ -420,10 +418,9 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                       ),
                                     ];
                                     showMyDialog(
-                                        title: "استعادة الطلب",
-                                        text: "هل أنت متأكد انك تريد استعادة الطلب ؟",
-                                        dialogButtons: decisionButton,
-                                        context: context);
+                                        title: 'استعادة الطلب',
+                                        text: 'هل أنت متأكد انك تريد استعادة الطلب ؟',
+                                        dialogButtons: decisionButton);
                                   },
                                 ),
                               KammunButton(
@@ -440,24 +437,22 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                       userNote: orderDataList[index].userNotes,
                                       supportedCityCost: orderDataList[index].supportedCityCost,
                                       deliveryMethodCost: orderDataList[index].deliveryCost,
-                                      deliveryMethodId:
-                                          int.parse(orderDataList[index].deliveryMethodId.toString()));
+                                      deliveryMethodId: int.parse(orderDataList[index].deliveryMethodId.toString()));
                                   if (response != null) {
                                     if (response.success) {
                                       setState(() {
                                         orderLoaded = true;
                                         errorMessage = false;
                                       });
-                                      _moveOrderProductsToCart(
-                                          orderIndex: index, orderProducts: response.products);
-                                      orderDataList[index].underUpdate = "1";
+                                      _moveOrderProductsToCart(orderIndex: index, orderProducts: response.products);
+                                      orderDataList[index].underUpdate = '1';
                                     } else if (!response.success) {
                                       setState(() {
-                                        orderDataList[index].underUpdate = "2";
+                                        orderDataList[index].underUpdate = '2';
                                         orderLoaded = true;
                                         errorMessage = true;
                                         errorMessageValue =
-                                            "لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً";
+                                            'لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً';
                                       });
                                     }
                                   } else {
@@ -465,13 +460,13 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                       orderLoaded = true;
                                       errorMessage = true;
                                       errorMessageValue =
-                                          "حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت";
+                                          'حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت';
                                     });
                                   }
                                 },
                                 color: Colors.green,
                               ),
-                              orderDataList[index].userNotes.toString() != "null"
+                              orderDataList[index].userNotes.toString() != 'null'
                                   ? KammunButton(
                                       text: StringUtils.watchNote,
                                       onTap: () {
@@ -486,13 +481,12 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                         showMyDialog(
                                             title: StringUtils.costumerNote,
                                             text: orderDataList[index].userNotes,
-                                            dialogButtons: decisionButtons,
-                                            context: context);
+                                            dialogButtons: decisionButtons);
                                       },
                                       color: Colors.indigoAccent,
                                     )
                                   : Container(),
-                              orderDataList[index].underUpdate.toString() != "0"
+                              orderDataList[index].underUpdate.toString() != '0'
                                   ? KammunButton(
                                       text: StringUtils.unLock,
                                       onTap: () {
@@ -502,8 +496,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                             text: 'نعم',
                                             onTap: () async {
                                               Navigator.of(context).pop();
-                                              bool result =
-                                                  await OrderServices.unlockOrderService(orderId.toString());
+                                              bool result = await OrderServices.unlockOrderService(orderId.toString());
                                               Services.resultFlushBar(context: context, result: result);
                                               setState(() {
                                                 if (result) orderDataList[index].underUpdate = '0';
@@ -520,8 +513,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                         showMyDialog(
                                             title: StringUtils.unLock,
                                             text: StringUtils.unLockConfirm,
-                                            dialogButtons: decisionButtons,
-                                            context: context);
+                                            dialogButtons: decisionButtons);
                                       },
                                       color: Colors.blue[800],
                                     )
@@ -554,8 +546,8 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
   _moveOrderProductsToCart({int orderIndex, List<OrderProducts> orderProducts}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     CartServices.cartProducts.clear();
-    String productsId = "";
-    String productsQuantity = "";
+    String productsId = '';
+    String productsQuantity = '';
 
     for (int i = 0; i < orderProducts.length; i++) {
       if (orderProducts[i].pivot.deletedAt == 'null') {
@@ -577,10 +569,10 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
     }
 
     for (int i = 0; i < CartServices.cartProducts.length; i++) {
-      productsId += CartServices.cartProducts[i].id.toString() + ";";
-      productsQuantity += CartServices.cartProducts[i].productCount.toString() + ";";
+      productsId += CartServices.cartProducts[i].id.toString() + ';';
+      productsQuantity += CartServices.cartProducts[i].productCount.toString() + ';';
     }
-    prefs.setString("userCart", productsId + "@" + productsQuantity);
+    prefs.setString('userCart', productsId + '@' + productsQuantity);
 
     Navigator.of(context).pushNamedAndRemoveUntil(
       '/cartFromUpdate',

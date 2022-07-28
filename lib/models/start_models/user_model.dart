@@ -7,12 +7,12 @@ class User {
     this.exception,
   });
 
-  Headers headers;
+  KHeaders headers;
   UserOriginal original;
   dynamic exception;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        headers: Headers.fromJson(json["headers"]),
+        headers: KHeaders.fromJson(json["headers"]),
         original: UserOriginal.fromJson(json["original"]),
         exception: json["exception"],
       );

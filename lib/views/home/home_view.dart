@@ -1,30 +1,24 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:kammun_app/main.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
-import 'package:kammun_app/views/chat/chat_view.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/orders_view_importer.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:v_chat_sdk/v_chat_sdk.dart';
-
 import '../../service.dart';
+import '../widget/close_widget.dart';
 
 class HomeView extends StatefulWidget {
   final int routeIndex;
   final bool isFromUpdateOrder;
   final dynamic notificationValue;
 
-  const HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue})
-      : super(key: key);
+  const HomeView({Key key, this.routeIndex, this.isFromUpdateOrder = false, this.notificationValue}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return HomeViewState();
-  }
+  State<StatefulWidget> createState() => HomeViewState();
 }
 
 class HomeViewState extends State<HomeView> {
@@ -39,43 +33,24 @@ class HomeViewState extends State<HomeView> {
   void initState() {
     selectedIndex = widget.routeIndex;
     isFromUpdateOrder = widget.isFromUpdateOrder;
-    WidgetsBinding.instance.addPostFrameCallback(
-        (_) => VChatController.instance.bindChatControllers(context: navigatorKey.currentContext));
 
     widget.notificationValue != null
         ? WidgetsBinding.instance.addPostFrameCallback(
-            (_) {
-              showMyDialog(
+            (_) => showMyDialog(
                 title: widget.notificationValue['title'],
                 text: widget.notificationValue['body'],
-                dialogButtons: [const CloseButton()],
-                context: context,
-              );
-            },
+                dialogButtons: [const CloseButton()]),
           )
-        : Tools.logToConsole('');
+        : {};
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _initializeNotification(ctx: context));
     tabs = [];
     tabs.add(const StoreView());
-    tabs.add(CartView(
-      isFromUpdateOrder: isFromUpdateOrder,
-    ));
-    if ((Services.isOperationManager())) {
-      tabs.add(const OrdersView());
-    }
+    tabs.add(CartView(isFromUpdateOrder: isFromUpdateOrder));
+    if ((Services.isOperationManager())) tabs.add(const OrdersView());
 
-    if (Services.isShopper() || Services.isSupplierManager()) {
-      tabs.add(
-        const AssignedOrdersView(),
-      );
-    }
+    if (Services.isShopper() || Services.isSupplierManager()) tabs.add(const AssignedOrdersView());
 
-    if (Services.isShopper() || Services.isOperationManager()) {
-      tabs.add(
-        const ChatView(),
-      );
-    }
     super.initState();
   }
 
@@ -85,33 +60,20 @@ class HomeViewState extends State<HomeView> {
 
       if (message.data['route_name'] != null) Navigator.pushNamed(context, message.data['route_name']);
 
-      List<DialogButton> decisionButtons = [
-        DialogButton(
-          text: StringUtils.close,
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-        )
-      ];
-      showMyDialog(
-          title: notification.title, text: notification.body, dialogButtons: decisionButtons, context: context);
+      showMyDialog(title: notification.title, text: notification.body, dialogButtons: [const CloseWidget()]);
     });
-    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+    FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
     getToken();
   }
 
   Future getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.get("firebase_token") == null) {
+    if (prefs.get('firebase_token') == null) {
       firebaseToken = await _firebaseMessaging.getToken();
-      prefs.setString("firebase_token", firebaseToken);
+      prefs.setString('firebase_token', firebaseToken);
       LoadingScreenServices().updateFirebaseTokenService(firebaseToken);
     } else {
-      firebaseToken = prefs.get("firebase_token");
+      firebaseToken = prefs.get('firebase_token');
     }
   }
 
@@ -119,159 +81,77 @@ class HomeViewState extends State<HomeView> {
     List<BottomNavigationBarItem> bottomList = [];
 
     bottomList.add(BottomNavigationBarItem(
-      activeIcon: Column(
-        children: [
-          Icon(
-            Icons.store,
-            color: ColorUtils.kmColors,
-          ),
-          Text(
-            StringUtils.store,
-            style: homeActiveIconStyle,
-          ),
-        ],
-      ),
-      icon: Column(
-        children: [
-          Icon(
-            Icons.store,
-            color: ColorUtils.primaryColor,
-          ),
-          Text(
-            StringUtils.store,
-            style: homeIconStyle,
-          ),
-        ],
-      ),
-      label: '',
-    ));
-    bottomList.add(BottomNavigationBarItem(
-      activeIcon: Column(
-        children: [
-          Icon(
-            Icons.shopping_cart,
-            color: ColorUtils.kmColors,
-          ),
-          Text(
-            StringUtils.cart,
-            style: homeActiveIconStyle,
-          ),
-        ],
-      ),
-      icon: Column(
-        children: [
-          Icon(
-            Icons.shopping_cart,
-            color: ColorUtils.primaryColor,
-          ),
-          Text(
-            StringUtils.cart,
-            style: homeIconStyle,
-          ),
-        ],
-      ),
-      label: '',
-    ));
-
-    if (Services.isOperationManager()) {
-      bottomList.add(BottomNavigationBarItem(
         activeIcon: Column(
           children: [
-            Icon(
-              Icons.reorder,
-              color: ColorUtils.kmColors,
-            ),
-            Text(
-              StringUtils.orders,
-              style: homeActiveIconStyle,
-            ),
+            Icon(Icons.store, color: ColorUtils.kmColors),
+            Text(StringUtils.store, style: homeActiveIconStyle),
           ],
         ),
         icon: Column(
           children: [
-            Icon(
-              Icons.reorder,
-              color: ColorUtils.primaryColor,
-            ),
-            Text(
-              StringUtils.orders,
-              style: homeIconStyle,
-            ),
+            Icon(Icons.store, color: ColorUtils.primaryColor),
+            Text(StringUtils.store, style: homeIconStyle),
           ],
         ),
-        label: '',
-      ));
+        label: ''));
+    bottomList.add(BottomNavigationBarItem(
+        activeIcon: Column(
+          children: [
+            Icon(Icons.shopping_cart, color: ColorUtils.kmColors),
+            Text(StringUtils.cart, style: homeActiveIconStyle),
+          ],
+        ),
+        icon: Column(
+          children: [
+            Icon(Icons.shopping_cart, color: ColorUtils.primaryColor),
+            Text(StringUtils.cart, style: homeIconStyle)
+          ],
+        ),
+        label: ''));
+
+    if (Services.isOperationManager()) {
+      bottomList.add(BottomNavigationBarItem(
+          activeIcon: Column(
+            children: [
+              Icon(Icons.reorder, color: ColorUtils.kmColors),
+              Text(StringUtils.orders, style: homeActiveIconStyle)
+            ],
+          ),
+          icon: Column(
+            children: [
+              Icon(Icons.reorder, color: ColorUtils.primaryColor),
+              Text(StringUtils.orders, style: homeIconStyle)
+            ],
+          ),
+          label: ''));
     }
 
     if (Services.isShopper() || Services.isSupplierManager()) {
       bottomList.add(BottomNavigationBarItem(
-        activeIcon: Column(
-          children: [
-            Icon(
-              Icons.playlist_add_check_outlined,
-              color: ColorUtils.kmColors,
-            ),
-            Text(
-              StringUtils.myOrders,
-              style: homeActiveIconStyle,
-            ),
-          ],
-        ),
-        icon: Column(
-          children: [
-            Icon(
-              Icons.playlist_add_check_outlined,
-              color: ColorUtils.primaryColor,
-            ),
-            Text(
-              StringUtils.myOrders,
-              style: homeIconStyle,
-            ),
-          ],
-        ),
-        label: '',
-      ));
+          activeIcon: Column(
+            children: [
+              Icon(Icons.playlist_add_check_outlined, color: ColorUtils.kmColors),
+              Text(StringUtils.myOrders, style: homeActiveIconStyle),
+            ],
+          ),
+          icon: Column(
+            children: [
+              Icon(Icons.playlist_add_check_outlined, color: ColorUtils.primaryColor),
+              Text(StringUtils.myOrders, style: homeIconStyle),
+            ],
+          ),
+          label: ''));
     }
 
-    if (Services.isShopper() || Services.isOperationManager()) {
-      bottomList.add(BottomNavigationBarItem(
-        activeIcon: Column(
-          children: [
-            Icon(
-              Icons.chat_rounded,
-              color: ColorUtils.kmColors,
-            ),
-            Text(
-              'المحادثات',
-              style: homeActiveIconStyle,
-            ),
-          ],
-        ),
-        icon: Column(
-          children: [
-            Icon(
-              Icons.chat_rounded,
-              color: ColorUtils.primaryColor,
-            ),
-            Text(
-              'المحادثات',
-              style: homeIconStyle,
-            ),
-          ],
-        ),
-        label: '',
-      ));
-    }
     return BottomNavigationBar(
-      selectedFontSize: 0,
-      unselectedFontSize: 0,
-      backgroundColor: Colors.white,
-      items: bottomList,
-      currentIndex: selectedIndex,
-      type: BottomNavigationBarType.fixed,
-      fixedColor: Colors.white,
-      onTap: _onItemTapped,
-    );
+        selectedFontSize: 0,
+        unselectedFontSize: 0,
+        backgroundColor: Colors.white,
+        items: bottomList,
+        currentIndex: selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        fixedColor: Colors.white,
+        onTap: _onItemTapped);
   }
 
   @override

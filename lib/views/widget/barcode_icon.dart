@@ -15,25 +15,21 @@ class BarcodeIcon extends StatelessWidget {
   final Function(String) onAddBarcode;
   final ProductData productData;
 
-  const BarcodeIcon({
-    Key key,
-    @required this.requestType,
-    this.productId,
-    this.onPressed,
-    this.color,
-    this.scaffoldKey,
-    this.onAddBarcode,
-    this.productData,
-  }) : super(key: key);
+  const BarcodeIcon(
+      {Key key,
+      @required this.requestType,
+      this.productId,
+      this.onPressed,
+      this.color,
+      this.scaffoldKey,
+      this.onAddBarcode,
+      this.productData})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(
-        BareCodeIcon.barcode_2,
-        size: 30,
-        color: color,
-      ),
+      icon: Icon(BareCodeIcon.barcode_2, size: 30, color: color),
       onPressed: () {
         bool result;
         String resultBarcode;
@@ -48,7 +44,6 @@ class BarcodeIcon extends StatelessWidget {
                 resultBarcode =
                     await ProductsServices.setBarcodeToProduct(bareCode: int.parse(barcode), productId: productId);
                 result = (resultBarcode != 'error');
-                Tools.logToConsole(result);
                 Services.resultFlushBar(context: context, result: result);
                 onAddBarcode(resultBarcode);
               },

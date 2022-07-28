@@ -5,6 +5,7 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
+import 'package:kammun_app/views/widget/close_widget.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 class OrderProblemBottomSheet extends StatefulWidget {
@@ -13,10 +14,7 @@ class OrderProblemBottomSheet extends StatefulWidget {
   final Function(bool updatePrice) applyChanges;
 
   const OrderProblemBottomSheet(
-      {Key key,
-      @required this.notActiveProducts,
-      @required this.pricesChangesProducts,
-      @required this.applyChanges})
+      {Key key, @required this.notActiveProducts, @required this.pricesChangesProducts, @required this.applyChanges})
       : super(key: key);
 
   @override
@@ -47,15 +45,15 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
     }
     if (priceCards.isNotEmpty && notActiveCards.isEmpty) {
       dialogText =
-          "نأسف لحدوث ذلك ولكن أثناء قيامك بالتسوق تغير سعر  ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك مشاهدة تلك المنتجات و القيام بتحديث الطلب ليتم تحديث الأسعار او اختيار بدائل ";
+          'نأسف لحدوث ذلك ولكن أثناء قيامك بالتسوق تغير سعر  ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك مشاهدة تلك المنتجات و القيام بتحديث الطلب ليتم تحديث الأسعار او اختيار بدائل ';
     }
     if (notActiveCards.isNotEmpty && priceCards.isEmpty) {
       dialogText =
-          "نأسف لحدوث ذلك و لكن أثناء قيامك بالتسوق نفذ ${notActiveCards.length} من المنتجات التي قمت بإضافتها يمكنك تحديث الطلب لحذف هذه المنتجات او اختيار بدائل عنها من داخل التطبيق";
+          'نأسف لحدوث ذلك و لكن أثناء قيامك بالتسوق نفذ ${notActiveCards.length} من المنتجات التي قمت بإضافتها يمكنك تحديث الطلب لحذف هذه المنتجات او اختيار بدائل عنها من داخل التطبيق';
     }
     if (notActiveCards.isNotEmpty && priceCards.isNotEmpty) {
       dialogText =
-          "نأسف لحدوث ذلك ولكن أثناء قيامك بعملية التسوق نفذ ${notActiveCards.length} من المنتجات و تغير سعر ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك إختيار تحديث الطلب لمشاهدة الأسعار الجديدة و حذف المنتجات الغير متوفرة أو الضغط على إختيار بدائل لإضافتها من داخل التطبيق";
+          'نأسف لحدوث ذلك ولكن أثناء قيامك بعملية التسوق نفذ ${notActiveCards.length} من المنتجات و تغير سعر ${priceCards.length} من المنتجات التي قمت بإضافتها يمكنك إختيار تحديث الطلب لمشاهدة الأسعار الجديدة و حذف المنتجات الغير متوفرة أو الضغط على إختيار بدائل لإضافتها من داخل التطبيق';
     }
   }
 
@@ -66,18 +64,9 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
 
     OrderServices.updateOrderNote != null
         ? WidgetsBinding.instance.addPostFrameCallback((_) {
-            List<DialogButton> dialogButtons = [
-              DialogButton(
-                text: "إغلاق",
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ];
-            showMyDialog(
-                title: "حدث خطأ بالطلب", text: dialogText, dialogButtons: dialogButtons, context: context);
+            showMyDialog(title: 'حدث خطأ بالطلب', text: dialogText, dialogButtons: [const CloseWidget()]);
           })
-        : Tools.logToConsole('');
+        : {};
 
     super.initState();
   }
@@ -86,7 +75,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // backgroundColor: Theme.of(context).primaryColorLight,
       body: Padding(
         padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
         child: SafeArea(
@@ -105,9 +93,9 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                           )),
                       child: Center(
                           child: Text(
-                        "منتجات نفذت أثناء التسوق",
-                        style: TextStyle(
-                            fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
+                        'منتجات نفذت أثناء التسوق',
+                        style:
+                            TextStyle(fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
                       )),
                     )
                   : Container(),
@@ -146,9 +134,9 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                           )),
                       child: Center(
                           child: Text(
-                        "منتجات تغير سعرها أثناء التسوق",
-                        style: TextStyle(
-                            fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
+                        'منتجات تغير سعرها أثناء التسوق',
+                        style:
+                            TextStyle(fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
                       )),
                     )
                   : Container(),
@@ -181,19 +169,18 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                     spacing: 5,
                     children: [
                       KammunButton(
-                        text: "تحديث الطلب",
+                        text: 'تحديث الطلب',
                         height: 50,
                         width: MediaQuery.of(context).size.width / 2.3,
                         color: Colors.green,
                         onTap: () => widget.applyChanges(false),
                       ),
                       KammunButton(
-                        text: "!! إرسال الطلب !!",
+                        text: '!! إرسال الطلب !!',
                         height: 50,
                         width: MediaQuery.of(context).size.width / 2.3,
                         color: Colors.red,
                         onTap: () {
-                          // KammunRestart.restartApp(context);
                           Navigator.of(context).pop();
                           widget.applyChanges(true);
                         },
@@ -210,7 +197,6 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
     );
   }
 
-  //TODO:check if it possible to make widget
   Widget cardBodyNotActive(int index, BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -234,12 +220,10 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         Text(
                           orderArray[index].name,
                           style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 18),
+                              fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 18),
                         ),
                         Text(
-                          orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
+                          orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: ColorUtils.greyColor,
@@ -254,9 +238,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
             ),
           ],
         ),
-        const Divider(
-          thickness: 3,
-        )
+        const Divider(thickness: 3)
       ],
     );
   }
@@ -279,12 +261,11 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   child: Image(
                     image: orderArray[index].images.isNotEmpty
                         ? AdvImageCache(
-                            LoadingScreenServices.imagePrefixUrl +
-                                orderArray[index].images[0].imageFileName.toString(),
+                            LoadingScreenServices.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
                             useMemCache: true,
                             diskCacheExpire: const Duration(days: 400),
                           )
-                        : const AssetImage("assets/kmIcon.png"),
+                        : const AssetImage('assets/kmIcon.png'),
                     width: MediaQuery.of(context).size.width,
                     height: 120,
                     fit: BoxFit.contain,
@@ -305,13 +286,11 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         Text(
                           orderArray[index].name,
                           style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
-                              fontSize: 18),
+                              fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 18),
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          orderArray[index].quantity.toString() + " " + orderArray[index].unit.toString(),
+                          orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: ColorUtils.greyColor,
@@ -320,7 +299,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                            "${StringUtils().oCcy.format(int.parse(orderArray[index].price.split(".")[0]))} ${LoadingScreenServices.companyInformation.currency}",
+                            '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: ColorUtils.primaryColor,
@@ -335,9 +314,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
           ],
         ),
         // SizedBox(height: 4),
-        const Divider(
-          thickness: 3,
-        )
+        const Divider(thickness: 3)
       ],
     );
   }

@@ -190,8 +190,8 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                     height: 50,
                     text: '  إحصائيات  ',
                     color: ColorUtils.primaryColor,
-                    onTap: () => Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => const ShopperInformation())),
+                    onTap: () =>
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ShopperInformation())),
                   ),
                 ],
               ),
@@ -209,8 +209,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                     : loading
                         ? const Loader()
                         : empty
-                            ? const Padding(
-                                padding: EdgeInsets.all(75), child: ScreenMessage(message: 'لا يوجد حركة'))
+                            ? const Padding(padding: EdgeInsets.all(75), child: ScreenMessage(message: 'لا يوجد حركة'))
                             : ListView.builder(
                                 scrollDirection: Axis.vertical,
                                 itemCount: transactions.length,
@@ -224,20 +223,17 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                               transaction.createdAt.toString().split(' ')[0] ==
                                               date.toString().split(' ')[0])
                                           .toList()
-                                          .fold(0,
-                                              (value, transaction) => value + int.parse(transaction.valueCompany));
+                                          .fold(0, (value, transaction) => value + int.parse(transaction.valueCompany));
 
                                       int shopperProfit = transactions
                                           .where((transaction) =>
                                               transaction.createdAt.toString().split(' ')[0] ==
                                               date.toString().split(' ')[0])
                                           .toList()
-                                          .fold(0,
-                                              (value, transaction) => value + int.parse(transaction.valueShopper));
+                                          .fold(0, (value, transaction) => value + int.parse(transaction.valueShopper));
                                       showMyDialog(
                                         title:
                                             'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
-                                        context: context,
                                         content: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [

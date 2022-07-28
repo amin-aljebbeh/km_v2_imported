@@ -10,8 +10,7 @@ class BarcodeProducts extends StatefulWidget {
   final Function onIgnore;
   final BarcodeRequestType requestType;
 
-  const BarcodeProducts({Key key, @required this.barcode, this.onIgnore, @required this.requestType})
-      : super(key: key);
+  const BarcodeProducts({Key key, @required this.barcode, this.onIgnore, @required this.requestType}) : super(key: key);
   @override
   _BarcodeProductsState createState() => _BarcodeProductsState();
 }
@@ -33,8 +32,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
     });
     try {
       List<ProductData> response;
-      if (widget.requestType == BarcodeRequestType.addProduct ||
-          widget.requestType == BarcodeRequestType.addBarcode) {
+      if (widget.requestType == BarcodeRequestType.addProduct || widget.requestType == BarcodeRequestType.addBarcode) {
         response = await ProductsServices.checkProductBarcodeService(bareCode: widget.barcode);
       } else {
         response = await ProductsServices.searchProductByBarcodeService(bareCode: widget.barcode);
@@ -45,9 +43,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
           Navigator.of(context).pop();
           widget.onIgnore();
         }
-        setState(() {
-          isLoading = false;
-        });
+        setState(() => isLoading = false);
         return true;
       } else {
         setState(() {
@@ -57,8 +53,6 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
         return false;
       }
     } catch (e) {
-      Tools.logToConsole("Error While getting Inventory Products");
-      Tools.logToConsole(e.toString());
       setState(() {
         isLoading = false;
         isError = true;
@@ -69,16 +63,10 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
 
   @override
   initState() {
-    if (mounted) {
-      super.initState();
-    }
+    if (mounted) super.initState();
     _loadData();
 
-    _controller.addListener(() {
-      setState(() {
-        filter = _controller.text;
-      });
-    });
+    _controller.addListener(() => setState(() => filter = _controller.text));
   }
 
   @override
@@ -86,13 +74,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
-      appBar: InventorySearchTextField(
-        onReload: () {
-          _loadData();
-        },
-        controller: _controller,
-        context: context,
-      ),
+      appBar: InventorySearchTextField(onReload: () => _loadData(), controller: _controller, context: context),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
@@ -101,27 +83,18 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.75,
               child: isLoading
-                  ? const Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 30.0),
-                        child: Loader(),
-                      ),
-                    )
+                  ? const Center(child: Padding(padding: EdgeInsets.only(top: 30.0), child: Loader()))
                   : isError
                       ? Center(
                           child: Expanded(
                             child: Column(
                               children: [
                                 AlertMessages(
-                                  text: StringUtils.errorMessage,
-                                  messageType: "internetError",
-                                  headerText: "حدث خطأ",
-                                ),
+                                    text: StringUtils.errorMessage,
+                                    messageType: 'internetError',
+                                    headerText: 'حدث خطأ'),
                                 ElevatedButton(
-                                    child: Text(StringUtils.tryAgain, style: blackBold),
-                                    onPressed: () {
-                                      _loadData();
-                                    }),
+                                    child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () => _loadData())
                               ],
                             ),
                           ),
@@ -136,7 +109,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                             var eachProduct = productsList[index];
                             try {
                               if (filter == null ||
-                                  filter == "" ||
+                                  filter == '' ||
                                   eachProduct.name.toLowerCase().contains(filter.toLowerCase())) {
                                 String id, supplierCode;
                                 int isActive;
@@ -144,9 +117,8 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                 if (productsList[index].subWarehouseId != -1) {
                                   id = productsList[index].subWarehouseId.toString();
                                 } else {
-                                  List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
-                                      .map((warehouse) => warehouse.id)
-                                      .toList();
+                                  List<int> subWarehousesIds =
+                                      LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
                                   List<int> productIds = productsList[index]
                                       .warehouses
                                       .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
@@ -201,39 +173,24 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                   scaffoldKey: scaffoldKey,
                                   fromInventory: false,
                                   onDelete: (result) {
-                                    if (result) {
-                                      setState(() {
-                                        productsList.removeAt(index);
-                                      });
-                                    }
+                                    if (result) setState(() => productsList.removeAt(index));
                                   },
                                   productData: eachProduct,
                                   onChangeStatus: (result) {
                                     if (result) {
                                       setState(() {
-                                        if (productsList[index].isActive == "1") {
-                                          productsList[index].isActive = "0";
+                                        if (productsList[index].isActive == '1') {
+                                          productsList[index].isActive = '0';
                                         } else {
-                                          productsList[index].isActive = "1";
+                                          productsList[index].isActive = '1';
                                         }
                                       });
                                     }
                                   },
-                                  onChangePrice: (newValue) {
-                                    setState(() {
-                                      productsList[index].price = newValue;
-                                    });
-                                  },
-                                  onChangeUnit: (newValue) {
-                                    setState(() {
-                                      productsList[index].unit = newValue;
-                                    });
-                                  },
-                                  onChangeQuantity: (newValue) {
-                                    setState(() {
-                                      productsList[index].quantity = newValue;
-                                    });
-                                  },
+                                  onChangePrice: (newValue) => setState(() => productsList[index].price = newValue),
+                                  onChangeUnit: (newValue) => setState(() => productsList[index].unit = newValue),
+                                  onChangeQuantity: (newValue) =>
+                                      setState(() => productsList[index].quantity = newValue),
                                 );
                               }
                             } catch (e) {/**/}

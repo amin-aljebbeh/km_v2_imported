@@ -1,10 +1,10 @@
 export 'dart:convert';
-
 export 'barcode_model.dart';
 export 'cart_model.dart';
 export 'delivery_model.dart';
 export 'get_deliveries_model.dart';
 export 'get_shoppers_model.dart';
+export 'key_value_info_model.dart';
 export 'level_response_model.dart';
 export 'lock_order.dart';
 export 'order_accounting_row.dart';

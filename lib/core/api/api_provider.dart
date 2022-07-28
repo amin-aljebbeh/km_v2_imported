@@ -1,83 +1,62 @@
-import 'package:dio/dio.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/views/loading/loading.dart';
-
-import '../../core/core_importer.dart';
+import '../../views/loading/loading.dart';
+import '../core_importer.dart';
 
 class ApiProvider {
-  static Future<Response> sendRequest(
-      {String url,
-      dynamic body,
-      Map<String, dynamic> queryParameters,
-      HttpMethods method,
-      ResponseType responseType,
-      bool mapService,
-      bool isUrlEncodedFormat}) async {
-    mapService ??= false;
-    isUrlEncodedFormat ??= false;
-
+  static Future<Response> sendRequest({
+    @required String url,
+    dynamic body,
+    Map<String, dynamic> queryParameters,
+    @required HttpMethods method,
+    ResponseType responseType,
+  }) async {
     var options = BaseOptions(
-        baseUrl: mapService ? "" : baseUrl,
-        connectTimeout: 30000,
-        receiveTimeout: 30000,
-        contentType: isUrlEncodedFormat ? Headers.formUrlEncodedContentType : Headers.jsonContentType);
+        baseUrl: baseUrl + '/api/', connectTimeout: 30000, receiveTimeout: 30000, contentType: Headers.jsonContentType);
 
     var dio = Dio(options);
-
-    Map<String, String> header = {
-      'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : "",
-    };
+    String token = LoadingScreen.userToken;
+    Tools.logToConsole(token);
+    Tools.logToConsole(body);
+    Tools.logToConsole(queryParameters);
+    Tools.logToConsole(method.toString());
+    Tools.logToConsole(baseUrl + '/api/' + url);
+    Map<String, String> header = {'Authorization': token ?? ''};
 
     Response response;
 
     try {
       switch (method) {
         case HttpMethods.get:
-          {
-            response = await dio.get(
-              url,
-              queryParameters: queryParameters,
-              options: Options(headers: header, responseType: responseType),
-            );
-            break;
-          }
+          response = await dio.get(url,
+              queryParameters: queryParameters, options: Options(headers: header, responseType: responseType));
+          break;
         case HttpMethods.delete:
-          {
-            response = await dio.delete(
-              url,
-              queryParameters: queryParameters,
-              options: Options(headers: header, responseType: responseType),
-            );
-            break;
-          }
+          response = await dio.delete(url,
+              queryParameters: queryParameters, options: Options(headers: header, responseType: responseType));
+          break;
         case HttpMethods.put:
-          {
-            response = await dio.put(
-              url,
+          response = await dio.put(url,
               queryParameters: queryParameters,
               options: Options(headers: header, responseType: responseType),
-              data: body,
-            );
-            break;
-          }
+              data: body);
+          break;
 
         case HttpMethods.post:
-          {
-            response = await dio.post(url,
-                queryParameters: queryParameters, options: Options(headers: header), data: body);
-            break;
-          }
-      }
-      if (response != null) {
-        Tools.logToConsole(response);
+          response = await dio.post(url,
+              queryParameters: queryParameters,
+              options: Options(headers: header, validateStatus: (status) => status < 500),
+              data: body);
+          break;
       }
     } on DioError catch (e) {
-      RequestOptions requestOptions = RequestOptions(
-        path: url,
-      );
-      return ErrorHandler.handleDioError(e, requestOptions);
+      Tools.logToConsole(e.message);
+    } catch (e) {
+      Tools.logToConsole(e.message);
     }
-
+    if (response != null) {
+      Tools.logToConsole(response.statusCode);
+    }
+    Tools.logToConsole('response is :');
+    Tools.logToConsole(response);
     return response;
   }
 }

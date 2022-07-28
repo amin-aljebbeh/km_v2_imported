@@ -66,10 +66,6 @@ dependencies:
   expandable: ^5.0.1
   syncfusion_flutter_charts: ^20.1.48
   flutter_libphonenumber: ^1.2.4
-  v_chat_sdk:
-    git:
-      url: https://gitlab.com/amin.aljebbeh/v_chat_kammon.git
-      ref: main
 
 flutter_icons:
   image_path: 'assets/kmIcon.png'

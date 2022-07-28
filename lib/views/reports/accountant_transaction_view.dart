@@ -59,14 +59,12 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
       tempTransactions = await ReportsServices.getTransactions(shopperId: shopperId, pageNumber: page - 1);
       if (tempTransactions != null) {
         int kammunProfit = tempTransactions
-            .where(
-                (transaction) => transaction.createdAt.toString().split(' ')[0] == date.toString().split(' ')[0])
+            .where((transaction) => transaction.createdAt.toString().split(' ')[0] == date.toString().split(' ')[0])
             .toList()
             .fold(0, (value, transaction) => value + int.parse(transaction.valueCompany));
 
         int shopperProfit = tempTransactions
-            .where(
-                (transaction) => transaction.createdAt.toString().split(' ')[0] == date.toString().split(' ')[0])
+            .where((transaction) => transaction.createdAt.toString().split(' ')[0] == date.toString().split(' ')[0])
             .toList()
             .fold(0, (value, transaction) => value + int.parse(transaction.valueShopper));
         result[0] += kammunProfit;
@@ -295,26 +293,21 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                                                   transaction.createdAt.toString().split(' ')[0] ==
                                                   date.toString().split(' ')[0])
                                               .toList()
-                                              .fold(
-                                                  0,
-                                                  (value, transaction) =>
-                                                      value + int.parse(transaction.valueCompany));
+                                              .fold(0,
+                                                  (value, transaction) => value + int.parse(transaction.valueCompany));
                                           int shopperProfit = transactions
                                               .where((transaction) =>
                                                   transaction.createdAt.toString().split(' ')[0] ==
                                                   date.toString().split(' ')[0])
                                               .toList()
-                                              .fold(
-                                                  0,
-                                                  (value, transaction) =>
-                                                      value + int.parse(transaction.valueShopper));
+                                              .fold(0,
+                                                  (value, transaction) => value + int.parse(transaction.valueShopper));
                                           List<int> completeProfits = await getCompleteProfits(date, shopperId);
                                           kammunProfit += completeProfits[0];
                                           shopperProfit += completeProfits[1];
                                           showMyDialog(
                                             title:
                                                 'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
-                                            context: context,
                                             content: Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                                               children: [
@@ -357,8 +350,8 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                 text: StringUtils.addTransaction,
                 color: ColorUtils.primaryColor,
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddTransactionView(shopperName: shopperName)));
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => AddTransactionView(shopperName: shopperName)));
                 },
               ),
               KammunButton(

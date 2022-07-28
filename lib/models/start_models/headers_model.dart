@@ -1,7 +1,7 @@
-class Headers {
-  Headers();
+class KHeaders {
+  KHeaders();
 
-  factory Headers.fromJson(Map<String, dynamic> json) => Headers();
+  factory KHeaders.fromJson(Map<String, dynamic> json) => KHeaders();
 
   Map<String, dynamic> toJson() => {};
 }

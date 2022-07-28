@@ -7,12 +7,12 @@ class DeliveryMethod {
     this.exception,
   });
 
-  Headers headers;
+  KHeaders headers;
   DeliveryMethodOriginal original;
   dynamic exception;
 
   factory DeliveryMethod.fromJson(Map<String, dynamic> json) => DeliveryMethod(
-        headers: Headers.fromJson(json["headers"]),
+        headers: KHeaders.fromJson(json["headers"]),
         original: DeliveryMethodOriginal.fromJson(json["original"]),
         exception: json["exception"],
       );
@@ -33,11 +33,9 @@ class DeliveryMethodOriginal {
   bool success;
   List<DeliveryMethodOriginalData> data;
 
-  factory DeliveryMethodOriginal.fromJson(Map<String, dynamic> json) =>
-      DeliveryMethodOriginal(
+  factory DeliveryMethodOriginal.fromJson(Map<String, dynamic> json) => DeliveryMethodOriginal(
         success: json["success"],
-        data: List<DeliveryMethodOriginalData>.from(
-            json["data"].map((x) => DeliveryMethodOriginalData.fromJson(x))),
+        data: List<DeliveryMethodOriginalData>.from(json["data"].map((x) => DeliveryMethodOriginalData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,8 +59,7 @@ class DeliveryMethodOriginalData {
   String isActive;
   String message;
 
-  factory DeliveryMethodOriginalData.fromJson(Map<String, dynamic> json) =>
-      DeliveryMethodOriginalData(
+  factory DeliveryMethodOriginalData.fromJson(Map<String, dynamic> json) => DeliveryMethodOriginalData(
         id: json["id"],
         name: json["name"],
         price: json["price"].toString(),
@@ -70,11 +67,5 @@ class DeliveryMethodOriginalData {
         message: json["message"].toString(),
       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "price": price,
-        "message": message,
-        "is_active": isActive
-      };
+  Map<String, dynamic> toJson() => {"id": id, "name": name, "price": price, "message": message, "is_active": isActive};
 }

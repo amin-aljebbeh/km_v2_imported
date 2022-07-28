@@ -1,11 +1,5 @@
 import 'package:animated_background/animated_background.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/restart/kammunapp_restart.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:v_chat_sdk/v_chat_sdk.dart';
-
 import '../../core/core_importer.dart';
 import 'Services/login_services.dart';
 
@@ -35,9 +29,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   }
 
   Future adminLogin() async {
-    setState(() {
-      loadingScreen = true;
-    });
+    setState(() => loadingScreen = true);
     if (_usernameController.text.isEmpty) {
       setState(() {
         errorCode = true;
@@ -59,21 +51,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       bool response =
           await LoginServices.loginAdmin(username: _usernameController.text, password: _passwordController.text);
       if (response) {
-        try {
-          await VChatController.instance.register(
-            dto: VChatRegisterDto(
-              name: _usernameController.text,
-              userImage: null,
-              email: _usernameController.text,
-            ),
-            context: context,
-          );
-          Tools.logToConsole('chat register admin');
-        } on VChatSdkException catch (err) {
-          Tools.logToConsole(err.data);
-          await VChatController.instance.login(context: context, email: _usernameController.text);
-          Tools.logToConsole('chat login admin');
-        } catch (e) {/**/}
         TextInput.finishAutofillContext();
         KammunRestart.restartApp(context);
       } else {
@@ -95,7 +72,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         maxLines: 1,
         controller: _passwordController,
         keyboardType: TextInputType.text,
-        //dima
         onEditingComplete: () => TextInput.finishAutofillContext(),
         autofillHints: const [AutofillHints.password],
         enableSuggestions: false,
@@ -109,17 +85,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
           hintStyle: const TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: ColorUtils.primaryColor,
-            ),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
+              borderSide: BorderSide(color: ColorUtils.primaryColor), borderRadius: BorderRadius.circular(5.0)),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: ColorUtils.kmColors,
-            ),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
+              borderSide: BorderSide(color: ColorUtils.kmColors), borderRadius: BorderRadius.circular(5.0)),
         ),
       ),
     );
@@ -143,17 +111,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
           labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
           hintStyle: const TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: ColorUtils.primaryColor,
-            ),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
+              borderSide: BorderSide(color: ColorUtils.primaryColor), borderRadius: BorderRadius.circular(5.0)),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: ColorUtils.kmColors,
-            ),
-            borderRadius: BorderRadius.circular(5.0),
-          ),
+              borderSide: BorderSide(color: ColorUtils.kmColors), borderRadius: BorderRadius.circular(5.0)),
         ),
       ),
     );
@@ -181,55 +141,32 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
               ),
             ),
             errorCode
-                ? AlertMessages(
-                    text: errorMessage,
-                    messageType: 'internetError',
-                    headerText: 'مشكلة بالبيانات المدخلة',
-                  )
-                : Container(
-                    padding: EdgeInsets.zero,
-                  ),
+                ? AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'مشكلة بالبيانات المدخلة')
+                : Container(padding: EdgeInsets.zero),
             ListView(
               shrinkWrap: true,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
-                  child: Center(
-                    child: Image.asset(
-                      'assets/kmlogoo.png',
-                      height: 150,
-                      width: 200,
-                    ),
-                  ),
-                ),
-                //dima3
+                    padding: const EdgeInsets.only(top: 50.0),
+                    child: Center(child: Image.asset('assets/kmlogoo.png', height: 150, width: 200))),
                 AutofillGroup(
                   child: Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
-                        child: _showUsernameInput(),
-                      ),
+                          padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
+                          child: _showUsernameInput()),
                       Container(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
-                        child: _showPasswordInput(),
-                      ),
+                          padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 0, top: 5),
+                          child: _showPasswordInput()),
                     ],
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 20, top: 5),
                   child: loadingScreen
-                      ? const Padding(
-                          padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0),
-                          child: Loader(),
-                        )
+                      ? const Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: Loader())
                       : KammunButton(
-                          text: StringUtils.signIn,
-                          height: 50,
-                          color: ColorUtils.primaryColor,
-                          onTap: adminLogin,
-                        ),
+                          text: StringUtils.signIn, height: 50, color: ColorUtils.primaryColor, onTap: adminLogin),
                 ),
               ],
             ),

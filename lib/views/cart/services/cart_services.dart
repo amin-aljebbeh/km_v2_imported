@@ -1,10 +1,5 @@
-import 'dart:async';
-
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class CartServices {
   static List<ProductData> cartProducts = [];
@@ -12,8 +7,6 @@ class CartServices {
   static String userNote;
 
   static Future getUserCart() async {
-    Tools.logToConsole("------------ GET USER CART FROM SHARED  --------------");
-
     Map<String, String> productsIdCount = <String, String>{};
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,8 +40,6 @@ class CartServices {
 
         return true;
       } else {
-        Tools.logToConsole("------------ ERROR WHILE GETTING USER CART --------------");
-
         return false;
       }
     } else {

@@ -1,15 +1,7 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flushbar/flushbar.dart';
-import 'package:flutter/material.dart';
 import 'package:share/share.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'core/core_importer.dart';
-import 'models/models_importer.dart';
-import 'utils/utils_importer.dart';
 import 'views/loading/loading_services.dart';
 import 'views/restart/kammunapp_restart.dart';
 
@@ -24,15 +16,11 @@ class Services {
 
   static Future<bool> addToFavorites(String productsId) async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: addToFavorite + productsId,
-        method: HttpMethods.put,
-      );
+      var response = await ApiProvider.sendRequest(url: addToFavorite + productsId, method: HttpMethods.put);
 
       if (response.statusCode == successCode) {
         return true;
       } else {
-        Tools.logToConsole('------------ ERROR ADD TO FAVORITES --------------');
         return false;
       }
     } catch (e) {
@@ -42,15 +30,11 @@ class Services {
 
   static Future<bool> removeFromFavorites(String productsId) async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: removeFromFavorite + productsId,
-        method: HttpMethods.put,
-      );
+      var response = await ApiProvider.sendRequest(url: removeFromFavorite + productsId, method: HttpMethods.put);
 
       if (response.statusCode == successCode) {
         return true;
       } else {
-        Tools.logToConsole('------------ ERROR REMOVE FROM FAVORITES --------------');
         return false;
       }
     } catch (e) {
@@ -60,19 +44,14 @@ class Services {
 
   static Future<bool> removeUserAddress(String addressId) async {
     try {
-      var response = await ApiProvider.sendRequest(
-        url: userAddress + '/$addressId',
-        method: HttpMethods.delete,
-      );
+      var response = await ApiProvider.sendRequest(url: userAddress + '/$addressId', method: HttpMethods.delete);
 
       if (response.statusCode == successCode) {
         return true;
       } else {
-        Tools.logToConsole('------------ ERROR REMOVE ADDRESS --------------');
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return false;
     }
   }
@@ -80,7 +59,7 @@ class Services {
   static Future<List<OrdersOriginalData>> getAllOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(
-          url: api + order, method: HttpMethods.get, queryParameters: {'page': pageNumber});
+          url: order, method: HttpMethods.get, queryParameters: {'page': pageNumber});
 
       if (response.statusCode == successCode) {
         LoadingScreenServices.allOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
@@ -90,8 +69,6 @@ class Services {
         return LoadingScreenServices.allOrdersList;
       }
     } catch (e) {
-      Tools.logToConsole('------------ ERROR GET USER ORDER --------------');
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -114,8 +91,6 @@ class Services {
         return LoadingScreenServices.allShoppers;
       }
     } catch (e) {
-      Tools.logToConsole('------------ ERROR GET SHOPPERS --------------');
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -131,7 +106,6 @@ class Services {
         return null;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -147,7 +121,6 @@ class Services {
         return null;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
@@ -161,11 +134,9 @@ class Services {
       if (response.statusCode == successCode) {
         return true;
       } else {
-        Tools.logToConsole('------------ ERROR UPDATE ADDRESS --------------');
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return false;
     }
   }
@@ -183,8 +154,6 @@ class Services {
         return LoadingScreenServices.warehouses;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
-
       return null;
     }
   }
@@ -208,12 +177,7 @@ class Services {
         .map(
           (subWarehouse) => DropdownMenuItem<String>(
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.68,
-              child: Text(
-                subWarehouse.name,
-                style: warehouseStyle,
-              ),
-            ),
+                width: MediaQuery.of(context).size.width * 0.68, child: Text(subWarehouse.name, style: warehouseStyle)),
             value: subWarehouse.id.toString(),
           ),
         )
@@ -224,12 +188,8 @@ class Services {
   static List<DropdownMenuItem<int>> dropdownIntList(List<String> inputList) {
     List<DropdownMenuItem<int>> list = inputList
         .asMap()
-        .map(
-          (value, string) => MapEntry(
-            value,
-            DropdownMenuItem<int>(child: Text(string, style: dropdownItemStyle), value: value + 1),
-          ),
-        )
+        .map((value, string) =>
+            MapEntry(value, DropdownMenuItem<int>(child: Text(string, style: dropdownItemStyle), value: value + 1)))
         .values
         .toList();
     return list;
@@ -238,12 +198,8 @@ class Services {
   static List<DropdownMenuItem<int>> dropdownStringList(List<String> inputList) {
     List<DropdownMenuItem<int>> list = inputList
         .asMap()
-        .map(
-          (value, string) => MapEntry(
-            value,
-            DropdownMenuItem<int>(child: Center(child: Text(string, style: dropdownItemStyle)), value: value),
-          ),
-        )
+        .map((value, string) => MapEntry(
+            value, DropdownMenuItem<int>(child: Center(child: Text(string, style: dropdownItemStyle)), value: value)))
         .values
         .toList();
     return list;
@@ -252,27 +208,14 @@ class Services {
   static List<DropdownMenuItem<String>> shoppersNameList() {
     List<DropdownMenuItem<String>> list = LoadingScreenServices.allShoppers
         .where((shopper) => shopper.status == 1)
-        .map(
-          (shopper) => DropdownMenuItem<String>(
-            child: Center(child: Text(shopper.name + ' ✅', style: dropdownItemStyle)),
-            value: shopper.name,
-          ),
-        )
+        .map((shopper) => DropdownMenuItem<String>(
+            child: Center(child: Text(shopper.name + ' ✅', style: dropdownItemStyle)), value: shopper.name))
         .toList();
     list.addAll(
       LoadingScreenServices.allShoppers
           .where((shopper) => shopper.status == 0)
-          .map(
-            (shopper) => DropdownMenuItem<String>(
-              child: Center(
-                child: Text(
-                  shopper.name + ' ❌',
-                  style: dropdownItemStyle,
-                ),
-              ),
-              value: shopper.name,
-            ),
-          )
+          .map((shopper) => DropdownMenuItem<String>(
+              child: Center(child: Text(shopper.name + ' ❌', style: dropdownItemStyle)), value: shopper.name))
           .toList(),
     );
     return list;
@@ -309,22 +252,9 @@ class Services {
   static errorFlushBar(BuildContext context) {
     return Flushbar(
       backgroundColor: Colors.red[900],
-      messageText: Text(
-        'فشل في العملية يرجى المحاولة من جديد',
-        style: flushBarStyle,
-      ),
-      boxShadows: const [
-        BoxShadow(
-          color: Colors.red,
-          offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        )
-      ],
-      icon: const Icon(
-        Icons.close,
-        size: 28.0,
-        color: Colors.white,
-      ),
+      messageText: Text('فشل في العملية يرجى المحاولة من جديد', style: flushBarStyle),
+      boxShadows: const [BoxShadow(color: Colors.red, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
+      icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
       duration: const Duration(seconds: 2),
     )..show(context);
   }
@@ -332,22 +262,9 @@ class Services {
   static successFlushBar(BuildContext context) {
     return Flushbar(
       backgroundColor: Colors.green,
-      messageText: Text(
-        'تمت العملية بنجاح',
-        style: flushBarStyle,
-      ),
-      boxShadows: [
-        BoxShadow(
-          color: ColorUtils.primaryColor,
-          offset: const Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        )
-      ],
-      icon: const Icon(
-        Icons.assignment_turned_in,
-        size: 28.0,
-        color: Colors.white,
-      ),
+      messageText: Text('تمت العملية بنجاح', style: flushBarStyle),
+      boxShadows: [BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
+      icon: const Icon(Icons.assignment_turned_in, size: 28.0, color: Colors.white),
       duration: const Duration(seconds: 1),
       leftBarIndicatorColor: ColorUtils.kmColors,
     )..show(context);

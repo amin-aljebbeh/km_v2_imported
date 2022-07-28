@@ -1,38 +1,25 @@
-import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/inventory/model/inventory_model_importer.dart';
 import 'package:kammun_app/views/loading/loading.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
-import '../../../service.dart';
-
 class InventoryServices {
   static Future<bool> getInventoryProductsService() async {
-    var response = await ApiProvider.sendRequest(
-      url: getInventoryProducts,
-      method: HttpMethods.get,
-    );
+    var response = await ApiProvider.sendRequest(url: getInventoryProducts, method: HttpMethods.get);
 
-    if (response.statusCode == successCode && response.data["success"]) {
+    if (response.statusCode == successCode && response.data['success']) {
       return true;
     } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
       return false;
     }
   }
 
   static Future<List<SubWarehouse>> getSubWarehoused({String adminId}) async {
-    var response = await ApiProvider.sendRequest(
-      url: getAdminInfo + adminId,
-      method: HttpMethods.get,
-    );
+    var response = await ApiProvider.sendRequest(url: getAdminInfo + adminId, method: HttpMethods.get);
 
-    if (response.statusCode == successCode && response.data["success"]) {
+    if (response.statusCode == successCode && response.data['success']) {
       final result = adminLoginResponseFromJson(jsonEncode(response.data));
 
       if (result.data.roles.isNotEmpty) {
@@ -47,22 +34,18 @@ class InventoryServices {
       LoadingScreenServices.phoneNumber = result.data.phone;
       return result.data.subWarehouses;
     } else {
-      Tools.logToConsole("------------ ERROR Get Sup warehouse --------------");
       return null;
     }
   }
 
   static Future<List<ProductData>> getSubWarehouseProductsService({String subWarehouseId}) async {
-    var response = await ApiProvider.sendRequest(
-      url: getSubWarehouseProducts + subWarehouseId,
-      method: HttpMethods.get,
-    );
-    if (response.statusCode == successCode && response.data["success"]) {
-      final result = syncCartFromJson(jsonEncode(response.data["data"]["products"]));
+    var response =
+        await ApiProvider.sendRequest(url: getSubWarehouseProducts + subWarehouseId, method: HttpMethods.get);
+    if (response.statusCode == successCode && response.data['success']) {
+      final result = syncCartFromJson(jsonEncode(response.data['data']['products']));
 
       return result;
     } else {
-      Tools.logToConsole("------------ ERROR CANCEL ORDER --------------");
       return null;
     }
   }
@@ -78,19 +61,15 @@ class InventoryServices {
     if (filterIndex < 3) {
       params = {StringUtils.productFilterParams[filterIndex]: number, 'page': page, 'biggar_than': biggerThan};
     } else {
-      params = {'page': page, "from_date": fromDate, "to_date": toDate};
+      params = {'page': page, 'from_date': fromDate, 'to_date': toDate};
     }
     var response = await ApiProvider.sendRequest(
-      url: StringUtils.productFilterUrls[filterIndex],
-      method: HttpMethods.get,
-      queryParameters: params,
-    );
-    if (response.statusCode == successCode && response.data["success"]) {
+        url: StringUtils.productFilterUrls[filterIndex], method: HttpMethods.get, queryParameters: params);
+    if (response.statusCode == successCode && response.data['success']) {
       final result = filteredProductsModelFromJson(jsonEncode(response.data)).data;
 
       return result;
     } else {
-      Tools.logToConsole("--------------------");
       return null;
     }
   }
@@ -104,11 +83,9 @@ class InventoryServices {
       if (response.statusCode == successCode) {
         return true;
       } else {
-        Tools.logToConsole("------------ ERROR UPDATE ADDRESS --------------");
         return false;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return false;
     }
   }
@@ -128,13 +105,11 @@ class InventoryServices {
         return null;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return null;
     }
   }
 
-  static Future<InventoryFileProductModel> fromFileChangedStatusProducts(
-      {String subWarehouseId, File file}) async {
+  static Future<InventoryFileProductModel> fromFileChangedStatusProducts({String subWarehouseId, File file}) async {
     http.StreamedResponse response;
     try {
       var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
@@ -151,7 +126,6 @@ class InventoryServices {
         return null;
       }
     } catch (e) {
-      Tools.logToConsole(e.toString());
       return null;
     }
   }

@@ -177,7 +177,6 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                       ];
                       showMyDialog(
                         title: transactionTypeString,
-                        context: context,
                         text: 'هل تريد تأكيد إتمام العملية ؟',
                         dialogButtons: decisionButton,
                       );

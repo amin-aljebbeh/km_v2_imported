@@ -6,3 +6,4 @@ export 'sales_report.dart';
 export 'shopper_transaction_view.dart';
 export 'shoppers_management_view.dart';
 export 'supplier_accounts.dart';
+export 'shopper_information_view/shopper_information_view_importer.dart';

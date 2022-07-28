@@ -3,6 +3,7 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
+import 'package:kammun_app/views/widget/close_widget.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 import '../../service.dart';
@@ -130,14 +131,8 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                     if (value == 3) {
                       showMyDialog(
                         title: 'اختر تاريخ',
-                        context: context,
                         dialogButtons: [
-                          DialogButton(
-                            text: StringUtils.close,
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
+                          const CloseWidget(),
                           DialogButton(
                             text: StringUtils.send,
                             onTap: () {

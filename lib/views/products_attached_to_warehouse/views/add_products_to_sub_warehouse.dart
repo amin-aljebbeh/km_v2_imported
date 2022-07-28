@@ -29,17 +29,17 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       isError = false;
     });
     dynamic body = {
-      "product_id": widget.productData.id.toString(),
-      "sub_warehouse_id": _selectedValue.toString(),
-      "price": priceController.text ?? "0",
-      "is_featured": "0",
-      "is_active": switchController ? "1" : "0",
-      "priority": "100",
-      "supplier_code": supplierCodeController.text,
-      "min_threshold": "0",
-      "increase_percentage": "0",
-      "price_factor": priceFactorController.text ?? "1",
-      "automatic_activation": "0",
+      'product_id': widget.productData.id.toString(),
+      'sub_warehouse_id': _selectedValue.toString(),
+      'price': priceController.text ?? '0',
+      'is_featured': '0',
+      'is_active': switchController ? '1' : '0',
+      'priority': '100',
+      'supplier_code': supplierCodeController.text,
+      'min_threshold': '0',
+      'increase_percentage': '0',
+      'price_factor': priceFactorController.text ?? '1',
+      'automatic_activation': '0',
       'barcode': barcode,
     };
 
@@ -65,11 +65,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
   bool switchController = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -82,31 +77,15 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Opacity(
-                      opacity: 0.0,
-                      child: Icon(
-                        Icons.home,
-                        color: Colors.white,
-                        size: 40,
-                      ),
-                    ),
+                    const Opacity(opacity: 0.0, child: Icon(Icons.home, color: Colors.white, size: 40)),
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0),
                       child: Transform.scale(
                         scale: 2,
                         child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/home',
-                              (Route<dynamic> route) => false,
-                            );
-                          },
-                          child: Image.asset(
-                            "assets/logobw.png",
-                            width: 150,
-                            height: 50,
-                          ),
+                          onTap: () =>
+                              Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false),
+                          child: Image.asset('assets/logobw.png', width: 150, height: 50),
                         ),
                       ),
                     ),
@@ -114,11 +93,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         padding: const EdgeInsets.only(top: 5.0, left: 0),
                         child: IconButton(
                             onPressed: () => Navigator.of(context).pop(true),
-                            icon: const Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.white,
-                              size: 40,
-                            ))),
+                            icon: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 40))),
                   ]),
             ],
           ),
@@ -134,36 +109,23 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                   shrinkWrap: true,
                   children: [
                     Text(
-                      "يرجى إختيار المستودع التابع لهذه المادة",
-                      style: TextStyle(
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      'يرجى إختيار المستودع التابع لهذه المادة',
+                      style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold),
                     ),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
                         children: LoadingScreenServices.subWarehouses
                             .map((data) => Container(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                  ),
+                                  decoration: const BoxDecoration(color: Colors.white),
                                   child: RadioListTile(
                                     controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
-                                    title: Text(
-                                      data.name,
-                                      style: TextStyle(
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      ),
-                                    ),
+                                    title:
+                                        Text(data.name, style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
                                     groupValue: _selectedValue,
                                     value: data.id,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        _selectedValue = data.id;
-                                      });
-                                    },
+                                    onChanged: (val) => setState(() => _selectedValue = data.id),
                                   ),
                                 ))
                             .toList(),
@@ -175,12 +137,12 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         ProductEntryField(
                             controller: supplierCodeController,
                             title: StringUtils.supplierCode,
-                            hint: "123456",
+                            hint: '123456',
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
                             controller: priceController,
                             title: StringUtils.price,
-                            hint: "5000",
+                            hint: '5000',
                             width: MediaQuery.of(context).size.width / 3),
                       ],
                     ),
@@ -190,26 +152,19 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                         ProductEntryField(
                             controller: priceFactorController,
                             title: StringUtils.priceFactor,
-                            hint: "1",
+                            hint: '1',
                             width: MediaQuery.of(context).size.width / 4),
                         SizedBox(
                           width: 110,
-                          // height: 100,
                           child: Container(
                             margin: const EdgeInsets.all(15.0),
                             padding: const EdgeInsets.all(3.0),
                             decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10.0) //                 <--- border radius here
-                                    ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                                 border: Border.all(color: ColorUtils.primaryColor, width: 2)),
                             child: Switch(
                               value: switchController,
-                              onChanged: (value) {
-                                setState(() {
-                                  switchController = value;
-                                });
-                              },
+                              onChanged: (value) => setState(() => switchController = value),
                               activeTrackColor: ColorUtils.kmColors2,
                               activeColor: ColorUtils.kmColors,
                             ),
@@ -222,12 +177,6 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       height: 50,
                       color: completeData() ? ColorUtils.kmColors : ColorUtils.searchGreyColor,
                       onTap: () async {
-                        Tools.logToConsole('supplierCodeController.text');
-                        Tools.logToConsole(supplierCodeController.text);
-                        Tools.logToConsole('priceController.text');
-                        Tools.logToConsole(priceController.text);
-                        Tools.logToConsole('priceFactorController.text');
-                        Tools.logToConsole(priceFactorController.text);
                         if (completeData()) {
                           bool result = await attachProduct(widget.barcode, context);
 
@@ -237,7 +186,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                           }
                           Services.resultFlushBar(context: context, result: result);
                         } else {
-                          Toast.show("يرجى إدخال كافة البيانات", context,
+                          Toast.show('يرجى إدخال كافة البيانات', context,
                               duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                         }
                       },

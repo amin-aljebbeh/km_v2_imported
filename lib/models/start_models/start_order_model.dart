@@ -2,67 +2,31 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/service.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/login/models/admin_model.dart';
+import '../../views/orders/model/get_order_model.dart';
 
 OrdersOriginal ordersFromJson(String str) => OrdersOriginal.fromJson(json.decode(str));
 
-class Orders {
-  Orders({
-    this.headers,
-    this.original,
-    this.exception,
-  });
-
-  Headers headers;
-  OrdersOriginal original;
-  dynamic exception;
-
-  factory Orders.fromJson(Map<String, dynamic> json) => Orders(
-        headers: Headers.fromJson(json['headers']),
-        original: OrdersOriginal.fromJson(json['original']),
-        exception: json['exception'],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'headers': headers.toJson(),
-        'original': original.toJson(),
-        'exception': exception,
-      };
-}
-
 class OrdersOriginal {
-  OrdersOriginal({
-    this.success,
-    this.data,
-  });
+  OrdersOriginal({this.success, this.data});
 
   bool success;
   PageData data;
 
-  factory OrdersOriginal.fromJson(Map<String, dynamic> json) => OrdersOriginal(
-        success: json['success'],
-        data: PageData.fromJson(json['data']),
-      );
+  factory OrdersOriginal.fromJson(Map<String, dynamic> json) =>
+      OrdersOriginal(success: json['success'], data: PageData.fromJson(json['data']));
 
-  Map<String, dynamic> toJson() => {
-        'success': success,
-        'data': data.toJson(),
-      };
+  Map<String, dynamic> toJson() => {'success': success, 'data': data.toJson()};
 }
 
 class PageData {
-  PageData({
-    this.data,
-  });
+  PageData({this.data});
 
   List<OrdersOriginalData> data;
 
-  factory PageData.fromJson(Map<String, dynamic> json) => PageData(
-        data: List<OrdersOriginalData>.from(json['data'].map((x) => OrdersOriginalData.fromJson(x))),
-      );
+  factory PageData.fromJson(Map<String, dynamic> json) =>
+      PageData(data: List<OrdersOriginalData>.from(json['data'].map((x) => OrdersOriginalData.fromJson(x))));
 
-  Map<String, dynamic> toJson() => {
-        'data': List<dynamic>.from(data.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() => {'data': List<dynamic>.from(data.map((x) => x.toJson()))};
 }
 
 class OrdersOriginalData {
@@ -97,6 +61,7 @@ class OrdersOriginalData {
     this.shopperProfit,
     this.kammunProfit,
     this.userFeedback,
+    this.cashValue,
   });
 
   int id;
@@ -127,10 +92,11 @@ class OrdersOriginalData {
   List<OrderProducts> products;
   List<OrderImage> images;
   Assigned shopper;
-
+  ShowData showData;
   List<OrderAccountingRow> orderAccountingRows;
   double kammunProfit;
   double shopperProfit;
+  String cashValue;
 
   factory OrdersOriginalData.fromJson(Map<String, dynamic> json) => OrdersOriginalData(
         id: json['id'],
@@ -144,8 +110,7 @@ class OrdersOriginalData {
         addressId: json['address_id'].toString(),
         userId: json['user_id'].toString(),
         couponId: json['coupon_id'].toString(),
-        userDeliveryRating:
-            json['user_delivery_rating'] == null ? 'null' : json['user_delivery_rating'].toString(),
+        userDeliveryRating: json['user_delivery_rating'] == null ? 'null' : json['user_delivery_rating'].toString(),
         userPriceRating: json['user_price_rating'].toString(),
         total: json['total'].toString(),
         userData: json['user'] == null ? null : UserData.fromJson(json['user']),
@@ -157,18 +122,16 @@ class OrdersOriginalData {
         deliveryStaffId: json['delivery_staff_id'].toString(),
         products: List<OrderProducts>.from(json['products'].map((x) => OrderProducts.fromJson(x))),
         shopper: json['shopper'] == null ? null : Assigned.fromJson(json['shopper']),
-        images:
-            json['images'] == null ? [] : List<OrderImage>.from(json['images'].map((x) => OrderImage.fromJson(x))),
+        images: json['images'] == null ? [] : List<OrderImage>.from(json['images'].map((x) => OrderImage.fromJson(x))),
         orderAccountingRows: [],
         shopperProfit: 0,
         kammunProfit: 0,
         userFeedback: json['user_feedback'] ?? 'null',
-        deliveredAt: json['delivered_at'] != null
-            ? DateTime.parse(json['delivered_at'])
-            : DateTime.parse('2022-03-07 17:00:08'),
-        acceptedAt: json['accepted_at'] != null
-            ? DateTime.parse(json['accepted_at'])
-            : DateTime.parse('2022-03-07 17:00:08'),
+        deliveredAt:
+            json['delivered_at'] != null ? DateTime.parse(json['delivered_at']) : DateTime.parse('2022-03-07 17:00:08'),
+        acceptedAt:
+            json['accepted_at'] != null ? DateTime.parse(json['accepted_at']) : DateTime.parse('2022-03-07 17:00:08'),
+        cashValue: json['cash_v'].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -295,12 +258,7 @@ class OrdersOriginalData {
 }
 
 class Assigned {
-  Assigned({
-    this.id,
-    this.name,
-    this.admin,
-    this.levelId,
-  });
+  Assigned({this.id, this.name, this.admin, this.levelId});
 
   int id;
   String name;
@@ -308,15 +266,10 @@ class Assigned {
   int levelId;
 
   factory Assigned.fromJson(Map<String, dynamic> json) => Assigned(
-        id: json['id'],
-        name: json['name'],
-        admin: json['admin'] == null ? null : AdminModel.fromJson(json['admin']),
-        levelId: json['level_id'] ?? 0,
-      );
+      id: json['id'],
+      name: json['name'],
+      admin: json['admin'] == null ? null : AdminModel.fromJson(json['admin']),
+      levelId: json['level_id'] ?? 0);
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'admin': admin,
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'admin': admin};
 }

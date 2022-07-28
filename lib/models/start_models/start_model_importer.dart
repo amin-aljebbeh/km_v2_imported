@@ -11,4 +11,3 @@ export 'order_product_model.dart';
 export 'supported_city.dart';
 export 'user_model.dart';
 export 'warehouse_model.dart';
-export 'start_model.dart';

@@ -27,7 +27,6 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
       onPressed: () {
         showMyDialog(
           title: 'طلبات الرقم',
-          context: context,
           content: Column(
             children: [
               Padding(
@@ -141,7 +140,6 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                 List<CallLogEntry> cLog = await OrderServices.callbackDispatcher();
                 showMyDialog(
                   title: 'اختيار رقم',
-                  context: context,
                   dialogButtons: [
                     DialogButton(
                       text: StringUtils.close,

@@ -10,25 +10,18 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
 import 'package:kammun_app/views/orders/orders_view_importer.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
+import 'package:kammun_app/views/widget/close_widget.dart';
 import 'package:map_launcher/map_launcher.dart';
-import 'package:v_chat_sdk/v_chat_sdk.dart';
 
 class OrdersViewCard extends StatefulWidget {
   final OrdersOriginalData orderData;
   final OrderTypes orderType;
   final bool pop;
 
-  const OrdersViewCard({
-    Key key,
-    @required this.orderData,
-    @required this.orderType,
-    this.pop,
-  }) : super(key: key);
+  const OrdersViewCard({Key key, @required this.orderData, @required this.orderType, this.pop}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return OrdersViewCardState();
-  }
+  State<StatefulWidget> createState() => OrdersViewCardState();
 }
 
 openMapsSheet({context, double lat, double lon}) async {
@@ -46,13 +39,9 @@ openMapsSheet({context, double lat, double lon}) async {
               children: <Widget>[
                 for (var map in availableMaps)
                   ListTile(
-                    onTap: () => map.showMarker(
-                      coords: coords,
-                      title: title,
-                    ),
-                    title: Text(map.mapName),
-                    leading: const Icon(Icons.map),
-                  ),
+                      onTap: () => map.showMarker(coords: coords, title: title),
+                      title: Text(map.mapName),
+                      leading: const Icon(Icons.map))
               ],
             ),
           ),
@@ -60,7 +49,7 @@ openMapsSheet({context, double lat, double lon}) async {
       },
     );
   } catch (e) {
-    Tools.logToConsole(e.toString());
+/**/
   }
 }
 
@@ -116,21 +105,16 @@ class OrdersViewCardState extends State<OrdersViewCard> {
     String shopper;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () {
-        Navigator.push(
+      onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => OrderDetailsTabView(
-              orderData: widget.orderData,
-              subTotal: int.parse(widget.orderData.total.toString().split('.')[0]) -
-                  int.parse(widget.orderData.supportedCityCost.toString().split('.')[0]) -
-                  int.parse(widget.orderData.deliveryCost.split('.')[0]),
-              total: widget.orderData.total.toString(),
-              orderType: widget.orderType,
-            ),
-          ),
-        );
-      },
+              builder: (context) => OrderDetailsTabView(
+                  orderData: widget.orderData,
+                  subTotal: int.parse(widget.orderData.total.toString().split('.')[0]) -
+                      int.parse(widget.orderData.supportedCityCost.toString().split('.')[0]) -
+                      int.parse(widget.orderData.deliveryCost.split('.')[0]),
+                  total: widget.orderData.total.toString(),
+                  orderType: widget.orderType))),
       child: Container(
         decoration: BoxDecoration(border: Border.all(color: color, width: 5)),
         child: Padding(
@@ -144,20 +128,18 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 children: <Widget>[
                   LabelRow(
                     rightSideText: StringUtils.bill,
-                    leftSideText: '${StringUtils().oCcy.format(int.parse(widget.orderData.total)).toString()}'
+                    leftSideText:
+                        '${StringUtils().oCcy.format(int.parse(widget.orderData.cashValue.split('.')[0]).abs()).toString()}'
                         ' ${LoadingScreenServices.companyInformation.currency.toString()}',
-                    leftSideStyle: informationStyle,
+                    leftSideStyle: int.parse(widget.orderData.cashValue.split('.')[0]).isNegative
+                        ? informationStyle.copyWith(color: Colors.red)
+                        : informationStyle,
                   ),
                   Container(
                     padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2)),
-                    ),
+                    decoration: BoxDecoration(border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2))),
                     child: Text(
-                      widget.orderData.products
-                          .where((product) => product.pivot.deletedAt == 'null')
-                          .length
-                          .toString(),
+                      widget.orderData.products.where((product) => product.pivot.deletedAt == 'null').length.toString(),
                       style: paragraphStyle,
                       textAlign: TextAlign.center,
                     ),
@@ -165,69 +147,25 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   if ((Services.isAdmin() || Services.isOperationManager()) && deletedCount > 0)
                     Container(
                       padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.red.withOpacity(0.2)),
-                      ),
-                      child: Text(
-                        deletedCount.toString(),
-                        style: loseStyle.copyWith(fontSize: 18),
-                        textAlign: TextAlign.center,
-                      ),
+                      decoration: BoxDecoration(border: Border.all(color: Colors.red.withOpacity(0.2))),
+                      child: Text(deletedCount.toString(),
+                          style: loseStyle.copyWith(fontSize: 18), textAlign: TextAlign.center),
                     ),
                   if (Services.isOperationManager() &&
                       (widget.orderData.userDeliveryRating != 'null' || widget.orderData.userFeedback != 'null'))
                     IconButton(
                       icon: Icon(Icons.star, color: ColorUtils.kmColors2, size: 30),
                       padding: EdgeInsets.zero,
-                      onPressed: () {
-                        showMyDialog(
-                          title: StringUtils.ratingOrder,
-                          context: context,
-                          text: (widget.orderData.userDeliveryRating != 'null'
-                                  ? widget.orderData.userDeliveryRating + '\n'
-                                  : '') +
-                              (widget.orderData.userFeedback != 'null'
-                                  ? widget.orderData.userFeedback + '\n'
-                                  : ''),
-                          dialogButtons: [
-                            DialogButton(
-                              text: StringUtils.close,
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                            )
-                          ],
-                        );
-                      },
-                    ),
-                  IconButton(
-                    icon: Icon(Icons.chat, color: ColorUtils.kmColors, size: 30),
-                    onPressed: () {
-                      String txt;
-                      showMyDialog(
-                        title: 'إبدأ المحادثة',
+                      onPressed: () => showMyDialog(
+                        title: StringUtils.ratingOrder,
                         context: context,
-                        dialogButtons: [
-                          DialogButton(
-                            text: StringUtils.send,
-                            onTap: () async {
-                              await VChatController.instance.createSingleChat(
-                                orderId: widget.orderData.id.toString(),
-                                peerEmail: '1000000009' /*widget.orderData.userData.phone*/,
-                                message: txt,
-                                context: context,
-                              );
-                            },
-                          ),
-                        ],
-                        content: TextField(
-                          cursorColor: ColorUtils.primaryColor,
-                          onChanged: (value) => txt = value,
-                        ),
-                      );
-                    },
-                    padding: EdgeInsets.zero,
-                  ),
+                        text: (widget.orderData.userDeliveryRating != 'null'
+                                ? widget.orderData.userDeliveryRating + '\n'
+                                : '') +
+                            (widget.orderData.userFeedback != 'null' ? widget.orderData.userFeedback + '\n' : ''),
+                        dialogButtons: [const CloseWidget()],
+                      ),
+                    ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -238,11 +176,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         style: profitStyle.copyWith(color: Colors.purple),
                       ),
                       RichText(
-                        text: TextSpan(
-                          text: StringUtils().oCcy.format(widget.orderData.shopperProfit).toString(),
-                          style: profitStyle,
-                        ),
-                      ),
+                          text: TextSpan(
+                              text: StringUtils().oCcy.format(widget.orderData.shopperProfit).toString(),
+                              style: profitStyle))
                     ],
                   )
                 ],
@@ -265,86 +201,63 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           padding: const EdgeInsets.all(0),
                           onPressed: () {
                             Clipboard.setData(ClipboardData(text: widget.orderData.userData.phone));
-                            Toast.show('تم نسخ الرقم', context,
-                                duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+                            Toast.show('تم نسخ الرقم', context, duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
                           },
                         ),
                         MediaIcon(
-                          icon: FontAwesomeIcons.whatsapp,
-                          url: 'customer_whatsapp',
-                          mobileNumber: widget.orderData.userData.phone,
-                        ),
+                            icon: FontAwesomeIcons.whatsapp,
+                            url: 'customer_whatsapp',
+                            mobileNumber: widget.orderData.userData.phone),
                         IconButton(
                           icon: Icon(Icons.search_rounded, color: ColorUtils.kmColors, size: 30),
                           padding: const EdgeInsets.all(0),
                           onPressed: () {
                             LoadingScreenServices.allOrdersList.clear();
-                            if (widget.pop) {
-                              Navigator.of(context).pop();
-                            }
+                            if (widget.pop) Navigator.of(context).pop();
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (screenContext) =>
-                                    PhoneNumberOrdersView(phoneNumber: widget.orderData.userData.phone),
-                              ),
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (screenContext) =>
+                                        PhoneNumberOrdersView(phoneNumber: widget.orderData.userData.phone)));
                           },
                         ),
                       ],
                     ),
                   if (widget.orderData.address.lat != -1 && widget.orderData.address.lon != -1)
                     IconButton(
-                      icon: Icon(
-                        Icons.location_on,
-                        color: ColorUtils.kmColors,
-                        size: 30,
-                      ),
-                      padding: const EdgeInsets.all(0),
-                      onPressed: () {
-                        openMapsSheet(
-                            context: context,
-                            lat: widget.orderData.address.lat,
-                            lon: widget.orderData.address.lon);
-                      },
-                    ),
+                        icon: Icon(Icons.location_on, color: ColorUtils.kmColors, size: 30),
+                        padding: const EdgeInsets.all(0),
+                        onPressed: () => openMapsSheet(
+                            context: context, lat: widget.orderData.address.lat, lon: widget.orderData.address.lon)),
                 ],
               ),
               LabelRow(
-                rightSideText: StringUtils.address + ' : ',
-                leftSideText: widget.orderData.address.street +
-                    ' ' +
-                    widget.orderData.address.building +
-                    ' طابق ' +
-                    widget.orderData.address.floor +
-                    ' ' +
-                    widget.orderData.address.description,
-                leftSideStyle: informationStyle,
-              ),
+                  rightSideText: StringUtils.address + ' : ',
+                  leftSideText: widget.orderData.address.street +
+                      ' ' +
+                      widget.orderData.address.building +
+                      ' طابق ' +
+                      widget.orderData.address.floor +
+                      ' ' +
+                      widget.orderData.address.description,
+                  leftSideStyle: informationStyle),
               LabelRow(
-                rightSideText: StringUtils.city,
-                leftSideText: LoadingScreenServices.supportedCitiesListIntro
-                        .where((supportedCity) => supportedCity.id == widget.orderData.supportedCityId)
-                        .first
-                        .name +
-                    '   ',
-                leftSideStyle: informationStyle,
-              ),
+                  rightSideText: StringUtils.city,
+                  leftSideText: LoadingScreenServices.supportedCitiesListIntro
+                          .where((supportedCity) => supportedCity.id == widget.orderData.supportedCityId)
+                          .first
+                          .name +
+                      '   ',
+                  leftSideStyle: informationStyle),
               LabelRow(
-                rightSideText: StringUtils.entrance,
-                leftSideText: widget.orderData.address.entrance,
-                leftSideStyle: informationStyle,
-              ),
+                  rightSideText: StringUtils.entrance,
+                  leftSideText: widget.orderData.address.entrance,
+                  leftSideStyle: informationStyle),
               LabelRow(
-                rightSideText: StringUtils.orderDate,
-                leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(widget.orderData.createdAt),
-                leftSideStyle: disableStyle,
-              ),
-              LabelRow(
-                rightSideText: orderStatus,
-                leftSideText: '',
-                leftSideStyle: informationStyle,
-              ),
+                  rightSideText: StringUtils.orderDate,
+                  leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(widget.orderData.createdAt),
+                  leftSideStyle: disableStyle),
+              LabelRow(rightSideText: orderStatus, leftSideText: '', leftSideStyle: informationStyle),
               if (Services.isOperationManager() && widget.orderData.orderStatusId == '5')
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -355,15 +268,13 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours.toString() +
                           ':' +
                           (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes -
-                                  (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours *
-                                      60))
+                                  (widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inHours * 60))
                               .toString(),
                       leftSideStyle: (widget.orderData.deliveryMethodId == '2' &&
                               widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes > 45)
                           ? warningStyle
                           : (widget.orderData.deliveryMethodId == '1' &&
-                                  widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes >
-                                      90)
+                                  widget.orderData.deliveredAt.difference(widget.orderData.acceptedAt).inMinutes > 90)
                               ? warningStyle
                               : disableStyle,
                     ),
@@ -373,15 +284,13 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inHours.toString() +
                           ':' +
                           (widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes -
-                                  (widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inHours *
-                                      60))
+                                  (widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inHours * 60))
                               .toString(),
                       leftSideStyle: (widget.orderData.deliveryMethodId == '2' &&
                               widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes > 45)
                           ? warningStyle
                           : (widget.orderData.deliveryMethodId == '1' &&
-                                  widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes >
-                                      90)
+                                  widget.orderData.deliveredAt.difference(widget.orderData.createdAt).inMinutes > 90)
                               ? warningStyle
                               : disableStyle,
                     ),
@@ -389,8 +298,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 ),
               if (Services.isOperationManager())
                 KSearchableDropdown(
-                  hint:
-                      widget.orderData.shopper != null ? widget.orderData.shopper.name : StringUtils.chooseShopper,
+                  hint: widget.orderData.shopper != null ? widget.orderData.shopper.name : StringUtils.chooseShopper,
                   search: shopper,
                   items: Services.shoppersNameList(),
                   onChanged: (value) async {
@@ -404,8 +312,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                             id: int.parse(shopperId),
                             levelId: shopperLevelId);
                       });
-                      bool result = await OrderServices.assignOrderToShopperService(
-                          shopperId, widget.orderData.id.toString());
+                      bool result =
+                          await OrderServices.assignOrderToShopperService(shopperId, widget.orderData.id.toString());
                       Services.resultFlushBar(context: context, result: result);
                     }
                   },
