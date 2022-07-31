@@ -10,12 +10,7 @@ class Transaction extends StatelessWidget {
   final bool newTransaction;
   final Function(DateTime) show;
 
-  const Transaction({
-    Key key,
-    @required this.transaction,
-    @required this.newTransaction,
-    this.show,
-  }) : super(key: key);
+  const Transaction({Key key, @required this.transaction, @required this.newTransaction, this.show}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +75,7 @@ class Transaction extends StatelessWidget {
                     if (transaction.description != null)
                       IconButton(
                         icon: Icon(Icons.device_unknown, color: ColorUtils.primaryColor),
-                        onPressed: () {
-                          showMyDialog(title: 'الوصف', context: context, text: transaction.description);
-                        },
+                        onPressed: () => showMyDialog(title: 'الوصف', text: transaction.description),
                         padding: const EdgeInsets.only(top: 25, right: 15),
                       ),
                   ],

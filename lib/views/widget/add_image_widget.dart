@@ -29,25 +29,11 @@ class _AddImageWidgetState extends State<AddImageWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
-              child: Icon(
-                Icons.camera,
-                color: ColorUtils.kmColors,
-                size: 40,
-              ),
-              onPressed: () {
-                getImage(ImageSource.camera);
-              },
-            ),
+                child: Icon(Icons.camera, color: ColorUtils.kmColors, size: 40),
+                onPressed: () => getImage(ImageSource.camera)),
             TextButton(
-              child: Icon(
-                Icons.image,
-                color: ColorUtils.kmColors,
-                size: 40,
-              ),
-              onPressed: () {
-                getImage(ImageSource.gallery);
-              },
-            ),
+                child: Icon(Icons.image, color: ColorUtils.kmColors, size: 40),
+                onPressed: () => getImage(ImageSource.gallery)),
           ],
         ),
         isLoading
@@ -58,30 +44,17 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                       Container(
                         alignment: Alignment.center,
                         padding: const EdgeInsets.only(top: 10),
-                        child: SelectedFileToUpload(
-                          image: image,
-                          name: '',
-                          close: () {
-                            setState(() {
-                              image = null;
-                              // _uploadedFile = null;
-                            });
-                          },
-                        ),
+                        child: SelectedFileToUpload(image: image, name: '', close: () => setState(() => image = null)),
                       ),
                       KammunButton(
-                        text: "حفظ الصورة",
+                        text: 'حفظ الصورة',
                         height: 50,
                         color: ColorUtils.kmColors,
+                        width: MediaQuery.of(context).size.width * 0.9,
                         onTap: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
+                          setState(() => isLoading = true);
                           await widget.onSubmit(image);
-
-                          setState(() {
-                            isLoading = false;
-                          });
+                          setState(() => isLoading = false);
                         },
                       ),
                     ],
@@ -92,8 +65,7 @@ class _AddImageWidgetState extends State<AddImageWidget> {
   }
 
   Future getImage(ImageSource imageSource) async {
-    final pickedFile =
-        await picker.pickImage(source: imageSource, imageQuality: 25, maxHeight: 1500, maxWidth: 1500);
+    final pickedFile = await picker.pickImage(source: imageSource, imageQuality: 25, maxHeight: 1500, maxWidth: 1500);
 
     setState(() {
       if (pickedFile != null) {

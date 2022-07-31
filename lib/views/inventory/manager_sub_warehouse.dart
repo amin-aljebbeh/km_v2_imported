@@ -61,15 +61,9 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: ColorUtils.primaryColor,
-        title: Text(
-          StringUtils.kammun,
-          style: TextStyle(
-            fontFamily: StringUtils.fontFamilyHKGrotesk,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+          backgroundColor: ColorUtils.primaryColor,
+          title: Text(StringUtils.kammun,
+              style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold))),
       body: Container(
         child: isLoading
             ? const Loader()

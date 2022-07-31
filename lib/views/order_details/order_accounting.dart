@@ -1,11 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
-import 'package:kammun_app/views/reports/add_transaction_view.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
+import 'package:kammun_app/views/order_details/invoice_view.dart';
 
-import '../../service.dart';
 import 'full_screen_image.dart';
 import 'services/order_details_services.dart';
 
@@ -20,7 +16,6 @@ class OrderAccounting extends StatefulWidget {
 }
 
 class _OrderAccountingState extends State<OrderAccounting> {
-  double distance;
   List<Widget> subWarehouseTotal = [];
   List<InkWell> imageWidgets = [];
   List<OrderImage> images = [];
@@ -46,9 +41,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   Services.resultFlushBar(context: context, result: result);
                   if (result) {
                     setState(() {
-                      widget.orderData.images.removeWhere(
-                        (image) => image.id == widget.orderData.images[i].id,
-                      );
+                      widget.orderData.images.removeWhere((image) => image.id == widget.orderData.images[i].id);
                       images.clear();
                       images.addAll(widget.orderData.images);
                       widget.onDelete();
@@ -101,9 +94,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
                       : widget.orderData.orderAccountingRows[i].payToSubWarehouse),
                 ),
                 KTableElement(
-                  text: StringUtils().oCcy.format(widget.orderData.orderAccountingRows[i].netPrice +
-                      widget.orderData.orderAccountingRows[i].increaseValuesSum),
-                ),
+                    text: StringUtils().oCcy.format(widget.orderData.orderAccountingRows[i].netPrice +
+                        widget.orderData.orderAccountingRows[i].increaseValuesSum)),
               ],
             ));
           }
@@ -113,11 +105,9 @@ class _OrderAccountingState extends State<OrderAccounting> {
               int.parse(widget.orderData.deliveryCost.split('.')[0]);
           int subTotal = int.parse(widget.orderData.total.split('.')[0]) - delivery;
           subWarehouseTotal.add(KTableRow(
-            children: [KTableElement(text: StringUtils.subtotal), KTableElement(text: subTotal.toString())],
-          ));
+              children: [KTableElement(text: StringUtils.subtotal), KTableElement(text: subTotal.toString())]));
           subWarehouseTotal.add(KTableRow(
-            children: [const KTableElement(text: 'أجور التوصيل'), KTableElement(text: delivery.toString())],
-          ));
+              children: [const KTableElement(text: 'أجور التوصيل'), KTableElement(text: delivery.toString())]));
           subWarehouseTotal.add(KTableRow(
             children: [
               KTableElement(text: StringUtils.total),
@@ -126,8 +116,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
           ));
         } else {
           subWarehouseTotal.add(KTableRow(
-            children: [KTableElement(text: StringUtils.total), KTableElement(text: widget.subTotal.toString())],
-          ));
+              children: [KTableElement(text: StringUtils.total), KTableElement(text: widget.subTotal.toString())]));
         }
       },
     );
@@ -135,7 +124,6 @@ class _OrderAccountingState extends State<OrderAccounting> {
 
   @override
   Widget build(BuildContext context) {
-    distance = MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height * 0.25);
     _calculate();
     if (widget.orderData.images != null) getImages();
     return Scaffold(
@@ -146,86 +134,59 @@ class _OrderAccountingState extends State<OrderAccounting> {
               children: [
                 Column(children: subWarehouseTotal),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  child: GridView(
-                    scrollDirection: Axis.vertical,
-                    primary: false,
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: 2,
-                    ),
-                    children: imageWidgets,
-                  ),
-                ),
-                const SizedBox(height: 100),
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    child: GridView(
+                        scrollDirection: Axis.vertical,
+                        primary: false,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, crossAxisSpacing: 8, mainAxisSpacing: 8, childAspectRatio: 2),
+                        children: imageWidgets)),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.4),
               ],
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height * 0.71),
+              bottom: 25,
               right: MediaQuery.of(context).size.width * 0.05,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.6,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const SizedBox(height: 1),
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(width: 1),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.9,
-                              child: AddImageWidget(
-                                onSubmit: (image) async {
-                                  bool result = await OrderDetailsServices.addImageToOrderService(
-                                      image: image, orderId: widget.orderData.id.toString());
-                                  Services.resultFlushBar(context: context, result: result);
-                                  setState(() {});
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 1),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const SizedBox(width: 1),
-                            Services.isOperationManager()
-                                ? KammunButton(
-                                    color: ColorUtils.kmColors,
-                                    onTap: () {
-                                      if (widget.orderData.shopper == null) {
-                                        Toast.show('هذا الطلب غير مسند لمتسوق', context,
-                                            duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
-                                      } else {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => AddTransactionView(
-                                                    orderId: widget.orderData.id,
-                                                    shopperName: widget.orderData.shopper.name)));
-                                      }
-                                    },
-                                    text: StringUtils.addTransaction,
-                                    width: MediaQuery.of(context).size.width * 0.9,
-                                    height: 50,
-                                  )
-                                : Container(),
-                            const SizedBox(width: 1),
-                          ],
-                        ),
-                      ],
+              child: Column(
+                children: [
+                  AddImageWidget(
+                    onSubmit: (image) async {
+                      bool result = await OrderDetailsServices.addImageToOrderService(
+                          image: image, orderId: widget.orderData.id.toString());
+                      Services.resultFlushBar(context: context, result: result);
+                      setState(() {});
+                    },
+                  ),
+                  if (Services.isOperationManager())
+                    KammunButton(
+                      color: ColorUtils.kmColors,
+                      onTap: () {
+                        if (widget.orderData.shopper == null) {
+                          Toast.show('هذا الطلب غير مسند لمتسوق', context,
+                              duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AddTransactionView(
+                                      orderId: widget.orderData.id, shopperName: widget.orderData.shopper.name)));
+                        }
+                      },
+                      text: StringUtils.addTransaction,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: 50,
                     ),
-                  ],
-                ),
+                  KammunButton(
+                    color: ColorUtils.kmColors,
+                    onTap: () => Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => InvoiceView(orderId: widget.orderData.id))),
+                    text: 'تفاصيل فاتورة الزبون',
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: 50,
+                  ),
+                ],
               ),
             ),
           ],

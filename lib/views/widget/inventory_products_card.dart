@@ -9,6 +9,7 @@ import 'package:kammun_app/views/products_attached_to_warehouse/views/add_produc
 import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
+import 'package:kammun_app/views/widget/close_widget.dart';
 
 import '../../utils/utils_importer.dart';
 
@@ -73,16 +74,10 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     String price = widget.price;
     if (Services.isSupplierManager() && widget.price != '0') {
-      price =
-          (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
+      price = (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
     }
     return Container(
       color: Theme.of(context).primaryColorLight,
@@ -97,24 +92,18 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                 MaterialPageRoute(
                   builder: (context) => ProductDetailView(
                     product: widget.productData,
-                    onChangePrice: (newValue) {
-                      setState(() {
-                        widget.productData.price = newValue;
-                        widget.onChangePrice(newValue);
-                      });
-                    },
-                    onChangeUnit: (newValue) {
-                      setState(() {
-                        widget.productData.unit = newValue;
-                        widget.onChangeUnit(newValue);
-                      });
-                    },
-                    onChangeQuantity: (newValue) {
-                      setState(() {
-                        widget.productData.price = newValue;
-                        widget.onChangeQuantity(newValue);
-                      });
-                    },
+                    onChangePrice: (newValue) => setState(() {
+                      widget.productData.price = newValue;
+                      widget.onChangePrice(newValue);
+                    }),
+                    onChangeUnit: (newValue) => setState(() {
+                      widget.productData.unit = newValue;
+                      widget.onChangeUnit(newValue);
+                    }),
+                    onChangeQuantity: (newValue) => setState(() {
+                      widget.productData.price = newValue;
+                      widget.onChangeQuantity(newValue);
+                    }),
                   ),
                 ),
               );
@@ -124,10 +113,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Divider(
-                thickness: 0.8,
-                color: Colors.grey[800],
-              ),
+              Divider(thickness: 0.8, color: Colors.grey[800]),
               Row(
                 children: <Widget>[
                   KCacheImage(
@@ -171,7 +157,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                             Wrap(
                               children: [
                                 Text(
-                                  StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() + "  ",
+                                  StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() + '  ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: ColorUtils.primaryColor,
@@ -238,16 +224,9 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                 height: 58,
                                 width: 69,
                                 decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10.0) //                 <--- border radius here
-                                        ),
+                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                                     border: Border.all(color: Colors.red, width: 2)),
-                                child: Center(
-                                  child: Text(
-                                    widget.deleteTimes.toString(),
-                                    style: loseStyle,
-                                  ),
-                                ),
+                                child: Center(child: Text(widget.deleteTimes.toString(), style: loseStyle)),
                               ),
                             Container(
                               height: 58,
@@ -255,52 +234,37 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                               margin: const EdgeInsets.all(15.0),
                               padding: const EdgeInsets.all(3.0),
                               decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10.0) //                 <--- border radius here
-                                      ),
+                                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                                   border: Border.all(color: ColorUtils.primaryColor, width: 2)),
                               child: widget.attached && widget.supplierCode != 'null' && !widget.fromInventory
                                   ? IconButton(
-                                      icon: const Icon(
-                                        Icons.close_sharp,
-                                        color: Colors.red,
-                                      ),
+                                      icon: const Icon(Icons.close_sharp, color: Colors.red),
                                       onPressed: () {
-                                        List<DialogButton> dialogButtons = [
-                                          DialogButton(
-                                            text: StringUtils.yes,
-                                            onTap: () async {
-                                              bool result = await _unAttachProduct();
-                                              Navigator.of(context).pop();
-                                              Services.resultFlushBar(context: context, result: result);
-                                            },
-                                          ),
-                                          DialogButton(
-                                            text: StringUtils.close,
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                        ];
                                         subWarehouseName = LoadingScreenServices.subWarehouses
                                             .firstWhere((subWarehouse) => subWarehouse.id.toString() == widget.id,
                                                 orElse: () => SubWarehouse(name: 'المستودع'))
                                             .name;
                                         showMyDialog(
-                                          title: "حذف منتج من المستودع",
+                                          title: 'حذف منتج من المستودع',
                                           text:
-                                              "هل أنت متأكد أنك تريد إزالة ${widget.productData.name} من $subWarehouseName",
-                                          dialogButtons: dialogButtons,
-                                          context: context,
+                                              'هل أنت متأكد أنك تريد إزالة ${widget.productData.name} من $subWarehouseName',
+                                          dialogButtons: [
+                                            DialogButton(
+                                              text: StringUtils.yes,
+                                              onTap: () async {
+                                                bool result = await _unAttachProduct();
+                                                Navigator.of(context).pop();
+                                                Services.resultFlushBar(context: context, result: result);
+                                              },
+                                            ),
+                                            const CloseWidget(),
+                                          ],
                                         );
                                       },
                                     )
                                   : !widget.fromInventory
                                       ? IconButton(
-                                          icon: const Icon(
-                                            Icons.add,
-                                            color: Colors.green,
-                                          ),
+                                          icon: const Icon(Icons.add, color: Colors.green),
                                           onPressed: () {
                                             if (widget.productData.id == 0) {
                                               Services.productToAddName = widget.productData.name;
@@ -310,10 +274,9 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                   builder: (screenContext) => Scaffold(
                                                     body: SafeArea(
                                                       child: StoreViewCategory(
-                                                        scaffoldKey: widget.scaffoldKey,
-                                                        supplierCode: widget.supplierCode,
-                                                        forProductAdding: true,
-                                                      ),
+                                                          scaffoldKey: widget.scaffoldKey,
+                                                          supplierCode: widget.supplierCode,
+                                                          forProductAdding: true),
                                                     ),
                                                   ),
                                                 ),
@@ -350,9 +313,8 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                 Navigator.push(
                                                   widget.scaffoldKey.currentContext,
                                                   MaterialPageRoute(
-                                                    builder: (context) => AddProductsToSubWarehouse(
-                                                      productData: widget.productData,
-                                                    ),
+                                                    builder: (context) =>
+                                                        AddProductsToSubWarehouse(productData: widget.productData),
                                                   ),
                                                 );
                                               }
@@ -360,18 +322,14 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                           },
                                         )
                                       : IconButton(
-                                          icon: const Icon(
-                                            Icons.check_sharp,
-                                            color: Colors.green,
-                                          ),
+                                          icon: const Icon(Icons.check_sharp, color: Colors.green),
                                           onPressed: () async {
                                             bool result = await ProductsServices.updateProductsDetails(
-                                                bodyKey: "under_check_availability",
-                                                value: "0",
+                                                bodyKey: 'under_check_availability',
+                                                value: '0',
                                                 subWarehouseId: widget.id,
                                                 productId: widget.productData.id.toString());
                                             Services.resultFlushBar(context: context, result: result);
-
                                             if (result) {
                                               widget.onDelete(true);
                                               setState(() {});

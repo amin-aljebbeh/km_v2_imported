@@ -19,19 +19,9 @@ class ThankYouViewState extends State<ThankYouView> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      showMyDialog(
-          title: StringUtils.costumerNote,
-          text: widget.orderMessage,
-          dialogButtons: [const CloseWidget()],
-          context: context);
+      showMyDialog(title: StringUtils.costumerNote, text: widget.orderMessage, dialogButtons: [const CloseWidget()]);
     });
-
     super.initState();
-  }
-
-  @override
-  dispose() {
-    super.dispose();
   }
 
   @override
@@ -43,10 +33,7 @@ class ThankYouViewState extends State<ThankYouView> {
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).primaryColorLight,
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColorLight,
-          elevation: 0.0,
-        ),
+        appBar: AppBar(backgroundColor: Theme.of(context).primaryColorLight, elevation: 0.0),
         body: Padding(
           padding: const EdgeInsets.only(left: 30, top: 0, right: 30, bottom: 10),
           child: SafeArea(
@@ -96,7 +83,8 @@ class ThankYouViewState extends State<ThankYouView> {
                     text: StringUtils.continueShopping,
                     color: Theme.of(context).primaryColor,
                     height: 50,
-                    onTap: _showContinueShoppingBtnTapped,
+                    onTap: () =>
+                        Navigator.of(context).pushNamedAndRemoveUntil('/orders', (Route<dynamic> route) => false),
                   ),
                 ],
               ),
@@ -105,12 +93,5 @@ class ThankYouViewState extends State<ThankYouView> {
         ),
       ),
     );
-  }
-
-  void _showContinueShoppingBtnTapped() {
-    Navigator.of(context).pushNamedAndRemoveUntil('/orders', (Route<dynamic> route) => false);
-
-    // Navigator.push(
-    //     context, new MaterialPageRoute(builder: (context) => new HomeView(2)));
   }
 }

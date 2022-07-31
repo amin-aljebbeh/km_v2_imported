@@ -158,7 +158,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       padding: EdgeInsets.zero,
                       onPressed: () => showMyDialog(
                         title: StringUtils.ratingOrder,
-                        context: context,
                         text: (widget.orderData.userDeliveryRating != 'null'
                                 ? widget.orderData.userDeliveryRating + '\n'
                                 : '') +
