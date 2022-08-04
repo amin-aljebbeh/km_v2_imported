@@ -41,10 +41,8 @@ class CartViewState extends State<CartView> {
   _calculateTotal() {
     subtotal = 0;
 
-    setState(() {
-      subtotal =
-          orderArray.fold(0, (sum, order) => sum + ((int.parse(order.price.split('.')[0])) * order.productCount));
-    });
+    setState(() => subtotal =
+        orderArray.fold(0, (sum, order) => sum + ((int.parse(order.price.split('.')[0])) * order.productCount)));
   }
 
   @override
@@ -77,11 +75,7 @@ class CartViewState extends State<CartView> {
     _calculateTotal();
   }
 
-  void onrRemove(item) {
-    setState(() {
-      cards.removeAt(item);
-    });
-  }
+  void onrRemove(item) => setState(() => cards.removeAt(item));
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +104,7 @@ class CartViewState extends State<CartView> {
               CartServices.cartProducts.isEmpty
                   ? Padding(
                       padding: EdgeInsets.only(top: screenHeight * 0.3),
-                      child: const Center(child: ScreenMessage(message: 'سلة المشتريات فارغة')),
-                    )
+                      child: const Center(child: ScreenMessage(message: 'سلة المشتريات فارغة')))
                   : Container(padding: EdgeInsets.zero),
               Expanded(
                 child: ListView.builder(
@@ -123,9 +116,7 @@ class CartViewState extends State<CartView> {
                       behavior: HitTestBehavior.translucent,
                       onTap: () {},
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
-                        child: cardBody(index, context),
-                      ),
+                          padding: const EdgeInsets.only(left: 0, right: 0, top: 0), child: cardBody(index, context)),
                     );
                   },
                 ),
@@ -228,13 +219,11 @@ class CartViewState extends State<CartView> {
                                         textAlign: TextAlign.center,
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
-                                          hintText: 'السعر الجديد',
-                                          fillColor: Colors.white,
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(10.0),
-                                            borderSide: const BorderSide(),
-                                          ),
-                                        ),
+                                            hintText: 'السعر الجديد',
+                                            fillColor: Colors.white,
+                                            border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                                borderSide: const BorderSide())),
                                       ),
                                     ),
                                   )
@@ -252,20 +241,15 @@ class CartViewState extends State<CartView> {
                                     onPressed: () {
                                       setState(() {
                                         indexToEdit = -1;
-
                                         double priceFactor = double.parse(orderArray[index].quantity) /
                                             double.parse(orderArray[index].price);
-
                                         if (_priceController.text.isNotEmpty) {
                                           orderArray[index].price = _priceController.text;
 
                                           orderArray[index].price =
-                                              (int.parse(_priceController.text.split('.')[0]) +
-                                                      orderArray[index].pivot.increaseValue)
-                                                  .toString();
+                                              (int.parse(_priceController.text.split('.')[0])).toString();
                                           orderArray[index].quantity =
-                                              (priceFactor * double.parse(_priceController.text))
-                                                  .toStringAsFixed(2);
+                                              (priceFactor * double.parse(_priceController.text)).toStringAsFixed(2);
 
                                           OrderDetailsServices.updateOrder(
                                               orderId: OrderServices.orderUnderUpdateId,
@@ -276,9 +260,7 @@ class CartViewState extends State<CartView> {
                                               productId: orderArray[index].id.toString());
                                         }
                                       });
-
                                       _priceController.text = '';
-
                                       _calculateTotal();
                                     },
                                     iconSize: 30,
@@ -288,7 +270,6 @@ class CartViewState extends State<CartView> {
                                     color: Colors.green,
                                     onPressed: () {
                                       setState(() => indexToEdit = index);
-
                                       _calculateTotal();
                                     },
                                     iconSize: 30,
@@ -363,9 +344,8 @@ class CartViewState extends State<CartView> {
 
   void _showConfirmOrderBtnTapped() {
     if (CartServices.cartProducts.isNotEmpty) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const CartViewFinal())).then((onValue) {
-        _calculateTotal();
-      });
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const CartViewFinal()))
+          .then((onValue) => _calculateTotal());
     } else {
       Toast.show('يرجى إضافة منتج واحد على الأقل', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
     }

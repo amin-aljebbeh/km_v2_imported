@@ -20,34 +20,10 @@ class _ExcelInventoryState extends State<ExcelInventory> {
   List<Widget> screenList = [];
 
   tabBarList() {
-    tabList.add(
-      Tab(
-        child: Center(
-          child: Text(
-            'الجرد',
-            style: tabStyle,
-          ),
-        ),
-      ),
-    );
-    tabList.add(
-      Tab(
-        child: Center(
-          child: Text(
-            'الأسعار',
-            style: tabStyle,
-          ),
-        ),
-      ),
-    );
-    screenList.add(InventoryFileProduct(
-      subWarehouseId: widget.subWarehouseId,
-      file: widget.file,
-    ));
-    screenList.add(PriceFileProduct(
-      subWarehouseId: widget.subWarehouseId,
-      file: widget.file,
-    ));
+    tabList.add(Tab(child: Center(child: Text('الجرد', style: tabStyle))));
+    tabList.add(Tab(child: Center(child: Text('الأسعار', style: tabStyle))));
+    screenList.add(InventoryFileProduct(subWarehouseId: widget.subWarehouseId, file: widget.file));
+    screenList.add(PriceFileProduct(subWarehouseId: widget.subWarehouseId, file: widget.file));
   }
 
   @override
@@ -67,24 +43,12 @@ class _ExcelInventoryState extends State<ExcelInventory> {
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
             child: Container(
-              color: ColorUtils.primaryColor,
-              child: SafeArea(
-                child: TabBar(
-                  indicatorColor: Colors.white,
-                  labelColor: Colors.white,
-                  tabs: tabList,
-                ),
-              ),
-            ),
+                color: ColorUtils.primaryColor,
+                child: SafeArea(child: TabBar(indicatorColor: Colors.white, labelColor: Colors.white, tabs: tabList))),
           ),
-          title: Text(
-            StringUtils.inventory,
-            style: mainStyle,
-          ),
+          title: Text(StringUtils.inventory, style: mainStyle),
         ),
-        body: TabBarView(
-          children: screenList,
-        ),
+        body: TabBarView(children: screenList),
       ),
     );
   }

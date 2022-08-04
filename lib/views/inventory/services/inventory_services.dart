@@ -6,16 +6,6 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
 class InventoryServices {
-  static Future<bool> getInventoryProductsService() async {
-    var response = await ApiProvider.sendRequest(url: getInventoryProducts, method: HttpMethods.get);
-
-    if (response.statusCode == successCode && response.data['success']) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   static Future<List<SubWarehouse>> getSubWarehoused({String adminId}) async {
     var response = await ApiProvider.sendRequest(url: getAdminInfo + adminId, method: HttpMethods.get);
 
@@ -39,8 +29,7 @@ class InventoryServices {
   }
 
   static Future<List<ProductData>> getSubWarehouseProductsService({String subWarehouseId}) async {
-    var response =
-        await ApiProvider.sendRequest(url: getSubWarehouseProducts + subWarehouseId, method: HttpMethods.get);
+    var response = await ApiProvider.sendRequest(url: subWarehouse + subWarehouseId, method: HttpMethods.get);
     if (response.statusCode == successCode && response.data['success']) {
       final result = syncCartFromJson(jsonEncode(response.data['data']['products']));
 

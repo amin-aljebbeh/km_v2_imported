@@ -56,7 +56,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
     });
     List<OrdersOriginalData> orderList;
     LoadingScreenServices.phoneOrderList =
-        await OrderServices.getOrdersByUserPhoneNumberService(phoneNumber: phoneNumber, pageNumber: page);
+        await OrderServices.getOrdersByUserNumberService(phoneNumber: phoneNumber, pageNumber: page);
     orderList = LoadingScreenServices.phoneOrderList;
 
     if (orderList != null) {

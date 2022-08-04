@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 
-import '../../models/models_importer.dart';
-import '../../utils/utils_importer.dart';
+import '../../core/core_importer.dart';
 import '../../views/errors_screen/internet_error.dart';
 import '../../views/home/home_view.dart';
 import '../../views/loading/loading_services.dart';
@@ -38,6 +36,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   _getClientInfo() async {
     try {
+      // SharedPreferences prefs = await SharedPreferences.getInstance();
+      // prefs.clear();
       await Firebase.initializeApp();
       bool userLoggedIn = await LoadingScreenServices().checkIfUserLoggedIn();
       if (userLoggedIn) {

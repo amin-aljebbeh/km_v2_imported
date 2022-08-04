@@ -1,4 +1,5 @@
 import 'package:adv_image_cache/adv_image_cache.dart';
+
 import '../../core/core_importer.dart';
 import '../../views/inventory/services/inventory_services.dart';
 import '../../views/reports/models/transaction_type_model.dart';
@@ -145,46 +146,28 @@ class LoadingScreenServices {
         fullCategoryList = categories
             .where((category) => category.parentCategoryId == 'null')
             .toList()
-            .map(
-              (category) => DropdownMenuItem(
+            .map((category) => DropdownMenuItem(
                 child: Column(
                   children: [
                     SizedBox(
-                      width: 287,
-                      child: Text(
-                        category.name + ' من القائمة الرئيسية',
-                        overflow: TextOverflow.visible,
-                        maxLines: 2,
-                        style: warehouseStyle,
-                      ),
-                    ),
+                        width: 287,
+                        child: Text(category.name + ' من القائمة الرئيسية',
+                            overflow: TextOverflow.visible, maxLines: 2, style: warehouseStyle)),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Divider(
-                        thickness: 1,
-                        color: ColorUtils.greyColor,
-                      ),
-                    )
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Divider(thickness: 1, color: ColorUtils.greyColor))
                   ],
                 ),
-                value: category.name + ';' + category.id.toString(),
-              ),
-            )
+                value: category.name + ';' + category.id.toString()))
             .toList();
 
         fullCategoryList.addAll(
           categories
               .where((category) => category.parentCategoryId != null)
               .toList()
-              .map(
-                (category) => DropdownMenuItem(
-                  child: Text(
-                    category.name,
-                    style: warehouseStyle.copyWith(fontSize: 18),
-                  ),
-                  value: category.name + ';' + category.id.toString(),
-                ),
-              )
+              .map((category) => DropdownMenuItem(
+                  child: Text(category.name, style: warehouseStyle.copyWith(fontSize: 18)),
+                  value: category.name + ';' + category.id.toString()))
               .toList(),
         );
         categoryList = categories

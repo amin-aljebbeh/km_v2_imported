@@ -1,5 +1,7 @@
 import 'package:kammun_app/models/models_importer.dart';
 
+import '../core/core_importer.dart';
+
 CategoryProduct categoryProductFromJson(String str) => CategoryProduct.fromJson(json.decode(str));
 
 List<ProductData> syncCartFromJson(String str) =>
@@ -119,6 +121,7 @@ class ProductData {
     this.deleteTimes,
     this.availableQuantity,
     this.pivot,
+    this.alertProductsCount,
   });
 
   int id;
@@ -153,6 +156,7 @@ class ProductData {
   int deleteTimes;
   String availableQuantity;
   OrderProductPivot pivot;
+  String alertProductsCount;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -168,8 +172,7 @@ class ProductData {
       isActive: json['is_active'] != null ? json['is_active'].toString() : '0',
       quantity: json['quantity'] == null ? '0' : json['quantity'].toString(),
       productCount: json['productCount'] ?? 0,
-      supplierCode:
-          json['supplier_code'] == null ? json['supplierCode'].toString() : json['supplier_code'].toString(),
+      supplierCode: json['supplier_code'] == null ? json['supplierCode'].toString() : json['supplier_code'].toString(),
       warehouseId: json['warehouse_id'],
       subWarehouseId: json['sub_warehouse_id'] ?? -1,
       isFeatured: json['is_featured'],
@@ -178,21 +181,19 @@ class ProductData {
       minThreshold: json['min_threshold']?.toDouble(),
       increasePercentage: json['increase_percentage'] ?? 0,
       priceFactor: json['price_factor'],
+      alertProductsCount: json['alert_products_count'].toString(),
       automaticActivation: json['automatic_activation'],
       underCheckAvailability: json['under_check_availability'],
-      images: json['images'] == null
-          ? []
-          : List<ProductImage>.from(json['images'].map((x) => ProductImage.fromJson(x))),
+      images:
+          json['images'] == null ? [] : List<ProductImage>.from(json['images'].map((x) => ProductImage.fromJson(x))),
       categories: json['categories'] == null
           ? []
           : List<CategoryOriginalData>.from(json['categories'].map((x) => CategoryOriginalData.fromJson(x))),
-      warehouses: json['warehouses'] == null
-          ? []
-          : List<Warehouse>.from(json['warehouses'].map((x) => Warehouse.fromJson(x))),
+      warehouses:
+          json['warehouses'] == null ? [] : List<Warehouse>.from(json['warehouses'].map((x) => Warehouse.fromJson(x))),
       rate: json['rate'] ?? -1,
       numberOfSales: json['number_of_sale'],
-      barcodes:
-          json['barcodes'] == null ? [] : List<Barcode>.from(json['barcodes'].map((x) => Barcode.fromJson(x))),
+      barcodes: json['barcodes'] == null ? [] : List<Barcode>.from(json['barcodes'].map((x) => Barcode.fromJson(x))),
       deleteTimes: json['count_deleted'] ?? -1,
       availableQuantity: json['available_quantity'] == null ? 'null' : json['available_quantity'].toString(),
       pivot: json['pivot'] == null ? null : OrderProductPivot.fromJson(json['pivot']),

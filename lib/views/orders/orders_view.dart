@@ -650,7 +650,9 @@ class OrdersViewState extends State<OrdersView> {
       product.images = orderProducts[i].images;
       product.name = orderProducts[i].name;
 
-      product.price = orderProducts[i].pivot.purchasePrice;
+      product.price =
+          (int.parse(orderProducts[i].pivot.purchasePrice.split('.')[0]) - orderProducts[i].pivot.increaseValue)
+              .toString();
 
       product.productCount = int.parse(orderProducts[i].pivot.quantity);
       product.unit = orderProducts[i].unit;
@@ -667,9 +669,6 @@ class OrdersViewState extends State<OrdersView> {
     }
     prefs.setString('userCart', productsId + '@' + productsQuantity);
 
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      '/cartFromUpdate',
-      (Route<dynamic> route) => false,
-    );
+    Navigator.of(context).pushNamedAndRemoveUntil('/cartFromUpdate', (Route<dynamic> route) => false);
   }
 }

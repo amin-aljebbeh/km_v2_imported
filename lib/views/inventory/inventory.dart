@@ -1,5 +1,6 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
+
 import 'model/inventory_model.dart';
 
 class Inventory extends StatefulWidget {
@@ -80,11 +81,11 @@ class _InventoryState extends State<Inventory> {
 
   List<RegExp> warehouseFilter = [
     // ignore: unnecessary_string_escapes
-    RegExp("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*\$"),
-    RegExp(".*kh"),
-    RegExp(".*br"),
-    RegExp(".*kt"),
-    RegExp(".*")
+    RegExp('^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*\$'),
+    RegExp('.*kh'),
+    RegExp('.*br'),
+    RegExp('.*kt'),
+    RegExp('.*')
   ];
 
   @override
@@ -144,9 +145,7 @@ class _InventoryState extends State<Inventory> {
             ),
           ),
           isLoading
-              ? const Center(
-                  child: Padding(padding: EdgeInsets.only(top: 30.0), child: Loader()),
-                )
+              ? const Center(child: Padding(padding: EdgeInsets.only(top: 30.0), child: Loader()))
               : isError
                   ? Expanded(
                       child: Column(
@@ -192,7 +191,7 @@ class _InventoryState extends State<Inventory> {
                             itemCount: productsList == null ? 0 : productsList.length,
                             itemBuilder: (BuildContext context, int index) {
                               if (filter == null ||
-                                  filter == "" ||
+                                  filter == '' ||
                                   productsList[index].name.toLowerCase().contains(filter.toLowerCase())) {
                                 if (selectedSubWarehouseId == -1 ||
                                     productsList[index].subWarehouseId == selectedSubWarehouseId) {

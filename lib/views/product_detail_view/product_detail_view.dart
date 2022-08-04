@@ -14,6 +14,7 @@ import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+import 'package:kammun_app/views/widget/close_widget.dart';
 import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:search_choices/search_choices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,9 +33,7 @@ class ProductDetailView extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return ProductDetailViewState();
-  }
+  State<StatefulWidget> createState() => ProductDetailViewState();
 }
 
 class ProductDetailViewState extends State<ProductDetailView> with SingleTickerProviderStateMixin {
@@ -58,10 +57,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
     Timer(const Duration(milliseconds: 100), () => _animateToIndex(2.5));
 
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
-    );
+    _animationController = AnimationController(duration: const Duration(milliseconds: 1500), vsync: this);
     _animation = Tween(begin: 1.5, end: 0.0).animate(_animationController);
 
     _animationController.forward();
@@ -74,14 +70,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
   }
 
   _animateToIndex(i) async {
-    await _controller.animateTo(
-      _height * i,
-      duration: const Duration(milliseconds: 1500),
-      curve: Curves.easeInOut,
-    );
-    setState(() {
-      done = true;
-    });
+    await _controller.animateTo(_height * i, duration: const Duration(milliseconds: 1500), curve: Curves.easeInOut);
+    setState(() => done = true);
   }
 
   bool isLoading = false;
@@ -109,87 +99,61 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                automaticallyImplyLeading: false,
-                leading: IconButton(
-                  iconSize: 35,
-                  icon: const Icon(Icons.home),
-                  tooltip: 'Back to Store Page',
-                  onPressed: () =>
-                      Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false),
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    icon: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 35,
-                    ),
-                  ),
-                ],
-                backgroundColor: ColorUtils.primaryColor,
-                expandedHeight: 300.0,
-                floating: false,
-                pinned: true,
-                title: Container(
-                  alignment: Alignment.bottomCenter,
-                  child: done
-                      ? AutoSizeText(
-                          widget.product.name,
-                          maxLines: 1,
-                          style: mainStyle,
-                        )
-                      : Container(),
-                ),
-                flexibleSpace: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: FlexibleSpaceBar(
-                    centerTitle: true,
-                    background: !done
-                        ? FullScreenWidget(
-                            backgroundColor: Colors.white,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: FadeTransition(
-                                opacity: _animation,
-                                child: widget.product.images.isNotEmpty
-                                    ? Image(
-                                        image: AdvImageCache(
-                                          LoadingScreenServices.imagePrefixUrl + widget.product.images[0].imageFileName,
-                                          useMemCache: true,
-                                          diskCacheExpire: const Duration(days: 400),
-                                        ),
-                                        width: MediaQuery.of(context).size.width / 2,
-                                        height: 120,
-                                        fit: BoxFit.contain,
-                                      )
-                                    : Image.asset(
-                                        'assets/logobw.png',
-                                      ),
-                              ),
-                            ),
-                          )
-                        : widget.product.images.isNotEmpty
-                            ? FullScreenWidget(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Image(
-                                    image: AdvImageCache(
-                                      LoadingScreenServices.imagePrefixUrl + widget.product.images[0].imageFileName,
-                                      useMemCache: true,
-                                      diskCacheExpire: const Duration(days: 400),
-                                    ),
-                                    width: MediaQuery.of(context).size.width / 2,
-                                    height: 120,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              )
-                            : Image.asset(
-                                'assets/logobw.png',
-                              ),
-                  ),
-                ),
-              ),
+                  automaticallyImplyLeading: false,
+                  leading: IconButton(
+                      iconSize: 35,
+                      icon: const Icon(Icons.home),
+                      tooltip: 'Back to Store Page',
+                      onPressed: () =>
+                          Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false)),
+                  actions: <Widget>[
+                    IconButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        icon: const Icon(Icons.arrow_forward_ios, size: 35))
+                  ],
+                  backgroundColor: ColorUtils.primaryColor,
+                  expandedHeight: 300.0,
+                  floating: false,
+                  pinned: true,
+                  title: Container(
+                      alignment: Alignment.bottomCenter,
+                      child: done ? AutoSizeText(widget.product.name, maxLines: 1, style: mainStyle) : Container()),
+                  flexibleSpace: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: FlexibleSpaceBar(
+                          centerTitle: true,
+                          background: !done
+                              ? FullScreenWidget(
+                                  backgroundColor: Colors.white,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(16),
+                                      child: FadeTransition(
+                                          opacity: _animation,
+                                          child: widget.product.images.isNotEmpty
+                                              ? Image(
+                                                  image: AdvImageCache(
+                                                      LoadingScreenServices.imagePrefixUrl +
+                                                          widget.product.images[0].imageFileName,
+                                                      useMemCache: true,
+                                                      diskCacheExpire: const Duration(days: 400)),
+                                                  width: MediaQuery.of(context).size.width / 2,
+                                                  height: 120,
+                                                  fit: BoxFit.contain)
+                                              : Image.asset('assets/logobw.png'))))
+                              : widget.product.images.isNotEmpty
+                                  ? FullScreenWidget(
+                                      child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(16),
+                                          child: Image(
+                                              image: AdvImageCache(
+                                                  LoadingScreenServices.imagePrefixUrl +
+                                                      widget.product.images[0].imageFileName,
+                                                  useMemCache: true,
+                                                  diskCacheExpire: const Duration(days: 400)),
+                                              width: MediaQuery.of(context).size.width / 2,
+                                              height: 120,
+                                              fit: BoxFit.contain)))
+                                  : Image.asset('assets/logobw.png')))),
             ];
           },
           body: SafeArea(
@@ -204,19 +168,14 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                   shrinkWrap: true,
                   children: <Widget>[
                     Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          widget.product.name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: ColorUtils.primaryColor,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    ),
+                        child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(widget.product.name,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: ColorUtils.primaryColor,
+                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontSize: 25)))),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -227,11 +186,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             Text(StringUtils.quantity + ' :', style: paragraphStyle),
                             const SizedBox(width: 5),
                             Text(
-                              widget.product.unit.toString() != 'null'
-                                  ? widget.product.quantity.toString() + ' ' + widget.product.unit.toString()
-                                  : widget.product.quantity.toString(),
-                              style: informationStyle,
-                            ),
+                                widget.product.unit.toString() != 'null'
+                                    ? widget.product.quantity.toString() + ' ' + widget.product.unit.toString()
+                                    : widget.product.quantity.toString(),
+                                style: informationStyle),
                           ],
                         ),
                         Column(
@@ -247,20 +205,18 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                     ),
                     const SizedBox(height: 20),
                     LabelRow(
-                      rightSideText: 'ProductId : ',
-                      leftSideText: widget.product.id.toString(),
-                      leftSideStyle: informationStyle,
-                    ),
+                        rightSideText: 'ProductId : ',
+                        leftSideText: widget.product.id.toString(),
+                        leftSideStyle: informationStyle),
                     const SizedBox(height: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LabelRow(
-                          rightSideText: StringUtils.description + ' :',
-                          leftSideText:
-                              widget.product.description != null ? widget.product.description.split('@')[0] : "",
-                          leftSideStyle: informationStyle,
-                        ),
+                            rightSideText: StringUtils.description + ' :',
+                            leftSideText:
+                                widget.product.description != null ? widget.product.description.split('@')[0] : "",
+                            leftSideStyle: informationStyle),
                       ],
                     ),
                     SizedBox(
@@ -284,33 +240,24 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             categoryId: widget.product.categories[index].id.toString());
                                         Services.resultFlushBar(context: context, result: result);
                                         if (result) {
-                                          setState(() {
-                                            widget.product.categories.removeAt(index);
-                                          });
+                                          setState(() => widget.product.categories.removeAt(index));
                                         }
                                       },
                                     ),
-                                    DialogButton(
-                                      text: StringUtils.no,
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
+                                    DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                   ];
                                   showMyDialog(
-                                    title: '',
-                                    text:
-                                        'هل تريد إزالة ${widget.product.name} من ${widget.product.categories[index].name} ؟',
-                                    dialogButtons: dialogButtons,
-                                  );
+                                      title: '',
+                                      text:
+                                          'هل تريد إزالة ${widget.product.name} من ${widget.product.categories[index].name} ؟',
+                                      dialogButtons: dialogButtons);
                                 }
                               },
                               child: ShopByCategory(
-                                img: widget.product.categories[index].imageFileName,
-                                categoryName: widget.product.categories[index].name,
-                                index: index,
-                                fit: BoxFit.cover,
-                              ),
+                                  img: widget.product.categories[index].imageFileName,
+                                  categoryName: widget.product.categories[index].name,
+                                  index: index,
+                                  fit: BoxFit.cover),
                             ),
                           );
                         },
@@ -328,11 +275,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               return SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.45,
                                 child: ShopByCategory(
-                                  img: 'null',
-                                  categoryName: widget.product.warehouses[index].name,
-                                  index: index + 100,
-                                  fit: BoxFit.contain,
-                                ),
+                                    img: 'null',
+                                    categoryName: widget.product.warehouses[index].name,
+                                    index: index + 100,
+                                    fit: BoxFit.contain),
                               );
                             },
                           ),
@@ -343,25 +289,15 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                if (numberOfOrders > 1) {
-                                  numberOfOrders = numberOfOrders - 1;
-                                }
-                              });
-                            },
-                            child: Image.asset(
-                              'assets/remove.png',
-                              width: 60,
-                              height: 60,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: InkWell(
+                                onTap: () => setState(() {
+                                      if (numberOfOrders > 1) {
+                                        numberOfOrders = numberOfOrders - 1;
+                                      }
+                                    }),
+                                child: Image.asset('assets/remove.png', width: 60, height: 60))),
+                        const SizedBox(width: 10),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Text(numberOfOrders.toString(),
@@ -371,45 +307,29 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   fontFamily: StringUtils.fontFamilyHKGrotesk,
                                   fontSize: 35)),
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                        const SizedBox(width: 10),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                numberOfOrders = numberOfOrders + 1;
-                              });
-                            },
-                            child: Image.asset(
-                              'assets/add.png',
-                              width: 60,
-                              height: 60,
-                            ),
-                          ),
-                        ),
+                            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: InkWell(
+                                onTap: () => setState(() => numberOfOrders = numberOfOrders + 1),
+                                child: Image.asset('assets/add.png', width: 60, height: 60))),
                       ],
                     ),
                     const SizedBox(height: 15),
                     if (widget.product.isActive == '0')
                       Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                                    ),
-                            border: Border.all(color: ColorUtils.primaryColor, width: 4)),
-                        child: Center(
-                          child: Text(
-                            StringUtils.outOfStock,
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
-                          ),
-                        ),
-                      ),
+                          height: 50,
+                          width: MediaQuery.of(context).size.width,
+                          padding: const EdgeInsets.all(3.0),
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                              border: Border.all(color: ColorUtils.primaryColor, width: 4)),
+                          child: Center(
+                              child: Text(StringUtils.outOfStock,
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: StringUtils.fontFamilyHKGrotesk)))),
                     KammunButton(
                       text:
                           '${StringUtils.addToCart}  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split('.')[0]))})',
@@ -420,32 +340,18 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         String productsQuantity = "";
                         if (LoadingScreen.userToken.length > 5) {
                           Navigator.of(context).pop(true);
-
                           widget.product.productCount = numberOfOrders;
-
                           CartServices.addProductToCart(widget.product);
                           Flushbar(
                             backgroundColor: Colors.green,
-                            messageText: Text(
-                              'تم إضافة ${widget.product.name} لسلة المشتريات',
-                              style: flushBarStyle,
-                            ),
+                            messageText: Text('تم إضافة ${widget.product.name} لسلة المشتريات', style: flushBarStyle),
                             boxShadows: [
-                              BoxShadow(
-                                color: ColorUtils.primaryColor,
-                                offset: const Offset(0.0, 2.0),
-                                blurRadius: 3.0,
-                              )
+                              BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)
                             ],
-                            icon: const Icon(
-                              Icons.assignment_turned_in,
-                              size: 28.0,
-                              color: Colors.white,
-                            ),
+                            icon: const Icon(Icons.assignment_turned_in, size: 28.0, color: Colors.white),
                             duration: const Duration(seconds: 3),
                             leftBarIndicatorColor: ColorUtils.kmColors,
                           ).show(context);
-
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           productsId =
                               CartServices.cartProducts.fold('', (ids, product) => product.id.toString() + ';');
@@ -471,14 +377,12 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           priceFactor:
                               widget.product.priceFactor != null ? double.parse(widget.product.priceFactor) : 1,
                           initialText: price,
-                          onSavePressed: (newValue, result) {
-                            setState(() {
-                              if (result) {
-                                widget.product.price = newValue;
-                                widget.onChangePrice(newValue);
-                              }
-                            });
-                          },
+                          onSavePressed: (newValue, result) => setState(() {
+                            if (result) {
+                              widget.product.price = newValue;
+                              widget.onChangePrice(newValue);
+                            }
+                          }),
                         ),
                         UpdateProductInfoWidget(
                           title: StringUtils.edit + ' ' + StringUtils.supplierCode + ':',
@@ -488,11 +392,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           bodyKey: 'supplier_code',
                           productId: widget.product.id,
                           productData: widget.product,
-                          onSavePressed: (newValue, result) {
-                            setState(() {
-                              widget.product.supplierCode = newValue;
-                            });
-                          },
+                          onSavePressed: (newValue, result) => setState(() => widget.product.supplierCode = newValue),
                         ),
                         UpdateProductInfoWidget(
                           title: StringUtils.priceFactor + ' :',
@@ -502,11 +402,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           productData: widget.product,
                           textHint: widget.product.priceFactor,
                           initialText: widget.product.priceFactor,
-                          onSavePressed: (newValue, result) {
-                            setState(() {
-                              widget.product.priceFactor = newValue;
-                            });
-                          },
+                          onSavePressed: (newValue, result) => setState(() => widget.product.priceFactor = newValue),
                         ),
                         Services.isProductsController() || Services.isAdmin() || Services.isSuperAdmin()
                             ? Column(
@@ -520,11 +416,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     isForSubWarehouse: true,
                                     productData: widget.product,
                                     initialText: widget.product.priority.toString(),
-                                    onSavePressed: (newValue, result) {
-                                      setState(() {
-                                        widget.product.priority = int.parse(newValue);
-                                      });
-                                    },
+                                    onSavePressed: (newValue, result) =>
+                                        setState(() => widget.product.priority = int.parse(newValue)),
                                   ),
                                   UpdateProductInfoWidget(
                                     title: StringUtils.edit + ' ' + StringUtils.name,
@@ -535,11 +428,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     initialText: widget.product.name,
                                     isForSubWarehouse: false,
                                     productData: widget.product,
-                                    onSavePressed: (newValue, result) {
-                                      setState(() {
-                                        widget.product.name = newValue;
-                                      });
-                                    },
+                                    onSavePressed: (newValue, result) => setState(() => widget.product.name = newValue),
                                   ),
                                   UpdateProductInfoWidget(
                                     title: StringUtils.edit + ' ' + StringUtils.unit + ' :',
@@ -550,12 +439,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     productData: widget.product,
                                     textHint: widget.product.unit,
                                     initialText: widget.product.unit,
-                                    onSavePressed: (newValue, result) {
-                                      setState(() {
-                                        widget.product.unit = newValue;
-                                        widget.onChangeUnit(newValue);
-                                      });
-                                    },
+                                    onSavePressed: (newValue, result) => setState(() {
+                                      widget.product.unit = newValue;
+                                      widget.onChangeUnit(newValue);
+                                    }),
                                   ),
                                   UpdateProductInfoWidget(
                                     title: StringUtils.edit + ' ' + StringUtils.quantity + ' :',
@@ -566,12 +453,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     bodyKey: 'quantity',
                                     productId: widget.product.id,
                                     initialText: widget.product.quantity,
-                                    onSavePressed: (newValue, result) {
-                                      setState(() {
-                                        widget.product.quantity = newValue;
-                                        widget.onChangeQuantity(newValue);
-                                      });
-                                    },
+                                    onSavePressed: (newValue, result) => setState(() {
+                                      widget.product.quantity = newValue;
+                                      widget.onChangeQuantity(newValue);
+                                    }),
                                   ),
                                   UpdateProductInfoWidget(
                                     title: StringUtils.edit + ' ' + StringUtils.description + ' :',
@@ -582,11 +467,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     isForSubWarehouse: false,
                                     productData: widget.product,
                                     initialText: widget.product.description,
-                                    onSavePressed: (newValue, result) {
-                                      setState(() {
-                                        widget.product.description = newValue;
-                                      });
-                                    },
+                                    onSavePressed: (newValue, result) =>
+                                        setState(() => widget.product.description = newValue),
                                   ),
                                   Container(
                                     width: MediaQuery.of(context).size.width,
@@ -609,9 +491,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                   (subWarehouse) => subWarehouse.id == widget.product.subWarehouseId,
                                                   orElse: () => SubWarehouse(name: 'غير مضاف'))
                                               .name,
-                                          style: decisionButtonStyle.copyWith(
-                                            color: ColorUtils.greyColor,
-                                          ),
+                                          style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor),
                                         ),
                                         onChanged: (value) async {
                                           setState(() {
@@ -641,30 +521,20 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     width: MediaQuery.of(context).size.width,
                                     padding: const EdgeInsets.only(left: 5, right: 5),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(width: 5, color: ColorUtils.greyColor),
-                                    ),
+                                        borderRadius: BorderRadius.circular(6),
+                                        border: Border.all(width: 5, color: ColorUtils.greyColor)),
                                     child: Center(
                                       child: SearchChoices.single(
                                         rightToLeft: true,
                                         searchInputDecoration: InputDecoration(
-                                          suffixIcon: Icon(
-                                            Icons.search,
-                                            size: 24,
-                                            color: ColorUtils.primaryColor,
-                                          ),
-                                          contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                                        ),
+                                            suffixIcon: Icon(Icons.search, size: 24, color: ColorUtils.primaryColor),
+                                            contentPadding: const EdgeInsets.symmetric(vertical: 12)),
                                         iconDisabledColor: Colors.black,
                                         displayClearIcon: false,
                                         style: dropdownItemStyle,
                                         closeButton: TextButton(
-                                          child: Text(
-                                            StringUtils.close,
-                                            style: decisionButtonStyle.copyWith(
-                                              color: ColorUtils.primaryColor,
-                                            ),
-                                          ),
+                                          child: Text(StringUtils.close,
+                                              style: decisionButtonStyle.copyWith(color: ColorUtils.primaryColor)),
                                           onPressed: () => Navigator.of(context).pop(),
                                         ),
                                         isCaseSensitiveSearch: false,
@@ -673,16 +543,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         items: LoadingScreenServices.fullCategoryList,
                                         iconEnabledColor: ColorUtils.greyColor,
                                         value: selectedValueCategoryValue,
-                                        hint: Text(
-                                          'اختيار الصنف التابع له المنتج',
-                                          style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor),
-                                        ),
-                                        searchHint: Text(
-                                          'إختيار الصنف',
-                                          style: decisionButtonStyle.copyWith(
-                                            color: ColorUtils.greyColor,
-                                          ),
-                                        ),
+                                        hint: Text('اختيار الصنف التابع له المنتج',
+                                            style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor)),
+                                        searchHint: Text('إختيار الصنف',
+                                            style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor)),
                                         onChanged: (value) {
                                           setState(() {
                                             if (value != null) {
@@ -700,11 +564,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Text(
-                                                'حذف الصورة',
-                                                overflow: TextOverflow.clip,
-                                                style: decisionButtonStyle,
-                                              ),
+                                              Text('حذف الصورة',
+                                                  overflow: TextOverflow.clip, style: decisionButtonStyle),
                                               const Icon(Icons.delete, color: Colors.white, size: 30),
                                             ],
                                           ),
@@ -766,11 +627,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                               onAddBarcode: (result) => widget.onAddBarcode(result),
                                             ),
                                             IconButton(
-                                              icon: Icon(
-                                                Icons.list,
-                                                size: 30,
-                                                color: ColorUtils.kmColors2,
-                                              ),
+                                              icon: Icon(Icons.list, size: 30, color: ColorUtils.kmColors2),
                                               onPressed: () {
                                                 showMyDialog(
                                                   title: 'باركود',
@@ -780,19 +637,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                           (barcode) => GestureDetector(
                                                             child: Column(
                                                               children: [
-                                                                const Divider(
-                                                                  color: Colors.black,
-                                                                  thickness: 1,
-                                                                ),
-                                                                Text(
-                                                                  barcode.barcode,
-                                                                  style:
-                                                                      decisionButtonStyle.copyWith(color: Colors.black),
-                                                                ),
-                                                                const Divider(
-                                                                  color: Colors.black,
-                                                                  thickness: 1,
-                                                                ),
+                                                                const Divider(color: Colors.black, thickness: 1),
+                                                                Text(barcode.barcode,
+                                                                    style: decisionButtonStyle.copyWith(
+                                                                        color: Colors.black)),
+                                                                const Divider(color: Colors.black, thickness: 1),
                                                               ],
                                                             ),
                                                             onTap: () {
@@ -824,11 +673,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                                     },
                                                                   ),
                                                                   DialogButton(
-                                                                    text: StringUtils.no,
-                                                                    onTap: () {
-                                                                      Navigator.of(context).pop();
-                                                                    },
-                                                                  ),
+                                                                      text: StringUtils.no,
+                                                                      onTap: () => Navigator.of(context).pop()),
                                                                 ],
                                                                 text:
                                                                     'هل أنت متأكد أنك ترغب في إزالة الباركود للمنتج ؟',
@@ -838,14 +684,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                         )
                                                         .toList(),
                                                   ),
-                                                  dialogButtons: [
-                                                    DialogButton(
-                                                      text: StringUtils.close,
-                                                      onTap: () {
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                    ),
-                                                  ],
+                                                  dialogButtons: [const CloseWidget()],
                                                 );
                                               },
                                             ),
@@ -886,11 +725,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                       },
                                                     ),
                                                     DialogButton(
-                                                      text: StringUtils.no,
-                                                      onTap: () {
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                    ),
+                                                        text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                                   ];
                                                   showMyDialog(
                                                       title: '',
@@ -917,11 +752,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                     },
                                                   ),
                                                   DialogButton(
-                                                    text: StringUtils.no,
-                                                    onTap: () {
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                  ),
+                                                      text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                                 ];
                                                 showMyDialog(
                                                     title: '',
@@ -958,12 +789,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             Services.resultFlushBar(context: context, result: result);
                                           },
                                         ),
-                                        DialogButton(
-                                          text: StringUtils.no,
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
+                                        DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                       ];
                                       showMyDialog(
                                           title: '',

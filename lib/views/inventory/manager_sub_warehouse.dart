@@ -71,13 +71,8 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                 padding: const EdgeInsets.all(20.0),
                 child: ListView(
                   children: [
-                    Text(
-                      "يرجى إختيار المستودع",
-                      style: TextStyle(
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    Text("يرجى إختيار المستودع",
+                        style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold)),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
@@ -87,12 +82,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                                   child: RadioListTile(
                                     controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
-                                    title: Text(
-                                      data.name,
-                                      style: TextStyle(
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      ),
-                                    ),
+                                    title: Text(data.name, style: mainStyle),
                                     groupValue: _selectedSubWarehouseValue,
                                     value: data.id,
                                     onChanged: (val) {
@@ -113,13 +103,10 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                       onTap: () {
                         if (selected) {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SubWarehouseProducts(
-                                subWarehouseId: _selectedSubWarehouseValue.toString(),
-                              ),
-                            ),
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      SubWarehouseProducts(subWarehouseId: _selectedSubWarehouseValue.toString())));
                         } else {
                           Toast.show('يرجى اختيار المستودع', context,
                               duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
@@ -136,14 +123,10 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                             File file = await pickFile();
                             if (file != null) {
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ExcelInventory(
-                                    file: file,
-                                    subWarehouseId: _selectedSubWarehouseValue.toString(),
-                                  ),
-                                ),
-                              );
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ExcelInventory(
+                                          file: file, subWarehouseId: _selectedSubWarehouseValue.toString())));
                             }
                           } else {
                             Toast.show('يرجى اختيار المستودع', context,
@@ -151,9 +134,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                           }
                         },
                       ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     if (Services.isAdmin())
                       const UpdateProductInfoWidget(
                         isForPriceRate: true,

@@ -39,8 +39,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
   Widget build(BuildContext context) {
     String price = widget.productData.price;
     if (Services.isSupplierManager()) {
-      price =
-          (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
+      price = (int.parse(widget.productData.price.split('.')[0]) - widget.productData.increasePercentage).toString();
     }
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -158,17 +157,13 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             productId: widget.productData.id.toString(),
                             onChange: (int active, bool result) {
                               setState(() {
-                                if (result) {
-                                  widget.productData.isActive = active.toString();
-                                }
+                                if (result) widget.productData.isActive = active.toString();
                               });
                             },
                           ),
                         Column(
                           children: [
-                            const SizedBox(
-                              height: 5,
-                            ),
+                            const SizedBox(height: 5),
                             Services.isAdmin()
                                 ? Text(
                                     'التقييم: ' +
@@ -192,8 +187,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                         (widget.productData.availableQuantity != 'null'
                                             ? StringUtils()
                                                 .oCcy
-                                                .format(
-                                                    int.parse(widget.productData.availableQuantity.split('.')[0]))
+                                                .format(int.parse(widget.productData.availableQuantity.split('.')[0]))
                                                 .toString()
                                             : '0'),
                                     style: TextStyle(
@@ -213,9 +207,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                       width: 69,
                       padding: const EdgeInsets.all(3.0),
                       decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(
-                              Radius.circular(10.0) //                 <--- border radius here
-                              ),
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                           border: Border.all(color: ColorUtils.kmColors, width: 2)),
                       child: IconButton(
                         icon: const Icon(

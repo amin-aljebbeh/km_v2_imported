@@ -14,12 +14,7 @@ class OrderDetailViewMainCard extends StatefulWidget {
 
   final Function(int) onCheckbox;
 
-  const OrderDetailViewMainCard({
-    Key key,
-    this.index,
-    this.productData,
-    this.onCheckbox,
-  }) : super(key: key);
+  const OrderDetailViewMainCard({Key key, this.index, this.productData, this.onCheckbox}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -34,13 +29,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
     subWarehouseList = LoadingScreenServices.subWarehouses
         .map(
           (subWarehouse) => DropdownMenuItem<dynamic>(
-            child: AutoSizeText(
-              subWarehouse.name,
-              maxLines: 2,
-              overflow: TextOverflow.fade,
-              maxFontSize: 12,
-              style: mainStyle,
-            ),
+            child: AutoSizeText(subWarehouse.name,
+                maxLines: 2, overflow: TextOverflow.fade, maxFontSize: 12, style: mainStyle),
             value: subWarehouse.id,
           ),
         )
@@ -50,7 +40,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
 
   @override
   Widget build(BuildContext context) {
-    int purchasePrice = int.parse(widget.productData.pivot.purchasePrice.split('.')[0]);
+    int purchasePrice =
+        int.parse(widget.productData.pivot.purchasePrice.split('.')[0]) - widget.productData.pivot.increaseValue;
     double discountPercentage = SubWarehouse.getDiscountPercentage(widget.productData.subWarehouseId);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -94,22 +85,13 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
+                  Text(widget.productData.name,
+                      style: mainStyle.copyWith(color: Colors.black, fontWeight: FontWeight.bold)),
+                  Text(widget.productData.quantity + ' ' + (widget.productData.unit ?? ''), style: darkBold),
                   Text(
-                    widget.productData.name,
-                    style: mainStyle.copyWith(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    widget.productData.quantity + ' ' + (widget.productData.unit ?? ''),
-                    style: darkBold,
-                  ),
-                  Text(
-                    StringUtils().oCcy.format(purchasePrice).toString() +
-                        ' ${LoadingScreenServices.companyInformation.currency}',
-                    style: paragraphStyle,
-                  ),
+                      StringUtils().oCcy.format(purchasePrice).toString() +
+                          ' ${LoadingScreenServices.companyInformation.currency}',
+                      style: paragraphStyle),
                   if (Services.isSupplierManager())
                     Text(
                       StringUtils().oCcy.format(purchasePrice - (purchasePrice * discountPercentage)).toString() +
@@ -127,9 +109,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                           updateValue: a.toString(),
                           productId: widget.productData.pivot.productId,
                         );
-                        setState(() {
-                          widget.productData.subWarehouseId = a;
-                        });
+                        setState(() => widget.productData.subWarehouseId = a);
                       },
                       hint: subWarehouseList
                           .firstWhere(
@@ -138,10 +118,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                               (subWarehouse) => subWarehouse.value == widget.productData.pivot.subWarehouseId,
                               orElse: () {
                                 subWarehouseList.clear();
-                                return const DropdownMenuItem<int>(
-                                  child: Text('No element'),
-                                  value: 0,
-                                );
+                                return const DropdownMenuItem<int>(child: Text('No element'), value: 0);
                               },
                             ),
                           )

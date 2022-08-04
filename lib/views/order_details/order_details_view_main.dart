@@ -83,10 +83,9 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                 children: <Widget>[
                   errorAlert
                       ? AlertMessages(
-                          text: "خطأ اثناء محاولة تغيير حالة الطلب",
-                          messageType: "internetError",
-                          headerText: "حدث خطأ",
-                        )
+                          text: 'خطأ اثناء محاولة تغيير حالة الطلب',
+                          messageType: 'internetError',
+                          headerText: 'حدث خطأ')
                       : Container(),
                   Expanded(
                     child: ListView.builder(
@@ -107,9 +106,8 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                   child: Text(
                                     LoadingScreenServices.subWarehouses
                                         .firstWhere(
-                                          (subWarehouse) => subWarehouse.id == productDetail.pivot.subWarehouseId,
-                                          orElse: () => SubWarehouse(name: 'No element'),
-                                        )
+                                            (subWarehouse) => subWarehouse.id == productDetail.pivot.subWarehouseId,
+                                            orElse: () => SubWarehouse(name: 'No element'))
                                         .name,
                                     style: labelStyle,
                                   ),
@@ -161,13 +159,10 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
+                              Text('الزوائد', style: darkBold),
                               Text(
-                                'الزوائد',
-                                style: darkBold,
-                              ),
-                              Text(
-                                "${StringUtils().oCcy.format(widget.remaining)}"
-                                " ${LoadingScreenServices.companyInformation.currency}",
+                                '${StringUtils().oCcy.format(widget.remaining)}'
+                                ' ${LoadingScreenServices.companyInformation.currency}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
@@ -183,13 +178,10 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
+                              Text('إجمالي الحسم', style: darkBold),
                               Text(
-                                'إجمالي الحسم',
-                                style: darkBold,
-                              ),
-                              Text(
-                                "${StringUtils().oCcy.format(widget.totalDiscount)}"
-                                " ${LoadingScreenServices.companyInformation.currency}",
+                                '${StringUtils().oCcy.format(widget.totalDiscount)}'
+                                ' ${LoadingScreenServices.companyInformation.currency}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
@@ -205,13 +197,10 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
+                              Text(StringUtils.subtotal, style: darkBold),
                               Text(
-                                StringUtils.subtotal,
-                                style: darkBold,
-                              ),
-                              Text(
-                                "${StringUtils().oCcy.format(widget.subTotal)}"
-                                " ${LoadingScreenServices.companyInformation.currency}",
+                                '${StringUtils().oCcy.format(widget.subTotal)}'
+                                ' ${LoadingScreenServices.companyInformation.currency}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,

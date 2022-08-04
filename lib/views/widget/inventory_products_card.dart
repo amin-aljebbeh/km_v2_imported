@@ -54,9 +54,7 @@ class InventoryProductsViewCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return InventoryProductsViewCardState();
-  }
+  State<StatefulWidget> createState() => InventoryProductsViewCardState();
 }
 
 class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
@@ -64,12 +62,8 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
 
   _unAttachProduct() async {
     bool result = await AddedProductsServices.unAttachProductsToSubWarehouseService(
-      productsId: widget.productData.id.toString(),
-      subWarehouse: widget.id,
-    );
-    if (result) {
-      widget.onDelete(true);
-    }
+        productsId: widget.productData.id.toString(), subWarehouse: widget.id);
+    if (result) widget.onDelete(true);
     return result;
   }
 
@@ -120,7 +114,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                     tag: widget.productData.id + widget.index,
                     image: widget.productData.images.isNotEmpty
                         ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
-                        : "",
+                        : '',
                   ),
                   const SizedBox(width: 10),
                   Expanded(
@@ -168,21 +162,40 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                 widget.oldPrice != null
                                     ? RichText(
                                         text: TextSpan(
-                                          children: <TextSpan>[
-                                            TextSpan(
+                                        children: <TextSpan>[
+                                          TextSpan(
                                               text: StringUtils()
                                                   .oCcy
                                                   .format(widget.oldPrice - widget.productData.increasePercentage)
                                                   .toString(),
                                               style: const TextStyle(
-                                                color: Colors.grey,
-                                                decoration: TextDecoration.lineThrough,
-                                              ),
+                                                  color: Colors.grey, decoration: TextDecoration.lineThrough)),
+                                        ],
+                                      ))
+                                    : widget.productData.alertProductsCount != 'null'
+                                        ? RichText(
+                                            text: TextSpan(
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                  text: StringUtils()
+                                                      .oCcy
+                                                      .format(int.parse(widget.productData.alertProductsCount)),
+                                                  style: TextStyle(
+                                                      color: ColorUtils.kmColors,
+                                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                                      fontSize: 14),
+                                                ),
+                                                TextSpan(
+                                                  text: 'ينتظرون تفعيل  المنتج',
+                                                  style: TextStyle(
+                                                      color: ColorUtils.kmColors,
+                                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                                      fontSize: 14),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      )
-                                    : Container()
+                                          )
+                                        : Container(),
                               ],
                             ),
                           ],
@@ -300,9 +313,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                           widget.scaffoldKey.currentContext,
                                                           MaterialPageRoute(
                                                             builder: (context) => AddProductsToSubWarehouse(
-                                                              barcode: param,
-                                                              productData: widget.productData,
-                                                            ),
+                                                                barcode: param, productData: widget.productData),
                                                           ),
                                                         );
                                                       },
@@ -313,9 +324,8 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                 Navigator.push(
                                                   widget.scaffoldKey.currentContext,
                                                   MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AddProductsToSubWarehouse(productData: widget.productData),
-                                                  ),
+                                                      builder: (context) =>
+                                                          AddProductsToSubWarehouse(productData: widget.productData)),
                                                 );
                                               }
                                             }
@@ -330,10 +340,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                 subWarehouseId: widget.id,
                                                 productId: widget.productData.id.toString());
                                             Services.resultFlushBar(context: context, result: result);
-                                            if (result) {
-                                              widget.onDelete(true);
-                                              setState(() {});
-                                            }
+                                            if (result) setState(() => widget.onDelete(true));
                                           },
                                         ),
                             ),

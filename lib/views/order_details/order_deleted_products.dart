@@ -10,12 +10,7 @@ class OrderDeletedProducts extends StatefulWidget {
   OrdersOriginalData order;
   final OrderTypes orderType;
 
-  OrderDeletedProducts({
-    Key key,
-    this.total,
-    this.order,
-    @required this.orderType,
-  }) : super(key: key);
+  OrderDeletedProducts({Key key, this.total, this.order, @required this.orderType}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -78,10 +73,9 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                 children: <Widget>[
                   errorAlert
                       ? AlertMessages(
-                          text: "خطأ اثناء محاولة تغيير حالة الطلب",
-                          messageType: "internetError",
-                          headerText: "حدث خطأ",
-                        )
+                          text: 'خطأ اثناء محاولة تغيير حالة الطلب',
+                          messageType: 'internetError',
+                          headerText: 'حدث خطأ')
                       : Container(),
                   Expanded(
                     child: ListView.builder(
@@ -102,9 +96,8 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                                   child: Text(
                                     LoadingScreenServices.subWarehouses
                                         .firstWhere(
-                                          (subWarehouse) => subWarehouse.id == productDetail.pivot.subWarehouseId,
-                                          orElse: () => SubWarehouse(name: 'No element'),
-                                        )
+                                            (subWarehouse) => subWarehouse.id == productDetail.pivot.subWarehouseId,
+                                            orElse: () => SubWarehouse(name: 'No element'))
                                         .name,
                                     style: labelStyle,
                                   ),
@@ -112,19 +105,13 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                                 width: MediaQuery.of(context).size.width,
                                 height: 20,
                               ),
-                            OrderDetailViewMainCard(
-                              onCheckbox: (a) {},
-                              productData: productDetail,
-                              index: index,
-                            ),
+                            OrderDetailViewMainCard(onCheckbox: (a) {}, productData: productDetail, index: index),
                           ],
                         );
                       },
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                 ],
               ),
       ),

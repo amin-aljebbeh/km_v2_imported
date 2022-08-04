@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class FacebookLoader extends StatelessWidget {
-  const FacebookLoader({
-    Key key,
-  }) : super(key: key);
+  const FacebookLoader({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,40 +20,18 @@ class FacebookLoader extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: 80.0,
-                  height: 80.0,
-                  color: Colors.white,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                ),
+                Container(width: 80.0, height: 80.0, color: Colors.white),
+                const Padding(padding: EdgeInsets.symmetric(horizontal: 8.0)),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        width: double.infinity,
-                        height: 8.0,
-                        color: Colors.white,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 2.0),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 8.0,
-                        color: Colors.white,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 2.0),
-                      ),
-                      Container(
-                        width: 40.0,
-                        height: 8.0,
-                        color: Colors.white,
-                      ),
+                      Container(width: double.infinity, height: 8.0, color: Colors.white),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+                      Container(width: double.infinity, height: 8.0, color: Colors.white),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
+                      Container(width: 40.0, height: 8.0, color: Colors.white),
                     ],
                   ),
                 )

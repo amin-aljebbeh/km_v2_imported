@@ -1,5 +1,3 @@
-// import 'package:kammun_app/core/core_importer.dart';
-
 const String testUrl = 'http://test.kammun.com';
 const String appUrl = 'https://kammun.app';
 
@@ -132,8 +130,6 @@ const String getWarehouses = warehouse;
 const String updateSubWarehouseProducts = product + 'update_product_warehouse/';
 
 const String getAdminInfo = admin;
-
-const String getSubWarehouseProducts = subWarehouse;
 
 const String updateOrderProducts = order + 'update_order_product/';
 

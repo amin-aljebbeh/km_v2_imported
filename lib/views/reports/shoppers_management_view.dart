@@ -17,9 +17,7 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
 
   loadShopper() async {
     await Services.getShoppers();
-    setState(() {
-      loading = false;
-    });
+    setState(() => loading = false);
   }
 
   @override
@@ -32,10 +30,7 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorUtils.primaryColor,
-        title: Text('فريق التوصيل', style: mainStyle),
-      ),
+      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('فريق التوصيل', style: mainStyle)),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: loading
@@ -45,11 +40,9 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
                 primary: false,
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount:
-                    LoadingScreenServices.allShoppers == null ? 0 : LoadingScreenServices.allShoppers.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ShopperWidget(shopper: LoadingScreenServices.allShoppers[index]);
-                },
+                itemCount: LoadingScreenServices.allShoppers == null ? 0 : LoadingScreenServices.allShoppers.length,
+                itemBuilder: (BuildContext context, int index) =>
+                    ShopperWidget(shopper: LoadingScreenServices.allShoppers[index]),
               ),
       ),
     );

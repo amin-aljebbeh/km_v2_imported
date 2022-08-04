@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:kammun_app/views/restart/kammunapp_restart.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
+import 'package:kammun_app/views/restart/kammunapp_restart.dart';
+import 'package:kammun_app/views/widget/widgets_importer.dart';
 
 class InternetError extends StatelessWidget {
   const InternetError({Key key}) : super(key: key);
@@ -12,7 +12,6 @@ class InternetError extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.transparent),
-
         backgroundColor: const Color.fromARGB(255, 210, 178, 2),
         automaticallyImplyLeading: false, // hides leading widget
         flexibleSpace: SafeArea(
@@ -28,14 +27,7 @@ class InternetError extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0),
-                      child: Transform.scale(
-                        scale: 2,
-                        child: Image.asset(
-                          "assets/logobw.png",
-                          width: 150,
-                          height: 50,
-                        ),
-                      ),
+                      child: Transform.scale(scale: 2, child: Image.asset('assets/logobw.png', width: 150, height: 50)),
                     ),
                   ]),
             ],
@@ -49,13 +41,9 @@ class InternetError extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Image.asset(
-              "assets/no-wifi.png",
-              width: 125,
-              height: 200,
-            ),
+            Image.asset('assets/no-wifi.png', width: 125, height: 200),
             Text(
-              "لايوجد إتصال بالإنترنت",
+              'لايوجد إتصال بالإنترنت',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
@@ -66,7 +54,7 @@ class InternetError extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                "يرجى التحقق من إتصالك بالإنترنت والمحاولة من جديد ",
+                'يرجى التحقق من إتصالك بالإنترنت والمحاولة من جديد ',
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 15,

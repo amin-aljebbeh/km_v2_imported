@@ -1,4 +1,5 @@
 import 'package:call_log/call_log.dart';
+
 import '../../../core/core_importer.dart';
 import '../../../views/loading/loading_services.dart';
 import '../model/get_order_model.dart';
@@ -191,8 +192,7 @@ class OrderServices {
     }
   }
 
-  static Future<List<OrdersOriginalData>> getOrdersByUserPhoneNumberService(
-      {String phoneNumber, int pageNumber}) async {
+  static Future<List<OrdersOriginalData>> getOrdersByUserNumberService({String phoneNumber, int pageNumber}) async {
     try {
       var response = await ApiProvider.sendRequest(
           url: getOrdersByUserPhoneNumber,

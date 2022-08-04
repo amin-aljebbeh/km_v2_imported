@@ -19,8 +19,8 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   TextEditingController searchController = TextEditingController();
   TextEditingController valueController = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  String _fromDateTimeValue = "يرجى أختيار تاريخ البداية";
-  String _toDateTimeValue = "يرجى إختيار تاريخ النهاية";
+  String _fromDateTimeValue = 'يرجى أختيار تاريخ البداية';
+  String _toDateTimeValue = 'يرجى إختيار تاريخ النهاية';
 
   bool empty;
   bool loading;
@@ -41,16 +41,12 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
     page = 1;
     error = false;
     loading = false;
-    searchController.addListener(() {
-      setState(() {
-        searchFilter = searchController.text;
-      });
-    });
+    searchController.addListener(() => setState(() => searchFilter = searchController.text));
   }
 
   getProducts() async {
     if (filter == 0 && int.parse(valueController.text) <= 5) {
-      Toast.show("يرجى إدخال عدد أيام أكبر من 5", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+      Toast.show('يرجى إدخال عدد أيام أكبر من 5', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
       return;
     }
     setState(() {
@@ -86,18 +82,14 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: ColorUtils.primaryColor,
         onPressed: () {},
-        child: Text(
-          total.toString(),
-          style: const TextStyle(fontSize: 20),
-        ),
+        child: Text(total.toString(), style: const TextStyle(fontSize: 20)),
       ),
       appBar: InventorySearchTextField(
-        onReload: () {
-          if ((valueController.text.isNotEmpty || filter == 3) && filter != null) getProducts();
-        },
-        controller: searchController,
-        context: context,
-      ),
+          onReload: () {
+            if ((valueController.text.isNotEmpty || filter == 3) && filter != null) getProducts();
+          },
+          controller: searchController,
+          context: context),
       body: SafeArea(
         child: ListView(
           children: [
@@ -106,25 +98,16 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    size: 40,
-                    color: ColorUtils.primaryColor,
-                  ),
+                  icon: Icon(Icons.arrow_back, size: 40, color: ColorUtils.primaryColor),
                   onPressed: () {
                     if (!empty && (valueController.text.isNotEmpty || filter == 3) && filter != null) {
-                      setState(() {
-                        page++;
-                      });
+                      setState(() => page++);
                       getProducts();
                     }
                   },
                 ),
                 DropdownButton(
-                  hint: Text(
-                    'فلترة المنتجات',
-                    style: dropdownItemStyle,
-                  ),
+                  hint: Text('فلترة المنتجات', style: dropdownItemStyle),
                   value: filter,
                   items: Services.dropdownStringList(StringUtils.productFilter),
                   onChanged: (value) {
@@ -152,16 +135,8 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                           )
                         ],
                         content: KDatePicker(
-                          onConfirmStart: (date) {
-                            setState(() {
-                              _fromDateTimeValue = date;
-                            });
-                          },
-                          onConfirmEnd: (date) {
-                            setState(() {
-                              _toDateTimeValue = date;
-                            });
-                          },
+                          onConfirmStart: (date) => setState(() => _fromDateTimeValue = date),
+                          onConfirmEnd: (date) => setState(() => _toDateTimeValue = date),
                         ),
                       );
                     } else {
@@ -169,9 +144,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                         filter = value;
                         page = 1;
                       });
-                      if (valueController.text.isNotEmpty) {
-                        getProducts();
-                      }
+                      if (valueController.text.isNotEmpty) getProducts();
                     }
                   },
                 ),
@@ -208,17 +181,11 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(
-                    Icons.arrow_forward,
-                    size: 40,
-                    color: ColorUtils.primaryColor,
-                  ),
+                  icon: Icon(Icons.arrow_forward, size: 40, color: ColorUtils.primaryColor),
                   onPressed: () {
                     if ((valueController.text.isNotEmpty || filter == 3) && filter != null) {
                       setState(() {
-                        if (page > 1) {
-                          page--;
-                        }
+                        if (page > 1) page--;
                       });
                       getProducts();
                     }
@@ -226,9 +193,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                 ),
               ],
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             SizedBox(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.78,
@@ -236,20 +201,13 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                   ? error
                       ? Center(
                           child: AlertMessages(
-                            text: StringUtils.errorMessage,
-                            messageType: "internetError",
-                            headerText: "حدث خطأ",
-                          ),
+                              text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
                         )
                       : loading
                           ? const Loader()
                           : empty
                               ? const Padding(
-                                  padding: EdgeInsets.all(75),
-                                  child: ScreenMessage(
-                                    message: 'لا يوجد منتجات',
-                                  ),
-                                )
+                                  padding: EdgeInsets.all(75), child: ScreenMessage(message: 'لا يوجد منتجات'))
                               : ListView.builder(
                                   physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                                   primary: false,
@@ -259,7 +217,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                   itemBuilder: (BuildContext context, int index) {
                                     ProductData eachProduct = productsList[index];
                                     if (searchFilter == null ||
-                                        searchFilter == "" ||
+                                        searchFilter == '' ||
                                         eachProduct.name.toLowerCase().contains(searchFilter.toLowerCase())) {
                                       String id, supplierCode;
                                       int isActive;
@@ -323,39 +281,25 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                         onChangeStatus: (result) {
                                           if (result) {
                                             setState(() {
-                                              if (productsList[index].isActive == "1") {
-                                                productsList[index].isActive = "0";
+                                              if (productsList[index].isActive == '1') {
+                                                productsList[index].isActive = '0';
                                               } else {
-                                                productsList[index].isActive = "1";
+                                                productsList[index].isActive = '1';
                                               }
                                             });
                                           }
                                         },
                                         onDelete: (boolean) {
                                           setState(() {
-                                            if (boolean) {
-                                              setState(() {
-                                                productsList.removeAt(index);
-                                              });
-                                            }
+                                            if (boolean) setState(() => productsList.removeAt(index));
                                           });
                                         },
                                         deleteTimes: productsList[index].deleteTimes,
-                                        onChangePrice: (newValue) {
-                                          setState(() {
-                                            productsList[index].price = newValue;
-                                          });
-                                        },
-                                        onChangeUnit: (newValue) {
-                                          setState(() {
-                                            productsList[index].unit = newValue;
-                                          });
-                                        },
-                                        onChangeQuantity: (newValue) {
-                                          setState(() {
-                                            productsList[index].quantity = newValue;
-                                          });
-                                        },
+                                        onChangePrice: (newValue) =>
+                                            setState(() => productsList[index].price = newValue),
+                                        onChangeUnit: (newValue) => setState(() => productsList[index].unit = newValue),
+                                        onChangeQuantity: (newValue) =>
+                                            setState(() => productsList[index].quantity = newValue),
                                       );
                                     }
                                     return Container();
@@ -370,6 +314,6 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
   }
 
   bool validDates() {
-    return _fromDateTimeValue != "يرجى أختيار تاريخ البداية" && _toDateTimeValue != "يرجى إختيار تاريخ النهاية";
+    return _fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && _toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
   }
 }

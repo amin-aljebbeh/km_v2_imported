@@ -33,7 +33,7 @@ class UpdateProductInfoWidget extends StatefulWidget {
     @required this.productId,
     this.productData,
     this.isForSubWarehouse = true,
-    this.textHint = ".",
+    this.textHint = '.',
     this.isForPriceRate = false,
     this.increasePercentage,
     this.priceFactor,
@@ -72,73 +72,55 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
               ),
             ),
             IconButton(
-              icon: Icon(
-                Icons.save,
-                color: ColorUtils.kmColors,
-                size: 30,
-              ),
+              icon: Icon(Icons.save, color: ColorUtils.kmColors, size: 30),
               onPressed: () async {
                 if (textController.text.isNotEmpty) {
-                  if (widget.bodyKey == 'discount') {
-                    widget.onSavePressed('success', true);
+                  if (widget.isForPriceRate) {
+                    bool result = await InventoryServices.updatePriceRateThresholdService(textController.text);
+                    Services.resultFlushBar(context: context, result: result);
                   } else {
-                    if (widget.isForPriceRate) {
-                      bool result = await InventoryServices.updatePriceRateThresholdService(textController.text);
-                      Services.resultFlushBar(context: context, result: result);
+                    if (widget.bodyKey == 'supplier_code' &&
+                        !LoadingScreenServices.subSupplierCodeHint.hasMatch(textController.text)) {
+                      Flushbar(
+                        backgroundColor: Colors.red,
+                        messageText: Text(
+                          'فشل عملية التعديل يجب أن يحتوي رمز المادة على الرمز الخاص بك',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: StringUtils.fontFamilyHKGrotesk),
+                        ),
+                        boxShadows: [
+                          BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)
+                        ],
+                        icon: const Icon(Icons.error, size: 28.0, color: Colors.white),
+                        duration: const Duration(seconds: 3),
+                        leftBarIndicatorColor: ColorUtils.kmColors,
+                      ).show(context);
                     } else {
-                      if (widget.bodyKey == "supplier_code" &&
-                          !LoadingScreenServices.subSupplierCodeHint.hasMatch(textController.text)) {
-                        Flushbar(
-                          backgroundColor: Colors.red,
-                          messageText: Text(
-                            "فشل عملية التعديل يجب أن يحتوي رمز المادة على الرمز الخاص بك",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk),
-                          ),
-                          boxShadows: [
-                            BoxShadow(
-                              color: ColorUtils.primaryColor,
-                              offset: const Offset(0.0, 2.0),
-                              blurRadius: 3.0,
-                            )
-                          ],
-                          icon: const Icon(
-                            Icons.error,
-                            size: 28.0,
-                            color: Colors.white,
-                          ),
-                          duration: const Duration(seconds: 3),
-                          leftBarIndicatorColor: ColorUtils.kmColors,
-                        ).show(context);
-                      } else {
-                        String newValue = textController.text;
-                        if (widget.bodyKey == 'price') {
-                          double tempValue = double.parse(newValue.split('.')[0]);
-                          tempValue *= widget.priceFactor;
-                          tempValue += widget.increasePercentage;
-                          newValue = tempValue.toString();
-                        }
-                        bool result = await ProductsServices.updateProductsDetails(
-                            bodyKey: widget.bodyKey,
-                            value: newValue,
-                            isForSubWarehouse: widget.isForSubWarehouse,
-                            subWarehouseId: widget.productData.subWarehouseId.toString(),
-                            productId: widget.productId.toString());
-
-                        if (result) {
-                          widget.onSavePressed(newValue, result);
-                          setState(() {
-                            textController.text = newValue;
-                          });
-                        }
-                        Services.resultFlushBar(context: context, result: result);
+                      String newValue = textController.text;
+                      if (widget.bodyKey == 'price') {
+                        double tempValue = double.parse(newValue.split('.')[0]);
+                        tempValue *= widget.priceFactor;
+                        tempValue += widget.increasePercentage;
+                        newValue = tempValue.toString();
                       }
+                      bool result = await ProductsServices.updateProductsDetails(
+                          bodyKey: widget.bodyKey,
+                          value: newValue,
+                          isForSubWarehouse: widget.isForSubWarehouse,
+                          subWarehouseId: widget.productData.subWarehouseId.toString(),
+                          productId: widget.productId.toString());
+
+                      if (result) {
+                        widget.onSavePressed(newValue, result);
+                        setState(() => textController.text = newValue);
+                      }
+                      Services.resultFlushBar(context: context, result: result);
                     }
                   }
                 } else {
-                  Toast.show("الحقل فارغ !", context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                  Toast.show('الحقل فارغ !', context, duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
                 }
               },
             ),

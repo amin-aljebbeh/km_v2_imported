@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/orders/order_by_id.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
-
 import '../orders/phone_number_order.dart';
+import 'close_widget.dart';
 import 'widgets_importer.dart';
 
 class SearchOrderByPhoneNumber extends StatefulWidget {
@@ -38,21 +38,11 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                         if (widget.idController.text.isNotEmpty) {
                           widget.onChoose();
                           Navigator.of(context).pop();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => OrderByID(
-                                id: widget.idController.text,
-                              ),
-                            ),
-                          );
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => OrderByID(id: widget.idController.text)));
                         }
                       },
-                      icon: Icon(
-                        Icons.search_rounded,
-                        size: 40,
-                        color: ColorUtils.kmColors,
-                      ),
+                      icon: Icon(Icons.search_rounded, size: 40, color: ColorUtils.kmColors),
                     ),
                     Expanded(
                       child: EntryField(
@@ -63,15 +53,8 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                           if (notEmpty) {
                             widget.onChoose();
                             Navigator.of(context).pop();
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => OrderByID(
-                                  id: widget.idController.text,
-                                ),
-                              ),
-                            );
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => OrderByID(id: widget.idController.text)));
                           }
                         },
                       ),
@@ -87,20 +70,12 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                         widget.onChoose();
                         Navigator.of(context).pop();
                         Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PhoneNumberOrdersView(
-                              phoneNumber: widget.phoneController.text,
-                            ),
-                          ),
-                        );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PhoneNumberOrdersView(phoneNumber: widget.phoneController.text)));
                       }
                     },
-                    icon: Icon(
-                      Icons.search_rounded,
-                      size: 40,
-                      color: ColorUtils.kmColors,
-                    ),
+                    icon: Icon(Icons.search_rounded, size: 40, color: ColorUtils.kmColors),
                   ),
                   Expanded(
                     child: EntryField(
@@ -112,13 +87,10 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                           widget.onChoose();
                           Navigator.of(context).pop();
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PhoneNumberOrdersView(
-                                phoneNumber: widget.phoneController.text,
-                              ),
-                            ),
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      PhoneNumberOrdersView(phoneNumber: widget.phoneController.text)));
                         }
                       },
                     ),
@@ -128,26 +100,14 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
             ],
           ),
           dialogButtons: [
-            DialogButton(
-              text: StringUtils.close,
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-            ),
+            const CloseWidget(),
             DialogButton(
               text: 'اختيار من السجل',
               onTap: () async {
                 List<CallLogEntry> cLog = await OrderServices.callbackDispatcher();
                 showMyDialog(
                   title: 'اختيار رقم',
-                  dialogButtons: [
-                    DialogButton(
-                      text: StringUtils.close,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
+                  dialogButtons: [const CloseWidget()],
                   content: SizedBox(
                     height: 500,
                     width: 500,
@@ -164,18 +124,11 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
                             Navigator.of(context).pop();
                             widget.onChoose();
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PhoneNumberOrdersView(
-                                  phoneNumber: cLog[index].number,
-                                ),
-                              ),
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PhoneNumberOrdersView(phoneNumber: cLog[index].number)));
                           },
-                          child: PhoneNumberWidget(
-                            phoneNumber: cLog[index].number,
-                            userName: cLog[index].name,
-                          ),
+                          child: PhoneNumberWidget(phoneNumber: cLog[index].number, userName: cLog[index].name),
                         );
                       },
                     ),
@@ -186,11 +139,7 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
           ],
         );
       },
-      icon: Icon(
-        Icons.search_rounded,
-        size: 40,
-        color: ColorUtils.kmColors,
-      ),
+      icon: Icon(Icons.search_rounded, size: 40, color: ColorUtils.kmColors),
     );
   }
 }
