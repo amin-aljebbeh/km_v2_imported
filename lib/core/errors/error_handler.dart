@@ -3,32 +3,31 @@ import 'package:dio/dio.dart';
 import 'error_types.dart';
 
 class ErrorHandler {
-  static Response handleDioError(DioError error) {
+  static Response handleDioError(DioError error, RequestOptions options) {
     if (error.response == null) {
-      return Response(statusCode: SERVICE_UNAVAILABLE_ERROR);
+      return Response(statusCode: serviceUnavailableError);
     } else {
-      if (error.type == DioErrorType.DEFAULT ||
-          error.type == DioErrorType.RESPONSE) {
+      if (error.type == DioErrorType.DEFAULT || error.type == DioErrorType.RESPONSE) {
         if (error is SocketException) return error.response;
         if (error.type == DioErrorType.RESPONSE) {
           switch (error.response.statusCode) {
-            case BAD_REQUEST_ERROR:
+            case badRequestError:
               {
                 return error.response;
               }
-            case UNAUTHORIZED_ERROR:
+            case unauthorizedError:
               return error.response;
 
-            case FORBIDDEN_ERROR:
+            case forbiddenError:
               return error.response;
 
-            case NOT_FOUND_ERROR:
+            case notFoundError:
               return error.response;
 
-            case CONFLICT_ERROR:
+            case conflictError:
               return error.response;
 
-            case INTERNAL_SERVER_ERROR:
+            case internalServerError:
               return error.response;
 
             default:
@@ -40,8 +39,9 @@ class ErrorHandler {
           return error.response;
         } else if (error.type == DioErrorType.CANCEL) {
           return error.response;
-        } else
+        } else {
           return error.response;
+        }
       }
       return error.response;
     }

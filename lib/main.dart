@@ -1,118 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:kammun_app/utils/common_utils.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/deliver_to/deliver_to_view.dart';
-import 'package:kammun_app/views/home/home_view.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
-import 'package:kammun_app/views/login/login_view.dart';
-import 'package:kammun_app/views/supported_city/supported_city.dart';
-import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter/cupertino.dart';
-import 'views/cart/CartViewFinal.dart';
-import 'views/login/OTPVerification.dart';
+import 'package:in_app_review_play_store/in_app_review_play_store.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'dart:ui' as ui;
-import 'views/profile/profileScreen.dart';
-import 'views/restart/kammunapp_restart.dart';
-import 'views/server_update/server_update.dart';
+import 'core/core_importer.dart';
+import 'modules/authentication/view/blocked_user.dart';
+import 'modules/authentication/view/login_view.dart';
+import 'modules/authentication/view/otp_verification.dart';
+import 'modules/cart/view/cart_view.dart';
+import 'modules/error/view/internet_error.dart';
+import 'modules/map/view/kammun_map.dart';
+import 'modules/notifications/firebase_init_page.dart';
+import 'modules/orders/view/orders_view.dart';
+import 'modules/profile/view/profile_screen.dart';
 
-void main() {
-  //BlocSupervisor.delegate = SimpleBlocDelegate();
-  RenderErrorBox.backgroundColor = Colors.transparent;
-  RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
-  runApp(
-    KammunRestart(
-      child: CustomTheme(
-        initialThemeKey: MyThemeKeys.LIGHT,
-        child: MyApp(),
-      ),
-    ),
-  );
-}
+Future<void> main() async {
+  final Store<AppState> store = AppRedux.init();
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
 
-class RestartWidget {}
-
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
+    if (Platform.isAndroid) {
+      InAppReview.init();
+    }
+    RenderErrorBox.backgroundColor = Colors.transparent;
+    RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
+  } catch (e) {
+    /**/
   }
+  runApp(StoreProvider(
+      store: store,
+      child: OverlaySupport(
+          child: CustomTheme(
+              initialThemeKey: MyThemeKeys.light, child: RestartWidget(child: FirebaseInitPage(store: store))))));
+}
 
-  loadingProgress(BuildContext context) {
-    return Scaffold(
-      backgroundColor: UtilsImporter().colorUtils.kmColors,
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/welcome_screen.png"),
-            fit: BoxFit.contain,
-          ),
-        ),
-        child: Stack(children: <Widget>[
-          Positioned(
-            left: MediaQuery.of(context).size.width - 80,
-            bottom: MediaQuery.of(context).size.height / 2 - 37,
-            height: 100,
-            width: 100,
-            child: Image.asset(
-              "assets/Loading.gif",
-              // width: 20,
-              // color: Colors.transparent,
-            ),
-          ),
-        ]),
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+class MyApp extends StatelessWidget {
+  final Store<AppState> store;
+
+  const MyApp({Key key, this.store}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) => MaterialApp(
+        navigatorKey: navigatorKey,
+        color: Colors.white,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          DefaultCupertinoLocalizations.delegate
+        ],
+        supportedLocales: const [Locale('ar', 'AE')],
+        locale: const Locale('ar', 'AE'),
+        title: 'Kammun',
+        debugShowCheckedModeBanner: false,
+        routes: <String, WidgetBuilder>{
+          LoginScreen.routeName: (_) => const LoginScreen(),
+          StoreView.routeName: (_) => const HomeView(index: 0),
+          PaymentView.routeName: (_) => const PaymentView(),
+          GoToBank.routeName: (_) => const GoToBank(),
+          PaymentFailedView.routeName: (_) => const PaymentFailedView(),
+          WaitingPaymentView.routeName: (_) => const WaitingPaymentView(),
+          '/myApp': (_) => const MyApp(),
+          OTPVerification.routeName: (_) => const OTPVerification(),
+          ServerUpdate.routeName: (_) => const ServerUpdate(),
+          ThankYouView.routeName: (_) => const ThankYouView(),
+          CartView.routeName: (_) => const HomeView(index: 1),
+          OrdersView.routeName: (_) => const HomeView(index: 2),
+          ProfileScreen.routeName: (_) => const ProfileScreen(),
+          AddAddressView.routeName: (_) => const AddAddressView(),
+          BlockedUserView.routeName: (_) => const BlockedUserView(),
+          InternetError.routeName: (_) => const InternetError(),
+          UpdateScreen.routeName: (_) => const UpdateScreen(),
+          LoadingScreen.routeName: (_) => const LoadingScreen(),
+          InvoiceView.routeName: (_) => const InvoiceView(),
+          MyAddresses.routeName: (_) => const MyAddresses(),
+          OrderProblemView.routeName: (_) => const OrderProblemView(),
+          KammunMapView.routeName: (_) => const KammunMapView(),
+        },
+        theme: CustomTheme.of(context),
+        home: const LoadingScreen(),
       ),
     );
-  }
-
-  Widget build(BuildContext context) {
-    return KammunRestart(
-        child: MaterialApp(
-            localizationsDelegates: [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              DefaultCupertinoLocalizations.delegate
-            ],
-            supportedLocales: [
-              Locale("ar", "AE"), // OR Locale('ar', 'AE') OR Other RTL locales
-            ],
-            locale: Locale("ar", "AE"),
-            title: 'Kammun',
-            debugShowCheckedModeBanner: false,
-            routes: <String, WidgetBuilder>{
-              LoginScreen.routeName: (_) => LoginScreen(),
-              //  '/login': (_) => new LoginView(), // Login Page
-              '/home': (_) => HomeView(routeIndex: 0),
-              '/myApp': (_) => MyApp(),
-              'loading': (_) => LoadingScreen(),
-
-              // '/home': (_) => LoginView(),
-              '/favoraites': (_) => HomeView(routeIndex: 3),
-              '/cartFinal': (_) => CartViewFinal(),
-              OTPVerification.routeName: (_) => OTPVerification(),
-              ServerUpdate.routeName: (_) => ServerUpdate(),
-              '/supportedCity': (_) => SupportedCityWidget(),
-              '/thankyou': (_) => new ThankYouView(),
-              '/delivery': (_) => DeliverToView(),
-              '/cart': (_) => new HomeView(routeIndex: 1),
-              '/cartFromUpdate': (_) => new HomeView(
-                    routeIndex: 1,
-                    isFromUpdateOrder: true,
-                  ),
-
-              '/orders': (_) => HomeView(routeIndex: 2),
-              '/profile': (_) => ProfileScreen(),
-            },
-            theme: CustomTheme.of(context),
-            home: LoadingScreen()));
   }
 }

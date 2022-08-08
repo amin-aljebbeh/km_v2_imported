@@ -1,94 +1,90 @@
 import 'package:dio/dio.dart';
-import 'package:kammun_app/utils/tools.dart';
-import 'package:kammun_app/views/loading/Loading.dart';
-import '../../core/errors/error_handler.dart';
-import 'api_URLs.dart';
+import '../core_importer.dart';
 
 class ApiProvider {
-  static Future<Response> sendRequest(
-      {String url,
-      dynamic body,
-      Map<String, dynamic> queryParameters,
-      httpMethods method,
-      ResponseType reponseType,
-      bool mapService,
-      bool isUrlEncodedFormat}) async {
-    if (mapService == null) mapService = false;
-    if (isUrlEncodedFormat == null) isUrlEncodedFormat = false;
-
+  static Future<Response> sendRequest({
+    @required String url,
+    dynamic body,
+    Map<String, dynamic> queryParameters,
+    @required HttpMethods method,
+    ResponseType responseType,
+  }) async {
     var options = BaseOptions(
-        baseUrl: mapService ? "" : BaseUrl,
-        connectTimeout: 30000,
-        receiveTimeout: 30000,
-        contentType: isUrlEncodedFormat
-            ? Headers.formUrlEncodedContentType
-            : Headers.jsonContentType);
+        baseUrl: baseUrl + '/api/', connectTimeout: 30000, receiveTimeout: 30000, contentType: Headers.jsonContentType);
 
-    var dio = new Dio(options);
-
-    // Master Version //
-    // --------------------------------------- //
-    // Map<String, String> header = {
-    //   'Authorization':
-    //       LoadingScreen.user_token.length > 5 ? LoadingScreen.user_token : "",
-    // };
-    // --------------------------------------- //
-
-    Map<String, String> header = {
-      // 'Authorization': "Bearer user",
-
-      'Authorization':
-          LoadingScreen.user_token.length > 10 ? LoadingScreen.user_token : "",
-    };
+    var dio = Dio(options);
+    String token;
+    try {
+      token = StoreProvider.of<AppState>(navigatorKey.currentContext).state.authenticationState.token;
+    } catch (e) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      token = prefs.getString('userToken');
+    }
+    Tools.logToConsole(token);
+    Tools.logToConsole(body);
+    Tools.logToConsole(queryParameters);
+    Tools.logToConsole(method.toString());
+    Tools.logToConsole(baseUrl + '/api/' + url);
+    if (url != storeUserError) {
+      StoreProvider.of<AppState>(navigatorKey.currentContext).dispatch(SetUrl(url: url));
+    }
+    Map<String, String> header = {'Authorization': 'Bearer ' + token ?? ''};
 
     Response response;
 
     try {
       switch (method) {
-        case httpMethods.get:
+        case HttpMethods.get:
           {
             response = await dio.get(
               url,
               queryParameters: queryParameters,
-              options: Options(headers: header, responseType: reponseType),
+              options: Options(headers: header, responseType: responseType),
             );
             break;
           }
-        case httpMethods.delete:
+        case HttpMethods.delete:
           {
             response = await dio.delete(
               url,
               queryParameters: queryParameters,
-              options: Options(headers: header, responseType: reponseType),
+              options: Options(headers: header, responseType: responseType),
             );
             break;
           }
-        case httpMethods.put:
+        case HttpMethods.put:
           {
             response = await dio.put(
               url,
               queryParameters: queryParameters,
-              options: Options(headers: header, responseType: reponseType),
+              options: Options(headers: header, responseType: responseType),
               data: body,
             );
             break;
           }
 
-        case httpMethods.post:
+        case HttpMethods.post:
           {
-            response = await dio.post(url,
-                queryParameters: queryParameters,
-                options: Options(headers: header),
-                data: body);
+            response = await dio.post(
+              url,
+              queryParameters: queryParameters,
+              options: Options(headers: header, validateStatus: (status) => status < 500),
+              data: body,
+            );
             break;
           }
       }
     } on DioError catch (e) {
-      return ErrorHandler.handleDioError(e);
+      Tools.logToConsole(e.message);
     }
-
+    if (response != null) {
+      Tools.logToConsole(response.statusCode);
+      StoreProvider.of<AppState>(navigatorKey.currentContext).dispatch(SetStatusCode(statusCode: response.statusCode));
+    }
+    Tools.logToConsole('response is :');
+    Tools.logToConsole(response);
     return response;
   }
 }
 
-enum httpMethods { get, post, put, delete }
+enum HttpMethods { get, post, put, delete }
