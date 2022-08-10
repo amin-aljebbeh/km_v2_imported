@@ -1,12 +1,7 @@
-import 'dart:async';
-
 import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:flutter/material.dart';
 import 'package:full_screen_image/full_screen_image.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
@@ -14,12 +9,8 @@ import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:kammun_app/views/widget/close_widget.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:search_choices/search_choices.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../service.dart';
+import '../../core/core_importer.dart';
 
 class ProductDetailView extends StatefulWidget {
   final ProductData product;

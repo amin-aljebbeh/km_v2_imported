@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-
+import '../../core/core_importer.dart';
 import 'model/prices_changes_model.dart';
 
 class Prices extends StatefulWidget {
@@ -46,11 +43,7 @@ class _PricesState extends State<Prices> {
   void initState() {
     numberOfProducts = 0;
     setState(() {});
-    _controller.addListener(() {
-      setState(() {
-        filter = _controller.text;
-      });
-    });
+    _controller.addListener(() => setState(() => filter = _controller.text));
     _loadData();
     super.initState();
   }
@@ -62,42 +55,23 @@ class _PricesState extends State<Prices> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: ColorUtils.primaryColor,
-        child: Text(
-          "$numberOfProducts",
-          style: const TextStyle(fontSize: 20),
-        ),
+        child: Text("$numberOfProducts", style: const TextStyle(fontSize: 20)),
       ),
       backgroundColor: Colors.white,
-      appBar: InventorySearchTextField(
-        onReload: () {
-          _loadData();
-        },
-        controller: _controller,
-        context: context,
-      ),
+      appBar: InventorySearchTextField(onReload: () => _loadData(), controller: _controller, context: context),
       body: Column(
         children: <Widget>[
           isLoading
-              ? const Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 30.0),
-                    child: Loader(),
-                  ),
-                )
+              ? const Center(child: Padding(padding: EdgeInsets.only(top: 30.0), child: Loader()))
               : isError
                   ? Center(
                       child: Expanded(
                         child: Column(
                           children: [
                             AlertMessages(
-                              text: StringUtils.errorMessage,
-                              messageType: "internetError",
-                              headerText: "حدث خطأ",
-                            ),
+                                text: StringUtils.errorMessage, messageType: "internetError", headerText: "حدث خطأ"),
                             ElevatedButton(
-                              child: Text(StringUtils.tryAgain, style: blackBold),
-                              onPressed: () => _loadData(),
-                            ),
+                                child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () => _loadData()),
                           ],
                         ),
                       ),
@@ -132,9 +106,8 @@ class _PricesState extends State<Prices> {
                                 if (productsList.productsPriceChange[index].subWarehouseId != -1) {
                                   id = productsList.productsPriceChange[index].subWarehouseId.toString();
                                 } else {
-                                  List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
-                                      .map((warehouse) => warehouse.id)
-                                      .toList();
+                                  List<int> subWarehousesIds =
+                                      LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
                                   List<int> productIds = productsList.productsPriceChange[index].warehouses
                                       .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
                                       .toList();
@@ -142,8 +115,7 @@ class _PricesState extends State<Prices> {
                                   if (subWarehousesIds.isNotEmpty) {
                                     id = subWarehousesIds[0].toString();
                                   } else if (productsList.productsPriceChange[index].warehouses.isNotEmpty) {
-                                    id =
-                                        productsList.productsPriceChange[index].warehouses[0].pivot.subWarehouseId;
+                                    id = productsList.productsPriceChange[index].warehouses[0].pivot.subWarehouseId;
                                   }
                                 }
                                 if (productsList.productsPriceChange[index].supplierCode != null) {
@@ -157,8 +129,8 @@ class _PricesState extends State<Prices> {
                                 if (productsList.productsPriceChange[index].isActive != 'null') {
                                   isActive = int.parse(productsList.productsPriceChange[index].isActive);
                                 } else if (productsList.productsPriceChange[index].warehouses.isNotEmpty) {
-                                  isActive = int.parse(
-                                      productsList.productsPriceChange[index].warehouses[0].pivot.isActive);
+                                  isActive =
+                                      int.parse(productsList.productsPriceChange[index].warehouses[0].pivot.isActive);
                                 }
                                 attached = false;
                                 if (productsList.productsPriceChange[index].supplierCode != 'null') {
@@ -195,34 +167,19 @@ class _PricesState extends State<Prices> {
                                     });
                                   },
                                   onDelete: (result) {
-                                    if (result) {
-                                      setState(() {
-                                        productsList.productsPriceChange.removeAt(index);
-                                      });
-                                    }
+                                    if (result) setState(() => productsList.productsPriceChange.removeAt(index));
                                   },
                                   fromInventory: true,
                                   productData: productsList.productsPriceChange[index],
-                                  oldPrice:
-                                      int.parse(productsList.productsPriceChange[index].price.split(".")[0]) -
-                                          int.parse(productsList.productsPriceChange[index].priceChange
-                                              .toString()
-                                              .split(".")[0]),
-                                  onChangePrice: (newValue) {
-                                    setState(() {
-                                      productsList.productsPriceChange[index].price = newValue;
-                                    });
-                                  },
-                                  onChangeUnit: (newValue) {
-                                    setState(() {
-                                      productsList.productsPriceChange[index].unit = newValue;
-                                    });
-                                  },
-                                  onChangeQuantity: (newValue) {
-                                    setState(() {
-                                      productsList.productsPriceChange[index].quantity = newValue;
-                                    });
-                                  },
+                                  oldPrice: int.parse(productsList.productsPriceChange[index].price.split(".")[0]) -
+                                      int.parse(
+                                          productsList.productsPriceChange[index].priceChange.toString().split(".")[0]),
+                                  onChangePrice: (newValue) =>
+                                      setState(() => productsList.productsPriceChange[index].price = newValue),
+                                  onChangeUnit: (newValue) =>
+                                      setState(() => productsList.productsPriceChange[index].unit = newValue),
+                                  onChangeQuantity: (newValue) =>
+                                      setState(() => productsList.productsPriceChange[index].quantity = newValue),
                                 );
                               }
                               return Container();

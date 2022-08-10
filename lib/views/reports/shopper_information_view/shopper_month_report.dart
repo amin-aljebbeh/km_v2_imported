@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/views/reports/shopper_information_view/month_report_widget.dart';
-
-import '../../../service.dart';
-import '../../../utils/utils_importer.dart';
-import '../../widget/widgets_importer.dart';
+import '../../../core/core_importer.dart';
 import '../models/shopper_monthly_report_model.dart';
 import '../services/reports_services.dart';
 
@@ -62,8 +57,8 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-          backgroundColor: ColorUtils.primaryColor, title: Text('معلومات المتسوق الشهرية', style: mainStyle)),
+      appBar:
+          AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('معلومات المتسوق الشهرية', style: mainStyle)),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -95,11 +90,7 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
                   ? error
                       ? Center(
                           child: AlertMessages(
-                            text: StringUtils.errorMessage,
-                            messageType: 'internetError',
-                            headerText: 'حدث خطأ',
-                          ),
-                        )
+                              text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
                       : loading
                           ? const Loader()
                           : SizedBox(

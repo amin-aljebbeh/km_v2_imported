@@ -1,14 +1,11 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/orders_view_importer.dart';
 import 'package:kammun_app/views/store/store_view.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../service.dart';
-import '../widget/close_widget.dart';
+
+import '../../core/core_importer.dart';
+import 'bottom_bar_item.dart';
 
 class HomeView extends StatefulWidget {
   final int routeIndex;
@@ -35,12 +32,10 @@ class HomeViewState extends State<HomeView> {
     isFromUpdateOrder = widget.isFromUpdateOrder;
 
     widget.notificationValue != null
-        ? WidgetsBinding.instance.addPostFrameCallback(
-            (_) => showMyDialog(
-                title: widget.notificationValue['title'],
-                text: widget.notificationValue['body'],
-                dialogButtons: [const CloseButton()]),
-          )
+        ? WidgetsBinding.instance.addPostFrameCallback((_) => showMyDialog(
+            title: widget.notificationValue['title'],
+            text: widget.notificationValue['body'],
+            dialogButtons: [const CloseButton()]))
         : {};
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _initializeNotification(ctx: context));
@@ -57,9 +52,7 @@ class HomeViewState extends State<HomeView> {
   _initializeNotification({BuildContext ctx}) {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final notification = message.notification;
-
       if (message.data['route_name'] != null) Navigator.pushNamed(context, message.data['route_name']);
-
       showMyDialog(title: notification.title, text: notification.body, dialogButtons: [const CloseWidget()]);
     });
     FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
@@ -79,68 +72,13 @@ class HomeViewState extends State<HomeView> {
 
   Widget _bottomNavBar({BuildContext context}) {
     List<BottomNavigationBarItem> bottomList = [];
-
-    bottomList.add(BottomNavigationBarItem(
-        activeIcon: Column(
-          children: [
-            Icon(Icons.store, color: ColorUtils.kmColors),
-            Text(StringUtils.store, style: homeActiveIconStyle),
-          ],
-        ),
-        icon: Column(
-          children: [
-            Icon(Icons.store, color: ColorUtils.primaryColor),
-            Text(StringUtils.store, style: homeIconStyle),
-          ],
-        ),
-        label: ''));
-    bottomList.add(BottomNavigationBarItem(
-        activeIcon: Column(
-          children: [
-            Icon(Icons.shopping_cart, color: ColorUtils.kmColors),
-            Text(StringUtils.cart, style: homeActiveIconStyle),
-          ],
-        ),
-        icon: Column(
-          children: [
-            Icon(Icons.shopping_cart, color: ColorUtils.primaryColor),
-            Text(StringUtils.cart, style: homeIconStyle)
-          ],
-        ),
-        label: ''));
-
+    bottomList.add(BottomBarItem.build(text: StringUtils.store, icon: Icons.store));
+    bottomList.add(BottomBarItem.build(text: StringUtils.cart, icon: Icons.shopping_cart));
     if (Services.isOperationManager()) {
-      bottomList.add(BottomNavigationBarItem(
-          activeIcon: Column(
-            children: [
-              Icon(Icons.reorder, color: ColorUtils.kmColors),
-              Text(StringUtils.orders, style: homeActiveIconStyle)
-            ],
-          ),
-          icon: Column(
-            children: [
-              Icon(Icons.reorder, color: ColorUtils.primaryColor),
-              Text(StringUtils.orders, style: homeIconStyle)
-            ],
-          ),
-          label: ''));
+      bottomList.add(BottomBarItem.build(text: StringUtils.orders, icon: Icons.reorder));
     }
-
     if (Services.isShopper() || Services.isSupplierManager()) {
-      bottomList.add(BottomNavigationBarItem(
-          activeIcon: Column(
-            children: [
-              Icon(Icons.playlist_add_check_outlined, color: ColorUtils.kmColors),
-              Text(StringUtils.myOrders, style: homeActiveIconStyle),
-            ],
-          ),
-          icon: Column(
-            children: [
-              Icon(Icons.playlist_add_check_outlined, color: ColorUtils.primaryColor),
-              Text(StringUtils.myOrders, style: homeIconStyle),
-            ],
-          ),
-          label: ''));
+      bottomList.add(BottomBarItem.build(text: StringUtils.myOrders, icon: Icons.playlist_add_check_outlined));
     }
 
     return BottomNavigationBar(
@@ -155,14 +93,11 @@ class HomeViewState extends State<HomeView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: tabs[selectedIndex], bottomNavigationBar: _bottomNavBar(context: context));
-  }
+  Widget build(BuildContext context) =>
+      Scaffold(body: tabs[selectedIndex], bottomNavigationBar: _bottomNavBar(context: context));
 
-  void _onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-      isFromUpdateOrder = false;
-    });
-  }
+  void _onItemTapped(int index) => setState(() {
+        selectedIndex = index;
+        isFromUpdateOrder = false;
+      });
 }

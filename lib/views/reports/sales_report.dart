@@ -1,8 +1,5 @@
 import 'package:expandable/expandable.dart';
-import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-
+import '../../core/core_importer.dart';
 import 'models/sales_reports_model.dart';
 import 'services/reports_services.dart';
 
@@ -30,11 +27,7 @@ class _SalesReportState extends State<SalesReport> {
   _reportCard(GetDailyStatistics response) {
     totalSubWarehouses.clear();
     totalSubWarehouses.add(Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text('إحصائيات عامة', style: informationStyle),
-      ),
-    ));
+        child: Padding(padding: const EdgeInsets.all(8.0), child: Text('إحصائيات عامة', style: informationStyle))));
     totalSubWarehouses.add(Table(
       border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
       children: [
@@ -45,15 +38,9 @@ class _SalesReportState extends State<SalesReport> {
         ]),
         TableRow(
           children: [
-            KTableElement(
-              text: StringUtils().oCcy.format(response.generalStatistics.totalSales),
-            ),
-            KTableElement(
-              text: StringUtils().oCcy.format(response.generalStatistics.totalShoppingProfits),
-            ),
-            KTableElement(
-              text: StringUtils().oCcy.format(response.generalStatistics.totalDeliveryProfits),
-            ),
+            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalSales)),
+            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalShoppingProfits)),
+            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalDeliveryProfits)),
           ],
         ),
       ],
@@ -65,29 +52,20 @@ class _SalesReportState extends State<SalesReport> {
           for (int j = 0; j < response.warehouses[i].statisticsSubWarehouses.length; j++) {
             expanded.add(Column(
               children: [
-                KTableElement(
-                  text: response.warehouses[i].statisticsSubWarehouses[j].name,
-                ),
+                KTableElement(text: response.warehouses[i].statisticsSubWarehouses[j].name),
                 KTableRow(
                   children: [
-                    const KTableElement(
-                      text: 'مجموع سعر المبيع',
-                    ),
-                    KTableElement(
-                      text: StringUtils.shoppingProfits,
-                    ),
-                    const KTableElement(
-                      text: 'مجموع القيم المضافة',
-                    ),
+                    const KTableElement(text: 'مجموع سعر المبيع'),
+                    KTableElement(text: StringUtils.shoppingProfits),
+                    const KTableElement(text: 'مجموع القيم المضافة'),
                   ],
                 ),
                 KTableRow(
                   children: [
                     KTableElement(
-                      text: StringUtils()
-                          .oCcy
-                          .format(int.parse(response.warehouses[i].statisticsSubWarehouses[j].sumPurchasePrice)),
-                    ),
+                        text: StringUtils()
+                            .oCcy
+                            .format(int.parse(response.warehouses[i].statisticsSubWarehouses[j].sumPurchasePrice))),
                     KTableElement(
                       text: StringUtils().oCcy.format(int.parse(
                           response.warehouses[i].statisticsSubWarehouses[j].totalShoppingProfits.split('.')[0])),
@@ -103,24 +81,16 @@ class _SalesReportState extends State<SalesReport> {
               ],
             ));
           }
-          expanded.add(const KTableElement(
-            text: 'المناطق المدعومة',
-          ));
+          expanded.add(const KTableElement(text: 'المناطق المدعومة'));
         }
 
         if (response.warehouses[i].statisticsSupportedCities != null) {
           for (int j = 0; j < response.warehouses[i].statisticsSupportedCities.length; j++) {
             expanded.add(KTableRow(
               children: [
-                KTableElement(
-                  text: response.warehouses[i].statisticsSupportedCities[j].name,
-                ),
-                KTableElement(
-                  text: StringUtils.ordersCount,
-                ),
-                const KTableElement(
-                  text: 'تسعيرة التوصيل',
-                ),
+                KTableElement(text: response.warehouses[i].statisticsSupportedCities[j].name),
+                KTableElement(text: StringUtils.ordersCount),
+                const KTableElement(text: 'تسعيرة التوصيل'),
               ],
             ));
             expanded.add(KTableRow(
@@ -132,17 +102,13 @@ class _SalesReportState extends State<SalesReport> {
                 KTableElement(
                   text: StringUtils()
                       .oCcy
-                      .format(
-                        response.warehouses[i].statisticsSupportedCities[j].ordersCount,
-                      )
+                      .format(response.warehouses[i].statisticsSupportedCities[j].ordersCount)
                       .toString(),
                 ),
                 KTableElement(
                   text: StringUtils().oCcy.format(
                         int.parse(
-                          response.warehouses[i].statisticsSupportedCities[j].deliveryPrice
-                              .split('.')[0]
-                              .toString(),
+                          response.warehouses[i].statisticsSupportedCities[j].deliveryPrice.split('.')[0].toString(),
                         ),
                       ),
                 ),
@@ -162,50 +128,35 @@ class _SalesReportState extends State<SalesReport> {
               TableRow(
                 children: [
                   KTableElement(
-                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.totalSales),
-                  ),
+                      text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.totalSales)),
                   KTableElement(
-                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.deliveryIncome),
-                  ),
-                  KTableElement(
-                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.total),
-                  ),
+                      text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.deliveryIncome)),
+                  KTableElement(text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.total)),
                 ],
               ),
               TableRow(children: [
                 KTableElement(text: StringUtils.ordersCount),
                 KTableElement(text: StringUtils.shoppingProfits),
-                KTableElement(text: StringUtils.deliveryProfits),
+                KTableElement(text: StringUtils.deliveryProfits)
               ]),
               TableRow(
                 children: [
                   KTableElement(
-                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.orderCount),
-                  ),
+                      text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.orderCount)),
                   KTableElement(
-                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.shoppingProfits),
-                  ),
+                      text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.shoppingProfits)),
                   KTableElement(
-                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.deliveryProfits),
-                  ),
+                      text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.deliveryProfits)),
                 ],
               ),
             ],
           ),
-          expanded: Column(
-            children: expanded,
-          ),
+          expanded: Column(children: expanded),
           header: Center(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                response.warehouses[i].name,
-                style: TextStyle(
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                  fontSize: 25,
-                ),
-              ),
-            ),
+                padding: const EdgeInsets.all(8.0),
+                child: Text(response.warehouses[i].name,
+                    style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 25))),
           ),
         ));
       }
@@ -218,16 +169,11 @@ class _SalesReportState extends State<SalesReport> {
       isLoading = true;
     });
 
-    var response = await ReportsServices.getSalesReports(
-      fromDate: fromDateTimeValue,
-      toDate: toDateTimeValue,
-    );
+    var response = await ReportsServices.getSalesReports(fromDate: fromDateTimeValue, toDate: toDateTimeValue);
     if (response != null) {
       _reportCard(response);
 
-      setState(() {
-        isLoading = false;
-      });
+      setState(() => isLoading = false);
     } else {
       setState(() {
         isLoading = false;
@@ -239,10 +185,7 @@ class _SalesReportState extends State<SalesReport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorUtils.primaryColor,
-        title: Text('تقرير المبيعات', style: mainStyle),
-      ),
+      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('تقرير المبيعات', style: mainStyle)),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(10),
@@ -251,16 +194,8 @@ class _SalesReportState extends State<SalesReport> {
             shrinkWrap: true,
             children: [
               KDatePicker(
-                onConfirmStart: (date) {
-                  setState(() {
-                    fromDateTimeValue = date;
-                  });
-                },
-                onConfirmEnd: (date) {
-                  setState(() {
-                    toDateTimeValue = date;
-                  });
-                },
+                onConfirmStart: (date) => setState(() => fromDateTimeValue = date),
+                onConfirmEnd: (date) => setState(() => toDateTimeValue = date),
               ),
               KammunButton(
                 text: StringUtils.send,
@@ -275,16 +210,12 @@ class _SalesReportState extends State<SalesReport> {
                 },
                 height: 50,
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               isError ? AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError') : Container(),
               isLoading
                   ? const Loader()
                   : totalSubWarehouses.isNotEmpty
-                      ? Column(
-                          children: totalSubWarehouses,
-                        )
+                      ? Column(children: totalSubWarehouses)
                       : Container(),
             ],
           ),
@@ -293,7 +224,6 @@ class _SalesReportState extends State<SalesReport> {
     );
   }
 
-  bool validDates() {
-    return fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
-  }
+  bool validDates() =>
+      fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
 }

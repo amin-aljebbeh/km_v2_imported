@@ -1,12 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
-import 'package:kammun_app/views/widget/close_widget.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-
-import '../../service.dart';
+import '../../core/core_importer.dart';
 
 class ProductsFilterScreen extends StatefulWidget {
   const ProductsFilterScreen({Key key}) : super(key: key);

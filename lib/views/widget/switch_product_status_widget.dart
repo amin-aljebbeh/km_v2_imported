@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 
-import '../../service.dart';
+import '../../core/core_importer.dart';
 
 class SwitchProductStatusWidget extends StatefulWidget {
   final double height;
@@ -47,9 +44,7 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
             width: widget.width,
             padding: const EdgeInsets.all(3.0),
             decoration: BoxDecoration(
-                borderRadius:
-                    const BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                        ),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                 border: Border.all(
                     color: widget.preState == 1 ? ColorUtils.kmColors : ColorUtils.searchGreyColor, width: 2)),
             child: Center(
@@ -57,9 +52,7 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
                 value: widget.preState == 1 ? true : false,
                 onChanged: (value) async {
                   if (widget.isForSubWarehouse && widget.subWarehouseId != -1 && widget.productId != 'null') {
-                    setState(() {
-                      loading = true;
-                    });
+                    setState(() => loading = true);
                     bool result;
                     result = await ProductsServices.updateProductsDetails(
                       bodyKey: "is_active",
@@ -68,9 +61,7 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
                       isForSubWarehouse: widget.isForSubWarehouse,
                       productId: widget.productId,
                     );
-                    setState(() {
-                      loading = false;
-                    });
+                    setState(() => loading = false);
                     Services.resultFlushBar(context: context, result: result);
                     if (result) {
                       setState(() {

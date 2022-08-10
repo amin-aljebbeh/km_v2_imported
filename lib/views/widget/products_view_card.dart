@@ -1,12 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/products_categories_model.dart';
-import 'package:kammun_app/service.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
-import 'package:kammun_app/views/products_attached_to_warehouse/views/products_attached_to_warehouse_importer.dart';
 import 'package:kammun_app/views/products_view/barcode_screen.dart';
+
+import '../../core/core_importer.dart';
 
 // ignore: must_be_immutable
 class ProductsViewCard extends StatefulWidget {
@@ -17,16 +13,16 @@ class ProductsViewCard extends StatefulWidget {
   final Function(String) onChangePrice;
   final Function(String) onChangeUnit;
   final Function(String) onChangeQuantity;
-  const ProductsViewCard({
-    Key key,
-    this.index,
-    this.productData,
-    this.scaffoldKey,
-    this.onAddBarcode,
-    this.onChangePrice,
-    this.onChangeUnit,
-    this.onChangeQuantity,
-  }) : super(key: key);
+  const ProductsViewCard(
+      {Key key,
+      this.index,
+      this.productData,
+      this.scaffoldKey,
+      this.onAddBarcode,
+      this.onChangePrice,
+      this.onChangeUnit,
+      this.onChangeQuantity})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -49,27 +45,19 @@ class ProductsViewCardState extends State<ProductsViewCard> {
           MaterialPageRoute(
             builder: (context) => ProductDetailView(
               product: widget.productData,
-              onAddBarcode: (result) {
-                widget.onAddBarcode(result);
-              },
-              onChangePrice: (newValue) {
-                setState(() {
-                  widget.productData.price = newValue;
-                  widget.onChangePrice(newValue);
-                });
-              },
-              onChangeUnit: (newValue) {
-                setState(() {
-                  widget.productData.unit = newValue;
-                  widget.onChangeUnit(newValue);
-                });
-              },
-              onChangeQuantity: (newValue) {
-                setState(() {
-                  widget.productData.quantity = newValue;
-                  widget.onChangeQuantity(newValue);
-                });
-              },
+              onAddBarcode: (result) => widget.onAddBarcode(result),
+              onChangePrice: (newValue) => setState(() {
+                widget.productData.price = newValue;
+                widget.onChangePrice(newValue);
+              }),
+              onChangeUnit: (newValue) => setState(() {
+                widget.productData.unit = newValue;
+                widget.onChangeUnit(newValue);
+              }),
+              onChangeQuantity: (newValue) => setState(() {
+                widget.productData.quantity = newValue;
+                widget.onChangeQuantity(newValue);
+              }),
             ),
           ),
         );
@@ -178,9 +166,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     ),
                                   )
                                 : Container(),
-                            const SizedBox(
-                              height: 5,
-                            ),
+                            const SizedBox(height: 5),
                             Services.isProductsController()
                                 ? Text(
                                     'الكمية: ' +
@@ -210,10 +196,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                           border: Border.all(color: ColorUtils.kmColors, width: 2)),
                       child: IconButton(
-                        icon: const Icon(
-                          Icons.add,
-                          color: Colors.green,
-                        ),
+                        icon: const Icon(Icons.add, color: Colors.green),
                         onPressed: () {
                           if (widget.productData.barcodes.isEmpty) {
                             Navigator.push(
@@ -230,27 +213,19 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                       param = int.parse(barcode);
                                     }
                                     Navigator.push(
-                                      widget.scaffoldKey.currentContext,
-                                      MaterialPageRoute(
-                                        builder: (context) => AddProductsToSubWarehouse(
-                                          barcode: param,
-                                          productData: widget.productData,
-                                        ),
-                                      ),
-                                    );
+                                        widget.scaffoldKey.currentContext,
+                                        MaterialPageRoute(
+                                            builder: (context) => AddProductsToSubWarehouse(
+                                                barcode: param, productData: widget.productData)));
                                   },
                                 ),
                               ),
                             );
                           } else {
                             Navigator.push(
-                              widget.scaffoldKey.currentContext,
-                              MaterialPageRoute(
-                                builder: (context) => AddProductsToSubWarehouse(
-                                  productData: widget.productData,
-                                ),
-                              ),
-                            );
+                                widget.scaffoldKey.currentContext,
+                                MaterialPageRoute(
+                                    builder: (context) => AddProductsToSubWarehouse(productData: widget.productData)));
                           }
                         },
                       ),

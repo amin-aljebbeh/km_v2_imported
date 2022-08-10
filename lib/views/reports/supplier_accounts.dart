@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/service.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 
+import '../../core/core_importer.dart';
 import 'models/supplier_account_model.dart';
 import 'services/reports_services.dart';
 
@@ -31,10 +28,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
       isLoading = true;
     });
 
-    var response = await ReportsServices.getSupplierAccounts(
-      fromDate: fromDateTimeValue,
-      toDate: toDateTimeValue,
-    );
+    var response = await ReportsServices.getSupplierAccounts(fromDate: fromDateTimeValue, toDate: toDateTimeValue);
     if (response != null) {
       accounts = response;
       if (Services.isSupplierManager()) {
@@ -43,9 +37,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
             .toList()
             .contains(account.subWarehouseId));
       }
-      setState(() {
-        isLoading = false;
-      });
+      setState(() => isLoading = false);
     } else {
       setState(() {
         isLoading = false;
@@ -65,13 +57,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorUtils.primaryColor,
-        title: Text(
-          'كشف حساب مورد',
-          style: mainStyle,
-        ),
-      ),
+      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('كشف حساب مورد', style: mainStyle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -79,16 +65,8 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
             shrinkWrap: true,
             children: [
               KDatePicker(
-                onConfirmStart: (date) {
-                  setState(() {
-                    fromDateTimeValue = date;
-                  });
-                },
-                onConfirmEnd: (date) {
-                  setState(() {
-                    toDateTimeValue = date;
-                  });
-                },
+                onConfirmStart: (date) => setState(() => fromDateTimeValue = date),
+                onConfirmEnd: (date) => setState(() => toDateTimeValue = date),
               ),
               KammunButton(
                 text: StringUtils.send,
@@ -110,11 +88,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
                   child: isError
                       ? Center(
                           child: AlertMessages(
-                            text: StringUtils.errorMessage,
-                            messageType: "internetError",
-                            headerText: "حدث خطأ",
-                          ),
-                        )
+                              text: StringUtils.errorMessage, messageType: "internetError", headerText: "حدث خطأ"))
                       : isLoading
                           ? const Loader()
                           : selected
@@ -126,23 +100,14 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
                                     if (index == 0) {
                                       return KTableRow(
                                         children: [
-                                          KTableElement(
-                                            text: 'المورد',
-                                            style: mainStyle,
-                                          ),
-                                          KTableElement(
-                                            text: 'الرصيد',
-                                            style: mainStyle,
-                                          ),
+                                          KTableElement(text: 'المورد', style: mainStyle),
+                                          KTableElement(text: 'الرصيد', style: mainStyle),
                                         ],
                                       );
                                     }
                                     return KTableRow(
                                       children: [
-                                        KTableElement(
-                                          text: accounts[index - 1].name,
-                                          style: mainStyle,
-                                        ),
+                                        KTableElement(text: accounts[index - 1].name, style: mainStyle),
                                         KTableElement(
                                           text: StringUtils()
                                               .oCcy
@@ -164,7 +129,6 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
     );
   }
 
-  bool validDates() {
-    return fromDateTimeValue != "يرجى أختيار تاريخ البداية" && toDateTimeValue != "يرجى إختيار تاريخ النهاية";
-  }
+  bool validDates() =>
+      fromDateTimeValue != "يرجى أختيار تاريخ البداية" && toDateTimeValue != "يرجى إختيار تاريخ النهاية";
 }

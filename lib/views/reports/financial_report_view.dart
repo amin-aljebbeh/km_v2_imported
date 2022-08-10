@@ -1,9 +1,6 @@
 import 'package:expandable/expandable.dart';
-import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-import '../../utils/utils_importer.dart';
-import '../Widget/widgets_importer.dart';
+import '../../core/core_importer.dart';
 import 'models/report_model_importer.dart';
 import 'services/reports_services.dart';
 
@@ -97,16 +94,14 @@ class _FinancialReportViewState extends State<FinancialReportView> {
                         text: StringUtils()
                             .oCcy
                             .format(int.parse(warehouse.shoppers[index].companyDues.replaceAll('-', ''))),
-                        style: !warehouse.shoppers[index].companyDues.contains('-')
-                            ? lightProfitStyle
-                            : lightLoseStyle),
+                        style:
+                            !warehouse.shoppers[index].companyDues.contains('-') ? lightProfitStyle : lightLoseStyle),
                     KTableElement(
                         text: StringUtils()
                             .oCcy
                             .format(int.parse(warehouse.shoppers[index].totalProfits.replaceAll('-', ''))),
-                        style: !warehouse.shoppers[index].totalProfits.contains('-')
-                            ? lightProfitStyle
-                            : lightLoseStyle),
+                        style:
+                            !warehouse.shoppers[index].totalProfits.contains('-') ? lightProfitStyle : lightLoseStyle),
                     KTableElement(
                       text: warehouse.shoppers[index].avgDeliveryMinutes,
                       style: double.parse(warehouse.shoppers[index].avgDeliveryMinutes) < 45
@@ -135,16 +130,16 @@ class _FinancialReportViewState extends State<FinancialReportView> {
       child: SfCircularChart(
         title: ChartTitle(text: 'توزع مستحقات الشركة', textStyle: informationStyle),
         legend: Legend(isVisible: true, textStyle: informationStyle),
-        series: <PieSeries<Warehouse, String>>[
-          PieSeries<Warehouse, String>(
-              pointColorMapper: (Warehouse warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
+        series: <PieSeries<FinancialWarehouse, String>>[
+          PieSeries<FinancialWarehouse, String>(
+              pointColorMapper: (FinancialWarehouse warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
               explode: true,
               explodeIndex: 0,
               dataSource: response.data.warehouses,
-              xValueMapper: (Warehouse warehouse, _) =>
+              xValueMapper: (FinancialWarehouse warehouse, _) =>
                   StringUtils().oCcy.format(warehouse.totalCompanyDues).toString(),
-              yValueMapper: (Warehouse warehouse, _) => warehouse.totalCompanyDues,
-              dataLabelMapper: (Warehouse warehouse, _) => warehouse.name,
+              yValueMapper: (FinancialWarehouse warehouse, _) => warehouse.totalCompanyDues,
+              dataLabelMapper: (FinancialWarehouse warehouse, _) => warehouse.name,
               dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),
         ],
       ),
@@ -153,17 +148,17 @@ class _FinancialReportViewState extends State<FinancialReportView> {
       child: SfCircularChart(
         title: ChartTitle(text: 'توزع أرباح المتسوقين', textStyle: informationStyle),
         legend: Legend(isVisible: true, textStyle: informationStyle),
-        series: <PieSeries<Warehouse, String>>[
-          PieSeries<Warehouse, String>(
-              pointColorMapper: (Warehouse warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
+        series: <PieSeries<FinancialWarehouse, String>>[
+          PieSeries<FinancialWarehouse, String>(
+              pointColorMapper: (FinancialWarehouse warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
               strokeColor: Colors.red,
               explode: true,
               explodeIndex: 0,
               dataSource: response.data.warehouses,
-              xValueMapper: (Warehouse warehouse, _) =>
+              xValueMapper: (FinancialWarehouse warehouse, _) =>
                   StringUtils().oCcy.format(warehouse.totalProfitsShoppers).toString(),
-              yValueMapper: (Warehouse warehouse, _) => warehouse.totalProfitsShoppers,
-              dataLabelMapper: (Warehouse warehouse, _) => warehouse.name,
+              yValueMapper: (FinancialWarehouse warehouse, _) => warehouse.totalProfitsShoppers,
+              dataLabelMapper: (FinancialWarehouse warehouse, _) => warehouse.name,
               dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),
         ],
       ),

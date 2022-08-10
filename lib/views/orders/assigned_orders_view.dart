@@ -1,13 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/service.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../service.dart';
+import '../../core/core_importer.dart';
 import 'services/order_services.dart';
 
 class AssignedOrdersView extends StatefulWidget {
@@ -105,9 +98,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
         child: Padding(
           padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
           child: !orderLoaded || isLoading
-              ? const Center(
-                  child: Loader(),
-                )
+              ? const Center(child: Loader())
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -117,9 +108,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                             messageType: 'internetError',
                             headerText: 'حدث خطأ',
                           )
-                        : Container(
-                            padding: EdgeInsets.zero,
-                          ),
+                        : Container(padding: EdgeInsets.zero),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -138,28 +127,17 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                           padding: const EdgeInsets.only(bottom: 15),
                           child: IconButton(
                             onPressed: () {
-                              if (page < 14) {
-                                setState(() {
-                                  page++;
-                                });
-                              }
-
+                              if (page < 14) setState(() => page++);
                               _getOrder();
                             },
-                            icon: Icon(
-                              Icons.arrow_back,
-                              size: 40,
-                              color: ColorUtils.kmColors,
-                            ),
+                            icon: Icon(Icons.arrow_back, size: 40, color: ColorUtils.kmColors),
                           ),
                         ),
                         DropdownButton(
                           value: page,
                           items: Services.dropdownIntList(StringUtils.dropdownValues),
                           onChanged: (value) {
-                            setState(() {
-                              page = value;
-                            });
+                            setState(() => page = value);
                             _getOrder();
                           },
                         ),
@@ -168,18 +146,12 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                           child: IconButton(
                             onPressed: () {
                               setState(() {
-                                if (page > 1) {
-                                  page--;
-                                }
+                                if (page > 1) page--;
 
                                 _getOrder();
                               });
                             },
-                            icon: Icon(
-                              Icons.arrow_forward,
-                              size: 40,
-                              color: ColorUtils.kmColors,
-                            ),
+                            icon: Icon(Icons.arrow_forward, size: 40, color: ColorUtils.kmColors),
                           ),
                         ),
                       ],
@@ -199,9 +171,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                               ),
                             ),
                           )
-                        : Container(
-                            padding: EdgeInsets.zero,
-                          ),
+                        : Container(padding: EdgeInsets.zero),
                     Expanded(
                       child: ListView.builder(
                         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -211,12 +181,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         itemCount: orderDataList == null ? 0 : orderDataList.length,
                         itemBuilder: (BuildContext context, int index) {
                           orderDataList[index].orderArithmeticOperations();
-                          if (!Services.isSupplierManager()) {
-                            orderDataList[index].orderProfits();
-                          }
-                          if (Services.isSupplierManager()) {
-                            return SupplierOrdersViewCard(order: orderDataList[index]);
-                          }
+                          if (!Services.isSupplierManager()) orderDataList[index].orderProfits();
+                          if (Services.isSupplierManager()) return SupplierOrdersViewCard(order: orderDataList[index]);
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(
@@ -316,18 +282,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   ? KammunButton(
                                       text: StringUtils.watchNote,
                                       onTap: () {
-                                        List<DialogButton> decisionButtons = [
-                                          DialogButton(
-                                            text: 'إغلاق',
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          )
-                                        ];
                                         showMyDialog(
                                             title: 'ملاحظة العميل',
                                             text: orderDataList[index].userNotes,
-                                            dialogButtons: decisionButtons);
+                                            dialogButtons: [const CloseWidget()]);
                                       },
                                       color: Colors.indigoAccent,
                                     )
@@ -337,7 +295,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                       text: StringUtils.unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
-                                        List<DialogButton> decisionButtons = [
+                                        List<Widget> decisionButtons = [
                                           DialogButton(
                                             text: 'نعم',
                                             onTap: () async {
@@ -349,12 +307,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                               });
                                             },
                                           ),
-                                          DialogButton(
-                                            text: 'إغلاق',
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          )
+                                          const CloseWidget()
                                         ];
 
                                         showMyDialog(
@@ -367,12 +320,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                     )
                                   : Container(),
                               Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Divider(
-                                  thickness: 5,
-                                  color: ColorUtils.kmColors2,
-                                ),
-                              )
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Divider(thickness: 5, color: ColorUtils.kmColors2))
                             ],
                           );
                         },
@@ -381,8 +330,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                     theEndOfOrders
                         ? Padding(
                             padding: EdgeInsets.only(top: screenHeight * 0.4),
-                            child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
-                          )
+                            child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة'))
                         : Container(),
                   ],
                 ),
@@ -422,9 +370,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     }
     prefs.setString('userCart', productsId + '@' + productsQuantity);
 
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      '/cartFromUpdate',
-      (Route<dynamic> route) => false,
-    );
+    Navigator.of(context).pushNamedAndRemoveUntil('/cartFromUpdate', (Route<dynamic> route) => false);
   }
 }

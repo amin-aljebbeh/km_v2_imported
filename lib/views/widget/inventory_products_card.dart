@@ -1,17 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/service.dart';
-import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/product_detail_view/product_detail_view.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
-import 'package:kammun_app/views/products_attached_to_warehouse/views/add_products_to_sub_warehouse.dart';
 import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
-import 'package:kammun_app/views/widget/close_widget.dart';
 
-import '../../utils/utils_importer.dart';
+import '../../core/core_importer.dart';
 
 // ignore: must_be_immutable
 class InventoryProductsViewCard extends StatefulWidget {

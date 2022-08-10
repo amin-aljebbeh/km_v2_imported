@@ -1,12 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/service.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/order_details/full_screen_image.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
+
+import '../../core/core_importer.dart';
 
 class OrderDetailViewMainCard extends StatefulWidget {
   final int index;
@@ -17,9 +14,7 @@ class OrderDetailViewMainCard extends StatefulWidget {
   const OrderDetailViewMainCard({Key key, this.index, this.productData, this.onCheckbox}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return OrderDetailViewMainCardState();
-  }
+  State<StatefulWidget> createState() => OrderDetailViewMainCardState();
 }
 
 class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
@@ -27,13 +22,10 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
   @override
   void initState() {
     subWarehouseList = LoadingScreenServices.subWarehouses
-        .map(
-          (subWarehouse) => DropdownMenuItem<dynamic>(
+        .map((subWarehouse) => DropdownMenuItem<dynamic>(
             child: AutoSizeText(subWarehouse.name,
                 maxLines: 2, overflow: TextOverflow.fade, maxFontSize: 12, style: mainStyle),
-            value: subWarehouse.id,
-          ),
-        )
+            value: subWarehouse.id))
         .toList();
     super.initState();
   }

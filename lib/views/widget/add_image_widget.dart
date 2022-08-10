@@ -1,11 +1,7 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 
-import 'widgets_importer.dart';
+import '../../core/core_importer.dart';
 
 class AddImageWidget extends StatefulWidget {
   final Function onSubmit;

@@ -1,12 +1,5 @@
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
-
-import '../../models/models_importer.dart';
-import '../../service.dart';
-import '../widget/widgets_importer.dart';
+import '../../core/core_importer.dart';
 import 'model/inventory_model_importer.dart';
 import 'services/inventory_services.dart';
 
@@ -43,8 +36,8 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
   }
 
   loadData() async {
-    var response = await InventoryServices.fromFileChangedPriceProducts(
-        file: widget.file, subWarehouseId: widget.subWarehouseId);
+    var response =
+        await InventoryServices.fromFileChangedPriceProducts(file: widget.file, subWarehouseId: widget.subWarehouseId);
     setState(() {
       loading = false;
       if (response == null) {

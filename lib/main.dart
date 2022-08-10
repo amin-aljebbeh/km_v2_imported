@@ -8,7 +8,6 @@ import 'views/loading/loading.dart';
 import 'views/login/login_view.dart';
 import 'views/prices_changes/prices.dart';
 import 'views/profile/profile_screen.dart';
-import 'views/restart/kammunapp_restart.dart';
 import 'views/server_update/server_update.dart';
 import 'views/thank_you/thank_you_view.dart';
 import 'core/core_importer.dart';

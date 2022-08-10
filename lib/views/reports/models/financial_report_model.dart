@@ -35,11 +35,11 @@ class Data {
   });
 
   General general;
-  List<Warehouse> warehouses;
+  List<FinancialWarehouse> warehouses;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         general: General.fromJson(json['general']),
-        warehouses: List<Warehouse>.from(json['warehouses'].map((x) => Warehouse.fromJson(x))),
+        warehouses: List<FinancialWarehouse>.from(json['warehouses'].map((x) => FinancialWarehouse.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -68,8 +68,8 @@ class General {
       };
 }
 
-class Warehouse {
-  Warehouse({
+class FinancialWarehouse {
+  FinancialWarehouse({
     this.id,
     this.name,
     this.totalCompanyDues,
@@ -83,7 +83,7 @@ class Warehouse {
   int totalProfitsShoppers;
   List<Shopper> shoppers;
 
-  factory Warehouse.fromJson(Map<String, dynamic> json) => Warehouse(
+  factory FinancialWarehouse.fromJson(Map<String, dynamic> json) => FinancialWarehouse(
         id: json['id'],
         name: json['name'],
         totalCompanyDues: json['total_company_dues'],

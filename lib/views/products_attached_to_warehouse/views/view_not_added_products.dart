@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
+
+import '../../../core/core_importer.dart';
 
 class NotAddedProductsToWarehouse extends StatefulWidget {
   const NotAddedProductsToWarehouse({Key key}) : super(key: key);

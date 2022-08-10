@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/barcode_products.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 
+import '../../core/core_importer.dart';
 import 'products_view.dart';
 
 class BarCodeScreen extends StatefulWidget {
@@ -20,29 +17,14 @@ class BarCodeScreen extends StatefulWidget {
 
 class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProviderStateMixin {
   String barcode;
-  bool add, search;
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorUtils.kmColors,
-        flexibleSpace: const SafeArea(
-          top: true,
-          child: Padding(
-            padding: EdgeInsets.only(right: 120),
-            child: AppBarKammunImage(),
-          ),
-        ),
+        flexibleSpace:
+            const SafeArea(top: true, child: Padding(padding: EdgeInsets.only(right: 120), child: AppBarKammunImage())),
       ),
       body: SafeArea(
         child: Stack(
@@ -50,10 +32,7 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
             SizedBox(
               height: MediaQuery.of(context).size.height,
               child: QrCamera(
-                onError: (context, error) => Text(
-                  error.toString(),
-                  style: const TextStyle(color: Colors.red),
-                ),
+                onError: (context, error) => Text(error.toString(), style: const TextStyle(color: Colors.red)),
                 qrCodeCallback: (code) {
                   setState(() async {
                     barcode = code;
@@ -61,30 +40,20 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                       switch (widget.requestType) {
                         case BarcodeRequestType.search:
                           Navigator.of(context).pop();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductsView(
-                                barcode: barcode,
-                                categoryId: "0",
-                              ),
-                            ),
-                          );
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => ProductsView(barcode: barcode, categoryId: "0")));
                           break;
                         case BarcodeRequestType.addBarcode:
                         case BarcodeRequestType.addProduct:
                         case BarcodeRequestType.attachProduct:
                           Navigator.of(context).pop();
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BarcodeProducts(
-                                onIgnore: () => widget.onIgnore(barcode),
-                                requestType: widget.requestType,
-                                barcode: barcode,
-                              ),
-                            ),
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BarcodeProducts(
+                                      onIgnore: () => widget.onIgnore(barcode),
+                                      requestType: widget.requestType,
+                                      barcode: barcode)));
                           break;
                       }
                     }
@@ -130,19 +99,11 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               RotationTransition(
-                                turns: const AlwaysStoppedAnimation(-45 / 360),
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: ColorUtils.kmColors,
-                                ),
-                              ),
+                                  turns: const AlwaysStoppedAnimation(-45 / 360),
+                                  child: Icon(Icons.arrow_back_ios, color: ColorUtils.kmColors)),
                               RotationTransition(
-                                turns: const AlwaysStoppedAnimation(225 / 360),
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: ColorUtils.kmColors,
-                                ),
-                              ),
+                                  turns: const AlwaysStoppedAnimation(225 / 360),
+                                  child: Icon(Icons.arrow_back_ios, color: ColorUtils.kmColors)),
                             ],
                           ),
                         ),
@@ -157,19 +118,11 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               RotationTransition(
-                                turns: const AlwaysStoppedAnimation(45 / 360),
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: ColorUtils.kmColors,
-                                ),
-                              ),
+                                  turns: const AlwaysStoppedAnimation(45 / 360),
+                                  child: Icon(Icons.arrow_back_ios, color: ColorUtils.kmColors)),
                               RotationTransition(
-                                turns: const AlwaysStoppedAnimation(135 / 360),
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: ColorUtils.kmColors,
-                                ),
-                              ),
+                                  turns: const AlwaysStoppedAnimation(135 / 360),
+                                  child: Icon(Icons.arrow_back_ios, color: ColorUtils.kmColors)),
                             ],
                           ),
                         ),
@@ -191,9 +144,7 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(
-                      height: 1,
-                    ),
+                    const SizedBox(height: 1),
                     KammunButton(
                       height: 50,
                       color: ColorUtils.primaryColor,
@@ -212,21 +163,12 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
               child: Card(
                 child: Center(
                   child: (widget.requestType == BarcodeRequestType.addProduct)
-                      ? Text(
-                          StringUtils.add,
-                          style: decisionButtonStyle,
-                        )
+                      ? Text(StringUtils.add, style: decisionButtonStyle)
                       : (widget.requestType == BarcodeRequestType.search)
-                          ? Text(
-                              StringUtils.search,
-                              style: decisionButtonStyle,
-                            )
+                          ? Text(StringUtils.search, style: decisionButtonStyle)
                           : Column(
                               children: [
-                                Text(
-                                  widget.productData.name,
-                                  style: decisionButtonStyle,
-                                ),
+                                Text(widget.productData.name, style: decisionButtonStyle),
                                 Text(
                                   widget.productData.quantity +
                                       ' ' +

@@ -1,5 +1,4 @@
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/utils/funny_images.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
 
 import 'barcode_screen.dart';

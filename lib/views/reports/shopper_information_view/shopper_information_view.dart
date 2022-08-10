@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/views/reports/shopper_information_view/shopper_activity_hours.dart';
-import 'package:kammun_app/views/reports/shopper_information_view/shopper_month_report.dart';
-import 'package:kammun_app/views/reports/shopper_information_view/shopper_working_hours_view.dart';
-
-import '../../Widget/widgets_importer.dart';
+import '../../../core/core_importer.dart';
 import '../../management_view/management_view.dart';
 
 class ShopperInformation extends StatelessWidget {

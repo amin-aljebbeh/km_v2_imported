@@ -1,13 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/service.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
-import 'package:kammun_app/views/widget/close_widget.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../service.dart';
+import '../../core/core_importer.dart';
 import '../loading/loading_services.dart';
 import 'services/order_services.dart';
 
@@ -29,9 +21,7 @@ class _OrderByIDState extends State<OrderByID> {
   void initState() {
     phoneController = TextEditingController();
     idController = TextEditingController();
-    setState(() {
-      id = widget.id;
-    });
+    id = widget.id;
     getOrders = _getOrder();
 
     super.initState();
@@ -90,11 +80,7 @@ class _OrderByIDState extends State<OrderByID> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     errorMessage
-                        ? AlertMessages(
-                            text: errorMessageValue,
-                            messageType: 'internetError',
-                            headerText: 'حدث خطأ',
-                          )
+                        ? AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
                         : Container(padding: EdgeInsets.zero),
                     Center(
                       child: SearchOrderByPhoneNumber(

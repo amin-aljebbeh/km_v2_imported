@@ -1,11 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/reports/add_transaction_view.dart';
 import 'package:kammun_app/views/reports/services/reports_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-
-import '../../service.dart';
+import '../../core/core_importer.dart';
 import 'models/monthly_profit_model.dart';
 import 'models/transaction_model.dart';
 
@@ -349,10 +344,8 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                 height: 50,
                 text: StringUtils.addTransaction,
                 color: ColorUtils.primaryColor,
-                onTap: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => AddTransactionView(shopperName: shopperName)));
-                },
+                onTap: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => AddTransactionView(shopperName: shopperName))),
               ),
               KammunButton(
                 width: MediaQuery.of(context).size.width,

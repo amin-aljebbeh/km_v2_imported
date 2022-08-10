@@ -1,13 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/service.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../service.dart';
+import '../../core/core_importer.dart';
 import 'services/order_services.dart';
 
 class PhoneNumberOrdersView extends StatefulWidget {
@@ -105,21 +98,13 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
         child: Padding(
           padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
           child: !orderLoaded || isLoading
-              ? const Center(
-                  child: Loader(),
-                )
+              ? const Center(child: Loader())
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     errorMessage
-                        ? AlertMessages(
-                            text: errorMessageValue,
-                            messageType: 'internetError',
-                            headerText: 'حدث خطأ',
-                          )
-                        : Container(
-                            padding: EdgeInsets.zero,
-                          ),
+                        ? AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
+                        : Container(padding: EdgeInsets.zero),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -138,56 +123,35 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                           phoneController: phoneController,
                           idController: idController,
                           context: context,
-                          onChoose: () {
-                            Navigator.of(context).pop();
-                          },
+                          onChoose: () => Navigator.of(context).pop(),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15),
                           child: IconButton(
                             onPressed: () {
-                              if (page < 14) {
-                                setState(() {
-                                  page++;
-                                });
-                              }
+                              if (page < 14) setState(() => page++);
 
                               _getOrder();
                             },
-                            icon: Icon(
-                              Icons.arrow_back,
-                              size: 40,
-                              color: ColorUtils.kmColors,
-                            ),
+                            icon: Icon(Icons.arrow_back, size: 40, color: ColorUtils.kmColors),
                           ),
                         ),
                         DropdownButton(
                           value: page,
                           items: Services.dropdownIntList(StringUtils.dropdownValues),
                           onChanged: (value) {
-                            setState(() {
-                              page = value;
-                            });
+                            setState(() => page = value);
                             _getOrder();
                           },
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15),
                           child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                if (page > 1) {
-                                  page--;
-                                }
-
-                                _getOrder();
-                              });
-                            },
-                            icon: Icon(
-                              Icons.arrow_forward,
-                              size: 40,
-                              color: ColorUtils.kmColors,
-                            ),
+                            onPressed: () => setState(() {
+                              if (page > 1) page--;
+                              _getOrder();
+                            }),
+                            icon: Icon(Icons.arrow_forward, size: 40, color: ColorUtils.kmColors),
                           ),
                         ),
                       ],
@@ -207,9 +171,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                               ),
                             ),
                           )
-                        : Container(
-                            padding: EdgeInsets.zero,
-                          ),
+                        : Container(padding: EdgeInsets.zero),
                     Expanded(
                       child: ListView.builder(
                         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -314,11 +276,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                               },
                                             ),
                                             DialogButton(
-                                              text: StringUtils.no,
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
+                                                text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                           ];
                                           showMyDialog(
                                               title: 'رفض الطلب',
@@ -359,11 +317,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                               },
                                             ),
                                             DialogButton(
-                                              text: StringUtils.no,
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
+                                                text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                           ];
                                           showMyDialog(
                                               title: 'إلغاء الطلب',
@@ -410,12 +364,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                           }
                                         },
                                       ),
-                                      DialogButton(
-                                        text: 'لا',
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
+                                      DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                     ];
                                     showMyDialog(
                                         title: 'استعادة الطلب',
@@ -426,12 +375,10 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                               KammunButton(
                                 text: StringUtils.editOrder,
                                 onTap: () async {
-                                  setState(
-                                    () {
-                                      orderLoaded = false;
-                                      errorMessage = false;
-                                    },
-                                  );
+                                  setState(() {
+                                    orderLoaded = false;
+                                    errorMessage = false;
+                                  });
                                   LockOrder response = await OrderServices.lockOrderService(
                                       orderId: orderDataList[index].id.toString(),
                                       userNote: orderDataList[index].userNotes,
@@ -470,18 +417,10 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                   ? KammunButton(
                                       text: StringUtils.watchNote,
                                       onTap: () {
-                                        List<DialogButton> decisionButtons = [
-                                          DialogButton(
-                                            text: 'إغلاق',
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          )
-                                        ];
                                         showMyDialog(
                                             title: StringUtils.costumerNote,
                                             text: orderDataList[index].userNotes,
-                                            dialogButtons: decisionButtons);
+                                            dialogButtons: [const CloseWidget()]);
                                       },
                                       color: Colors.indigoAccent,
                                     )
@@ -491,7 +430,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                       text: StringUtils.unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
-                                        List<DialogButton> decisionButtons = [
+                                        List<Widget> decisionButtons = [
                                           DialogButton(
                                             text: 'نعم',
                                             onTap: () async {
@@ -503,12 +442,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                               });
                                             },
                                           ),
-                                          DialogButton(
-                                            text: 'إغلاق',
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          )
+                                          const CloseWidget()
                                         ];
                                         showMyDialog(
                                             title: StringUtils.unLock,
@@ -520,10 +454,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                   : Container(),
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
-                                child: Divider(
-                                  thickness: 5,
-                                  color: ColorUtils.kmColors2,
-                                ),
+                                child: Divider(thickness: 5, color: ColorUtils.kmColors2),
                               )
                             ],
                           );
@@ -574,9 +505,6 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
     }
     prefs.setString('userCart', productsId + '@' + productsQuantity);
 
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      '/cartFromUpdate',
-      (Route<dynamic> route) => false,
-    );
+    Navigator.of(context).pushNamedAndRemoveUntil('/cartFromUpdate', (Route<dynamic> route) => false);
   }
 }

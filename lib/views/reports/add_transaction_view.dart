@@ -1,10 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-
-import '../../service.dart';
+import '../../core/core_importer.dart';
 import 'services/reports_services.dart';
 
 // ignore: must_be_immutable
@@ -45,13 +41,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: ColorUtils.primaryColor,
-        title: Text(
-          'إضافة مناقلة',
-          style: mainStyle,
-        ),
-      ),
+      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('إضافة مناقلة', style: mainStyle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
@@ -59,54 +49,39 @@ class _AddTransactionViewState extends State<AddTransactionView> {
             height: MediaQuery.of(context).size.height,
             child: ListView(
               children: [
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 KSearchableDropdown(
                   hint: StringUtils.chooseShopper,
                   search: shopperFilter,
                   items: Services.shoppersNameList(),
                   onChanged: (value) {
                     if (value != null) {
-                      setState(
-                        () {
-                          shopperFilter = value;
-                          shopperName = value;
-                        },
-                      );
+                      setState(() {
+                        shopperFilter = value;
+                        shopperName = value;
+                      });
                     }
                   },
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: DropdownButton(
                     underline: Container(),
                     isExpanded: true,
-                    hint: Center(
-                      child: Text(
-                        'نوع المناقلة',
-                        style: dropdownItemStyle,
-                      ),
-                    ),
+                    hint: Center(child: Text('نوع المناقلة', style: dropdownItemStyle)),
                     value: transactionTypeIndex,
                     items: Services.transactionTypesNames(),
-                    onChanged: (value) {
-                      setState(() {
-                        transactionTypeIndex = value;
-                        transactionTypeString = LoadingScreenServices.transactionTypes
-                            .where((type) => type.automatic == 0)
-                            .toList()[transactionTypeIndex]
-                            .arabicName;
-                      });
-                    },
+                    onChanged: (value) => setState(() {
+                      transactionTypeIndex = value;
+                      transactionTypeString = LoadingScreenServices.transactionTypes
+                          .where((type) => type.automatic == 0)
+                          .toList()[transactionTypeIndex]
+                          .arabicName;
+                    }),
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
+                const SizedBox(height: 30),
                 TextFieldRow(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   controller: moneyController,
@@ -114,9 +89,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   inputType: TextInputType.text,
                   width: 150,
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
+                const SizedBox(height: 40),
                 TextFieldRow(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   controller: orderIdController,
@@ -124,9 +97,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   inputType: TextInputType.text,
                   width: 150,
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
+                const SizedBox(height: 40),
                 TextFieldRow(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   controller: descriptionController,
@@ -134,9 +105,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                   inputType: TextInputType.text,
                   width: MediaQuery.of(context).size.width * 0.65,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 KammunButton(
                   height: 50,
                   text: StringUtils.addTransaction,
@@ -168,12 +137,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                             Services.resultFlushBar(context: context, result: result);
                           },
                         ),
-                        DialogButton(
-                          text: 'لا',
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
+                        DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),
                       ];
                       showMyDialog(
                         title: transactionTypeString,
@@ -183,9 +147,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                     }
                   },
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.6,
-                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.6),
               ],
             ),
           ),

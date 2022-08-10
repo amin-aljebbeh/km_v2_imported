@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/start_models/order_product_model.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-
-import '../../service.dart';
-import 'widgets_importer.dart';
+import '../../core/core_importer.dart';
 
 class ProductCheckWidget extends StatefulWidget {
   final bool preferLeftSide;
@@ -56,22 +51,12 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                   Container(
                     padding: const EdgeInsets.all(3.0),
                     decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                                ),
+                        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                         border: Border.all(color: ColorUtils.primaryColor, width: 2)),
-                    child: Center(
-                      child: Text(
-                        widget.productCount,
-                        style: mainStyle.copyWith(fontSize: 30),
-                      ),
-                    ),
+                    child: Center(child: Text(widget.productCount, style: mainStyle.copyWith(fontSize: 30))),
                   ),
                   IconButton(
-                      icon: const Icon(
-                        Icons.library_add_check_outlined,
-                        color: Colors.green,
-                      ),
+                      icon: const Icon(Icons.library_add_check_outlined, color: Colors.green),
                       onPressed: () {
                         if (widget.productCount != '1') {
                           List<DialogButton> decisionButtons = [
@@ -79,16 +64,10 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                               text: 'نعم',
                               onTap: () {
                                 Navigator.of(context).pop();
-
                                 widget.onCheckbox(widget.index);
                               },
                             ),
-                            DialogButton(
-                              text: 'لا',
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
+                            DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),
                           ];
                           showMyDialog(
                               title: 'تحقق من الكمية',

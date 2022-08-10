@@ -2,6 +2,7 @@ export 'add_image_widget.dart';
 export 'alert_messages.dart';
 export 'app_bar_kammun_image.dart';
 export 'barcode_icon.dart';
+export 'close_widget.dart';
 export 'dialog_button.dart';
 export 'entry_field.dart';
 export 'facebook_loader.dart';

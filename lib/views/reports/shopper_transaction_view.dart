@@ -1,11 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/reports/services/reports_services.dart';
-import 'package:kammun_app/views/reports/shopper_information_view/shopper_information_view.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
 
-import '../../service.dart';
+import '../../core/core_importer.dart';
 import 'models/report_model_importer.dart';
 
 class ShopperTransactionView extends StatefulWidget {
@@ -28,9 +24,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
     error = false;
     empty = true;
     loading = false;
-    setState(() {
-      profitLoading = true;
-    });
+    setState(() => profitLoading = true);
     getMonthlyProfit(Services.shopper.id.toString());
     getTransaction(Services.shopper.id.toString());
     super.initState();
@@ -76,18 +70,13 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: ColorUtils.primaryColor,
-        title: Text('كشف حساب متسوق', style: mainStyle),
-      ),
+      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('كشف حساب متسوق', style: mainStyle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
           child: ListView(
             children: [
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               profitLoading
                   ? const Loader()
                   : Wrap(
@@ -122,9 +111,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                       ? profitStyle
                                       : loseStyle,
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
+                            const SizedBox(width: 10),
                             LabelRow(
                               rightSideText: 'ساعات العمل : ',
                               leftSideText: profitLoading
@@ -153,9 +140,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                   ? profitStyle
                                   : loseStyle,
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                        const SizedBox(width: 10),
                         LabelRow(
                           rightSideText: 'سرعة التوصيل:',
                           leftSideText: profitLoading
@@ -176,17 +161,13 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   KammunButton(
-                    //  width: MediaQuery.of(context).size.width/4,
                     height: 50,
                     text: '  المستحقات  ',
                     color: ColorUtils.primaryColor,
-                    onTap: () {
-                      ReportsServices.financialDues(context: context, shopperId: Services.shopper.id.toString());
-                    },
+                    onTap: () =>
+                        ReportsServices.financialDues(context: context, shopperId: Services.shopper.id.toString()),
                   ),
                   KammunButton(
-                    // width: MediaQuery.of(context).size.width/4,
-
                     height: 50,
                     text: '  إحصائيات  ',
                     color: ColorUtils.primaryColor,
@@ -201,11 +182,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                 child: error
                     ? Center(
                         child: AlertMessages(
-                          text: StringUtils.errorMessage,
-                          messageType: 'internetError',
-                          headerText: 'حدث خطأ',
-                        ),
-                      )
+                            text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
                     : loading
                         ? const Loader()
                         : empty
@@ -239,38 +216,21 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                           children: [
                                             Column(
                                               children: [
-                                                Text(
-                                                  StringUtils.shopper,
-                                                  style: mainStyle,
-                                                ),
-                                                Text(
-                                                  StringUtils().oCcy.format(shopperProfit.abs()).toString(),
-                                                  style: shopperProfit.isNegative ? loseStyle : profitStyle,
-                                                ),
+                                                Text(StringUtils.shopper, style: mainStyle),
+                                                Text(StringUtils().oCcy.format(shopperProfit.abs()).toString(),
+                                                    style: shopperProfit.isNegative ? loseStyle : profitStyle),
                                               ],
                                             ),
                                             Column(
                                               children: [
-                                                Text(
-                                                  StringUtils.kammun,
-                                                  style: mainStyle,
-                                                ),
-                                                Text(
-                                                  StringUtils().oCcy.format(kammunProfit.abs()).toString(),
-                                                  style: kammunProfit.isNegative ? loseStyle : profitStyle,
-                                                ),
+                                                Text(StringUtils.kammun, style: mainStyle),
+                                                Text(StringUtils().oCcy.format(kammunProfit.abs()).toString(),
+                                                    style: kammunProfit.isNegative ? loseStyle : profitStyle),
                                               ],
                                             ),
                                           ],
                                         ),
-                                        dialogButtons: [
-                                          DialogButton(
-                                            text: StringUtils.close,
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          )
-                                        ],
+                                        dialogButtons: [const CloseWidget()],
                                       );
                                     },
                                   );

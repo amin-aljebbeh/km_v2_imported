@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
 import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
 import 'package:kammun_app/views/sub_category/sub_category.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
+
+import '../../core/core_importer.dart';
 
 class StoreViewCategory extends StatefulWidget {
   final String supplierCode;
@@ -61,11 +59,7 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
               return GestureDetector(
                 onTap: () => _onTileClicked(eachCategory.id.toString()),
                 child: ShopByCategory(
-                  img: eachCategory.imageFileName,
-                  categoryName: eachCategory.name,
-                  index: index,
-                  fit: BoxFit.cover,
-                ),
+                    img: eachCategory.imageFileName, categoryName: eachCategory.name, index: index, fit: BoxFit.cover),
               );
             },
           ),
@@ -82,16 +76,13 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
 
     if (subCategoryList.isNotEmpty) {
       Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SubCategory(
-            subCategory: subCategoryList,
-            forProductAdding: widget.forProductAdding,
-            scaffoldKey: widget.scaffoldKey,
-            supplierCode: widget.supplierCode,
-          ),
-        ),
-      );
+          context,
+          MaterialPageRoute(
+              builder: (context) => SubCategory(
+                  subCategory: subCategoryList,
+                  forProductAdding: widget.forProductAdding,
+                  scaffoldKey: widget.scaffoldKey,
+                  supplierCode: widget.supplierCode)));
     } else {
       if (widget.forProductAdding) {
         Navigator.push(
@@ -109,11 +100,8 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
                 Navigator.push(
                   widget.scaffoldKey.currentContext,
                   MaterialPageRoute(
-                    builder: (screenContext) => AddProductsView(
-                      categoryId: index,
-                      barcode: param,
-                      supplierCode: widget.supplierCode,
-                    ),
+                    builder: (screenContext) =>
+                        AddProductsView(categoryId: index, barcode: param, supplierCode: widget.supplierCode),
                   ),
                 );
               },
@@ -121,14 +109,7 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
           ),
         );
       } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProductsView(
-              categoryId: index,
-            ),
-          ),
-        );
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsView(categoryId: index)));
       }
     }
   }

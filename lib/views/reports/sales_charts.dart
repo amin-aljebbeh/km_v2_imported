@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-import '../../utils/utils_importer.dart';
-import '../Widget/widgets_importer.dart';
+import '../../core/core_importer.dart';
 import 'models/report_model_importer.dart';
 import 'services/reports_services.dart';
 
@@ -35,16 +32,11 @@ class _SalesChartsState extends State<SalesCharts> {
       isLoading = true;
     });
 
-    var response = await ReportsServices.getSalesReports(
-      fromDate: fromDateTimeValue,
-      toDate: toDateTimeValue,
-    );
+    var response = await ReportsServices.getSalesReports(fromDate: fromDateTimeValue, toDate: toDateTimeValue);
     if (response != null) {
       _reportCard(response);
 
-      setState(() {
-        isLoading = false;
-      });
+      setState(() => isLoading = false);
     } else {
       setState(() {
         isLoading = false;
@@ -61,8 +53,7 @@ class _SalesChartsState extends State<SalesCharts> {
         legend: Legend(isVisible: true, textStyle: informationStyle),
         series: <PieSeries<WarehouseStatistics, String>>[
           PieSeries<WarehouseStatistics, String>(
-              pointColorMapper: (WarehouseStatistics warehouse, _) =>
-                  ColorUtils.warehousesColors[warehouse.id - 1],
+              pointColorMapper: (WarehouseStatistics warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
               explode: true,
               explodeIndex: 0,
               dataSource: response.warehouses,
@@ -80,8 +71,7 @@ class _SalesChartsState extends State<SalesCharts> {
         legend: Legend(isVisible: true, textStyle: informationStyle),
         series: <PieSeries<WarehouseStatistics, String>>[
           PieSeries<WarehouseStatistics, String>(
-              pointColorMapper: (WarehouseStatistics warehouse, _) =>
-                  ColorUtils.warehousesColors[warehouse.id - 1],
+              pointColorMapper: (WarehouseStatistics warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
               explode: true,
               explodeIndex: 0,
               dataSource: response.warehouses,
@@ -99,8 +89,7 @@ class _SalesChartsState extends State<SalesCharts> {
         legend: Legend(isVisible: true, textStyle: informationStyle),
         series: <PieSeries<WarehouseStatistics, String>>[
           PieSeries<WarehouseStatistics, String>(
-              pointColorMapper: (WarehouseStatistics warehouse, _) =>
-                  ColorUtils.warehousesColors[warehouse.id - 1],
+              pointColorMapper: (WarehouseStatistics warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
               explode: true,
               explodeIndex: 0,
               dataSource: response.warehouses,
@@ -118,8 +107,7 @@ class _SalesChartsState extends State<SalesCharts> {
         legend: Legend(isVisible: true, textStyle: informationStyle),
         series: <PieSeries<WarehouseStatistics, String>>[
           PieSeries<WarehouseStatistics, String>(
-              pointColorMapper: (WarehouseStatistics warehouse, _) =>
-                  ColorUtils.warehousesColors[warehouse.id - 1],
+              pointColorMapper: (WarehouseStatistics warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
               explode: true,
               explodeIndex: 0,
               dataSource: response.warehouses,
@@ -137,8 +125,7 @@ class _SalesChartsState extends State<SalesCharts> {
         legend: Legend(isVisible: true, textStyle: informationStyle),
         series: <PieSeries<WarehouseStatistics, String>>[
           PieSeries<WarehouseStatistics, String>(
-              pointColorMapper: (WarehouseStatistics warehouse, _) =>
-                  ColorUtils.warehousesColors[warehouse.id - 1],
+              pointColorMapper: (WarehouseStatistics warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
               explode: true,
               explodeIndex: 0,
               dataSource: response.warehouses,
@@ -156,8 +143,7 @@ class _SalesChartsState extends State<SalesCharts> {
         legend: Legend(isVisible: true, textStyle: informationStyle),
         series: <PieSeries<WarehouseStatistics, String>>[
           PieSeries<WarehouseStatistics, String>(
-              pointColorMapper: (WarehouseStatistics warehouse, _) =>
-                  ColorUtils.warehousesColors[warehouse.id - 1],
+              pointColorMapper: (WarehouseStatistics warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
               explode: true,
               explodeIndex: 0,
               dataSource: response.warehouses,
@@ -187,16 +173,8 @@ class _SalesChartsState extends State<SalesCharts> {
               shrinkWrap: true,
               children: [
                 KDatePicker(
-                  onConfirmStart: (date) {
-                    setState(() {
-                      fromDateTimeValue = date;
-                    });
-                  },
-                  onConfirmEnd: (date) {
-                    setState(() {
-                      toDateTimeValue = date;
-                    });
-                  },
+                  onConfirmStart: (date) => setState(() => fromDateTimeValue = date),
+                  onConfirmEnd: (date) => setState(() => toDateTimeValue = date),
                 ),
                 KammunButton(
                   text: StringUtils.send,
@@ -211,18 +189,12 @@ class _SalesChartsState extends State<SalesCharts> {
                   },
                   height: 50,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                isError
-                    ? AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError')
-                    : Container(),
+                const SizedBox(height: 20),
+                isError ? AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError') : Container(),
                 isLoading
                     ? const Loader()
                     : totalSubWarehouses.isNotEmpty
-                        ? Column(
-                            children: totalSubWarehouses,
-                          )
+                        ? Column(children: totalSubWarehouses)
                         : Container(),
               ],
             ),
@@ -232,7 +204,6 @@ class _SalesChartsState extends State<SalesCharts> {
     );
   }
 
-  bool validDates() {
-    return fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
-  }
+  bool validDates() =>
+      fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
 }

@@ -1,10 +1,7 @@
-import 'dart:io' show Platform;
-
-import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../core/core_importer.dart';
 
 class UpdateScreen extends StatelessWidget {
   static const String routeName = "/update";

@@ -1,14 +1,5 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/sub_warehouse_model.dart';
-import 'package:kammun_app/service.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'inventory_importer.dart';
+import '../../core/core_importer.dart';
 import 'services/inventory_services.dart';
 
 class GetSubWarehouse extends StatefulWidget {

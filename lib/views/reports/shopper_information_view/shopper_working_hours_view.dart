@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/views/reports/shopper_information_view/work_hour_widget.dart';
-
-import '../../../service.dart';
-import '../../../utils/utils_importer.dart';
-import '../../widget/widgets_importer.dart';
+import '../../../core/core_importer.dart';
 import '../models/shopper_working_hours_model.dart';
 import '../services/reports_services.dart';
 
@@ -44,8 +39,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
         report.clear();
       }
     });
-    var tempReport =
-        await ReportsServices.getShopperWorkingHours(shopperId: shopperId, filterBy: filter.toString());
+    var tempReport = await ReportsServices.getShopperWorkingHours(shopperId: shopperId, filterBy: filter.toString());
     setState(() {
       loading = false;
       if (tempReport != null) {
@@ -65,8 +59,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
-      appBar:
-          AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('ساعات دوام المتسوق', style: mainStyle)),
+      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('ساعات دوام المتسوق', style: mainStyle)),
       body: SafeArea(
         child: Column(
           children: [
@@ -158,11 +151,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                   ? error
                       ? Center(
                           child: AlertMessages(
-                            text: StringUtils.errorMessage,
-                            messageType: 'internetError',
-                            headerText: 'حدث خطأ',
-                          ),
-                        )
+                              text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
                       : loading
                           ? const Loader()
                           : SizedBox(
@@ -198,15 +187,3 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
     );
   }
 }
-/*SfCartesianChart(
-                              primaryXAxis: CategoryAxis(),
-                              title: ChartTitle(text: 'عدد ساعات الدوام', textStyle: mainStyle),
-                              tooltipBehavior: TooltipBehavior(enable: true, textStyle: mainStyle),
-                              series: <ChartSeries<ShopperWorkingHoursData, String>>[
-                                  ColumnSeries<ShopperWorkingHoursData, String>(
-                                      dataSource: report,
-                                      xValueMapper: (ShopperWorkingHoursData report, _) => report.date,
-                                      yValueMapper: (ShopperWorkingHoursData report, _) => report.sum,
-                                      name: 'ساعات الدوام',
-                                      color: ColorUtils.primaryColor),
-                                ])*/

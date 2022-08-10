@@ -1,15 +1,9 @@
-import 'dart:io';
-
 import 'package:flushbar/flushbar.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-
-import '../../service.dart';
+import '../../core/core_importer.dart';
 
 class AddProductsView extends StatefulWidget {
   final String categoryId;
@@ -63,15 +57,7 @@ class _AddProductsViewState extends State<AddProductsView> {
     return Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.only(top: 10),
-      child: SelectedFileToUpload(
-        image: _image,
-        name: '',
-        close: () {
-          setState(() {
-            _image = null;
-          });
-        },
-      ),
+      child: SelectedFileToUpload(image: _image, name: '', close: () => setState(() => _image = null)),
     );
   }
 
@@ -121,18 +107,8 @@ class _AddProductsViewState extends State<AddProductsView> {
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
           ),
-          boxShadows: const [
-            BoxShadow(
-              color: Colors.red,
-              offset: Offset(0.0, 2.0),
-              blurRadius: 3.0,
-            )
-          ],
-          icon: const Icon(
-            Icons.close,
-            size: 28.0,
-            color: Colors.white,
-          ),
+          boxShadows: const [BoxShadow(color: Colors.red, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
+          icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
           duration: const Duration(seconds: 1),
         ).show(context);
       }
@@ -141,21 +117,11 @@ class _AddProductsViewState extends State<AddProductsView> {
         backgroundColor: Colors.red[900],
         messageText: Text(
           "!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!",
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
+          style:
+              TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
         ),
-        boxShadows: const [
-          BoxShadow(
-            color: Colors.purple,
-            offset: Offset(0.0, 2.0),
-            blurRadius: 3.0,
-          )
-        ],
-        icon: const Icon(
-          Icons.close,
-          size: 28.0,
-          color: Colors.white,
-        ),
+        boxShadows: const [BoxShadow(color: Colors.purple, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
+        icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
         duration: const Duration(seconds: 10),
       ).show(context);
     }
@@ -195,31 +161,15 @@ class _AddProductsViewState extends State<AddProductsView> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const Opacity(
-                    opacity: 0.0,
-                    child: Icon(
-                      Icons.home,
-                      color: Colors.white,
-                      size: 40,
-                    ),
-                  ),
+                  const Opacity(opacity: 0.0, child: Icon(Icons.home, color: Colors.white, size: 40)),
                   Padding(
                     padding: const EdgeInsets.only(top: 5.0),
                     child: Transform.scale(
                       scale: 2,
                       child: InkWell(
-                        onTap: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            '/home',
-                            (Route<dynamic> route) => false,
-                          );
-                        },
-                        child: Image.asset(
-                          "assets/logobw.png",
-                          width: 150,
-                          height: 50,
-                        ),
+                        onTap: () =>
+                            Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false),
+                        child: Image.asset("assets/logobw.png", width: 150, height: 50),
                       ),
                     ),
                   ),
@@ -227,11 +177,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     padding: const EdgeInsets.only(top: 5.0, left: 0),
                     child: IconButton(
                       onPressed: () => Navigator.of(context).pop(true),
-                      icon: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                        size: 40,
-                      ),
+                      icon: const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 40),
                     ),
                   ),
                 ],
@@ -251,45 +197,27 @@ class _AddProductsViewState extends State<AddProductsView> {
                   children: [
                     Text(
                       "يرجى إختيار المستودع التابع لهذه المادة",
-                      style: TextStyle(
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold),
                     ),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
                         children: LoadingScreenServices.subWarehouses
                             .map((data) => Container(
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                  ),
+                                  decoration: const BoxDecoration(color: Colors.white),
                                   child: RadioListTile(
                                     controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
-                                    title: Text(
-                                      data.name,
-                                      style: TextStyle(
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                      ),
-                                    ),
+                                    title: Text(data.name, style: mainStyle),
                                     groupValue: _selectedSubWarehouseValue,
                                     value: data.id,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        _selectedSubWarehouseValue = data.id;
-                                      });
-                                    },
+                                    onChanged: (val) => setState(() => _selectedSubWarehouseValue = data.id),
                                   ),
                                 ))
                             .toList(),
                       ),
                     ),
-                    ProductEntryField(
-                      controller: nameController,
-                      title: "اسم المنتج",
-                      hint: "زيت سولينا",
-                    ),
+                    ProductEntryField(controller: nameController, title: "اسم المنتج", hint: "زيت سولينا"),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -333,43 +261,22 @@ class _AddProductsViewState extends State<AddProductsView> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         TextButton(
-                          child: Icon(
-                            Icons.camera,
-                            color: ColorUtils.kmColors,
-                          ),
-                          onPressed: () {
-                            getImageCamera();
-                          },
-                        ),
+                            child: Icon(Icons.camera, color: ColorUtils.kmColors), onPressed: () => getImageCamera()),
                         TextButton(
-                          child: Icon(
-                            Icons.image,
-                            color: ColorUtils.kmColors,
-                          ),
-                          onPressed: () {
-                            getImageGallery();
-                          },
-                        ),
+                            child: Icon(Icons.image, color: ColorUtils.kmColors), onPressed: () => getImageGallery()),
                         SizedBox(
                           width: 110,
-                          // height: 100,
                           child: Container(
                             margin: const EdgeInsets.all(15.0),
                             padding: const EdgeInsets.all(3.0),
                             decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(10.0) //                 <--- border radius here
-                                    ),
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                                 border: Border.all(
                                     color: switchController ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,
                                     width: 2)),
                             child: Switch(
                               value: switchController,
-                              onChanged: (value) {
-                                setState(() {
-                                  switchController = value;
-                                });
-                              },
+                              onChanged: (value) => setState(() => switchController = value),
                               activeTrackColor: ColorUtils.kmColors2,
                               activeColor: ColorUtils.kmColors,
                             ),
@@ -384,25 +291,17 @@ class _AddProductsViewState extends State<AddProductsView> {
                       ),
                       SizedBox(
                         width: 110,
-                        // height: 100,
                         child: Container(
                           margin: const EdgeInsets.all(15.0),
                           padding: const EdgeInsets.all(3.0),
                           decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                  Radius.circular(10.0) //                 <--- border radius here
-                                  ),
+                              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                               border: Border.all(
-                                  color:
-                                      autoActivationController ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,
+                                  color: autoActivationController ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,
                                   width: 2)),
                           child: Switch(
                             value: autoActivationController,
-                            onChanged: (value) {
-                              setState(() {
-                                autoActivationController = value;
-                              });
-                            },
+                            onChanged: (value) => setState(() => autoActivationController = value),
                             activeTrackColor: ColorUtils.kmColors2,
                             activeColor: ColorUtils.kmColors,
                           ),
@@ -420,11 +319,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                         } else {
                           Toast.show(
                               "يرجى ادخال البيانات التالية:\n" +
-                                  productData
-                                      .toString()
-                                      .replaceAll(',', '\n')
-                                      .replaceAll('[', '')
-                                      .replaceAll(']', ''),
+                                  productData.toString().replaceAll(',', '\n').replaceAll('[', '').replaceAll(']', ''),
                               context,
                               duration: Toast.LENGTH_LONG,
                               gravity: Toast.CENTER);
@@ -485,9 +380,5 @@ class _AddProductsViewState extends State<AddProductsView> {
       if (!productData.contains('الصورة')) productData.add('الصورة');
     }
     return productData.length;
-  }
-
-  bool controller() {
-    return priceController.text.isEmpty;
   }
 }

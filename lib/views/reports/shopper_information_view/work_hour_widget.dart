@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-
-import '../../../utils/utils_importer.dart';
-import '../../Widget/widgets_importer.dart';
+import '../../../core/core_importer.dart';
 import '../models/shopper_working_hours_model.dart';
 
 class WorkHourWidget extends StatelessWidget {

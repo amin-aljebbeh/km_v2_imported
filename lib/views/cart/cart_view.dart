@@ -1,13 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/models/products_categories_model.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/cart/cart_view_final.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
-import 'package:kammun_app/views/widget/widgets_importer.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/core_importer.dart';
 import 'services/cart_services.dart';
 
 class CartView extends StatefulWidget {

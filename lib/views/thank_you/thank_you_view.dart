@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Widget/widgets_importer.dart';
-import 'package:kammun_app/views/restart/kammunapp_restart.dart';
-import 'package:kammun_app/views/widget/close_widget.dart';
+import '../../core/core_importer.dart';
 
 class ThankYouView extends StatefulWidget {
   final String orderMessage;
@@ -18,9 +14,8 @@ class ThankYouView extends StatefulWidget {
 class ThankYouViewState extends State<ThankYouView> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showMyDialog(title: StringUtils.costumerNote, text: widget.orderMessage, dialogButtons: [const CloseWidget()]);
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) =>
+        showMyDialog(title: StringUtils.costumerNote, text: widget.orderMessage, dialogButtons: [const CloseWidget()]));
     super.initState();
   }
 

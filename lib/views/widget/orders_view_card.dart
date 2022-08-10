@@ -1,17 +1,12 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/models/models_importer.dart';
-import 'package:kammun_app/service.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/order_details/order_details_tab_view.dart';
 import 'package:kammun_app/views/orders/orders_view_importer.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
-import 'package:kammun_app/views/widget/close_widget.dart';
 import 'package:map_launcher/map_launcher.dart';
+
+import '../../core/core_importer.dart';
 
 class OrdersViewCard extends StatefulWidget {
   final OrdersOriginalData orderData;

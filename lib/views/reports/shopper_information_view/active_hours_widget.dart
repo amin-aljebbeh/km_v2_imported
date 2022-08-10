@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../utils/utils_importer.dart';
-import '../../Widget/widgets_importer.dart';
+import '../../../core/core_importer.dart';
 import '../models/activity_hours_model.dart';
 
 class ActiveHoursWidget extends StatelessWidget {
@@ -28,7 +26,7 @@ class ActiveHoursWidget extends StatelessWidget {
                     children: [
                       KTableElement(text: 'مدة التفعيل'),
                       KTableElement(text: 'وقت البدء'),
-                      KTableElement(text: 'وقت الإغلاق'),
+                      KTableElement(text: 'وقت الإغلاق')
                     ],
                   ),
                 ],

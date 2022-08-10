@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Widget/widgets_importer.dart';
+import '../../core/core_importer.dart';
 
 class TextFieldRow extends StatefulWidget {
   final TextEditingController controller;
@@ -30,17 +28,8 @@ class _TextFieldRowState extends State<TextFieldRow> {
     return Row(
       mainAxisAlignment: widget.mainAxisAlignment,
       children: [
-        Text(
-          widget.text,
-          overflow: TextOverflow.clip,
-          style: paragraphStyle,
-        ),
-        EntryField(
-          controller: widget.controller,
-          hint: widget.hint,
-          width: widget.width,
-          onSubmit: (result) {},
-        ),
+        Text(widget.text, overflow: TextOverflow.clip, style: paragraphStyle),
+        EntryField(controller: widget.controller, hint: widget.hint, width: widget.width, onSubmit: (result) {}),
       ],
     );
   }

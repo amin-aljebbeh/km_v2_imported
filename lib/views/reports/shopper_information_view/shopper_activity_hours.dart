@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/views/reports/shopper_information_view/active_hours_widget.dart';
-
-import '../../../service.dart';
-import '../../../utils/utils_importer.dart';
-import '../../Widget/widgets_importer.dart';
+import '../../../core/core_importer.dart';
 import '../models/activity_hours_model.dart';
 import '../services/reports_services.dart';
 
@@ -60,8 +55,7 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar:
-            AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('أوقات تفعيل التطبيق', style: mainStyle)),
+        appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('أوقات تفعيل التطبيق', style: mainStyle)),
         body: SafeArea(
           child: Container(
             padding: const EdgeInsets.all(10),
@@ -76,15 +70,13 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                       hint: StringUtils.chooseShopper,
                       search: shopperName,
                       items: Services.shoppersNameList(),
-                      onChanged: (value) {
-                        setState(() {
-                          shopperName = value;
-                          if (validDates()) {
-                            getHours(shopperId: Services.selectedShopperId(shopperName));
-                            isLoading = true;
-                          }
-                        });
-                      },
+                      onChanged: (value) => setState(() {
+                        shopperName = value;
+                        if (validDates()) {
+                          getHours(shopperId: Services.selectedShopperId(shopperName));
+                          isLoading = true;
+                        }
+                      }),
                     ),
                   ),
                 KDatePicker(
@@ -108,9 +100,7 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                   height: 50,
                 ),
                 const SizedBox(height: 20),
-                isError
-                    ? AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError')
-                    : Container(),
+                isError ? AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError') : Container(),
                 isLoading
                     ? const Loader()
                     : activityHours.isEmpty
@@ -121,8 +111,7 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                               scrollDirection: Axis.vertical,
                               itemCount: activityHours.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return ActiveHoursWidget(
-                                    activityHour: activityHours[index], newDay: newDay(index));
+                                return ActiveHoursWidget(activityHour: activityHours[index], newDay: newDay(index));
                               },
                             ))
               ],

@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:kammun_app/utils/utils_importer.dart';
-import 'package:kammun_app/views/Widget/widgets_importer.dart';
 import 'package:kammun_app/views/products_view/products_view.dart';
+
+import '../../core/core_importer.dart';
 
 class StoreSearchTextField extends StatelessWidget {
   final TextEditingController searchController;
@@ -20,9 +19,7 @@ class StoreSearchTextField extends StatelessWidget {
         decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(6.0))),
         child: TextField(
           controller: searchController,
-          onSubmitted: (_) {
-            submit(context);
-          },
+          onSubmitted: (_) => submit(context),
           cursorColor: ColorUtils.primaryColor,
           decoration: InputDecoration(
             prefixIcon: SizedBox(
@@ -37,14 +34,7 @@ class StoreSearchTextField extends StatelessWidget {
                     color: ColorUtils.primaryColor,
                   ),
                   IconButton(
-                    icon: Icon(
-                      Icons.search,
-                      color: ColorUtils.primaryColor,
-                    ),
-                    onPressed: () {
-                      submit(context);
-                    },
-                  ),
+                      icon: Icon(Icons.search, color: ColorUtils.primaryColor), onPressed: () => submit(context)),
                 ],
               ),
             ),
@@ -60,15 +50,8 @@ class StoreSearchTextField extends StatelessWidget {
   submit(BuildContext context) {
     if (searchController.text.isNotEmpty) {
       if (onSubmit != null) onSubmit();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ProductsView(
-            queryString: searchController.text,
-            categoryId: "0",
-          ),
-        ),
-      );
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ProductsView(queryString: searchController.text, categoryId: "0")));
     }
   }
 }
