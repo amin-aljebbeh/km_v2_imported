@@ -319,9 +319,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           child: Center(
                               child: Text(StringUtils.outOfStock,
                                   style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: StringUtils.fontFamily)))),
+                                      fontSize: 25, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily)))),
                     KammunButton(
                       text:
                           '${StringUtils.addToCart}  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split('.')[0]))})',
