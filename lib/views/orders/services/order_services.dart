@@ -119,23 +119,6 @@ class OrderServices {
     }
   }
 
-  static Future<List<OrdersOriginalData>> getDeliveryOrders({int pageNumber = 1}) async {
-    try {
-      var response = await ApiProvider.sendRequest(
-          url: deliveryViewsHisOwnOrders, method: HttpMethods.get, queryParameters: {'page': pageNumber});
-
-      if (response.statusCode == successCode) {
-        LoadingScreenServices.myOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
-
-        return LoadingScreenServices.myOrdersList;
-      } else {
-        return LoadingScreenServices.myOrdersList;
-      }
-    } catch (e) {
-      return null;
-    }
-  }
-
   static Future<List<OrdersOriginalData>> getShopperOrders({int pageNumber = 1}) async {
     try {
       var response = await ApiProvider.sendRequest(

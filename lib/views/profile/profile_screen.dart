@@ -82,7 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           child: Text(
                             'الرقم الشخصي',
                             style: TextStyle(
-                                fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 20),
+                                fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 20),
                           ),
                         ),
                       ),
@@ -101,8 +101,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
                             child: Text(LoadingScreenServices.phoneNumber ?? 'لا يوجد',
-                                style: TextStyle(
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 25, color: Colors.black)),
+                                style:
+                                    TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 25, color: Colors.black)),
                           ),
                           onTap: () {},
                         ),
@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       'المستودع',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700,
-                                          fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                          fontFamily: StringUtils.fontFamily,
                                           fontSize: 20),
                                     ),
                                   ),
@@ -141,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                 decoration: const BoxDecoration(color: Colors.white),
                                                 child: Text(subWarehouse.name,
                                                     style: TextStyle(
-                                                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                                        fontFamily: StringUtils.fontFamily,
                                                         fontSize: 25,
                                                         color: Colors.black))))
                                             .toList()),
@@ -154,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                       child: Text('الجهة المفضلة لاستخدام الهاتف',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                              fontFamily: StringUtils.fontFamily,
                                               fontSize: 20)))),
                               Center(
                                 child: Container(
@@ -195,9 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                       child: Center(
                         child: Text(StringUtils.logout,
                             style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                fontSize: 20)),
+                                fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 20)),
                       ),
                     ),
                     Center(
@@ -216,8 +214,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
                             child: Text(StringUtils.logout,
-                                style: TextStyle(
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 25, color: Colors.black)),
+                                style:
+                                    TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 25, color: Colors.black)),
                           ),
                           onTap: () {},
                         ),

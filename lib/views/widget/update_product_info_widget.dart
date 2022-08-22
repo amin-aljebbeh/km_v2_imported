@@ -82,9 +82,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                         messageText: Text(
                           'فشل عملية التعديل يجب أن يحتوي رمز المادة على الرمز الخاص بك',
                           style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk),
+                              color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily),
                         ),
                         boxShadows: [
                           BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)

@@ -10,8 +10,7 @@ class ShopByCategory extends StatefulWidget {
   final int index;
   final BoxFit fit;
 
-  const ShopByCategory(
-      {kKey, key, @required this.img, @required this.categoryName, @required this.index, this.fit})
+  const ShopByCategory({kKey, key, @required this.img, @required this.categoryName, @required this.index, this.fit})
       : super(key: key);
 
   @override
@@ -66,7 +65,7 @@ class ShopByCategoryState extends State<ShopByCategory> {
                         color: Colors.white,
                         fontSize: ResponsiveFlutter.of(context).fontSize(3),
                         fontWeight: FontWeight.bold,
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontFamily: StringUtils.fontFamily,
                       ),
                       textAlign: TextAlign.center,
                     ),

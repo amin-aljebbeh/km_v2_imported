@@ -40,10 +40,8 @@ class SubWarehouse {
 
   static double getDiscountPercentage(int subWarehouseId) {
     return (LoadingScreenServices.subWarehouses
-            .firstWhere(
-              (subWarehouse) => subWarehouse.id == subWarehouseId,
-              orElse: () => SubWarehouse(discountPercentage: 1),
-            )
+            .firstWhere((subWarehouse) => subWarehouse.id == subWarehouseId,
+                orElse: () => SubWarehouse(discountPercentage: 1))
             .discountPercentage /
         100);
   }

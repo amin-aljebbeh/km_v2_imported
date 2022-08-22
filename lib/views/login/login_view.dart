@@ -80,9 +80,9 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         cursorColor: ColorUtils.primaryColor,
         decoration: InputDecoration(
           floatingLabelStyle:
-              TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30, color: ColorUtils.primaryColor),
+              TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 30, color: ColorUtils.primaryColor),
           labelText: 'كلمة المرور',
-          labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
+          labelStyle: TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 30),
           hintStyle: const TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
               borderSide: BorderSide(color: ColorUtils.primaryColor), borderRadius: BorderRadius.circular(5.0)),
@@ -107,8 +107,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         decoration: InputDecoration(
           labelText: 'اسم المستخدم',
           floatingLabelStyle:
-              TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30, color: ColorUtils.primaryColor),
-          labelStyle: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 30),
+              TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 30, color: ColorUtils.primaryColor),
+          labelStyle: TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 30),
           hintStyle: const TextStyle(color: Colors.black45),
           border: OutlineInputBorder(
               borderSide: BorderSide(color: ColorUtils.primaryColor), borderRadius: BorderRadius.circular(5.0)),

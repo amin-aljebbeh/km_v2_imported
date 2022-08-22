@@ -10,6 +10,7 @@ import 'package:kammun_app/views/prices_changes/services/prices_changes_services
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 import 'package:search_choices/search_choices.dart';
+
 import '../../core/core_importer.dart';
 
 class ProductDetailView extends StatefulWidget {
@@ -165,7 +166,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: ColorUtils.primaryColor,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontFamily: StringUtils.fontFamily,
                                     fontSize: 25)))),
                     const SizedBox(height: 10),
                     Row(
@@ -295,7 +296,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontFamily: StringUtils.fontFamily,
                                   fontSize: 35)),
                         ),
                         const SizedBox(width: 10),
@@ -320,7 +321,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   style: TextStyle(
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: StringUtils.fontFamilyHKGrotesk)))),
+                                      fontFamily: StringUtils.fontFamily)))),
                     KammunButton(
                       text:
                           '${StringUtils.addToCart}  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split('.')[0]))})',

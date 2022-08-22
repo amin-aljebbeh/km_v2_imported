@@ -123,7 +123,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   widget.productData.name,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontFamily: StringUtils.fontFamily,
                                     fontSize: 18,
                                   ),
                                 ),
@@ -137,7 +137,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 color: ColorUtils.greyColor,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontFamily: StringUtils.fontFamily,
                                 fontSize: 17,
                               ),
                             ),
@@ -149,7 +149,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: ColorUtils.primaryColor,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                    fontFamily: StringUtils.fontFamily,
                                     fontSize: 18,
                                   ),
                                 ),
@@ -176,14 +176,14 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                       .format(int.parse(widget.productData.alertProductsCount)),
                                                   style: TextStyle(
                                                       color: ColorUtils.kmColors,
-                                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                                      fontFamily: StringUtils.fontFamily,
                                                       fontSize: 14),
                                                 ),
                                                 TextSpan(
                                                   text: 'ينتظرون تفعيل  المنتج',
                                                   style: TextStyle(
                                                       color: ColorUtils.kmColors,
-                                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                                      fontFamily: StringUtils.fontFamily,
                                                       fontSize: 14),
                                                 ),
                                               ],

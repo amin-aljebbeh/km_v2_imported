@@ -44,7 +44,7 @@ class ThankYouViewState extends State<ThankYouView> {
                     style: TextStyle(
                         color: ColorUtils.primaryColor,
                         fontWeight: FontWeight.w700,
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontFamily: StringUtils.fontFamily,
                         fontSize: 30),
                   ),
                   Padding(
@@ -55,7 +55,7 @@ class ThankYouViewState extends State<ThankYouView> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: ColorUtils.primaryColor,
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontFamily: StringUtils.fontFamily,
                         fontSize: 16.0,
                       ),
                     ),
@@ -68,7 +68,7 @@ class ThankYouViewState extends State<ThankYouView> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: ColorUtils.kmColors,
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontFamily: StringUtils.fontFamily,
                         fontSize: 16.0,
                       ),
                     ),

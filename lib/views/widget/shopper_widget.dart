@@ -54,7 +54,7 @@ class ShopperWidgetState extends State<ShopperWidget> {
                                 widget.shopper.name,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontFamily: StringUtils.fontFamily,
                                   fontSize: 18,
                                 ),
                               ),

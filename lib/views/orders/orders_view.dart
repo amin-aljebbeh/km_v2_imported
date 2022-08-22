@@ -1,5 +1,6 @@
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
+
 import '../../core/core_importer.dart';
 import 'services/order_services.dart';
 
@@ -277,7 +278,7 @@ class OrdersViewState extends State<OrdersView> {
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontFamily: StringUtils.fontFamily,
                                   fontSize: 20.0,
                                 ),
                               ),
@@ -615,7 +616,7 @@ class OrdersViewState extends State<OrdersView> {
                                 'تم جلب جميع الطلبات',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontFamily: StringUtils.fontFamily,
                                 ),
                               ),
                             ),

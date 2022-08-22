@@ -269,8 +269,8 @@ class ProductsViewState extends State<ProductsView> {
                                 ? theEndOfProducts
                                     ? Text(
                                         'تم جلب جميع المنتجات',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
+                                        style:
+                                            TextStyle(fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily),
                                       )
                                     : const Loader()
                                 : Container(),

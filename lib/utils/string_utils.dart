@@ -5,7 +5,7 @@ class StringUtils {
   static String kammun = 'كمُّون';
 
   //Font
-  static String fontFamilyHKGrotesk = 'Tajawal';
+  static String fontFamily = 'Tajawal';
 
   // App Name
   static String ratingOrder = 'تقييم الطلب';

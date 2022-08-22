@@ -65,7 +65,7 @@ class StoreViewState extends State<StoreView> {
                             fontSize: 17,
                             color: ColorUtils.primaryColor,
                             fontWeight: FontWeight.bold,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk),
+                            fontFamily: StringUtils.fontFamily),
                       ),
                     ),
                     IconButton(
@@ -94,7 +94,7 @@ class StoreViewState extends State<StoreView> {
                             color: Colors.grey[900],
                             fontSize: 20,
                             fontWeight: FontWeight.normal,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk),
+                            fontFamily: StringUtils.fontFamily),
                       ),
                     ],
                   ),
@@ -376,7 +376,7 @@ class StoreViewState extends State<StoreView> {
                     style: TextStyle(
                         color: ColorUtils.primaryColor,
                         fontWeight: FontWeight.w900,
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontFamily: StringUtils.fontFamily,
                         fontSize: 22),
                   ),
                   Expanded(

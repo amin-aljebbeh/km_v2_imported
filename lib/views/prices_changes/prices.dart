@@ -1,5 +1,6 @@
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
+
 import '../../core/core_importer.dart';
 import 'model/prices_changes_model.dart';
 
@@ -84,7 +85,7 @@ class _PricesState extends State<Prices> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                                    fontFamily: StringUtils.fontFamily)),
                           ),
                         )
                       : Expanded(

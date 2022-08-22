@@ -163,7 +163,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontFamily: StringUtils.fontFamily,
                                   fontSize: 17.0,
                                 ),
                               ),
@@ -182,7 +182,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontFamily: StringUtils.fontFamily,
                                   fontSize: 17.0,
                                 ),
                               ),
@@ -201,7 +201,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                  fontFamily: StringUtils.fontFamily,
                                   fontSize: 17.0,
                                 ),
                               ),

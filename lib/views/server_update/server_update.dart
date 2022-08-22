@@ -25,7 +25,7 @@ class ServerUpdate extends StatelessWidget {
                       color: Colors.black,
                       fontSize: 25.0,
                       fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.fontFamilyHKGrotesk),
+                      fontFamily: StringUtils.fontFamily),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 10, left: 30, right: 15),
@@ -38,7 +38,7 @@ class ServerUpdate extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 18,
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontFamily: StringUtils.fontFamily,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

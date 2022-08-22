@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+
 import '../../core/core_importer.dart';
 
 class AddProductsView extends StatefulWidget {
@@ -104,8 +105,7 @@ class _AddProductsViewState extends State<AddProductsView> {
           backgroundColor: Colors.red[900],
           messageText: Text(
             "فشل في إضافة المنتج",
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily),
           ),
           boxShadows: const [BoxShadow(color: Colors.red, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
           icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
@@ -117,8 +117,7 @@ class _AddProductsViewState extends State<AddProductsView> {
         backgroundColor: Colors.red[900],
         messageText: Text(
           "!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!",
-          style:
-              TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamilyHKGrotesk),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily),
         ),
         boxShadows: const [BoxShadow(color: Colors.purple, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
         icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
@@ -197,7 +196,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                   children: [
                     Text(
                       "يرجى إختيار المستودع التابع لهذه المادة",
-                      style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold),
                     ),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
@@ -287,7 +286,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                       Text(
                         "السماح بتفعيل المنتاج تلقائيا",
-                        style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         width: 110,

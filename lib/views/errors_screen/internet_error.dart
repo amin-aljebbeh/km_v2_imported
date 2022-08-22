@@ -44,7 +44,7 @@ class InternetError extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
-                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                fontFamily: StringUtils.fontFamily,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -55,7 +55,7 @@ class InternetError extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.grey[700],
                   fontSize: 15,
-                  fontFamily: StringUtils.fontFamilyHKGrotesk,
+                  fontFamily: StringUtils.fontFamily,
                   fontWeight: FontWeight.w500,
                 ),
               ),

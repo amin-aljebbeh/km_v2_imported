@@ -124,7 +124,7 @@ class _SubCategoryState extends State<SubCategory> {
                           color: ColorUtils.primaryColor,
                           fontSize: ResponsiveFlutter.of(context).fontSize(3),
                           fontWeight: FontWeight.bold,
-                          fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                          fontFamily: StringUtils.fontFamily)),
                 ),
               ),
             )
@@ -176,7 +176,7 @@ class _SubCategoryState extends State<SubCategory> {
                                     style: TextStyle(
                                         fontSize: ResponsiveFlutter.of(context).fontSize(4),
                                         color: Colors.white,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk),
+                                        fontFamily: StringUtils.fontFamily),
                                     softWrap: true,
                                     overflow: TextOverflow.fade,
                                   ),

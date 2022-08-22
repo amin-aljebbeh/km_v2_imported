@@ -1,5 +1,6 @@
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
+
 import '../../../core/core_importer.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
@@ -105,7 +106,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                   children: [
                     Text(
                       'يرجى إختيار المستودع التابع لهذه المادة',
-                      style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold),
                     ),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
@@ -116,8 +117,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                   child: RadioListTile(
                                     controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
-                                    title:
-                                        Text(data.name, style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                                    title: Text(data.name, style: TextStyle(fontFamily: StringUtils.fontFamily)),
                                     groupValue: _selectedValue,
                                     value: data.id,
                                     onChanged: (val) => setState(() => _selectedValue = data.id),

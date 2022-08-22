@@ -1,4 +1,5 @@
 import 'package:expandable/expandable.dart';
+
 import '../../core/core_importer.dart';
 import 'models/sales_reports_model.dart';
 import 'services/reports_services.dart';
@@ -156,7 +157,7 @@ class _SalesReportState extends State<SalesReport> {
             child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(response.warehouses[i].name,
-                    style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 25))),
+                    style: TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 25))),
           ),
         ));
       }

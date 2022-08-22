@@ -61,8 +61,6 @@ class OrderProducts {
         'is_active': isActive,
         'images': List<dynamic>.from(images.map((x) => x.toJson())),
       };
-
-  static sort() {}
 }
 
 class ProductImage {

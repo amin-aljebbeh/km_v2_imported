@@ -40,8 +40,8 @@ class _InvoiceViewState extends State<InvoiceView> {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
           backgroundColor: ColorUtils.primaryColor,
-          title: Text('فاتورة الزبون',
-              style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold))),
+          title:
+              Text('فاتورة الزبون', style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold))),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,

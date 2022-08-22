@@ -156,9 +156,7 @@ class _InventoryState extends State<Inventory> {
                             child: Text(
                               'المحاولة من جديد',
                               style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk),
+                                  color: Colors.black, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily),
                             ),
                             onPressed: () => _loadData(filterIndex: filterProducts),
                           ),
@@ -174,12 +172,12 @@ class _InventoryState extends State<Inventory> {
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk))
+                                        fontFamily: StringUtils.fontFamily))
                                 : Text('لا يوجد منتجات بحاجة إلغاء تفعيل',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
-                                        fontFamily: StringUtils.fontFamilyHKGrotesk)),
+                                        fontFamily: StringUtils.fontFamily)),
                           ),
                         )
                       : Expanded(

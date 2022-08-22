@@ -1,4 +1,5 @@
 import 'package:file_picker/file_picker.dart';
+
 import '../../core/core_importer.dart';
 import 'services/inventory_services.dart';
 
@@ -54,7 +55,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
       appBar: AppBar(
           backgroundColor: ColorUtils.primaryColor,
           title: Text(StringUtils.kammun,
-              style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold))),
+              style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold))),
       body: Container(
         child: isLoading
             ? const Loader()
@@ -63,7 +64,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                 child: ListView(
                   children: [
                     Text("يرجى إختيار المستودع",
-                        style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk, fontWeight: FontWeight.bold)),
+                        style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold)),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(

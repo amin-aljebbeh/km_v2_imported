@@ -1,9 +1,5 @@
 class SupportedCityLevelPivot {
-  SupportedCityLevelPivot({
-    this.levelId,
-    this.supportedCityId,
-    this.deliveryProfitPercentage,
-  });
+  SupportedCityLevelPivot({this.levelId, this.supportedCityId, this.deliveryProfitPercentage});
 
   int levelId;
   int supportedCityId;

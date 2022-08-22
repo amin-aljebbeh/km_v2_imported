@@ -5,6 +5,7 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
 import 'package:kammun_app/views/thank_you/thank_you_view.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
 import '../../core/core_importer.dart';
 import '../orders/model/submit_order_model.dart';
 import 'order_problem_sheet.dart';
@@ -113,9 +114,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             child: Text(
                               StringUtils.shoppingCart,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: StringUtils.fontFamilyHKGrotesk,
-                                  fontSize: 30),
+                                  fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 30),
                             ),
                           ),
                         ],
@@ -147,7 +146,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryColorDark,
-                            fontFamily: StringUtils.fontFamilyHKGrotesk,
+                            fontFamily: StringUtils.fontFamily,
                             fontSize: 17.0,
                           ),
                         ),
@@ -156,7 +155,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontFamily: StringUtils.fontFamily,
                               fontSize: 17.0),
                         ),
                       ],
@@ -169,7 +168,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontFamily: StringUtils.fontFamily,
                               fontSize: 16.0,
                             )),
                         Text(
@@ -177,7 +176,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontFamily: StringUtils.fontFamily,
                               fontSize: 16),
                         ),
                       ],
@@ -190,7 +189,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontFamily: StringUtils.fontFamily,
                               fontSize: 19.0,
                             )),
                         Text(
@@ -198,7 +197,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontFamily: StringUtils.fontFamily,
                               fontSize: 19),
                         ),
                       ],
@@ -229,7 +228,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
-                                                fontFamily: StringUtils.fontFamilyHKGrotesk),
+                                                fontFamily: StringUtils.fontFamily),
                                           ),
                                         ),
                                       ),
@@ -261,7 +260,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                   'ملاحظات على الطلب',
                                                   style: TextStyle(
                                                       fontWeight: FontWeight.w700,
-                                                      fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                                      fontFamily: StringUtils.fontFamily,
                                                       fontSize: 18),
                                                 ),
                                               ),
@@ -275,7 +274,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                   textAlign: TextAlign.right,
                                                   keyboardType: TextInputType.multiline,
                                                   maxLines: 5,
-                                                  style: TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk),
+                                                  style: TextStyle(fontFamily: StringUtils.fontFamily),
                                                 ),
                                               ),
                                               KammunButton(
@@ -357,8 +356,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       children: <Widget>[
                         Text(
                           orderArray[index].name,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 18),
+                          style:
+                              TextStyle(fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 18),
                         ),
                         const SizedBox(height: 6),
                         Text(
@@ -366,7 +365,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: ColorUtils.greyColor,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontFamily: StringUtils.fontFamily,
                               fontSize: 17),
                         ),
                         const SizedBox(height: 8),
@@ -375,7 +374,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: ColorUtils.primaryColor,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontFamily: StringUtils.fontFamily,
                                 fontSize: 18)),
                       ],
                     ),
@@ -410,7 +409,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).primaryColorDark,
-                        fontFamily: StringUtils.fontFamilyHKGrotesk,
+                        fontFamily: StringUtils.fontFamily,
                         fontSize: 18)),
                 const SizedBox(height: 5),
                 Container(

@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'utils_importer.dart';
 
-TextStyle mainStyle = TextStyle(fontFamily: StringUtils.fontFamilyHKGrotesk);
+TextStyle mainStyle = TextStyle(fontFamily: StringUtils.fontFamily);
 
 TextStyle dialogStyle = mainStyle;
 
-TextStyle decisionButtonStyle =
-    mainStyle.copyWith(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w500);
+TextStyle decisionButtonStyle = mainStyle.copyWith(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w500);
 
 TextStyle paragraphStyle =
     mainStyle.copyWith(color: ColorUtils.primaryColor, fontSize: 18, fontWeight: FontWeight.bold);
@@ -26,8 +25,7 @@ TextStyle labelStyle = mainStyle.copyWith(fontSize: 15, color: ColorUtils.greyCo
 
 TextStyle disableStyle = paragraphStyle.copyWith(color: Colors.black38);
 
-TextStyle warehouseStyle =
-    mainStyle.copyWith(fontWeight: FontWeight.bold, color: ColorUtils.greyColor, fontSize: 20);
+TextStyle warehouseStyle = mainStyle.copyWith(fontWeight: FontWeight.bold, color: ColorUtils.greyColor, fontSize: 20);
 
 TextStyle profitStyle = warehouseStyle.copyWith(color: Colors.green, fontSize: 25);
 

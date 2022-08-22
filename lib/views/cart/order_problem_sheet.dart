@@ -2,6 +2,7 @@ import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
+
 import '../../core/core_importer.dart';
 
 class OrderProblemBottomSheet extends StatefulWidget {
@@ -90,8 +91,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       child: Center(
                           child: Text(
                         'منتجات نفذت أثناء التسوق',
-                        style:
-                            TextStyle(fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
+                        style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamily),
                       )),
                     )
                   : Container(),
@@ -131,8 +131,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       child: Center(
                           child: Text(
                         'منتجات تغير سعرها أثناء التسوق',
-                        style:
-                            TextStyle(fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamilyHKGrotesk),
+                        style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamily),
                       )),
                     )
                   : Container(),
@@ -215,15 +214,15 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       children: <Widget>[
                         Text(
                           orderArray[index].name,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 18),
+                          style:
+                              TextStyle(fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 18),
                         ),
                         Text(
                           orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: ColorUtils.greyColor,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontFamily: StringUtils.fontFamily,
                               fontSize: 17),
                         ),
                       ],
@@ -281,8 +280,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       children: <Widget>[
                         Text(
                           orderArray[index].name,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamilyHKGrotesk, fontSize: 18),
+                          style:
+                              TextStyle(fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 18),
                         ),
                         const SizedBox(height: 6),
                         Text(
@@ -290,7 +289,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: ColorUtils.greyColor,
-                              fontFamily: StringUtils.fontFamilyHKGrotesk,
+                              fontFamily: StringUtils.fontFamily,
                               fontSize: 17),
                         ),
                         const SizedBox(height: 8),
@@ -299,7 +298,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 color: ColorUtils.primaryColor,
-                                fontFamily: StringUtils.fontFamilyHKGrotesk,
+                                fontFamily: StringUtils.fontFamily,
                                 fontSize: 18)),
                       ],
                     ),
