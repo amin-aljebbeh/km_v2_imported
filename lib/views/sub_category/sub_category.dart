@@ -1,4 +1,3 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/products_view/add_products.dart';
 import 'package:kammun_app/views/products_view/barcode_screen.dart';

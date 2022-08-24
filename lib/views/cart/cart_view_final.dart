@@ -1,4 +1,3 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
@@ -487,10 +486,14 @@ class _CartViewFinalState extends State<CartViewFinal> {
       OrderResponse orderResponse;
 
       if (OrderServices.orderUnderUpdateIndex != -1) {
-        List<InvoiceProductModel> products = orderArray
-            .map((product) => InvoiceProductModel(
-                quantity: product.productCount, price: int.parse(product.price.split('.')[0]), productId: product.id))
-            .toList();
+        List<InvoiceProductModel> products = orderArray.map((product) {
+          Tools.logToConsole('message per');
+          Tools.logToConsole(product.pivot.increaseValue);
+          return InvoiceProductModel(
+              quantity: product.productCount,
+              price: int.parse(product.price.split('.')[0]) + product.pivot.increaseValue,
+              productId: product.id);
+        }).toList();
         int purchasePrices = orderArray.fold(
             0, (value, product) => value + (product.productCount * int.parse(product.price.split('.')[0])));
         SubmitOrderModel submitOrderModel = SubmitOrderModel(

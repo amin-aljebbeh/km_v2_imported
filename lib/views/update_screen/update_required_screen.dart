@@ -1,4 +1,3 @@
-import 'package:kammun_app/views/loading/loading.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/core_importer.dart';

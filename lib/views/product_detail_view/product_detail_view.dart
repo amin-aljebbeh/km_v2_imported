@@ -1,9 +1,7 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
-import 'package:kammun_app/views/loading/loading.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
@@ -42,9 +40,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
 
   @override
   void initState() {
-    if (widget.product.warehouses.isEmpty) {
-      widget.product.warehouses.add(Warehouse(name: 'غير مضاف لمستودع', id: 0));
-    }
+    if (widget.product.warehouses.isEmpty) widget.product.warehouses.add(Warehouse(name: 'غير مضاف لمستودع', id: 0));
     super.initState();
 
     Timer(const Duration(milliseconds: 100), () => _animateToIndex(2.5));
@@ -465,9 +461,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     width: MediaQuery.of(context).size.width,
                                     padding: const EdgeInsets.only(left: 5, right: 5),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(width: 5, color: ColorUtils.greyColor),
-                                    ),
+                                        borderRadius: BorderRadius.circular(6),
+                                        border: Border.all(width: 5, color: ColorUtils.greyColor)),
                                     child: Center(
                                       child: DropdownButton(
                                         style: decisionButtonStyle,
@@ -538,13 +533,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor)),
                                         searchHint: Text('إختيار الصنف',
                                             style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor)),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            if (value != null) {
-                                              selectedValueCategoryValue = value.toString().split(';')[1];
-                                            }
-                                          });
-                                        },
+                                        onChanged: (value) => setState(() {
+                                          if (value != null) {
+                                            selectedValueCategoryValue = value.toString().split(';')[1];
+                                          }
+                                        }),
                                       ),
                                     ),
                                   ),

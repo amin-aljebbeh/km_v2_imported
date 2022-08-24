@@ -1,4 +1,4 @@
-const String testUrl = 'http://test.kammun.com';
+const String testUrl = 'http://apptest.kammun.com';
 const String appUrl = 'https://kammun.app';
 
 const String user = 'user/';
@@ -11,7 +11,7 @@ const String supportedCity = 'supported_city/';
 
 String baseUrl = appUrl;
 
-const String appleBaseUrl = 'https://kammun.app';
+const String appleBaseUrl = 'http://apptest.kammun.com';
 const String productionBaseUrl = appUrl;
 
 const String getCompany = 'company';

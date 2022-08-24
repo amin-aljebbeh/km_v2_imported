@@ -1,10 +1,8 @@
 import 'package:carousel_pro/carousel_pro.dart';
-import 'package:kammun_app/views/loading/loading.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/store/store_view_category_grid.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../core/core_importer.dart';
 import '../management_view/management_view.dart';
 

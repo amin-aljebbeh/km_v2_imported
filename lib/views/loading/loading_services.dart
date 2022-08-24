@@ -1,10 +1,7 @@
-import 'package:adv_image_cache/adv_image_cache.dart';
-
 import '../../core/core_importer.dart';
 import '../../views/inventory/services/inventory_services.dart';
 import '../../views/reports/models/transaction_type_model.dart';
 import '../../views/reports/services/reports_services.dart';
-import 'loading.dart';
 
 class LoadingScreenServices {
   static CompanyOriginalData companyInformation = CompanyOriginalData();
@@ -208,7 +205,7 @@ class LoadingScreenServices {
         currency: 'S.P',
         additionalInfo: 'http://m.me/KammunApp');
 
-    imagePrefixUrl = appUrl + '/images/';
+    imagePrefixUrl = baseUrl + '/images/';
 
     // Mobile Configuration
 

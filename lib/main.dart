@@ -3,11 +3,9 @@ import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'core/core_importer.dart';
 import 'views/cart/cart_view_final.dart';
 import 'views/home/home_view.dart';
-import 'views/loading/loading.dart';
 import 'views/login/login_view.dart';
 import 'views/prices_changes/prices.dart';
 import 'views/profile/profile_screen.dart';

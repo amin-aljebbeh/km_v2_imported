@@ -1,5 +1,4 @@
 import 'package:kammun_app/core/core_importer.dart';
-import 'package:kammun_app/views/loading/loading.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
 class LoginServices {
