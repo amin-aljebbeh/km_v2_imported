@@ -61,7 +61,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
 
     OrderServices.updateOrderNote != null
         ? WidgetsBinding.instance.addPostFrameCallback((_) {
-            showMyDialog(title: 'حدث خطأ بالطلب', text: dialogText, dialogButtons: [const CloseWidget()]);
+            showMyDialog(
+                context: context, title: 'حدث خطأ بالطلب', text: dialogText, dialogButtons: [const CloseWidget()]);
           })
         : {};
 

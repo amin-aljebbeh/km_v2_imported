@@ -51,7 +51,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
               ),
               DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
             ];
-            showMyDialog(title: '', text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
+            showMyDialog(context: context, title: '', text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
           },
           onTap: () {
             Navigator.push(

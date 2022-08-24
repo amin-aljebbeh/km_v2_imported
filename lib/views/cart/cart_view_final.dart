@@ -237,6 +237,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                   ),
                                   onTap: () {
                                     showMyDialog(
+                                      context: context,
                                       title: 'إضافة ملاحظة',
                                       dialogButtons: [],
                                       content: Stack(
@@ -447,14 +448,14 @@ class _CartViewFinalState extends State<CartViewFinal> {
     );
   }
 
-  _showBottomSheet({List<String> notActive, List<String> priceProblem}) {
+  _showBottomSheet({List<String> notActive, List<ChangedPriceProduct> priceProblem}) {
     List<int> notActiveId = [];
     List<int> priceId = [];
 
     notActiveId =
         orderArray.where((order) => notActive.contains(order.id.toString())).toList().map((order) => order.id).toList();
     priceId = orderArray
-        .where((order) => priceProblem.contains(order.id.toString()))
+        .where((order) => priceProblem.map((price) => price.id.toString()).toList().contains(order.id.toString()))
         .toList()
         .map((order) => order.id)
         .toList();
@@ -492,10 +493,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
             .toList();
         int purchasePrices = orderArray.fold(
             0, (value, product) => value + (product.productCount * int.parse(product.price.split('.')[0])));
-        SubmitOrderModel submitOrderModel =
-            SubmitOrderModel(products: products, purchasePrices: purchasePrices, userNote: _userNotes.text);
-        orderResponse =
-            await OrderServices.updateOrder(submitOrderModel: submitOrderModel, checkPrices: checkOrderPrice);
+        SubmitOrderModel submitOrderModel = SubmitOrderModel(
+            products: products,
+            purchasePrices: purchasePrices,
+            userNote: _userNotes.text,
+            checkChangedPriceProduct: checkOrderPrice ? 1 : 0);
+        orderResponse = await OrderServices.updateOrder(submitOrderModel: submitOrderModel);
 
         setState(() {
           try {

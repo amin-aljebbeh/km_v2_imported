@@ -62,22 +62,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/welcome_screen.png"),
-            fit: BoxFit.contain,
-          ),
-        ),
+            image: DecorationImage(image: AssetImage("assets/welcome_screen.png"), fit: BoxFit.contain)),
         child: Stack(
           children: <Widget>[
             Positioned(
-              left: MediaQuery.of(context).size.width - 80,
-              bottom: MediaQuery.of(context).size.height / 2 - 37,
-              height: 100,
-              width: 100,
-              child: Image.asset(
-                "assets/Loading.gif",
-              ),
-            ),
+                left: MediaQuery.of(context).size.width - 80,
+                bottom: MediaQuery.of(context).size.height / 2 - 37,
+                height: 100,
+                width: 100,
+                child: Image.asset("assets/Loading.gif")),
           ],
         ),
       ),
@@ -89,9 +82,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return FutureBuilder(
       future: fetchInformation,
       builder: (context, snapShot) {
-        if (snapShot.data == "userNotLoggedIn") {
-          return const LoginScreen();
-        }
+        if (snapShot.data == "userNotLoggedIn") return const LoginScreen();
 
         if (snapShot.connectionState == ConnectionState.done) {
           if (snapShot.hasError || snapShot.data == false) {
@@ -101,10 +92,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           } else if (LoadingScreenServices.serverMaintain) {
             return const ServerUpdate();
           } else {
-            final child = HomeView(
-              routeIndex: 0,
-              notificationValue: notificationValue,
-            );
+            final child = HomeView(routeIndex: 0, notificationValue: notificationValue);
             return AnimatedSwitcher(
               transitionBuilder: (Widget child, Animation<double> animation) {
                 var begin = const Offset(0.0, 1.0);
@@ -112,19 +100,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 var curve = Curves.ease;
 
                 var tween = Tween(begin: begin, end: end);
-                var curvedAnimation = CurvedAnimation(
-                  parent: animation,
-                  curve: curve,
-                );
+                var curvedAnimation = CurvedAnimation(parent: animation, curve: curve);
 
-                final slide = HomeView(
-                  routeIndex: 0,
-                  notificationValue: notificationValue,
-                );
-                return SlideTransition(
-                  position: tween.animate(curvedAnimation),
-                  child: slide,
-                );
+                final slide = HomeView(routeIndex: 0, notificationValue: notificationValue);
+                return SlideTransition(position: tween.animate(curvedAnimation), child: slide);
               },
               duration: const Duration(milliseconds: 250),
               child: child,

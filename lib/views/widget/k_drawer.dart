@@ -24,8 +24,7 @@ class KDrawer extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: DrawerHeader(
-                      decoration:
-                          BoxDecoration(color: Colors.white, border: Border.all(color: ColorUtils.kmColors)),
+                      decoration: BoxDecoration(color: Colors.white, border: Border.all(color: ColorUtils.kmColors)),
                       child: InkWell(
                         onTap: () => Navigator.of(context).pop(),
                         child: SizedBox(
@@ -41,7 +40,7 @@ class KDrawer extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                LoadingScreenServices.userName,
+                                LoadingScreenServices.userName ?? '',
                                 style: TextStyle(color: ColorUtils.kmColors),
                               ),
                             ],

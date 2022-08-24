@@ -14,8 +14,11 @@ class ThankYouView extends StatefulWidget {
 class ThankYouViewState extends State<ThankYouView> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) =>
-        showMyDialog(title: StringUtils.costumerNote, text: widget.orderMessage, dialogButtons: [const CloseWidget()]));
+    WidgetsBinding.instance.addPostFrameCallback((_) => showMyDialog(
+        context: context,
+        title: StringUtils.costumerNote,
+        text: widget.orderMessage,
+        dialogButtons: [const CloseWidget()]));
     super.initState();
   }
 

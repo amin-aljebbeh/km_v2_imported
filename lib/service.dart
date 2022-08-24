@@ -1,6 +1,7 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import 'core/core_importer.dart';
 import 'views/loading/loading_services.dart';
 
@@ -13,60 +14,15 @@ class Services {
 
   static int deliveryPrice = 50;
 
-  static Future<bool> addToFavorites(String productsId) async {
-    try {
-      var response = await ApiProvider.sendRequest(url: addToFavorite + productsId, method: HttpMethods.put);
-
-      if (response.statusCode == successCode) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<bool> removeFromFavorites(String productsId) async {
-    try {
-      var response = await ApiProvider.sendRequest(url: removeFromFavorite + productsId, method: HttpMethods.put);
-
-      if (response.statusCode == successCode) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<bool> removeUserAddress(String addressId) async {
-    try {
-      var response = await ApiProvider.sendRequest(url: userAddress + '/$addressId', method: HttpMethods.delete);
-
-      if (response.statusCode == successCode) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      return false;
-    }
-  }
-
   static Future<List<OrdersOriginalData>> getAllOrders({int pageNumber = 1}) async {
     try {
-      var response = await ApiProvider.sendRequest(
-          url: order, method: HttpMethods.get, queryParameters: {'page': pageNumber});
+      var response =
+          await ApiProvider.sendRequest(url: order, method: HttpMethods.get, queryParameters: {'page': pageNumber});
 
       if (response.statusCode == successCode) {
         LoadingScreenServices.allOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
-
-        return LoadingScreenServices.allOrdersList;
-      } else {
-        return LoadingScreenServices.allOrdersList;
       }
+      return LoadingScreenServices.allOrdersList;
     } catch (e) {
       return null;
     }
@@ -85,10 +41,8 @@ class Services {
 
       if (response.statusCode == successCode) {
         LoadingScreenServices.allShoppers = shoppersFromJson(jsonEncode(response.data)).data;
-        return LoadingScreenServices.allShoppers;
-      } else {
-        return LoadingScreenServices.allShoppers;
       }
+      return LoadingScreenServices.allShoppers;
     } catch (e) {
       return null;
     }
@@ -113,12 +67,8 @@ class Services {
     try {
       var response = await ApiProvider.sendRequest(url: getLevel, method: HttpMethods.get);
 
-      if (response.statusCode == successCode) {
-        List<Level> levels = LevelsResponse.fromJson(response.data).levels;
-        return levels;
-      } else {
-        return null;
-      }
+      if (response.statusCode == successCode) return LevelsResponse.fromJson(response.data).levels;
+      return null;
     } catch (e) {
       return null;
     }
@@ -130,11 +80,7 @@ class Services {
       var response = await ApiProvider.sendRequest(
           url: changeShopperStatus + shopperId, method: HttpMethods.put, body: jsonEncode(changeStatus));
 
-      if (response.statusCode == successCode) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode;
     } catch (e) {
       return false;
     }
@@ -147,11 +93,8 @@ class Services {
       if (response.statusCode == successCode && response.data['success'].toString() == 'true') {
         LoadingScreenServices.warehouses =
             List<Warehouse>.from(response.data['data'].map((x) => Warehouse.fromJson(x)));
-
-        return LoadingScreenServices.warehouses;
-      } else {
-        return LoadingScreenServices.warehouses;
       }
+      return LoadingScreenServices.warehouses;
     } catch (e) {
       return null;
     }
@@ -173,13 +116,12 @@ class Services {
 
   static List<DropdownMenuItem<String>> productSubWarehouseNames(BuildContext context) {
     List<DropdownMenuItem<String>> names = LoadingScreenServices.subWarehouses
-        .map(
-          (subWarehouse) => DropdownMenuItem<String>(
-            child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.68, child: Text(subWarehouse.name, style: warehouseStyle)),
-            value: subWarehouse.id.toString(),
-          ),
-        )
+        .map((subWarehouse) => DropdownMenuItem<String>(
+              child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.68,
+                  child: Text(subWarehouse.name, style: warehouseStyle)),
+              value: subWarehouse.id.toString(),
+            ))
         .toList();
     return names;
   }
@@ -220,54 +162,42 @@ class Services {
     return list;
   }
 
-  static bool isAdmin() {
-    return Services.roles.where((element) => element.slug.contains(StringUtils.adminRole)).isNotEmpty;
-  }
+  static bool isAdmin() => Services.roles.where((element) => element.slug.contains(StringUtils.adminRole)).isNotEmpty;
 
-  static bool isOperationManager() {
-    return Services.roles.where((element) => element.slug.contains(StringUtils.operationManager)).isNotEmpty;
-  }
+  static bool isOperationManager() =>
+      Services.roles.where((element) => element.slug.contains(StringUtils.operationManager)).isNotEmpty;
 
-  static bool isProductsController() {
-    return Services.roles.where((element) => element.slug.contains(StringUtils.productsController)).isNotEmpty;
-  }
+  static bool isProductsController() =>
+      Services.roles.where((element) => element.slug.contains(StringUtils.productsController)).isNotEmpty;
 
-  static bool isSuperAdmin() {
-    return Services.roles.where((element) => element.slug.contains(StringUtils.superAdminRole)).isNotEmpty;
-  }
+  static bool isSuperAdmin() =>
+      Services.roles.where((element) => element.slug.contains(StringUtils.superAdminRole)).isNotEmpty;
 
-  static bool isAccounting() {
-    return Services.roles.where((element) => element.slug.contains(StringUtils.accountingRole)).isNotEmpty;
-  }
+  static bool isAccounting() =>
+      Services.roles.where((element) => element.slug.contains(StringUtils.accountingRole)).isNotEmpty;
 
-  static bool isShopper() {
-    return Services.roles.where((element) => element.slug.contains(StringUtils.shopperRole)).isNotEmpty;
-  }
+  static bool isShopper() =>
+      Services.roles.where((element) => element.slug.contains(StringUtils.shopperRole)).isNotEmpty;
 
-  static bool isSupplierManager() {
-    return Services.roles.where((element) => element.slug.contains(StringUtils.supplierRol)).isNotEmpty;
-  }
+  static bool isSupplierManager() =>
+      Services.roles.where((element) => element.slug.contains(StringUtils.supplierRol)).isNotEmpty;
 
-  static errorFlushBar(BuildContext context) {
-    return Flushbar(
-      backgroundColor: Colors.red[900],
-      messageText: Text('فشل في العملية يرجى المحاولة من جديد', style: flushBarStyle),
-      boxShadows: const [BoxShadow(color: Colors.red, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
-      icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
-      duration: const Duration(seconds: 2),
-    )..show(context);
-  }
+  static errorFlushBar(BuildContext context) => Flushbar(
+        backgroundColor: Colors.red[900],
+        messageText: Text('فشل في العملية يرجى المحاولة من جديد', style: flushBarStyle),
+        boxShadows: const [BoxShadow(color: Colors.red, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
+        icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
+        duration: const Duration(seconds: 2),
+      )..show(context);
 
-  static successFlushBar(BuildContext context) {
-    return Flushbar(
-      backgroundColor: Colors.green,
-      messageText: Text('تمت العملية بنجاح', style: flushBarStyle),
-      boxShadows: [BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
-      icon: const Icon(Icons.assignment_turned_in, size: 28.0, color: Colors.white),
-      duration: const Duration(seconds: 1),
-      leftBarIndicatorColor: ColorUtils.kmColors,
-    )..show(context);
-  }
+  static successFlushBar(BuildContext context) => Flushbar(
+        backgroundColor: Colors.green,
+        messageText: Text('تمت العملية بنجاح', style: flushBarStyle),
+        boxShadows: [BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
+        icon: const Icon(Icons.assignment_turned_in, size: 28.0, color: Colors.white),
+        duration: const Duration(seconds: 1),
+        leftBarIndicatorColor: ColorUtils.kmColors,
+      )..show(context);
 
   static resultFlushBar({@required BuildContext context, @required bool result}) {
     if (result) {
@@ -292,18 +222,14 @@ class Services {
     return productsList;
   }
 
-  static String selectedShopperId(String name) {
-    return LoadingScreenServices.allShoppers
-        .firstWhere((shopper) => shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
-        .id
-        .toString();
-  }
+  static String selectedShopperId(String name) => LoadingScreenServices.allShoppers
+      .firstWhere((shopper) => shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
+      .id
+      .toString();
 
-  static int selectedShopperLevelId(String name) {
-    return LoadingScreenServices.allShoppers
-        .firstWhere((shopper) => shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
-        .levelId;
-  }
+  static int selectedShopperLevelId(String name) => LoadingScreenServices.allShoppers
+      .firstWhere((shopper) => shopper.name == name.replaceAll(' ✅', '').replaceAll(' ❌', ''))
+      .levelId;
 
   static int kRound(double number) {
     double doubleSum = number / 100;

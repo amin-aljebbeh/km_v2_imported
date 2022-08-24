@@ -178,6 +178,7 @@ class _OrderByIDState extends State<OrderByID> {
                                       DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                     ];
                                     showMyDialog(
+                                        context: context,
                                         title: 'رفض الطلب',
                                         text: 'هل أنت متأكد انك تريد رفض الطلب ؟',
                                         dialogButtons: decisionButton);
@@ -218,6 +219,7 @@ class _OrderByIDState extends State<OrderByID> {
                                       DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                     ];
                                     showMyDialog(
+                                        context: context,
                                         title: 'إلغاء الطلب',
                                         text: 'هل أنت متأكد انك تريد إلغاء الطلب ؟',
                                         dialogButtons: decisionButton);
@@ -265,6 +267,7 @@ class _OrderByIDState extends State<OrderByID> {
                                 DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                               ];
                               showMyDialog(
+                                  context: context,
                                   title: 'استعادة الطلب',
                                   text: 'هل أنت متأكد انك تريد استعادة الطلب ؟',
                                   dialogButtons: decisionButton);
@@ -314,6 +317,7 @@ class _OrderByIDState extends State<OrderByID> {
                             ? KammunButton(
                                 text: StringUtils.watchNote,
                                 onTap: () => showMyDialog(
+                                    context: context,
                                     title: StringUtils.costumerNote,
                                     text: order.userNotes,
                                     dialogButtons: [const CloseWidget()]),
@@ -340,6 +344,7 @@ class _OrderByIDState extends State<OrderByID> {
                                     const CloseWidget()
                                   ];
                                   showMyDialog(
+                                      context: context,
                                       title: StringUtils.unLock,
                                       text: StringUtils.unLockConfirm,
                                       dialogButtons: decisionButtons);

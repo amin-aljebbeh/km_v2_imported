@@ -209,6 +209,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                           .toList()
                                           .fold(0, (value, transaction) => value + int.parse(transaction.valueShopper));
                                       showMyDialog(
+                                        context: context,
                                         title:
                                             'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
                                         content: Row(

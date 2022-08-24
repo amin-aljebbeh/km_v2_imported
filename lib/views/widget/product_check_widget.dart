@@ -70,6 +70,7 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                             DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),
                           ];
                           showMyDialog(
+                              context: context,
                               title: 'تحقق من الكمية',
                               text: 'هل أنت متأكد انك وجدت ${widget.productCount} قطعة من ${widget.productName}',
                               dialogButtons: decisionButtons);

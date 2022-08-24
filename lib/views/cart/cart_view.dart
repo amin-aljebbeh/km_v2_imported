@@ -12,9 +12,7 @@ class CartView extends StatefulWidget {
   const CartView({Key key, this.isFromUpdateOrder = false}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return CartViewState();
-  }
+  State<StatefulWidget> createState() => CartViewState();
 }
 
 class CartViewState extends State<CartView> {
@@ -243,7 +241,7 @@ class CartViewState extends State<CartView> {
                                               (int.parse(_priceController.text.split('.')[0])).toString();
                                           orderArray[index].quantity =
                                               (priceFactor * double.parse(_priceController.text)).toStringAsFixed(2);
-
+                                          CartServices.cartProducts = orderArray;
                                           OrderDetailsServices.updateOrder(
                                               orderId: OrderServices.orderUnderUpdateId,
                                               context: context,

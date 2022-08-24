@@ -5,13 +5,16 @@ import 'package:kammun_app/views/loading/loading.dart';
 class OrderDetailsServices {
   static Future<bool> updateOrder(
       {String orderId, String updateKey, String updateValue, String productId, @required BuildContext context}) async {
-    Map updateOrderBody = {updateKey: updateValue, 'product_id': productId};
-    var response = await ApiProvider.sendRequest(
-        url: updateOrderProducts + orderId, method: HttpMethods.put, body: jsonEncode(updateOrderBody));
-    Services.resultFlushBar(context: context, result: response.statusCode == successCode);
-    if (response.statusCode == successCode) {
-      return true;
-    } else {
+    try {
+      Map updateOrderBody = {updateKey: updateValue, 'product_id': productId};
+      var response = await ApiProvider.sendRequest(
+          url: updateOrderProducts + orderId, method: HttpMethods.put, body: jsonEncode(updateOrderBody));
+      if (response != null) {
+        Services.resultFlushBar(context: context, result: response.statusCode == successCode);
+        if (response.statusCode == successCode) return true;
+      }
+      return false;
+    } catch (e) {
       return false;
     }
   }
@@ -23,22 +26,16 @@ class OrderDetailsServices {
     request.files.add(await http.MultipartFile.fromPath('image', image.path));
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      return false;
-    }
+    if (response.statusCode == 200) return true;
+    return false;
   }
 
   static Future<bool> deleteImageFromOrderService({String imageId}) async {
     try {
       var response = await ApiProvider.sendRequest(url: deleteImageFromOrder + '/$imageId', method: HttpMethods.delete);
 
-      if (response.statusCode == successCode) {
-        return true;
-      } else {
-        return false;
-      }
+      if (response.statusCode == successCode) return true;
+      return false;
     } catch (e) {
       return false;
     }

@@ -1,5 +1,6 @@
 import '../../views/loading/loading.dart';
 import '../core_importer.dart';
+import '../errors/error_handler.dart';
 
 class ApiProvider {
   static Future<Response> sendRequest({
@@ -49,12 +50,12 @@ class ApiProvider {
       }
     } on DioError catch (e) {
       Tools.logToConsole(e.message);
+      Tools.logToConsole(ErrorHandler.handleDioError(e, RequestOptions(path: url)).data);
+      return ErrorHandler.handleDioError(e, RequestOptions(path: url));
     } catch (e) {
       Tools.logToConsole(e.message);
     }
-    if (response != null) {
-      Tools.logToConsole(response.statusCode);
-    }
+    if (response != null) Tools.logToConsole(response.statusCode);
     Tools.logToConsole('response is :');
     Tools.logToConsole(response);
     return response;

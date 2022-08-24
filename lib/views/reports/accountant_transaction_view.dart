@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/reports/services/reports_services.dart';
+
 import '../../core/core_importer.dart';
 import 'models/monthly_profit_model.dart';
 import 'models/transaction_model.dart';
@@ -301,6 +302,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                                           kammunProfit += completeProfits[0];
                                           shopperProfit += completeProfits[1];
                                           showMyDialog(
+                                            context: context,
                                             title:
                                                 'مرابح ${DateFormat('EEEE', 'ar').format(date) + ' ' + DateFormat('dd-MM-yyyy', 'en').format(date)}',
                                             content: Row(

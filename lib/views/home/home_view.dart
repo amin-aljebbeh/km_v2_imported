@@ -33,6 +33,7 @@ class HomeViewState extends State<HomeView> {
 
     widget.notificationValue != null
         ? WidgetsBinding.instance.addPostFrameCallback((_) => showMyDialog(
+            context: context,
             title: widget.notificationValue['title'],
             text: widget.notificationValue['body'],
             dialogButtons: [const CloseButton()]))
@@ -53,21 +54,24 @@ class HomeViewState extends State<HomeView> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       final notification = message.notification;
       if (message.data['route_name'] != null) Navigator.pushNamed(context, message.data['route_name']);
-      showMyDialog(title: notification.title, text: notification.body, dialogButtons: [const CloseWidget()]);
+      showMyDialog(
+          context: context, title: notification.title, text: notification.body, dialogButtons: [const CloseWidget()]);
     });
     FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
     getToken();
   }
 
   Future getToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.get('firebase_token') == null) {
-      firebaseToken = await _firebaseMessaging.getToken();
-      prefs.setString('firebase_token', firebaseToken);
-      LoadingScreenServices().updateFirebaseTokenService(firebaseToken);
-    } else {
-      firebaseToken = prefs.get('firebase_token');
-    }
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (prefs.get('firebase_token') == null) {
+        firebaseToken = await _firebaseMessaging.getToken();
+        prefs.setString('firebase_token', firebaseToken);
+        LoadingScreenServices().updateFirebaseTokenService(firebaseToken);
+      } else {
+        firebaseToken = prefs.get('firebase_token');
+      }
+    } catch (e) {/**/}
   }
 
   Widget _bottomNavBar({BuildContext context}) {

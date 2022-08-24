@@ -138,6 +138,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                   text: StringUtils.watchNote,
                   onTap: () {
                     showMyDialog(
+                        context: context,
                         title: StringUtils.costumerNote,
                         text: widget.order.userNotes,
                         dialogButtons: [const CloseWidget()]);

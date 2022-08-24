@@ -54,9 +54,7 @@ class LoadingScreenServices {
 
   Future<bool> updateFirebaseTokenService(String firebaseToken) async {
     try {
-      Map body = {
-        'firebase_token': firebaseToken,
-      };
+      Map body = {'firebase_token': firebaseToken};
       await ApiProvider.sendRequest(url: updateFirebaseToken, method: HttpMethods.post, body: jsonEncode(body));
       return true;
     } catch (e) {
@@ -244,11 +242,8 @@ class LoadingScreenServices {
     bannerListNetwork.clear();
     bannerListNetwork.add(
       FadeInImage(
-        image: AdvImageCache(
-          LoadingScreenServices.imagePrefixUrl + 'slide3.png',
-          useMemCache: true,
-          diskCacheExpire: const Duration(days: 400),
-        ),
+        image: AdvImageCache(LoadingScreenServices.imagePrefixUrl + 'slide3.png',
+            useMemCache: true, diskCacheExpire: const Duration(days: 400)),
         fadeInDuration: const Duration(seconds: 1),
         fadeInCurve: Curves.fastOutSlowIn,
         placeholder: const AssetImage('assets/kmlogoo.png'),

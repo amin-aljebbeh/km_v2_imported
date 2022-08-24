@@ -284,6 +284,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                       text: StringUtils.watchNote,
                                       onTap: () {
                                         showMyDialog(
+                                            context: context,
                                             title: 'ملاحظة العميل',
                                             text: orderDataList[index].userNotes,
                                             dialogButtons: [const CloseWidget()]);
@@ -312,6 +313,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                         ];
 
                                         showMyDialog(
+                                            context: context,
                                             title: 'إلغاء التعليق',
                                             text:
                                                 'هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل',

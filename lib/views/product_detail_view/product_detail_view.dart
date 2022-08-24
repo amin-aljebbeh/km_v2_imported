@@ -239,6 +239,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                   ];
                                   showMyDialog(
+                                      context: context,
                                       title: '',
                                       text:
                                           'هل تريد إزالة ${widget.product.name} من ${widget.product.categories[index].name} ؟',
@@ -561,6 +562,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           ),
                                           onTap: () async {
                                             showMyDialog(
+                                                context: context,
                                                 title: 'حذف صورة',
                                                 text: 'هل أنت متأكد من رغبتك في حذف صورة المنتج ؟',
                                                 dialogButtons: [
@@ -620,6 +622,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                               icon: Icon(Icons.list, size: 30, color: ColorUtils.kmColors2),
                                               onPressed: () {
                                                 showMyDialog(
+                                                  context: context,
                                                   title: 'باركود',
                                                   content: Column(
                                                     children: widget.product.barcodes
@@ -637,6 +640,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                             onTap: () {
                                                               Navigator.of(context).pop();
                                                               showMyDialog(
+                                                                context: context,
                                                                 title: 'إزالة باركود',
                                                                 dialogButtons: [
                                                                   DialogButton(
@@ -718,6 +722,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                         text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                                   ];
                                                   showMyDialog(
+                                                      context: context,
                                                       title: '',
                                                       text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
                                                       dialogButtons: dialogButtons);
@@ -745,6 +750,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                       text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                                 ];
                                                 showMyDialog(
+                                                    context: context,
                                                     title: '',
                                                     text: 'هل تريد حذف ${widget.product.name} نهائياً ؟',
                                                     dialogButtons: dialogButtons);
@@ -782,6 +788,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                       ];
                                       showMyDialog(
+                                          context: context,
                                           title: '',
                                           text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
                                           dialogButtons: dialogButtons);

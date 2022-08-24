@@ -23,6 +23,7 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
     return IconButton(
       onPressed: () {
         showMyDialog(
+          context: context,
           title: 'طلبات الرقم',
           content: Column(
             children: [
@@ -103,6 +104,7 @@ class _SearchOrderByPhoneNumberState extends State<SearchOrderByPhoneNumber> {
               onTap: () async {
                 List<CallLogEntry> cLog = await OrderServices.callbackDispatcher();
                 showMyDialog(
+                  context: context,
                   title: 'اختيار رقم',
                   dialogButtons: [const CloseWidget()],
                   content: SizedBox(

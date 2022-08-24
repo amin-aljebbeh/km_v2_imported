@@ -5,17 +5,14 @@ SubmitOrderModel invoiceModelFromJson(String str) => SubmitOrderModel.fromJson(j
 String invoiceModelToJson(SubmitOrderModel data) => json.encode(data.toJson());
 
 class SubmitOrderModel {
-  SubmitOrderModel({
-    this.purchasePrices,
-    this.useWallet = 0,
-    this.products,
-    this.userNote,
-  });
+  SubmitOrderModel(
+      {this.purchasePrices, this.useWallet = 0, this.products, this.userNote, this.checkChangedPriceProduct});
 
   int purchasePrices;
   int useWallet;
   String userNote;
   List<InvoiceProductModel> products;
+  int checkChangedPriceProduct;
 
   factory SubmitOrderModel.fromJson(Map<String, dynamic> json) => SubmitOrderModel(
         purchasePrices: json['purchase_prices'],
@@ -28,6 +25,7 @@ class SubmitOrderModel {
         'use_wallet': useWallet,
         'products': List<dynamic>.from(products.map((x) => x.toJson())),
         'user_notes': userNote,
+        'check_changed_price_product': checkChangedPriceProduct
       };
 
   SubmitOrderModel copyWith({
@@ -57,11 +55,8 @@ class InvoiceProductModel {
   int quantity;
   int price;
 
-  factory InvoiceProductModel.fromJson(Map<String, dynamic> json) => InvoiceProductModel(
-        productId: json['product_id'],
-        quantity: json['quantity'],
-        price: json['price'],
-      );
+  factory InvoiceProductModel.fromJson(Map<String, dynamic> json) =>
+      InvoiceProductModel(productId: json['product_id'], quantity: json['quantity'], price: json['price']);
 
   Map<String, dynamic> toJson() => {'product_id': productId, 'quantity': quantity, 'price': price};
 }

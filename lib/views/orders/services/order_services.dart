@@ -11,27 +11,24 @@ class OrderServices {
 
   static String orderUnderUpdateId = '';
 
-  static Future<OrderResponse> updateOrder({SubmitOrderModel submitOrderModel, bool checkPrices = true}) async {
+  static Future<OrderResponse> updateOrder({SubmitOrderModel submitOrderModel}) async {
     try {
       Map orderMap = submitOrderModel.toJson();
       String orderId;
 
       orderId = orderUnderUpdateId;
 
-      try {
-        var response =
-            await ApiProvider.sendRequest(url: order + orderId, method: HttpMethods.put, body: jsonEncode(orderMap));
+      var response =
+          await ApiProvider.sendRequest(url: order + orderId, method: HttpMethods.put, body: jsonEncode(orderMap));
 
+      if (response != null) {
         if (response.data['reason'].toString().contains('discontinued')) {
           return OrderResponse(success: false, reason: 'discontinued');
         } else {
-          var parsedJson = orderResponseFromJson(jsonEncode(response.data));
-
-          return parsedJson;
+          return orderResponseFromJson(jsonEncode(response.data));
         }
-      } catch (e) {
-        return null;
       }
+      return null;
     } catch (e) {
       return null;
     }

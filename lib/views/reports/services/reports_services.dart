@@ -180,7 +180,7 @@ class ReportsServices {
         ],
       );
     }
-    showMyDialog(title: 'المستحقات المالية', dialogButtons: [const CloseWidget()], content: content);
+    showMyDialog(context: context, title: 'المستحقات المالية', dialogButtons: [const CloseWidget()], content: content);
   }
 
   static Future<bool> addTransactionService({

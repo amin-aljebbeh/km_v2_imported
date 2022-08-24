@@ -280,6 +280,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                                 text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                           ];
                                           showMyDialog(
+                                              context: context,
                                               title: 'رفض الطلب',
                                               text: 'هل أنت متأكد انك تريد رفض الطلب ؟',
                                               dialogButtons: decisionButton);
@@ -321,6 +322,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                                 text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                           ];
                                           showMyDialog(
+                                              context: context,
                                               title: 'إلغاء الطلب',
                                               text: 'هل أنت متأكد انك تريد إلغاء الطلب ؟',
                                               dialogButtons: decisionButton);
@@ -368,6 +370,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                       DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                     ];
                                     showMyDialog(
+                                        context: context,
                                         title: 'استعادة الطلب',
                                         text: 'هل أنت متأكد انك تريد استعادة الطلب ؟',
                                         dialogButtons: decisionButton);
@@ -419,6 +422,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                       text: StringUtils.watchNote,
                                       onTap: () {
                                         showMyDialog(
+                                            context: context,
                                             title: StringUtils.costumerNote,
                                             text: orderDataList[index].userNotes,
                                             dialogButtons: [const CloseWidget()]);
@@ -446,6 +450,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                           const CloseWidget()
                                         ];
                                         showMyDialog(
+                                            context: context,
                                             title: StringUtils.unLock,
                                             text: StringUtils.unLockConfirm,
                                             dialogButtons: decisionButtons);

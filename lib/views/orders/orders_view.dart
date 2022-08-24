@@ -398,6 +398,7 @@ class OrdersViewState extends State<OrdersView> {
                                             ),
                                           ];
                                           showMyDialog(
+                                              context: context,
                                               title: 'رفض الطلب',
                                               text: 'هل أنت متأكد انك تريد رفض الطلب ؟',
                                               dialogButtons: decisionButton);
@@ -443,6 +444,7 @@ class OrdersViewState extends State<OrdersView> {
                                             ),
                                           ];
                                           showMyDialog(
+                                              context: context,
                                               title: 'إلغاء الطلب',
                                               text: 'هل أنت متأكد انك تريد إلغاء الطلب ؟',
                                               dialogButtons: decisionButton);
@@ -495,6 +497,7 @@ class OrdersViewState extends State<OrdersView> {
                                       ),
                                     ];
                                     showMyDialog(
+                                        context: context,
                                         title: 'استعادة الطلب',
                                         text: 'هل أنت متأكد انك تريد استعادة الطلب ؟',
                                         dialogButtons: decisionButton);
@@ -556,6 +559,7 @@ class OrdersViewState extends State<OrdersView> {
                                           )
                                         ];
                                         showMyDialog(
+                                            context: context,
                                             title: StringUtils.costumerNote,
                                             text: orderDataList[index].userNotes,
                                             dialogButtons: decisionButtons);
@@ -588,6 +592,7 @@ class OrdersViewState extends State<OrdersView> {
                                           )
                                         ];
                                         showMyDialog(
+                                            context: context,
                                             title: StringUtils.unLock,
                                             text: StringUtils.unLockConfirm,
                                             dialogButtons: decisionButtons);

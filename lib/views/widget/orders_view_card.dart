@@ -152,6 +152,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       icon: Icon(Icons.star, color: ColorUtils.kmColors2, size: 30),
                       padding: EdgeInsets.zero,
                       onPressed: () => showMyDialog(
+                        context: context,
                         title: StringUtils.ratingOrder,
                         text: (widget.orderData.userDeliveryRating != 'null'
                                 ? widget.orderData.userDeliveryRating + '\n'

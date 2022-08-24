@@ -1,14 +1,14 @@
 import 'package:intl/intl.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
+
 import '../../core/core_importer.dart';
 import 'services/reports_services.dart';
 
-// ignore: must_be_immutable
 class AddTransactionView extends StatefulWidget {
-  String shopperName;
-  int orderId;
+  final String shopperName;
+  final int orderId;
 
-  AddTransactionView({Key key, this.shopperName, this.orderId}) : super(key: key);
+  const AddTransactionView({Key key, this.shopperName, this.orderId}) : super(key: key);
 
   @override
   _AddTransactionViewState createState() => _AddTransactionViewState();
@@ -140,6 +140,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                         DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),
                       ];
                       showMyDialog(
+                        context: context,
                         title: transactionTypeString,
                         text: 'هل تريد تأكيد إتمام العملية ؟',
                         dialogButtons: decisionButton,

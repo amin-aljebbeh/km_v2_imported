@@ -14,9 +14,7 @@ class StoreViewCategory extends StatefulWidget {
   const StoreViewCategory({Key key, this.forProductAdding = false, this.scaffoldKey, this.supplierCode})
       : super(key: key);
   @override
-  State<StatefulWidget> createState() {
-    return StoreViewCategoryState();
-  }
+  State<StatefulWidget> createState() => StoreViewCategoryState();
 }
 
 class StoreViewCategoryState extends State<StoreViewCategory> {
@@ -41,11 +39,9 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
         children: <Widget>[
           GridView.builder(
             primary: false,
-            shrinkWrap: true, // use it
-
+            shrinkWrap: true,
             padding: const EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 4),
             itemCount: categoryListHome.length,
-
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: _crossAxisCount,
@@ -53,7 +49,6 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
               mainAxisSpacing: _mainAxisSpacing,
               childAspectRatio: _aspectRatio,
             ),
-
             itemBuilder: (BuildContext context, int index) {
               var eachCategory = categoryListHome[index];
               return GestureDetector(

@@ -252,6 +252,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                 orElse: () => SubWarehouse(name: 'المستودع'))
                                             .name;
                                         showMyDialog(
+                                          context: context,
                                           title: 'حذف منتج من المستودع',
                                           text:
                                               'هل أنت متأكد أنك تريد إزالة ${widget.productData.name} من $subWarehouseName',

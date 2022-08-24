@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
 import '../../utils/utils_importer.dart';
 
 class MyDialog extends StatelessWidget {
@@ -22,9 +21,10 @@ class MyDialog extends StatelessWidget {
   }
 }
 
-showMyDialog({@required String title, String text, List<Widget> dialogButtons, Widget content}) {
+showMyDialog(
+    {@required String title, String text, List<Widget> dialogButtons, Widget content, @required BuildContext context}) {
   showDialog(
-    context: navigatorKey.currentContext,
+    context: context,
     builder: (BuildContext context) =>
         MyDialog(title: title, text: text, decisionButtons: dialogButtons, content: content),
   );

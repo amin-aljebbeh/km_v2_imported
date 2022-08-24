@@ -74,7 +74,7 @@ class Transaction extends StatelessWidget {
                     if (transaction.description != null)
                       IconButton(
                         icon: Icon(Icons.device_unknown, color: ColorUtils.primaryColor),
-                        onPressed: () => showMyDialog(title: 'الوصف', text: transaction.description),
+                        onPressed: () => showMyDialog(context: context, title: 'الوصف', text: transaction.description),
                         padding: const EdgeInsets.only(top: 25, right: 15),
                       ),
                   ],

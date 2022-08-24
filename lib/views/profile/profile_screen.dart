@@ -56,8 +56,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AutoSizeText(LoadingScreenServices.name, style: userNameStyle.copyWith(fontSize: 25)),
-                  AutoSizeText(LoadingScreenServices.userName, style: userNameStyle),
+                  AutoSizeText(LoadingScreenServices.name ?? '', style: userNameStyle.copyWith(fontSize: 25)),
+                  AutoSizeText(LoadingScreenServices.userName ?? '', style: userNameStyle),
                 ],
                 textDirection: TextDirection.ltr,
               ),
