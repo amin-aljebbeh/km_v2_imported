@@ -276,7 +276,6 @@ class StoreViewState extends State<StoreView> {
               ),
             ),
           SideBarRow(icon: Icons.logout, text: 'تسجيل الخروج', onTap: () async => await Services.logOutAdmin(context)),
-          SideBarRow(icon: Icons.logout, text: 'restart', onTap: () async => KammunRestart.restartApp(context)),
           Divider(color: ColorUtils.kmColors, height: 20),
           Padding(
             padding: const EdgeInsets.only(top: 20.0),
