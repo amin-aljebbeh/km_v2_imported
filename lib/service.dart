@@ -182,6 +182,9 @@ class Services {
   static bool isSupplierManager() =>
       Services.roles.where((element) => element.slug.contains(StringUtils.supplierRol)).isNotEmpty;
 
+  static bool isViewPriceRateRoll() =>
+      Services.roles.where((element) => element.slug.contains(StringUtils.viewPriceRate)).isNotEmpty;
+
   static errorFlushBar(BuildContext context) => Flushbar(
         backgroundColor: Colors.red[900],
         messageText: Text('فشل في العملية يرجى المحاولة من جديد', style: flushBarStyle),

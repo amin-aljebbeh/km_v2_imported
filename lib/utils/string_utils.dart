@@ -61,6 +61,7 @@ class StringUtils {
   static String productsController = 'product-management';
   static String supplierRol = 'supplier-role';
   static String accountingRole = 'accounting-role';
+  static String viewPriceRate = 'view-price-rate';
 
   //Order icons:
   static String myOrders = 'طلباتي';

@@ -4,7 +4,6 @@ import 'package:kammun_app/views/products_view/barcode_screen.dart';
 
 import '../../core/core_importer.dart';
 
-// ignore: must_be_immutable
 class ProductsViewCard extends StatefulWidget {
   final int index;
   final ProductData productData;
@@ -25,9 +24,7 @@ class ProductsViewCard extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return ProductsViewCardState();
-  }
+  State<StatefulWidget> createState() => ProductsViewCardState();
 }
 
 class ProductsViewCardState extends State<ProductsViewCard> {
@@ -151,7 +148,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                         Column(
                           children: [
                             const SizedBox(height: 5),
-                            Services.isAdmin()
+                            Services.isAdmin() || Services.isViewPriceRateRoll()
                                 ? Text(
                                     'التقييم: ' +
                                         (widget.productData.rate != -1
