@@ -106,6 +106,7 @@ class LoadingScreenServices {
   Future<bool> checkIfUserLoggedIn() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      // prefs.clear();
       preferLeftSide = prefs.getBool('preferLeftSide');
       String userToken = prefs.getString('userToken');
       if (userToken != null) {

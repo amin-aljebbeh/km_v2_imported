@@ -487,11 +487,9 @@ class _CartViewFinalState extends State<CartViewFinal> {
 
       if (OrderServices.orderUnderUpdateIndex != -1) {
         List<InvoiceProductModel> products = orderArray.map((product) {
-          Tools.logToConsole('message per');
-          Tools.logToConsole(product.pivot.increaseValue);
           return InvoiceProductModel(
               quantity: product.productCount,
-              price: int.parse(product.price.split('.')[0]) + product.pivot.increaseValue,
+              price: int.parse(product.price.split('.')[0]) + (product.pivot == null ? 0 : product.pivot.increaseValue),
               productId: product.id);
         }).toList();
         int purchasePrices = orderArray.fold(
