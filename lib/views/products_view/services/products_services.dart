@@ -112,15 +112,16 @@ class ProductsServices {
   }
 
   static Future<bool> setImageToProducts({File image, int productId}) async {
-    var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ''};
-    var request = http.MultipartRequest('POST', Uri.parse(baseUrl + addImageToProduct));
-    request.fields.addAll({'product_id': '$productId'});
-    request.files.add(await http.MultipartFile.fromPath('image', image.path));
-    request.headers.addAll(headers);
-    http.StreamedResponse response = await request.send();
-    if (response.statusCode == 200) {
-      return true;
-    } else {
+    try {
+      var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ''};
+      var request = http.MultipartRequest('POST', Uri.parse(baseUrl + '/api/' + addImageToProduct));
+      request.fields.addAll({'product_id': '$productId'});
+      request.files.add(await http.MultipartFile.fromPath('image', image.path));
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) return true;
+      return false;
+    } catch (e) {
       return false;
     }
   }

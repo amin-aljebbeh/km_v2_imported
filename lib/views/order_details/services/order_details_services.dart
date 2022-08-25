@@ -19,14 +19,18 @@ class OrderDetailsServices {
   }
 
   static Future<bool> addImageToOrderService({String orderId, File image}) async {
-    var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
-    var request = http.MultipartRequest('POST', Uri.parse(baseUrl + addImageToOrder));
-    request.fields.addAll({'order_id': orderId});
-    request.files.add(await http.MultipartFile.fromPath('image', image.path));
-    request.headers.addAll(headers);
-    http.StreamedResponse response = await request.send();
-    if (response.statusCode == 200) return true;
-    return false;
+    try {
+      var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
+      var request = http.MultipartRequest('POST', Uri.parse(baseUrl + '/api/' + addImageToOrder));
+      request.fields.addAll({'order_id': orderId});
+      request.files.add(await http.MultipartFile.fromPath('image', image.path));
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) return true;
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 
   static Future<bool> deleteImageFromOrderService({String imageId}) async {

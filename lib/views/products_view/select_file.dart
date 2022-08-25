@@ -40,9 +40,7 @@ class SelectedFileToUpload extends StatelessWidget {
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
-                      onTap: () {
-                        close();
-                      },
+                      onTap: () => close(),
                       child: Container(
                         width: 30,
                         height: 30,
@@ -50,16 +48,9 @@ class SelectedFileToUpload extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.grey[800],
-                            )),
+                            border: Border.all(width: 1, color: Colors.grey[800])),
                         padding: const EdgeInsets.all(4),
-                        child: Icon(
-                          Icons.close,
-                          size: 13,
-                          color: Colors.grey[800],
-                        ),
+                        child: Icon(Icons.close, size: 13, color: Colors.grey[800]),
                       ),
                     ),
                   ),
