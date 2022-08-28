@@ -239,12 +239,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 KammunButton(
                                   text: StringUtils.editOrder,
                                   onTap: () async {
-                                    setState(
-                                      () {
-                                        orderLoaded = false;
-                                        errorMessage = false;
-                                      },
-                                    );
+                                    setState(() {
+                                      orderLoaded = false;
+                                      errorMessage = false;
+                                    });
                                     LockOrder response = await OrderServices.lockOrderService(
                                         orderId: orderDataList[index].id.toString(),
                                         userNote: orderDataList[index].userNotes,
@@ -254,6 +252,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                     if (response != null) {
                                       if (response.success) {
                                         setState(() {
+                                          OrderServices.orderUnderUpdateStatusId = orderDataList[index].orderStatusId;
                                           orderLoaded = true;
                                           errorMessage = false;
                                         });

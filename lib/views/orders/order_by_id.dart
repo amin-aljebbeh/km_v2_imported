@@ -1,4 +1,5 @@
 import 'package:kammun_app/views/cart/services/cart_services.dart';
+
 import '../../core/core_importer.dart';
 import '../loading/loading_services.dart';
 import 'services/order_services.dart';
@@ -289,6 +290,7 @@ class _OrderByIDState extends State<OrderByID> {
                             if (response != null) {
                               if (response.success) {
                                 setState(() {
+                                  OrderServices.orderUnderUpdateStatusId = order.orderStatusId;
                                   orderLoaded = true;
                                   errorMessage = false;
                                 });

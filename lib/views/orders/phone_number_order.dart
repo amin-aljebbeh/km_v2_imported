@@ -390,6 +390,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                   if (response != null) {
                                     if (response.success) {
                                       setState(() {
+                                        OrderServices.orderUnderUpdateStatusId = orderDataList[index].orderStatusId;
                                         orderLoaded = true;
                                         errorMessage = false;
                                       });

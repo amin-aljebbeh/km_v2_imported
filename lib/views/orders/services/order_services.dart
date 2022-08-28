@@ -8,7 +8,7 @@ import '../model/submit_order_model.dart';
 class OrderServices {
   static int orderUnderUpdateIndex = -1;
   static String updateOrderNote = '';
-
+  static String orderUnderUpdateStatusId = '0';
   static String orderUnderUpdateId = '';
 
   static Future<OrderResponse> updateOrder({SubmitOrderModel submitOrderModel}) async {

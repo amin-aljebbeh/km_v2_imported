@@ -208,15 +208,16 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           ? const Loader()
                           : Column(
                               children: <Widget>[
-                                Row(
-                                  children: [
-                                    Checkbox(
-                                        value: refund,
-                                        onChanged: (bool value) => setState(() => refund = value),
-                                        activeColor: ColorUtils.primaryColor),
-                                    Text('شحن المحفظة', style: decisionButtonStyle.copyWith(color: Colors.black)),
-                                  ],
-                                ),
+                                if (OrderServices.orderUnderUpdateStatusId == '5')
+                                  Row(
+                                    children: [
+                                      Checkbox(
+                                          value: refund,
+                                          onChanged: (bool value) => setState(() => refund = value),
+                                          activeColor: ColorUtils.primaryColor),
+                                      Text('شحن المحفظة', style: decisionButtonStyle.copyWith(color: Colors.black)),
+                                    ],
+                                  ),
                                 KammunButton(
                                   color: ColorUtils.primaryColor,
                                   child: Row(
