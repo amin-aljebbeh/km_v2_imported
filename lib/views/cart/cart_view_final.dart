@@ -20,6 +20,7 @@ class CartViewFinal extends StatefulWidget {
 
 class _CartViewFinalState extends State<CartViewFinal> {
   List<ProductData> orderArray;
+  bool refund = false;
   int subtotal = 0;
   List<int> cards = [];
   bool loadingScreen = false;
@@ -207,6 +208,15 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           ? const Loader()
                           : Column(
                               children: <Widget>[
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                        value: refund,
+                                        onChanged: (bool value) => setState(() => refund = value),
+                                        activeColor: ColorUtils.primaryColor),
+                                    Text('شحن المحفظة', style: decisionButtonStyle.copyWith(color: Colors.black)),
+                                  ],
+                                ),
                                 KammunButton(
                                   color: ColorUtils.primaryColor,
                                   child: Row(
@@ -498,7 +508,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
             products: products,
             purchasePrices: purchasePrices,
             userNote: _userNotes.text,
-            checkChangedPriceProduct: checkOrderPrice ? 1 : 0);
+            checkChangedPriceProduct: checkOrderPrice ? 1 : 0,
+            saveRefund: refund ? 1 : 0);
         orderResponse = await OrderServices.updateOrder(submitOrderModel: submitOrderModel);
 
         setState(() {

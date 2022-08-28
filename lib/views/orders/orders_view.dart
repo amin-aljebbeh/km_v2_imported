@@ -391,11 +391,7 @@ class OrdersViewState extends State<OrdersView> {
                                               },
                                             ),
                                             DialogButton(
-                                              text: StringUtils.no,
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
+                                                text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                           ];
                                           showMyDialog(
                                               context: context,

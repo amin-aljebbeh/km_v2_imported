@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'utils_importer.dart';
 
 class CommonUtils {
-  Size deviceScreenSize(BuildContext context) {
-    return MediaQuery.of(context).size;
-  }
+  Size deviceScreenSize(BuildContext context) => MediaQuery.of(context).size;
 }
 
 enum MyThemeKeys { light, dark, darker }
@@ -37,10 +35,7 @@ class MyThemes {
         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.primaryColor))),
   );
 
-  static final ThemeData darkerTheme = ThemeData(
-    primaryColor: Colors.black,
-    brightness: Brightness.dark,
-  );
+  static final ThemeData darkerTheme = ThemeData(primaryColor: Colors.black, brightness: Brightness.dark);
 
   static ThemeData getThemeFromKey(MyThemeKeys themeKey) {
     switch (themeKey) {
@@ -59,27 +54,17 @@ class MyThemes {
 class _CustomTheme extends InheritedWidget {
   final CustomThemeState data;
 
-  const _CustomTheme({
-    this.data,
-    Key key,
-    @required Widget child,
-  }) : super(key: key, child: child);
+  const _CustomTheme({this.data, Key key, @required Widget child}) : super(key: key, child: child);
 
   @override
-  bool updateShouldNotify(_CustomTheme oldWidget) {
-    return true;
-  }
+  bool updateShouldNotify(_CustomTheme oldWidget) => true;
 }
 
 class CustomTheme extends StatefulWidget {
   final Widget child;
   final MyThemeKeys initialThemeKey;
 
-  const CustomTheme({
-    Key key,
-    this.initialThemeKey,
-    @required this.child,
-  }) : super(key: key);
+  const CustomTheme({Key key, this.initialThemeKey, @required this.child}) : super(key: key);
 
   @override
   CustomThemeState createState() => CustomThemeState();
@@ -108,17 +93,8 @@ class CustomThemeState extends State<CustomTheme> {
     super.initState();
   }
 
-  void changeTheme(MyThemeKeys themeKey) {
-    setState(() {
-      _theme = MyThemes.getThemeFromKey(themeKey);
-    });
-  }
+  void changeTheme(MyThemeKeys themeKey) => setState(() => _theme = MyThemes.getThemeFromKey(themeKey));
 
   @override
-  Widget build(BuildContext context) {
-    return _CustomTheme(
-      data: this,
-      child: widget.child,
-    );
-  }
+  Widget build(BuildContext context) => _CustomTheme(data: this, child: widget.child);
 }

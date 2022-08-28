@@ -5,11 +5,7 @@ class KCacheImage extends StatelessWidget {
   final Object tag;
   final String image;
 
-  const KCacheImage({
-    Key key,
-    @required this.tag,
-    @required this.image,
-  }) : super(key: key);
+  const KCacheImage({Key key, @required this.tag, @required this.image}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +20,8 @@ class KCacheImage extends StatelessWidget {
           child: Image(
             fit: BoxFit.contain,
             image: image.isNotEmpty
-                ? AdvImageCache(
-                    image,
-                    useMemCache: true,
-                    diskCacheExpire: const Duration(days: 400),
-                  )
-                : const AssetImage("assets/kmIcon.png"),
+                ? AdvImageCache(image, useMemCache: true, diskCacheExpire: const Duration(days: 400))
+                : const AssetImage('assets/kmIcon.png'),
             width: MediaQuery.of(context).size.width,
             height: 120,
           ),

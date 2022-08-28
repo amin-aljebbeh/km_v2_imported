@@ -5,11 +5,18 @@ SubmitOrderModel invoiceModelFromJson(String str) => SubmitOrderModel.fromJson(j
 String invoiceModelToJson(SubmitOrderModel data) => json.encode(data.toJson());
 
 class SubmitOrderModel {
-  SubmitOrderModel(
-      {this.purchasePrices, this.useWallet = 0, this.products, this.userNote, this.checkChangedPriceProduct});
+  SubmitOrderModel({
+    this.purchasePrices,
+    this.useWallet = 0,
+    this.products,
+    this.userNote,
+    this.checkChangedPriceProduct,
+    this.saveRefund,
+  });
 
   int purchasePrices;
   int useWallet;
+  int saveRefund;
   String userNote;
   List<InvoiceProductModel> products;
   int checkChangedPriceProduct;
@@ -25,26 +32,18 @@ class SubmitOrderModel {
         'use_wallet': useWallet,
         'products': List<dynamic>.from(products.map((x) => x.toJson())),
         'user_notes': userNote,
-        'check_changed_price_product': checkChangedPriceProduct
+        'check_changed_price_product': checkChangedPriceProduct,
+        'save_refund': saveRefund
       };
 
-  SubmitOrderModel copyWith({
-    String couponCode,
-    int deliveryMethodId,
-    int addressId,
-    int supportedCityId,
-    int paymentMethodId,
-    int purchasePrices,
-    int useWallet,
-    String userNote,
-    List<InvoiceProductModel> products,
-  }) {
+  SubmitOrderModel copyWith(
+      {int purchasePrices, int useWallet, String userNote, List<InvoiceProductModel> products, int saveRefund}) {
     return SubmitOrderModel(
-      products: products ?? this.products,
-      useWallet: useWallet ?? this.useWallet,
-      purchasePrices: purchasePrices ?? this.purchasePrices,
-      userNote: userNote ?? this.userNote,
-    );
+        products: products ?? this.products,
+        useWallet: useWallet ?? this.useWallet,
+        purchasePrices: purchasePrices ?? this.purchasePrices,
+        userNote: userNote ?? this.userNote,
+        saveRefund: saveRefund ?? this.saveRefund);
   }
 }
 

@@ -9,11 +9,7 @@ ProductsToReview productsToReviewFromJson(String str) => ProductsToReview.fromJs
 String productsToReviewToJson(ProductsToReview data) => json.encode(data.toJson());
 
 class ProductsToReview {
-  ProductsToReview({
-    this.success,
-    this.productsToActivate,
-    this.productsToDeactivate,
-  });
+  ProductsToReview({this.success, this.productsToActivate, this.productsToDeactivate});
 
   bool success;
   List<ProductData> productsToActivate;

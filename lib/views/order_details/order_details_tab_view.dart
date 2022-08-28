@@ -41,8 +41,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
     if (!Services.isSupplierManager()) {
       if (deletedProducts) {
         tabList.add(Center(child: Tab(child: Center(child: Text(' المحذوفة', style: tabStyle)))));
-        screenList.add(OrderDeletedProducts(
-            total: widget.total.split('.')[0], order: widget.orderData, orderType: widget.orderType));
+        screenList.add(OrderDeletedProducts(order: widget.orderData, orderType: widget.orderType));
       }
     }
     tabList.add(Tab(child: Center(child: Text('الحسابات', style: tabStyle))));
@@ -61,9 +60,6 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
 
     super.initState();
   }
-
-  bool isLoading = false;
-  bool errorAlert = false;
 
   @override
   Widget build(BuildContext context) {

@@ -12,18 +12,8 @@ class AppBarKammunImage extends StatelessWidget {
           child: Transform.scale(
             scale: 2,
             child: InkWell(
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/home',
-                  (Route<dynamic> route) => false,
-                );
-              },
-              child: Image.asset(
-                "assets/logobw.png",
-                width: 150,
-                height: 50,
-              ),
+              onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false),
+              child: Image.asset('assets/logobw.png', width: 150, height: 50),
             ),
           ),
         ),

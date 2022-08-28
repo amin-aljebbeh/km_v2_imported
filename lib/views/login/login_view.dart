@@ -23,11 +23,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   bool loadingScreen = false;
   String errorMessage = ' يرجى المحاولى مرة أُخرى و التأكد من إتصالك بالإنترنت';
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future adminLogin() async {
     setState(() => loadingScreen = true);
     if (_usernameController.text.isEmpty) {

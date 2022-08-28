@@ -20,9 +20,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
   @override
   void initState() {
     filterOrders = 0;
-    setState(() {
-      phoneNumber = widget.phoneNumber;
-    });
+    setState(() => phoneNumber = widget.phoneNumber);
     getOrders = _getOrder();
     orderDataList = LoadingScreenServices.phoneOrderList;
     super.initState();

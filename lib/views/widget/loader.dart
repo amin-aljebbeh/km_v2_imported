@@ -10,13 +10,8 @@ class Actor extends StatelessWidget {
   const Actor({Key key, this.size = 20.0}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.kmColors),
-    );
-  }
+  Widget build(BuildContext context) => Container(
+      width: size, height: size, decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.kmColors));
 }
 
 class Loader extends StatefulWidget {
@@ -49,9 +44,7 @@ class _Loader extends State<Loader> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 1800),
     )..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          _loadingAnimationController.forward(from: 0);
-        }
+        if (status == AnimationStatus.completed) _loadingAnimationController.forward(from: 0);
       });
   }
 
@@ -61,14 +54,11 @@ class _Loader extends State<Loader> with SingleTickerProviderStateMixin {
       child: SizedBox(
         width: 80,
         height: 50,
-        child: Column(
-          children: <Widget>[
-            Row(
+        child: Column(children: <Widget>[
+          Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(numberOfActors, _generateActors),
-            ),
-          ],
-        ),
+              children: List.generate(numberOfActors, _generateActors))
+        ]),
       ),
     );
   }
@@ -77,12 +67,7 @@ class _Loader extends State<Loader> with SingleTickerProviderStateMixin {
     Animation animation = _initLoadingAnimation(index);
     return AnimatedBuilder(
       animation: animation,
-      builder: (BuildContext context, Widget child) {
-        return Transform.scale(
-          scale: animation.value,
-          child: child,
-        );
-      },
+      builder: (BuildContext context, Widget child) => Transform.scale(scale: animation.value, child: child),
       child: const Actor(),
     );
   }
@@ -94,10 +79,7 @@ class _Loader extends State<Loader> with SingleTickerProviderStateMixin {
     double end = actorAnimationDuration + begin;
 
     return Sinusoid(min: initialOffset, max: finalOffset).animate(
-      CurvedAnimation(
-        parent: _loadingAnimationController,
-        curve: Interval(begin, end, curve: Curves.easeIn),
-      ),
+      CurvedAnimation(parent: _loadingAnimationController, curve: Interval(begin, end, curve: Curves.easeIn)),
     );
   }
 }
@@ -109,7 +91,5 @@ class Sinusoid extends Animatable<double> {
   Sinusoid({this.min, this.max});
 
   @override
-  double transform(double t) {
-    return min + (max - min) * math.sin(math.pi * t);
-  }
+  double transform(double t) => min + (max - min) * math.sin(math.pi * t);
 }

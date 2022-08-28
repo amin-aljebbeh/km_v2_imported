@@ -7,15 +7,7 @@ class KTableRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Table(
-      border: TableBorder.all(
-          color: Theme.of(context).primaryColor,
-          style: BorderStyle.solid,
-          width: 1),
-      children: [
-        TableRow(
-          children: children,
-        ),
-      ],
-    );
+        border: TableBorder.all(color: Theme.of(context).primaryColor, style: BorderStyle.solid, width: 1),
+        children: [TableRow(children: children)]);
   }
 }

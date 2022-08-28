@@ -1,11 +1,5 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 
-List<Image> funnyImages = [
-  Image.asset(
-    "assets/ya3eb_alshom1.gif",
-    // width: 500,
-    // height: 500,
-  )
-];
+List<Image> funnyImages = [Image.asset('assets/ya3eb_alshom1.gif')];
 
-List<String> badWord = ["fuck", "خرا", "طز","زب","شرموطة","كس",];
+List<String> badWord = ['fuck', 'خرا', 'طز', 'زب', 'شرموطة', 'كس', 'اير', 'عرص'];

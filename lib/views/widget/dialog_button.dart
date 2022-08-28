@@ -9,13 +9,5 @@ class DialogButton extends StatelessWidget {
   const DialogButton({Key key, @required this.text, @required this.onTap}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      child: Text(
-        text,
-        style: dialogStyle,
-      ),
-      onPressed: onTap,
-    );
-  }
+  Widget build(BuildContext context) => TextButton(child: Text(text, style: dialogStyle), onPressed: onTap);
 }

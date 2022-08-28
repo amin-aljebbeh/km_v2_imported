@@ -197,8 +197,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                   ? error
                       ? Center(
                           child: AlertMessages(
-                              text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
-                        )
+                              text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
                       : loading
                           ? const Loader()
                           : empty
@@ -285,11 +284,9 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                             });
                                           }
                                         },
-                                        onDelete: (boolean) {
-                                          setState(() {
-                                            if (boolean) setState(() => productsList.removeAt(index));
-                                          });
-                                        },
+                                        onDelete: (boolean) => setState(() {
+                                          if (boolean) setState(() => productsList.removeAt(index));
+                                        }),
                                         deleteTimes: productsList[index].deleteTimes,
                                         onChangePrice: (newValue) =>
                                             setState(() => productsList[index].price = newValue),

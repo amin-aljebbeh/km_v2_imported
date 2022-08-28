@@ -39,12 +39,7 @@ class CompanyOriginal {
 
 class CompanyOriginalData {
   CompanyOriginalData({
-    this.id,
-    this.name,
-    this.logoFileName,
-    this.phone,
     this.email,
-    this.addressId,
     this.whatsappNumber,
     this.supportNumber,
     this.facebookUrl,
@@ -58,12 +53,7 @@ class CompanyOriginalData {
     this.additionalInfo,
   });
 
-  int id;
-  String name;
-  String logoFileName;
-  String phone;
   String email;
-  dynamic addressId;
   String whatsappNumber;
   String supportNumber;
   String facebookUrl;
@@ -77,12 +67,7 @@ class CompanyOriginalData {
   String additionalInfo;
 
   factory CompanyOriginalData.fromJson(Map<String, dynamic> json) => CompanyOriginalData(
-        id: json['id'],
-        name: json['name'],
-        logoFileName: json['logo_file_name'],
-        phone: json['phone'].toString(),
         email: json['email'],
-        addressId: json['address_id'].toString(),
         whatsappNumber: json['whatsapp_number'].toString(),
         supportNumber: json['support_number'].toString(),
         facebookUrl: json['facebook_url'].toString(),
@@ -97,12 +82,7 @@ class CompanyOriginalData {
       );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'logo_file_name': logoFileName,
-        'phone': phone,
         'email': email,
-        'address_id': addressId,
         'whatsapp_number': whatsappNumber,
         'support_number': supportNumber,
         'facebook_url': facebookUrl,

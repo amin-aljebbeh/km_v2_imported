@@ -2,13 +2,11 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 
 import '../../core/core_importer.dart';
 
-// ignore: must_be_immutable
 class OrderDeletedProducts extends StatefulWidget {
-  String total;
-  OrdersOriginalData order;
+  final OrdersOriginalData order;
   final OrderTypes orderType;
 
-  OrderDeletedProducts({Key key, this.total, this.order, @required this.orderType}) : super(key: key);
+  const OrderDeletedProducts({Key key, this.order, @required this.orderType}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

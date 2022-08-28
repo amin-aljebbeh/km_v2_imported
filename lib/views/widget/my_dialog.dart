@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-import '../../utils/utils_importer.dart';
+import '../../core/core_importer.dart';
 
 class MyDialog extends StatelessWidget {
   final String title;

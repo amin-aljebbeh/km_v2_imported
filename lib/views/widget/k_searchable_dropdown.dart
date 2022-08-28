@@ -8,13 +8,9 @@ class KSearchableDropdown extends StatefulWidget {
   final List<DropdownMenuItem> items;
   final Function(String) onChanged;
 
-  const KSearchableDropdown({
-    Key key,
-    @required this.hint,
-    @required this.search,
-    @required this.items,
-    @required this.onChanged,
-  }) : super(key: key);
+  const KSearchableDropdown(
+      {Key key, @required this.hint, @required this.search, @required this.items, @required this.onChanged})
+      : super(key: key);
 
   @override
   _KSearchableDropdownState createState() => _KSearchableDropdownState();
@@ -35,14 +31,12 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
       onTap: () {},
       rightToLeft: true,
       searchInputDecoration: InputDecoration(
-        suffixIcon: Icon(Icons.search, size: 24, color: ColorUtils.primaryColor),
-        contentPadding: const EdgeInsets.symmetric(vertical: 12),
-      ),
+          suffixIcon: Icon(Icons.search, size: 24, color: ColorUtils.primaryColor),
+          contentPadding: const EdgeInsets.symmetric(vertical: 12)),
       iconEnabledColor: ColorUtils.primaryColor,
       closeButton: TextButton(
-        child: Text(StringUtils.close, style: dropdownItemStyle.copyWith(color: ColorUtils.primaryColor)),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
+          child: Text(StringUtils.close, style: dropdownItemStyle.copyWith(color: ColorUtils.primaryColor)),
+          onPressed: () => Navigator.of(context).pop()),
       disabledHint: Center(child: Text('disabled', style: disableStyle)),
       isCaseSensitiveSearch: false,
       underline: Container(),
@@ -53,9 +47,7 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
       items: widget.items,
       onChanged: (String value) {
         if (value != null) {
-          setState(() {
-            showValue = value;
-          });
+          setState(() => showValue = value);
           widget.onChanged(value);
         }
       },

@@ -11,7 +11,6 @@ import '../../views/update_screen/update_required_screen.dart';
 class LoadingScreen extends StatefulWidget {
   static String userToken = "Bearer ";
   static String updateUrl = "";
-  static bool isAdmin = false;
 
   const LoadingScreen({Key key}) : super(key: key);
 

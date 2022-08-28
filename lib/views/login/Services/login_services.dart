@@ -56,12 +56,10 @@ class LoginServices {
 
   static Future<bool> loginAdmin({String username, String password}) async {
     Map loginBody = {'username': username, 'password': password};
-
     try {
       var response = await ApiProvider.sendRequest(
           url: login, method: HttpMethods.post, body: jsonEncode(loginBody), responseType: ResponseType.json);
       var theResponse = response.data;
-
       if (response.statusCode == successCode && (theResponse['success'].toString() == 'true')) {
         final newResponse = adminLoginResponseFromJson(jsonEncode(response.data));
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -69,14 +67,10 @@ class LoginServices {
         prefs.setString('adminRoll', username);
         prefs.setString('adminId', newResponse.data.id.toString());
         prefs.setBool('preferLeftSide', true);
-
         LoadingScreen.userToken = newResponse.data.apiToken;
-        LoadingScreen.isAdmin = true;
-
         return true;
-      } else {
-        return false;
       }
+      return false;
     } catch (e) {
       return false;
     }
