@@ -33,16 +33,9 @@ class KDrawer extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  color: ColorUtils.kmColors,
-                                ),
-                              ),
-                              Text(
-                                LoadingScreenServices.userName ?? '',
-                                style: TextStyle(color: ColorUtils.kmColors),
-                              ),
+                                  alignment: Alignment.centerRight,
+                                  child: Icon(Icons.arrow_back_ios, color: ColorUtils.kmColors)),
+                              Text(LoadingScreenServices.userName ?? '', style: TextStyle(color: ColorUtils.kmColors)),
                             ],
                           ),
                         ),
@@ -50,29 +43,12 @@ class KDrawer extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                    child: Image.asset(
-                      "assets/kmlogoo.png",
-                      width: 250,
-                      height: 200,
-                    ),
-                    color: Colors.white),
-                Divider(
-                  color: ColorUtils.kmColors,
-                ),
+                Container(child: Image.asset('assets/kmlogoo.png', width: 250, height: 200), color: Colors.white),
+                Divider(color: ColorUtils.kmColors),
                 SizedBox(
                   height: 550,
                   child: ListView(
-                    primary: false,
-                    children: <Widget>[
-                      Column(
-                        children: children,
-                      ),
-                      const SizedBox(
-                        height: 100,
-                      ),
-                    ],
-                  ),
+                      primary: false, children: <Widget>[Column(children: children), const SizedBox(height: 100)]),
                 ),
               ],
             ),

@@ -6,15 +6,13 @@ class InventorySearchTextField extends StatefulWidget with PreferredSizeWidget {
   final Function onReload;
   final BuildContext context;
 
-  const InventorySearchTextField(
-      {Key key, @required this.controller, @required this.onReload, @required this.context})
+  const InventorySearchTextField({Key key, @required this.controller, @required this.onReload, @required this.context})
       : super(key: key);
   @override
   _InventorySearchTextFieldState createState() => _InventorySearchTextFieldState();
 
   @override
-  Size get preferredSize =>
-      Size(MediaQuery.of(context).size.width * 0.8, MediaQuery.of(context).size.height * 0.07);
+  Size get preferredSize => Size(MediaQuery.of(context).size.width * 0.8, MediaQuery.of(context).size.height * 0.07);
 }
 
 class _InventorySearchTextFieldState extends State<InventorySearchTextField> {
@@ -25,31 +23,17 @@ class _InventorySearchTextFieldState extends State<InventorySearchTextField> {
       title: Container(
         padding: const EdgeInsets.only(bottom: 10.0),
         decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10.0) //                 <--- border radius here
-                ),
+            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
             border: Border.all(color: ColorUtils.primaryColor, width: 2)),
         child: TextField(
           style: flushBarStyle,
           decoration: InputDecoration(
-            suffixIcon: IconButton(
-                icon: const Icon(
-                  Icons.close,
-                  size: 20,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  widget.controller.text = '';
-                }),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: ColorUtils.kmColors),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: ColorUtils.kmColors),
-            ),
-            border: UnderlineInputBorder(
-              borderSide: BorderSide(color: ColorUtils.kmColors),
-            ),
-          ),
+              suffixIcon: IconButton(
+                  icon: const Icon(Icons.close, size: 20, color: Colors.white),
+                  onPressed: () => widget.controller.text = ''),
+              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.kmColors)),
+              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.kmColors)),
+              border: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.kmColors))),
           cursorColor: ColorUtils.kmColors,
           controller: widget.controller,
         ),
@@ -57,13 +41,7 @@ class _InventorySearchTextFieldState extends State<InventorySearchTextField> {
       actions: [
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: IconButton(
-            onPressed: widget.onReload,
-            icon: const Icon(
-              Icons.refresh,
-              size: 35,
-            ),
-          ),
+          child: IconButton(onPressed: widget.onReload, icon: const Icon(Icons.refresh, size: 35))
         )
       ],
     );

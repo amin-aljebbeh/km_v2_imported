@@ -2,6 +2,7 @@ import 'package:kammun_app/models/models_importer.dart';
 import 'package:kammun_app/service.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/login/models/admin_model.dart';
+
 import '../../views/orders/model/get_order_model.dart';
 
 OrdersOriginal ordersFromJson(String str) => OrdersOriginal.fromJson(json.decode(str));
@@ -62,6 +63,7 @@ class OrdersOriginalData {
     this.kammunProfit,
     this.userFeedback,
     this.cashValue,
+    this.deliveryDistance,
   });
 
   int id;
@@ -84,7 +86,7 @@ class OrdersOriginalData {
   DateTime deliveredAt;
   OrderAddress address;
   UserData userData;
-
+  String deliveryDistance;
   String userNotes;
   String supportedCityId;
   String underUpdate;
@@ -132,6 +134,7 @@ class OrdersOriginalData {
         acceptedAt:
             json['accepted_at'] != null ? DateTime.parse(json['accepted_at']) : DateTime.parse('2022-03-07 17:00:08'),
         cashValue: json['cash_v'].toString(),
+        deliveryDistance: json['delivery_distance'].toString(),
       );
 
   Map<String, dynamic> toJson() => {

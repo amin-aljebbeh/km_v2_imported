@@ -6,28 +6,14 @@ class SideBarRow extends StatelessWidget {
   final String text;
   final Function onTap;
 
-  const SideBarRow({
-    Key key,
-    @required this.icon,
-    @required this.text,
-    @required this.onTap,
-  }) : super(key: key);
+  const SideBarRow({Key key, @required this.icon, @required this.text, @required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: Icon(
-          icon,
-          color: ColorUtils.primaryColor,
-          size: 30,
-        ),
-      ),
-      title: Text(
-        text,
-        style: mainStyle,
-      ),
+          padding: const EdgeInsets.only(top: 8.0), child: Icon(icon, color: ColorUtils.primaryColor, size: 30)),
+      title: Text(text, style: mainStyle),
       onTap: onTap,
     );
   }

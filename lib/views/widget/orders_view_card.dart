@@ -313,6 +313,10 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     }
                   },
                 ),
+              LabelRow(
+                  rightSideText: 'مسافة التوصيل',
+                  leftSideText: widget.orderData.deliveryDistance,
+                  leftSideStyle: informationStyle),
             ],
           ),
         ),
