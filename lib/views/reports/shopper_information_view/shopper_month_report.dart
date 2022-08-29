@@ -108,7 +108,8 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
                                             children: [
                                               KTableElement(text: 'التاريخ'),
                                               KTableElement(text: 'عدد الطلبات'),
-                                              KTableElement(text: 'مرابح الشهر')
+                                              KTableElement(text: 'مرابح الشهر'),
+                                              KTableElement(text: 'مسافة التوصيل')
                                             ],
                                           ),
                                         MonthReportWidget(monthData: report[index])

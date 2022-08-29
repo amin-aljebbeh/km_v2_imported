@@ -5,11 +5,7 @@ import 'start_model_importer.dart';
 CategoryOriginal categoryOriginalFromJson(String str) => CategoryOriginal.fromJson(json.decode(str));
 
 class Category {
-  Category({
-    this.headers,
-    this.original,
-    this.exception,
-  });
+  Category({this.headers, this.original, this.exception});
 
   KHeaders headers;
   CategoryOriginal original;
@@ -21,18 +17,11 @@ class Category {
         exception: json["exception"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "headers": headers.toJson(),
-        "original": original.toJson(),
-        "exception": exception,
-      };
+  Map<String, dynamic> toJson() => {"headers": headers.toJson(), "original": original.toJson(), "exception": exception};
 }
 
 class CategoryOriginal {
-  CategoryOriginal({
-    this.success,
-    this.data,
-  });
+  CategoryOriginal({this.success, this.data});
 
   bool success;
   List<CategoryOriginalData> data;
@@ -42,21 +31,12 @@ class CategoryOriginal {
         data: List<CategoryOriginalData>.from(json["data"].map((x) => CategoryOriginalData.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() => {"success": success, "data": List<dynamic>.from(data.map((x) => x.toJson()))};
 }
 
 class CategoryOriginalData {
-  CategoryOriginalData({
-    this.id,
-    this.name,
-    this.imageFileName,
-    this.parentCategoryId,
-    this.isCompany,
-    this.warehouses,
-  });
+  CategoryOriginalData(
+      {this.id, this.name, this.imageFileName, this.parentCategoryId, this.isCompany, this.warehouses});
 
   int id;
   String name;

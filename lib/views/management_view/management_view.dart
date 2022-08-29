@@ -9,18 +9,8 @@ class ManagementView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorUtils.primaryColor,
-        title: Text(
-          title,
-          style: mainStyle,
-        ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: children,
-        ),
-      ),
+      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text(title, style: mainStyle)),
+      body: SafeArea(child: Column(children: children)),
     );
   }
 }

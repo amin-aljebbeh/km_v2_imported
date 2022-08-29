@@ -35,20 +35,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   _getClientInfo() async {
     try {
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // prefs.clear();
       await Firebase.initializeApp();
       bool userLoggedIn = await LoadingScreenServices().checkIfUserLoggedIn();
       if (userLoggedIn) {
         bool x = await LoadingScreenServices().fetchStartInformation();
-        if (x) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return "userNotLoggedIn";
+        return x;
       }
+      return "userNotLoggedIn";
     } catch (e) {
       /**/
     }

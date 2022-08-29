@@ -5,11 +5,7 @@ import 'start_model_importer.dart';
 SupportedCityOriginal supportedCityOriginalFromJson(String str) => SupportedCityOriginal.fromJson(json.decode(str));
 
 class SupportedCity {
-  SupportedCity({
-    this.headers,
-    this.original,
-    this.exception,
-  });
+  SupportedCity({this.headers, this.original, this.exception});
 
   KHeaders headers;
   SupportedCityOriginal original;
@@ -21,18 +17,11 @@ class SupportedCity {
         exception: json["exception"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "headers": headers.toJson(),
-        "original": original.toJson(),
-        "exception": exception,
-      };
+  Map<String, dynamic> toJson() => {"headers": headers.toJson(), "original": original.toJson(), "exception": exception};
 }
 
 class SupportedCityOriginal {
-  SupportedCityOriginal({
-    this.success,
-    this.data,
-  });
+  SupportedCityOriginal({this.success, this.data});
 
   bool success;
   List<IndigoDatum> data;

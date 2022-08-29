@@ -7,19 +7,14 @@ class PricesChangesServices {
 
     if (response.statusCode == successCode && response.data["success"]) {
       return pricesChangesFromJson(jsonEncode(response.data));
-    } else {
-      return null;
     }
+    return null;
   }
 
   static Future<bool> deleteImage({int imageId}) async {
     try {
       var response = await ApiProvider.sendRequest(url: productImage + imageId.toString(), method: HttpMethods.delete);
-      if (response.statusCode == successCode && response.data["success"]) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode && response.data["success"];
     } catch (e) {
       return false;
     }

@@ -29,15 +29,18 @@ class ShopperWorkingHours {
 }
 
 class ShopperWorkingHoursData {
-  ShopperWorkingHoursData({this.date, this.sum});
+  ShopperWorkingHoursData({this.date, this.sum, this.countOrders, this.sumDistances});
 
   String date;
-  double sum;
+  String sum;
+  String countOrders;
+  String sumDistances;
 
   factory ShopperWorkingHoursData.fromJson(Map<String, dynamic> json) => ShopperWorkingHoursData(
-        date: json['date'],
-        sum: json['sum'].toDouble(),
-      );
+      date: json['date'].toString(),
+      sum: json['sum'] == null ? '0' : json['sum'].toString(),
+      countOrders: json['count_orders'] == null ? '0' : json['count_orders'].toString(),
+      sumDistances: json['sum_distances'] == null ? '0' : json['sum_distances'].toString());
 
   Map<String, dynamic> toJson() => {'date': date, 'sum': sum};
 }

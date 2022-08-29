@@ -10,8 +10,11 @@ class MonthReportWidget extends StatelessWidget {
     return KTableRow(
       children: [
         KTableElement(text: monthData.date, style: mainStyle),
-        KTableElement(text: monthData.countOrder.toString(), style: mainStyle),
-        KTableElement(text: monthData.monthlyProfit, style: mainStyle),
+        KTableElement(text: StringUtils().oCcy.format(int.parse(monthData.countOrder)), style: mainStyle),
+        KTableElement(
+            text: StringUtils().oCcy.format(int.parse(monthData.monthlyProfit.split('.')[0])), style: mainStyle),
+        KTableElement(
+            text: StringUtils().oCcy.format(int.parse(monthData.sumDistances.split('.')[0])), style: mainStyle),
       ],
     );
   }

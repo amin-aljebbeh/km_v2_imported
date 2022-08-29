@@ -1,15 +1,11 @@
 import 'package:kammun_app/models/models_importer.dart';
 
-PriceFileProductModel priceFileProductModelFromJson(String str) =>
-    PriceFileProductModel.fromJson(json.decode(str));
+PriceFileProductModel priceFileProductModelFromJson(String str) => PriceFileProductModel.fromJson(json.decode(str));
 
 String priceFileProductModelToJson(PriceFileProductModel data) => json.encode(data.toJson());
 
 class PriceFileProductModel {
-  PriceFileProductModel({
-    this.productsPriceChange,
-    this.nonIntroducedProducts,
-  });
+  PriceFileProductModel({this.productsPriceChange, this.nonIntroducedProducts});
 
   List<ProductData> productsPriceChange;
   List<ProductData> nonIntroducedProducts;
@@ -26,8 +22,7 @@ class PriceFileProductModel {
   Map<String, dynamic> toJson() => {
         "products_price_change":
             productsPriceChange == null ? null : List<dynamic>.from(productsPriceChange.map((x) => x.toJson())),
-        "nonIntroducedProducts": nonIntroducedProducts == null
-            ? null
-            : List<dynamic>.from(nonIntroducedProducts.map((x) => x.toJson())),
+        "nonIntroducedProducts":
+            nonIntroducedProducts == null ? null : List<dynamic>.from(nonIntroducedProducts.map((x) => x.toJson())),
       };
 }

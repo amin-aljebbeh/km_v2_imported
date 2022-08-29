@@ -8,9 +8,7 @@ class OrdersView extends StatefulWidget {
   const OrdersView({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return OrdersViewState();
-  }
+  State<StatefulWidget> createState() => OrdersViewState();
 }
 
 class OrdersViewState extends State<OrdersView> {
@@ -179,11 +177,10 @@ class OrdersViewState extends State<OrdersView> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SearchOrderByPhoneNumber(
-                                    phoneController: phoneController,
-                                    idController: idController,
-                                    context: context,
-                                    onChoose: () {},
-                                  ),
+                                      phoneController: phoneController,
+                                      idController: idController,
+                                      context: context,
+                                      onChoose: () {}),
                                   IconButton(
                                     onPressed: () {
                                       setState(() {
@@ -192,11 +189,7 @@ class OrdersViewState extends State<OrdersView> {
                                       });
                                       _getOrder();
                                     },
-                                    icon: Icon(
-                                      Icons.arrow_back,
-                                      size: 40,
-                                      color: ColorUtils.kmColors,
-                                    ),
+                                    icon: Icon(Icons.arrow_back, size: 40, color: ColorUtils.kmColors),
                                   ),
                                   DropdownButton(
                                     value: page,
@@ -210,20 +203,12 @@ class OrdersViewState extends State<OrdersView> {
                                     },
                                   ),
                                   IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (indexPage > 1 && indexPage <= 15) {
-                                          page--;
-                                        }
-                                        if (indexPage > 1) indexPage--;
-                                        _getOrder();
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.arrow_forward,
-                                      size: 40,
-                                      color: ColorUtils.kmColors,
-                                    ),
+                                    onPressed: () => setState(() {
+                                      if (indexPage > 1 && indexPage <= 15) page--;
+                                      if (indexPage > 1) indexPage--;
+                                      _getOrder();
+                                    }),
+                                    icon: Icon(Icons.arrow_forward, size: 40, color: ColorUtils.kmColors),
                                   ),
                                 ],
                               ),
@@ -284,9 +269,7 @@ class OrdersViewState extends State<OrdersView> {
                               ),
                             ),
                           )
-                        : Container(
-                            padding: EdgeInsets.zero,
-                          ),
+                        : Container(padding: EdgeInsets.zero),
                     Expanded(
                       child: ListView.builder(
                         physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
@@ -302,10 +285,7 @@ class OrdersViewState extends State<OrdersView> {
                           return Column(
                             children: <Widget>[
                               OrdersViewCard(
-                                pop: false,
-                                orderData: orderDataList[index],
-                                orderType: OrderTypes.allOrder,
-                              ),
+                                  pop: false, orderData: orderDataList[index], orderType: OrderTypes.allOrder),
                               if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
                                   int.parse(orderDataList[index].underUpdate) != 1)
                                 Padding(
@@ -433,11 +413,7 @@ class OrdersViewState extends State<OrdersView> {
                                               },
                                             ),
                                             DialogButton(
-                                              text: StringUtils.no,
-                                              onTap: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
+                                                text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
                                           ];
                                           showMyDialog(
                                               context: context,
@@ -485,12 +461,7 @@ class OrdersViewState extends State<OrdersView> {
                                           }
                                         },
                                       ),
-                                      DialogButton(
-                                        text: 'لا',
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
+                                      DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),
                                     ];
                                     showMyDialog(
                                         context: context,
@@ -544,21 +515,11 @@ class OrdersViewState extends State<OrdersView> {
                               orderDataList[index].userNotes.toString() != 'null'
                                   ? KammunButton(
                                       text: StringUtils.watchNote,
-                                      onTap: () {
-                                        List<DialogButton> decisionButtons = [
-                                          DialogButton(
-                                            text: 'إغلاق',
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          )
-                                        ];
-                                        showMyDialog(
-                                            context: context,
-                                            title: StringUtils.costumerNote,
-                                            text: orderDataList[index].userNotes,
-                                            dialogButtons: decisionButtons);
-                                      },
+                                      onTap: () => showMyDialog(
+                                          context: context,
+                                          title: StringUtils.costumerNote,
+                                          text: orderDataList[index].userNotes,
+                                          dialogButtons: [const CloseWidget()]),
                                       color: Colors.indigoAccent,
                                     )
                                   : Container(),
@@ -567,7 +528,7 @@ class OrdersViewState extends State<OrdersView> {
                                       text: StringUtils.unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
-                                        List<DialogButton> decisionButtons = [
+                                        List<Widget> decisionButtons = [
                                           DialogButton(
                                             text: 'نعم',
                                             onTap: () async {
@@ -579,12 +540,7 @@ class OrdersViewState extends State<OrdersView> {
                                               });
                                             },
                                           ),
-                                          DialogButton(
-                                            text: 'إغلاق',
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          )
+                                          const CloseWidget()
                                         ];
                                         showMyDialog(
                                             context: context,
@@ -597,10 +553,7 @@ class OrdersViewState extends State<OrdersView> {
                                   : Container(),
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
-                                child: Divider(
-                                  thickness: 5,
-                                  color: ColorUtils.kmColors2,
-                                ),
+                                child: Divider(thickness: 5, color: ColorUtils.kmColors2),
                               ),
                             ],
                           );
@@ -612,13 +565,8 @@ class OrdersViewState extends State<OrdersView> {
                             height: 50.0,
                             color: Colors.transparent,
                             child: Center(
-                              child: Text(
-                                'تم جلب جميع الطلبات',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: StringUtils.fontFamily,
-                                ),
-                              ),
+                              child: Text('تم جلب جميع الطلبات',
+                                  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily)),
                             ),
                           )
                         : Container(),

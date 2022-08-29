@@ -104,11 +104,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     errorMessage
-                        ? AlertMessages(
-                            text: errorMessageValue,
-                            messageType: 'internetError',
-                            headerText: 'حدث خطأ',
-                          )
+                        ? AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
                         : Container(padding: EdgeInsets.zero),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -145,13 +141,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 15),
                           child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                if (page > 1) page--;
-
-                                _getOrder();
-                              });
-                            },
+                            onPressed: () => setState(() {
+                              if (page > 1) page--;
+                              _getOrder();
+                            }),
                             icon: Icon(Icons.arrow_forward, size: 40, color: ColorUtils.kmColors),
                           ),
                         ),

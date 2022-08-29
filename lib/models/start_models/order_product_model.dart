@@ -64,27 +64,16 @@ class OrderProducts {
 }
 
 class ProductImage {
-  ProductImage({
-    this.id,
-    this.productId,
-    this.imageFileName,
-  });
+  ProductImage({this.id, this.productId, this.imageFileName});
 
   int id;
   String productId;
   String imageFileName;
 
-  factory ProductImage.fromJson(Map<String, dynamic> json) => ProductImage(
-        id: json['id'],
-        productId: json['product_id'].toString(),
-        imageFileName: json['image_file_name'],
-      );
+  factory ProductImage.fromJson(Map<String, dynamic> json) =>
+      ProductImage(id: json['id'], productId: json['product_id'].toString(), imageFileName: json['image_file_name']);
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'product_id': productId,
-        'image_file_name': imageFileName,
-      };
+  Map<String, dynamic> toJson() => {'id': id, 'product_id': productId, 'image_file_name': imageFileName};
 }
 
 class OrderProductPivot {

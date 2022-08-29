@@ -57,9 +57,8 @@ class InventoryServices {
       final result = filteredProductsModelFromJson(jsonEncode(response.data)).data;
 
       return result;
-    } else {
-      return null;
     }
+    return null;
   }
 
   static Future<bool> updatePriceRateThresholdService(String threshold) async {
@@ -68,11 +67,7 @@ class InventoryServices {
       var response = await ApiProvider.sendRequest(
           url: updatePriceRateThreshold, method: HttpMethods.put, body: jsonEncode(thresholdMap));
 
-      if (response.statusCode == successCode) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode;
     } catch (e) {
       return false;
     }
@@ -89,9 +84,8 @@ class InventoryServices {
       if (response.statusCode == 200) {
         PriceFileProductModel price = priceFileProductModelFromJson(await response.stream.bytesToString());
         return price;
-      } else {
-        return null;
       }
+      return null;
     } catch (e) {
       return null;
     }
@@ -110,9 +104,8 @@ class InventoryServices {
         InventoryFileProductModel price =
             inventoryFileProductModelProductsFromJson(await response.stream.bytesToString());
         return price;
-      } else {
-        return null;
       }
+      return null;
     } catch (e) {
       return null;
     }

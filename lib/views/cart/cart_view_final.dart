@@ -130,9 +130,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                             behavior: HitTestBehavior.translucent,
                             onTap: () => {},
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
-                              child: cardBody(index, context),
-                            ),
+                                padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
+                                child: cardBody(index, context)),
                           );
                         },
                       ),

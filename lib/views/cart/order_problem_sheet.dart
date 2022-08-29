@@ -124,10 +124,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: ColorUtils.kmColors,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(30.0),
-                            topRight: Radius.circular(30.0),
-                          )),
+                          borderRadius:
+                              const BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
                       child: Center(
                           child: Text(
                         'منتجات تغير سعرها أثناء التسوق',

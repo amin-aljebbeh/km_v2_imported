@@ -139,11 +139,9 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             preState: int.parse(widget.productData.isActive),
                             subWarehouseId: widget.productData.subWarehouseId,
                             productId: widget.productData.id.toString(),
-                            onChange: (int active, bool result) {
-                              setState(() {
-                                if (result) widget.productData.isActive = active.toString();
-                              });
-                            },
+                            onChange: (int active, bool result) => setState(() {
+                              if (result) widget.productData.isActive = active.toString();
+                            }),
                           ),
                         Column(
                           children: [

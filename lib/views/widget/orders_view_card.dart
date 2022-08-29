@@ -294,7 +294,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
               LabelRow(
                   rightSideText: 'مسافة التوصيل : ',
                   leftSideText:
-                      StringUtils().oCcy.format(int.parse(widget.orderData.deliveryDistance.split('.')[0])) + ' م',
+                      StringUtils().oCcy.format(int.parse(widget.orderData.deliveryDistance.split('.')[0]) / 1000) +
+                          ' كم',
                   leftSideStyle: informationStyle),
               if (Services.isOperationManager())
                 KSearchableDropdown(

@@ -8,16 +8,11 @@ class Company {
   dynamic exception;
 
   factory Company.fromJson(Map<String, dynamic> json) => Company(
-        headers: KHeaders.fromJson(json['headers']),
-        original: CompanyOriginal.fromJson(json['original']),
-        exception: json['exception'],
-      );
+      headers: KHeaders.fromJson(json['headers']),
+      original: CompanyOriginal.fromJson(json['original']),
+      exception: json['exception']);
 
-  Map<String, dynamic> toJson() => {
-        'headers': headers.toJson(),
-        'original': original.toJson(),
-        'exception': exception,
-      };
+  Map<String, dynamic> toJson() => {'headers': headers.toJson(), 'original': original.toJson(), 'exception': exception};
 }
 
 class CompanyOriginal {

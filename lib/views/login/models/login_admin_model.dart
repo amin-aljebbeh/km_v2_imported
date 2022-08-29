@@ -11,21 +11,13 @@ AdminLoginResponse adminLoginResponseFromJson(String str) => AdminLoginResponse.
 String adminLoginResponseToJson(AdminLoginResponse data) => json.encode(data.toJson());
 
 class AdminLoginResponse {
-  AdminLoginResponse({
-    this.success,
-    this.data,
-  });
+  AdminLoginResponse({this.success, this.data});
 
   bool success;
   AdminModel data;
 
-  factory AdminLoginResponse.fromJson(Map<String, dynamic> json) => AdminLoginResponse(
-        success: json["success"],
-        data: AdminModel.fromJson(json["data"]),
-      );
+  factory AdminLoginResponse.fromJson(Map<String, dynamic> json) =>
+      AdminLoginResponse(success: json["success"], data: AdminModel.fromJson(json["data"]));
 
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": data.toJson(),
-      };
+  Map<String, dynamic> toJson() => {"success": success, "data": data.toJson()};
 }

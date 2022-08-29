@@ -3,15 +3,7 @@
 import 'package:kammun_app/models/role_pivot_model.dart';
 
 class Role {
-  Role({
-    this.id,
-    this.name,
-    this.slug,
-    this.description,
-    this.createdAt,
-    this.updatedAt,
-    this.pivot,
-  });
+  Role({this.id, this.name, this.slug, this.description, this.createdAt, this.updatedAt, this.pivot});
 
   int id;
   String name;

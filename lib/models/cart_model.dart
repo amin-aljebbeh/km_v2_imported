@@ -11,18 +11,12 @@ String cartModelToJson(CartModel data) => json.encode(data.toJson());
 class CartModel {
   List<CartProduct> cartProducts;
 
-  CartModel({
-    this.cartProducts,
-  });
+  CartModel({this.cartProducts});
 
-  factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
-        cartProducts: List<CartProduct>.from(
-            json["cartProducts"].map((x) => CartProduct.fromJson(x))),
-      );
+  factory CartModel.fromJson(Map<String, dynamic> json) =>
+      CartModel(cartProducts: List<CartProduct>.from(json["cartProducts"].map((x) => CartProduct.fromJson(x))));
 
-  Map<String, dynamic> toJson() => {
-        "cartProducts": List<dynamic>.from(cartProducts.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() => {"cartProducts": List<dynamic>.from(cartProducts.map((x) => x.toJson()))};
 }
 
 class CartProduct {
@@ -34,15 +28,7 @@ class CartProduct {
   String unit;
   String quantity;
 
-  CartProduct({
-    this.id,
-    this.count,
-    this.name,
-    this.price,
-    this.imageName,
-    this.unit,
-    this.quantity,
-  });
+  CartProduct({this.id, this.count, this.name, this.price, this.imageName, this.unit, this.quantity});
 
   factory CartProduct.fromJson(Map<String, dynamic> json) => CartProduct(
         id: json["id"],

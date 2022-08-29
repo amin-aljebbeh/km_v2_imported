@@ -52,12 +52,8 @@ class Services {
     try {
       var response = await ApiProvider.sendRequest(url: getLevel + levelId, method: HttpMethods.get);
 
-      if (response.statusCode == successCode) {
-        Level level = LevelModelResponse.fromJson(response.data).data;
-        return level;
-      } else {
-        return null;
-      }
+      if (response.statusCode == successCode) return LevelModelResponse.fromJson(response.data).data;
+      return null;
     } catch (e) {
       return null;
     }
@@ -114,37 +110,29 @@ class Services {
     return dropdownStringList(names);
   }
 
-  static List<DropdownMenuItem<String>> productSubWarehouseNames(BuildContext context) {
-    List<DropdownMenuItem<String>> names = LoadingScreenServices.subWarehouses
-        .map((subWarehouse) => DropdownMenuItem<String>(
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.68,
-                  child: Text(subWarehouse.name, style: warehouseStyle)),
-              value: subWarehouse.id.toString(),
-            ))
-        .toList();
-    return names;
-  }
+  static List<DropdownMenuItem<String>> productSubWarehouseNames(BuildContext context) =>
+      LoadingScreenServices.subWarehouses
+          .map((subWarehouse) => DropdownMenuItem<String>(
+                child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.68,
+                    child: Text(subWarehouse.name, style: warehouseStyle)),
+                value: subWarehouse.id.toString(),
+              ))
+          .toList();
 
-  static List<DropdownMenuItem<int>> dropdownIntList(List<String> inputList) {
-    List<DropdownMenuItem<int>> list = inputList
-        .asMap()
-        .map((value, string) =>
-            MapEntry(value, DropdownMenuItem<int>(child: Text(string, style: dropdownItemStyle), value: value + 1)))
-        .values
-        .toList();
-    return list;
-  }
+  static List<DropdownMenuItem<int>> dropdownIntList(List<String> inputList) => inputList
+      .asMap()
+      .map((value, string) =>
+          MapEntry(value, DropdownMenuItem<int>(child: Text(string, style: dropdownItemStyle), value: value + 1)))
+      .values
+      .toList();
 
-  static List<DropdownMenuItem<int>> dropdownStringList(List<String> inputList) {
-    List<DropdownMenuItem<int>> list = inputList
-        .asMap()
-        .map((value, string) => MapEntry(
-            value, DropdownMenuItem<int>(child: Center(child: Text(string, style: dropdownItemStyle)), value: value)))
-        .values
-        .toList();
-    return list;
-  }
+  static List<DropdownMenuItem<int>> dropdownStringList(List<String> inputList) => inputList
+      .asMap()
+      .map((value, string) => MapEntry(
+          value, DropdownMenuItem<int>(child: Center(child: Text(string, style: dropdownItemStyle)), value: value)))
+      .values
+      .toList();
 
   static List<DropdownMenuItem<String>> shoppersNameList() {
     List<DropdownMenuItem<String>> list = LoadingScreenServices.allShoppers

@@ -6,9 +6,8 @@ class AddedProductsServices {
       var response = await ApiProvider.sendRequest(url: getAddedProductsToWarehouse, method: HttpMethods.get);
       if (response.statusCode == successCode && response.data['success']) {
         return syncCartFromJson(jsonEncode(response.data['data']));
-      } else {
-        return null;
       }
+      return null;
     } catch (e) {
       return null;
     }
@@ -18,9 +17,8 @@ class AddedProductsServices {
     var response = await ApiProvider.sendRequest(url: getNotAddedProductsToWarehouse, method: HttpMethods.get);
     if (response.statusCode == successCode && response.data['success']) {
       return syncCartFromJson(jsonEncode(response.data['data']));
-    } else {
-      return null;
     }
+    return null;
   }
 
   static Future<bool> unAttachProductsToSubWarehouseService({String productsId, String subWarehouse}) async {
@@ -32,11 +30,7 @@ class AddedProductsServices {
           url: unAttachProductsToSubWarehouse + productsId,
           method: HttpMethods.delete);
 
-      if (response.statusCode == successCode && response.data['success']) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode && response.data['success'];
     } catch (e) {
       return false;
     }
@@ -47,11 +41,7 @@ class AddedProductsServices {
       var response = await ApiProvider.sendRequest(
           url: attachProductsToSubWarehouse, method: HttpMethods.post, body: jsonEncode(fullRequestBody));
 
-      if (response.statusCode == successCode && response.data['success']) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode && response.data['success'];
     } catch (e) {
       return null;
     }
@@ -61,9 +51,8 @@ class AddedProductsServices {
     var response = await ApiProvider.sendRequest(url: getProduct, method: HttpMethods.get);
     if (response.statusCode == successCode && response.data['success']) {
       return syncCartFromJson(jsonEncode(response.data['data']));
-    } else {
-      return null;
     }
+    return null;
   }
 
   static Future<bool> changeProductSubWarehouse(ProductData product, String productSubWarehouseId, bool remove) async {

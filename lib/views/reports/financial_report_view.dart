@@ -1,5 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
 import '../../core/core_importer.dart';
 import 'models/report_model_importer.dart';
 import 'services/reports_services.dart';
@@ -175,9 +176,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
     if (response != null) {
       _reportCard(response);
 
-      setState(() {
-        isLoading = false;
-      });
+      setState(() => isLoading = false);
     } else {
       setState(() {
         isLoading = false;
@@ -189,10 +188,8 @@ class _FinancialReportViewState extends State<FinancialReportView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ColorUtils.primaryColor,
-        title: Text('الأرباح والمستحقات المالية', style: mainStyle),
-      ),
+      appBar:
+          AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('الأرباح والمستحقات المالية', style: mainStyle)),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(10),
@@ -231,7 +228,6 @@ class _FinancialReportViewState extends State<FinancialReportView> {
     );
   }
 
-  bool validDates() {
-    return fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
-  }
+  bool validDates() =>
+      fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
 }

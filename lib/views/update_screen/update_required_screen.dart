@@ -38,11 +38,7 @@ class UpdateScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image.asset(
-                  "assets/update.png",
-                  width: 100,
-                  height: 150,
-                ),
+                Image.asset('assets/update.png', width: 100, height: 150),
                 Text(
                   "تحديث مطلوب",
                   style: TextStyle(
@@ -71,7 +67,7 @@ class UpdateScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: KammunButton(
-                    text: " التحديث الآن ",
+                    text: ' التحديث الآن ',
                     height: 50,
                     color: ColorUtils.primaryColor,
                     onTap: Platform.isAndroid ? () => _androidUpdateLink() : () => _iosUpdateLink(),

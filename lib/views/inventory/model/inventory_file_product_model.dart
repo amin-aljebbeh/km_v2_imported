@@ -8,12 +8,7 @@ InventoryFileProductModel inventoryFileProductModelProductsFromJson(String str) 
     InventoryFileProductModel.fromJson(json.decode(str));
 
 class InventoryFileProductModel {
-  InventoryFileProductModel({
-    this.nonIntroducedProducts,
-    this.activatedList,
-    this.toActiveList,
-    this.toDeActiveList,
-  });
+  InventoryFileProductModel({this.nonIntroducedProducts, this.activatedList, this.toActiveList, this.toDeActiveList});
   List<ProductData> toActiveList;
   List<ProductData> activatedList;
   List<ProductData> toDeActiveList;

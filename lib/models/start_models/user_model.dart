@@ -1,11 +1,7 @@
 import 'start_model_importer.dart';
 
 class User {
-  User({
-    this.headers,
-    this.original,
-    this.exception,
-  });
+  User({this.headers, this.original, this.exception});
 
   KHeaders headers;
   UserOriginal original;
@@ -17,31 +13,19 @@ class User {
         exception: json["exception"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "headers": headers.toJson(),
-        "original": original.toJson(),
-        "exception": exception,
-      };
+  Map<String, dynamic> toJson() => {"headers": headers.toJson(), "original": original.toJson(), "exception": exception};
 }
 
 class UserOriginal {
-  UserOriginal({
-    this.success,
-    this.data,
-  });
+  UserOriginal({this.success, this.data});
 
   bool success;
   UserData data;
 
-  factory UserOriginal.fromJson(Map<String, dynamic> json) => UserOriginal(
-        success: json["success"],
-        data: UserData.fromJson(json["data"]),
-      );
+  factory UserOriginal.fromJson(Map<String, dynamic> json) =>
+      UserOriginal(success: json["success"], data: UserData.fromJson(json["data"]));
 
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": data.toJson(),
-      };
+  Map<String, dynamic> toJson() => {"success": success, "data": data.toJson()};
 }
 
 class UserData {

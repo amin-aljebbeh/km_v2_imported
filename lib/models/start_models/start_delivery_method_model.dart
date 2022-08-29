@@ -1,11 +1,7 @@
 import 'start_model_importer.dart';
 
 class DeliveryMethod {
-  DeliveryMethod({
-    this.headers,
-    this.original,
-    this.exception,
-  });
+  DeliveryMethod({this.headers, this.original, this.exception});
 
   KHeaders headers;
   DeliveryMethodOriginal original;
@@ -17,18 +13,11 @@ class DeliveryMethod {
         exception: json["exception"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "headers": headers.toJson(),
-        "original": original.toJson(),
-        "exception": exception,
-      };
+  Map<String, dynamic> toJson() => {"headers": headers.toJson(), "original": original.toJson(), "exception": exception};
 }
 
 class DeliveryMethodOriginal {
-  DeliveryMethodOriginal({
-    this.success,
-    this.data,
-  });
+  DeliveryMethodOriginal({this.success, this.data});
 
   bool success;
   List<DeliveryMethodOriginalData> data;
@@ -38,20 +27,11 @@ class DeliveryMethodOriginal {
         data: List<DeliveryMethodOriginalData>.from(json["data"].map((x) => DeliveryMethodOriginalData.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() => {"success": success, "data": List<dynamic>.from(data.map((x) => x.toJson()))};
 }
 
 class DeliveryMethodOriginalData {
-  DeliveryMethodOriginalData({
-    this.id,
-    this.name,
-    this.price,
-    this.isActive,
-    this.message,
-  });
+  DeliveryMethodOriginalData({this.id, this.name, this.price, this.isActive, this.message});
 
   int id;
   String name;

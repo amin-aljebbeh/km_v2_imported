@@ -1,11 +1,7 @@
 import 'start_model_importer.dart';
 
 class MobileAppConfigs {
-  MobileAppConfigs({
-    this.headers,
-    this.original,
-    this.exception,
-  });
+  MobileAppConfigs({this.headers, this.original, this.exception});
 
   KHeaders headers;
   MobileAppConfigsOriginal original;
@@ -17,18 +13,11 @@ class MobileAppConfigs {
         exception: json["exception"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "headers": headers.toJson(),
-        "original": original.toJson(),
-        "exception": exception,
-      };
+  Map<String, dynamic> toJson() => {"headers": headers.toJson(), "original": original.toJson(), "exception": exception};
 }
 
 class MobileAppConfigsOriginal {
-  MobileAppConfigsOriginal({
-    this.success,
-    this.data,
-  });
+  MobileAppConfigsOriginal({this.success, this.data});
 
   bool success;
   List<StickyDatum> data;
@@ -38,10 +27,7 @@ class MobileAppConfigsOriginal {
         data: List<StickyDatum>.from(json["data"].map((x) => StickyDatum.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() => {"success": success, "data": List<dynamic>.from(data.map((x) => x.toJson()))};
 }
 
 class StickyDatum {

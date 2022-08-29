@@ -1,4 +1,5 @@
 import 'package:kammun_app/views/loading/loading_services.dart';
+
 import '../../core/core_importer.dart';
 import 'model/inventory_model_importer.dart';
 import 'services/inventory_services.dart';
@@ -71,12 +72,10 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
             children: [
               Center(
                 child: DropdownButton(
-                  onChanged: (value) {
-                    setState(() {
-                      selectedList = value;
-                      assignArray();
-                    });
-                  },
+                  onChanged: (value) => setState(() {
+                    selectedList = value;
+                    assignArray();
+                  }),
                   items: Services.dropdownStringList(['تغير سعرها', 'الغير المضافة']),
                   value: selectedList,
                 ),
@@ -185,27 +184,12 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                         oldPrice: int.parse(showList[index].price.split(".")[0]) -
                                             int.parse(showList[index].priceChange.toString().split(".")[0]),
                                         onChangeStatus: (result) {
-                                          if (result) {
-                                            setState(() {
-                                              showList[index] = showList.removeLast();
-                                            });
-                                          }
+                                          if (result) setState(() => showList[index] = showList.removeLast());
                                         },
-                                        onChangePrice: (newValue) {
-                                          setState(() {
-                                            showList[index].price = newValue;
-                                          });
-                                        },
-                                        onChangeUnit: (newValue) {
-                                          setState(() {
-                                            showList[index].unit = newValue;
-                                          });
-                                        },
-                                        onChangeQuantity: (newValue) {
-                                          setState(() {
-                                            showList[index].quantity = newValue;
-                                          });
-                                        },
+                                        onChangePrice: (newValue) => setState(() => showList[index].price = newValue),
+                                        onChangeUnit: (newValue) => setState(() => showList[index].unit = newValue),
+                                        onChangeQuantity: (newValue) =>
+                                            setState(() => showList[index].quantity = newValue),
                                       );
                                     },
                                   ),

@@ -192,27 +192,12 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                                         oldPrice: int.parse(showList[index].price.split(".")[0]) -
                                             int.parse(showList[index].priceChange.toString().split(".")[0]),
                                         onChangeStatus: (result) {
-                                          if (result) {
-                                            setState(() {
-                                              showList.removeAt(index);
-                                            });
-                                          }
+                                          if (result) setState(() => showList.removeAt(index));
                                         },
-                                        onChangePrice: (newValue) {
-                                          setState(() {
-                                            showList[index].price = newValue;
-                                          });
-                                        },
-                                        onChangeUnit: (newValue) {
-                                          setState(() {
-                                            showList[index].unit = newValue;
-                                          });
-                                        },
-                                        onChangeQuantity: (newValue) {
-                                          setState(() {
-                                            showList[index].quantity = newValue;
-                                          });
-                                        },
+                                        onChangePrice: (newValue) => setState(() => showList[index].price = newValue),
+                                        onChangeUnit: (newValue) => setState(() => showList[index].unit = newValue),
+                                        onChangeQuantity: (newValue) =>
+                                            setState(() => showList[index].quantity = newValue),
                                       );
                                     },
                                   ),

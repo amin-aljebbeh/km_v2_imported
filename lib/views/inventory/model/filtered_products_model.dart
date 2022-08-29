@@ -4,29 +4,20 @@
 
 import 'package:kammun_app/models/models_importer.dart';
 
-FilteredProductsModel filteredProductsModelFromJson(String str) =>
-    FilteredProductsModel.fromJson(json.decode(str));
+FilteredProductsModel filteredProductsModelFromJson(String str) => FilteredProductsModel.fromJson(json.decode(str));
 
 String filteredProductsModelToJson(FilteredProductsModel data) => json.encode(data.toJson());
 
 class FilteredProductsModel {
-  FilteredProductsModel({
-    this.success,
-    this.data,
-  });
+  FilteredProductsModel({this.success, this.data});
 
   bool success;
   FilterPagination data;
 
-  factory FilteredProductsModel.fromJson(Map<String, dynamic> json) => FilteredProductsModel(
-        success: json["success"],
-        data: FilterPagination.fromJson(json["data"]),
-      );
+  factory FilteredProductsModel.fromJson(Map<String, dynamic> json) =>
+      FilteredProductsModel(success: json["success"], data: FilterPagination.fromJson(json["data"]));
 
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": data.toJson(),
-      };
+  Map<String, dynamic> toJson() => {"success": success, "data": data.toJson()};
 }
 
 class FilterPagination {

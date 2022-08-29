@@ -75,9 +75,8 @@ class LoadingScreenServices {
       if (response != null) {
         subWarehouses.addAll(response);
         return true;
-      } else {
-        return false;
       }
+      return false;
     } catch (e) {
       return null;
     }
@@ -95,9 +94,8 @@ class LoadingScreenServices {
         supportedCitiesListIntro.addAll(supportedCitiesResponse.data);
 
         return true;
-      } else {
-        return false;
       }
+      return false;
     } catch (e) {
       return null;
     }
@@ -120,9 +118,8 @@ class LoadingScreenServices {
           baseUrl = testUrl;
         }
         return true;
-      } else {
-        return false;
       }
+      return false;
     } catch (e) {
       return null;
     }
@@ -180,9 +177,8 @@ class LoadingScreenServices {
           }
         });
         return true;
-      } else {
-        return false;
       }
+      return false;
     } catch (e) {
       return null;
     }

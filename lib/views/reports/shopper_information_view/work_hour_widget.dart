@@ -10,7 +10,9 @@ class WorkHourWidget extends StatelessWidget {
     return KTableRow(
       children: [
         KTableElement(text: workingHoursData.date, style: mainStyle),
-        KTableElement(text: workingHoursData.sum.toString(), style: mainStyle),
+        KTableElement(text: workingHoursData.sum, style: mainStyle),
+        KTableElement(text: workingHoursData.countOrders, style: mainStyle),
+        KTableElement(text: StringUtils().oCcy.format(int.parse(workingHoursData.sum.split('.')[0])), style: mainStyle),
       ],
     );
   }

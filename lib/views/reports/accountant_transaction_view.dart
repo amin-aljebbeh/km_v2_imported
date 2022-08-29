@@ -264,18 +264,13 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                     ? error
                         ? Center(
                             child: AlertMessages(
-                              text: StringUtils.errorMessage,
-                              messageType: 'internetError',
-                              headerText: 'حدث خطأ',
-                            ),
+                                text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
                           )
                         : loading
                             ? const Loader()
                             : empty
                                 ? const Padding(
-                                    padding: EdgeInsets.all(75),
-                                    child: ScreenMessage(message: 'لا يوجد حركة'),
-                                  )
+                                    padding: EdgeInsets.all(75), child: ScreenMessage(message: 'لا يوجد حركة'))
                                 : ListView.builder(
                                     scrollDirection: Axis.vertical,
                                     itemCount: transactions.length,
@@ -328,12 +323,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                                                 ),
                                               ],
                                             ),
-                                            dialogButtons: [
-                                              DialogButton(
-                                                text: StringUtils.close,
-                                                onTap: () => Navigator.of(context).pop(),
-                                              )
-                                            ],
+                                            dialogButtons: [const CloseWidget()],
                                           );
                                         },
                                       );

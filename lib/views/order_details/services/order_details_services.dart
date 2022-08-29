@@ -26,8 +26,7 @@ class OrderDetailsServices {
       request.files.add(await http.MultipartFile.fromPath('image', image.path));
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
-      if (response.statusCode == 200) return true;
-      return false;
+      return response.statusCode == successCode;
     } catch (e) {
       return false;
     }
@@ -36,9 +35,7 @@ class OrderDetailsServices {
   static Future<bool> deleteImageFromOrderService({String imageId}) async {
     try {
       var response = await ApiProvider.sendRequest(url: deleteImageFromOrder + '/$imageId', method: HttpMethods.delete);
-
-      if (response.statusCode == successCode) return true;
-      return false;
+      return response.statusCode == successCode;
     } catch (e) {
       return false;
     }

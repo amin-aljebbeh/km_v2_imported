@@ -11,23 +11,15 @@ List<ProductData> syncCartFromJson(String str) =>
 //     CategoryProduct.fromJson(json.decode(str));
 
 class CategoryProduct {
-  CategoryProduct({
-    this.success,
-    this.data,
-  });
+  CategoryProduct({this.success, this.data});
 
   bool success;
   ProductResponse data;
 
-  factory CategoryProduct.fromJson(Map<String, dynamic> json) => CategoryProduct(
-        success: json['success'],
-        data: ProductResponse.fromJson(json['data']),
-      );
+  factory CategoryProduct.fromJson(Map<String, dynamic> json) =>
+      CategoryProduct(success: json['success'], data: ProductResponse.fromJson(json['data']));
 
-  Map<String, dynamic> toJson() => {
-        'success': success,
-        'data': data.toJson(),
-      };
+  Map<String, dynamic> toJson() => {'success': success, 'data': data.toJson()};
 }
 
 class ProductResponse {
@@ -159,9 +151,7 @@ class ProductData {
   String alertProductsCount;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
+    if (json == null) return null;
     ProductData productData = ProductData(
       id: json['id'] ?? json['product_id'] ?? 0,
       name: json['name'] ?? json['nameProduct'],

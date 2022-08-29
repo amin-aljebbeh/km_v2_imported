@@ -24,9 +24,8 @@ class OrderServices {
       if (response != null) {
         if (response.data['reason'].toString().contains('discontinued')) {
           return OrderResponse(success: false, reason: 'discontinued');
-        } else {
-          return orderResponseFromJson(jsonEncode(response.data));
         }
+        return orderResponseFromJson(jsonEncode(response.data));
       }
       return null;
     } catch (e) {
@@ -41,9 +40,8 @@ class OrderServices {
 
     if (response.statusCode == successCode && response.data['success']) {
       return 'true';
-    } else {
-      return 'تم قبول طلبك مسبقاً لايمكن إلغاء الطلب حاليا اذا كنت مصراً على إلغاء الطلب يرجى التواصل مع فريق الدعم';
     }
+    return 'تم قبول طلبك مسبقاً لايمكن إلغاء الطلب حاليا اذا كنت مصراً على إلغاء الطلب يرجى التواصل مع فريق الدعم';
   }
 
   static Future<LockOrder> lockOrderService(
@@ -54,9 +52,7 @@ class OrderServices {
       @required String userNote}) async {
     try {
       var response = await ApiProvider.sendRequest(url: lockOrder + orderId, method: HttpMethods.put);
-      if (response.data == null) {
-        return null;
-      }
+      if (response.data == null) return null;
       if (response.statusCode == successCode && response.data['success']) {
         orderUnderUpdateIndex =
             LoadingScreenServices.myOrdersList.indexWhere((order) => order.id == int.parse(orderId));
@@ -79,9 +75,8 @@ class OrderServices {
         updateOrderNote = userNote;
 
         return lockOrderFromJson(json.encode(response.data));
-      } else {
-        return lockOrderFromJson(json.encode(response.data));
       }
+      return lockOrderFromJson(json.encode(response.data));
     } catch (e) {
       return null;
     }
@@ -92,12 +87,7 @@ class OrderServices {
       var body = {'order_status_id': '$statusId'};
       var response = await ApiProvider.sendRequest(
           url: changeOrderStatus + orderId, method: HttpMethods.post, body: jsonEncode(body));
-
-      if (response.statusCode == successCode && response.data['success']) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode && response.data['success'];
     } catch (e) {
       return false;
     }
@@ -106,11 +96,7 @@ class OrderServices {
   static Future<bool> unlockOrderService(String orderId) async {
     try {
       var response = await ApiProvider.sendRequest(url: unlockOrder + orderId, method: HttpMethods.put);
-      if (response.statusCode == successCode && response.data['success']) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode && response.data['success'];
     } catch (e) {
       return false;
     }
@@ -121,16 +107,12 @@ class OrderServices {
       var response = await ApiProvider.sendRequest(
           url: shopperViewsHisOwnOrders, method: HttpMethods.get, queryParameters: {'page': pageNumber});
 
-      if (response.statusCode == successCode) {
-        LoadingScreenServices.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
-            .data
-            .data
-            .where((order) => !LoadingScreenServices.myOrdersList.contains(order)));
+      LoadingScreenServices.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
+          .data
+          .data
+          .where((order) => !LoadingScreenServices.myOrdersList.contains(order)));
 
-        return LoadingScreenServices.myOrdersList;
-      } else {
-        return LoadingScreenServices.myOrdersList;
-      }
+      return LoadingScreenServices.myOrdersList;
     } catch (e) {
       return null;
     }
@@ -141,16 +123,12 @@ class OrderServices {
       var response = await ApiProvider.sendRequest(
           url: getSupplierOrder, method: HttpMethods.get, queryParameters: {'page': pageNumber});
 
-      if (response.statusCode == successCode) {
-        LoadingScreenServices.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
-            .data
-            .data
-            .where((order) => !LoadingScreenServices.myOrdersList.contains(order)));
+      LoadingScreenServices.myOrdersList.addAll(ordersFromJson(jsonEncode(response.data))
+          .data
+          .data
+          .where((order) => !LoadingScreenServices.myOrdersList.contains(order)));
 
-        return LoadingScreenServices.myOrdersList;
-      } else {
-        return LoadingScreenServices.myOrdersList;
-      }
+      return LoadingScreenServices.myOrdersList;
     } catch (e) {
       return null;
     }
@@ -162,11 +140,7 @@ class OrderServices {
     try {
       var response = await ApiProvider.sendRequest(
           url: assignOrderToShopper, method: HttpMethods.post, body: jsonEncode(assignOrderBody));
-      if (response.statusCode == successCode && response.data['success']) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode && response.data['success'];
     } catch (e) {
       return false;
     }
@@ -180,14 +154,10 @@ class OrderServices {
           queryParameters: {'page': pageNumber, 'phone': phoneNumber});
 
       if (response.statusCode == successCode) {
-        if (response.data['success']) {
-          return ordersFromJson(jsonEncode(response.data)).data.data;
-        } else {
-          return [];
-        }
-      } else {
-        return null;
+        if (response.data['success']) return ordersFromJson(jsonEncode(response.data)).data.data;
+        return [];
       }
+      return null;
     } catch (e) {
       return null;
     }

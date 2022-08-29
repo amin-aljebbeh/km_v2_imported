@@ -27,11 +27,7 @@ class ProductsServices {
             method: HttpMethods.put,
             body: jsonEncode({'sub_warehouse_id': subWarehouseId, bodyKey: value}));
       }
-      if (response.statusCode == successCode) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode;
     } catch (e) {
       return false;
     }
@@ -44,11 +40,7 @@ class ProductsServices {
           queryParameters: {'category_id': categoryId},
           url: removeProductFromCategory + productId,
           method: HttpMethods.delete);
-      if (response.statusCode == successCode) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode;
     } catch (e) {
       return false;
     }
@@ -100,12 +92,10 @@ class ProductsServices {
             await AddedProductsServices.attachProductsToSubWarehouseService(fullRequestBody: subWarehouseBody);
         if (result) {
           return int.parse(response.data['data']['id'].toString());
-        } else {
-          return null;
         }
-      } else {
-        return 0;
+        return null;
       }
+      return 0;
     } catch (e) {
       return 0;
     }
@@ -119,8 +109,7 @@ class ProductsServices {
       request.files.add(await http.MultipartFile.fromPath('image', image.path));
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
-      if (response.statusCode == 200) return true;
-      return false;
+      return response.statusCode == successCode;
     } catch (e) {
       return false;
     }
@@ -134,9 +123,8 @@ class ProductsServices {
       if (response.statusCode == successCode) {
         Barcode barcode = barcodeFromJson(jsonEncode(response.data['data']));
         return barcode.barcode;
-      } else {
-        return 'error';
       }
+      return 'error';
     } catch (e) {
       return 'error';
     }
@@ -145,11 +133,8 @@ class ProductsServices {
   static Future<List<ProductData>> searchProductByBarcodeService({@required String bareCode}) async {
     try {
       var response = await ApiProvider.sendRequest(url: searchProductByBarcode + bareCode, method: HttpMethods.get);
-      if (response.statusCode == successCode) {
-        return syncCartFromJson(jsonEncode(response.data['data']));
-      } else {
-        return null;
-      }
+      if (response.statusCode == successCode) return syncCartFromJson(jsonEncode(response.data['data']));
+      return null;
     } catch (e) {
       return null;
     }
@@ -158,11 +143,8 @@ class ProductsServices {
   static Future<List<ProductData>> checkProductBarcodeService({@required String bareCode}) async {
     try {
       var response = await ApiProvider.sendRequest(url: checkProductBarcode + bareCode, method: HttpMethods.get);
-      if (response.statusCode == successCode) {
-        return syncCartFromJson(jsonEncode(response.data['data']));
-      } else {
-        return null;
-      }
+      if (response.statusCode == successCode) return syncCartFromJson(jsonEncode(response.data['data']));
+      return null;
     } catch (e) {
       return null;
     }
@@ -171,11 +153,7 @@ class ProductsServices {
   static Future<bool> deleteBarcode({@required String bareCodeId}) async {
     try {
       var response = await ApiProvider.sendRequest(url: productBarcode + bareCodeId, method: HttpMethods.delete);
-      if (response.statusCode == successCode) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode;
     } catch (e) {
       return false;
     }
@@ -184,11 +162,7 @@ class ProductsServices {
   static Future<bool> deleteProductService(String productId) async {
     try {
       var response = await ApiProvider.sendRequest(url: deleteProduct + productId, method: HttpMethods.delete);
-      if (response.statusCode == successCode) {
-        return true;
-      } else {
-        return false;
-      }
+      return response.statusCode == successCode;
     } catch (e) {
       return false;
     }

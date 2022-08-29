@@ -168,7 +168,9 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                                           const KTableRow(
                                             children: [
                                               KTableElement(text: 'التاريخ'),
-                                              KTableElement(text: 'عدد الساعات')
+                                              KTableElement(text: 'عدد الساعات'),
+                                              KTableElement(text: 'عدد الطلبات'),
+                                              KTableElement(text: 'مسافة التوصيل'),
                                             ],
                                           ),
                                         WorkHourWidget(workingHoursData: report[index]),

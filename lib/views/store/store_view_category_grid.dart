@@ -44,11 +44,10 @@ class StoreViewCategoryState extends State<StoreViewCategory> {
             itemCount: categoryListHome.length,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: _crossAxisCount,
-              crossAxisSpacing: _crossAxisSpacing,
-              mainAxisSpacing: _mainAxisSpacing,
-              childAspectRatio: _aspectRatio,
-            ),
+                crossAxisCount: _crossAxisCount,
+                crossAxisSpacing: _crossAxisSpacing,
+                mainAxisSpacing: _mainAxisSpacing,
+                childAspectRatio: _aspectRatio),
             itemBuilder: (BuildContext context, int index) {
               var eachCategory = categoryListHome[index];
               return GestureDetector(

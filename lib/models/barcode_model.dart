@@ -11,14 +11,7 @@ Barcode barcodeFromJson(String str) => Barcode.fromJson(json.decode(str));
 String barcodeToJson(Barcode data) => json.encode(data.toJson());
 
 class Barcode {
-  Barcode({
-    this.productId,
-    this.barcode,
-    this.warehouseId,
-    this.updatedAt,
-    this.createdAt,
-    this.id,
-  });
+  Barcode({this.productId, this.barcode, this.warehouseId, this.updatedAt, this.createdAt, this.id});
 
   String productId;
   String barcode;

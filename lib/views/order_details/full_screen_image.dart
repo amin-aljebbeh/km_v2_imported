@@ -13,19 +13,11 @@ class FullScreenImage extends StatelessWidget {
       backgroundColor: Colors.black87,
       body: GestureDetector(
         child: Center(
-          child: Hero(
-              tag: tag,
-              child: Image(
-                image: AdvImageCache(
-                  imageUrl,
-                  useMemCache: true,
-                  diskCacheExpire: const Duration(days: 400),
-                ),
-              )),
-        ),
-        onTap: () {
-          Navigator.pop(context);
-        },
+            child: Hero(
+                tag: tag,
+                child: Image(
+                    image: AdvImageCache(imageUrl, useMemCache: true, diskCacheExpire: const Duration(days: 400))))),
+        onTap: () => Navigator.pop(context),
       ),
     );
   }
