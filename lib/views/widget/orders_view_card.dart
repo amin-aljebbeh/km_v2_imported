@@ -314,8 +314,9 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   },
                 ),
               LabelRow(
-                  rightSideText: 'مسافة التوصيل',
-                  leftSideText: widget.orderData.deliveryDistance,
+                  rightSideText: 'مسافة التوصيل : ',
+                  leftSideText:
+                      StringUtils().oCcy.format(int.parse(widget.orderData.deliveryDistance.split('.')[0])) + ' م',
                   leftSideStyle: informationStyle),
             ],
           ),
