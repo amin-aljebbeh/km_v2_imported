@@ -291,6 +291,11 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     ),
                   ],
                 ),
+              LabelRow(
+                  rightSideText: 'مسافة التوصيل : ',
+                  leftSideText:
+                      StringUtils().oCcy.format(int.parse(widget.orderData.deliveryDistance.split('.')[0])) + ' م',
+                  leftSideStyle: informationStyle),
               if (Services.isOperationManager())
                 KSearchableDropdown(
                   hint: widget.orderData.shopper != null ? widget.orderData.shopper.name : StringUtils.chooseShopper,
@@ -313,11 +318,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                     }
                   },
                 ),
-              LabelRow(
-                  rightSideText: 'مسافة التوصيل : ',
-                  leftSideText:
-                      StringUtils().oCcy.format(int.parse(widget.orderData.deliveryDistance.split('.')[0])) + ' م',
-                  leftSideStyle: informationStyle),
             ],
           ),
         ),
