@@ -334,7 +334,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     );
   }
 
-  _moveOrderProductsToCart({int orderIndex, List<OrderProducts> orderProducts}) async {
+  _moveOrderProductsToCart({int orderIndex, List<OrderProduct> orderProducts}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     CartServices.cartProducts.clear();
     String productsId = '';

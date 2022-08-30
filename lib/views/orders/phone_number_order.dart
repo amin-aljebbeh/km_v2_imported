@@ -479,7 +479,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
     );
   }
 
-  _moveOrderProductsToCart({int orderIndex, List<OrderProducts> orderProducts}) async {
+  _moveOrderProductsToCart({int orderIndex, List<OrderProduct> orderProducts}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     CartServices.cartProducts.clear();
     String productsId = '';

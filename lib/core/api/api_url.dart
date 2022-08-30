@@ -129,8 +129,6 @@ const String getWarehouses = warehouse;
 
 const String updateSubWarehouseProducts = product + 'update_product_warehouse/';
 
-const String getAdminInfo = admin;
-
 const String updateOrderProducts = order + 'update_order_product/';
 
 const String addImageToOrder = 'order_image';

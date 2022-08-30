@@ -16,7 +16,7 @@ class OrderDeletedProducts extends StatefulWidget {
 
 class OrderDeletedProductsState extends State<OrderDeletedProducts>
     with AutomaticKeepAliveClientMixin<OrderDeletedProducts> {
-  static List<OrderProducts> productsAry;
+  static List<OrderProduct> productsAry;
   getArray() {
     productsAry = [];
     productsAry.addAll(widget.order.products);
@@ -81,7 +81,7 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                       shrinkWrap: true,
                       itemCount: productsAry == null ? 1 : productsAry.length,
                       itemBuilder: (BuildContext context, int index) {
-                        OrderProducts productDetail = productsAry[index];
+                        OrderProduct productDetail = productsAry[index];
                         return Column(
                           children: [
                             if (newSubWarehouse(index))

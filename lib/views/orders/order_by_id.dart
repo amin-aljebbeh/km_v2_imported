@@ -373,7 +373,7 @@ class _OrderByIDState extends State<OrderByID> {
     );
   }
 
-  _moveOrderProductsToCart({List<OrderProducts> orderProducts}) async {
+  _moveOrderProductsToCart({List<OrderProduct> orderProducts}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     CartServices.cartProducts.clear();
     String productsId = '';

@@ -7,7 +7,7 @@ class ProductCheckWidget extends StatefulWidget {
   final int index;
   final Function(int) onCheckbox;
 
-  final OrderProducts productData;
+  final OrderProduct productData;
 
   const ProductCheckWidget({
     Key key,

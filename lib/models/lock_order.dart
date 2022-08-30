@@ -17,12 +17,12 @@ class LockOrder {
 
   bool success;
   String data;
-  List<OrderProducts> products;
+  List<OrderProduct> products;
 
   factory LockOrder.fromJson(Map<String, dynamic> json) => LockOrder(
         success: json["success"],
         data: json["data"],
-        products: List<OrderProducts>.from(json["products"].map((x) => OrderProducts.fromJson(x))),
+        products: List<OrderProduct>.from(json["products"].map((x) => OrderProduct.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

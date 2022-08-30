@@ -48,6 +48,7 @@ class CartServices {
   }
 
   static addProductToCart(ProductData product) {
+    product.pivot = OrderProductPivot(increaseValue: product.increasePercentage);
     bool added = false;
     if (LoadingScreenServices.categoryList.isEmpty) {
       CartServices.cartProducts.add(product);
@@ -60,9 +61,7 @@ class CartServices {
           added = true;
         }
       }
-      if (!added) {
-        CartServices.cartProducts.add(product);
-      }
+      if (!added) CartServices.cartProducts.add(product);
     }
   }
 }

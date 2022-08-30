@@ -1,5 +1,5 @@
-class OrderProducts {
-  OrderProducts({
+class OrderProduct {
+  OrderProduct({
     this.id,
     this.name,
     this.description,
@@ -30,7 +30,7 @@ class OrderProducts {
 
   List<ProductImage> images;
 
-  factory OrderProducts.fromJson(Map<String, dynamic> json) => OrderProducts(
+  factory OrderProduct.fromJson(Map<String, dynamic> json) => OrderProduct(
         id: json['id'],
         name: json['name'],
         description: json['description'],

@@ -27,7 +27,7 @@ class OrderDetailViewMain extends StatefulWidget {
 
 class OrderDetailViewMainState extends State<OrderDetailViewMain>
     with AutomaticKeepAliveClientMixin<OrderDetailViewMain> {
-  static List<OrderProducts> productsAry;
+  static List<OrderProduct> productsAry;
   getArray() {
     productsAry = [];
     productsAry.addAll(widget.order.products);
@@ -92,7 +92,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                       shrinkWrap: true,
                       itemCount: productsAry == null ? 1 : productsAry.length,
                       itemBuilder: (BuildContext context, int index) {
-                        OrderProducts productDetail = productsAry[index];
+                        OrderProduct productDetail = productsAry[index];
                         return Column(
                           children: [
                             if (newSubWarehouse(index))

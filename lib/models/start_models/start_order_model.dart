@@ -91,7 +91,7 @@ class OrdersOriginalData {
   String supportedCityId;
   String underUpdate;
   dynamic deliveryStaffId;
-  List<OrderProducts> products;
+  List<OrderProduct> products;
   List<OrderImage> images;
   Assigned shopper;
   ShowData showData;
@@ -122,7 +122,7 @@ class OrdersOriginalData {
         supportedCityId: json['supported_city_id'].toString(),
         underUpdate: json['under_update'].toString(),
         deliveryStaffId: json['delivery_staff_id'].toString(),
-        products: List<OrderProducts>.from(json['products'].map((x) => OrderProducts.fromJson(x))),
+        products: List<OrderProduct>.from(json['products'].map((x) => OrderProduct.fromJson(x))),
         shopper: json['shopper'] == null ? null : Assigned.fromJson(json['shopper']),
         images: json['images'] == null ? [] : List<OrderImage>.from(json['images'].map((x) => OrderImage.fromJson(x))),
         orderAccountingRows: [],

@@ -6,7 +6,7 @@ import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
 class InventoryServices {
   static Future<List<SubWarehouse>> getSubWarehoused({String adminId}) async {
-    var response = await ApiProvider.sendRequest(url: getAdminInfo + adminId, method: HttpMethods.get);
+    var response = await ApiProvider.sendRequest(url: admin + adminId, method: HttpMethods.get);
 
     if (response.statusCode == successCode && response.data['success']) {
       final result = adminLoginResponseFromJson(jsonEncode(response.data));
@@ -22,9 +22,8 @@ class InventoryServices {
       LoadingScreenServices.userName = result.data.username;
       LoadingScreenServices.phoneNumber = result.data.phone;
       return result.data.subWarehouses;
-    } else {
-      return null;
     }
+    return null;
   }
 
   static Future<List<ProductData>> getSubWarehouseProductsService({String subWarehouseId}) async {

@@ -7,7 +7,7 @@ import '../../core/core_importer.dart';
 
 class OrderDetailViewMainCard extends StatefulWidget {
   final int index;
-  final OrderProducts productData;
+  final OrderProduct productData;
 
   final Function(int) onCheckbox;
 
