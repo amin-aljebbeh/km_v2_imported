@@ -4,6 +4,7 @@ import 'package:kammun_app/views/store/store_view_category_grid.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/core_importer.dart';
+import '../../core/firebase_init.dart';
 import '../management_view/management_view.dart';
 
 class StoreView extends StatefulWidget {
@@ -30,7 +31,8 @@ class StoreViewState extends State<StoreView> {
   @override
   void initState() {
     super.initState();
-    if (Services.updateOption) WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog());
+    if (Services.updateOption)
+      WidgetsBinding.instance.addPostFrameCallback((_) => showUpdateDialog());
   }
 
   void showUpdateDialog() {
@@ -44,7 +46,8 @@ class StoreViewState extends State<StoreView> {
                   topRight: Radius.circular(1.0),
                   bottomLeft: Radius.circular(2.0),
                   bottomRight: Radius.circular(2.0))),
-          contentPadding: const EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
+          contentPadding:
+              const EdgeInsets.only(top: 10, bottom: 0, right: 10, left: 10),
           titlePadding: const EdgeInsets.all(0),
           title: Container(
             width: double.infinity,
@@ -105,7 +108,10 @@ class StoreViewState extends State<StoreView> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2.8,
                       child: KammunButton(
-                          text: ' التحديث الآن ', height: 50, color: ColorUtils.kmColors, onTap: _updateApplication),
+                          text: ' التحديث الآن ',
+                          height: 50,
+                          color: ColorUtils.kmColors,
+                          onTap: _updateApplication),
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 2.8,
@@ -130,7 +136,8 @@ class StoreViewState extends State<StoreView> {
   }
 
   _shareApp() {
-    String infoMessage = 'تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n';
+    String infoMessage =
+        'تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n';
     String androidGrating = '\n لتحميل التطبيق على الأندوريد \n';
 
     String androidUrl = androidGrating + LoadingScreenServices.androidShareUrl;
@@ -147,20 +154,30 @@ class StoreViewState extends State<StoreView> {
       backgroundColor: Colors.white,
       drawer: KDrawer(
         children: [
-          SideBarRow(icon: Icons.phone, text: 'الإتصال بكمون', onTap: () => Services.openUrl('number')),
-          SideBarRow(icon: Icons.share, text: 'إرسال التطبيق للأصدقاء', onTap: () => _shareApp()),
           SideBarRow(
-              icon: Icons.person, text: StringUtils.profile, onTap: () => Navigator.of(context).pushNamed('/profile')),
+              icon: Icons.phone,
+              text: 'الإتصال بكمون',
+              onTap: () => Services.openUrl('number')),
+          SideBarRow(
+              icon: Icons.share,
+              text: 'إرسال التطبيق للأصدقاء',
+              onTap: () => _shareApp()),
+          SideBarRow(
+              icon: Icons.person,
+              text: StringUtils.profile,
+              onTap: () => Navigator.of(context).pushNamed('/profile')),
           if (Services.isOperationManager())
             SideBarRow(
                 icon: Icons.supervisor_account_sharp,
                 text: 'فريق التوصيل',
-                onTap: () => Navigator.of(context).pushNamed('/ShopperManagementView')),
+                onTap: () =>
+                    Navigator.of(context).pushNamed('/ShopperManagementView')),
           if (Services.isShopper())
             SideBarRow(
                 icon: Icons.featured_play_list,
                 text: 'كشف حساب المتسوق',
-                onTap: () => Navigator.of(context).pushNamed('/ShopperTransactionView')),
+                onTap: () =>
+                    Navigator.of(context).pushNamed('/ShopperTransactionView')),
           if (Services.isAccounting())
             SideBarRow(
               text: StringUtils.financial,
@@ -174,20 +191,26 @@ class StoreViewState extends State<StoreView> {
                       SideBarRow(
                           icon: Icons.featured_play_list,
                           text: 'كشف حساب المتسوق',
-                          onTap: () => Navigator.of(context).pushNamed('/AccountantTransactionView')),
+                          onTap: () => Navigator.of(context)
+                              .pushNamed('/AccountantTransactionView')),
                       SideBarRow(
                           icon: Icons.money,
                           text: StringUtils.addTransaction,
-                          onTap: () => Navigator.of(context).pushNamed('/AddTransactionView')),
+                          onTap: () => Navigator.of(context)
+                              .pushNamed('/AddTransactionView')),
                       SideBarRow(
                           icon: Icons.account_balance_wallet_outlined,
                           text: 'أرصدة الموردين',
-                          onTap: () => Navigator.of(context).pushNamed('/SupplierAccounts')),
+                          onTap: () => Navigator.of(context)
+                              .pushNamed('/SupplierAccounts')),
                       SideBarRow(
                           icon: Icons.delivery_dining_rounded,
                           text: 'معلومات المتسوقين',
                           onTap: () => Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => const ShopperInformation()))),
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ShopperInformation()))),
                     ],
                   ),
                 ),
@@ -197,12 +220,16 @@ class StoreViewState extends State<StoreView> {
             SideBarRow(
                 icon: Icons.account_balance,
                 text: 'كشف حساب المورد',
-                onTap: () => Navigator.of(context).pushNamed('/SupplierAccounts')),
-          Services.isSupplierManager() || Services.isProductsController() || Services.isAdmin()
+                onTap: () =>
+                    Navigator.of(context).pushNamed('/SupplierAccounts')),
+          Services.isSupplierManager() ||
+                  Services.isProductsController() ||
+                  Services.isAdmin()
               ? SideBarRow(
                   icon: Icons.inventory,
                   text: 'إدارة المستودعات',
-                  onTap: () => Navigator.of(context).pushNamed('/subWarehouseManagement'))
+                  onTap: () => Navigator.of(context)
+                      .pushNamed('/subWarehouseManagement'))
               : Container(),
           if (Services.isProductsController())
             SideBarRow(
@@ -218,25 +245,30 @@ class StoreViewState extends State<StoreView> {
                         SideBarRow(
                             icon: Icons.category,
                             text: 'المنتجات المضافة للمستودع',
-                            onTap: () => Navigator.of(context).pushNamed('/products_added_to_warehouse')),
+                            onTap: () => Navigator.of(context)
+                                .pushNamed('/products_added_to_warehouse')),
                         SideBarRow(
                             icon: Icons.category_outlined,
                             text: 'المنتجات الغير مضافة للمستودع',
-                            onTap: () => Navigator.of(context).pushNamed('/products_not_added_to_warehouse')),
+                            onTap: () => Navigator.of(context)
+                                .pushNamed('/products_not_added_to_warehouse')),
                         Services.isAdmin()
                             ? SideBarRow(
                                 icon: Icons.category_rounded,
                                 text: 'جميع المنتجات',
-                                onTap: () => Navigator.of(context).pushNamed('/all_products'))
+                                onTap: () => Navigator.of(context)
+                                    .pushNamed('/all_products'))
                             : Container(),
                         SideBarRow(
                             icon: Icons.fact_check,
                             text: StringUtils.inventory,
-                            onTap: () => Navigator.of(context).pushNamed('/Inventory')),
+                            onTap: () =>
+                                Navigator.of(context).pushNamed('/Inventory')),
                         SideBarRow(
                             icon: Icons.filter_list_sharp,
                             text: 'فلترة المنتجات',
-                            onTap: () => Navigator.of(context).pushNamed('/products_filter')),
+                            onTap: () => Navigator.of(context)
+                                .pushNamed('/products_filter')),
                       ],
                     ),
                   ),
@@ -256,24 +288,31 @@ class StoreViewState extends State<StoreView> {
                             SideBarRow(
                                 icon: Icons.table_view_rounded,
                                 text: 'تقرير المبيعات',
-                                onTap: () => Navigator.of(context).pushNamed('/sales_reports')),
+                                onTap: () => Navigator.of(context)
+                                    .pushNamed('/sales_reports')),
                             SideBarRow(
                                 icon: Icons.insert_chart_outlined_rounded,
                                 text: 'إحصائيات المبيعات',
-                                onTap: () => Navigator.of(context).pushNamed('/sales_charts')),
+                                onTap: () => Navigator.of(context)
+                                    .pushNamed('/sales_charts')),
                             SideBarRow(
                                 icon: Icons.payment,
                                 text: 'الأرباح والمستحقات المالية',
-                                onTap: () => Navigator.of(context).pushNamed('/financial_report_view')),
+                                onTap: () => Navigator.of(context)
+                                    .pushNamed('/financial_report_view')),
                             SideBarRow(
                                 icon: Icons.attach_money,
                                 text: 'تغير الأسعار',
-                                onTap: () => Navigator.of(context).pushNamed('/priceChange')),
+                                onTap: () => Navigator.of(context)
+                                    .pushNamed('/priceChange')),
                           ],
                         )),
               ),
             ),
-          SideBarRow(icon: Icons.logout, text: 'تسجيل الخروج', onTap: () async => await Services.logOutAdmin(context)),
+          SideBarRow(
+              icon: Icons.logout,
+              text: 'تسجيل الخروج',
+              onTap: () async => await Services.logOutAdmin(context)),
           Divider(color: ColorUtils.kmColors, height: 20),
           Padding(
             padding: const EdgeInsets.only(top: 20.0),
@@ -283,7 +322,9 @@ class StoreViewState extends State<StoreView> {
                 children: const <Widget>[
                   MediaIcon(icon: FontAwesomeIcons.facebookF, url: 'facebook'),
                   MediaIcon(icon: FontAwesomeIcons.instagram, url: 'instagram'),
-                  MediaIcon(icon: FontAwesomeIcons.facebookMessenger, url: 'messenger'),
+                  MediaIcon(
+                      icon: FontAwesomeIcons.facebookMessenger,
+                      url: 'messenger'),
                   MediaIcon(icon: FontAwesomeIcons.whatsapp, url: 'whatsapp'),
                 ],
               ),
@@ -315,7 +356,8 @@ class StoreViewState extends State<StoreView> {
                       padding: const EdgeInsets.only(top: 12.0),
                       child: InkWell(
                           onTap: () => scaffoldKey.currentState.openDrawer(),
-                          child: const Icon(Icons.menu, color: Colors.white, size: 40)),
+                          child: const Icon(Icons.menu,
+                              color: Colors.white, size: 40)),
                     ),
                     const AppBarKammunImage(),
                     Services.isShopper()
@@ -323,28 +365,37 @@ class StoreViewState extends State<StoreView> {
                             activeColor: Colors.white,
                             value: Services.shopper.status == 1,
                             onChanged: (value) async {
-                              bool success = await Services.changeShopperStatusService(
-                                  shopperId: Services.shopper.id.toString(),
-                                  newStatus: Services.shopper.status == 1 ? '0' : '1');
+                              bool success =
+                                  await Services.changeShopperStatusService(
+                                      shopperId: Services.shopper.id.toString(),
+                                      newStatus: Services.shopper.status == 1
+                                          ? '0'
+                                          : '1');
                               if (success) {
-                                setState(() => Services.shopper.status = Services.shopper.status == 1 ? 0 : 1);
+                                setState(() => Services.shopper.status =
+                                    Services.shopper.status == 1 ? 0 : 1);
                               } else {
                                 Toast.show('يرجى الاتصال بالإنترنت', context,
-                                    duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);
+                                    duration: Toast.LENGTH_LONG,
+                                    gravity: Toast.CENTER);
                               }
                             },
                           )
                         : Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: IconButton(
-                              icon: const Icon(Icons.shopping_cart, size: 35, color: Colors.white),
+                              icon: const Icon(Icons.shopping_cart,
+                                  size: 35, color: Colors.white),
                               onPressed: () => Navigator.of(context)
-                                  .pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false),
+                                  .pushNamedAndRemoveUntil(
+                                      '/cart', (Route<dynamic> route) => false),
                             ),
                           ),
                   ],
                 ),
-                StoreSearchTextField(searchController: searchController, scaffoldKey: scaffoldKey),
+                StoreSearchTextField(
+                    searchController: searchController,
+                    scaffoldKey: scaffoldKey),
               ],
             ),
           ),
@@ -366,7 +417,8 @@ class StoreViewState extends State<StoreView> {
                       child: Container(
                           decoration: BoxDecoration(
                               color: ColorUtils.kmColors,
-                              border: Border.all(color: Colors.white, width: 2.0),
+                              border:
+                                  Border.all(color: Colors.white, width: 2.0),
                               borderRadius: BorderRadius.circular(10.0)),
                           height: 10)),
                   Text(
@@ -381,7 +433,8 @@ class StoreViewState extends State<StoreView> {
                       child: Container(
                           decoration: BoxDecoration(
                               color: ColorUtils.kmColors,
-                              border: Border.all(color: Colors.white, width: 2.0),
+                              border:
+                                  Border.all(color: Colors.white, width: 2.0),
                               borderRadius: BorderRadius.circular(10.0)),
                           height: 10)),
                 ],
@@ -397,19 +450,21 @@ class StoreViewState extends State<StoreView> {
 
   Widget _imageCarousel() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.30,
-      decoration:
-          BoxDecoration(color: ColorUtils.searchGreyColor, borderRadius: const BorderRadius.all(Radius.circular(20.0))),
-      child: Carousel(
-        borderRadius: true,
-        boxFit: BoxFit.fill,
-        images: LoadingScreenServices.bannerListNetwork,
-        autoplay: true,
-        animationCurve: Curves.fastLinearToSlowEaseIn,
-        animationDuration: const Duration(milliseconds: 1000),
-        dotSize: 6.0,
-        indicatorBgPadding: 2.0,
-      ),
-    );
+        height: MediaQuery.of(context).size.height * 0.30,
+        decoration: BoxDecoration(
+            color: ColorUtils.searchGreyColor,
+            borderRadius: const BorderRadius.all(Radius.circular(20.0))),
+        child: FirebaseInitPage(
+          child: Carousel(
+            borderRadius: true,
+            boxFit: BoxFit.fill,
+            images: LoadingScreenServices.bannerListNetwork,
+            autoplay: true,
+            animationCurve: Curves.fastLinearToSlowEaseIn,
+            animationDuration: const Duration(milliseconds: 1000),
+            dotSize: 6.0,
+            indicatorBgPadding: 2.0,
+          ),
+        ));
   }
 }

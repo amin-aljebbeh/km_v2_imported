@@ -1,47 +1,84 @@
 {
-    "project_info": {
-        "project_number": "628575156190",
-        "project_id": "kammun-user-v3",
-        "storage_bucket": "kammun-user-v3.appspot.com"
-    },
-    "client": [
-        {
-            "client_info": {
-                "mobilesdk_app_id": "1:628575156190:android:df9cfe81843338e3d58f4f",
-                "android_client_info": {
-                    "package_name": "com.kammunShopper.app"
-                }
-            },
-            "oauth_client": [
-                {
-                    "client_id": "628575156190-e4474prt1mp588ne4klcfe67eguut9qi.apps.googleusercontent.com",
-                    "client_type": 3
-                }
-            ],
-            "api_key": [
-                {
-                    "current_key": "AIzaSyDqQfwe7blsXH7G40V1MkjCwTarkvSvjDQ"
-                }
-            ],
-            "services": {
-                "appinvite_service": {
-                    "other_platform_oauth_client": [
-                        {
-                            "client_id": "628575156190-e4474prt1mp588ne4klcfe67eguut9qi.apps.googleusercontent.com",
-                            "client_type": 3
-                        },
-                        {
-                            "client_id": "628575156190-som0k208ldviejmls4k0u6ccvc8jd7e1.apps.googleusercontent.com",
-                            "client_type": 2,
-                            "ios_info": {
-                                "bundle_id": "com.kammunShopper.app",
-                                "app_store_id": "1505291329"
-                            }
-                        }
-                    ]
-                }
-            }
+  "project_info": {
+    "project_number": "628575156190",
+    "project_id": "kammun-user-v3",
+    "storage_bucket": "kammun-user-v3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628575156190:android:df9cfe81843338e3d58f4f",
+        "android_client_info": {
+          "package_name": "com.kammun.app"
         }
-    ],
-    "configuration_version": "1"
+      },
+      "oauth_client": [
+        {
+          "client_id": "628575156190-e4474prt1mp588ne4klcfe67eguut9qi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqQfwe7blsXH7G40V1MkjCwTarkvSvjDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "628575156190-e4474prt1mp588ne4klcfe67eguut9qi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "628575156190-som0k208ldviejmls4k0u6ccvc8jd7e1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kammun.app",
+                "app_store_id": "1505291329"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628575156190:android:7a772ef4c184f807d58f4f",
+        "android_client_info": {
+          "package_name": "com.kammunShopper.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "628575156190-e4474prt1mp588ne4klcfe67eguut9qi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqQfwe7blsXH7G40V1MkjCwTarkvSvjDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "628575156190-e4474prt1mp588ne4klcfe67eguut9qi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "628575156190-som0k208ldviejmls4k0u6ccvc8jd7e1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kammun.app",
+                "app_store_id": "1505291329"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
 }
