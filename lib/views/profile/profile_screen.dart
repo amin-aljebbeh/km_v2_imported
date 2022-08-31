@@ -56,8 +56,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AutoSizeText(LoadingScreenServices.name ?? '', style: userNameStyle.copyWith(fontSize: 25)),
-                  AutoSizeText(LoadingScreenServices.userName ?? '', style: userNameStyle),
+                  AutoSizeText(LoadingScreenServices.admin.name ?? '', style: userNameStyle.copyWith(fontSize: 25)),
+                  AutoSizeText(LoadingScreenServices.admin.username ?? '', style: userNameStyle),
                 ],
                 textDirection: TextDirection.ltr,
               ),
@@ -100,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               child: Icon(FontAwesomeIcons.phone, color: ColorUtils.kmColors, size: 30)),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
-                            child: Text(LoadingScreenServices.phoneNumber ?? 'لا يوجد',
+                            child: Text(LoadingScreenServices.admin.phone ?? 'لا يوجد',
                                 style:
                                     TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 25, color: Colors.black)),
                           ),

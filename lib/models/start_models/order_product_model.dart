@@ -13,6 +13,7 @@ class OrderProduct {
     this.productAvailable,
     this.subWarehouseId,
     this.isActive,
+    this.availableQuantity,
   });
 
   int id;
@@ -27,6 +28,7 @@ class OrderProduct {
   int subWarehouseId;
   OrderProductPivot pivot;
   int isActive;
+  String availableQuantity;
 
   List<ProductImage> images;
 
@@ -42,6 +44,7 @@ class OrderProduct {
         subWarehouseId: json['sub_warehouse_id'],
         quantity: json['quantity'].toString(),
         productAvailable: false,
+        availableQuantity: json['available_quantity'].toString(),
         pivot: json['pivot'] == null ? null : OrderProductPivot.fromJson(json['pivot']),
         images: List<ProductImage>.from(json['images'].map((x) => ProductImage.fromJson(x))),
       );

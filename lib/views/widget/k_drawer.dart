@@ -35,7 +35,8 @@ class KDrawer extends StatelessWidget {
                               Align(
                                   alignment: Alignment.centerRight,
                                   child: Icon(Icons.arrow_back_ios, color: ColorUtils.kmColors)),
-                              Text(LoadingScreenServices.userName ?? '', style: TextStyle(color: ColorUtils.kmColors)),
+                              Text(LoadingScreenServices.admin.username ?? '',
+                                  style: TextStyle(color: ColorUtils.kmColors)),
                             ],
                           ),
                         ),

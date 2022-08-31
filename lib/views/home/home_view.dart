@@ -1,6 +1,4 @@
-// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:kammun_app/views/cart/cart_view.dart';
-// import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/orders_view_importer.dart';
 import 'package:kammun_app/views/store/store_view.dart';
 
@@ -23,8 +21,6 @@ class HomeViewState extends State<HomeView> {
   bool isFromUpdateOrder;
 
   List<Widget> tabs;
-  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  // String firebaseToken;
 
   @override
   void initState() {
@@ -39,7 +35,6 @@ class HomeViewState extends State<HomeView> {
             dialogButtons: [const CloseButton()]))
         : {};
 
-    // WidgetsBinding.instance.addPostFrameCallback((_) => _initializeNotification(ctx: context));
     tabs = [];
     tabs.add(const StoreView());
     tabs.add(CartView(isFromUpdateOrder: isFromUpdateOrder));
@@ -49,31 +44,6 @@ class HomeViewState extends State<HomeView> {
 
     super.initState();
   }
-
-  // _initializeNotification({BuildContext ctx}) {
-  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  //     final notification = message.notification;
-  //     if (message.data['route_name'] != null) Navigator.pushNamed(context, message.data['route_name']);
-  //     showMyDialog(
-  //         context: context, title: notification.title, text: notification.body, dialogButtons: [const CloseWidget()]);
-  //   });
-  //   FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
-  //   getToken();
-  // }
-
-  // Future getToken() async {
-  //   try {
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     if (prefs.get('firebase_token') == null) {
-  //       firebaseToken = await _firebaseMessaging.getToken();
-  //       prefs.setString('firebase_token', firebaseToken);
-  //       Tools.logToConsole("The FirebaseToken $firebaseToken");
-  //       LoadingScreenServices().updateFirebaseTokenService(firebaseToken);
-  //     } else {
-  //       firebaseToken = prefs.get('firebase_token');
-  //     }
-  //   } catch (e) {/**/}
-  // }
 
   Widget _bottomNavBar({BuildContext context}) {
     List<BottomNavigationBarItem> bottomList = [];

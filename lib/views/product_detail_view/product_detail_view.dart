@@ -328,6 +328,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         if (LoadingScreen.userToken.length > 5) {
                           Navigator.of(context).pop(true);
                           widget.product.productCount = numberOfOrders;
+                          widget.product.pivot = OrderProductPivot(increaseValue: widget.product.increasePercentage);
                           CartServices.addProductToCart(widget.product);
                           Flushbar(
                             backgroundColor: Colors.green,

@@ -34,6 +34,8 @@ class CartServices {
         for (int i = 0; i < product.length; i++) {
           if (product[i] != null) {
             product[i].productCount = int.parse(productsCounts[i]);
+            product[i].pivot = OrderProductPivot(increaseValue: product[i].increasePercentage);
+
             CartServices.addProductToCart(product[i]);
           }
         }
@@ -48,7 +50,6 @@ class CartServices {
   }
 
   static addProductToCart(ProductData product) {
-    product.pivot = OrderProductPivot(increaseValue: product.increasePercentage);
     bool added = false;
     if (LoadingScreenServices.categoryList.isEmpty) {
       CartServices.cartProducts.add(product);

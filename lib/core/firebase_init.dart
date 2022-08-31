@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:overlay_support/overlay_support.dart';
+
 import '../../core/core_importer.dart';
 import '../../firebase_options.dart';
 import '../views/loading/loading_services.dart';
@@ -28,11 +29,9 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
   void initializeFlutterFire() async {
     await player.setAsset('assets/cool.mp3');
 
-    Tools.logToConsole("InitilizeFirebase");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
-      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
-          .then((value) async {
+      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) async {
         setState(() => initialized = true);
         String firebaseToken = prefs.getString('FCM_token_v3');
         FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -46,16 +45,12 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
             provisional: false,
             sound: true,
           );
-          if (initialized &&
-              settings.authorizationStatus == AuthorizationStatus.authorized) {
+          if (initialized && settings.authorizationStatus == AuthorizationStatus.authorized) {
             if (firebaseToken == null) {
               FirebaseMessaging.instance.getToken().then((value) {
-                Tools.logToConsole("The firebase Token is : $value ");
                 if (value != null) {
                   prefs.setString('FCM_token_v3', value);
-                  if (prefs.getString('userToken') != null) {
-                    LoadingScreenServices().updateFirebaseTokenService(value);
-                  }
+                  if (prefs.getString('userToken') != null) LoadingScreenServices().updateFirebaseTokenService(value);
                 }
               });
             }
@@ -68,15 +63,10 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
                       child: ListTile(
                         onTap: () {},
                         leading: SizedBox.fromSize(
-                            size: const Size(40, 40),
-                            child: ClipOval(
-                                child: Image.asset('assets/kmIcon.png'))),
-                        title: Text(message.notification.title ?? 'Kammun',
-                            style: mainStyle),
-                        subtitle: Text(message.notification.body ?? '',
-                            style: mainStyle),
-                        trailing: IconButton(
-                            icon: const Icon(Icons.close), onPressed: () {}),
+                            size: const Size(40, 40), child: ClipOval(child: Image.asset('assets/kmIcon.png'))),
+                        title: Text(message.notification.title ?? 'Kammun', style: mainStyle),
+                        subtitle: Text(message.notification.body ?? '', style: mainStyle),
+                        trailing: IconButton(icon: const Icon(Icons.close), onPressed: () {}),
                       ),
                     ),
                   ),
@@ -84,20 +74,15 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
                 );
               }
             });
-            FirebaseMessaging.onMessageOpenedApp.listen(
-                (RemoteMessage message) => showMyDialog(
-                    title: message.notification.title,
-                    text: message.notification.body,
-                    context: context));
+            FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) =>
+                showMyDialog(title: message.notification.title, text: message.notification.body, context: context));
           }
         } else {
           if (firebaseToken == null) {
             FirebaseMessaging.instance.getToken().then((value) {
               if (value != null) {
                 prefs.setString('FCM_token_v3', value);
-                if (prefs.getString('userToken') != null) {
-                  LoadingScreenServices().updateFirebaseTokenService(value);
-                }
+                if (prefs.getString('userToken') != null) LoadingScreenServices().updateFirebaseTokenService(value);
               }
             });
           }
@@ -105,7 +90,6 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
           FirebaseMessaging.onMessage.listen((RemoteMessage message) {
             player.play();
 
-            Tools.logToConsole("The notification message is: $message");
             if (message.notification != null) {
               showOverlayNotification(
                 (context) => Card(
@@ -114,15 +98,10 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
                     child: ListTile(
                       onTap: () {},
                       leading: SizedBox.fromSize(
-                          size: const Size(40, 40),
-                          child: ClipOval(
-                              child: Image.asset('assets/kmIcon.png'))),
-                      title: Text(message.notification.title ?? 'Kammun',
-                          style: mainStyle),
-                      subtitle: Text(message.notification.body ?? '',
-                          style: mainStyle),
-                      trailing: IconButton(
-                          icon: const Icon(Icons.close), onPressed: () {}),
+                          size: const Size(40, 40), child: ClipOval(child: Image.asset('assets/kmIcon.png'))),
+                      title: Text(message.notification.title ?? 'Kammun', style: mainStyle),
+                      subtitle: Text(message.notification.body ?? '', style: mainStyle),
+                      trailing: IconButton(icon: const Icon(Icons.close), onPressed: () {}),
                     ),
                   ),
                 ),
@@ -131,10 +110,7 @@ class _FirebaseInitPageState extends State<FirebaseInitPage> {
             }
           });
           FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) =>
-              showMyDialog(
-                  title: message.notification.title,
-                  text: message.notification.body,
-                  context: context));
+              showMyDialog(title: message.notification.title, text: message.notification.body, context: context));
         }
       });
     } catch (e) {/**/}

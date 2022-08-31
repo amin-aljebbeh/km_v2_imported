@@ -499,7 +499,6 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
         product.unit = orderProducts[i].unit;
         product.quantity = orderProducts[i].quantity;
         product.subWarehouseId = orderProducts[i].subWarehouseId;
-
         CartServices.addProductToCart(product);
       }
     }

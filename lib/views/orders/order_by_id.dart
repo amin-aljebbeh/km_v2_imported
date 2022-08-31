@@ -393,7 +393,6 @@ class _OrderByIDState extends State<OrderByID> {
         product.unit = orderProducts[i].unit;
         product.quantity = orderProducts[i].quantity;
         product.subWarehouseId = orderProducts[i].subWarehouseId;
-
         CartServices.addProductToCart(product);
       }
     }

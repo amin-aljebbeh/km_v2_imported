@@ -2,6 +2,7 @@ import '../../core/core_importer.dart';
 import '../../views/inventory/services/inventory_services.dart';
 import '../../views/reports/models/transaction_type_model.dart';
 import '../../views/reports/services/reports_services.dart';
+import '../login/models/admin_model.dart';
 
 class LoadingScreenServices {
   static CompanyOriginalData companyInformation = CompanyOriginalData();
@@ -41,9 +42,7 @@ class LoadingScreenServices {
   static List<OrdersOriginalData> phoneOrderList = [];
   static List<ShopperModel> allShoppers = [];
   static List<TransactionTypeModel> transactionTypes = [];
-  static String phoneNumber = 'لم تقم بتسجيل رقم';
-  static String name;
-  static String userName;
+  static AdminModel admin = AdminModel(phone: '0000000000');
   static bool preferLeftSide = true;
   static int ordersViewFilter = 0;
 
@@ -244,9 +243,6 @@ class LoadingScreenServices {
         fit: BoxFit.cover,
       ),
     );
-
-    phoneNumber = '0000000000';
-
     return true;
   }
 

@@ -18,9 +18,7 @@ class InventoryServices {
           Services.shopper.level = await Services.getLevelService(result.data.shopper.levelId.toString());
         }
       }
-      LoadingScreenServices.name = result.data.name;
-      LoadingScreenServices.userName = result.data.username;
-      LoadingScreenServices.phoneNumber = result.data.phone;
+      LoadingScreenServices.admin = result.data;
       return result.data.subWarehouses;
     }
     return null;
