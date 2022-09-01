@@ -9,12 +9,10 @@ class WorkHourWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return KTableRow(
       children: [
-        KTableElement(text: workingHoursData.date, style: mainStyle),
-        KTableElement(text: workingHoursData.sum, style: mainStyle),
-        KTableElement(text: workingHoursData.countOrders, style: mainStyle),
-        KTableElement(
-            text: StringUtils().oCcy.format(int.parse(workingHoursData.sumDistances.split('.')[0]) / 1000),
-            style: mainStyle),
+        KTableElement(text: workingHoursData.date),
+        KTableElement(text: workingHoursData.sum),
+        KTableElement(text: workingHoursData.countOrders),
+        KTableElement(text: (int.parse(workingHoursData.sumDistances) / 1000).toString() + ' كم'),
       ],
     );
   }

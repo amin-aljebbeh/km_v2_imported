@@ -112,7 +112,7 @@ class OrdersOriginalData {
         addressId: json['address_id'].toString(),
         userId: json['user_id'].toString(),
         couponId: json['coupon_id'].toString(),
-        userDeliveryRating: json['user_delivery_rating'] == null ? 'null' : json['user_delivery_rating'].toString(),
+        userDeliveryRating: json['user_delivery_rating'].toString(),
         userPriceRating: json['user_price_rating'].toString(),
         total: json['total'].toString(),
         userData: json['user'] == null ? null : UserData.fromJson(json['user']),

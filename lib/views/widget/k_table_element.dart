@@ -12,12 +12,7 @@ class KTableElement extends StatelessWidget {
     return Center(
       child: Container(
         margin: const EdgeInsets.all(10),
-        child: Text(
-          text,
-          textDirection: TextDirection.ltr,
-          textAlign: TextAlign.center,
-          style: style ?? mainStyle,
-        ),
+        child: Text(text, textDirection: TextDirection.rtl, textAlign: TextAlign.center, style: style ?? mainStyle),
       ),
     );
   }

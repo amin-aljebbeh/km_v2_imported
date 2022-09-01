@@ -16,6 +16,7 @@ class MonthlyProfit {
     this.workingHour,
     this.avgOrderRating,
     this.avgDeliveryMinutes,
+    this.deliveryDistance,
   });
 
   bool success;
@@ -24,15 +25,16 @@ class MonthlyProfit {
   double workingHour;
   String avgOrderRating;
   String avgDeliveryMinutes;
+  String deliveryDistance;
 
   factory MonthlyProfit.fromJson(Map<String, dynamic> json) => MonthlyProfit(
-        success: json['success'],
-        profit: json['data'].toString(),
-        countOrderThisMonth: json['count_order_this_month'],
-        workingHour: json['working_hour'] == null ? 0.0.toDouble() : json['working_hour'].toDouble(),
-        avgOrderRating: json['avg_order_rating'],
-        avgDeliveryMinutes: json['avg_delivery_minutes'],
-      );
+      success: json['success'],
+      profit: json['data'].toString(),
+      countOrderThisMonth: json['count_order_this_month'],
+      workingHour: json['working_hour'] == null ? 0.0.toDouble() : json['working_hour'].toDouble(),
+      avgOrderRating: json['avg_order_rating'],
+      avgDeliveryMinutes: json['avg_delivery_minutes'],
+      deliveryDistance: json['sum_distances'] == null ? '0' : json['sum_distances'].toString());
 
   Map<String, dynamic> toJson() => {
         'success': success,

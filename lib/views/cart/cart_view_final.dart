@@ -50,9 +50,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     subtotal = orderArray.fold(0, (sum, order) => sum + (int.parse(order.price.split('.')[0]) * order.productCount));
     total = subtotal + Services.deliveryPrice;
 
-    OrderServices.updateOrderNote != null
-        ? WidgetsBinding.instance.addPostFrameCallback((_) => _userNotesInitial())
-        : {};
+    if (OrderServices.updateOrderNote != null) WidgetsBinding.instance.addPostFrameCallback((_) => _userNotesInitial());
 
     super.initState();
   }
@@ -514,49 +512,38 @@ class _CartViewFinalState extends State<CartViewFinal> {
         orderResponse = await OrderServices.updateOrder(submitOrderModel: submitOrderModel);
 
         setState(() {
-          try {
-            if (orderResponse != null) {
-              if (!orderResponse.success && orderResponse.reason.contains('discontinued')) {
-                loadingScreen = false;
-                errorCode = true;
-                errorMessage =
-                    'نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل';
-              } else if (orderResponse.changedPriceProducts.isNotEmpty || orderResponse.inactiveProducts.isNotEmpty) {
-                _showBottomSheet(
-                    notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
+          if (orderResponse != null) {
+            if (!orderResponse.success && orderResponse.reason.contains('discontinued')) {
+              loadingScreen = false;
+              errorCode = true;
+              errorMessage =
+                  'نأسف لحدوث ذلك ولكن المنطقة التي تحاول الطلب إليها متوقفة بشكل مؤقت يرجى المحاولة بعد قليل';
+            } else if (orderResponse.changedPriceProducts.isNotEmpty || orderResponse.inactiveProducts.isNotEmpty) {
+              _showBottomSheet(
+                  notActive: orderResponse.inactiveProducts, priceProblem: orderResponse.changedPriceProducts);
 
-                loadingScreen = false;
-                errorCode = false;
-              } else if (orderResponse.success) {
-                CartViewFinal.message = orderResponse.data;
-                prefs.setString('orderUnderUpdateId', '-1');
-                OrderServices.orderUnderUpdateIndex = -1;
-              } else if (!orderResponse.success) {
-                loadingScreen = false;
-                errorCode = true;
-              }
-            } else {
+              loadingScreen = false;
+              errorCode = false;
+            } else if (orderResponse.success) {
+              CartViewFinal.message = orderResponse.data;
+              prefs.setString('orderUnderUpdateId', '-1');
+              OrderServices.orderUnderUpdateIndex = -1;
+            } else if (!orderResponse.success) {
               loadingScreen = false;
               errorCode = true;
             }
-          } catch (e) {
+          } else {
             loadingScreen = false;
             errorCode = true;
           }
         });
       }
-      try {
-        if (orderResponse.success == true) {
-          await prefs.remove('userCart');
-          CartServices.cartProducts.clear();
-
-          CartServices.userNote = '';
-
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.message)));
-        }
-      } catch (e) {
-        /**/
+      if (orderResponse.success == true) {
+        await prefs.remove('userCart');
+        CartServices.cartProducts.clear();
+        CartServices.userNote = '';
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ThankYouView(orderMessage: orderResponse.message)));
       }
     } catch (e) {
       /**/

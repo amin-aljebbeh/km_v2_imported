@@ -71,6 +71,7 @@ class ReportsServices {
           transactions = transactionResponseFromJson(jsonEncode(response.data)).data.data;
           return transactions;
         }
+        return [];
       }
       return null;
     } catch (e) {
@@ -90,6 +91,7 @@ class ReportsServices {
           transactions = shopperTransactionResponseFromJson(jsonEncode(response.data)).data;
           return transactions;
         }
+        return [];
       }
       return null;
     } catch (e) {

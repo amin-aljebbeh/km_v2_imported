@@ -181,78 +181,103 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                       ? const Loader()
                       : Wrap(
                           children: [
-                            LabelRow(
-                              rightSideText: 'مرابح الشهر : ',
-                              leftSideText: profitLoading
-                                  ? 'جار الاتصال'
-                                  : profit != null
-                                      ? StringUtils().oCcy.format(int.parse(profit.profit).abs()).toString()
-                                      : 'error',
-                              leftSideStyle: profitLoading
-                                  ? paragraphStyle
-                                  : profit != null
-                                      ? int.parse(profit.profit).isNegative
-                                          ? loseStyle
-                                          : profitStyle
-                                      : loseStyle,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: LabelRow(
+                                rightSideText: 'مرابح الشهر : ',
+                                leftSideText: profitLoading
+                                    ? 'جار الاتصال'
+                                    : profit != null
+                                        ? StringUtils().oCcy.format(int.parse(profit.profit).abs()).toString()
+                                        : 'error',
+                                leftSideStyle: profitLoading
+                                    ? paragraphStyle
+                                    : profit != null
+                                        ? int.parse(profit.profit).isNegative
+                                            ? loseStyle
+                                            : profitStyle
+                                        : loseStyle,
+                              ),
                             ),
-                            Wrap(
-                              children: [
-                                LabelRow(
-                                  rightSideText: 'عدد الطلبات : ',
-                                  leftSideText: profitLoading
-                                      ? 'جار الاتصال'
-                                      : profit != null
-                                          ? profit.countOrderThisMonth.toString()
-                                          : 'error',
-                                  leftSideStyle: profitLoading
-                                      ? paragraphStyle
-                                      : profit != null
-                                          ? profitStyle
-                                          : loseStyle,
-                                ),
-                                const SizedBox(width: 10),
-                                LabelRow(
-                                  rightSideText: 'ساعات العمل : ',
-                                  leftSideText: profitLoading
-                                      ? 'جار الاتصال'
-                                      : profit != null
-                                          ? profit.workingHour.toString()
-                                          : 'error',
-                                  leftSideStyle: profitLoading
-                                      ? paragraphStyle
-                                      : profit != null
-                                          ? profitStyle
-                                          : loseStyle,
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: LabelRow(
+                                rightSideText: 'عدد الطلبات : ',
+                                leftSideText: profitLoading
+                                    ? 'جار الاتصال'
+                                    : profit != null
+                                        ? profit.countOrderThisMonth.toString()
+                                        : 'error',
+                                leftSideStyle: profitLoading
+                                    ? paragraphStyle
+                                    : profit != null
+                                        ? profitStyle
+                                        : loseStyle,
+                              ),
                             ),
-                            LabelRow(
-                              rightSideText: 'التقييم:',
-                              leftSideText: profitLoading
-                                  ? 'جار الاتصال'
-                                  : profit != null
-                                      ? profit.avgOrderRating.toString()
-                                      : 'error',
-                              leftSideStyle: profitLoading
-                                  ? paragraphStyle
-                                  : profit != null
-                                      ? profitStyle
-                                      : loseStyle,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: LabelRow(
+                                rightSideText: 'ساعات العمل : ',
+                                leftSideText: profitLoading
+                                    ? 'جار الاتصال'
+                                    : profit != null
+                                        ? profit.workingHour.toString()
+                                        : 'error',
+                                leftSideStyle: profitLoading
+                                    ? paragraphStyle
+                                    : profit != null
+                                        ? profitStyle
+                                        : loseStyle,
+                              ),
                             ),
-                            const SizedBox(width: 10),
-                            LabelRow(
-                              rightSideText: 'سرعة التوصيل:',
-                              leftSideText: profitLoading
-                                  ? 'جار الاتصال'
-                                  : profit != null
-                                      ? profit.avgDeliveryMinutes.toString()
-                                      : 'error',
-                              leftSideStyle: profitLoading
-                                  ? paragraphStyle
-                                  : profit != null
-                                      ? profitStyle
-                                      : loseStyle,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: LabelRow(
+                                rightSideText: 'التقييم: ',
+                                leftSideText: profitLoading
+                                    ? 'جار الاتصال'
+                                    : profit != null
+                                        ? profit.avgOrderRating.toString()
+                                        : 'error',
+                                leftSideStyle: profitLoading
+                                    ? paragraphStyle
+                                    : profit != null
+                                        ? profitStyle
+                                        : loseStyle,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: LabelRow(
+                                rightSideText: 'سرعة التوصيل: ',
+                                leftSideText: profitLoading
+                                    ? 'جار الاتصال'
+                                    : profit != null
+                                        ? profit.avgDeliveryMinutes.toString()
+                                        : 'error',
+                                leftSideStyle: profitLoading
+                                    ? paragraphStyle
+                                    : profit != null
+                                        ? profitStyle
+                                        : loseStyle,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: LabelRow(
+                                rightSideText: 'مسافة التوصيل: ',
+                                leftSideText: profitLoading
+                                    ? 'جار الاتصال'
+                                    : profit != null
+                                        ? (int.parse(profit.deliveryDistance) / 1000).toString() + ' كم'
+                                        : 'error',
+                                leftSideStyle: profitLoading
+                                    ? paragraphStyle
+                                    : profit != null
+                                        ? profitStyle
+                                        : loseStyle,
+                              ),
                             ),
                           ],
                         )
@@ -264,8 +289,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                     ? error
                         ? Center(
                             child: AlertMessages(
-                                text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
-                          )
+                                text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
                         : loading
                             ? const Loader()
                             : empty

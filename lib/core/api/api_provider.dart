@@ -54,6 +54,11 @@ class ApiProvider {
     } catch (e) {
       Tools.logToConsole(e.message);
     }
+    Tools.logToConsole(token);
+    Tools.logToConsole(body);
+    Tools.logToConsole(queryParameters);
+    Tools.logToConsole(method.toString());
+    Tools.logToConsole(baseUrl + '/api/' + url);
     if (response != null) Tools.logToConsole(response.statusCode);
     Tools.logToConsole('response is :');
     Tools.logToConsole(response);

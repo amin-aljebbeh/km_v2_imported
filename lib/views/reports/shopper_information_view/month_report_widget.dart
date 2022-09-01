@@ -13,8 +13,7 @@ class MonthReportWidget extends StatelessWidget {
         KTableElement(text: StringUtils().oCcy.format(int.parse(monthData.countOrder)), style: mainStyle),
         KTableElement(
             text: StringUtils().oCcy.format(int.parse(monthData.monthlyProfit.split('.')[0])), style: mainStyle),
-        KTableElement(
-            text: StringUtils().oCcy.format(int.parse(monthData.sumDistances.split('.')[0]) / 1000), style: mainStyle),
+        KTableElement(text: (int.parse(monthData.sumDistances) / 1000).toString() + ' كم', style: mainStyle),
       ],
     );
   }

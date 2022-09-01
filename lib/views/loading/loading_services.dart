@@ -113,9 +113,7 @@ class LoadingScreenServices {
         } else {
           baseUrl = productionBaseUrl;
         }
-        if (['rabie', 'supplier', 'rabia'].contains(userToken)) {
-          baseUrl = testUrl;
-        }
+        if (['rabie', 'supplier', 'rabia'].contains(userToken)) baseUrl = testUrl;
         return true;
       }
       return false;
@@ -123,9 +121,6 @@ class LoadingScreenServices {
       return null;
     }
   }
-
-  int finishedRequests = 0;
-  int contractsLength = 0;
 
   Future<bool> getCategoryService() async {
     try {
@@ -233,16 +228,14 @@ class LoadingScreenServices {
     }
 
     bannerListNetwork.clear();
-    bannerListNetwork.add(
-      FadeInImage(
-        image: AdvImageCache(LoadingScreenServices.imagePrefixUrl + 'slide3.png',
-            useMemCache: true, diskCacheExpire: const Duration(days: 400)),
-        fadeInDuration: const Duration(seconds: 1),
-        fadeInCurve: Curves.fastOutSlowIn,
-        placeholder: const AssetImage('assets/kmlogoo.png'),
-        fit: BoxFit.cover,
-      ),
-    );
+    bannerListNetwork.add(FadeInImage(
+      image: AdvImageCache(LoadingScreenServices.imagePrefixUrl + 'slide3.png',
+          useMemCache: true, diskCacheExpire: const Duration(days: 400)),
+      fadeInDuration: const Duration(seconds: 1),
+      fadeInCurve: Curves.fastOutSlowIn,
+      placeholder: const AssetImage('assets/kmlogoo.png'),
+      fit: BoxFit.cover,
+    ));
     return true;
   }
 
@@ -250,46 +243,30 @@ class LoadingScreenServices {
     try {
       bool userLoggedIn = await checkIfUserLoggedIn();
       if (userLoggedIn) {
-        try {
-          List responses;
-          try {
-            responses = await Future.wait([
-              getSupportedCity(),
-              getSubWarehouse(),
-              getCategoryService(),
-              Services.getWarehousesService(),
-              fetchAdminInformation(),
-            ]);
-            if (Services.isOperationManager() ||
-                Services.isSuperAdmin() ||
-                Services.isAdmin() ||
-                Services.isAccounting()) {
-              await Services.getShoppers();
-              levels = await Services.getLevels();
-            }
-            if (Services.isAccounting() || Services.isSuperAdmin() || Services.isAdmin() || Services.isShopper()) {
-              transactionTypes = await ReportsServices.getTransactionTypes();
-            }
-          } catch (e) {
-            return false;
-          }
-
-          if (responses[1] == null) {
-            fetchAdminInformation();
-          } else {
-            if (responses[0] && responses[1]) {
-              return true;
-            } else {
-              return false;
-            }
-          }
-          return true;
-        } catch (e) {
-          return false;
+        List responses;
+        responses = await Future.wait([
+          getSupportedCity(),
+          getSubWarehouse(),
+          getCategoryService(),
+          Services.getWarehousesService(),
+          fetchAdminInformation()
+        ]);
+        if (Services.isOperationManager() || Services.isSuperAdmin() || Services.isAdmin() || Services.isAccounting()) {
+          await Services.getShoppers();
+          levels = await Services.getLevels();
         }
-      } else {
-        return false;
+        if (Services.isAccounting() || Services.isSuperAdmin() || Services.isAdmin() || Services.isShopper()) {
+          transactionTypes = await ReportsServices.getTransactionTypes();
+        }
+
+        if (responses[1] == null) {
+          fetchAdminInformation();
+        } else {
+          return responses[0] && responses[1];
+        }
+        return true;
       }
+      return false;
     } catch (e) {
       return false;
     }
