@@ -9,9 +9,7 @@ class OrderDeletedProducts extends StatefulWidget {
   const OrderDeletedProducts({Key key, this.order, @required this.orderType}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return OrderDeletedProductsState();
-  }
+  State<StatefulWidget> createState() => OrderDeletedProductsState();
 }
 
 class OrderDeletedProductsState extends State<OrderDeletedProducts>
@@ -87,7 +85,7 @@ class OrderDeletedProductsState extends State<OrderDeletedProducts>
                             if (newSubWarehouse(index))
                               Container(
                                 margin: const EdgeInsets.only(bottom: 10),
-                                color: ColorUtils.searchGreyColor,
+                                color: searchGreyColor,
                                 child: Center(
                                   child: Text(
                                     LoadingScreenServices.subWarehouses

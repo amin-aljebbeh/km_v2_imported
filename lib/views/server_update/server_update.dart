@@ -3,7 +3,7 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 import '../../core/core_importer.dart';
 
 class ServerUpdate extends StatelessWidget {
-  static const String routeName = '/server-update';
+  static const String routeName = '/ServerUpdate';
 
   const ServerUpdate({Key key}) : super(key: key);
 
@@ -22,10 +22,7 @@ class ServerUpdate extends StatelessWidget {
                 Text(
                   'تحديثات ضمن النظام',
                   style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.fontFamily),
+                      color: Colors.black, fontSize: 25.0, fontWeight: FontWeight.w500, fontFamily: fontFamily),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 10, left: 30, right: 15),
@@ -38,7 +35,7 @@ class ServerUpdate extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 18,
-                        fontFamily: StringUtils.fontFamily,
+                        fontFamily: fontFamily,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -47,9 +44,9 @@ class ServerUpdate extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: KammunButton(
-                    text: StringUtils.tryAgain,
+                    text: tryAgain,
                     height: 50,
-                    color: ColorUtils.primaryColor,
+                    color: primaryColor,
                     onTap: () => KammunRestart.restartApp(context),
                   ),
                 ),

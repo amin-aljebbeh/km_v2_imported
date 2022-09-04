@@ -13,7 +13,7 @@ class KCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.all(Radius.circular(radius)),
-        boxShadow: [BoxShadow(color: ColorUtils.searchGreyColor, spreadRadius: 1, blurRadius: 15)],
+        boxShadow: [BoxShadow(color: searchGreyColor, spreadRadius: 1, blurRadius: 15)],
       ),
     );
   }

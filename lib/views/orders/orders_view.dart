@@ -5,6 +5,7 @@ import '../../core/core_importer.dart';
 import 'services/order_services.dart';
 
 class OrdersView extends StatefulWidget {
+  static const String routeName = '/OrdersView';
   const OrdersView({Key key}) : super(key: key);
 
   @override
@@ -144,7 +145,7 @@ class OrdersViewState extends State<OrdersView> {
                           children: [
                             DropdownButton(
                               value: ordersFilter,
-                              items: Services.dropdownStringList(StringUtils.orderStatus),
+                              items: Services.dropdownStringList(orderStatus),
                               onChanged: (value) {
                                 setState(() {
                                   ordersFilter = value;
@@ -158,7 +159,7 @@ class OrdersViewState extends State<OrdersView> {
                             ),
                             DropdownButton(
                               value: ordersTypeFilter,
-                              items: Services.dropdownStringList(StringUtils.orderTypes),
+                              items: Services.dropdownStringList(orderTypes),
                               onChanged: (value) {
                                 setState(() {
                                   ordersTypeFilter = value;
@@ -189,11 +190,11 @@ class OrdersViewState extends State<OrdersView> {
                                       });
                                       _getOrder();
                                     },
-                                    icon: Icon(Icons.arrow_back, size: 40, color: ColorUtils.kmColors),
+                                    icon: Icon(Icons.arrow_back, size: 40, color: kmColors),
                                   ),
                                   DropdownButton(
                                     value: page,
-                                    items: Services.dropdownIntList(StringUtils.dropdownValues),
+                                    items: Services.dropdownIntList(dropdownValues),
                                     onChanged: (value) {
                                       setState(() {
                                         page = value;
@@ -208,7 +209,7 @@ class OrdersViewState extends State<OrdersView> {
                                       if (indexPage > 1) indexPage--;
                                       _getOrder();
                                     }),
-                                    icon: Icon(Icons.arrow_forward, size: 40, color: ColorUtils.kmColors),
+                                    icon: Icon(Icons.arrow_forward, size: 40, color: kmColors),
                                   ),
                                 ],
                               ),
@@ -262,8 +263,8 @@ class OrdersViewState extends State<OrdersView> {
                                 'لا يوجد أي طلبات سابقة',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.fontFamily,
+                                  color: greyColor,
+                                  fontFamily: fontFamily,
                                   fontSize: 20.0,
                                 ),
                               ),
@@ -370,8 +371,7 @@ class OrdersViewState extends State<OrdersView> {
                                                 }
                                               },
                                             ),
-                                            DialogButton(
-                                                text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
+                                            DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
                                           ];
                                           showMyDialog(
                                               context: context,
@@ -379,7 +379,7 @@ class OrdersViewState extends State<OrdersView> {
                                               text: 'هل أنت متأكد انك تريد رفض الطلب ؟',
                                               dialogButtons: decisionButton);
                                         },
-                                        text: StringUtils.cancelOrder,
+                                        text: cancelOrder,
                                         width: MediaQuery.of(context).size.width * 0.4,
                                         color: Colors.red,
                                         onTap: () {
@@ -412,8 +412,7 @@ class OrdersViewState extends State<OrdersView> {
                                                 }
                                               },
                                             ),
-                                            DialogButton(
-                                                text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
+                                            DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
                                           ];
                                           showMyDialog(
                                               context: context,
@@ -429,7 +428,7 @@ class OrdersViewState extends State<OrdersView> {
                                 KammunButton(
                                   text: 'استعادة الطلب',
                                   width: MediaQuery.of(context).size.width,
-                                  color: ColorUtils.kmColors,
+                                  color: kmColors,
                                   onTap: () {
                                     List<DialogButton> decisionButton = [
                                       DialogButton(
@@ -471,7 +470,7 @@ class OrdersViewState extends State<OrdersView> {
                                   },
                                 ),
                               KammunButton(
-                                text: StringUtils.editOrder,
+                                text: editOrder,
                                 onTap: () async {
                                   setState(() {
                                     orderLoaded = false;
@@ -514,10 +513,10 @@ class OrdersViewState extends State<OrdersView> {
                               ),
                               orderDataList[index].userNotes.toString() != 'null'
                                   ? KammunButton(
-                                      text: StringUtils.watchNote,
+                                      text: watchNote,
                                       onTap: () => showMyDialog(
                                           context: context,
-                                          title: StringUtils.costumerNote,
+                                          title: costumerNote,
                                           text: orderDataList[index].userNotes,
                                           dialogButtons: [const CloseWidget()]),
                                       color: Colors.indigoAccent,
@@ -525,7 +524,7 @@ class OrdersViewState extends State<OrdersView> {
                                   : Container(),
                               orderDataList[index].underUpdate.toString() != '0'
                                   ? KammunButton(
-                                      text: StringUtils.unLock,
+                                      text: unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
                                         List<Widget> decisionButtons = [
@@ -544,8 +543,8 @@ class OrdersViewState extends State<OrdersView> {
                                         ];
                                         showMyDialog(
                                             context: context,
-                                            title: StringUtils.unLock,
-                                            text: StringUtils.unLockConfirm,
+                                            title: unLock,
+                                            text: unLockConfirm,
                                             dialogButtons: decisionButtons);
                                       },
                                       color: Colors.blue[800],
@@ -553,7 +552,7 @@ class OrdersViewState extends State<OrdersView> {
                                   : Container(),
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
-                                child: Divider(thickness: 5, color: ColorUtils.kmColors2),
+                                child: Divider(thickness: 5, color: kmColors2),
                               ),
                             ],
                           );
@@ -566,7 +565,7 @@ class OrdersViewState extends State<OrdersView> {
                             color: Colors.transparent,
                             child: Center(
                               child: Text('تم جلب جميع الطلبات',
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily)),
+                                  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: fontFamily)),
                             ),
                           )
                         : Container(),
@@ -610,6 +609,6 @@ class OrdersViewState extends State<OrdersView> {
     }
     prefs.setString('userCart', productsId + '@' + productsQuantity);
 
-    Navigator.of(context).pushNamedAndRemoveUntil('/cartFromUpdate', (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(CartView.fromUpdateRouteName, (Route<dynamic> route) => false);
   }
 }

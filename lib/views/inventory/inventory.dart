@@ -4,6 +4,7 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 import 'model/inventory_model.dart';
 
 class Inventory extends StatefulWidget {
+  static const String routeName = '/Inventory';
   const Inventory({Key key}) : super(key: key);
 
   @override
@@ -150,13 +151,12 @@ class _InventoryState extends State<Inventory> {
                   ? Expanded(
                       child: Column(
                         children: [
-                          AlertMessages(
-                              text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
+                          AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
                           ElevatedButton(
                             child: Text(
                               'المحاولة من جديد',
-                              style: TextStyle(
-                                  color: Colors.black, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily),
+                              style:
+                                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontFamily: fontFamily),
                             ),
                             onPressed: () => _loadData(filterIndex: filterProducts),
                           ),
@@ -170,14 +170,10 @@ class _InventoryState extends State<Inventory> {
                             child: displayToActiveProducts
                                 ? Text('لا يوجد منتجات بحاجة تفعيل',
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: StringUtils.fontFamily))
+                                        color: Colors.black, fontWeight: FontWeight.bold, fontFamily: fontFamily))
                                 : Text('لا يوجد منتجات بحاجة إلغاء تفعيل',
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: StringUtils.fontFamily)),
+                                        color: Colors.black, fontWeight: FontWeight.bold, fontFamily: fontFamily)),
                           ),
                         )
                       : Expanded(

@@ -6,6 +6,7 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 import '../../service.dart';
 
 class ProfileScreen extends StatefulWidget {
+  static const String routeName = '/ProfileScreen';
   const ProfileScreen({Key key}) : super(key: key);
 
   @override
@@ -64,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             ),
           ],
         ),
-        backgroundColor: ColorUtils.kmColors,
+        backgroundColor: kmColors,
       ),
       body: SafeArea(
         child: Padding(
@@ -81,8 +82,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         child: Center(
                           child: Text(
                             'الرقم الشخصي',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 20),
+                            style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 20),
                           ),
                         ),
                       ),
@@ -93,16 +93,15 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.white,
-                            boxShadow: [BoxShadow(color: ColorUtils.kmColors, spreadRadius: 3)]),
+                            boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
                         child: ListTile(
                           leading: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
-                              child: Icon(FontAwesomeIcons.phone, color: ColorUtils.kmColors, size: 30)),
+                              child: Icon(FontAwesomeIcons.phone, color: kmColors, size: 30)),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
                             child: Text(LoadingScreenServices.admin.phone ?? 'لا يوجد',
-                                style:
-                                    TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 25, color: Colors.black)),
+                                style: TextStyle(fontFamily: fontFamily, fontSize: 25, color: Colors.black)),
                           ),
                           onTap: () {},
                         ),
@@ -117,10 +116,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   child: Center(
                                     child: Text(
                                       'المستودع',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: StringUtils.fontFamily,
-                                          fontSize: 20),
+                                      style:
+                                          TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 20),
                                     ),
                                   ),
                                 ),
@@ -131,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Colors.white,
-                                      boxShadow: [BoxShadow(color: ColorUtils.kmColors, spreadRadius: 3)]),
+                                      boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
                                   child: Center(
                                     child: Column(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -141,9 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                                 decoration: const BoxDecoration(color: Colors.white),
                                                 child: Text(subWarehouse.name,
                                                     style: TextStyle(
-                                                        fontFamily: StringUtils.fontFamily,
-                                                        fontSize: 25,
-                                                        color: Colors.black))))
+                                                        fontFamily: fontFamily, fontSize: 25, color: Colors.black))))
                                             .toList()),
                                   ),
                                 ),
@@ -153,33 +148,28 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   child: Center(
                                       child: Text('الجهة المفضلة لاستخدام الهاتف',
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontFamily: StringUtils.fontFamily,
-                                              fontSize: 20)))),
+                                              fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 20)))),
                               Center(
                                 child: Container(
                                   margin: const EdgeInsets.all(15),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       color: Colors.white,
-                                      boxShadow: [BoxShadow(color: ColorUtils.kmColors, spreadRadius: 3)]),
+                                      boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
                                       IconButton(
                                         icon: Icon(Icons.library_add_check_outlined,
-                                            color: LoadingScreenServices.preferLeftSide
-                                                ? ColorUtils.searchGreyColor
-                                                : ColorUtils.kmColors2),
+                                            color: LoadingScreenServices.preferLeftSide ? searchGreyColor : kmColors2),
                                         onPressed: () => setState(() => LoadingScreenServices.preferLeftSide
                                             ? LoadingScreenServices.setPreferLeftSide(false)
                                             : {}),
                                       ), //right side
                                       IconButton(
                                           icon: Icon(Icons.library_add_check_outlined,
-                                              color: LoadingScreenServices.preferLeftSide
-                                                  ? ColorUtils.kmColors2
-                                                  : ColorUtils.searchGreyColor),
+                                              color:
+                                                  LoadingScreenServices.preferLeftSide ? kmColors2 : searchGreyColor),
                                           onPressed: () => setState(() => LoadingScreenServices.preferLeftSide
                                               ? {}
                                               : LoadingScreenServices.setPreferLeftSide(true)))
@@ -193,9 +183,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Center(
-                        child: Text(StringUtils.logout,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 20)),
+                        child: Text(logout,
+                            style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 20)),
                       ),
                     ),
                     Center(
@@ -204,18 +193,17 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.white,
-                            boxShadow: [BoxShadow(color: ColorUtils.kmColors, spreadRadius: 3)]),
+                            boxShadow: [BoxShadow(color: kmColors, spreadRadius: 3)]),
                         child: ListTile(
                           leading: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: IconButton(
                                   onPressed: () => Services.logOutAdmin(context),
-                                  icon: Icon(Icons.logout, color: ColorUtils.kmColors, size: 30))),
+                                  icon: Icon(Icons.logout, color: kmColors, size: 30))),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5.0),
-                            child: Text(StringUtils.logout,
-                                style:
-                                    TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 25, color: Colors.black)),
+                            child: Text(logout,
+                                style: TextStyle(fontFamily: fontFamily, fontSize: 25, color: Colors.black)),
                           ),
                           onTap: () {},
                         ),

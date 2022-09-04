@@ -137,21 +137,21 @@ class ReportsServices {
     FinancialDuesModel financialDues = await getShopperFinancialDues(shopperId: shopperId);
     Widget content;
     if (financialDues == null) {
-      content = AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ');
+      content = AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ');
     } else {
       content = Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Column(
             children: [
-              Text(StringUtils.shopper, style: mainStyle),
+              Text(shopper, style: mainStyle),
               Text(StringUtils().oCcy.format(int.parse(financialDues.totalShopperProfits).abs()).toString(),
                   style: int.parse(financialDues.totalShopperProfits).isNegative ? loseStyle : profitStyle),
             ],
           ),
           Column(
             children: [
-              Text(StringUtils.kammun, style: mainStyle),
+              Text(kammun, style: mainStyle),
               Text(StringUtils().oCcy.format(int.parse(financialDues.companyDues).abs()).toString(),
                   style: int.parse(financialDues.companyDues).isNegative ? loseStyle : profitStyle),
             ],
@@ -177,8 +177,8 @@ class ReportsServices {
       'description': description
     };
     try {
-      var response =
-          await ApiProvider.sendRequest(url: addTransaction, method: HttpMethods.post, body: jsonEncode(transaction));
+      var response = await ApiProvider.sendRequest(
+          url: addTransactionApi, method: HttpMethods.post, body: jsonEncode(transaction));
 
       if (response.statusCode == successCode) return response.data['success'];
       return false;

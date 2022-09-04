@@ -10,8 +10,8 @@ class Actor extends StatelessWidget {
   const Actor({Key key, this.size = 20.0}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Container(
-      width: size, height: size, decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.kmColors));
+  Widget build(BuildContext context) =>
+      Container(width: size, height: size, decoration: BoxDecoration(shape: BoxShape.circle, color: kmColors));
 }
 
 class Loader extends StatefulWidget {

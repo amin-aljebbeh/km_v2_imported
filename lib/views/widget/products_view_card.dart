@@ -78,7 +78,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                   children: <Widget>[
                     Text(
                       widget.productData.name,
-                      style: TextStyle(fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 18),
+                      style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,10 +93,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                   ? widget.productData.quantity + " " + widget.productData.unit
                                   : widget.productData.quantity,
                               style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.fontFamily,
-                                  fontSize: 17),
+                                  fontWeight: FontWeight.w400, color: greyColor, fontFamily: fontFamily, fontSize: 17),
                             ),
                             const SizedBox(height: 8),
                             Text(
@@ -104,8 +101,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                     " ${LoadingScreenServices.companyInformation.currency}",
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: ColorUtils.primaryColor,
-                                    fontFamily: StringUtils.fontFamily,
+                                    color: primaryColor,
+                                    fontFamily: fontFamily,
                                     fontSize: 18)),
                           ],
                         ),
@@ -154,8 +151,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                             : '0'),
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      color: ColorUtils.primaryColor,
-                                      fontFamily: StringUtils.fontFamily,
+                                      color: primaryColor,
+                                      fontFamily: fontFamily,
                                       fontSize: 13,
                                     ),
                                   )
@@ -172,8 +169,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                             : '0'),
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      color: ColorUtils.primaryColor,
-                                      fontFamily: StringUtils.fontFamily,
+                                      color: primaryColor,
+                                      fontFamily: fontFamily,
                                       fontSize: 13,
                                     ),
                                   )
@@ -188,7 +185,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                       padding: const EdgeInsets.all(3.0),
                       decoration: BoxDecoration(
                           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                          border: Border.all(color: ColorUtils.kmColors, width: 2)),
+                          border: Border.all(color: kmColors, width: 2)),
                       child: IconButton(
                         icon: const Icon(Icons.add, color: Colors.green),
                         onPressed: () {

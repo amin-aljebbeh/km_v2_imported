@@ -3,7 +3,6 @@ import 'package:flushbar/flushbar.dart';
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
-import 'package:kammun_app/views/login/login_view.dart';
 import 'package:kammun_app/views/prices_changes/services/prices_changes_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
@@ -92,14 +91,14 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       iconSize: 35,
                       icon: const Icon(Icons.home),
                       tooltip: 'Back to Store Page',
-                      onPressed: () =>
-                          Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false)),
+                      onPressed: () => Navigator.of(context)
+                          .pushNamedAndRemoveUntil(StoreView.routeName, (Route<dynamic> route) => false)),
                   actions: <Widget>[
                     IconButton(
                         onPressed: () => Navigator.of(context).pop(true),
                         icon: const Icon(Icons.arrow_forward_ios, size: 35))
                   ],
-                  backgroundColor: ColorUtils.primaryColor,
+                  backgroundColor: primaryColor,
                   expandedHeight: 300.0,
                   floating: false,
                   pinned: true,
@@ -161,8 +160,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             child: Text(widget.product.name,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: ColorUtils.primaryColor,
-                                    fontFamily: StringUtils.fontFamily,
+                                    color: primaryColor,
+                                    fontFamily: fontFamily,
                                     fontSize: 25)))),
                     const SizedBox(height: 10),
                     Row(
@@ -171,7 +170,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text(StringUtils.quantity + ' :', style: paragraphStyle),
+                            Text(quantity + ' :', style: paragraphStyle),
                             const SizedBox(width: 5),
                             Text(
                                 widget.product.unit.toString() != 'null'
@@ -182,7 +181,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         ),
                         Column(
                           children: <Widget>[
-                            Text(StringUtils.price + ' :', style: paragraphStyle),
+                            Text(price + ' :', style: paragraphStyle),
                             const SizedBox(width: 5),
                             Text(
                                 '${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
@@ -201,7 +200,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LabelRow(
-                            rightSideText: StringUtils.description + ' :',
+                            rightSideText: description + ' :',
                             leftSideText:
                                 widget.product.description != null ? widget.product.description.split('@')[0] : "",
                             leftSideStyle: informationStyle),
@@ -220,7 +219,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 if (Services.isProductsController()) {
                                   List<DialogButton> dialogButtons = [
                                     DialogButton(
-                                      text: StringUtils.yes,
+                                      text: yes,
                                       onTap: () async {
                                         Navigator.of(context).pop();
                                         bool result = await ProductsServices.removeProductFromCategoryService(
@@ -232,7 +231,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         }
                                       },
                                     ),
-                                    DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
+                                    DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
                                   ];
                                   showMyDialog(
                                       context: context,
@@ -293,7 +292,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black,
-                                  fontFamily: StringUtils.fontFamily,
+                                  fontFamily: fontFamily,
                                   fontSize: 35)),
                         ),
                         const SizedBox(width: 10),
@@ -312,14 +311,14 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           padding: const EdgeInsets.all(3.0),
                           decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                              border: Border.all(color: ColorUtils.primaryColor, width: 4)),
+                              border: Border.all(color: primaryColor, width: 4)),
                           child: Center(
-                              child: Text(StringUtils.outOfStock,
-                                  style: TextStyle(
-                                      fontSize: 25, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily)))),
+                              child: Text(outOfStock,
+                                  style:
+                                      TextStyle(fontSize: 25, fontWeight: FontWeight.bold, fontFamily: fontFamily)))),
                     KammunButton(
                       text:
-                          '${StringUtils.addToCart}  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split('.')[0]))})',
+                          '$addToCart  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split('.')[0]))})',
                       height: 50,
                       color: Theme.of(context).primaryColor,
                       onTap: () async {
@@ -334,11 +333,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             backgroundColor: Colors.green,
                             messageText: Text('تم إضافة ${widget.product.name} لسلة المشتريات', style: flushBarStyle),
                             boxShadows: [
-                              BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)
+                              BoxShadow(color: primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)
                             ],
                             icon: const Icon(Icons.assignment_turned_in, size: 28.0, color: Colors.white),
                             duration: const Duration(seconds: 3),
-                            leftBarIndicatorColor: ColorUtils.kmColors,
+                            leftBarIndicatorColor: kmColors,
                           ).show(context);
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           productsId =
@@ -355,7 +354,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       children: [
                         const SizedBox(height: 30),
                         UpdateProductInfoWidget(
-                          title: StringUtils.edit + ' ' + StringUtils.price + ' :',
+                          title: edit + ' ' + price + ' :',
                           inputType: TextInputType.text,
                           bodyKey: 'price',
                           productId: widget.product.id,
@@ -373,7 +372,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           }),
                         ),
                         UpdateProductInfoWidget(
-                          title: StringUtils.edit + ' ' + StringUtils.supplierCode + ':',
+                          title: edit + ' ' + supplierCode + ':',
                           inputType: TextInputType.text,
                           textHint: widget.product.supplierCode,
                           initialText: widget.product.supplierCode,
@@ -383,7 +382,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           onSavePressed: (newValue, result) => setState(() => widget.product.supplierCode = newValue),
                         ),
                         UpdateProductInfoWidget(
-                          title: StringUtils.priceFactor + ' :',
+                          title: priceFactor + ' :',
                           inputType: TextInputType.text,
                           bodyKey: 'price_factor',
                           productId: widget.product.id,
@@ -396,7 +395,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             ? Column(
                                 children: [
                                   UpdateProductInfoWidget(
-                                    title: StringUtils.edit + ' ' + StringUtils.priority + ' :',
+                                    title: edit + ' ' + priority + ' :',
                                     textHint: widget.product.priority.toString(),
                                     inputType: TextInputType.text,
                                     bodyKey: 'priority',
@@ -408,7 +407,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         setState(() => widget.product.priority = int.parse(newValue)),
                                   ),
                                   UpdateProductInfoWidget(
-                                    title: StringUtils.edit + ' ' + StringUtils.name,
+                                    title: edit + ' ' + name,
                                     textHint: widget.product.name,
                                     inputType: TextInputType.multiline,
                                     bodyKey: 'name',
@@ -419,7 +418,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     onSavePressed: (newValue, result) => setState(() => widget.product.name = newValue),
                                   ),
                                   UpdateProductInfoWidget(
-                                    title: StringUtils.edit + ' ' + StringUtils.unit + ' :',
+                                    title: edit + ' ' + unit + ' :',
                                     inputType: TextInputType.multiline,
                                     bodyKey: 'unit',
                                     productId: widget.product.id,
@@ -433,7 +432,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     }),
                                   ),
                                   UpdateProductInfoWidget(
-                                    title: StringUtils.edit + ' ' + StringUtils.quantity + ' :',
+                                    title: edit + ' ' + quantity + ' :',
                                     isForSubWarehouse: false,
                                     inputType: TextInputType.text,
                                     productData: widget.product,
@@ -447,7 +446,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     }),
                                   ),
                                   UpdateProductInfoWidget(
-                                    title: StringUtils.edit + ' ' + StringUtils.description + ' :',
+                                    title: edit + ' ' + description + ' :',
                                     textHint: 'الوصف الجديد',
                                     inputType: TextInputType.multiline,
                                     bodyKey: 'description',
@@ -463,14 +462,14 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     padding: const EdgeInsets.only(left: 5, right: 5),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(width: 5, color: ColorUtils.greyColor)),
+                                        border: Border.all(width: 5, color: greyColor)),
                                     child: Center(
                                       child: DropdownButton(
                                         style: decisionButtonStyle,
                                         underline: Container(),
                                         isExpanded: false,
                                         items: Services.productSubWarehouseNames(context),
-                                        iconEnabledColor: ColorUtils.greyColor,
+                                        iconEnabledColor: greyColor,
                                         value: productSubWarehouseId,
                                         hint: Text(
                                           LoadingScreenServices.subWarehouses
@@ -478,7 +477,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                   (subWarehouse) => subWarehouse.id == widget.product.subWarehouseId,
                                                   orElse: () => SubWarehouse(name: 'غير مضاف'))
                                               .name,
-                                          style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor),
+                                          style: decisionButtonStyle.copyWith(color: greyColor),
                                         ),
                                         onChanged: (value) async {
                                           setState(() {
@@ -509,31 +508,30 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     padding: const EdgeInsets.only(left: 5, right: 5),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(width: 5, color: ColorUtils.greyColor)),
+                                        border: Border.all(width: 5, color: greyColor)),
                                     child: Center(
                                       child: SearchChoices.single(
                                         rightToLeft: true,
                                         searchInputDecoration: InputDecoration(
-                                            suffixIcon: Icon(Icons.search, size: 24, color: ColorUtils.primaryColor),
+                                            suffixIcon: Icon(Icons.search, size: 24, color: primaryColor),
                                             contentPadding: const EdgeInsets.symmetric(vertical: 12)),
                                         iconDisabledColor: Colors.black,
                                         displayClearIcon: false,
                                         style: dropdownItemStyle,
                                         closeButton: TextButton(
-                                          child: Text(StringUtils.close,
-                                              style: decisionButtonStyle.copyWith(color: ColorUtils.primaryColor)),
+                                          child: Text(close, style: decisionButtonStyle.copyWith(color: primaryColor)),
                                           onPressed: () => Navigator.of(context).pop(),
                                         ),
                                         isCaseSensitiveSearch: false,
                                         underline: Container(),
                                         isExpanded: false,
                                         items: LoadingScreenServices.fullCategoryList,
-                                        iconEnabledColor: ColorUtils.greyColor,
+                                        iconEnabledColor: greyColor,
                                         value: selectedValueCategoryValue,
                                         hint: Text('اختيار الصنف التابع له المنتج',
-                                            style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor)),
-                                        searchHint: Text('إختيار الصنف',
-                                            style: decisionButtonStyle.copyWith(color: ColorUtils.greyColor)),
+                                            style: decisionButtonStyle.copyWith(color: greyColor)),
+                                        searchHint:
+                                            Text('إختيار الصنف', style: decisionButtonStyle.copyWith(color: greyColor)),
                                         onChanged: (value) => setState(() {
                                           if (value != null) {
                                             selectedValueCategoryValue = value.toString().split(';')[1];
@@ -562,7 +560,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                 dialogButtons: [
                                                   const CloseButton(),
                                                   DialogButton(
-                                                    text: StringUtils.yes,
+                                                    text: yes,
                                                     onTap: () async {
                                                       bool result = await PricesChangesServices.deleteImage(
                                                           imageId: widget.product.images[0].id);
@@ -606,14 +604,14 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           children: [
                                             BarcodeIcon(
                                               productData: widget.product,
-                                              color: ColorUtils.kmColors,
+                                              color: kmColors,
                                               requestType: BarcodeRequestType.addBarcode,
                                               productId: widget.product.id,
                                               scaffoldKey: scaffoldKey,
                                               onAddBarcode: (result) => widget.onAddBarcode(result),
                                             ),
                                             IconButton(
-                                              icon: Icon(Icons.list, size: 30, color: ColorUtils.kmColors2),
+                                              icon: Icon(Icons.list, size: 30, color: kmColors2),
                                               onPressed: () {
                                                 showMyDialog(
                                                   context: context,
@@ -638,7 +636,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                                 title: 'إزالة باركود',
                                                                 dialogButtons: [
                                                                   DialogButton(
-                                                                    text: StringUtils.yes,
+                                                                    text: yes,
                                                                     onTap: () async {
                                                                       bool result =
                                                                           await ProductsServices.deleteBarcode(
@@ -661,7 +659,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                                     },
                                                                   ),
                                                                   DialogButton(
-                                                                      text: StringUtils.no,
+                                                                      text: no,
                                                                       onTap: () => Navigator.of(context).pop()),
                                                                 ],
                                                                 text:
@@ -699,7 +697,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                 onTap: () {
                                                   List<DialogButton> dialogButtons = [
                                                     DialogButton(
-                                                      text: StringUtils.yes,
+                                                      text: yes,
                                                       onTap: () async {
                                                         bool result = await AddedProductsServices
                                                             .unAttachProductsToSubWarehouseService(
@@ -712,8 +710,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                         Services.resultFlushBar(context: context, result: result);
                                                       },
                                                     ),
-                                                    DialogButton(
-                                                        text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
+                                                    DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
                                                   ];
                                                   showMyDialog(
                                                       context: context,
@@ -729,7 +726,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                               onTap: () {
                                                 List<DialogButton> dialogButtons = [
                                                   DialogButton(
-                                                    text: StringUtils.yes,
+                                                    text: yes,
                                                     onTap: () async {
                                                       bool result = await ProductsServices.deleteProductService(
                                                           widget.product.id.toString());
@@ -740,8 +737,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                       Services.resultFlushBar(context: context, result: result);
                                                     },
                                                   ),
-                                                  DialogButton(
-                                                      text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
+                                                  DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
                                                 ];
                                                 showMyDialog(
                                                     context: context,
@@ -766,7 +762,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     onTap: () {
                                       List<DialogButton> dialogButtons = [
                                         DialogButton(
-                                          text: StringUtils.yes,
+                                          text: yes,
                                           onTap: () async {
                                             bool result =
                                                 await AddedProductsServices.unAttachProductsToSubWarehouseService(
@@ -779,7 +775,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             Services.resultFlushBar(context: context, result: result);
                                           },
                                         ),
-                                        DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
+                                        DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
                                       ];
                                       showMyDialog(
                                           context: context,

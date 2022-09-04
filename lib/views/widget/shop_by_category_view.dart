@@ -14,9 +14,7 @@ class ShopByCategory extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return ShopByCategoryState();
-  }
+  State<StatefulWidget> createState() => ShopByCategoryState();
 }
 
 class ShopByCategoryState extends State<ShopByCategory> {
@@ -65,7 +63,7 @@ class ShopByCategoryState extends State<ShopByCategory> {
                         color: Colors.white,
                         fontSize: ResponsiveFlutter.of(context).fontSize(3),
                         fontWeight: FontWeight.bold,
-                        fontFamily: StringUtils.fontFamily,
+                        fontFamily: fontFamily,
                       ),
                       textAlign: TextAlign.center,
                     ),

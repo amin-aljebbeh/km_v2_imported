@@ -4,8 +4,8 @@ import '../../core/core_importer.dart';
 import 'Services/login_services.dart';
 
 class LoginScreen extends StatefulWidget {
-  static String routeName = '/login';
-  static String phoneNumber = "";
+  static String routeName = '/LoginScreen';
+  static String phoneNumber = '';
   static String supportedCityId;
 
   const LoginScreen({Key key}) : super(key: key);
@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin {
-  String currentText = "";
+  String currentText = '';
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -72,17 +72,16 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         enableSuggestions: false,
         autocorrect: false,
         obscureText: true,
-        cursorColor: ColorUtils.primaryColor,
+        cursorColor: primaryColor,
         decoration: InputDecoration(
-          floatingLabelStyle:
-              TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 30, color: ColorUtils.primaryColor),
+          floatingLabelStyle: TextStyle(fontFamily: fontFamily, fontSize: 30, color: primaryColor),
           labelText: 'كلمة المرور',
-          labelStyle: TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 30),
+          labelStyle: TextStyle(fontFamily: fontFamily, fontSize: 30),
           hintStyle: const TextStyle(color: Colors.black45),
-          border: OutlineInputBorder(
-              borderSide: BorderSide(color: ColorUtils.primaryColor), borderRadius: BorderRadius.circular(5.0)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: ColorUtils.kmColors), borderRadius: BorderRadius.circular(5.0)),
+          border:
+              OutlineInputBorder(borderSide: BorderSide(color: primaryColor), borderRadius: BorderRadius.circular(5.0)),
+          focusedBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: kmColors), borderRadius: BorderRadius.circular(5.0)),
         ),
       ),
     );
@@ -97,18 +96,17 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         controller: _usernameController,
         keyboardType: TextInputType.text,
         onEditingComplete: () => TextInput.finishAutofillContext(),
-        cursorColor: ColorUtils.primaryColor,
+        cursorColor: primaryColor,
         autofillHints: const [AutofillHints.username],
         decoration: InputDecoration(
           labelText: 'اسم المستخدم',
-          floatingLabelStyle:
-              TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 30, color: ColorUtils.primaryColor),
-          labelStyle: TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 30),
+          floatingLabelStyle: TextStyle(fontFamily: fontFamily, fontSize: 30, color: primaryColor),
+          labelStyle: TextStyle(fontFamily: fontFamily, fontSize: 30),
           hintStyle: const TextStyle(color: Colors.black45),
-          border: OutlineInputBorder(
-              borderSide: BorderSide(color: ColorUtils.primaryColor), borderRadius: BorderRadius.circular(5.0)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: ColorUtils.kmColors), borderRadius: BorderRadius.circular(5.0)),
+          border:
+              OutlineInputBorder(borderSide: BorderSide(color: primaryColor), borderRadius: BorderRadius.circular(5.0)),
+          focusedBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: kmColors), borderRadius: BorderRadius.circular(5.0)),
         ),
       ),
     );
@@ -117,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorUtils.kmColors,
+      backgroundColor: kmColors,
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -160,8 +158,7 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                   padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 20, top: 5),
                   child: loadingScreen
                       ? const Padding(padding: EdgeInsets.only(left: 0.0, right: 0.0, top: 10.0), child: Loader())
-                      : KammunButton(
-                          text: StringUtils.signIn, height: 50, color: ColorUtils.primaryColor, onTap: adminLogin),
+                      : KammunButton(text: signIn, height: 50, color: primaryColor, onTap: adminLogin),
                 ),
               ],
             ),

@@ -25,12 +25,12 @@ class _AddProductsViewState extends State<AddProductsView> {
   List<String> productData = [
     'المستودع',
     'اسم المنتج',
-    StringUtils.quantity,
-    StringUtils.unit,
-    StringUtils.priceFactor,
-    StringUtils.description,
-    StringUtils.supplierCode,
-    StringUtils.price,
+    quantity,
+    unit,
+    priceFactor,
+    description,
+    supplierCode,
+    price,
     'الصورة'
   ];
 
@@ -105,7 +105,7 @@ class _AddProductsViewState extends State<AddProductsView> {
           backgroundColor: Colors.red[900],
           messageText: Text(
             "فشل في إضافة المنتج",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: fontFamily),
           ),
           boxShadows: const [BoxShadow(color: Colors.red, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
           icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
@@ -117,7 +117,7 @@ class _AddProductsViewState extends State<AddProductsView> {
         backgroundColor: Colors.red[900],
         messageText: Text(
           "!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: fontFamily),
         ),
         boxShadows: const [BoxShadow(color: Colors.purple, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
         icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
@@ -166,8 +166,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                     child: Transform.scale(
                       scale: 2,
                       child: InkWell(
-                        onTap: () =>
-                            Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false),
+                        onTap: () => Navigator.pushNamedAndRemoveUntil(
+                            context, StoreView.routeName, (Route<dynamic> route) => false),
                         child: Image.asset("assets/logobw.png", width: 150, height: 50),
                       ),
                     ),
@@ -196,7 +196,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                   children: [
                     Text(
                       "يرجى إختيار المستودع التابع لهذه المادة",
-                      style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold),
                     ),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
@@ -222,36 +222,36 @@ class _AddProductsViewState extends State<AddProductsView> {
                       children: [
                         ProductEntryField(
                             controller: quantityController,
-                            title: StringUtils.quantity,
+                            title: quantity,
                             hint: "100",
                             width: MediaQuery.of(context).size.width / 4),
                         ProductEntryField(
                             controller: unitController,
-                            title: StringUtils.unit,
+                            title: unit,
                             hint: "لتر",
                             width: MediaQuery.of(context).size.width / 4),
                         ProductEntryField(
                             controller: priceFactorController,
-                            title: StringUtils.priceFactor,
+                            title: priceFactor,
                             hint: "1",
                             width: MediaQuery.of(context).size.width / 4),
                       ],
                     ),
                     ProductEntryField(
                         controller: descriptionController,
-                        title: StringUtils.description,
+                        title: description,
                         hint: "زيت دوار الشمس الصافي @كلمات مفتاحية"),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ProductEntryField(
                             controller: supplierCodeController,
-                            title: StringUtils.supplierCode,
+                            title: supplierCode,
                             hint: "123456",
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
                             controller: priceController,
-                            title: StringUtils.price,
+                            title: price,
                             hint: "5000",
                             width: MediaQuery.of(context).size.width / 3),
                       ],
@@ -259,10 +259,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        TextButton(
-                            child: Icon(Icons.camera, color: ColorUtils.kmColors), onPressed: () => getImageCamera()),
-                        TextButton(
-                            child: Icon(Icons.image, color: ColorUtils.kmColors), onPressed: () => getImageGallery()),
+                        TextButton(child: Icon(Icons.camera, color: kmColors), onPressed: () => getImageCamera()),
+                        TextButton(child: Icon(Icons.image, color: kmColors), onPressed: () => getImageGallery()),
                         SizedBox(
                           width: 110,
                           child: Container(
@@ -270,14 +268,12 @@ class _AddProductsViewState extends State<AddProductsView> {
                             padding: const EdgeInsets.all(3.0),
                             decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                border: Border.all(
-                                    color: switchController ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,
-                                    width: 2)),
+                                border: Border.all(color: switchController ? kmColors2 : searchGreyColor, width: 2)),
                             child: Switch(
                               value: switchController,
                               onChanged: (value) => setState(() => switchController = value),
-                              activeTrackColor: ColorUtils.kmColors2,
-                              activeColor: ColorUtils.kmColors,
+                              activeTrackColor: kmColors2,
+                              activeColor: kmColors,
                             ),
                           ),
                         ),
@@ -286,7 +282,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                       Text(
                         "السماح بتفعيل المنتاج تلقائيا",
-                        style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
                         width: 110,
@@ -295,14 +291,13 @@ class _AddProductsViewState extends State<AddProductsView> {
                           padding: const EdgeInsets.all(3.0),
                           decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                              border: Border.all(
-                                  color: autoActivationController ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,
-                                  width: 2)),
+                              border:
+                                  Border.all(color: autoActivationController ? kmColors2 : searchGreyColor, width: 2)),
                           child: Switch(
                             value: autoActivationController,
                             onChanged: (value) => setState(() => autoActivationController = value),
-                            activeTrackColor: ColorUtils.kmColors2,
-                            activeColor: ColorUtils.kmColors,
+                            activeTrackColor: kmColors2,
+                            activeColor: kmColors,
                           ),
                         ),
                       ),
@@ -310,8 +305,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                     _image != null ? imagesBody() : Container(),
                     KammunButton(
                       height: 50,
-                      text: StringUtils.save,
-                      color: toastList() == 0 ? ColorUtils.kmColors2 : ColorUtils.searchGreyColor,
+                      text: save,
+                      color: toastList() == 0 ? kmColors2 : searchGreyColor,
                       onTap: () {
                         if (toastList() == 0) {
                           _addNewProduct(barcode: widget.barcode, context: context);
@@ -344,34 +339,34 @@ class _AddProductsViewState extends State<AddProductsView> {
       if (!productData.contains('اسم المنتج')) productData.add('اسم المنتج');
     }
     if (quantityController.text.isNotEmpty) {
-      if (productData.contains(StringUtils.quantity)) productData.remove(StringUtils.quantity);
+      if (productData.contains(quantity)) productData.remove(quantity);
     } else {
-      if (!productData.contains(StringUtils.quantity)) productData.add(StringUtils.quantity);
+      if (!productData.contains(quantity)) productData.add(quantity);
     }
     if (unitController.text.isNotEmpty) {
-      if (productData.contains(StringUtils.unit)) productData.remove(StringUtils.unit);
+      if (productData.contains(unit)) productData.remove(unit);
     } else {
-      if (!productData.contains(StringUtils.unit)) productData.add(StringUtils.unit);
+      if (!productData.contains(unit)) productData.add(unit);
     }
     if (priceFactorController.text.isNotEmpty) {
-      if (productData.contains(StringUtils.priceFactor)) productData.remove(StringUtils.priceFactor);
+      if (productData.contains(priceFactor)) productData.remove(priceFactor);
     } else {
-      if (!productData.contains(StringUtils.priceFactor)) productData.add(StringUtils.priceFactor);
+      if (!productData.contains(priceFactor)) productData.add(priceFactor);
     }
     if (descriptionController.text.isNotEmpty) {
-      if (productData.contains(StringUtils.description)) productData.remove(StringUtils.description);
+      if (productData.contains(description)) productData.remove(description);
     } else {
-      if (!productData.contains(StringUtils.description)) productData.add(StringUtils.description);
+      if (!productData.contains(description)) productData.add(description);
     }
     if (supplierCodeController.text.isNotEmpty) {
-      if (productData.contains(StringUtils.supplierCode)) productData.remove(StringUtils.supplierCode);
+      if (productData.contains(supplierCode)) productData.remove(supplierCode);
     } else {
-      if (!productData.contains(StringUtils.supplierCode)) productData.add(StringUtils.supplierCode);
+      if (!productData.contains(supplierCode)) productData.add(supplierCode);
     }
     if (priceController.text.isNotEmpty) {
-      if (productData.contains(StringUtils.price)) productData.remove(StringUtils.price);
+      if (productData.contains(price)) productData.remove(price);
     } else {
-      if (!productData.contains(StringUtils.price)) productData.add(StringUtils.price);
+      if (!productData.contains(price)) productData.add(price);
     }
     if (_image != null) {
       if (productData.contains('الصورة')) productData.remove('الصورة');

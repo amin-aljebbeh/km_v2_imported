@@ -45,8 +45,7 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
             padding: const EdgeInsets.all(3.0),
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                border: Border.all(
-                    color: widget.preState == 1 ? ColorUtils.kmColors : ColorUtils.searchGreyColor, width: 2)),
+                border: Border.all(color: widget.preState == 1 ? kmColors : searchGreyColor, width: 2)),
             child: Center(
               child: Switch(
                 value: widget.preState == 1 ? true : false,
@@ -84,8 +83,8 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
                     widget.onChange(newStat, true);
                   }
                 },
-                activeTrackColor: ColorUtils.kmColors2,
-                activeColor: ColorUtils.kmColors,
+                activeTrackColor: kmColors2,
+                activeColor: kmColors,
               ),
             ),
           );

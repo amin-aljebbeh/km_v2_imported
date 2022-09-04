@@ -5,6 +5,7 @@ import '../../core/core_importer.dart';
 import 'models/report_model_importer.dart';
 
 class ShopperTransactionView extends StatefulWidget {
+  static const String routeName = '/ShopperTransactionView';
   const ShopperTransactionView({Key key}) : super(key: key);
 
   @override
@@ -70,7 +71,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('كشف حساب متسوق', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('كشف حساب متسوق', style: mainStyle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
@@ -188,14 +189,14 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                   KammunButton(
                     height: 50,
                     text: '  المستحقات  ',
-                    color: ColorUtils.primaryColor,
+                    color: primaryColor,
                     onTap: () =>
                         ReportsServices.financialDues(context: context, shopperId: Services.shopper.id.toString()),
                   ),
                   KammunButton(
                     height: 50,
                     text: '  إحصائيات  ',
-                    color: ColorUtils.primaryColor,
+                    color: primaryColor,
                     onTap: () =>
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const ShopperInformation())),
                   ),
@@ -206,8 +207,7 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                 height: MediaQuery.of(context).size.height * 0.65,
                 child: error
                     ? Center(
-                        child: AlertMessages(
-                            text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
+                        child: AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
                     : loading
                         ? const Loader()
                         : empty
@@ -242,14 +242,14 @@ class _ShopperTransactionViewState extends State<ShopperTransactionView> {
                                           children: [
                                             Column(
                                               children: [
-                                                Text(StringUtils.shopper, style: mainStyle),
+                                                Text(shopper, style: mainStyle),
                                                 Text(StringUtils().oCcy.format(shopperProfit.abs()).toString(),
                                                     style: shopperProfit.isNegative ? loseStyle : profitStyle),
                                               ],
                                             ),
                                             Column(
                                               children: [
-                                                Text(StringUtils.kammun, style: mainStyle),
+                                                Text(kammun, style: mainStyle),
                                                 Text(StringUtils().oCcy.format(kammunProfit.abs()).toString(),
                                                     style: kammunProfit.isNegative ? loseStyle : profitStyle),
                                               ],

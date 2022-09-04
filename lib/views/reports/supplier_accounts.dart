@@ -6,6 +6,7 @@ import 'models/supplier_account_model.dart';
 import 'services/reports_services.dart';
 
 class SupplierAccounts extends StatefulWidget {
+  static const String routeName = '/SupplierAccounts';
   const SupplierAccounts({Key key}) : super(key: key);
 
   @override
@@ -13,8 +14,8 @@ class SupplierAccounts extends StatefulWidget {
 }
 
 class _SupplierAccountsState extends State<SupplierAccounts> {
-  String fromDateTimeValue = "يرجى أختيار تاريخ البداية";
-  String toDateTimeValue = "يرجى إختيار تاريخ النهاية";
+  String fromDateTimeValue = 'يرجى أختيار تاريخ البداية';
+  String toDateTimeValue = 'يرجى إختيار تاريخ النهاية';
   final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   List<SupplierAccountModel> accounts;
   bool isLoading;
@@ -57,7 +58,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('كشف حساب مورد', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('كشف حساب مورد', style: mainStyle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -69,8 +70,8 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
                 onConfirmEnd: (date) => setState(() => toDateTimeValue = date),
               ),
               KammunButton(
-                text: StringUtils.send,
-                color: validDates() ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
+                text: send,
+                color: validDates() ? Theme.of(context).primaryColor : searchGreyColor,
                 onTap: () {
                   if (validDates()) {
                     getSupplierAccounts();
@@ -87,8 +88,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
                   height: MediaQuery.of(context).size.height * 0.65,
                   child: isError
                       ? Center(
-                          child: AlertMessages(
-                              text: StringUtils.errorMessage, messageType: "internetError", headerText: "حدث خطأ"))
+                          child: AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
                       : isLoading
                           ? const Loader()
                           : selected
@@ -130,5 +130,5 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
   }
 
   bool validDates() =>
-      fromDateTimeValue != "يرجى أختيار تاريخ البداية" && toDateTimeValue != "يرجى إختيار تاريخ النهاية";
+      fromDateTimeValue != 'يرجى أختيار تاريخ البداية' && toDateTimeValue != 'يرجى إختيار تاريخ النهاية';
 }

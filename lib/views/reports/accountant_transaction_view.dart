@@ -6,6 +6,7 @@ import 'models/monthly_profit_model.dart';
 import 'models/transaction_model.dart';
 
 class AccountantTransactionView extends StatefulWidget {
+  static const String routeName = '/AccountantTransactionView';
   const AccountantTransactionView({Key key}) : super(key: key);
 
   @override
@@ -113,7 +114,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: ColorUtils.primaryColor,
+        backgroundColor: primaryColor,
         title: Text('كشف حساب متسوق', style: mainStyle),
       ),
       body: SafeArea(
@@ -126,7 +127,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back, size: 40, color: ColorUtils.primaryColor),
+                    icon: Icon(Icons.arrow_back, size: 40, color: primaryColor),
                     onPressed: () {
                       if (selected && !empty) {
                         setState(() {
@@ -140,7 +141,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: KSearchableDropdown(
-                      hint: StringUtils.chooseShopper,
+                      hint: chooseShopper,
                       search: shopperFilter,
                       items: Services.shoppersNameList(),
                       onChanged: (value) {
@@ -161,7 +162,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.arrow_forward, size: 40, color: ColorUtils.primaryColor),
+                    icon: Icon(Icons.arrow_forward, size: 40, color: primaryColor),
                     onPressed: () {
                       if (selected) {
                         setState(() {
@@ -288,8 +289,8 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                 child: selected
                     ? error
                         ? Center(
-                            child: AlertMessages(
-                                text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
+                            child:
+                                AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
                         : loading
                             ? const Loader()
                             : empty
@@ -329,7 +330,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                                               children: [
                                                 Column(
                                                   children: [
-                                                    Text(StringUtils.shopper, style: mainStyle),
+                                                    Text(shopper, style: mainStyle),
                                                     Text(
                                                       StringUtils().oCcy.format(shopperProfit.abs()).toString(),
                                                       style: shopperProfit.isNegative ? loseStyle : profitStyle,
@@ -338,7 +339,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                                                 ),
                                                 Column(
                                                   children: [
-                                                    Text(StringUtils.kammun, style: mainStyle),
+                                                    Text(kammun, style: mainStyle),
                                                     Text(
                                                       StringUtils().oCcy.format(kammunProfit.abs()).toString(),
                                                       style: kammunProfit.isNegative ? loseStyle : profitStyle,
@@ -358,8 +359,8 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
               KammunButton(
                 width: MediaQuery.of(context).size.width,
                 height: 50,
-                text: StringUtils.addTransaction,
-                color: ColorUtils.primaryColor,
+                text: addTransaction,
+                color: primaryColor,
                 onTap: () => Navigator.push(
                     context, MaterialPageRoute(builder: (context) => AddTransactionView(shopperName: shopperName))),
               ),
@@ -367,7 +368,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 text: 'المستحقات المالية',
-                color: ColorUtils.primaryColor,
+                color: primaryColor,
                 onTap: () {
                   if (selected) {
                     ReportsServices.financialDues(context: context, shopperId: shopperId);

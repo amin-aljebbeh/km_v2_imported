@@ -3,6 +3,7 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 import '../../core/core_importer.dart';
 
 class ShopperManagementView extends StatefulWidget {
+  static const String routeName = '/ShopperManagementView';
   const ShopperManagementView({Key key}) : super(key: key);
 
   @override
@@ -27,7 +28,7 @@ class _ShopperManagementViewState extends State<ShopperManagementView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('فريق التوصيل', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('فريق التوصيل', style: mainStyle)),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: loading

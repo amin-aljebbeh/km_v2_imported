@@ -111,7 +111,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                       children: <Widget>[
                         DropdownButton(
                           value: filterOrders,
-                          items: Services.dropdownStringList(StringUtils.orderStatus),
+                          items: Services.dropdownStringList(orderStatus),
                           onChanged: (value) {
                             setState(() {
                               filterOrders = value;
@@ -127,12 +127,12 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                               if (page < 14) setState(() => page++);
                               _getOrder();
                             },
-                            icon: Icon(Icons.arrow_back, size: 40, color: ColorUtils.kmColors),
+                            icon: Icon(Icons.arrow_back, size: 40, color: kmColors),
                           ),
                         ),
                         DropdownButton(
                           value: page,
-                          items: Services.dropdownIntList(StringUtils.dropdownValues),
+                          items: Services.dropdownIntList(dropdownValues),
                           onChanged: (value) {
                             setState(() => page = value);
                             _getOrder();
@@ -145,7 +145,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                               if (page > 1) page--;
                               _getOrder();
                             }),
-                            icon: Icon(Icons.arrow_forward, size: 40, color: ColorUtils.kmColors),
+                            icon: Icon(Icons.arrow_forward, size: 40, color: kmColors),
                           ),
                         ),
                       ],
@@ -158,8 +158,8 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 'لا يوجد أي طلبات سابقة',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  color: ColorUtils.greyColor,
-                                  fontFamily: StringUtils.fontFamily,
+                                  color: greyColor,
+                                  fontFamily: fontFamily,
                                   fontSize: 20.0,
                                 ),
                               ),
@@ -230,7 +230,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 ),
                               if (!['5', '6', '7'].contains(orderDataList[index].orderStatusId))
                                 KammunButton(
-                                  text: StringUtils.editOrder,
+                                  text: editOrder,
                                   onTap: () async {
                                     setState(() {
                                       orderLoaded = false;
@@ -273,7 +273,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 ),
                               orderDataList[index].userNotes.toString() != 'null'
                                   ? KammunButton(
-                                      text: StringUtils.watchNote,
+                                      text: watchNote,
                                       onTap: () {
                                         showMyDialog(
                                             context: context,
@@ -286,7 +286,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   : Container(),
                               orderDataList[index].underUpdate.toString() != '0'
                                   ? KammunButton(
-                                      text: StringUtils.unLock,
+                                      text: unLock,
                                       onTap: () {
                                         int orderId = orderDataList[index].id;
                                         List<Widget> decisionButtons = [
@@ -316,7 +316,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                   : Container(),
                               Padding(
                                   padding: const EdgeInsets.only(top: 8.0),
-                                  child: Divider(thickness: 5, color: ColorUtils.kmColors2))
+                                  child: Divider(thickness: 5, color: kmColors2))
                             ],
                           );
                         },
@@ -364,6 +364,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
     }
     prefs.setString('userCart', productsId + '@' + productsQuantity);
 
-    Navigator.of(context).pushNamedAndRemoveUntil('/cartFromUpdate', (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(CartView.fromUpdateRouteName, (Route<dynamic> route) => false);
   }
 }

@@ -5,6 +5,7 @@ import '../../core/core_importer.dart';
 import 'services/reports_services.dart';
 
 class AddTransactionView extends StatefulWidget {
+  static const String routeName = '/AddTransactionView';
   final String shopperName;
   final int orderId;
 
@@ -41,7 +42,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('إضافة مناقلة', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('إضافة مناقلة', style: mainStyle)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
@@ -51,7 +52,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
               children: [
                 const SizedBox(height: 20),
                 KSearchableDropdown(
-                  hint: StringUtils.chooseShopper,
+                  hint: chooseShopper,
                   search: shopperFilter,
                   items: Services.shoppersNameList(),
                   onChanged: (value) {
@@ -108,8 +109,8 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                 const SizedBox(height: 20),
                 KammunButton(
                   height: 50,
-                  text: StringUtils.addTransaction,
-                  color: !completeData() ? ColorUtils.searchGreyColor : ColorUtils.primaryColor,
+                  text: addTransaction,
+                  color: !completeData() ? searchGreyColor : primaryColor,
                   onTap: () async {
                     if (!completeData()) {
                       Toast.show("يرجى إدخال كافة البيانات", context,

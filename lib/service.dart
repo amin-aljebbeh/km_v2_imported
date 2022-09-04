@@ -150,28 +150,24 @@ class Services {
     return list;
   }
 
-  static bool isAdmin() => Services.roles.where((element) => element.slug.contains(StringUtils.adminRole)).isNotEmpty;
+  static bool isAdmin() => Services.roles.where((element) => element.slug.contains(adminRole)).isNotEmpty;
 
   static bool isOperationManager() =>
-      Services.roles.where((element) => element.slug.contains(StringUtils.operationManager)).isNotEmpty;
+      Services.roles.where((element) => element.slug.contains(operationManager)).isNotEmpty;
 
   static bool isProductsController() =>
-      Services.roles.where((element) => element.slug.contains(StringUtils.productsController)).isNotEmpty;
+      Services.roles.where((element) => element.slug.contains(productsController)).isNotEmpty;
 
-  static bool isSuperAdmin() =>
-      Services.roles.where((element) => element.slug.contains(StringUtils.superAdminRole)).isNotEmpty;
+  static bool isSuperAdmin() => Services.roles.where((element) => element.slug.contains(superAdminRole)).isNotEmpty;
 
-  static bool isAccounting() =>
-      Services.roles.where((element) => element.slug.contains(StringUtils.accountingRole)).isNotEmpty;
+  static bool isAccounting() => Services.roles.where((element) => element.slug.contains(accountingRole)).isNotEmpty;
 
-  static bool isShopper() =>
-      Services.roles.where((element) => element.slug.contains(StringUtils.shopperRole)).isNotEmpty;
+  static bool isShopper() => Services.roles.where((element) => element.slug.contains(shopperRole)).isNotEmpty;
 
-  static bool isSupplierManager() =>
-      Services.roles.where((element) => element.slug.contains(StringUtils.supplierRol)).isNotEmpty;
+  static bool isSupplierManager() => Services.roles.where((element) => element.slug.contains(supplierRol)).isNotEmpty;
 
   static bool isViewPriceRateRoll() =>
-      Services.roles.where((element) => element.slug.contains(StringUtils.viewPriceRate)).isNotEmpty;
+      Services.roles.where((element) => element.slug.contains(viewPriceRate)).isNotEmpty;
 
   static errorFlushBar(BuildContext context) => Flushbar(
         backgroundColor: Colors.red[900],
@@ -184,10 +180,10 @@ class Services {
   static successFlushBar(BuildContext context) => Flushbar(
         backgroundColor: Colors.green,
         messageText: Text('تمت العملية بنجاح', style: flushBarStyle),
-        boxShadows: [BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
+        boxShadows: [BoxShadow(color: primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
         icon: const Icon(Icons.assignment_turned_in, size: 28.0, color: Colors.white),
         duration: const Duration(seconds: 1),
-        leftBarIndicatorColor: ColorUtils.kmColors,
+        leftBarIndicatorColor: kmColors,
       )..show(context);
 
   static resultFlushBar({@required BuildContext context, @required bool result}) {
@@ -279,9 +275,9 @@ class Services {
     String infoMessage = 'تطبيق كمّون لتوصيل المنتجات الغذائية لباب بيتك و بأسعار منافسة\n';
     String androidGrating = '\n لتحميل التطبيق على الأندوريد \n';
 
-    String androidUrl = androidGrating + LoadingScreenServices.iOSShareUrl;
+    String androidUrl = androidGrating + LoadingScreenServices.androidShareUrl;
     String iosGrating = '\n لتحميل التطبيق على الآيفون \n';
-    String iPhoneUrl = iosGrating + LoadingScreenServices.androidShareUrl;
+    String iPhoneUrl = iosGrating + LoadingScreenServices.iOSShareUrl;
 
     Share.share(infoMessage + androidUrl + iPhoneUrl);
   }

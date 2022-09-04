@@ -20,9 +20,7 @@ class OrderDetailViewMain extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return OrderDetailViewMainState();
-  }
+  State<StatefulWidget> createState() => OrderDetailViewMainState();
 }
 
 class OrderDetailViewMainState extends State<OrderDetailViewMain>
@@ -98,7 +96,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                             if (newSubWarehouse(index))
                               Container(
                                 margin: const EdgeInsets.only(bottom: 10),
-                                color: ColorUtils.searchGreyColor,
+                                color: searchGreyColor,
                                 child: Center(
                                   child: Text(
                                     LoadingScreenServices.subWarehouses
@@ -163,7 +161,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
-                                  fontFamily: StringUtils.fontFamily,
+                                  fontFamily: fontFamily,
                                   fontSize: 17.0,
                                 ),
                               ),
@@ -182,7 +180,7 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
-                                  fontFamily: StringUtils.fontFamily,
+                                  fontFamily: fontFamily,
                                   fontSize: 17.0,
                                 ),
                               ),
@@ -194,14 +192,14 @@ class OrderDetailViewMainState extends State<OrderDetailViewMain>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(StringUtils.subtotal, style: darkBold),
+                              Text(subtotalString, style: darkBold),
                               Text(
                                 '${StringUtils().oCcy.format(widget.subTotal)}'
                                 ' ${LoadingScreenServices.companyInformation.currency}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: Theme.of(context).primaryColorDark,
-                                  fontFamily: StringUtils.fontFamily,
+                                  fontFamily: fontFamily,
                                   fontSize: 17.0,
                                 ),
                               ),

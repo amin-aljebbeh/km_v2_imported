@@ -4,6 +4,7 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 import '../../core/core_importer.dart';
 
 class ProductsFilterScreen extends StatefulWidget {
+  static const String routeName = '/ProductsFilterScreen';
   const ProductsFilterScreen({Key key}) : super(key: key);
 
   @override
@@ -75,7 +76,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
       key: scaffoldKey,
       resizeToAvoidBottomInset: false,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorUtils.primaryColor,
+        backgroundColor: primaryColor,
         onPressed: () {},
         child: Text(total.toString(), style: const TextStyle(fontSize: 20)),
       ),
@@ -93,7 +94,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back, size: 40, color: ColorUtils.primaryColor),
+                  icon: Icon(Icons.arrow_back, size: 40, color: primaryColor),
                   onPressed: () {
                     if (!empty && (valueController.text.isNotEmpty || filter == 3) && filter != null) {
                       setState(() => page++);
@@ -104,7 +105,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                 DropdownButton(
                   hint: Text('فلترة المنتجات', style: dropdownItemStyle),
                   value: filter,
-                  items: Services.dropdownStringList(StringUtils.productFilter),
+                  items: Services.dropdownStringList(productFilter),
                   onChanged: (value) {
                     if (value == 3) {
                       showMyDialog(
@@ -113,7 +114,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                         dialogButtons: [
                           const CloseWidget(),
                           DialogButton(
-                            text: StringUtils.send,
+                            text: send,
                             onTap: () {
                               if (validDates()) {
                                 Navigator.of(context).pop();
@@ -148,7 +149,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                   icon: Icon(
                     biggerThan == 1 ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                     size: 40,
-                    color: ColorUtils.primaryColor,
+                    color: primaryColor,
                   ),
                   onPressed: () {
                     if (valueController.text.isNotEmpty && filter != null && filter != 3) {
@@ -177,7 +178,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.arrow_forward, size: 40, color: ColorUtils.primaryColor),
+                  icon: Icon(Icons.arrow_forward, size: 40, color: primaryColor),
                   onPressed: () {
                     if ((valueController.text.isNotEmpty || filter == 3) && filter != null) {
                       setState(() {
@@ -196,8 +197,7 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
               child: (valueController.text.isNotEmpty || filter == 3) && filter != null
                   ? error
                       ? Center(
-                          child: AlertMessages(
-                              text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
+                          child: AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
                       : loading
                           ? const Loader()
                           : empty

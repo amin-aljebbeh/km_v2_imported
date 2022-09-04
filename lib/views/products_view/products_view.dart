@@ -129,7 +129,7 @@ class ProductsViewState extends State<ProductsView> {
               widget.barcode == null &&
               (Services.isAdmin() || Services.isSuperAdmin() || Services.isProductsController())
           ? FloatingActionButton(
-              backgroundColor: ColorUtils.kmColors2,
+              backgroundColor: kmColors2,
               onPressed: () {
                 Navigator.push(
                   context,
@@ -177,8 +177,8 @@ class ProductsViewState extends State<ProductsView> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: IconButton(
                         icon: const Icon(Icons.shopping_cart, size: 35, color: Colors.white),
-                        onPressed: () =>
-                            Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false),
+                        onPressed: () => Navigator.of(context)
+                            .pushNamedAndRemoveUntil(CartView.routeName, (Route<dynamic> route) => false),
                       ),
                     ),
                     const AppBarKammunImage(),
@@ -269,8 +269,7 @@ class ProductsViewState extends State<ProductsView> {
                                 ? theEndOfProducts
                                     ? Text(
                                         'تم جلب جميع المنتجات',
-                                        style:
-                                            TextStyle(fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily),
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontFamily: fontFamily),
                                       )
                                     : const Loader()
                                 : Container(),

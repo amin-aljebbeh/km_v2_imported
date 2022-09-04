@@ -140,9 +140,7 @@ class LoadingScreenServices {
                         width: 287,
                         child: Text(category.name + ' من القائمة الرئيسية',
                             overflow: TextOverflow.visible, maxLines: 2, style: warehouseStyle)),
-                    Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Divider(thickness: 1, color: ColorUtils.greyColor))
+                    Padding(padding: const EdgeInsets.only(top: 8.0), child: Divider(thickness: 1, color: greyColor))
                   ],
                 ),
                 value: category.name + ';' + category.id.toString()))

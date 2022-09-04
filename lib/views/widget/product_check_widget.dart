@@ -52,7 +52,7 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                     padding: const EdgeInsets.all(3.0),
                     decoration: BoxDecoration(
                         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                        border: Border.all(color: ColorUtils.primaryColor, width: 2)),
+                        border: Border.all(color: primaryColor, width: 2)),
                     child: Center(child: Text(widget.productCount, style: mainStyle.copyWith(fontSize: 30))),
                   ),
                   IconButton(

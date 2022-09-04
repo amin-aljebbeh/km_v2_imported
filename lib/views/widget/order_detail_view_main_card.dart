@@ -91,7 +91,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                       style: paragraphStyle,
                     ),
                   Text('كمية المستودع : ' + widget.productData.availableQuantity,
-                      style: mainStyle.copyWith(color: ColorUtils.kmColors)),
+                      style: mainStyle.copyWith(color: kmColors)),
                   if ((!Services.isSupplierManager()) && subWarehouseList.isNotEmpty)
                     DropdownButton(
                       items: subWarehouseList,

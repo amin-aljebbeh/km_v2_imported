@@ -39,14 +39,14 @@ class _ExcelInventoryState extends State<ExcelInventory> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: ColorUtils.primaryColor,
+          backgroundColor: primaryColor,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
             child: Container(
-                color: ColorUtils.primaryColor,
+                color: primaryColor,
                 child: SafeArea(child: TabBar(indicatorColor: Colors.white, labelColor: Colors.white, tabs: tabList))),
           ),
-          title: Text(StringUtils.inventory, style: mainStyle),
+          title: Text(inventory, style: mainStyle),
         ),
         body: TabBarView(children: screenList),
       ),

@@ -5,6 +5,7 @@ import '../../core/core_importer.dart';
 import 'model/prices_changes_model.dart';
 
 class Prices extends StatefulWidget {
+  static const String routeName = '/Prices';
   const Prices({Key key}) : super(key: key);
 
   @override
@@ -55,7 +56,7 @@ class _PricesState extends State<Prices> {
       key: scaffoldKey,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        backgroundColor: ColorUtils.primaryColor,
+        backgroundColor: primaryColor,
         child: Text("$numberOfProducts", style: const TextStyle(fontSize: 20)),
       ),
       backgroundColor: Colors.white,
@@ -69,10 +70,8 @@ class _PricesState extends State<Prices> {
                       child: Expanded(
                         child: Column(
                           children: [
-                            AlertMessages(
-                                text: StringUtils.errorMessage, messageType: "internetError", headerText: "حدث خطأ"),
-                            ElevatedButton(
-                                child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () => _loadData()),
+                            AlertMessages(text: errorMessage, messageType: "internetError", headerText: "حدث خطأ"),
+                            ElevatedButton(child: Text(tryAgain, style: blackBold), onPressed: () => _loadData()),
                           ],
                         ),
                       ),
@@ -83,9 +82,7 @@ class _PricesState extends State<Prices> {
                           child: Center(
                             child: Text("لايجود منتجات تغير سعرها اليوم",
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: StringUtils.fontFamily)),
+                                    color: Colors.black, fontWeight: FontWeight.bold, fontFamily: fontFamily)),
                           ),
                         )
                       : Expanded(

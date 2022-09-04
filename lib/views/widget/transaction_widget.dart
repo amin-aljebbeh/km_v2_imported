@@ -18,7 +18,7 @@ class Transaction extends StatelessWidget {
         newTransaction
             ? Column(
                 children: [
-                  Divider(thickness: 5, color: ColorUtils.primaryColor),
+                  Divider(thickness: 5, color: primaryColor),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,7 +32,7 @@ class Transaction extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 15.0),
                         child: KammunButton(
-                          color: ColorUtils.primaryColor,
+                          color: primaryColor,
                           onTap: () => show(transaction.createdAt),
                           text: 'المجموع',
                           width: MediaQuery.of(context).size.width * 0.25,
@@ -42,8 +42,8 @@ class Transaction extends StatelessWidget {
                   ),
                   KTableRow(
                     children: [
-                      KTableElement(text: StringUtils.shopper),
-                      KTableElement(text: StringUtils.kammun),
+                      KTableElement(text: shopper),
+                      KTableElement(text: kammun),
                       const KTableElement(text: 'النوع'),
                       const KTableElement(text: 'الطلب'),
                     ],
@@ -73,7 +73,7 @@ class Transaction extends StatelessWidget {
                     ),
                     if (transaction.description != null)
                       IconButton(
-                        icon: Icon(Icons.device_unknown, color: ColorUtils.primaryColor),
+                        icon: Icon(Icons.device_unknown, color: primaryColor),
                         onPressed: () => showMyDialog(context: context, title: 'الوصف', text: transaction.description),
                         padding: const EdgeInsets.only(top: 25, right: 15),
                       ),

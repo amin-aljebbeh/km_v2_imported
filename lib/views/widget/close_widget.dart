@@ -9,7 +9,7 @@ class CloseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DialogButton(
-        text: StringUtils.close,
+        text: close,
         onTap: () {
           Navigator.of(context).pop();
         });

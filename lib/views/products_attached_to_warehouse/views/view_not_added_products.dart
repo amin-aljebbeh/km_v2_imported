@@ -4,6 +4,7 @@ import 'package:kammun_app/views/products_attached_to_warehouse/services/added_p
 import '../../../core/core_importer.dart';
 
 class NotAddedProductsToWarehouse extends StatefulWidget {
+  static const String routeName = '/NotAddedProductsToWarehouse';
   const NotAddedProductsToWarehouse({Key key}) : super(key: key);
 
   @override
@@ -88,9 +89,8 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                       child: Expanded(
                         child: Column(
                           children: [
-                            AlertMessages(
-                                text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
-                            ElevatedButton(child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () {}),
+                            AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
+                            ElevatedButton(child: Text(tryAgain, style: blackBold), onPressed: () {}),
                           ],
                         ),
                       ),

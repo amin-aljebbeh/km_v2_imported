@@ -85,7 +85,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     LabelRow(
-                      rightSideText: StringUtils.bill,
+                      rightSideText: bill,
                       leftSideText:
                           '${StringUtils().oCcy.format(int.parse(widget.order.total.split('.')[0])).toString()}'
                           ' ${LoadingScreenServices.companyInformation.currency.toString()}',
@@ -93,7 +93,7 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                     ),
                     Container(
                       padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(border: Border.all(color: ColorUtils.greyColor.withOpacity(0.2))),
+                      decoration: BoxDecoration(border: Border.all(color: greyColor.withOpacity(0.2))),
                       child: Text(productsCount().toString(), style: paragraphStyle, textAlign: TextAlign.center),
                     ),
                     Column(
@@ -111,20 +111,20 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                 ),
                 const SizedBox(height: 10),
                 LabelRow(
-                  rightSideText: StringUtils.orderDate,
+                  rightSideText: orderDate,
                   leftSideText: DateFormat('a h:mm - dd-MM-yyyy').format(widget.order.createdAt),
                   leftSideStyle: disableStyle,
                 ),
                 LabelRow(
-                  rightSideText: StringUtils.shopperName + ' ',
+                  rightSideText: shopperName + ' ',
                   leftSideText: widget.order.shopper != null ? widget.order.shopper.name : ' ',
                   leftSideStyle: paragraphStyle,
                 ),
                 LabelRow(
-                  rightSideText: StringUtils.phoneNumber,
+                  rightSideText: phoneNumber,
                   leftSideText: widget.order.shopper != null ? widget.order.shopper.admin.phone : ' ',
                   leftSideStyle: paragraphStyle.copyWith(
-                    color: ColorUtils.kmColors,
+                    color: kmColors,
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => Services.makePhoneCall(
@@ -135,18 +135,18 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
           ),
           widget.order.userNotes.toString() != 'null'
               ? KammunButton(
-                  text: StringUtils.watchNote,
+                  text: watchNote,
                   onTap: () {
                     showMyDialog(
                         context: context,
-                        title: StringUtils.costumerNote,
+                        title: costumerNote,
                         text: widget.order.userNotes,
                         dialogButtons: [const CloseWidget()]);
                   },
                   color: Colors.indigoAccent,
                 )
               : Container(),
-          Padding(padding: const EdgeInsets.only(top: 8.0), child: Divider(thickness: 5, color: ColorUtils.kmColors2)),
+          Padding(padding: const EdgeInsets.only(top: 8.0), child: Divider(thickness: 5, color: kmColors2)),
         ],
       ),
     );

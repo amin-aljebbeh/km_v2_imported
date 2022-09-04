@@ -176,7 +176,7 @@ class _OrderByIDState extends State<OrderByID> {
                                           }
                                         },
                                       ),
-                                      DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
+                                      DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
                                     ];
                                     showMyDialog(
                                         context: context,
@@ -184,7 +184,7 @@ class _OrderByIDState extends State<OrderByID> {
                                         text: 'هل أنت متأكد انك تريد رفض الطلب ؟',
                                         dialogButtons: decisionButton);
                                   },
-                                  text: StringUtils.cancelOrder,
+                                  text: cancelOrder,
                                   width: MediaQuery.of(context).size.width * 0.4,
                                   color: Colors.red,
                                   onTap: () {
@@ -217,7 +217,7 @@ class _OrderByIDState extends State<OrderByID> {
                                           }
                                         },
                                       ),
-                                      DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
+                                      DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
                                     ];
                                     showMyDialog(
                                         context: context,
@@ -233,7 +233,7 @@ class _OrderByIDState extends State<OrderByID> {
                           KammunButton(
                             text: 'استعادة الطلب',
                             width: MediaQuery.of(context).size.width,
-                            color: ColorUtils.kmColors,
+                            color: kmColors,
                             onTap: () {
                               List<DialogButton> decisionButton = [
                                 DialogButton(
@@ -265,7 +265,7 @@ class _OrderByIDState extends State<OrderByID> {
                                     }
                                   },
                                 ),
-                                DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
+                                DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
                               ];
                               showMyDialog(
                                   context: context,
@@ -275,7 +275,7 @@ class _OrderByIDState extends State<OrderByID> {
                             },
                           ),
                         KammunButton(
-                          text: StringUtils.editOrder,
+                          text: editOrder,
                           onTap: () async {
                             setState(() {
                               orderLoaded = false;
@@ -317,10 +317,10 @@ class _OrderByIDState extends State<OrderByID> {
                         ),
                         order.userNotes.toString() != 'null'
                             ? KammunButton(
-                                text: StringUtils.watchNote,
+                                text: watchNote,
                                 onTap: () => showMyDialog(
                                     context: context,
-                                    title: StringUtils.costumerNote,
+                                    title: costumerNote,
                                     text: order.userNotes,
                                     dialogButtons: [const CloseWidget()]),
                                 color: Colors.indigoAccent,
@@ -328,7 +328,7 @@ class _OrderByIDState extends State<OrderByID> {
                             : Container(),
                         order.underUpdate.toString() != '0'
                             ? KammunButton(
-                                text: StringUtils.unLock,
+                                text: unLock,
                                 onTap: () {
                                   int orderId = order.id;
                                   List<Widget> decisionButtons = [
@@ -347,8 +347,8 @@ class _OrderByIDState extends State<OrderByID> {
                                   ];
                                   showMyDialog(
                                       context: context,
-                                      title: StringUtils.unLock,
-                                      text: StringUtils.unLockConfirm,
+                                      title: unLock,
+                                      text: unLockConfirm,
                                       dialogButtons: decisionButtons);
                                 },
                                 color: Colors.blue[800],
@@ -356,7 +356,7 @@ class _OrderByIDState extends State<OrderByID> {
                             : Container(),
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Divider(thickness: 5, color: ColorUtils.kmColors2),
+                          child: Divider(thickness: 5, color: kmColors2),
                         )
                       ],
                     ),
@@ -403,6 +403,6 @@ class _OrderByIDState extends State<OrderByID> {
     }
     prefs.setString('userCart', productsId + '@' + productsQuantity);
     LoadingScreenServices.phoneOrderList = [order];
-    Navigator.of(context).pushNamedAndRemoveUntil('/cartFromUpdate', (Route<dynamic> route) => false);
+    Navigator.of(context).pushNamedAndRemoveUntil(CartView.fromUpdateRouteName, (Route<dynamic> route) => false);
   }
 }

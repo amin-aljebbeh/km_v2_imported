@@ -24,7 +24,7 @@ class KDrawer extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: DrawerHeader(
-                      decoration: BoxDecoration(color: Colors.white, border: Border.all(color: ColorUtils.kmColors)),
+                      decoration: BoxDecoration(color: Colors.white, border: Border.all(color: kmColors)),
                       child: InkWell(
                         onTap: () => Navigator.of(context).pop(),
                         child: SizedBox(
@@ -33,10 +33,8 @@ class KDrawer extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Icon(Icons.arrow_back_ios, color: ColorUtils.kmColors)),
-                              Text(LoadingScreenServices.admin.username ?? '',
-                                  style: TextStyle(color: ColorUtils.kmColors)),
+                                  alignment: Alignment.centerRight, child: Icon(Icons.arrow_back_ios, color: kmColors)),
+                              Text(LoadingScreenServices.admin.username ?? '', style: TextStyle(color: kmColors)),
                             ],
                           ),
                         ),
@@ -45,7 +43,7 @@ class KDrawer extends StatelessWidget {
                   ),
                 ),
                 Container(child: Image.asset('assets/kmlogoo.png', width: 250, height: 200), color: Colors.white),
-                Divider(color: ColorUtils.kmColors),
+                Divider(color: kmColors),
                 SizedBox(
                   height: 550,
                   child: ListView(

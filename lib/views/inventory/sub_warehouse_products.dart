@@ -1,6 +1,7 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
+
 import '../../core/core_importer.dart';
 
 class SubWarehouseProducts extends StatefulWidget {
@@ -79,9 +80,9 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       Flushbar(
         backgroundColor: Colors.green,
         messageText: Text('فرز حسب المواد الغير مفعلة', style: flushBarStyle),
-        boxShadows: [BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
+        boxShadows: [BoxShadow(color: primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
         duration: const Duration(seconds: 3),
-        leftBarIndicatorColor: ColorUtils.kmColors,
+        leftBarIndicatorColor: kmColors,
       ).show(context);
     } else if (filterIndex == 1) {
       setState(() {
@@ -97,9 +98,9 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       Flushbar(
         backgroundColor: Colors.green,
         messageText: Text('فرز حسب المواد  المفعلة', style: flushBarStyle),
-        boxShadows: [BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
+        boxShadows: [BoxShadow(color: primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
         duration: const Duration(seconds: 3),
-        leftBarIndicatorColor: ColorUtils.kmColors,
+        leftBarIndicatorColor: kmColors,
       ).show(context);
     } else if (filterIndex == 2) {
       setState(() {
@@ -118,9 +119,9 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
       Flushbar(
         backgroundColor: Colors.green,
         messageText: Text('فرز حسب المواد المضافة حديثاً', style: flushBarStyle),
-        boxShadows: [BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
+        boxShadows: [BoxShadow(color: primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
         duration: const Duration(seconds: 3),
-        leftBarIndicatorColor: ColorUtils.kmColors,
+        leftBarIndicatorColor: kmColors,
       ).show(context);
     }
   }
@@ -130,7 +131,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
     return Scaffold(
       key: scaffoldKey,
       floatingActionButton: FloatingActionButton(
-          backgroundColor: ColorUtils.primaryColor,
+          backgroundColor: primaryColor,
           onPressed: () => _filterProducts(),
           child: const Icon(Icons.filter_list_rounded, size: 35)),
       backgroundColor: Colors.white,
@@ -144,10 +145,8 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                       child: Expanded(
                         child: Column(
                           children: [
-                            AlertMessages(
-                                text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
-                            ElevatedButton(
-                                child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () => _loadData()),
+                            AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
+                            ElevatedButton(child: Text(tryAgain, style: blackBold), onPressed: () => _loadData()),
                           ],
                         ),
                       ),

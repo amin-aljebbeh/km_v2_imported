@@ -4,6 +4,7 @@ import '../../core/core_importer.dart';
 import 'services/inventory_services.dart';
 
 class GetSubWarehouse extends StatefulWidget {
+  static const String routeName = '/GetSubWarehouse';
   const GetSubWarehouse({Key key}) : super(key: key);
 
   @override
@@ -53,9 +54,8 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-          backgroundColor: ColorUtils.primaryColor,
-          title: Text(StringUtils.kammun,
-              style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold))),
+          backgroundColor: primaryColor,
+          title: Text(kammun, style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold))),
       body: Container(
         child: isLoading
             ? const Loader()
@@ -63,8 +63,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                 padding: const EdgeInsets.all(20.0),
                 child: ListView(
                   children: [
-                    Text("يرجى إختيار المستودع",
-                        style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold)),
+                    Text("يرجى إختيار المستودع", style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold)),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
@@ -91,7 +90,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                     KammunButton(
                       height: 50,
                       text: 'استعراض المستودع',
-                      color: selected ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
+                      color: selected ? Theme.of(context).primaryColor : searchGreyColor,
                       onTap: () {
                         if (selected) {
                           Navigator.push(
@@ -109,7 +108,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
                       KammunButton(
                         height: 50,
                         text: 'رفع ملف الجرد',
-                        color: selected ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
+                        color: selected ? Theme.of(context).primaryColor : searchGreyColor,
                         onTap: () async {
                           if (selected) {
                             File file = await pickFile();

@@ -16,7 +16,7 @@ class MediaIcon extends StatelessWidget {
       onPressed: () => Services.openUrl(url, mobileNumber: mobileNumber),
       icon: Icon(
         icon,
-        color: url == 'customer_whatsapp' ? ColorUtils.kmColors : ColorUtils.primaryColor,
+        color: url == 'customer_whatsapp' ? kmColors : primaryColor,
         size: 30,
       ),
     );

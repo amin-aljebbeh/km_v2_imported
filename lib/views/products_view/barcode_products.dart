@@ -1,5 +1,6 @@
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
+
 import '../../core/core_importer.dart';
 
 class BarcodeProducts extends StatefulWidget {
@@ -86,12 +87,8 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                           child: Expanded(
                             child: Column(
                               children: [
-                                AlertMessages(
-                                    text: StringUtils.errorMessage,
-                                    messageType: 'internetError',
-                                    headerText: 'حدث خطأ'),
-                                ElevatedButton(
-                                    child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () => _loadData())
+                                AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
+                                ElevatedButton(child: Text(tryAgain, style: blackBold), onPressed: () => _loadData())
                               ],
                             ),
                           ),
@@ -196,7 +193,7 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                         ),
             ),
             KammunButton(
-              color: ColorUtils.primaryColor,
+              color: primaryColor,
               onTap: () {
                 Navigator.pop(context);
                 widget.onIgnore();

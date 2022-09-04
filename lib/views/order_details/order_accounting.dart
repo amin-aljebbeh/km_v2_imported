@@ -33,7 +33,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
           onLongPress: () async {
             List<DialogButton> dialogButtons = [
               DialogButton(
-                text: StringUtils.yes,
+                text: yes,
                 onTap: () async {
                   Navigator.of(context).pop();
                   bool result =
@@ -49,7 +49,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   }
                 },
               ),
-              DialogButton(text: StringUtils.no, onTap: () => Navigator.of(context).pop()),
+              DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
             ];
             showMyDialog(context: context, title: '', text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
           },
@@ -104,19 +104,16 @@ class _OrderAccountingState extends State<OrderAccounting> {
           int delivery = int.parse(widget.orderData.supportedCityCost.split('.')[0]) +
               int.parse(widget.orderData.deliveryCost.split('.')[0]);
           int subTotal = int.parse(widget.orderData.total.split('.')[0]) - delivery;
-          subWarehouseTotal.add(KTableRow(
-              children: [KTableElement(text: StringUtils.subtotal), KTableElement(text: subTotal.toString())]));
+          subWarehouseTotal.add(
+              KTableRow(children: [KTableElement(text: subtotalString), KTableElement(text: subTotal.toString())]));
           subWarehouseTotal.add(KTableRow(
               children: [const KTableElement(text: 'أجور التوصيل'), KTableElement(text: delivery.toString())]));
           subWarehouseTotal.add(KTableRow(
-            children: [
-              KTableElement(text: StringUtils.total),
-              KTableElement(text: widget.orderData.total.split('.')[0])
-            ],
+            children: [KTableElement(text: totalString), KTableElement(text: widget.orderData.total.split('.')[0])],
           ));
         } else {
-          subWarehouseTotal.add(KTableRow(
-              children: [KTableElement(text: StringUtils.total), KTableElement(text: widget.subTotal.toString())]));
+          subWarehouseTotal.add(
+              KTableRow(children: [KTableElement(text: totalString), KTableElement(text: widget.subTotal.toString())]));
         }
       },
     );
@@ -161,7 +158,7 @@ class _OrderAccountingState extends State<OrderAccounting> {
                   ),
                   if (Services.isOperationManager())
                     KammunButton(
-                      color: ColorUtils.kmColors,
+                      color: kmColors,
                       onTap: () {
                         if (widget.orderData.shopper == null) {
                           Toast.show('هذا الطلب غير مسند لمتسوق', context,
@@ -174,12 +171,12 @@ class _OrderAccountingState extends State<OrderAccounting> {
                                       orderId: widget.orderData.id, shopperName: widget.orderData.shopper.name)));
                         }
                       },
-                      text: StringUtils.addTransaction,
+                      text: addTransaction,
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: 50,
                     ),
                   KammunButton(
-                    color: ColorUtils.kmColors,
+                    color: kmColors,
                     onTap: () => Navigator.push(
                         context, MaterialPageRoute(builder: (context) => InvoiceView(orderId: widget.orderData.id))),
                     text: 'تفاصيل فاتورة الزبون',

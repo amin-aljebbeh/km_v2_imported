@@ -123,7 +123,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   widget.productData.name,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    fontFamily: StringUtils.fontFamily,
+                                    fontFamily: fontFamily,
                                     fontSize: 18,
                                   ),
                                 ),
@@ -136,8 +136,8 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   (widget.productData.unit != 'null' ? widget.productData.unit : ''),
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
-                                color: ColorUtils.greyColor,
-                                fontFamily: StringUtils.fontFamily,
+                                color: greyColor,
+                                fontFamily: fontFamily,
                                 fontSize: 17,
                               ),
                             ),
@@ -148,8 +148,8 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() + '  ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
-                                    color: ColorUtils.primaryColor,
-                                    fontFamily: StringUtils.fontFamily,
+                                    color: primaryColor,
+                                    fontFamily: fontFamily,
                                     fontSize: 18,
                                   ),
                                 ),
@@ -174,17 +174,13 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                   text: StringUtils()
                                                       .oCcy
                                                       .format(int.parse(widget.productData.alertProductsCount)),
-                                                  style: TextStyle(
-                                                      color: ColorUtils.kmColors,
-                                                      fontFamily: StringUtils.fontFamily,
-                                                      fontSize: 14),
+                                                  style:
+                                                      TextStyle(color: kmColors, fontFamily: fontFamily, fontSize: 14),
                                                 ),
                                                 TextSpan(
                                                   text: 'ينتظرون تفعيل  المنتج',
-                                                  style: TextStyle(
-                                                      color: ColorUtils.kmColors,
-                                                      fontFamily: StringUtils.fontFamily,
-                                                      fontSize: 14),
+                                                  style:
+                                                      TextStyle(color: kmColors, fontFamily: fontFamily, fontSize: 14),
                                                 ),
                                               ],
                                             ),
@@ -242,7 +238,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                               padding: const EdgeInsets.all(3.0),
                               decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                  border: Border.all(color: ColorUtils.primaryColor, width: 2)),
+                                  border: Border.all(color: primaryColor, width: 2)),
                               child: widget.attached && widget.supplierCode != 'null' && !widget.fromInventory
                                   ? IconButton(
                                       icon: const Icon(Icons.close_sharp, color: Colors.red),
@@ -258,7 +254,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                               'هل أنت متأكد أنك تريد إزالة ${widget.productData.name} من $subWarehouseName',
                                           dialogButtons: [
                                             DialogButton(
-                                              text: StringUtils.yes,
+                                              text: yes,
                                               onTap: () async {
                                                 bool result = await _unAttachProduct();
                                                 Navigator.of(context).pop();

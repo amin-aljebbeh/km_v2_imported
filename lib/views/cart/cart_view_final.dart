@@ -1,4 +1,3 @@
-import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
@@ -10,6 +9,7 @@ import '../orders/model/submit_order_model.dart';
 import 'order_problem_sheet.dart';
 
 class CartViewFinal extends StatefulWidget {
+  static const String routeName = '/CartViewFinal';
   static String message = '';
 
   const CartViewFinal({Key key}) : super(key: key);
@@ -39,7 +39,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
     await CartServices.getUserCart();
     setState(() => loadingScreen = false);
     Navigator.of(context).pop();
-    Navigator.of(context).pushNamed('/cartFinal');
+    Navigator.of(context).pushNamed(CartViewFinal.routeName);
   }
 
   @override
@@ -110,9 +110,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           InkWell(
                             onTap: () => Navigator.of(context).pop('updatePrice'),
                             child: Text(
-                              StringUtils.shoppingCart,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 30),
+                              shoppingCart,
+                              style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 30),
                             ),
                           ),
                         ],
@@ -139,11 +138,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          StringUtils.subtotal,
+                          subtotalString,
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryColorDark,
-                            fontFamily: StringUtils.fontFamily,
+                            fontFamily: fontFamily,
                             fontSize: 17.0,
                           ),
                         ),
@@ -152,7 +151,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamily,
+                              fontFamily: fontFamily,
                               fontSize: 17.0),
                         ),
                       ],
@@ -161,11 +160,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(StringUtils.delivery,
+                        Text(delivery,
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamily,
+                              fontFamily: fontFamily,
                               fontSize: 16.0,
                             )),
                         Text(
@@ -173,7 +172,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamily,
+                              fontFamily: fontFamily,
                               fontSize: 16),
                         ),
                       ],
@@ -182,11 +181,11 @@ class _CartViewFinalState extends State<CartViewFinal> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(StringUtils.total,
+                        Text(totalString,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamily,
+                              fontFamily: fontFamily,
                               fontSize: 19.0,
                             )),
                         Text(
@@ -194,7 +193,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Theme.of(context).primaryColorDark,
-                              fontFamily: StringUtils.fontFamily,
+                              fontFamily: fontFamily,
                               fontSize: 19),
                         ),
                       ],
@@ -211,12 +210,12 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                       Checkbox(
                                           value: refund,
                                           onChanged: (bool value) => setState(() => refund = value),
-                                          activeColor: ColorUtils.primaryColor),
+                                          activeColor: primaryColor),
                                       Text('شحن المحفظة', style: decisionButtonStyle.copyWith(color: Colors.black)),
                                     ],
                                   ),
                                 KammunButton(
-                                  color: ColorUtils.primaryColor,
+                                  color: primaryColor,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,7 +234,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
-                                                fontFamily: StringUtils.fontFamily),
+                                                fontFamily: fontFamily),
                                           ),
                                         ),
                                       ),
@@ -268,7 +267,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                   'ملاحظات على الطلب',
                                                   style: TextStyle(
                                                       fontWeight: FontWeight.w700,
-                                                      fontFamily: StringUtils.fontFamily,
+                                                      fontFamily: fontFamily,
                                                       fontSize: 18),
                                                 ),
                                               ),
@@ -276,20 +275,20 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                                 padding: const EdgeInsets.only(left: 8, right: 8),
                                                 decoration: BoxDecoration(
                                                     borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                                                    border: Border.all(width: 2, color: ColorUtils.kmColors)),
+                                                    border: Border.all(width: 2, color: kmColors)),
                                                 child: TextField(
                                                   controller: _userNotes,
                                                   textAlign: TextAlign.right,
                                                   keyboardType: TextInputType.multiline,
                                                   maxLines: 5,
-                                                  style: TextStyle(fontFamily: StringUtils.fontFamily),
+                                                  style: TextStyle(fontFamily: fontFamily),
                                                 ),
                                               ),
                                               KammunButton(
-                                                text: StringUtils.save + ' ' + StringUtils.note,
+                                                text: save + ' ' + note,
                                                 width: MediaQuery.of(context).size.width / 2.5,
                                                 height: 40,
-                                                color: ColorUtils.primaryColor,
+                                                color: primaryColor,
                                                 onTap: () => Navigator.of(context).pop(),
                                               ),
                                             ],
@@ -301,9 +300,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
                                 ),
                                 KammunButton(
                                   width: MediaQuery.of(context).size.width,
-                                  color:
-                                      CartServices.cartProducts.isNotEmpty ? ColorUtils.primaryColor : Colors.grey[400],
-                                  text: StringUtils.confirmOrder,
+                                  color: CartServices.cartProducts.isNotEmpty ? primaryColor : Colors.grey[400],
+                                  text: confirmOrder,
                                   onTap: () {
                                     _cartChanged();
                                     _showConfirmOrderBtnTapped();
@@ -364,25 +362,21 @@ class _CartViewFinalState extends State<CartViewFinal> {
                       children: <Widget>[
                         Text(
                           orderArray[index].name,
-                          style:
-                              TextStyle(fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 18),
+                          style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18),
                         ),
                         const SizedBox(height: 6),
                         Text(
                           orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
                           style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: ColorUtils.greyColor,
-                              fontFamily: StringUtils.fontFamily,
-                              fontSize: 17),
+                              fontWeight: FontWeight.w400, color: greyColor, fontFamily: fontFamily, fontSize: 17),
                         ),
                         const SizedBox(height: 8),
                         Text(
                             '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                color: ColorUtils.primaryColor,
-                                fontFamily: StringUtils.fontFamily,
+                                color: primaryColor,
+                                fontFamily: fontFamily,
                                 fontSize: 18)),
                       ],
                     ),
@@ -398,7 +392,7 @@ class _CartViewFinalState extends State<CartViewFinal> {
                 Container(
                   width: 30,
                   height: 30,
-                  decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: greyColor.withOpacity(0.2)),
                   child: InkWell(
                     onTap: () {
                       setState(() {
@@ -417,13 +411,13 @@ class _CartViewFinalState extends State<CartViewFinal> {
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).primaryColorDark,
-                        fontFamily: StringUtils.fontFamily,
+                        fontFamily: fontFamily,
                         fontSize: 18)),
                 const SizedBox(height: 5),
                 Container(
                   width: 30,
                   height: 30,
-                  decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: greyColor.withOpacity(0.2)),
                   child: InkWell(
                     onTap: () {
                       setState(() {

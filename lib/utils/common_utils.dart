@@ -18,21 +18,21 @@ enum ProductsViewTypes { search, category, barcode }
 
 class MyThemes {
   static final ThemeData lightTheme = ThemeData(
-    primaryColor: ColorUtils.primaryColor,
+    primaryColor: primaryColor,
     primaryColorLight: Colors.white,
     primaryColorDark: Colors.black,
     brightness: Brightness.light,
-    inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.primaryColor))),
+    inputDecorationTheme:
+        InputDecorationTheme(focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor))),
   );
 
   static final ThemeData darkTheme = ThemeData(
-    primaryColor: ColorUtils.primaryColor,
+    primaryColor: primaryColor,
     primaryColorLight: Colors.black,
     primaryColorDark: Colors.white,
     brightness: Brightness.dark,
-    inputDecorationTheme: InputDecorationTheme(
-        focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.primaryColor))),
+    inputDecorationTheme:
+        InputDecorationTheme(focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor))),
   );
 
   static final ThemeData darkerTheme = ThemeData(primaryColor: Colors.black, brightness: Brightness.dark);

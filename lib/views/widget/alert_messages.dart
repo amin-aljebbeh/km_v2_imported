@@ -82,7 +82,7 @@ class AlertMessages extends StatelessWidget {
                       fontSize: headerTextSize ?? 15,
                       fontWeight: FontWeight.w700,
                       height: 1.5,
-                      fontFamily: StringUtils.fontFamily),
+                      fontFamily: fontFamily),
                 ),
                 TextSpan(
                   text: text,
@@ -91,7 +91,7 @@ class AlertMessages extends StatelessWidget {
                       fontSize: messageTextSize ?? 15,
                       height: 1.5,
                       fontWeight: FontWeight.w400,
-                      fontFamily: StringUtils.fontFamily),
+                      fontFamily: fontFamily),
                 ),
               ],
             ),

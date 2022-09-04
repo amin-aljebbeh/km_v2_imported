@@ -31,11 +31,11 @@ class _EntryFieldState extends State<EntryField> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
         color: Colors.white,
-        border: Border.all(width: 1.0, color: ColorUtils.kmColors),
+        border: Border.all(width: 1.0, color: kmColors),
         boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.16), offset: const Offset(0, 3.0), blurRadius: 6.0)],
       ),
       child: TextFormField(
-        cursorColor: ColorUtils.kmColors,
+        cursorColor: kmColors,
         onChanged: (value) => setState(() {}),
         onFieldSubmitted: (string) => widget.onSubmit(string.isNotEmpty),
         onTap: () {},

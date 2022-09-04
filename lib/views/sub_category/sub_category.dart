@@ -79,7 +79,7 @@ class _SubCategoryState extends State<SubCategory> {
               icon: const Icon(Icons.shopping_cart, size: 35, color: Colors.white),
               onPressed: () {
                 if (!widget.forProductAdding) {
-                  Navigator.of(context).pushNamedAndRemoveUntil('/cart', (Route<dynamic> route) => false);
+                  Navigator.of(context).pushNamedAndRemoveUntil(CartView.routeName, (Route<dynamic> route) => false);
                 }
               },
             ),
@@ -120,10 +120,10 @@ class _SubCategoryState extends State<SubCategory> {
                 child: Center(
                   child: Text("لا يوجد اصناف متوفرة حالياً، سيتم إضافة اصناف في المستقبل",
                       style: TextStyle(
-                          color: ColorUtils.primaryColor,
+                          color: primaryColor,
                           fontSize: ResponsiveFlutter.of(context).fontSize(3),
                           fontWeight: FontWeight.bold,
-                          fontFamily: StringUtils.fontFamily)),
+                          fontFamily: fontFamily)),
                 ),
               ),
             )
@@ -140,8 +140,7 @@ class _SubCategoryState extends State<SubCategory> {
                   onTap: () => _onTileClicked(widget.subCategory[index].id),
                   child: Card(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        side: BorderSide(color: ColorUtils.kmColors, width: 4.0)),
+                        borderRadius: BorderRadius.circular(30), side: BorderSide(color: kmColors, width: 4.0)),
                     elevation: 4,
                     margin: const EdgeInsets.all(10),
                     child: Column(
@@ -175,7 +174,7 @@ class _SubCategoryState extends State<SubCategory> {
                                     style: TextStyle(
                                         fontSize: ResponsiveFlutter.of(context).fontSize(4),
                                         color: Colors.white,
-                                        fontFamily: StringUtils.fontFamily),
+                                        fontFamily: fontFamily),
                                     softWrap: true,
                                     overflow: TextOverflow.fade,
                                   ),

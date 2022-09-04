@@ -19,30 +19,29 @@ class _InventorySearchTextFieldState extends State<InventorySearchTextField> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: ColorUtils.primaryColor,
+      backgroundColor: primaryColor,
       title: Container(
         padding: const EdgeInsets.only(bottom: 10.0),
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-            border: Border.all(color: ColorUtils.primaryColor, width: 2)),
+            border: Border.all(color: primaryColor, width: 2)),
         child: TextField(
           style: flushBarStyle,
           decoration: InputDecoration(
               suffixIcon: IconButton(
                   icon: const Icon(Icons.close, size: 20, color: Colors.white),
                   onPressed: () => widget.controller.text = ''),
-              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.kmColors)),
-              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.kmColors)),
-              border: UnderlineInputBorder(borderSide: BorderSide(color: ColorUtils.kmColors))),
-          cursorColor: ColorUtils.kmColors,
+              enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: kmColors)),
+              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: kmColors)),
+              border: UnderlineInputBorder(borderSide: BorderSide(color: kmColors))),
+          cursorColor: kmColors,
           controller: widget.controller,
         ),
       ),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: IconButton(onPressed: widget.onReload, icon: const Icon(Icons.refresh, size: 35))
-        )
+            padding: const EdgeInsets.only(left: 8.0),
+            child: IconButton(onPressed: widget.onReload, icon: const Icon(Icons.refresh, size: 35)))
       ],
     );
   }

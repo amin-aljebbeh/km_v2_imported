@@ -37,7 +37,7 @@ class _KDatePickerState extends State<KDatePicker> with AutomaticKeepAliveClient
             IconButton(
               icon: Icon(
                 Icons.timer,
-                color: ColorUtils.primaryColor,
+                color: primaryColor,
               ),
               onPressed: () {
                 DatePicker.showDateTimePicker(
@@ -70,7 +70,7 @@ class _KDatePickerState extends State<KDatePicker> with AutomaticKeepAliveClient
             IconButton(
               icon: Icon(
                 Icons.timeline,
-                color: ColorUtils.primaryColor,
+                color: primaryColor,
               ),
               onPressed: () {
                 DatePicker.showDateTimePicker(

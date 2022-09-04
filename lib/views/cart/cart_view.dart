@@ -1,4 +1,3 @@
-import 'package:kammun_app/views/cart/cart_view_final.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
 import 'package:kammun_app/views/orders/services/order_services.dart';
@@ -7,6 +6,8 @@ import '../../core/core_importer.dart';
 import 'services/cart_services.dart';
 
 class CartView extends StatefulWidget {
+  static const String routeName = '/CartView';
+  static const String fromUpdateRouteName = '/cartFromUpdate';
   final bool isFromUpdateOrder;
 
   const CartView({Key key, this.isFromUpdateOrder = false}) : super(key: key);
@@ -88,8 +89,8 @@ class CartViewState extends State<CartView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      StringUtils.shoppingCart,
-                      style: TextStyle(fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 30),
+                      shoppingCart,
+                      style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 30),
                     ),
                   ],
                 ),
@@ -118,11 +119,11 @@ class CartViewState extends State<CartView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(StringUtils.subtotal,
+                  Text(subtotalString,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).primaryColorDark,
-                        fontFamily: StringUtils.fontFamily,
+                        fontFamily: fontFamily,
                         fontSize: 19.0,
                       )),
                   Text(
@@ -130,7 +131,7 @@ class CartViewState extends State<CartView> {
                     style: TextStyle(
                         fontWeight: FontWeight.w700,
                         color: Theme.of(context).primaryColorDark,
-                        fontFamily: StringUtils.fontFamily,
+                        fontFamily: fontFamily,
                         fontSize: 19),
                   ),
                 ],
@@ -139,8 +140,8 @@ class CartViewState extends State<CartView> {
               SafeArea(
                 child: KammunButton(
                   width: MediaQuery.of(context).size.width,
-                  color: CartServices.cartProducts.isNotEmpty ? ColorUtils.primaryColor : Colors.grey[400],
-                  text: StringUtils.confirmOrder.toUpperCase(),
+                  color: CartServices.cartProducts.isNotEmpty ? primaryColor : Colors.grey[400],
+                  text: confirmOrder.toUpperCase(),
                   onTap: _showConfirmOrderBtnTapped,
                   height: 50,
                 ),
@@ -182,8 +183,7 @@ class CartViewState extends State<CartView> {
                           children: [
                             Text(
                               orderArray[index].name,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 18),
+                              style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18),
                             ),
                           ],
                         ),
@@ -191,10 +191,7 @@ class CartViewState extends State<CartView> {
                         Text(
                           orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
                           style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: ColorUtils.greyColor,
-                              fontFamily: StringUtils.fontFamily,
-                              fontSize: 17),
+                              fontWeight: FontWeight.w400, color: greyColor, fontFamily: fontFamily, fontSize: 17),
                         ),
                         const SizedBox(height: 8),
                         Row(
@@ -222,8 +219,8 @@ class CartViewState extends State<CartView> {
                                     '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w700,
-                                        color: ColorUtils.primaryColor,
-                                        fontFamily: StringUtils.fontFamily,
+                                        color: primaryColor,
+                                        fontFamily: fontFamily,
                                         fontSize: 18)),
                             indexToEdit == index
                                 ? IconButton(
@@ -280,7 +277,7 @@ class CartViewState extends State<CartView> {
                 Container(
                   width: 30,
                   height: 30,
-                  decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: greyColor.withOpacity(0.2)),
                   child: InkWell(
                     onTap: () {
                       setState(() {
@@ -297,13 +294,13 @@ class CartViewState extends State<CartView> {
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).primaryColorDark,
-                        fontFamily: StringUtils.fontFamily,
+                        fontFamily: fontFamily,
                         fontSize: 18)),
                 const SizedBox(height: 5),
                 Container(
                   width: 30,
                   height: 30,
-                  decoration: BoxDecoration(shape: BoxShape.circle, color: ColorUtils.greyColor.withOpacity(0.2)),
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: greyColor.withOpacity(0.2)),
                   child: InkWell(
                     onTap: () {
                       setState(() {

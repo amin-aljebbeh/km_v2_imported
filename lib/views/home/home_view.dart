@@ -1,6 +1,4 @@
-import 'package:kammun_app/views/cart/cart_view.dart';
 import 'package:kammun_app/views/orders/orders_view_importer.dart';
-import 'package:kammun_app/views/store/store_view.dart';
 
 import '../../core/core_importer.dart';
 import 'bottom_bar_item.dart';
@@ -47,13 +45,13 @@ class HomeViewState extends State<HomeView> {
 
   Widget _bottomNavBar({BuildContext context}) {
     List<BottomNavigationBarItem> bottomList = [];
-    bottomList.add(BottomBarItem.build(text: StringUtils.store, icon: Icons.store));
-    bottomList.add(BottomBarItem.build(text: StringUtils.cart, icon: Icons.shopping_cart));
+    bottomList.add(BottomBarItem.build(text: store, icon: Icons.store));
+    bottomList.add(BottomBarItem.build(text: cart, icon: Icons.shopping_cart));
     if (Services.isOperationManager()) {
-      bottomList.add(BottomBarItem.build(text: StringUtils.orders, icon: Icons.reorder));
+      bottomList.add(BottomBarItem.build(text: orders, icon: Icons.reorder));
     }
     if (Services.isShopper() || Services.isSupplierManager()) {
-      bottomList.add(BottomBarItem.build(text: StringUtils.myOrders, icon: Icons.playlist_add_check_outlined));
+      bottomList.add(BottomBarItem.build(text: myOrders, icon: Icons.playlist_add_check_outlined));
     }
 
     return BottomNavigationBar(

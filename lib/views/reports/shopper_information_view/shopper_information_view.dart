@@ -6,24 +6,13 @@ class ShopperInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ManagementView(
+    return const ManagementView(
       title: 'إحصائيات عامة',
       children: [
+        SideBarRow(icon: Icons.calendar_month, text: 'تقرير شهري', pushedRoute: ShopperMonthReport.routeName),
+        SideBarRow(icon: Icons.hourglass_bottom, text: 'ساعات العمل', pushedRoute: ShopperWorkingHoursView.routeName),
         SideBarRow(
-          icon: Icons.calendar_month,
-          text: 'تقرير شهري',
-          onTap: () => Navigator.of(context).pushNamed(ShopperMonthReport.routeName),
-        ),
-        SideBarRow(
-          icon: Icons.hourglass_bottom,
-          text: 'ساعات العمل',
-          onTap: () => Navigator.of(context).pushNamed(ShopperWorkingHoursView.routeName),
-        ),
-        SideBarRow(
-          icon: Icons.online_prediction_rounded,
-          text: 'تفعيل التطبيق',
-          onTap: () => Navigator.of(context).pushNamed(ActivityHoursView.routeName),
-        ),
+            icon: Icons.online_prediction_rounded, text: 'تفعيل التطبيق', pushedRoute: ActivityHoursView.routeName),
       ],
     );
   }

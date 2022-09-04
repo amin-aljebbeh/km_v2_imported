@@ -5,6 +5,7 @@ import 'models/sales_reports_model.dart';
 import 'services/reports_services.dart';
 
 class SalesReport extends StatefulWidget {
+  static const String routeName = '/SalesReport';
   const SalesReport({Key key}) : super(key: key);
 
   @override
@@ -33,9 +34,9 @@ class _SalesReportState extends State<SalesReport> {
       border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
       children: [
         TableRow(children: [
-          KTableElement(text: StringUtils.totalSales),
-          KTableElement(text: StringUtils.shoppingProfits),
-          KTableElement(text: StringUtils.deliveryProfits),
+          KTableElement(text: totalSales),
+          KTableElement(text: shoppingProfits),
+          KTableElement(text: deliveryProfits),
         ]),
         TableRow(
           children: [
@@ -57,7 +58,7 @@ class _SalesReportState extends State<SalesReport> {
                 KTableRow(
                   children: [
                     const KTableElement(text: 'مجموع سعر المبيع'),
-                    KTableElement(text: StringUtils.shoppingProfits),
+                    KTableElement(text: shoppingProfits),
                     const KTableElement(text: 'مجموع القيم المضافة'),
                   ],
                 ),
@@ -90,7 +91,7 @@ class _SalesReportState extends State<SalesReport> {
             expanded.add(KTableRow(
               children: [
                 KTableElement(text: response.warehouses[i].statisticsSupportedCities[j].name),
-                KTableElement(text: StringUtils.ordersCount),
+                KTableElement(text: ordersCount),
                 const KTableElement(text: 'تسعيرة التوصيل'),
               ],
             ));
@@ -122,7 +123,7 @@ class _SalesReportState extends State<SalesReport> {
             border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
             children: [
               TableRow(children: [
-                KTableElement(text: StringUtils.totalSales),
+                KTableElement(text: totalSales),
                 const KTableElement(text: 'إجمالي التوصيل'),
                 const KTableElement(text: 'المجموع الكلي'),
               ]),
@@ -136,9 +137,9 @@ class _SalesReportState extends State<SalesReport> {
                 ],
               ),
               TableRow(children: [
-                KTableElement(text: StringUtils.ordersCount),
-                KTableElement(text: StringUtils.shoppingProfits),
-                KTableElement(text: StringUtils.deliveryProfits)
+                KTableElement(text: ordersCount),
+                KTableElement(text: shoppingProfits),
+                KTableElement(text: deliveryProfits)
               ]),
               TableRow(
                 children: [
@@ -156,8 +157,7 @@ class _SalesReportState extends State<SalesReport> {
           header: Center(
             child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(response.warehouses[i].name,
-                    style: TextStyle(fontFamily: StringUtils.fontFamily, fontSize: 25))),
+                child: Text(response.warehouses[i].name, style: TextStyle(fontFamily: fontFamily, fontSize: 25))),
           ),
         ));
       }
@@ -186,7 +186,7 @@ class _SalesReportState extends State<SalesReport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('تقرير المبيعات', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('تقرير المبيعات', style: mainStyle)),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(10),
@@ -199,8 +199,8 @@ class _SalesReportState extends State<SalesReport> {
                 onConfirmEnd: (date) => setState(() => toDateTimeValue = date),
               ),
               KammunButton(
-                text: StringUtils.send,
-                color: validDates() ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
+                text: send,
+                color: validDates() ? Theme.of(context).primaryColor : searchGreyColor,
                 onTap: () {
                   if (validDates()) {
                     _getSailsReport();
@@ -212,7 +212,7 @@ class _SalesReportState extends State<SalesReport> {
                 height: 50,
               ),
               const SizedBox(height: 20),
-              isError ? AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError') : Container(),
+              isError ? AlertMessages(text: errorMessage, messageType: 'internetError') : Container(),
               isLoading
                   ? const Loader()
                   : totalSubWarehouses.isNotEmpty

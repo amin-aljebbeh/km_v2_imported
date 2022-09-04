@@ -42,10 +42,7 @@ class UpdateScreen extends StatelessWidget {
                 Text(
                   "تحديث مطلوب",
                   style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: StringUtils.fontFamily),
+                      color: Colors.black, fontSize: 25.0, fontWeight: FontWeight.w500, fontFamily: fontFamily),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 10, left: 30, right: 15),
@@ -58,7 +55,7 @@ class UpdateScreen extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 18,
-                        fontFamily: StringUtils.fontFamily,
+                        fontFamily: fontFamily,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -69,7 +66,7 @@ class UpdateScreen extends StatelessWidget {
                   child: KammunButton(
                     text: ' التحديث الآن ',
                     height: 50,
-                    color: ColorUtils.primaryColor,
+                    color: primaryColor,
                     onTap: Platform.isAndroid ? () => _androidUpdateLink() : () => _iosUpdateLink(),
                   ),
                 ),

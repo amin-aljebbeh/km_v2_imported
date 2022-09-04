@@ -59,7 +59,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('ساعات دوام المتسوق', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('ساعات دوام المتسوق', style: mainStyle)),
       body: SafeArea(
         child: Column(
           children: [
@@ -67,7 +67,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.75,
                 child: KSearchableDropdown(
-                  hint: StringUtils.chooseShopper,
+                  hint: chooseShopper,
                   search: shopperName,
                   items: Services.shoppersNameList(),
                   onChanged: (value) {
@@ -89,7 +89,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                   RadioListTile<DateFilter>(
                     title: Text('يومياً', style: mainStyle),
                     value: DateFilter.day,
-                    activeColor: ColorUtils.primaryColor,
+                    activeColor: primaryColor,
                     groupValue: groupValue,
                     onChanged: (DateFilter value) {
                       setState(() {
@@ -108,7 +108,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                   RadioListTile<DateFilter>(
                     title: Text('شهرياً', style: mainStyle),
                     value: DateFilter.month,
-                    activeColor: ColorUtils.primaryColor,
+                    activeColor: primaryColor,
                     groupValue: groupValue,
                     onChanged: (DateFilter value) {
                       setState(() {
@@ -126,7 +126,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
                   ),
                   RadioListTile<DateFilter>(
                     title: Text('سنوياً', style: mainStyle),
-                    activeColor: ColorUtils.primaryColor,
+                    activeColor: primaryColor,
                     value: DateFilter.year,
                     groupValue: groupValue,
                     onChanged: (DateFilter value) {
@@ -150,8 +150,7 @@ class _ShopperWorkingHoursViewState extends State<ShopperWorkingHoursView> {
               child: selected
                   ? error
                       ? Center(
-                          child: AlertMessages(
-                              text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
+                          child: AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
                       : loading
                           ? const Loader()
                           : SizedBox(

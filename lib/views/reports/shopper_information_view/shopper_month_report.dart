@@ -57,8 +57,7 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
-      appBar:
-          AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('معلومات المتسوق الشهرية', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('معلومات المتسوق الشهرية', style: mainStyle)),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -70,7 +69,7 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.75,
                     child: KSearchableDropdown(
-                      hint: StringUtils.chooseShopper,
+                      hint: chooseShopper,
                       search: shopperName,
                       items: Services.shoppersNameList(),
                       onChanged: (value) {
@@ -89,8 +88,7 @@ class _ShopperMonthReportState extends State<ShopperMonthReport> {
               selected
                   ? error
                       ? Center(
-                          child: AlertMessages(
-                              text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
+                          child: AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'))
                       : loading
                           ? const Loader()
                           : SizedBox(

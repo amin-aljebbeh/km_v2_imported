@@ -31,11 +31,11 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
       onTap: () {},
       rightToLeft: true,
       searchInputDecoration: InputDecoration(
-          suffixIcon: Icon(Icons.search, size: 24, color: ColorUtils.primaryColor),
+          suffixIcon: Icon(Icons.search, size: 24, color: primaryColor),
           contentPadding: const EdgeInsets.symmetric(vertical: 12)),
-      iconEnabledColor: ColorUtils.primaryColor,
+      iconEnabledColor: primaryColor,
       closeButton: TextButton(
-          child: Text(StringUtils.close, style: dropdownItemStyle.copyWith(color: ColorUtils.primaryColor)),
+          child: Text(close, style: dropdownItemStyle.copyWith(color: primaryColor)),
           onPressed: () => Navigator.of(context).pop()),
       disabledHint: Center(child: Text('disabled', style: disableStyle)),
       isCaseSensitiveSearch: false,

@@ -39,9 +39,8 @@ class _InvoiceViewState extends State<InvoiceView> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-          backgroundColor: ColorUtils.primaryColor,
-          title:
-              Text('فاتورة الزبون', style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold))),
+          backgroundColor: primaryColor,
+          title: Text('فاتورة الزبون', style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold))),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -59,7 +58,7 @@ class _InvoiceViewState extends State<InvoiceView> {
                           KCard(
                             radius: 6,
                             child: InvoiceRow(
-                              style: informationStyle.copyWith(color: ColorUtils.kmColors),
+                              style: informationStyle.copyWith(color: kmColors),
                               children: lastOne.info,
                               title: lastOne.key,
                               info: StringUtils().oCcy.format(int.parse(lastOne.value.split('.')[0])),

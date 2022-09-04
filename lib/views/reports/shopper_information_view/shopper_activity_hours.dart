@@ -55,7 +55,7 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('أوقات تفعيل التطبيق', style: mainStyle)),
+        appBar: AppBar(backgroundColor: primaryColor, title: Text('أوقات تفعيل التطبيق', style: mainStyle)),
         body: SafeArea(
           child: Container(
             padding: const EdgeInsets.all(10),
@@ -67,7 +67,7 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.75,
                     child: KSearchableDropdown(
-                      hint: StringUtils.chooseShopper,
+                      hint: chooseShopper,
                       search: shopperName,
                       items: Services.shoppersNameList(),
                       onChanged: (value) => setState(() {
@@ -84,8 +84,8 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                   onConfirmEnd: (date) => setState(() => toDateTimeValue = date),
                 ),
                 KammunButton(
-                  text: StringUtils.send,
-                  color: validDates() ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
+                  text: send,
+                  color: validDates() ? Theme.of(context).primaryColor : searchGreyColor,
                   onTap: () {
                     if (validDates() && (Services.isShopper() || shopperName != null)) {
                       getHours(
@@ -100,7 +100,7 @@ class _ActivityHoursViewState extends State<ActivityHoursView> {
                   height: 50,
                 ),
                 const SizedBox(height: 20),
-                isError ? AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError') : Container(),
+                isError ? AlertMessages(text: errorMessage, messageType: 'internetError') : Container(),
                 isLoading
                     ? const Loader()
                     : activityHours.isEmpty

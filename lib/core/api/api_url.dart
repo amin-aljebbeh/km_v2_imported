@@ -3,9 +3,7 @@ const String appUrl = 'https://kammun.app';
 
 const String user = 'user/';
 
-const String search = 'search/';
-
-const String address = 'address/';
+const String searchApi = 'search/';
 
 const String supportedCity = 'supported_city/';
 
@@ -32,7 +30,6 @@ const String updateUserSupportedCity = user + 'update_supported_city';
 
 const String addToFavorite = user + 'add_product_to_favorites/';
 const String removeFromFavorite = user + 'remove_`product`_from_favorites/';
-const String userAddress = address;
 
 const String otpVerification = 'verification_code/verify_account/';
 //Orders:
@@ -44,7 +41,7 @@ const String shopperViewsHisOwnOrders = order + 'shopper_views_his_own_orders';
 
 const String unlockOrder = order + 'unlock_order/';
 
-const String cancelOrder = order + 'change_order_status/';
+const String cancelOrderApi = order + 'change_order_status/';
 
 const String lockOrder = order + 'lock_order/';
 
@@ -58,20 +55,20 @@ const String getOrdersByUserPhoneNumber = order + 'get_order_by_phone/';
 
 const String productBarcode = 'product_barcode/';
 
-const String searchProductByBarcode = productBarcode + search;
+const String searchProductByBarcode = productBarcode + searchApi;
 
 const String checkProductBarcode = productBarcode + 'search_in_products/';
 
 // Products:
 
-const String searchProducts = product + search;
+const String searchProducts = product + searchApi;
 //// admin
 
 const String product = 'product/';
 
 const String admin = 'admin/';
 
-const String shopper = 'shopper/';
+const String shopperApi = 'shopper/';
 
 const String warehouse = 'warehouse/';
 
@@ -135,30 +132,30 @@ const String addImageToOrder = 'order_image';
 
 const String deleteImageFromOrder = 'order_image';
 
-const String getShopper = shopper;
+const String getShopper = shopperApi;
 
-const String changeShopperStatus = shopper + 'change_shopper_status/';
+const String changeShopperStatus = shopperApi + 'change_shopper_status/';
 
 const String getLevel = level;
 
-const String getShopperTransactions = shopper + shopperTransaction + 'shopper_transactions/';
+const String getShopperTransactions = shopperApi + shopperTransaction + 'shopper_transactions/';
 
 const String getTransactionType = 'transaction_type';
 
-const String getStatisticsShopperTransaction = shopper + shopperTransaction + 'statistics_shopper_transaction/';
+const String getStatisticsShopperTransaction = shopperApi + shopperTransaction + 'statistics_shopper_transaction/';
 
-const String shopperViewsHisOwnTransactions = shopper + shopperTransaction + 'shopper_views_his_own_transaction';
+const String shopperViewsHisOwnTransactions = shopperApi + shopperTransaction + 'shopper_views_his_own_transaction';
 
-const String getShopperMonthProfit = shopper + shopperTransaction + 'shopper_profits_for_today/';
+const String getShopperMonthProfit = shopperApi + shopperTransaction + 'shopper_profits_for_today/';
 
-const String addTransaction = shopper + shopperTransaction + 'add_transaction';
+const String addTransactionApi = shopperApi + shopperTransaction + 'add_transaction';
 
-const String remainingMoneyForSupplier = shopper + shopperTransaction + 'remining_mony_for_supplier';
+const String remainingMoneyForSupplier = shopperApi + shopperTransaction + 'remining_mony_for_supplier';
 
-const String financialReportUrl = shopper + shopperTransaction + 'statistics_financial_transactions_with_shoppers';
+const String financialReportUrl = shopperApi + shopperTransaction + 'statistics_financial_transactions_with_shoppers';
 
-const String getWorkingHour = shopper + 'get_working_hour/';
+const String getWorkingHour = shopperApi + 'get_working_hour/';
 
-const String monthlyShopperReports = shopper + 'monthly_shopper_reports/';
+const String monthlyShopperReports = shopperApi + 'monthly_shopper_reports/';
 
-const String shopperActivityHours = shopper + 'shopper_activity_hours/';
+const String shopperActivityHours = shopperApi + 'shopper_activity_hours/';

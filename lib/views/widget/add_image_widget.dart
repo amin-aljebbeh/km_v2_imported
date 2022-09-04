@@ -25,11 +25,9 @@ class _AddImageWidgetState extends State<AddImageWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
-                child: Icon(Icons.camera, color: ColorUtils.kmColors, size: 40),
-                onPressed: () => getImage(ImageSource.camera)),
+                child: Icon(Icons.camera, color: kmColors, size: 40), onPressed: () => getImage(ImageSource.camera)),
             TextButton(
-                child: Icon(Icons.image, color: ColorUtils.kmColors, size: 40),
-                onPressed: () => getImage(ImageSource.gallery)),
+                child: Icon(Icons.image, color: kmColors, size: 40), onPressed: () => getImage(ImageSource.gallery)),
           ],
         ),
         isLoading
@@ -45,7 +43,7 @@ class _AddImageWidgetState extends State<AddImageWidget> {
                       KammunButton(
                         text: 'حفظ الصورة',
                         height: 50,
-                        color: ColorUtils.kmColors,
+                        color: kmColors,
                         width: MediaQuery.of(context).size.width * 0.9,
                         onTap: () async {
                           setState(() => isLoading = true);

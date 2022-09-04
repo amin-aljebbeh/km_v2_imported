@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../store/store_view.dart';
+
 class AppBarKammunImage extends StatelessWidget {
   const AppBarKammunImage({Key key}) : super(key: key);
 
@@ -12,7 +14,8 @@ class AppBarKammunImage extends StatelessWidget {
           child: Transform.scale(
             scale: 2,
             child: InkWell(
-              onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false),
+              onTap: () =>
+                  Navigator.pushNamedAndRemoveUntil(context, StoreView.routeName, (Route<dynamic> route) => false),
               child: Image.asset('assets/logobw.png', width: 150, height: 50),
             ),
           ),

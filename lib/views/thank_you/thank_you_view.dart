@@ -6,19 +6,14 @@ class ThankYouView extends StatefulWidget {
   const ThankYouView({Key key, this.orderMessage}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return ThankYouViewState();
-  }
+  State<StatefulWidget> createState() => ThankYouViewState();
 }
 
 class ThankYouViewState extends State<ThankYouView> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) => showMyDialog(
-        context: context,
-        title: StringUtils.costumerNote,
-        text: widget.orderMessage,
-        dialogButtons: [const CloseWidget()]));
+        context: context, title: costumerNote, text: widget.orderMessage, dialogButtons: [const CloseWidget()]));
     super.initState();
   }
 
@@ -43,22 +38,19 @@ class ThankYouViewState extends State<ThankYouView> {
                   Image.asset('assets/like.png', width: 200, height: 200),
                   const SizedBox(height: 50),
                   Text(
-                    StringUtils.thankYou,
+                    thankYou,
                     style: TextStyle(
-                        color: ColorUtils.primaryColor,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: StringUtils.fontFamily,
-                        fontSize: 30),
+                        color: primaryColor, fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 30),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 30, top: 10, right: 0, bottom: 10),
                     child: Text(
-                      StringUtils.thankYouDescribe,
+                      thankYouDescribe,
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: ColorUtils.primaryColor,
-                        fontFamily: StringUtils.fontFamily,
+                        color: primaryColor,
+                        fontFamily: fontFamily,
                         fontSize: 16.0,
                       ),
                     ),
@@ -70,19 +62,19 @@ class ThankYouViewState extends State<ThankYouView> {
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: ColorUtils.kmColors,
-                        fontFamily: StringUtils.fontFamily,
+                        color: kmColors,
+                        fontFamily: fontFamily,
                         fontSize: 16.0,
                       ),
                     ),
                   ),
                   const SizedBox(height: 40),
                   KammunButton(
-                    text: StringUtils.continueShopping,
+                    text: continueShopping,
                     color: Theme.of(context).primaryColor,
                     height: 50,
-                    onTap: () =>
-                        Navigator.of(context).pushNamedAndRemoveUntil('/orders', (Route<dynamic> route) => false),
+                    onTap: () => Navigator.of(context)
+                        .pushNamedAndRemoveUntil(OrdersView.routeName, (Route<dynamic> route) => false),
                   ),
                 ],
               ),

@@ -102,7 +102,7 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                               });
                               loadData();
                             },
-                            color: ColorUtils.primaryColor,
+                            color: primaryColor,
                             height: 50,
                             text: 'إرسال الملف',
                           ),
@@ -111,7 +111,7 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                     : error
                         ? Center(
                             child: AlertMessages(
-                              text: StringUtils.errorMessage,
+                              text: errorMessage,
                               messageType: "internetError",
                               headerText: "حدث خطأ أثناء رفع الملف",
                             ),

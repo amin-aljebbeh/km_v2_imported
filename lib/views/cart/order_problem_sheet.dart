@@ -83,7 +83,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   ? Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          color: ColorUtils.primaryColor,
+                          color: primaryColor,
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(30.0),
                             topRight: Radius.circular(30.0),
@@ -91,7 +91,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       child: Center(
                           child: Text(
                         'منتجات نفذت أثناء التسوق',
-                        style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamily),
+                        style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: fontFamily),
                       )),
                     )
                   : Container(),
@@ -99,7 +99,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   ? Expanded(
                       flex: 1,
                       child: Container(
-                        decoration: BoxDecoration(border: Border.all(width: 5, color: ColorUtils.kmColors)),
+                        decoration: BoxDecoration(border: Border.all(width: 5, color: kmColors)),
                         child: ListView.builder(
                           primary: false,
                           shrinkWrap: true,
@@ -123,13 +123,13 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   ? Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          color: ColorUtils.kmColors,
+                          color: kmColors,
                           borderRadius:
                               const BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
                       child: Center(
                           child: Text(
                         'منتجات تغير سعرها أثناء التسوق',
-                        style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: StringUtils.fontFamily),
+                        style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: fontFamily),
                       )),
                     )
                   : Container(),
@@ -137,7 +137,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                   ? Expanded(
                       flex: 1,
                       child: Container(
-                        decoration: BoxDecoration(border: Border.all(width: 5, color: ColorUtils.primaryColor)),
+                        decoration: BoxDecoration(border: Border.all(width: 5, color: primaryColor)),
                         child: ListView.builder(
                           primary: false,
                           shrinkWrap: true,
@@ -212,16 +212,12 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       children: <Widget>[
                         Text(
                           orderArray[index].name,
-                          style:
-                              TextStyle(fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 18),
+                          style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18),
                         ),
                         Text(
                           orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
                           style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: ColorUtils.greyColor,
-                              fontFamily: StringUtils.fontFamily,
-                              fontSize: 17),
+                              fontWeight: FontWeight.w400, color: greyColor, fontFamily: fontFamily, fontSize: 17),
                         ),
                       ],
                     ),
@@ -278,25 +274,21 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       children: <Widget>[
                         Text(
                           orderArray[index].name,
-                          style:
-                              TextStyle(fontWeight: FontWeight.w700, fontFamily: StringUtils.fontFamily, fontSize: 18),
+                          style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18),
                         ),
                         const SizedBox(height: 6),
                         Text(
                           orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
                           style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: ColorUtils.greyColor,
-                              fontFamily: StringUtils.fontFamily,
-                              fontSize: 17),
+                              fontWeight: FontWeight.w400, color: greyColor, fontFamily: fontFamily, fontSize: 17),
                         ),
                         const SizedBox(height: 8),
                         Text(
                             '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
                             style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                color: ColorUtils.primaryColor,
-                                fontFamily: StringUtils.fontFamily,
+                                color: primaryColor,
+                                fontFamily: fontFamily,
                                 fontSize: 18)),
                       ],
                     ),

@@ -79,8 +79,8 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       child: Transform.scale(
                         scale: 2,
                         child: InkWell(
-                          onTap: () =>
-                              Navigator.pushNamedAndRemoveUntil(context, '/home', (Route<dynamic> route) => false),
+                          onTap: () => Navigator.pushNamedAndRemoveUntil(
+                              context, StoreView.routeName, (Route<dynamic> route) => false),
                           child: Image.asset('assets/logobw.png', width: 150, height: 50),
                         ),
                       ),
@@ -106,7 +106,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                   children: [
                     Text(
                       'يرجى إختيار المستودع التابع لهذه المادة',
-                      style: TextStyle(fontFamily: StringUtils.fontFamily, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold),
                     ),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
@@ -117,7 +117,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                                   child: RadioListTile(
                                     controlAffinity: ListTileControlAffinity.trailing,
                                     activeColor: Theme.of(context).primaryColor,
-                                    title: Text(data.name, style: TextStyle(fontFamily: StringUtils.fontFamily)),
+                                    title: Text(data.name, style: TextStyle(fontFamily: fontFamily)),
                                     groupValue: _selectedValue,
                                     value: data.id,
                                     onChanged: (val) => setState(() => _selectedValue = data.id),
@@ -131,12 +131,12 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       children: [
                         ProductEntryField(
                             controller: supplierCodeController,
-                            title: StringUtils.supplierCode,
+                            title: supplierCode,
                             hint: '123456',
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
                             controller: priceController,
-                            title: StringUtils.price,
+                            title: price,
                             hint: '5000',
                             width: MediaQuery.of(context).size.width / 3),
                       ],
@@ -146,7 +146,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       children: [
                         ProductEntryField(
                             controller: priceFactorController,
-                            title: StringUtils.priceFactor,
+                            title: priceFactor,
                             hint: '1',
                             width: MediaQuery.of(context).size.width / 4),
                         SizedBox(
@@ -156,21 +156,21 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                             padding: const EdgeInsets.all(3.0),
                             decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                border: Border.all(color: ColorUtils.primaryColor, width: 2)),
+                                border: Border.all(color: primaryColor, width: 2)),
                             child: Switch(
                               value: switchController,
                               onChanged: (value) => setState(() => switchController = value),
-                              activeTrackColor: ColorUtils.kmColors2,
-                              activeColor: ColorUtils.kmColors,
+                              activeTrackColor: kmColors2,
+                              activeColor: kmColors,
                             ),
                           ),
                         ),
                       ],
                     ),
                     KammunButton(
-                      text: StringUtils.save,
+                      text: save,
                       height: 50,
-                      color: completeData() ? ColorUtils.kmColors : ColorUtils.searchGreyColor,
+                      color: completeData() ? kmColors : searchGreyColor,
                       onTap: () async {
                         if (completeData()) {
                           bool result = await attachProduct(widget.barcode, context);

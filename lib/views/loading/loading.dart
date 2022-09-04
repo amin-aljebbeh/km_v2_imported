@@ -2,10 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import '../../core/core_importer.dart';
 import '../../views/errors_screen/internet_error.dart';
-import '../../views/home/home_view.dart';
 import '../../views/loading/loading_services.dart';
-import '../../views/login/login_view.dart';
-import '../../views/server_update/server_update.dart';
 import '../../views/update_screen/update_required_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -49,7 +46,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   loadingProgress() {
     return Scaffold(
-      backgroundColor: ColorUtils.kmColors,
+      backgroundColor: kmColors,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,

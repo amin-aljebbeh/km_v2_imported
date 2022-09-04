@@ -5,12 +5,12 @@ class BottomBarItem {
     return BottomNavigationBarItem(
       activeIcon: Stack(
         children: [
-          Column(children: [Icon(icon, color: ColorUtils.kmColors), Text(text, style: homeActiveIconStyle)])
+          Column(children: [Icon(icon, color: kmColors), Text(text, style: homeActiveIconStyle)])
         ],
       ),
       icon: Stack(
         children: [
-          Column(children: [Icon(icon, color: ColorUtils.primaryColor), Text(text, style: homeIconStyle)])
+          Column(children: [Icon(icon, color: primaryColor), Text(text, style: homeIconStyle)])
         ],
       ),
       label: '',

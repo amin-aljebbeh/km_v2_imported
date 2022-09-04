@@ -6,6 +6,7 @@ import 'models/report_model_importer.dart';
 import 'services/reports_services.dart';
 
 class FinancialReportView extends StatefulWidget {
+  static const String routeName = '/FinancialReportView';
   const FinancialReportView({Key key}) : super(key: key);
 
   @override
@@ -47,7 +48,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
     ));
     totalSubWarehouses.add(Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Divider(thickness: 5, color: ColorUtils.primaryColor, height: 5),
+      child: Divider(thickness: 5, color: primaryColor, height: 5),
     ));
     for (var warehouse in response.data.warehouses) {
       totalSubWarehouses.add(ExpandablePanel(
@@ -75,7 +76,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
           children: [
             KTableRow(
               children: [
-                KTableElement(text: StringUtils.shopper),
+                KTableElement(text: shopper),
                 const KTableElement(text: 'مستحقات الشركة'),
                 const KTableElement(text: 'الأرباح'),
                 const KTableElement(text: 'متوسط زمن التوصيل'),
@@ -125,7 +126,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
     }
     totalSubWarehouses.add(Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Divider(thickness: 5, color: ColorUtils.primaryColor, height: 5),
+      child: Divider(thickness: 5, color: primaryColor, height: 5),
     ));
     totalSubWarehouses.add(Center(
       child: SfCircularChart(
@@ -133,7 +134,8 @@ class _FinancialReportViewState extends State<FinancialReportView> {
         legend: Legend(isVisible: true, textStyle: informationStyle),
         series: <PieSeries<FinancialWarehouse, String>>[
           PieSeries<FinancialWarehouse, String>(
-              pointColorMapper: (FinancialWarehouse warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
+              pointColorMapper: (FinancialWarehouse warehouse, _) =>
+                  warehousesColors[(warehouse.id - 1) % warehousesColors.length],
               explode: true,
               explodeIndex: 0,
               dataSource: response.data.warehouses,
@@ -151,7 +153,8 @@ class _FinancialReportViewState extends State<FinancialReportView> {
         legend: Legend(isVisible: true, textStyle: informationStyle),
         series: <PieSeries<FinancialWarehouse, String>>[
           PieSeries<FinancialWarehouse, String>(
-              pointColorMapper: (FinancialWarehouse warehouse, _) => ColorUtils.warehousesColors[warehouse.id - 1],
+              pointColorMapper: (FinancialWarehouse warehouse, _) =>
+                  warehousesColors[(warehouse.id - 1) % warehousesColors.length],
               strokeColor: Colors.red,
               explode: true,
               explodeIndex: 0,
@@ -188,8 +191,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(backgroundColor: ColorUtils.primaryColor, title: Text('الأرباح والمستحقات المالية', style: mainStyle)),
+      appBar: AppBar(backgroundColor: primaryColor, title: Text('الأرباح والمستحقات المالية', style: mainStyle)),
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(10),
@@ -202,8 +204,8 @@ class _FinancialReportViewState extends State<FinancialReportView> {
                 onConfirmEnd: (date) => setState(() => toDateTimeValue = date),
               ),
               KammunButton(
-                text: StringUtils.send,
-                color: validDates() ? Theme.of(context).primaryColor : ColorUtils.searchGreyColor,
+                text: send,
+                color: validDates() ? Theme.of(context).primaryColor : searchGreyColor,
                 onTap: () {
                   if (validDates()) {
                     _getSailsReport();
@@ -215,7 +217,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
                 height: 50,
               ),
               const SizedBox(height: 20),
-              isError ? AlertMessages(text: StringUtils.errorMessage, messageType: 'internetError') : Container(),
+              isError ? AlertMessages(text: errorMessage, messageType: 'internetError') : Container(),
               isLoading
                   ? const Loader()
                   : totalSubWarehouses.isNotEmpty

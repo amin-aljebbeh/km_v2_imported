@@ -1,8 +1,10 @@
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/products_attached_to_warehouse/services/added_products_services.dart';
+
 import '../../../core/core_importer.dart';
 
 class AddedProductsToWarehouse extends StatefulWidget {
+  static const String routeName = '/AddedProductsToWarehouse';
   const AddedProductsToWarehouse({Key key}) : super(key: key);
 
   @override
@@ -68,10 +70,8 @@ class _AddedProductsToWarehouseState extends State<AddedProductsToWarehouse> {
                       child: Expanded(
                         child: Column(
                           children: [
-                            AlertMessages(
-                                text: StringUtils.errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
-                            ElevatedButton(
-                                child: Text(StringUtils.tryAgain, style: blackBold), onPressed: () => _loadData())
+                            AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
+                            ElevatedButton(child: Text(tryAgain, style: blackBold), onPressed: () => _loadData())
                           ],
                         ),
                       ),

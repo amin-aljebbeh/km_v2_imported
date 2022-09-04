@@ -69,7 +69,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Container(
-              color: ColorUtils.primaryColor,
+              color: primaryColor,
               child: SafeArea(
                   child: TabBar(
                       controller: controller, indicatorColor: Colors.white, labelColor: Colors.white, tabs: tabList))),

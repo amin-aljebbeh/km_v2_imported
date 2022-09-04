@@ -68,7 +68,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
               ),
             ),
             IconButton(
-              icon: Icon(Icons.save, color: ColorUtils.kmColors, size: 30),
+              icon: Icon(Icons.save, color: kmColors, size: 30),
               onPressed: () async {
                 if (textController.text.isNotEmpty) {
                   if (widget.isForPriceRate) {
@@ -81,15 +81,12 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                         backgroundColor: Colors.red,
                         messageText: Text(
                           'فشل عملية التعديل يجب أن يحتوي رمز المادة على الرمز الخاص بك',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold, fontFamily: StringUtils.fontFamily),
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: fontFamily),
                         ),
-                        boxShadows: [
-                          BoxShadow(color: ColorUtils.primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)
-                        ],
+                        boxShadows: [BoxShadow(color: primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
                         icon: const Icon(Icons.error, size: 28.0, color: Colors.white),
                         duration: const Duration(seconds: 3),
-                        leftBarIndicatorColor: ColorUtils.kmColors,
+                        leftBarIndicatorColor: kmColors,
                       ).show(context);
                     } else {
                       String newValue = textController.text;

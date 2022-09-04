@@ -7,9 +7,7 @@ class ShopperWidget extends StatefulWidget {
   const ShopperWidget({Key key, @required this.shopper}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return ShopperWidgetState();
-  }
+  State<StatefulWidget> createState() => ShopperWidgetState();
 }
 
 class ShopperWidgetState extends State<ShopperWidget> {
@@ -54,7 +52,7 @@ class ShopperWidgetState extends State<ShopperWidget> {
                                 widget.shopper.name,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontFamily: StringUtils.fontFamily,
+                                  fontFamily: fontFamily,
                                   fontSize: 18,
                                 ),
                               ),

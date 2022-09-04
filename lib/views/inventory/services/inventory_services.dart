@@ -44,12 +44,12 @@ class InventoryServices {
       String toDate = ' '}) async {
     Map<String, dynamic> params;
     if (filterIndex < 3) {
-      params = {StringUtils.productFilterParams[filterIndex]: number, 'page': page, 'biggar_than': biggerThan};
+      params = {productFilterParams[filterIndex]: number, 'page': page, 'biggar_than': biggerThan};
     } else {
       params = {'page': page, 'from_date': fromDate, 'to_date': toDate};
     }
     var response = await ApiProvider.sendRequest(
-        url: StringUtils.productFilterUrls[filterIndex], method: HttpMethods.get, queryParameters: params);
+        url: productFilterUrls[filterIndex], method: HttpMethods.get, queryParameters: params);
     if (response.statusCode == successCode && response.data['success']) {
       final result = filteredProductsModelFromJson(jsonEncode(response.data)).data;
 

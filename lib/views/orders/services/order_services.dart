@@ -36,7 +36,7 @@ class OrderServices {
   static Future<String> cancelOrderService(String orderId) async {
     Map cancelOrderBody = {'order_status_id': 5};
     var response = await ApiProvider.sendRequest(
-        url: cancelOrder + orderId, method: HttpMethods.post, body: jsonEncode(cancelOrderBody));
+        url: cancelOrderApi + orderId, method: HttpMethods.post, body: jsonEncode(cancelOrderBody));
 
     if (response.statusCode == successCode && response.data['success']) {
       return 'true';

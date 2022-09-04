@@ -22,7 +22,7 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorUtils.kmColors,
+        backgroundColor: kmColors,
         flexibleSpace:
             const SafeArea(top: true, child: Padding(padding: EdgeInsets.only(right: 120), child: AppBarKammunImage())),
       ),
@@ -100,10 +100,10 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                             children: [
                               RotationTransition(
                                   turns: const AlwaysStoppedAnimation(-45 / 360),
-                                  child: Icon(Icons.arrow_back_ios, color: ColorUtils.kmColors)),
+                                  child: Icon(Icons.arrow_back_ios, color: kmColors)),
                               RotationTransition(
                                   turns: const AlwaysStoppedAnimation(225 / 360),
-                                  child: Icon(Icons.arrow_back_ios, color: ColorUtils.kmColors)),
+                                  child: Icon(Icons.arrow_back_ios, color: kmColors)),
                             ],
                           ),
                         ),
@@ -119,10 +119,10 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                             children: [
                               RotationTransition(
                                   turns: const AlwaysStoppedAnimation(45 / 360),
-                                  child: Icon(Icons.arrow_back_ios, color: ColorUtils.kmColors)),
+                                  child: Icon(Icons.arrow_back_ios, color: kmColors)),
                               RotationTransition(
                                   turns: const AlwaysStoppedAnimation(135 / 360),
-                                  child: Icon(Icons.arrow_back_ios, color: ColorUtils.kmColors)),
+                                  child: Icon(Icons.arrow_back_ios, color: kmColors)),
                             ],
                           ),
                         ),
@@ -147,7 +147,7 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                     const SizedBox(height: 1),
                     KammunButton(
                       height: 50,
-                      color: ColorUtils.primaryColor,
+                      color: primaryColor,
                       onTap: () {
                         Navigator.of(context).pop();
                         widget.onIgnore(null);
@@ -163,9 +163,9 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
               child: Card(
                 child: Center(
                   child: (widget.requestType == BarcodeRequestType.addProduct)
-                      ? Text(StringUtils.add, style: decisionButtonStyle)
+                      ? Text(add, style: decisionButtonStyle)
                       : (widget.requestType == BarcodeRequestType.search)
-                          ? Text(StringUtils.search, style: decisionButtonStyle)
+                          ? Text(search, style: decisionButtonStyle)
                           : Column(
                               children: [
                                 Text(widget.productData.name, style: decisionButtonStyle),
@@ -178,7 +178,7 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                               ],
                             ),
                 ),
-                color: ColorUtils.kmColors,
+                color: kmColors,
               ),
             ),
           ],

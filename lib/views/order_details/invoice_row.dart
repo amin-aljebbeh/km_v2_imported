@@ -21,7 +21,7 @@ class _InvoiceRowState extends State<InvoiceRow> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(6.0)),
-        border: Border.all(color: widget.children != null ? ColorUtils.primaryColor : Colors.white, width: 1.25),
+        border: Border.all(color: widget.children != null ? primaryColor : Colors.white, width: 1.25),
       ),
       child: Column(
         children: [
@@ -37,7 +37,7 @@ class _InvoiceRowState extends State<InvoiceRow> {
                   if (widget.children != null)
                     InkWell(
                       child: Icon(visible ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
-                          color: ColorUtils.primaryColor, size: 30),
+                          color: primaryColor, size: 30),
                       onTap: () => setState(() => visible = !visible),
                     ),
                   Text(

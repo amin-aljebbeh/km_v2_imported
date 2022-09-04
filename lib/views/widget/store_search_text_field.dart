@@ -20,7 +20,7 @@ class StoreSearchTextField extends StatelessWidget {
         child: TextField(
           controller: searchController,
           onSubmitted: (_) => submit(context),
-          cursorColor: ColorUtils.primaryColor,
+          cursorColor: primaryColor,
           decoration: InputDecoration(
             prefixIcon: SizedBox(
               width: MediaQuery.of(context).size.width * 0.25,
@@ -31,15 +31,14 @@ class StoreSearchTextField extends StatelessWidget {
                     onPressed: onSubmit ?? () {},
                     requestType: BarcodeRequestType.search,
                     scaffoldKey: scaffoldKey,
-                    color: ColorUtils.primaryColor,
+                    color: primaryColor,
                   ),
-                  IconButton(
-                      icon: Icon(Icons.search, color: ColorUtils.primaryColor), onPressed: () => submit(context)),
+                  IconButton(icon: Icon(Icons.search, color: primaryColor), onPressed: () => submit(context)),
                 ],
               ),
             ),
             contentPadding: const EdgeInsets.only(bottom: 0.5),
-            hintText: StringUtils.search,
+            hintText: search,
             hintStyle: mainStyle,
           ),
         ),
