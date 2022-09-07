@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/products_view/select_file.dart';

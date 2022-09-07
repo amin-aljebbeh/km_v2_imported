@@ -10,14 +10,9 @@ class OrderDetailViewMain extends StatefulWidget {
   OrdersOriginalData order;
   final OrderTypes orderType;
 
-  OrderDetailViewMain({
-    Key key,
-    this.subTotal,
-    this.order,
-    @required this.orderType,
-    this.remaining,
-    this.totalDiscount,
-  }) : super(key: key);
+  OrderDetailViewMain(
+      {Key key, this.subTotal, this.order, @required this.orderType, this.remaining, this.totalDiscount})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => OrderDetailViewMainState();

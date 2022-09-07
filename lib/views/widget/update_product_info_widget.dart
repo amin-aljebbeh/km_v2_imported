@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:kammun_app/views/inventory/services/inventory_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';

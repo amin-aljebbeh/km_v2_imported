@@ -3,7 +3,10 @@ export 'dart:io';
 export 'dart:math';
 
 export 'package:adv_image_cache/adv_image_cache.dart';
+//libraries
+export 'package:auto_size_text/auto_size_text.dart';
 export 'package:dio/dio.dart';
+export 'package:flushbar/flushbar.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
 export 'package:kammun_app/service.dart';

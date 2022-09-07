@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/order_details/full_screen_image.dart';
 import 'package:kammun_app/views/order_details/services/order_details_services.dart';
@@ -81,9 +80,15 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                       style: mainStyle.copyWith(color: Colors.black, fontWeight: FontWeight.bold)),
                   Text(widget.productData.quantity + ' ' + (widget.productData.unit ?? ''), style: darkBold),
                   Text(
-                      StringUtils().oCcy.format(purchasePrice).toString() +
+                      StringUtils().oCcy.format(purchasePrice) +
                           ' ${LoadingScreenServices.companyInformation.currency}',
                       style: paragraphStyle),
+                  if (Services.isSuperAdmin() &&
+                      purchasePrice - int.parse(widget.productData.pivot.purchasePrice.split('.')[0]) != 0)
+                    Text(
+                        StringUtils().oCcy.format(int.parse(widget.productData.pivot.purchasePrice.split('.')[0])) +
+                            ' ${LoadingScreenServices.companyInformation.currency}',
+                        style: warningStyle),
                   if (Services.isSupplierManager())
                     Text(
                       StringUtils().oCcy.format(purchasePrice - (purchasePrice * discountPercentage)).toString() +
@@ -121,17 +126,13 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                 ],
               ),
             ),
-            Row(
-              children: [
-                ProductCheckWidget(
-                  productData: widget.productData,
-                  preferLeftSide: LoadingScreenServices.preferLeftSide,
-                  productCount: widget.productData.pivot.quantity,
-                  productName: widget.productData.name,
-                  index: widget.index,
-                  onCheckbox: (index) => widget.onCheckbox(index),
-                ),
-              ],
+            ProductCheckWidget(
+              productData: widget.productData,
+              preferLeftSide: LoadingScreenServices.preferLeftSide,
+              productCount: widget.productData.pivot.quantity,
+              productName: widget.productData.name,
+              index: widget.index,
+              onCheckbox: (index) => widget.onCheckbox(index),
             ),
           ],
         ),

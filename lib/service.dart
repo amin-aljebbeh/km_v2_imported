@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -265,7 +264,7 @@ class Services {
         url = 'tel:${LoadingScreenServices.supportPhoneNumber}';
         break;
       case 'customer_whatsapp':
-        url = 'whatsapp://send?phone=' + mobileNumber;
+        url = 'whatsapp://send?phone=+963' + mobileNumber;
         break;
     }
     launch(url);

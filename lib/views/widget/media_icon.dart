@@ -14,11 +14,7 @@ class MediaIcon extends StatelessWidget {
     return IconButton(
       padding: const EdgeInsets.all(0),
       onPressed: () => Services.openUrl(url, mobileNumber: mobileNumber),
-      icon: Icon(
-        icon,
-        color: url == 'customer_whatsapp' ? kmColors : primaryColor,
-        size: 30,
-      ),
+      icon: Icon(icon, color: url == 'customer_whatsapp' ? kmColors : primaryColor, size: 30),
     );
   }
 }

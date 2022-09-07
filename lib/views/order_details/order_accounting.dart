@@ -73,50 +73,59 @@ class _OrderAccountingState extends State<OrderAccounting> {
   }
 
   _calculate() {
-    setState(
-      () {
-        subWarehouseTotal.clear();
-        subWarehouseTotal.add(const KTableRow(
+    setState(() {
+      subWarehouseTotal.clear();
+      subWarehouseTotal.add(KTableRow(
+        children: [
+          const KTableElement(text: 'المورد'),
+          const KTableElement(text: 'الدفع للمورد'),
+          if (Services.isAccounting()) const KTableElement(text: 'نسبة الزيادة'),
+          const KTableElement(text: 'السعر الصافي')
+        ],
+      ));
+      for (int i = 0; i < widget.orderData.orderAccountingRows.length; i++) {
+        if (widget.orderData.orderAccountingRows[i].payToSubWarehouse != 0) {
+          subWarehouseTotal.add(KTableRow(
+            children: [
+              KTableElement(text: widget.orderData.orderAccountingRows[i].subWarehouseName),
+              KTableElement(
+                text: StringUtils().oCcy.format(widget.orderData.orderAccountingRows[i].directDiscount == 1
+                    ? Services.kRound(widget.orderData.orderAccountingRows[i].payToSubWarehouse)
+                    : widget.orderData.orderAccountingRows[i].payToSubWarehouse),
+              ),
+              if (Services.isAccounting())
+                KTableElement(
+                    text: StringUtils().oCcy.format(widget.orderData.orderAccountingRows[i].increaseValuesSum)),
+              KTableElement(
+                  text: StringUtils().oCcy.format(widget.orderData.orderAccountingRows[i].netPrice +
+                      widget.orderData.orderAccountingRows[i].increaseValuesSum)),
+            ],
+          ));
+        }
+      }
+      if (!Services.isSupplierManager()) {
+        int delivery = int.parse(widget.orderData.supportedCityCost.split('.')[0]) +
+            int.parse(widget.orderData.deliveryCost.split('.')[0]);
+        int subTotal = int.parse(widget.orderData.total.split('.')[0]) - delivery;
+        subWarehouseTotal.add(KTableRow(
+            children: [KTableElement(text: subtotalString), KTableElement(text: StringUtils().oCcy.format(subTotal))]));
+        subWarehouseTotal.add(KTableRow(children: [
+          const KTableElement(text: 'أجور التوصيل'),
+          KTableElement(text: StringUtils().oCcy.format(delivery))
+        ]));
+        subWarehouseTotal.add(KTableRow(
           children: [
-            KTableElement(text: 'المورد'),
-            KTableElement(text: 'الدفع للمورد'),
-            KTableElement(text: 'السعر الصافي')
+            KTableElement(text: totalString),
+            KTableElement(text: StringUtils().oCcy.format(int.parse(widget.orderData.total.split('.')[0])))
           ],
         ));
-        for (int i = 0; i < widget.orderData.orderAccountingRows.length; i++) {
-          if (widget.orderData.orderAccountingRows[i].payToSubWarehouse != 0) {
-            subWarehouseTotal.add(KTableRow(
-              children: [
-                KTableElement(text: widget.orderData.orderAccountingRows[i].subWarehouseName),
-                KTableElement(
-                  text: StringUtils().oCcy.format(widget.orderData.orderAccountingRows[i].directDiscount == 1
-                      ? Services.kRound(widget.orderData.orderAccountingRows[i].payToSubWarehouse)
-                      : widget.orderData.orderAccountingRows[i].payToSubWarehouse),
-                ),
-                KTableElement(
-                    text: StringUtils().oCcy.format(widget.orderData.orderAccountingRows[i].netPrice +
-                        widget.orderData.orderAccountingRows[i].increaseValuesSum)),
-              ],
-            ));
-          }
-        }
-        if (!Services.isSupplierManager()) {
-          int delivery = int.parse(widget.orderData.supportedCityCost.split('.')[0]) +
-              int.parse(widget.orderData.deliveryCost.split('.')[0]);
-          int subTotal = int.parse(widget.orderData.total.split('.')[0]) - delivery;
-          subWarehouseTotal.add(
-              KTableRow(children: [KTableElement(text: subtotalString), KTableElement(text: subTotal.toString())]));
-          subWarehouseTotal.add(KTableRow(
-              children: [const KTableElement(text: 'أجور التوصيل'), KTableElement(text: delivery.toString())]));
-          subWarehouseTotal.add(KTableRow(
-            children: [KTableElement(text: totalString), KTableElement(text: widget.orderData.total.split('.')[0])],
-          ));
-        } else {
-          subWarehouseTotal.add(
-              KTableRow(children: [KTableElement(text: totalString), KTableElement(text: widget.subTotal.toString())]));
-        }
-      },
-    );
+      } else {
+        subWarehouseTotal.add(KTableRow(children: [
+          KTableElement(text: totalString),
+          KTableElement(text: StringUtils().oCcy.format(widget.subTotal))
+        ]));
+      }
+    });
   }
 
   @override

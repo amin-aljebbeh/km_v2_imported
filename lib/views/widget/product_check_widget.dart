@@ -1,3 +1,5 @@
+import 'package:kammun_app/views/widget/k_outlined_button.dart';
+
 import '../../core/core_importer.dart';
 
 class ProductCheckWidget extends StatefulWidget {
@@ -46,6 +48,12 @@ class _ProductCheckWidgetState extends State<ProductCheckWidget> {
                     },
                   ),
                 ),
+              if (Services.isSupplierManager())
+                KOutlinedButton(
+                    text: 'المنتج غير متوفر',
+                    color: kmColors2,
+                    onTap: () {},
+                    width: MediaQuery.of(context).size.width / 5),
               Column(
                 children: [
                   Container(
