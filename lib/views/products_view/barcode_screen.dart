@@ -59,6 +59,8 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                     }
                   });
                 },
+                notStartedBuilder: (context) => const Loader(),
+                offscreenBuilder: (context) => const Loader(),
               ),
             ),
             Column(

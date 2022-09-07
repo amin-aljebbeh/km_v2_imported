@@ -85,11 +85,7 @@ class ProductsViewState extends State<ProductsView> {
                 });
               }
             }
-            if (response.statusCode == 200) {
-              return true;
-            } else {
-              return false;
-            }
+            return response.statusCode == 200;
           } else {
             setState(() {
               errorMessage = 'حدث خطأ أثناء محاولة جلب البيانات \n يرجى التحقق من إتصالك بالأنترنت';
