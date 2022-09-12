@@ -180,53 +180,52 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   )
                 ],
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  LabelRow(
-                    rightSideText: phoneNumber,
-                    leftSideText: widget.orderData.userData.phone,
-                    leftSideStyle: paragraphStyle.copyWith(color: kmColors),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => Services.makePhoneCall(widget.orderData.userData.phone),
-                  ),
-                  if (Services.isOperationManager())
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.copy, color: kmColors, size: 25),
-                          padding: const EdgeInsets.all(0),
-                          onPressed: () {
-                            Clipboard.setData(ClipboardData(text: widget.orderData.userData.phone));
-                            Toast.show('تم نسخ الرقم', context, duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
-                          },
-                        ),
-                        MediaIcon(
-                            icon: FontAwesomeIcons.whatsapp,
-                            url: 'customer_whatsapp',
-                            mobileNumber: widget.orderData.userData.phone),
-                        IconButton(
-                          icon: Icon(Icons.search_rounded, color: kmColors, size: 30),
-                          padding: const EdgeInsets.all(0),
-                          onPressed: () {
-                            LoadingScreenServices.allOrdersList.clear();
-                            if (widget.pop) Navigator.of(context).pop();
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (screenContext) =>
-                                        PhoneNumberOrdersView(phoneNumber: widget.orderData.userData.phone)));
-                          },
-                        ),
-                      ],
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.end,
+                  children: [
+                    LabelRow(
+                      rightSideText: phoneNumber,
+                      leftSideText: widget.orderData.userData.phone,
+                      leftSideStyle: paragraphStyle.copyWith(color: kmColors),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => Services.makePhoneCall(widget.orderData.userData.phone),
                     ),
-                  if (widget.orderData.address.lat != -1 && widget.orderData.address.lon != -1)
-                    IconButton(
-                        icon: Icon(Icons.location_on, color: kmColors, size: 30),
-                        padding: const EdgeInsets.all(0),
-                        onPressed: () => openMapsSheet(
-                            context: context, lat: widget.orderData.address.lat, lon: widget.orderData.address.lon)),
-                ],
+                    if (Services.isOperationManager())
+                      InkWell(
+                        child: Icon(Icons.copy, color: kmColors, size: 25),
+                        onTap: () {
+                          Clipboard.setData(ClipboardData(text: widget.orderData.userData.phone));
+                          Toast.show('تم نسخ الرقم', context, duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+                        },
+                      ),
+                    if (Services.isOperationManager())
+                      MediaIcon(
+                          icon: FontAwesomeIcons.whatsapp,
+                          url: 'customer_whatsapp',
+                          mobileNumber: widget.orderData.userData.phone),
+                    if (Services.isOperationManager())
+                      InkWell(
+                        child: Icon(Icons.search_rounded, color: kmColors, size: 30),
+                        onTap: () {
+                          LoadingScreenServices.allOrdersList.clear();
+                          if (widget.pop) Navigator.of(context).pop();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (screenContext) =>
+                                      PhoneNumberOrdersView(phoneNumber: widget.orderData.userData.phone)));
+                        },
+                      ),
+                    if (widget.orderData.address.lat != -1 && widget.orderData.address.lon != -1)
+                      InkWell(
+                          child: Icon(Icons.location_on, color: kmColors, size: 30),
+                          onTap: () => openMapsSheet(
+                              context: context, lat: widget.orderData.address.lat, lon: widget.orderData.address.lon)),
+                  ],
+                ),
               ),
               LabelRow(
                   rightSideText: address + ' : ',

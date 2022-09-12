@@ -11,10 +11,9 @@ class MediaIcon extends StatelessWidget {
   const MediaIcon({Key key, @required this.icon, @required this.url, this.mobileNumber = ''}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      padding: const EdgeInsets.all(0),
-      onPressed: () => Services.openUrl(url, mobileNumber: mobileNumber),
-      icon: Icon(icon, color: url == 'customer_whatsapp' ? kmColors : primaryColor, size: 30),
+    return InkWell(
+      onTap: () => Services.openUrl(url, mobileNumber: mobileNumber),
+      child: Icon(icon, color: url == 'customer_whatsapp' ? kmColors : primaryColor, size: 30),
     );
   }
 }
