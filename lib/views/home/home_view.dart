@@ -30,7 +30,7 @@ class HomeViewState extends State<HomeView> {
             context: context,
             title: widget.notificationValue['title'],
             text: widget.notificationValue['body'],
-            dialogButtons: [const CloseButton()]))
+            dialogButtons: [const CloseWidget()]))
         : {};
 
     tabs = [];

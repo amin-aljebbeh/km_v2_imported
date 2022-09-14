@@ -387,7 +387,9 @@ class _OrderByIDState extends State<OrderByID> {
         product.images = orderProducts[i].images;
         product.name = orderProducts[i].name;
 
-        product.price = orderProducts[i].pivot.purchasePrice;
+        product.price =
+            (int.parse(orderProducts[i].pivot.purchasePrice.split('.')[0]) - orderProducts[i].pivot.increaseValue)
+                .toString();
 
         product.productCount = int.parse(orderProducts[i].pivot.quantity);
         product.unit = orderProducts[i].unit;

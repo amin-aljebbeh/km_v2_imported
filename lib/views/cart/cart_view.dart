@@ -181,10 +181,8 @@ class CartViewState extends State<CartView> {
                       children: <Widget>[
                         Wrap(
                           children: [
-                            Text(
-                              orderArray[index].name,
-                              style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18),
-                            ),
+                            Text(orderArray[index].name,
+                                style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18)),
                           ],
                         ),
                         const SizedBox(height: 6),
@@ -232,10 +230,7 @@ class CartViewState extends State<CartView> {
                                         double priceFactor = double.parse(orderArray[index].quantity) /
                                             double.parse(orderArray[index].price);
                                         if (_priceController.text.isNotEmpty) {
-                                          orderArray[index].price = _priceController.text;
-
-                                          orderArray[index].price =
-                                              (int.parse(_priceController.text.split('.')[0])).toString();
+                                          orderArray[index].price = _priceController.text.split('.')[0];
                                           orderArray[index].quantity =
                                               (priceFactor * double.parse(_priceController.text)).toStringAsFixed(2);
                                           CartServices.cartProducts = orderArray;
@@ -251,8 +246,7 @@ class CartViewState extends State<CartView> {
                                       _priceController.text = '';
                                       _calculateTotal();
                                     },
-                                    iconSize: 30,
-                                  )
+                                    iconSize: 30)
                                 : IconButton(
                                     icon: const Icon(Icons.edit),
                                     color: Colors.green,
@@ -260,8 +254,7 @@ class CartViewState extends State<CartView> {
                                       setState(() => indexToEdit = index);
                                       _calculateTotal();
                                     },
-                                    iconSize: 30,
-                                  ),
+                                    iconSize: 30),
                           ],
                         ),
                       ],

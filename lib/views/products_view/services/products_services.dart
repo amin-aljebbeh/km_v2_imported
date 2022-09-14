@@ -111,6 +111,8 @@ class ProductsServices {
       http.StreamedResponse response = await request.send();
       return response.statusCode == successCode;
     } catch (e) {
+      Tools.logToConsole('exception');
+      Tools.logToConsole(e.toString());
       return false;
     }
   }

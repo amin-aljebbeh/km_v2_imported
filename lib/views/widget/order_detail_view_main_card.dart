@@ -21,6 +21,9 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
   @override
   void initState() {
     subWarehouseList = LoadingScreenServices.subWarehouses
+        .where((subWarehouse) =>
+            (subWarehouse.id == widget.productData.subWarehouseId || subWarehouse.name.contains('خارجي')) ||
+            Services.isOperationManager())
         .map((subWarehouse) => DropdownMenuItem<dynamic>(
             child: AutoSizeText(subWarehouse.name,
                 maxLines: 2, overflow: TextOverflow.fade, maxFontSize: 12, style: mainStyle),
@@ -49,21 +52,14 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
               onCheckbox: (index) => widget.onCheckbox(index),
             ), //right side
             InkWell(
-              onTap: () {
-                Navigator.push(
+              onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) {
-                      return FullScreenImage(
-                        imageUrl: widget.productData.images.isNotEmpty
-                            ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
-                            : '',
-                        tag: 'generate_a_unique_tag',
-                      );
-                    },
-                  ),
-                );
-              },
+                      builder: (_) => FullScreenImage(
+                          imageUrl: widget.productData.images.isNotEmpty
+                              ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
+                              : '',
+                          tag: 'generate_a_unique_tag'))),
               child: KCacheImage(
                 tag: widget.index + int.parse(widget.productData.pivot.productId),
                 image: widget.productData.images.isNotEmpty
@@ -102,25 +98,21 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
                       items: subWarehouseList,
                       onChanged: (a) {
                         OrderDetailsServices.updateOrder(
-                          orderId: widget.productData.pivot.orderId,
-                          context: context,
-                          updateKey: 'sub_warehouse_id',
-                          updateValue: a.toString(),
-                          productId: widget.productData.pivot.productId,
-                        );
+                            orderId: widget.productData.pivot.orderId,
+                            context: context,
+                            updateKey: 'sub_warehouse_id',
+                            updateValue: a.toString(),
+                            productId: widget.productData.pivot.productId);
                         setState(() => widget.productData.subWarehouseId = a);
                       },
                       hint: subWarehouseList
-                          .firstWhere(
-                            (subWarehouse) => subWarehouse.value == widget.productData.subWarehouseId,
-                            orElse: () => subWarehouseList.firstWhere(
-                              (subWarehouse) => subWarehouse.value == widget.productData.pivot.subWarehouseId,
-                              orElse: () {
-                                subWarehouseList.clear();
-                                return const DropdownMenuItem<int>(child: Text('No element'), value: 0);
-                              },
-                            ),
-                          )
+                          .firstWhere((subWarehouse) => subWarehouse.value == widget.productData.subWarehouseId,
+                              orElse: () => subWarehouseList.firstWhere(
+                                      (subWarehouse) => subWarehouse.value == widget.productData.pivot.subWarehouseId,
+                                      orElse: () {
+                                    subWarehouseList.clear();
+                                    return const DropdownMenuItem<int>(child: Text('No element'), value: 0);
+                                  }))
                           .child,
                     ),
                 ],

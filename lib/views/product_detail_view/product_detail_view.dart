@@ -200,7 +200,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         LabelRow(
                             rightSideText: description + ' :',
                             leftSideText:
-                                widget.product.description != null ? widget.product.description.split('@')[0] : "",
+                                widget.product.description != null ? widget.product.description.split('@')[0] : '',
                             leftSideStyle: informationStyle),
                       ],
                     ),
@@ -224,9 +224,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             productId: widget.product.id.toString(),
                                             categoryId: widget.product.categories[index].id.toString());
                                         Services.resultFlushBar(context: context, result: result);
-                                        if (result) {
-                                          setState(() => widget.product.categories.removeAt(index));
-                                        }
+                                        if (result) setState(() => widget.product.categories.removeAt(index));
                                       },
                                     ),
                                     DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
@@ -278,9 +276,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                             child: InkWell(
                                 onTap: () => setState(() {
-                                      if (numberOfOrders > 1) {
-                                        numberOfOrders = numberOfOrders - 1;
-                                      }
+                                      if (numberOfOrders > 1) numberOfOrders = numberOfOrders - 1;
                                     }),
                                 child: Image.asset('assets/remove.png', width: 60, height: 60))),
                         const SizedBox(width: 10),
@@ -320,8 +316,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       height: 50,
                       color: Theme.of(context).primaryColor,
                       onTap: () async {
-                        String productsId = "";
-                        String productsQuantity = "";
+                        String productsId = '';
+                        String productsQuantity = '';
                         if (LoadingScreen.userToken.length > 5) {
                           Navigator.of(context).pop(true);
                           widget.product.productCount = numberOfOrders;
@@ -556,7 +552,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                 title: 'حذف صورة',
                                                 text: 'هل أنت متأكد من رغبتك في حذف صورة المنتج ؟',
                                                 dialogButtons: [
-                                                  const CloseButton(),
+                                                  const CloseWidget(),
                                                   DialogButton(
                                                     text: yes,
                                                     onTap: () async {

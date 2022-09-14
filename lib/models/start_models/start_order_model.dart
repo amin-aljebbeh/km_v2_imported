@@ -3,6 +3,7 @@ import 'package:kammun_app/service.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/login/models/admin_model.dart';
 
+import '../../core/core_importer.dart';
 import '../../views/orders/model/get_order_model.dart';
 
 OrdersOriginal ordersFromJson(String str) => OrdersOriginal.fromJson(json.decode(str));
@@ -163,28 +164,24 @@ class OrdersOriginalData {
       };
 
   OrderAccountingRow row = OrderAccountingRow(
-    subWarehouseId: 0,
-    subWarehouseName: 'subWarehouse.name',
-    netPrice: 0,
-    payToSubWarehouse: 0,
-    increaseValuesSum: 0,
-    directDiscount: 0,
-  );
+      subWarehouseId: 0,
+      subWarehouseName: 'subWarehouse.name',
+      netPrice: 0,
+      payToSubWarehouse: 0,
+      increaseValuesSum: 0,
+      directDiscount: 0);
 
   orderArithmeticOperations() {
     kammunProfit = 0;
     shopperProfit = 0;
     orderAccountingRows = LoadingScreenServices.subWarehouses
-        .map(
-          (subWarehouse) => OrderAccountingRow(
+        .map((subWarehouse) => OrderAccountingRow(
             subWarehouseId: subWarehouse.id,
             subWarehouseName: subWarehouse.name,
             netPrice: 0,
             payToSubWarehouse: 0,
             increaseValuesSum: 0,
-            directDiscount: subWarehouse.directDiscount,
-          ),
-        )
+            directDiscount: subWarehouse.directDiscount))
         .toList();
     for (int i = 0; i < products.length; i++) {
       if (products[i].pivot.deletedAt == 'null') {

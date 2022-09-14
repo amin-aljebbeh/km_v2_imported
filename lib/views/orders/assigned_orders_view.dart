@@ -1,6 +1,5 @@
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
-
 import '../../core/core_importer.dart';
 import 'services/order_services.dart';
 
@@ -348,7 +347,9 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
         product.images = orderProducts[i].images;
         product.name = orderProducts[i].name;
 
-        product.price = orderProducts[i].pivot.purchasePrice;
+        product.price =
+            (int.parse(orderProducts[i].pivot.purchasePrice.split('.')[0]) - orderProducts[i].pivot.increaseValue)
+                .toString();
 
         product.productCount = int.parse(orderProducts[i].pivot.quantity);
         product.unit = orderProducts[i].unit;

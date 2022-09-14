@@ -1,0 +1,19 @@
+APPLE_VERIFICATION
+
+WidgetsBinding.instance.addPostFrameCallback((_) {});
+
+StoreProvider.of<AppState>(context).dispatch();
+
+StoreProvider.of<AppState>(navigatorKey.currentContext).dispatch();
+
+StoreProvider.of<AppState>(context).state.;
+
+StoreProvider.of<AppState>(navigatorKey.currentContext).state.;
+
+StoreConnector<AppState, AppState>
+
+converter: (store) => store.state,distinct: true,builder: (context, state){return ;},
+
+flutter build apk --split-per-abi
+
+0957570213

@@ -57,7 +57,7 @@ class _PricesState extends State<Prices> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: primaryColor,
-        child: Text("$numberOfProducts", style: const TextStyle(fontSize: 20)),
+        child: Text('$numberOfProducts', style: const TextStyle(fontSize: 20)),
       ),
       backgroundColor: Colors.white,
       appBar: InventorySearchTextField(onReload: () => _loadData(), controller: _controller, context: context),
@@ -70,7 +70,7 @@ class _PricesState extends State<Prices> {
                       child: Expanded(
                         child: Column(
                           children: [
-                            AlertMessages(text: errorMessage, messageType: "internetError", headerText: "حدث خطأ"),
+                            AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
                             ElevatedButton(child: Text(tryAgain, style: blackBold), onPressed: () => _loadData()),
                           ],
                         ),
@@ -80,7 +80,7 @@ class _PricesState extends State<Prices> {
                       ? Padding(
                           padding: const EdgeInsets.only(top: 30.0),
                           child: Center(
-                            child: Text("لايجود منتجات تغير سعرها اليوم",
+                            child: Text('لا يوجد منتجات تغير سعرها اليوم',
                                 style: TextStyle(
                                     color: Colors.black, fontWeight: FontWeight.bold, fontFamily: fontFamily)),
                           ),
@@ -94,7 +94,7 @@ class _PricesState extends State<Prices> {
                             itemCount: productsList == null ? 0 : productsList.productsPriceChange.length,
                             itemBuilder: (BuildContext context, int index) {
                               if (filter == null ||
-                                  filter == "" ||
+                                  filter == '' ||
                                   productsList.productsPriceChange[index].name
                                       .toLowerCase()
                                       .contains(filter.toLowerCase())) {
@@ -157,10 +157,10 @@ class _PricesState extends State<Prices> {
                                   scaffoldKey: scaffoldKey,
                                   onChangeStatus: (result) {
                                     setState(() {
-                                      if (productsList.productsPriceChange[index].isActive == "1") {
-                                        productsList.productsPriceChange[index].isActive = "0";
+                                      if (productsList.productsPriceChange[index].isActive == '1') {
+                                        productsList.productsPriceChange[index].isActive = '0';
                                       } else {
-                                        productsList.productsPriceChange[index].isActive = "1";
+                                        productsList.productsPriceChange[index].isActive = '1';
                                       }
                                     });
                                   },
@@ -169,9 +169,9 @@ class _PricesState extends State<Prices> {
                                   },
                                   fromInventory: true,
                                   productData: productsList.productsPriceChange[index],
-                                  oldPrice: int.parse(productsList.productsPriceChange[index].price.split(".")[0]) -
+                                  oldPrice: int.parse(productsList.productsPriceChange[index].price.split('.')[0]) -
                                       int.parse(
-                                          productsList.productsPriceChange[index].priceChange.toString().split(".")[0]),
+                                          productsList.productsPriceChange[index].priceChange.toString().split('.')[0]),
                                   onChangePrice: (newValue) =>
                                       setState(() => productsList.productsPriceChange[index].price = newValue),
                                   onChangeUnit: (newValue) =>

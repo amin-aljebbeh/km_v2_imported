@@ -350,7 +350,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
                 ),
               ),
             ),
-            //SizedBox(width: 10),
             const SizedBox(width: 10),
             Expanded(
               child: Wrap(
@@ -384,7 +383,6 @@ class _CartViewFinalState extends State<CartViewFinal> {
                 ],
               ),
             ),
-
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,

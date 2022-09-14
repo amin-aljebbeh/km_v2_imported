@@ -79,7 +79,7 @@ class _AddProductsViewState extends State<AddProductsView> {
       supplierCode: supplierCodeController.text,
       priceFactor: priceFactorController.text,
       categoryId: widget.categoryId,
-      minThreshold: "0",
+      minThreshold: '0',
       autoActivation: autoActivationController,
       isActive: switchController ? 1 : 0,
       barcode: barcode,
@@ -103,7 +103,7 @@ class _AddProductsViewState extends State<AddProductsView> {
         Flushbar(
           backgroundColor: Colors.red[900],
           messageText: Text(
-            "فشل في إضافة المنتج",
+            'فشل في إضافة المنتج',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: fontFamily),
           ),
           boxShadows: const [BoxShadow(color: Colors.red, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
@@ -115,7 +115,7 @@ class _AddProductsViewState extends State<AddProductsView> {
       Flushbar(
         backgroundColor: Colors.red[900],
         messageText: Text(
-          "!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!",
+          '!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: fontFamily),
         ),
         boxShadows: const [BoxShadow(color: Colors.purple, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
@@ -167,7 +167,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                       child: InkWell(
                         onTap: () => Navigator.pushNamedAndRemoveUntil(
                             context, StoreView.routeName, (Route<dynamic> route) => false),
-                        child: Image.asset("assets/logobw.png", width: 150, height: 50),
+                        child: Image.asset('assets/logobw.png', width: 150, height: 50),
                       ),
                     ),
                   ),
@@ -194,7 +194,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                   shrinkWrap: true,
                   children: [
                     Text(
-                      "يرجى إختيار المستودع التابع لهذه المادة",
+                      'يرجى إختيار المستودع التابع لهذه المادة',
                       style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold),
                     ),
                     ListTile(
@@ -215,43 +215,43 @@ class _AddProductsViewState extends State<AddProductsView> {
                             .toList(),
                       ),
                     ),
-                    ProductEntryField(controller: nameController, title: "اسم المنتج", hint: "زيت سولينا"),
+                    ProductEntryField(controller: nameController, title: 'اسم المنتج', hint: 'زيت سولينا'),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ProductEntryField(
                             controller: quantityController,
                             title: quantity,
-                            hint: "100",
+                            hint: '100',
                             width: MediaQuery.of(context).size.width / 4),
                         ProductEntryField(
                             controller: unitController,
                             title: unit,
-                            hint: "لتر",
+                            hint: 'لتر',
                             width: MediaQuery.of(context).size.width / 4),
                         ProductEntryField(
                             controller: priceFactorController,
                             title: priceFactor,
-                            hint: "1",
+                            hint: '1',
                             width: MediaQuery.of(context).size.width / 4),
                       ],
                     ),
                     ProductEntryField(
                         controller: descriptionController,
                         title: description,
-                        hint: "زيت دوار الشمس الصافي @كلمات مفتاحية"),
+                        hint: 'زيت دوار الشمس الصافي @كلمات مفتاحية'),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ProductEntryField(
                             controller: supplierCodeController,
                             title: supplierCode,
-                            hint: "123456",
+                            hint: '123456',
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
                             controller: priceController,
                             title: price,
-                            hint: "5000",
+                            hint: '5000',
                             width: MediaQuery.of(context).size.width / 3),
                       ],
                     ),
@@ -280,7 +280,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                     ),
                     Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                       Text(
-                        "السماح بتفعيل المنتاج تلقائيا",
+                        'السماح بتفعيل المنتاج تلقائيا',
                         style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
@@ -311,7 +311,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                           _addNewProduct(barcode: widget.barcode, context: context);
                         } else {
                           Toast.show(
-                              "يرجى ادخال البيانات التالية:\n" +
+                              'يرجى ادخال البيانات التالية:\n' +
                                   productData.toString().replaceAll(',', '\n').replaceAll('[', '').replaceAll(']', ''),
                               context,
                               duration: Toast.LENGTH_LONG,

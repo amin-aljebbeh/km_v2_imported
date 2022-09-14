@@ -185,11 +185,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                           }
                           return Column(
                             children: <Widget>[
-                              OrdersViewCard(
-                                pop: true,
-                                orderData: orderDataList[index],
-                                orderType: OrderTypes.search,
-                              ),
+                              OrdersViewCard(pop: true, orderData: orderDataList[index], orderType: OrderTypes.search),
                               if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
                                   int.parse(orderDataList[index].underUpdate) != 1)
                                 Padding(
@@ -491,7 +487,9 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
         product.images = orderProducts[i].images;
         product.name = orderProducts[i].name;
 
-        product.price = orderProducts[i].pivot.purchasePrice;
+        product.price =
+            (int.parse(orderProducts[i].pivot.purchasePrice.split('.')[0]) - orderProducts[i].pivot.increaseValue)
+                .toString();
 
         product.productCount = int.parse(orderProducts[i].pivot.quantity);
         product.unit = orderProducts[i].unit;
