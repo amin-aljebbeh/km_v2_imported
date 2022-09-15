@@ -74,10 +74,11 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       pushedRoute: ProductsFilterScreen.routeName,
                       icon: Icons.filter_list_sharp,
                       text: 'فلترة المنتجات'),
-                  const SideBarRow(
-                      pushedRoute: InventoryPage.routeName,
-                      icon: Icons.notifications_active_rounded,
-                      text: 'المنتجات على قائمة الانتظار'),
+                  if (Services.isOperationManager() || Services.isProductsController())
+                    const SideBarRow(
+                        pushedRoute: InventoryPage.routeName,
+                        icon: Icons.notifications_active_rounded,
+                        text: 'المنتجات على قائمة الانتظار'),
                 ],
               ),
             ),

@@ -1,8 +1,8 @@
-import 'package:redux/redux.dart';
-
 import 'app_middleware.dart';
 import 'app_reducer.dart';
 import 'app_state.dart';
+
+import 'package:redux/redux.dart';
 
 class AppRedux {
   static Store<AppState> init() =>
