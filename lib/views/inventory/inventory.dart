@@ -39,17 +39,29 @@ class _InventoryState extends State<Inventory> {
         if (LoadingScreenServices.subWarehouses.isEmpty) await LoadingScreenServices.getSubWarehouse();
         productsList.clear();
         if (isActiveFilter == 0) {
+          Tools.logToConsole('active');
           productsList = productsListToActive;
+          Tools.logToConsole(productsList.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
         } else if (isActiveFilter == 1) {
+          Tools.logToConsole('not active');
           productsList = productsListToInactive;
+          Tools.logToConsole(productsList.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
         } else {
+          Tools.logToConsole('all');
           productsList = productsListToActive;
+          Tools.logToConsole(
+              productsListToActive.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
+          Tools.logToConsole(
+              productsListToInactive.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
           productsList.addAll(productsListToInactive);
+          Tools.logToConsole(productsList.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
         }
         List<ProductData> sortedProductsList = Services.productListSort(productsList);
         productsList = sortedProductsList;
         if (filterIndex < warehouseFilter.length - 1) {
           productsList.removeWhere((data) => !warehouseFilter[filterIndex].hasMatch(data.supplierCode ?? '0'));
+          Tools.logToConsole('end');
+          Tools.logToConsole(productsList.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
         }
 
         setState(() => isLoading = false);

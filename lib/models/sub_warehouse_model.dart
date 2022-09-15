@@ -38,13 +38,11 @@ class SubWarehouse {
   SubWarehouseLevelPivot levelPivot;
   double discountPercentage;
 
-  static double getDiscountPercentage(int subWarehouseId) {
-    return (LoadingScreenServices.subWarehouses
-            .firstWhere((subWarehouse) => subWarehouse.id == subWarehouseId,
-                orElse: () => SubWarehouse(discountPercentage: 1))
-            .discountPercentage /
-        100);
-  }
+  static double getDiscountPercentage(int subWarehouseId) => (LoadingScreenServices.subWarehouses
+          .firstWhere((subWarehouse) => subWarehouse.id == subWarehouseId,
+              orElse: () => SubWarehouse(discountPercentage: 1))
+          .discountPercentage /
+      100);
 
   factory SubWarehouse.fromJson(Map<String, dynamic> json) => SubWarehouse(
         id: json["id"],

@@ -104,13 +104,11 @@ class Services {
     return dropdownStringList(names);
   }
 
-  static List<DropdownMenuItem<int>> transactionTypesNames() {
-    List<String> names = LoadingScreenServices.transactionTypes
-        .where((type) => type.automatic == 0)
-        .map((type) => type.arabicName)
-        .toList();
-    return dropdownStringList(names);
-  }
+  static List<DropdownMenuItem<int>> transactionTypesNames() =>
+      dropdownStringList(LoadingScreenServices.transactionTypes
+          .where((type) => type.automatic == 0)
+          .map((type) => type.arabicName)
+          .toList());
 
   static List<DropdownMenuItem<String>> productSubWarehouseNames(BuildContext context) =>
       LoadingScreenServices.subWarehouses

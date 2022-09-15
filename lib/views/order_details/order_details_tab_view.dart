@@ -10,14 +10,12 @@ import 'order_details_view_main.dart';
 // ignore: must_be_immutable
 class OrderDetailsTabView extends StatefulWidget {
   int subTotal;
-  String total;
   OrdersOriginalData orderData;
   final OrderTypes orderType;
   double remaining;
   double totalDiscount;
 
-  OrderDetailsTabView(
-      {Key key, this.orderType, this.orderData, this.subTotal, this.total, this.remaining, this.totalDiscount})
+  OrderDetailsTabView({Key key, this.orderType, this.orderData, this.subTotal, this.remaining, this.totalDiscount})
       : super(key: key);
 
   @override
@@ -45,8 +43,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
       }
     }
     tabList.add(Tab(child: Center(child: Text('الحسابات', style: tabStyle))));
-    screenList.add(OrderAccounting(
-        orderData: widget.orderData, onDelete: () => controller.animateTo(0), subTotal: widget.subTotal));
+    screenList.add(OrderAccounting(orderData: widget.orderData, onDelete: () => controller.animateTo(0)));
   }
 
   @override

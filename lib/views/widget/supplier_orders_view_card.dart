@@ -64,7 +64,6 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
             MaterialPageRoute(
                 builder: (context) => OrderDetailsTabView(
                     subTotal: Services.kRound(subTotal),
-                    total: widget.order.total,
                     orderData: widget.order,
                     orderType: OrderTypes.myOrder,
                     remaining: subTotal - Services.kRound(subTotal),

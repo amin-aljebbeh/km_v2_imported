@@ -108,7 +108,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   subTotal: int.parse(widget.orderData.total.toString().split('.')[0]) -
                       int.parse(widget.orderData.supportedCityCost.toString().split('.')[0]) -
                       int.parse(widget.orderData.deliveryCost.split('.')[0]),
-                  total: widget.orderData.total.toString(),
                   orderType: widget.orderType))),
       child: Container(
         decoration: BoxDecoration(border: Border.all(color: color, width: 5)),

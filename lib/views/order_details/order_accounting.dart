@@ -8,8 +8,7 @@ import 'services/order_details_services.dart';
 class OrderAccounting extends StatefulWidget {
   final OrdersOriginalData orderData;
   final Function onDelete;
-  final int subTotal;
-  const OrderAccounting({Key key, @required this.orderData, this.onDelete, this.subTotal}) : super(key: key);
+  const OrderAccounting({Key key, @required this.orderData, this.onDelete}) : super(key: key);
 
   @override
   _OrderAccountingState createState() => _OrderAccountingState();
@@ -117,7 +116,9 @@ class _OrderAccountingState extends State<OrderAccounting> {
       } else {
         subWarehouseTotal.add(KTableRow(children: [
           KTableElement(text: totalString),
-          KTableElement(text: StringUtils().oCcy.format(widget.subTotal))
+          KTableElement(
+              text: StringUtils().oCcy.format(Services.kRound(
+                  widget.orderData.orderAccountingRows.fold(0, (sum, row) => sum + row.payToSubWarehouse))))
         ]));
       }
     });
