@@ -28,47 +28,44 @@ class _OrderAccountingState extends State<OrderAccounting> {
 
   getImages() {
     for (int i = 0; i < images.length; i++) {
-      imageWidgets.add(
-        InkWell(
-          onLongPress: () async {
-            List<DialogButton> dialogButtons = [
-              DialogButton(
-                text: yes,
-                onTap: () async {
-                  Navigator.of(context).pop();
-                  bool result =
-                      await OrderDetailsServices.deleteImageFromOrderService(imageId: images[i].id.toString());
-                  Services.resultFlushBar(context: context, result: result);
-                  if (result) {
-                    setState(() {
-                      widget.orderData.images.removeWhere((image) => image.id == widget.orderData.images[i].id);
-                      images.clear();
-                      images.addAll(widget.orderData.images);
-                      widget.onDelete();
-                    });
-                  }
-                },
-              ),
-              DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
-            ];
-            showMyDialog(context: context, title: '', text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
-          },
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => FullScreenImage(
-                        imageUrl:
-                            LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName,
-                        tag: 'generate_a_unique_tag')));
-          },
-          child: widget.orderData.images != null && widget.orderData.images.isNotEmpty
-              ? KCacheImage(
-                  tag: widget.orderData.images[i].imageFileName,
-                  image: LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName)
-              : const AssetImage('assets/kmIcon.png'),
-        ),
-      );
+      imageWidgets.add(InkWell(
+        onLongPress: () async {
+          List<DialogButton> dialogButtons = [
+            DialogButton(
+              text: yes,
+              onTap: () async {
+                Navigator.of(context).pop();
+                bool result = await OrderDetailsServices.deleteImageFromOrderService(imageId: images[i].id.toString());
+                Services.resultFlushBar(context: context, result: result);
+                if (result) {
+                  setState(() {
+                    widget.orderData.images.removeWhere((image) => image.id == widget.orderData.images[i].id);
+                    images.clear();
+                    images.addAll(widget.orderData.images);
+                    widget.onDelete();
+                  });
+                }
+              },
+            ),
+            DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
+          ];
+          showMyDialog(context: context, title: '', text: 'هل تريد حذف الفاتورة ؟', dialogButtons: dialogButtons);
+        },
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => FullScreenImage(
+                      imageUrl:
+                          LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName,
+                      tag: 'generate_a_unique_tag')));
+        },
+        child: widget.orderData.images != null && widget.orderData.images.isNotEmpty
+            ? KCacheImage(
+                tag: widget.orderData.images[i].imageFileName,
+                image: LoadingScreenServices.imagePrefixUrl + 'orders/' + widget.orderData.images[i].imageFileName)
+            : const AssetImage('assets/kmIcon.png'),
+      ));
     }
   }
 
@@ -113,12 +110,10 @@ class _OrderAccountingState extends State<OrderAccounting> {
           const KTableElement(text: 'أجور التوصيل'),
           KTableElement(text: StringUtils().oCcy.format(delivery))
         ]));
-        subWarehouseTotal.add(KTableRow(
-          children: [
-            KTableElement(text: totalString),
-            KTableElement(text: StringUtils().oCcy.format(int.parse(widget.orderData.total.split('.')[0])))
-          ],
-        ));
+        subWarehouseTotal.add(KTableRow(children: [
+          KTableElement(text: totalString),
+          KTableElement(text: StringUtils().oCcy.format(int.parse(widget.orderData.total.split('.')[0])))
+        ]));
       } else {
         subWarehouseTotal.add(KTableRow(children: [
           KTableElement(text: totalString),

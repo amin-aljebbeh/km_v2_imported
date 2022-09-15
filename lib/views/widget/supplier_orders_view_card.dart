@@ -24,7 +24,6 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
       if ((widget.order.products[i].pivot.deletedAt == 'null')) {
         double subTotal = ((double.parse(widget.order.products[i].pivot.purchasePrice) -
             widget.order.products[i].pivot.increaseValue));
-        widget.order.products[i].pivot.purchasePrice = subTotal.toString();
         subTotal *= double.parse(widget.order.products[i].pivot.quantity);
         total += subTotal;
       }
@@ -37,7 +36,8 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
     for (int i = 0; i < widget.order.products.length; i++) {
       if ((widget.order.products[i].pivot.deletedAt == 'null')) {
         double discountPercentage = SubWarehouse.getDiscountPercentage(widget.order.products[i].subWarehouseId);
-        double subTotal = double.parse(widget.order.products[i].pivot.purchasePrice) -
+        double subTotal = (double.parse(widget.order.products[i].pivot.purchasePrice) -
+                widget.order.products[i].pivot.increaseValue) -
             (double.parse(widget.order.products[i].pivot.purchasePrice) * discountPercentage);
         subTotal *= double.parse(widget.order.products[i].pivot.quantity);
         total += subTotal;
@@ -58,20 +58,17 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () => {
+      onTap: () {
         Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OrderDetailsTabView(
-              subTotal: Services.kRound(subTotal),
-              total: widget.order.total,
-              orderData: widget.order,
-              orderType: OrderTypes.myOrder,
-              remaining: subTotal - Services.kRound(subTotal),
-              totalDiscount: double.parse(widget.order.total) - Services.kRound(subTotal),
-            ),
-          ),
-        ),
+            context,
+            MaterialPageRoute(
+                builder: (context) => OrderDetailsTabView(
+                    subTotal: Services.kRound(subTotal),
+                    total: widget.order.total,
+                    orderData: widget.order,
+                    orderType: OrderTypes.myOrder,
+                    remaining: subTotal - Services.kRound(subTotal),
+                    totalDiscount: double.parse(widget.order.total) - Services.kRound(subTotal))));
       },
       child: Column(
         children: [
