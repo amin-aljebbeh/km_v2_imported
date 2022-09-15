@@ -1,5 +1,4 @@
 import '../core_importer.dart';
-import '../errors/error_handler.dart';
 
 class ApiProvider {
   static Future<Response> sendRequest({

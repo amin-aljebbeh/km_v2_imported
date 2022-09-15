@@ -112,7 +112,7 @@ const String importProductActivationInWarehouse = 'import_product_activation_in_
 
 const String importProductPricesInWareHouse = 'import_product_prices_in_warehouse';
 
-const String deleteProduct = product;
+const String getProductsOfWaitingList = product + 'get_products_of_waiting_list';
 
 const String getAddedProductsToWarehouse = product + 'show_Additional_Products_For_Warehouse';
 

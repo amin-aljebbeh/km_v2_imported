@@ -111,8 +111,6 @@ class ProductsServices {
       http.StreamedResponse response = await request.send();
       return response.statusCode == successCode;
     } catch (e) {
-      Tools.logToConsole('exception');
-      Tools.logToConsole(e.toString());
       return false;
     }
   }
@@ -163,7 +161,7 @@ class ProductsServices {
 
   static Future<bool> deleteProductService(String productId) async {
     try {
-      var response = await ApiProvider.sendRequest(url: deleteProduct + productId, method: HttpMethods.delete);
+      var response = await ApiProvider.sendRequest(url: product + productId, method: HttpMethods.delete);
       return response.statusCode == successCode;
     } catch (e) {
       return false;

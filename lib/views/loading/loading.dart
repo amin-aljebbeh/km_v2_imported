@@ -6,8 +6,8 @@ import '../../views/loading/loading_services.dart';
 import '../../views/update_screen/update_required_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
-  static String userToken = "Bearer ";
-  static String updateUrl = "";
+  static String userToken = 'Bearer ';
+  static String updateUrl = '';
 
   const LoadingScreen({Key key}) : super(key: key);
 
@@ -38,7 +38,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         bool x = await LoadingScreenServices().fetchStartInformation();
         return x;
       }
-      return "userNotLoggedIn";
+      return 'userNotLoggedIn';
     } catch (e) {
       /**/
     }
@@ -51,7 +51,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
-            image: DecorationImage(image: AssetImage("assets/welcome_screen.png"), fit: BoxFit.contain)),
+            image: DecorationImage(image: AssetImage('assets/welcome_screen.png'), fit: BoxFit.contain)),
         child: Stack(
           children: <Widget>[
             Positioned(
@@ -59,7 +59,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 bottom: MediaQuery.of(context).size.height / 2 - 37,
                 height: 100,
                 width: 100,
-                child: Image.asset("assets/Loading.gif")),
+                child: Image.asset('assets/Loading.gif')),
           ],
         ),
       ),
@@ -71,7 +71,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     return FutureBuilder(
       future: fetchInformation,
       builder: (context, snapShot) {
-        if (snapShot.data == "userNotLoggedIn") return const LoginScreen();
+        if (snapShot.data == 'userNotLoggedIn') return const LoginScreen();
 
         if (snapShot.connectionState == ConnectionState.done) {
           if (snapShot.hasError || snapShot.data == false) {

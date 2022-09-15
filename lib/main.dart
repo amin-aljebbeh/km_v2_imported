@@ -9,18 +9,23 @@ import 'core/core_importer.dart';
 import 'routes.dart';
 
 Future<void> main() async {
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-  } catch (e) {/**/}
+  WidgetsFlutterBinding.ensureInitialized();
+  await inject();
+  final Store<AppState> store = AppRedux.init();
 
   RenderErrorBox.backgroundColor = Colors.transparent;
   RenderErrorBox.textStyle = ui.TextStyle(color: Colors.transparent);
-  runApp(const OverlaySupport(
-      child: KammunRestart(child: CustomTheme(initialThemeKey: MyThemeKeys.light, child: MyApp()))));
+  runApp(OverlaySupport(
+    child: StoreProvider(
+        store: store,
+        child: CustomTheme(initialThemeKey: MyThemeKeys.light, child: KammunRestart(child: MyApp(store: store)))),
+  ));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key key}) : super(key: key);
+  final Store<AppState> store;
+
+  const MyApp({Key key, this.store}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -29,20 +34,26 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        DefaultCupertinoLocalizations.delegate
-      ],
-      supportedLocales: const [Locale('ar', 'AE')],
-      locale: const Locale('ar', 'AE'),
-      title: 'Kammun',
-      debugShowCheckedModeBanner: false,
-      routes: routes,
-      theme: CustomTheme.of(context),
-      home: const LoadingScreen(),
+    return StoreConnector<AppState, AppState>(
+      converter: (store) => store.state,
+      distinct: true,
+      builder: (context, state) {
+        return MaterialApp(
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate
+          ],
+          supportedLocales: const [Locale('ar', 'AE')],
+          locale: const Locale('ar', 'AE'),
+          title: 'Kammun',
+          debugShowCheckedModeBanner: false,
+          routes: routes,
+          theme: CustomTheme.of(context),
+          home: const LoadingScreen(),
+        );
+      },
     );
   }
 }

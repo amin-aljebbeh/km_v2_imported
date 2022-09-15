@@ -263,10 +263,8 @@ class ProductsViewState extends State<ProductsView> {
                           child: Center(
                             child: widget.barcode == null
                                 ? theEndOfProducts
-                                    ? Text(
-                                        'تم جلب جميع المنتجات',
-                                        style: TextStyle(fontWeight: FontWeight.bold, fontFamily: fontFamily),
-                                      )
+                                    ? Text('تم جلب جميع المنتجات',
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontFamily: fontFamily))
                                     : const Loader()
                                 : Container(),
                           ),

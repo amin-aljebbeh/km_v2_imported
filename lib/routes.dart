@@ -27,4 +27,5 @@ final Map<String, WidgetBuilder> routes = {
   SupplierAccounts.routeName: (_) => const SupplierAccounts(),
   ShopperManagementView.routeName: (_) => const ShopperManagementView(),
   FinancialReportView.routeName: (_) => const FinancialReportView(),
+  InventoryPage.routeName: (_) => const InventoryPage(),
 };

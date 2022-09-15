@@ -254,18 +254,16 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                               'هل أنت متأكد أنك تريد إزالة ${widget.productData.name} من $subWarehouseName',
                                           dialogButtons: [
                                             DialogButton(
-                                              text: yes,
-                                              onTap: () async {
-                                                bool result = await _unAttachProduct();
-                                                Navigator.of(context).pop();
-                                                Services.resultFlushBar(context: context, result: result);
-                                              },
-                                            ),
+                                                text: yes,
+                                                onTap: () async {
+                                                  bool result = await _unAttachProduct();
+                                                  Navigator.of(context).pop();
+                                                  Services.resultFlushBar(context: context, result: result);
+                                                }),
                                             const CloseWidget(),
                                           ],
                                         );
-                                      },
-                                    )
+                                      })
                                   : !widget.fromInventory
                                       ? IconButton(
                                           icon: const Icon(Icons.add, color: Colors.green),
@@ -276,13 +274,11 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (screenContext) => Scaffold(
-                                                    body: SafeArea(
-                                                      child: StoreViewCategory(
-                                                          scaffoldKey: widget.scaffoldKey,
-                                                          supplierCode: widget.supplierCode,
-                                                          forProductAdding: true),
-                                                    ),
-                                                  ),
+                                                      body: SafeArea(
+                                                          child: StoreViewCategory(
+                                                              scaffoldKey: widget.scaffoldKey,
+                                                              supplierCode: widget.supplierCode,
+                                                              forProductAdding: true))),
                                                 ),
                                               );
                                             } else {
@@ -301,12 +297,10 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                           param = int.parse(barcode);
                                                         }
                                                         Navigator.push(
-                                                          widget.scaffoldKey.currentContext,
-                                                          MaterialPageRoute(
-                                                            builder: (context) => AddProductsToSubWarehouse(
-                                                                barcode: param, productData: widget.productData),
-                                                          ),
-                                                        );
+                                                            widget.scaffoldKey.currentContext,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => AddProductsToSubWarehouse(
+                                                                    barcode: param, productData: widget.productData)));
                                                       },
                                                     ),
                                                   ),
@@ -320,8 +314,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                 );
                                               }
                                             }
-                                          },
-                                        )
+                                          })
                                       : IconButton(
                                           icon: const Icon(Icons.check_sharp, color: Colors.green),
                                           onPressed: () async {
