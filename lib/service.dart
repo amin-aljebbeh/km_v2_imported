@@ -28,6 +28,9 @@ class Services {
   }
 
   static Future<void> logOutAdmin(BuildContext context) async {
+    LoadingScreenServices.allOrdersList = [];
+    LoadingScreenServices.myOrdersList = [];
+    LoadingScreenServices.phoneOrderList = [];
     SharedPreferences preferences = await SharedPreferences.getInstance();
     baseUrl = appUrl;
     await preferences.clear();

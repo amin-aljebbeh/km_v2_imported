@@ -113,7 +113,7 @@ class LoadingScreenServices {
         } else {
           baseUrl = productionBaseUrl;
         }
-        if (['rabie', 'supplier', 'rabia'].contains(userToken)) baseUrl = testUrl;
+        if (['rabie', 'supplier', 'rabia', 'bashar_test'].contains(userToken)) baseUrl = testUrl;
         return true;
       }
       return false;
