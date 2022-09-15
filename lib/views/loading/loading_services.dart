@@ -26,8 +26,6 @@ class LoadingScreenServices {
   static bool updateRequired = false;
   static bool updateOptional = false;
 
-  static SupportedCityOriginal supportedCityOriginal;
-  static String supportPhoneNumber;
   static String systemMaintenanceMessages;
 
   // Supported City variables
@@ -86,7 +84,6 @@ class LoadingScreenServices {
       var response = await ApiProvider.sendRequest(url: getSupportedCities, method: HttpMethods.get);
       if (response.statusCode == successCode) {
         final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
-        supportedCityOriginal = supportedCitiesResponse;
 
         supportedCitiesListIntro.clear();
 

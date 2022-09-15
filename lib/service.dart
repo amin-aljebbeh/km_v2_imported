@@ -262,7 +262,7 @@ class Services {
             'mailto:${LoadingScreenServices.companyInformation.email}?subject=Support Request From $platform Application&body=';
         break;
       case 'number':
-        url = 'tel:${LoadingScreenServices.supportPhoneNumber}';
+        url = 'tel:${LoadingScreenServices.companyInformation.supportNumber}';
         break;
       case 'customer_whatsapp':
         url = 'whatsapp://send?phone=+963' + mobileNumber;

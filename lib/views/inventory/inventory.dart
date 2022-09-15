@@ -24,9 +24,9 @@ class _InventoryState extends State<Inventory> {
 
   _loadData({int filterIndex = 0}) async {
     setState(() {
-      productsListToActive.clear();
-      productsListToInactive.clear();
-      productsList.clear();
+      productsListToActive = [];
+      productsListToInactive = [];
+      productsList = [];
       isLoading = true;
       isError = false;
     });
@@ -35,35 +35,23 @@ class _InventoryState extends State<Inventory> {
       if (response.statusCode == successCode && response.data['success']) {
         productsListToActive.addAll(productsToReviewFromJson(jsonEncode(response.data)).productsToActivate);
         productsListToInactive.addAll(productsToReviewFromJson(jsonEncode(response.data)).productsToDeactivate);
-
         if (LoadingScreenServices.subWarehouses.isEmpty) await LoadingScreenServices.getSubWarehouse();
-        productsList.clear();
         if (isActiveFilter == 0) {
-          Tools.logToConsole('active');
-          productsList = productsListToActive;
-          Tools.logToConsole(productsList.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
+          productsList.addAll(productsListToActive);
         } else if (isActiveFilter == 1) {
-          Tools.logToConsole('not active');
           productsList = productsListToInactive;
-          Tools.logToConsole(productsList.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
         } else {
-          Tools.logToConsole('all');
-          productsList = productsListToActive;
-          Tools.logToConsole(
-              productsListToActive.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
-          Tools.logToConsole(
-              productsListToInactive.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
+          productsList.addAll(productsListToActive);
           productsList.addAll(productsListToInactive);
-          Tools.logToConsole(productsList.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
         }
         List<ProductData> sortedProductsList = Services.productListSort(productsList);
         productsList = sortedProductsList;
         if (filterIndex < warehouseFilter.length - 1) {
           productsList.removeWhere((data) => !warehouseFilter[filterIndex].hasMatch(data.supplierCode ?? '0'));
-          Tools.logToConsole('end');
-          Tools.logToConsole(productsList.where((element) => element.subWarehouseId == selectedSubWarehouseId).length);
         }
-
+        if (selectedSubWarehouseId != -1) {
+          productsList.removeWhere((product) => product.subWarehouseId != selectedSubWarehouseId);
+        }
         setState(() => isLoading = false);
         return true;
       } else {
@@ -199,82 +187,78 @@ class _InventoryState extends State<Inventory> {
                               if (filter == null ||
                                   filter == '' ||
                                   productsList[index].name.toLowerCase().contains(filter.toLowerCase())) {
-                                if (selectedSubWarehouseId == -1 ||
-                                    productsList[index].subWarehouseId == selectedSubWarehouseId) {
-                                  String id, supplierCode;
-                                  int isActive;
-                                  bool attached;
-                                  if (productsList[index].subWarehouseId != -1) {
-                                    id = productsList[index].subWarehouseId.toString();
-                                  } else {
-                                    List<int> subWarehousesIds =
-                                        LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
-                                    List<int> productIds = productsList[index]
-                                        .warehouses
-                                        .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
-                                        .toList();
-                                    subWarehousesIds.removeWhere((id) => !productIds.contains(id));
-                                    if (subWarehousesIds.isNotEmpty) {
-                                      id = subWarehousesIds[0].toString();
-                                    } else if (productsList[index].warehouses.isNotEmpty) {
-                                      id = productsList[index].warehouses[0].pivot.subWarehouseId;
-                                    }
-                                  }
-                                  if (productsList[index].supplierCode != null) {
-                                    supplierCode = productsList[index].supplierCode;
+                                String id, supplierCode;
+                                int isActive;
+                                bool attached;
+                                if (productsList[index].subWarehouseId != -1) {
+                                  id = productsList[index].subWarehouseId.toString();
+                                } else {
+                                  List<int> subWarehousesIds =
+                                      LoadingScreenServices.subWarehouses.map((warehouse) => warehouse.id).toList();
+                                  List<int> productIds = productsList[index]
+                                      .warehouses
+                                      .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
+                                      .toList();
+                                  subWarehousesIds.removeWhere((id) => !productIds.contains(id));
+                                  if (subWarehousesIds.isNotEmpty) {
+                                    id = subWarehousesIds[0].toString();
                                   } else if (productsList[index].warehouses.isNotEmpty) {
-                                    supplierCode = productsList[index]
-                                        .warehouses
-                                        .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
-                                        .pivot
-                                        .supplierCode;
+                                    id = productsList[index].warehouses[0].pivot.subWarehouseId;
                                   }
-                                  if (productsList[index].isActive != 'null') {
-                                    isActive = int.parse(productsList[index].isActive);
-                                  } else if (productsList[index].warehouses.isNotEmpty) {
-                                    isActive = int.parse(productsList[index].warehouses[0].pivot.isActive);
-                                  }
-                                  attached = false;
-                                  if (productsList[index].supplierCode != 'null') {
-                                    attached = true;
-                                  } else if (productsList[index].warehouses != null) {
-                                    if (productsList[index].warehouses.isNotEmpty) {
-                                      attached = productsList[index]
-                                          .warehouses
-                                          .map((warehouse) => warehouse.pivot.supplierCode)
-                                          .toList()
-                                          .where((code) => code != 'null')
-                                          .toList()
-                                          .isNotEmpty;
-                                    }
-                                  }
-                                  return InventoryProductsViewCard(
-                                    index: 0,
-                                    id: id,
-                                    attached: attached,
-                                    isActive: isActive,
-                                    supplierCode: supplierCode,
-                                    price: productsList[index].price != '0'
-                                        ? productsList[index].price
-                                        : productsList[index].warehouses.isNotEmpty
-                                            ? productsList[index].warehouses[0].pivot.price
-                                            : '0',
-                                    scaffoldKey: scaffoldKey,
-                                    fromInventory: true,
-                                    productData: productsList[index],
-                                    onChangeStatus: (result) {
-                                      if (result) setState(() => productsList.removeAt(index));
-                                    },
-                                    onDelete: (result) {
-                                      if (result) setState(() => productsList.removeAt(index));
-                                    },
-                                    onChangePrice: (newValue) => setState(() => productsList[index].price = newValue),
-                                    onChangeUnit: (newValue) => setState(() => productsList[index].unit = newValue),
-                                    onChangeQuantity: (newValue) =>
-                                        setState(() => productsList[index].quantity = newValue),
-                                  );
                                 }
-                                return Container();
+                                if (productsList[index].supplierCode != null) {
+                                  supplierCode = productsList[index].supplierCode;
+                                } else if (productsList[index].warehouses.isNotEmpty) {
+                                  supplierCode = productsList[index]
+                                      .warehouses
+                                      .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
+                                      .pivot
+                                      .supplierCode;
+                                }
+                                if (productsList[index].isActive != 'null') {
+                                  isActive = int.parse(productsList[index].isActive);
+                                } else if (productsList[index].warehouses.isNotEmpty) {
+                                  isActive = int.parse(productsList[index].warehouses[0].pivot.isActive);
+                                }
+                                attached = false;
+                                if (productsList[index].supplierCode != 'null') {
+                                  attached = true;
+                                } else if (productsList[index].warehouses != null) {
+                                  if (productsList[index].warehouses.isNotEmpty) {
+                                    attached = productsList[index]
+                                        .warehouses
+                                        .map((warehouse) => warehouse.pivot.supplierCode)
+                                        .toList()
+                                        .where((code) => code != 'null')
+                                        .toList()
+                                        .isNotEmpty;
+                                  }
+                                }
+                                return InventoryProductsViewCard(
+                                  index: 0,
+                                  id: id,
+                                  attached: attached,
+                                  isActive: isActive,
+                                  supplierCode: supplierCode,
+                                  price: productsList[index].price != '0'
+                                      ? productsList[index].price
+                                      : productsList[index].warehouses.isNotEmpty
+                                          ? productsList[index].warehouses[0].pivot.price
+                                          : '0',
+                                  scaffoldKey: scaffoldKey,
+                                  fromInventory: true,
+                                  productData: productsList[index],
+                                  onChangeStatus: (result) {
+                                    if (result) setState(() => productsList.removeAt(index));
+                                  },
+                                  onDelete: (result) {
+                                    if (result) setState(() => productsList.removeAt(index));
+                                  },
+                                  onChangePrice: (newValue) => setState(() => productsList[index].price = newValue),
+                                  onChangeUnit: (newValue) => setState(() => productsList[index].unit = newValue),
+                                  onChangeQuantity: (newValue) =>
+                                      setState(() => productsList[index].quantity = newValue),
+                                );
                               }
                               return Container();
                             },

@@ -16,20 +16,20 @@ class ProductsToReview {
   List<ProductData> productsToDeactivate;
 
   factory ProductsToReview.fromJson(Map<String, dynamic> json) => ProductsToReview(
-        success: json["success"],
-        productsToActivate: json["products_to_activate"] == null
+        success: json['success'],
+        productsToActivate: json['products_to_activate'] == null
             ? null
-            : List<ProductData>.from(json["products_to_activate"].map((x) => ProductData.fromJson(x))),
-        productsToDeactivate: json["products_to_deactivate"] == null
+            : List<ProductData>.from(json['products_to_activate'].map((x) => ProductData.fromJson(x))),
+        productsToDeactivate: json['products_to_deactivate'] == null
             ? null
-            : List<ProductData>.from(json["products_to_deactivate"].map((x) => ProductData.fromJson(x))),
+            : List<ProductData>.from(json['products_to_deactivate'].map((x) => ProductData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "success": success,
-        "products_to_activate":
+        'success': success,
+        'products_to_activate':
             productsToActivate == null ? null : List<dynamic>.from(productsToActivate.map((x) => x.toJson())),
-        "products_to_deactivate":
+        'products_to_deactivate':
             productsToDeactivate == null ? null : List<dynamic>.from(productsToDeactivate.map((x) => x.toJson())),
       };
 }

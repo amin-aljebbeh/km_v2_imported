@@ -181,42 +181,25 @@ class OrdersOriginalData {
             increaseValuesSum: 0,
             directDiscount: subWarehouse.directDiscount))
         .toList();
-    for (int i = 0; i < products.length; i++) {
-      if (products[i].pivot.deletedAt == 'null') {
-        if (id == 37082) {
-          Tools.logToConsole(products[i].name);
-        }
-        double netPrice = double.parse(products[i].pivot.purchasePrice) * int.parse(products[i].pivot.quantity);
-        int increaseValue = products[i].pivot.increaseValue * int.parse(products[i].pivot.quantity);
-        netPrice -= increaseValue;
-        orderAccountingRows
-            .firstWhere((row) => row.subWarehouseId == products[i].pivot.subWarehouseId, orElse: () => row)
-            .increaseValuesSum += increaseValue;
-        orderAccountingRows
-            .firstWhere((row) => row.subWarehouseId == products[i].pivot.subWarehouseId, orElse: () => row)
-            .netPrice += netPrice;
-        double discountPercentage = SubWarehouse.getDiscountPercentage(products[i].pivot.subWarehouseId);
-        orderAccountingRows
-            .firstWhere((row) => row.subWarehouseId == products[i].pivot.subWarehouseId, orElse: () => row)
-            .payToSubWarehouse += netPrice;
-        if (id == 37082) {
-          Tools.logToConsole('netPrice');
-          Tools.logToConsole(orderAccountingRows
-              .firstWhere((row) => row.subWarehouseId == products[i].pivot.subWarehouseId, orElse: () => row)
-              .payToSubWarehouse);
-        }
-        orderAccountingRows
-            .firstWhere((row) => row.subWarehouseId == products[i].pivot.subWarehouseId && row.directDiscount == 1,
-                orElse: () => row)
-            .payToSubWarehouse -= (netPrice * discountPercentage);
-        if (id == 37082) {
-          Tools.logToConsole('discountPercentage');
-          Tools.logToConsole(orderAccountingRows
-              .firstWhere((row) => row.subWarehouseId == products[i].pivot.subWarehouseId, orElse: () => row)
-              .payToSubWarehouse);
-        }
-      }
-    }
+    products.where((product) => product.pivot.deletedAt == 'null').forEach((product) {
+      double netPrice = double.parse(product.pivot.purchasePrice) * int.parse(product.pivot.quantity);
+      int increaseValue = product.pivot.increaseValue * int.parse(product.pivot.quantity);
+      netPrice -= increaseValue;
+      orderAccountingRows
+          .firstWhere((row) => row.subWarehouseId == product.pivot.subWarehouseId, orElse: () => row)
+          .increaseValuesSum += increaseValue;
+      orderAccountingRows
+          .firstWhere((row) => row.subWarehouseId == product.pivot.subWarehouseId, orElse: () => row)
+          .netPrice += netPrice;
+      double discountPercentage = SubWarehouse.getDiscountPercentage(product.pivot.subWarehouseId);
+      orderAccountingRows
+          .firstWhere((row) => row.subWarehouseId == product.pivot.subWarehouseId, orElse: () => row)
+          .payToSubWarehouse += netPrice;
+      orderAccountingRows
+          .firstWhere((row) => row.subWarehouseId == product.pivot.subWarehouseId && row.directDiscount == 1,
+              orElse: () => row)
+          .payToSubWarehouse -= (netPrice * discountPercentage);
+    });
     return orderAccountingRows;
   }
 

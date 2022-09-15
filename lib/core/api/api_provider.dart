@@ -13,11 +13,6 @@ class ApiProvider {
 
     var dio = Dio(options);
     String token = LoadingScreen.userToken;
-    Tools.logToConsole(token);
-    Tools.logToConsole(body);
-    Tools.logToConsole(queryParameters);
-    Tools.logToConsole(method.toString());
-    Tools.logToConsole(baseUrl + '/api/' + url);
     Map<String, String> header = {'Authorization': token ?? ''};
 
     Response response;
