@@ -209,7 +209,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       InkWell(
                         child: Icon(Icons.search_rounded, color: kmColors, size: 30),
                         onTap: () {
-                          LoadingScreenServices.allOrdersList.clear();
                           if (widget.pop) Navigator.of(context).pop();
                           Navigator.push(
                               context,
