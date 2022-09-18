@@ -76,6 +76,8 @@ const String subWarehouse = 'sub_warehouse/';
 
 const String level = 'level/';
 
+const String supplierApi = 'supplier/';
+
 const String shopperTransaction = 'transaction_shopper/';
 
 const String getSupplierOrder = order + 'get_supplier_order';
@@ -122,21 +124,13 @@ const String unAttachProductsToSubWarehouse = product + 'remove_product_from_sub
 
 const String attachProductsToSubWarehouse = product + 'add_product_to_sub_warehouse';
 
-const String getWarehouses = warehouse;
-
 const String updateSubWarehouseProducts = product + 'update_product_warehouse/';
 
 const String updateOrderProducts = order + 'update_order_product/';
 
-const String addImageToOrder = 'order_image';
-
-const String deleteImageFromOrder = 'order_image';
-
-const String getShopper = shopperApi;
+const String orderImage = 'order_image/';
 
 const String changeShopperStatus = shopperApi + 'change_shopper_status/';
-
-const String getLevel = level;
 
 const String getShopperTransactions = shopperApi + shopperTransaction + 'shopper_transactions/';
 
@@ -159,3 +153,5 @@ const String getWorkingHour = shopperApi + 'get_working_hour/';
 const String monthlyShopperReports = shopperApi + 'monthly_shopper_reports/';
 
 const String shopperActivityHours = shopperApi + 'shopper_activity_hours/';
+
+const String supplierAccountStatement = supplierApi + 'account_statement/';

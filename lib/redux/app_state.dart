@@ -3,24 +3,31 @@ import 'package:kammun_app/views/loading_feature/presentation/redux/loading_stat
 import '../core/core_importer.dart';
 import '../views/error/presentation/redux/error_state.dart';
 import '../views/inventory_feature/presentation/redux/inventory_state.dart';
+import '../views/supplier/presentation/redux/supplier_state.dart';
 
 @immutable
 class AppState extends Equatable {
   final ErrorState errorState;
   final InventoryState inventoryState;
   final LoadingState loadingState;
-  const AppState({this.inventoryState, this.errorState, this.loadingState});
+  final SupplierState supplierState;
+  const AppState({this.inventoryState, this.errorState, this.loadingState, this.supplierState});
 
   factory AppState.initial() => AppState(
-      inventoryState: InventoryState.initial(), errorState: ErrorState.initial(), loadingState: LoadingState.initial());
+      inventoryState: InventoryState.initial(),
+      errorState: ErrorState.initial(),
+      loadingState: LoadingState.initial(),
+      supplierState: SupplierState.initial());
 
-  AppState copyWith(InventoryState inventoryState, ErrorState errorState, LoadingState loadingState) {
+  AppState copyWith(
+      InventoryState inventoryState, ErrorState errorState, LoadingState loadingState, SupplierState supplierState) {
     return AppState(
         inventoryState: inventoryState ?? this.inventoryState,
         errorState: errorState ?? this.errorState,
-        loadingState: loadingState ?? this.loadingState);
+        loadingState: loadingState ?? this.loadingState,
+        supplierState: supplierState ?? this.supplierState);
   }
 
   @override
-  List<Object> get props => [inventoryState, errorState, loadingState];
+  List<Object> get props => [inventoryState, errorState, loadingState, supplierState];
 }

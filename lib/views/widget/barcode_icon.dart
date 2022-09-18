@@ -29,7 +29,7 @@ class BarcodeIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(BareCodeIcon.barcode_2, size: 30, color: color),
+      icon: Icon(KIcons.barcode_2, size: 30, color: color),
       onPressed: () {
         bool result;
         String resultBarcode;

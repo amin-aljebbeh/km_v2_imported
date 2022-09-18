@@ -1,22 +1,20 @@
-import 'package:intl/intl.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 
 import '../../core/core_importer.dart';
 import 'models/supplier_account_model.dart';
 import 'services/reports_services.dart';
 
-class SupplierAccounts extends StatefulWidget {
-  static const String routeName = '/SupplierAccounts';
-  const SupplierAccounts({Key key}) : super(key: key);
+class SupplierRemainingAccounts extends StatefulWidget {
+  static const String routeName = '/SupplierRemainingAccounts';
+  const SupplierRemainingAccounts({Key key}) : super(key: key);
 
   @override
-  _SupplierAccountsState createState() => _SupplierAccountsState();
+  _SupplierRemainingAccountsState createState() => _SupplierRemainingAccountsState();
 }
 
-class _SupplierAccountsState extends State<SupplierAccounts> {
+class _SupplierRemainingAccountsState extends State<SupplierRemainingAccounts> {
   String fromDateTimeValue = 'يرجى أختيار تاريخ البداية';
   String toDateTimeValue = 'يرجى إختيار تاريخ النهاية';
-  final DateFormat fullDateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
   List<SupplierAccountModel> accounts;
   bool isLoading;
   bool isError;
@@ -111,8 +109,7 @@ class _SupplierAccountsState extends State<SupplierAccounts> {
                                         KTableElement(
                                           text: StringUtils()
                                               .oCcy
-                                              .format(int.parse(accounts[index - 1].remainingMonyForSupplier))
-                                              .toString(),
+                                              .format(int.parse(accounts[index - 1].remainingMonyForSupplier)),
                                           style: mainStyle,
                                         ),
                                       ],

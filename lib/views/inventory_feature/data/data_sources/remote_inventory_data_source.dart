@@ -13,9 +13,7 @@ class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
       Response response = await ApiProvider.sendRequest(
           url: getProductsOfWaitingList, method: HttpMethods.get, queryParameters: {'page': pageNumber});
       if (response != null) {
-        if (response.statusCode == successCode) {
-          return filteredProductsModelFromJson(jsonEncode(response.data));
-        }
+        if (response.statusCode == successCode) return filteredProductsModelFromJson(jsonEncode(response.data));
       }
       throw (ServerException());
     } catch (e) {

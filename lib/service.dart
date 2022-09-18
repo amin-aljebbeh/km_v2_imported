@@ -39,7 +39,7 @@ class Services {
 
   static Future<List<ShopperModel>> getShoppers() async {
     try {
-      var response = await ApiProvider.sendRequest(url: getShopper, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: shopperApi, method: HttpMethods.get);
 
       if (response.statusCode == successCode) {
         LoadingScreenServices.allShoppers = shoppersFromJson(jsonEncode(response.data)).data;
@@ -52,7 +52,7 @@ class Services {
 
   static Future<Level> getLevelService(String levelId) async {
     try {
-      var response = await ApiProvider.sendRequest(url: getLevel + levelId, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: level + levelId, method: HttpMethods.get);
 
       if (response.statusCode == successCode) return LevelModelResponse.fromJson(response.data).data;
       return null;
@@ -63,7 +63,7 @@ class Services {
 
   static Future<List<Level>> getLevels() async {
     try {
-      var response = await ApiProvider.sendRequest(url: getLevel, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: level, method: HttpMethods.get);
 
       if (response.statusCode == successCode) return LevelsResponse.fromJson(response.data).levels;
       return null;
@@ -86,7 +86,7 @@ class Services {
 
   static Future<List<Warehouse>> getWarehousesService() async {
     try {
-      var response = await ApiProvider.sendRequest(url: getWarehouses, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: warehouse, method: HttpMethods.get);
 
       if (response.statusCode == successCode && response.data['success'].toString() == 'true') {
         LoadingScreenServices.warehouses =

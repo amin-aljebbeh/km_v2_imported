@@ -1,5 +1,6 @@
 import '../../core/core_importer.dart';
 import '../management_view/management_view.dart';
+import '../supplier/presentation/pages/supplier_statement_accounts.dart';
 
 List<Widget> getDrawerChildren(BuildContext context) {
   return [
@@ -28,7 +29,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                     text: 'كشف حساب المتسوق'),
                 SideBarRow(pushedRoute: AddTransactionView.routeName, icon: Icons.money, text: addTransaction),
                 const SideBarRow(
-                    pushedRoute: SupplierAccounts.routeName,
+                    pushedRoute: SupplierRemainingAccounts.routeName,
                     icon: Icons.account_balance_wallet_outlined,
                     text: 'أرصدة الموردين'),
                 SideBarRow(
@@ -41,6 +42,8 @@ List<Widget> getDrawerChildren(BuildContext context) {
           ),
         ),
       ),
+    if (Services.isSupplierManager())
+      const SideBarRow(pushedRoute: SupplierRemainingAccounts.routeName, icon: KIcons.coins, text: 'كشف حساب الزوائد'),
     if (Services.isSupplierManager())
       const SideBarRow(pushedRoute: SupplierAccounts.routeName, icon: Icons.account_balance, text: 'كشف حساب المورد'),
     Services.isSupplierManager() || Services.isProductsController() || Services.isAdmin()

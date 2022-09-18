@@ -109,7 +109,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                         if (Services.isProductsController())
                           Row(
                             children: [
-                              if (widget.productData.barcodes.isEmpty) const Icon(BareCodeIcon.exclamation),
+                              if (widget.productData.barcodes.isEmpty) const Icon(KIcons.exclamation),
                               BarcodeIcon(
                                 productData: widget.productData,
                                 requestType: BarcodeRequestType.addBarcode,

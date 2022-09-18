@@ -107,3 +107,6 @@ flutter:
      - family:  BareCodeIcon
        fonts:
           - asset: fonts/BareCodeIcon.ttf
+     - family:  Coins
+       fonts:
+          - asset: fonts/Coins.ttf

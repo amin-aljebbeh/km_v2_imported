@@ -1,4 +1,5 @@
 import 'core/core_importer.dart';
+import 'views/supplier/presentation/pages/supplier_statement_accounts.dart';
 
 final Map<String, WidgetBuilder> routes = {
   LoginScreen.routeName: (_) => const LoginScreen(),
@@ -24,6 +25,7 @@ final Map<String, WidgetBuilder> routes = {
   ShopperTransactionView.routeName: (_) => const ShopperTransactionView(),
   AddTransactionView.routeName: (_) => const AddTransactionView(),
   ProductsFilterScreen.routeName: (_) => const ProductsFilterScreen(),
+  SupplierRemainingAccounts.routeName: (_) => const SupplierRemainingAccounts(),
   SupplierAccounts.routeName: (_) => const SupplierAccounts(),
   ShopperManagementView.routeName: (_) => const ShopperManagementView(),
   FinancialReportView.routeName: (_) => const FinancialReportView(),
