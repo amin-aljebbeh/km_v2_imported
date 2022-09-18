@@ -1,4 +1,5 @@
 import '../../core/core_importer.dart';
+import '../login/Services/login_services.dart';
 import '../management_view/management_view.dart';
 import '../supplier/presentation/pages/supplier_statement_accounts.dart';
 
@@ -113,7 +114,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                   )),
         ),
       ),
-    SideBarRow(icon: Icons.logout, text: 'تسجيل الخروج', onTap: () async => await Services.logOutAdmin(context)),
+    SideBarRow(icon: Icons.logout, text: 'تسجيل الخروج', onTap: () async => await LoginServices.logOutAdmin(context)),
     Divider(color: kmColors, height: 20),
     Padding(
       padding: const EdgeInsets.only(top: 20.0),

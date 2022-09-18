@@ -312,7 +312,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       });
                       bool result =
                           await OrderServices.assignOrderToShopperService(shopperId, widget.orderData.id.toString());
-                      Services.resultFlushBar(context: context, result: result);
+                      if (result) {
+                        snackBar(success: result, message: 'تم إسناد الطلب بنجاح', context: context);
+                      } else {
+                        snackBar(
+                            success: result, message: 'فشلت عملية إسناد الطلب يرحى المحاولة مجدداً', context: context);
+                      }
                     }
                   },
                 ),

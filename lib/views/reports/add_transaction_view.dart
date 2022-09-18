@@ -41,11 +41,11 @@ class _AddTransactionViewState extends State<AddTransactionView> {
     start = false;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(backgroundColor: primaryColor, title: Text('إضافة مناقلة', style: mainStyle)),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
+          padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
             child: ListView(
@@ -135,7 +135,14 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                               description: description,
                               orderId: orderIdController.text,
                             );
-                            Services.resultFlushBar(context: context, result: result);
+                            if (result) {
+                              snackBar(success: result, message: 'تم إضافة المناقلة بنجاح', context: context);
+                            } else {
+                              snackBar(
+                                  success: result,
+                                  message: 'فشلت عملية إضافة المناقلة يرحى المحاولة مجدداً',
+                                  context: context);
+                            }
                           },
                         ),
                         DialogButton(text: 'لا', onTap: () => Navigator.of(context).pop()),

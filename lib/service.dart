@@ -13,31 +13,6 @@ class Services {
 
   static int deliveryPrice = 50;
 
-  static Future<List<OrdersOriginalData>> getAllOrders({int pageNumber = 1}) async {
-    try {
-      var response =
-          await ApiProvider.sendRequest(url: order, method: HttpMethods.get, queryParameters: {'page': pageNumber});
-
-      if (response.statusCode == successCode) {
-        LoadingScreenServices.allOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
-      }
-      return LoadingScreenServices.allOrdersList;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  static Future<void> logOutAdmin(BuildContext context) async {
-    LoadingScreenServices.allOrdersList = [];
-    LoadingScreenServices.myOrdersList = [];
-    LoadingScreenServices.phoneOrderList = [];
-    LoadingScreenServices.ordersViewFilter = 0;
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    baseUrl = appUrl;
-    await preferences.clear();
-    KammunRestart.restartApp(context);
-  }
-
   static Future<List<ShopperModel>> getShoppers() async {
     try {
       var response = await ApiProvider.sendRequest(url: shopperApi, method: HttpMethods.get);
@@ -114,11 +89,10 @@ class Services {
   static List<DropdownMenuItem<String>> productSubWarehouseNames(BuildContext context) =>
       LoadingScreenServices.subWarehouses
           .map((subWarehouse) => DropdownMenuItem<String>(
-                child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.68,
-                    child: Text(subWarehouse.name, style: warehouseStyle)),
-                value: subWarehouse.id.toString(),
-              ))
+              child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.68,
+                  child: Text(subWarehouse.name, style: warehouseStyle)),
+              value: subWarehouse.id.toString()))
           .toList();
 
   static List<DropdownMenuItem<int>> dropdownIntList(List<String> inputList) => inputList
@@ -169,31 +143,6 @@ class Services {
 
   static bool isViewPriceRateRoll() =>
       Services.roles.where((element) => element.slug.contains(viewPriceRate)).isNotEmpty;
-
-  static errorFlushBar(BuildContext context) => Flushbar(
-        backgroundColor: Colors.red[900],
-        messageText: Text('فشل في العملية يرجى المحاولة من جديد', style: flushBarStyle),
-        boxShadows: const [BoxShadow(color: Colors.red, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
-        icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
-        duration: const Duration(seconds: 2),
-      )..show(context);
-
-  static successFlushBar(BuildContext context) => Flushbar(
-        backgroundColor: Colors.green,
-        messageText: Text('تمت العملية بنجاح', style: flushBarStyle),
-        boxShadows: [BoxShadow(color: primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
-        icon: const Icon(Icons.assignment_turned_in, size: 28.0, color: Colors.white),
-        duration: const Duration(seconds: 1),
-        leftBarIndicatorColor: kmColors,
-      )..show(context);
-
-  static resultFlushBar({@required BuildContext context, @required bool result}) {
-    if (result) {
-      Services.successFlushBar(context);
-    } else {
-      Services.errorFlushBar(context);
-    }
-  }
 
   static List<ProductData> productListSort(List<ProductData> productsList) {
     productsList.sort((a, b) {

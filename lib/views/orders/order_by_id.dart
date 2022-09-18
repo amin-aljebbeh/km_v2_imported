@@ -250,7 +250,14 @@ class _OrderByIDState extends State<OrderByID> {
 
                                     bool result =
                                         await OrderServices.changeOrderStatusService(order.id.toString(), changeStatus);
-                                    Services.resultFlushBar(context: context, result: result);
+                                    if (result) {
+                                      snackBar(success: result, message: 'تم تغيير حالة الطلب بنجاح', context: context);
+                                    } else {
+                                      snackBar(
+                                          success: result,
+                                          message: 'فشلت عملية تغيير حالة الطلب يرحى المحاولة مجدداً',
+                                          context: context);
+                                    }
 
                                     if (result) {
                                       setState(() {
@@ -337,10 +344,15 @@ class _OrderByIDState extends State<OrderByID> {
                                       onTap: () async {
                                         Navigator.of(context).pop();
                                         bool result = await OrderServices.unlockOrderService(orderId.toString());
-                                        Services.resultFlushBar(context: context, result: result);
-                                        setState(() {
-                                          if (result) order.underUpdate = '0';
-                                        });
+                                        if (result) {
+                                          snackBar(success: result, message: 'تم تعليق الطلب بنجاح', context: context);
+                                        } else {
+                                          snackBar(
+                                              success: result,
+                                              message: 'فشلت عملية تعليق الطلب يرحى المحاولة مجدداً',
+                                              context: context);
+                                        }
+                                        if (result) setState(() => order.underUpdate = '0');
                                       },
                                     ),
                                     const CloseWidget()

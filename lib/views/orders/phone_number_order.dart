@@ -344,7 +344,15 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
 
                                           bool result = await OrderServices.changeOrderStatusService(
                                               orderDataList[index].id.toString(), changeStatus);
-                                          Services.resultFlushBar(context: context, result: result);
+                                          if (result) {
+                                            snackBar(
+                                                success: true, message: 'تم تغيير حالة الطلب بنجاح', context: context);
+                                          } else {
+                                            snackBar(
+                                                success: false,
+                                                message: 'فشلت عملية تغيير حالة الطلب يرحى المحاولة مجدداً',
+                                                context: context);
+                                          }
 
                                           if (result) {
                                             setState(() {
@@ -434,10 +442,18 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                             onTap: () async {
                                               Navigator.of(context).pop();
                                               bool result = await OrderServices.unlockOrderService(orderId.toString());
-                                              Services.resultFlushBar(context: context, result: result);
-                                              setState(() {
-                                                if (result) orderDataList[index].underUpdate = '0';
-                                              });
+                                              if (result) {
+                                                snackBar(
+                                                    success: true,
+                                                    message: 'نجحت عملية إلغاء تعليق الطلب',
+                                                    context: context);
+                                              } else {
+                                                snackBar(
+                                                    success: false,
+                                                    message: 'فشلت عملية إلغاء تعليق الطلب يرحى المحاولة مجدداً',
+                                                    context: context);
+                                              }
+                                              if (result) setState(() => orderDataList[index].underUpdate = '0');
                                             },
                                           ),
                                           const CloseWidget()

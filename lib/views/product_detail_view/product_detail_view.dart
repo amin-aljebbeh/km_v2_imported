@@ -223,7 +223,17 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         bool result = await ProductsServices.removeProductFromCategoryService(
                                             productId: widget.product.id.toString(),
                                             categoryId: widget.product.categories[index].id.toString());
-                                        Services.resultFlushBar(context: context, result: result);
+                                        if (result) {
+                                          snackBar(
+                                              success: result,
+                                              message: 'تم إزالة المنتج من الصنف بنجاح',
+                                              context: context);
+                                        } else {
+                                          snackBar(
+                                              success: result,
+                                              message: 'فشلت عملية إزالة المنتج من الصنف يرحى المحاولة مجدداً',
+                                              context: context);
+                                        }
                                         if (result) setState(() => widget.product.categories.removeAt(index));
                                       },
                                     ),
@@ -323,16 +333,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           widget.product.productCount = numberOfOrders;
                           widget.product.pivot = OrderProductPivot(increaseValue: widget.product.increasePercentage);
                           CartServices.addProductToCart(widget.product);
-                          Flushbar(
-                            backgroundColor: Colors.green,
-                            messageText: Text('تم إضافة ${widget.product.name} لسلة المشتريات', style: flushBarStyle),
-                            boxShadows: [
-                              BoxShadow(color: primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)
-                            ],
-                            icon: const Icon(Icons.assignment_turned_in, size: 28.0, color: Colors.white),
-                            duration: const Duration(seconds: 3),
-                            leftBarIndicatorColor: kmColors,
-                          ).show(context);
+                          snackBar(
+                              success: true,
+                              message: 'تم إضافة ${widget.product.name} لسلة المشتريات',
+                              context: context);
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           productsId =
                               CartServices.cartProducts.fold('', (ids, product) => product.id.toString() + ';');
@@ -485,7 +489,17 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           bool result = await AddedProductsServices.changeProductSubWarehouse(
                                               widget.product, value, remove);
 
-                                          Services.resultFlushBar(context: context, result: result);
+                                          if (result) {
+                                            snackBar(
+                                                success: result,
+                                                message: 'تم تغيير مستودع المنتج بنجاح',
+                                                context: context);
+                                          } else {
+                                            snackBar(
+                                                success: result,
+                                                message: 'فشلت عملية تغيير مستودع المنتج يرحى المحاولة مجدداً',
+                                                context: context);
+                                          }
                                           setState(() {
                                             if (value != null) {
                                               if (result) productSubWarehouseId = value;
@@ -556,9 +570,20 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                   DialogButton(
                                                     text: yes,
                                                     onTap: () async {
+                                                      Navigator.of(context).pop();
                                                       bool result = await PricesChangesServices.deleteImage(
                                                           imageId: widget.product.images[0].id);
-                                                      Services.resultFlushBar(context: context, result: result);
+                                                      if (result) {
+                                                        snackBar(
+                                                            success: result,
+                                                            message: 'تم حذف صورة المنتج بنجاح',
+                                                            context: context);
+                                                      } else {
+                                                        snackBar(
+                                                            success: result,
+                                                            message: 'فشلت عملية حذف صورة المنتج يرحى المحاولة مجدداً',
+                                                            context: context);
+                                                      }
                                                     },
                                                   )
                                                 ]);
@@ -640,6 +665,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                                                       barcode.barcode)
                                                                                   .id);
                                                                       Navigator.of(context).pop();
+
                                                                       if (result) {
                                                                         setState(() {
                                                                           widget.product.barcodes.removeWhere(
@@ -647,9 +673,17 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                                                   barcodeToDelete.barcode ==
                                                                                   barcode.barcode);
                                                                         });
+                                                                        snackBar(
+                                                                            success: result,
+                                                                            message: 'تم حذف الرمز بنجاح',
+                                                                            context: context);
+                                                                      } else {
+                                                                        snackBar(
+                                                                            success: result,
+                                                                            message:
+                                                                                'فشلت عملية حذف الرمز يرحى المحاولة مجدداً',
+                                                                            context: context);
                                                                       }
-                                                                      Services.resultFlushBar(
-                                                                          context: context, result: result);
                                                                     },
                                                                   ),
                                                                   DialogButton(
@@ -674,7 +708,15 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         onSubmit: (image) async {
                                           bool result = await ProductsServices.setImageToProducts(
                                               productId: widget.product.id, image: image);
-                                          Services.resultFlushBar(context: context, result: result);
+                                          if (result) {
+                                            snackBar(
+                                                success: result, message: 'تم حفظ صورة المنتج بنجاح', context: context);
+                                          } else {
+                                            snackBar(
+                                                success: result,
+                                                message: 'فشلت عملية حفظ صورة المنتج يرحى المحاولة مجدداً',
+                                                context: context);
+                                          }
                                         },
                                       ),
                                     ],
@@ -701,7 +743,18 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                           int count = 0;
                                                           Navigator.of(context).popUntil((_) => count++ >= 1);
                                                         }
-                                                        Services.resultFlushBar(context: context, result: result);
+                                                        if (result) {
+                                                          snackBar(
+                                                              success: result,
+                                                              message: 'تم إزالة المنتج من المستودع بنجاح',
+                                                              context: context);
+                                                        } else {
+                                                          snackBar(
+                                                              success: result,
+                                                              message:
+                                                                  'فشلت عملية إزالة المنتج من المستودع يرحى المحاولة مجدداً',
+                                                              context: context);
+                                                        }
                                                       },
                                                     ),
                                                     DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
@@ -727,8 +780,16 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                       if (result) {
                                                         int count = 0;
                                                         Navigator.of(context).popUntil((_) => count++ >= 2);
+                                                        snackBar(
+                                                            success: result,
+                                                            message: 'تم حذف المنتج بنجاح',
+                                                            context: context);
+                                                      } else {
+                                                        snackBar(
+                                                            success: result,
+                                                            message: 'فشلت عملية حذف المنتج يرحى المحاولة مجدداً',
+                                                            context: context);
                                                       }
-                                                      Services.resultFlushBar(context: context, result: result);
                                                     },
                                                   ),
                                                   DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
@@ -765,8 +826,16 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             if (result) {
                                               int count = 0;
                                               Navigator.of(context).popUntil((_) => count++ >= 1);
+                                              snackBar(
+                                                  success: result,
+                                                  message: 'تم إزالة المنتج من المستودع بنجاح',
+                                                  context: context);
+                                            } else {
+                                              snackBar(
+                                                  success: result,
+                                                  message: 'فشلت عملية إزالة المنتج من المستودع يرحى المحاولة مجدداً',
+                                                  context: context);
                                             }
-                                            Services.resultFlushBar(context: context, result: result);
                                           },
                                         ),
                                         DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
@@ -796,6 +865,10 @@ Future<bool> _saveCategory({BuildContext context, int productId, String category
   bool result = await ProductsServices.updateProductsDetails(
       bodyKey: 'category_id', value: categoryId, productId: productId.toString());
 
-  Services.resultFlushBar(context: context, result: result);
+  if (result) {
+    snackBar(success: result, message: 'تم إضاقة المنتج للصنف بنجاح', context: context);
+  } else {
+    snackBar(success: result, message: 'فشلت عملية إضاقة المنتج للصنف يرحى المحاولة مجدداً', context: context);
+  }
   return result;
 }

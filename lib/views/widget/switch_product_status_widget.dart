@@ -61,7 +61,12 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
                       productId: widget.productId,
                     );
                     setState(() => loading = false);
-                    Services.resultFlushBar(context: context, result: result);
+                    if (result) {
+                      snackBar(success: result, message: 'تم تحديث المنتج بنجاح', context: context);
+                    } else {
+                      snackBar(
+                          success: result, message: 'فشلت عملية تحديث المنتج يرحى المحاولة مجدداً', context: context);
+                    }
                     if (result) {
                       setState(() {
                         int newStat;

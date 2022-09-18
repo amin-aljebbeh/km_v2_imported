@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
+import 'package:kammun_app/views/login/Services/login_services.dart';
 
 import '../../service.dart';
 
@@ -198,7 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           leading: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
                               child: IconButton(
-                                  onPressed: () => Services.logOutAdmin(context),
+                                  onPressed: () => LoginServices.logOutAdmin(context),
                                   icon: Icon(Icons.logout, color: kmColors, size: 30))),
                           title: Padding(
                             padding: const EdgeInsets.only(top: 5.0),

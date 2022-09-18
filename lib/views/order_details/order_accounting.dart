@@ -35,14 +35,16 @@ class _OrderAccountingState extends State<OrderAccounting> {
               onTap: () async {
                 Navigator.of(context).pop();
                 bool result = await OrderDetailsServices.deleteImageFromOrderService(imageId: images[i].id.toString());
-                Services.resultFlushBar(context: context, result: result);
                 if (result) {
+                  snackBar(success: result, message: 'تم حذف الصورة من الطلب', context: context);
                   setState(() {
                     widget.orderData.images.removeWhere((image) => image.id == widget.orderData.images[i].id);
                     images.clear();
                     images.addAll(widget.orderData.images);
                     widget.onDelete();
                   });
+                } else {
+                  snackBar(success: result, message: 'فشلت عملية حذف الصورة', context: context);
                 }
               },
             ),
@@ -172,8 +174,12 @@ class _OrderAccountingState extends State<OrderAccounting> {
                     onSubmit: (image) async {
                       bool result = await OrderDetailsServices.addImageToOrderService(
                           image: image, orderId: widget.orderData.id.toString());
-                      Services.resultFlushBar(context: context, result: result);
-                      setState(() {});
+                      if (result) {
+                        snackBar(success: result, message: 'نجحت عملية إضافة الصورة', context: context);
+                      } else {}
+                      setState(() {
+                        snackBar(success: result, message: 'فشلت عملية إضافة الصورة', context: context);
+                      });
                     },
                   ),
                   if (Services.isOperationManager())

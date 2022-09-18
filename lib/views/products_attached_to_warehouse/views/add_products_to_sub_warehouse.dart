@@ -174,12 +174,16 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       onTap: () async {
                         if (completeData()) {
                           bool result = await attachProduct(widget.barcode, context);
-
                           if (result) {
                             int count = 0;
                             Navigator.of(context).popUntil((_) => count++ >= 1);
+                            snackBar(success: result, message: 'تم ربط المنتج بالمستودع بنجاح', context: context);
+                          } else {
+                            snackBar(
+                                success: result,
+                                message: 'فشلت عملية ربط المنتج بالمستودع يرحى المحاولة مجدداً',
+                                context: context);
                           }
-                          Services.resultFlushBar(context: context, result: result);
                         } else {
                           Toast.show('يرجى إدخال كافة البيانات', context,
                               duration: Toast.LENGTH_LONG, gravity: Toast.CENTER);

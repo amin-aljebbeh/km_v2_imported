@@ -76,13 +76,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
         });
         filterIndex = 1;
       });
-      Flushbar(
-        backgroundColor: Colors.green,
-        messageText: Text('فرز حسب المواد الغير مفعلة', style: flushBarStyle),
-        boxShadows: [BoxShadow(color: primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
-        duration: const Duration(seconds: 3),
-        leftBarIndicatorColor: kmColors,
-      ).show(context);
+      snackBar(success: true, message: 'فرز حسب المواد الغير مفعلة', context: context);
     } else if (filterIndex == 1) {
       setState(() {
         productsList.sort((a, b) {
@@ -94,13 +88,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
         });
         filterIndex = 2;
       });
-      Flushbar(
-        backgroundColor: Colors.green,
-        messageText: Text('فرز حسب المواد  المفعلة', style: flushBarStyle),
-        boxShadows: [BoxShadow(color: primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
-        duration: const Duration(seconds: 3),
-        leftBarIndicatorColor: kmColors,
-      ).show(context);
+      snackBar(success: true, message: 'فرز حسب المواد  المفعلة', context: context);
     } else if (filterIndex == 2) {
       setState(() {
         productsList.sort((a, b) {
@@ -114,14 +102,7 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
         });
         filterIndex = 0;
       });
-
-      Flushbar(
-        backgroundColor: Colors.green,
-        messageText: Text('فرز حسب المواد المضافة حديثاً', style: flushBarStyle),
-        boxShadows: [BoxShadow(color: primaryColor, offset: const Offset(0.0, 2.0), blurRadius: 3.0)],
-        duration: const Duration(seconds: 3),
-        leftBarIndicatorColor: kmColors,
-      ).show(context);
+      snackBar(success: true, message: 'فرز حسب المواد المضافة حديثاً', context: context);
     }
   }
 

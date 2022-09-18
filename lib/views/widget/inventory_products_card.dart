@@ -258,7 +258,18 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                 onTap: () async {
                                                   bool result = await _unAttachProduct();
                                                   Navigator.of(context).pop();
-                                                  Services.resultFlushBar(context: context, result: result);
+                                                  if (result) {
+                                                    snackBar(
+                                                        success: result,
+                                                        message: 'تم إزالة المنتج من المستودع بنجاح',
+                                                        context: context);
+                                                  } else {
+                                                    snackBar(
+                                                        success: result,
+                                                        message:
+                                                            'فشلت عملية إزالة المنتج من المستودع يرحى المحاولة مجدداً',
+                                                        context: context);
+                                                  }
                                                 }),
                                             const CloseWidget(),
                                           ],
@@ -323,7 +334,17 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                 value: '0',
                                                 subWarehouseId: widget.id,
                                                 productId: widget.productData.id.toString());
-                                            Services.resultFlushBar(context: context, result: result);
+                                            if (result) {
+                                              snackBar(
+                                                  success: result,
+                                                  message: 'تم إزالة المنتج من القائمة بنجاح',
+                                                  context: context);
+                                            } else {
+                                              snackBar(
+                                                  success: result,
+                                                  message: 'فشلت عملية إزالة المنتج من القائمة يرحى المحاولة مجدداً',
+                                                  context: context);
+                                            }
                                             if (result) setState(() => widget.onDelete(true));
                                           },
                                         ),

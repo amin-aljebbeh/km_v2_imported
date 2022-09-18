@@ -4,8 +4,6 @@ import 'package:kammun_app/utils/utils_importer.dart';
 import 'package:kammun_app/views/products_view/barcode_screen.dart';
 import 'package:kammun_app/views/products_view/services/products_services.dart';
 
-import '../../service.dart';
-
 class BarcodeIcon extends StatelessWidget {
   final BarcodeRequestType requestType;
   final int productId;
@@ -44,7 +42,11 @@ class BarcodeIcon extends StatelessWidget {
                 resultBarcode =
                     await ProductsServices.setBarcodeToProduct(bareCode: int.parse(barcode), productId: productId);
                 result = (resultBarcode != 'error');
-                Services.resultFlushBar(context: context, result: result);
+                if (result) {
+                  snackBar(success: result, message: 'تم إرسال البرمز بنجاح', context: context);
+                } else {
+                  snackBar(success: result, message: 'فشلت عملية إرسال البرمز يرحى المحاولة مجدداً', context: context);
+                }
                 onAddBarcode(resultBarcode);
               },
             ),

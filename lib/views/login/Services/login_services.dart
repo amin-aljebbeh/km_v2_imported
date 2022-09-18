@@ -1,6 +1,8 @@
 import 'package:kammun_app/core/core_importer.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
+import '../../loading/loading_services.dart';
+
 class LoginServices {
   static String replaceFarsiNumber(String s) {
     var sb = StringBuffer();
@@ -74,5 +76,16 @@ class LoginServices {
     } catch (e) {
       return false;
     }
+  }
+
+  static Future<void> logOutAdmin(BuildContext context) async {
+    LoadingScreenServices.allOrdersList = [];
+    LoadingScreenServices.myOrdersList = [];
+    LoadingScreenServices.phoneOrderList = [];
+    LoadingScreenServices.ordersViewFilter = 0;
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    baseUrl = appUrl;
+    await preferences.clear();
+    KammunRestart.restartApp(context);
   }
 }

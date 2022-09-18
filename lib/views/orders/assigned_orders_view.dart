@@ -1,5 +1,6 @@
 import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
+
 import '../../core/core_importer.dart';
 import 'services/order_services.dart';
 
@@ -294,10 +295,16 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                             onTap: () async {
                                               Navigator.of(context).pop();
                                               bool result = await OrderServices.unlockOrderService(orderId.toString());
-                                              Services.resultFlushBar(context: context, result: result);
-                                              setState(() {
-                                                if (result) orderDataList[index].underUpdate = '0';
-                                              });
+                                              if (result) {
+                                                snackBar(
+                                                    success: result, message: 'تم تعليق الطلب بنجاح', context: context);
+                                              } else {
+                                                snackBar(
+                                                    success: result,
+                                                    message: 'فشلت عملية تعليق الطلب يرحى المحاولة مجدداً',
+                                                    context: context);
+                                              }
+                                              if (result) setState(() => orderDataList[index].underUpdate = '0');
                                             },
                                           ),
                                           const CloseWidget()

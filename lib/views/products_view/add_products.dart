@@ -70,21 +70,24 @@ class _AddProductsViewState extends State<AddProductsView> {
       isError = false;
     });
     int productIds = await ProductsServices.addNewProducts(
-      subWarehouseId: _selectedSubWarehouseValue,
-      name: nameController.text,
-      quantity: quantityController.text,
-      unit: unitController.text,
-      price: int.parse(priceController.text),
-      description: descriptionController.text,
-      supplierCode: supplierCodeController.text,
-      priceFactor: priceFactorController.text,
-      categoryId: widget.categoryId,
-      minThreshold: '0',
-      autoActivation: autoActivationController,
-      isActive: switchController ? 1 : 0,
-      barcode: barcode,
-    );
-    Services.resultFlushBar(context: context, result: productIds != null && productIds != 0);
+        subWarehouseId: _selectedSubWarehouseValue,
+        name: nameController.text,
+        quantity: quantityController.text,
+        unit: unitController.text,
+        price: int.parse(priceController.text),
+        description: descriptionController.text,
+        supplierCode: supplierCodeController.text,
+        priceFactor: priceFactorController.text,
+        categoryId: widget.categoryId,
+        minThreshold: '0',
+        autoActivation: autoActivationController,
+        isActive: switchController ? 1 : 0,
+        barcode: barcode);
+    if (productIds != null && productIds != 0) {
+      snackBar(success: true, message: 'تم إضافة المنتج بنجاح', context: context);
+    } else {
+      snackBar(success: false, message: 'فشلت عملية إضافة المنتج', context: context);
+    }
 
     if (productIds != null && productIds != 0) {
       bool result = await ProductsServices.setImageToProducts(productId: productIds, image: _image);
@@ -100,28 +103,10 @@ class _AddProductsViewState extends State<AddProductsView> {
           isLoading = false;
           isError = true;
         });
-        Flushbar(
-          backgroundColor: Colors.red[900],
-          messageText: Text(
-            'فشل في إضافة المنتج',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: fontFamily),
-          ),
-          boxShadows: const [BoxShadow(color: Colors.red, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
-          icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
-          duration: const Duration(seconds: 1),
-        ).show(context);
+        snackBar(success: false, message: 'فشلت عملية إضافة المنتج', context: context);
       }
     } else if (productIds == null) {
-      Flushbar(
-        backgroundColor: Colors.red[900],
-        messageText: Text(
-          '!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: fontFamily),
-        ),
-        boxShadows: const [BoxShadow(color: Colors.purple, offset: Offset(0.0, 2.0), blurRadius: 3.0)],
-        icon: const Icon(Icons.close, size: 28.0, color: Colors.white),
-        duration: const Duration(seconds: 10),
-      ).show(context);
+      snackBar(success: false, message: '!!!!! فشل في ربط المنتج ولكن تمت إضافته !!!', context: context);
     }
   }
 

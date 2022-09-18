@@ -189,4 +189,18 @@ class OrderServices {
       return null;
     }
   }
+
+  static Future<List<OrdersOriginalData>> getAllOrders({int pageNumber = 1}) async {
+    try {
+      var response =
+          await ApiProvider.sendRequest(url: order, method: HttpMethods.get, queryParameters: {'page': pageNumber});
+
+      if (response.statusCode == successCode) {
+        LoadingScreenServices.allOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;
+      }
+      return LoadingScreenServices.allOrdersList;
+    } catch (e) {
+      return null;
+    }
+  }
 }

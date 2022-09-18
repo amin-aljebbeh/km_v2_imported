@@ -84,7 +84,14 @@ class ShopperWidgetState extends State<ShopperWidget> {
                                     .firstWhere((shopper) => shopper.id == widget.shopper.id)
                                     .status = active;
                                 widget.shopper.status = active;
-                                Services.resultFlushBar(context: context, result: result);
+                                if (result) {
+                                  snackBar(success: result, message: 'تم تغيير حالة الكابتن بنجاح', context: context);
+                                } else {
+                                  snackBar(
+                                      success: result,
+                                      message: 'فشلت تغيير حالة الاتصال يرحى المحاولة مجدداً',
+                                      context: context);
+                                }
                               }
                             });
                           },

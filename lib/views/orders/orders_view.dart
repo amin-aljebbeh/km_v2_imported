@@ -70,7 +70,7 @@ class OrdersViewState extends State<OrdersView> {
     });
     List<OrdersOriginalData> orderList;
     if (LoadingScreenServices.allOrdersList.isEmpty) {
-      orderList = await Services.getAllOrders(pageNumber: indexPage);
+      orderList = await OrderServices.getAllOrders(pageNumber: indexPage);
     } else {
       orderList = LoadingScreenServices.allOrdersList;
     }
@@ -445,8 +445,17 @@ class OrdersViewState extends State<OrdersView> {
 
                                           bool result = await OrderServices.changeOrderStatusService(
                                               orderDataList[index].id.toString(), changeStatus);
-                                          Services.resultFlushBar(context: context, result: result);
-
+                                          if (result) {
+                                            snackBar(
+                                                success: result,
+                                                message: 'تم تغيير حالة الطلب بنجاح',
+                                                context: context);
+                                          } else {
+                                            snackBar(
+                                                success: result,
+                                                message: 'فشلت عملية تغيير حالة الطلب يرحى المحاولة مجدداً',
+                                                context: context);
+                                          }
                                           if (result) {
                                             setState(() {
                                               orderDataList[index].orderStatusId = changeStatus.toString();
@@ -533,7 +542,15 @@ class OrdersViewState extends State<OrdersView> {
                                             onTap: () async {
                                               Navigator.of(context).pop();
                                               bool result = await OrderServices.unlockOrderService(orderId.toString());
-                                              Services.resultFlushBar(context: context, result: result);
+                                              if (result) {
+                                                snackBar(
+                                                    success: result, message: 'تم تعليق الطلب بنجاح', context: context);
+                                              } else {
+                                                snackBar(
+                                                    success: result,
+                                                    message: 'فشلت عملية تعليق الطلب يرحى المحاولة مجدداً',
+                                                    context: context);
+                                              }
                                               setState(() {
                                                 if (result) orderDataList[index].underUpdate = '0';
                                               });

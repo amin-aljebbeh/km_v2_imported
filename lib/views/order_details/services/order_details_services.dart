@@ -9,8 +9,12 @@ class OrderDetailsServices {
       var response = await ApiProvider.sendRequest(
           url: updateOrderProducts + orderId, method: HttpMethods.put, body: jsonEncode(updateOrderBody));
       if (response != null) {
-        Services.resultFlushBar(context: context, result: response.statusCode == successCode);
-        if (response.statusCode == successCode) return true;
+        if (response.statusCode == successCode) {
+          snackBar(success: true, message: 'نجحت عملية تعديل الطلب', context: context);
+        } else {
+          snackBar(success: false, message: 'فشلت عملية تعديل الطلب يرجى المحاولة مجدداً', context: context);
+        }
+        return response.statusCode == successCode;
       }
       return false;
     } catch (e) {
