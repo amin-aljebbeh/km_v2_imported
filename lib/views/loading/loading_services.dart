@@ -143,15 +143,13 @@ class LoadingScreenServices {
                 value: category.name + ';' + category.id.toString()))
             .toList();
 
-        fullCategoryList.addAll(
-          categories
-              .where((category) => category.parentCategoryId != null)
-              .toList()
-              .map((category) => DropdownMenuItem(
-                  child: Text(category.name, style: warehouseStyle.copyWith(fontSize: 18)),
-                  value: category.name + ';' + category.id.toString()))
-              .toList(),
-        );
+        fullCategoryList.addAll(categories
+            .where((category) => category.parentCategoryId != null)
+            .toList()
+            .map((category) => DropdownMenuItem(
+                child: Text(category.name, style: warehouseStyle.copyWith(fontSize: 18)),
+                value: category.name + ';' + category.id.toString()))
+            .toList());
         categoryList = categories
             .where((category) => category.warehouses.isNotEmpty && category.warehouses[0].pivot.isActive == '1')
             .toList();

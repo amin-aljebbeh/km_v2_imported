@@ -31,6 +31,7 @@ class Services {
     LoadingScreenServices.allOrdersList = [];
     LoadingScreenServices.myOrdersList = [];
     LoadingScreenServices.phoneOrderList = [];
+    LoadingScreenServices.ordersViewFilter = 0;
     SharedPreferences preferences = await SharedPreferences.getInstance();
     baseUrl = appUrl;
     await preferences.clear();

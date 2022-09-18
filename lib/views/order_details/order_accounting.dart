@@ -101,7 +101,8 @@ class _OrderAccountingState extends State<OrderAccounting> {
       }
       if (!Services.isSupplierManager()) {
         int delivery = int.parse(widget.orderData.supportedCityCost.split('.')[0]) +
-            int.parse(widget.orderData.deliveryCost.split('.')[0]);
+            int.parse(widget.orderData.deliveryCost.split('.')[0]) +
+            int.parse(widget.orderData.collectingCost.split('.')[0]);
         int subTotal = int.parse(widget.orderData.total.split('.')[0]) - delivery;
         subWarehouseTotal.add(KTableRow(
             children: [KTableElement(text: subtotalString), KTableElement(text: StringUtils().oCcy.format(subTotal))]));
@@ -110,8 +111,22 @@ class _OrderAccountingState extends State<OrderAccounting> {
           KTableElement(text: StringUtils().oCcy.format(delivery))
         ]));
         subWarehouseTotal.add(KTableRow(children: [
+          const KTableElement(text: 'قيمة كود الحسم'),
+          KTableElement(
+              text: StringUtils().oCcy.format(int.parse(widget.orderData.couponValue.split('.')[0])),
+              style: lightLoseStyle)
+        ]));
+        subWarehouseTotal.add(KTableRow(children: [
+          const KTableElement(text: 'قيمة المحفظة'),
+          KTableElement(
+              text: StringUtils().oCcy.format(int.parse(widget.orderData.walletValue.split('.')[0])),
+              style: lightLoseStyle)
+        ]));
+        subWarehouseTotal.add(KTableRow(children: [
           KTableElement(text: totalString),
-          KTableElement(text: StringUtils().oCcy.format(int.parse(widget.orderData.total.split('.')[0])))
+          KTableElement(
+              text: StringUtils().oCcy.format(int.parse(widget.orderData.total.split('.')[0]) -
+                  int.parse(widget.orderData.walletValue.split('.')[0])))
         ]));
       } else {
         subWarehouseTotal.add(KTableRow(children: [
@@ -180,14 +195,15 @@ class _OrderAccountingState extends State<OrderAccounting> {
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: 50,
                     ),
-                  KammunButton(
-                    color: kmColors,
-                    onTap: () => Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => InvoiceView(orderId: widget.orderData.id))),
-                    text: 'تفاصيل فاتورة الزبون',
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: 50,
-                  ),
+                  if (!Services.isSupplierManager())
+                    KammunButton(
+                      color: kmColors,
+                      onTap: () => Navigator.push(
+                          context, MaterialPageRoute(builder: (context) => InvoiceView(orderId: widget.orderData.id))),
+                      text: 'تفاصيل فاتورة الزبون',
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: 50,
+                    ),
                 ],
               ),
             ),

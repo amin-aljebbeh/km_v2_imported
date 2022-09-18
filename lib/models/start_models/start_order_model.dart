@@ -63,6 +63,9 @@ class OrdersOriginalData {
     this.userFeedback,
     this.cashValue,
     this.deliveryDistance,
+    this.collectingCost,
+    this.walletValue,
+    this.couponValue,
   });
 
   int id;
@@ -98,43 +101,48 @@ class OrdersOriginalData {
   double kammunProfit;
   double shopperProfit;
   String cashValue;
+  String collectingCost;
+  String walletValue;
+  String couponValue;
 
   factory OrdersOriginalData.fromJson(Map<String, dynamic> json) => OrdersOriginalData(
-        id: json['id'],
-        expectedTimeMinutes: json['expected_time_minutes'].toString(),
-        deliveryCost: json['delivery_cost'].toString(),
-        supportedCityCost: json['supported_city_cost'].toString(),
-        orderStatusId: json['order_status_id'].toString(),
-        paymentMethodId: json['payment_method_id'].toString(),
-        deliveryMethodId: json['delivery_method_id'].toString(),
-        warehouseId: json['warehouse_id'].toString(),
-        addressId: json['address_id'].toString(),
-        userId: json['user_id'].toString(),
-        couponId: json['coupon_id'].toString(),
-        userDeliveryRating: json['user_delivery_rating'].toString(),
-        userPriceRating: json['user_price_rating'].toString(),
-        total: json['total'].toString(),
-        userData: json['user'] == null ? null : UserData.fromJson(json['user']),
-        address: json['address'] == null ? null : OrderAddress.fromJson(json['address']),
-        userNotes: json['user_notes'],
-        createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
-        supportedCityId: json['supported_city_id'].toString(),
-        underUpdate: json['under_update'].toString(),
-        deliveryStaffId: json['delivery_staff_id'].toString(),
-        products: List<OrderProduct>.from(json['products'].map((x) => OrderProduct.fromJson(x))),
-        shopper: json['shopper'] == null ? null : Assigned.fromJson(json['shopper']),
-        images: json['images'] == null ? [] : List<OrderImage>.from(json['images'].map((x) => OrderImage.fromJson(x))),
-        orderAccountingRows: [],
-        shopperProfit: 0,
-        kammunProfit: 0,
-        userFeedback: json['user_feedback'] ?? 'null',
-        deliveredAt:
-            json['delivered_at'] != null ? DateTime.parse(json['delivered_at']) : DateTime.parse('2022-03-07 17:00:08'),
-        acceptedAt:
-            json['accepted_at'] != null ? DateTime.parse(json['accepted_at']) : DateTime.parse('2022-03-07 17:00:08'),
-        cashValue: json['cash_v'].toString(),
-        deliveryDistance: json['delivery_distance'].toString(),
-      );
+      id: json['id'],
+      expectedTimeMinutes: json['expected_time_minutes'].toString(),
+      deliveryCost: json['delivery_cost'].toString(),
+      supportedCityCost: json['supported_city_cost'].toString(),
+      orderStatusId: json['order_status_id'].toString(),
+      paymentMethodId: json['payment_method_id'].toString(),
+      deliveryMethodId: json['delivery_method_id'].toString(),
+      warehouseId: json['warehouse_id'].toString(),
+      addressId: json['address_id'].toString(),
+      userId: json['user_id'].toString(),
+      couponId: json['coupon_id'].toString(),
+      userDeliveryRating: json['user_delivery_rating'].toString(),
+      userPriceRating: json['user_price_rating'].toString(),
+      total: json['total'].toString(),
+      userData: json['user'] == null ? null : UserData.fromJson(json['user']),
+      address: json['address'] == null ? null : OrderAddress.fromJson(json['address']),
+      userNotes: json['user_notes'],
+      createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
+      supportedCityId: json['supported_city_id'].toString(),
+      underUpdate: json['under_update'].toString(),
+      deliveryStaffId: json['delivery_staff_id'].toString(),
+      products: List<OrderProduct>.from(json['products'].map((x) => OrderProduct.fromJson(x))),
+      shopper: json['shopper'] == null ? null : Assigned.fromJson(json['shopper']),
+      images: json['images'] == null ? [] : List<OrderImage>.from(json['images'].map((x) => OrderImage.fromJson(x))),
+      orderAccountingRows: [],
+      shopperProfit: 0,
+      kammunProfit: 0,
+      userFeedback: json['user_feedback'] ?? 'null',
+      deliveredAt:
+          json['delivered_at'] != null ? DateTime.parse(json['delivered_at']) : DateTime.parse('2022-03-07 17:00:08'),
+      acceptedAt:
+          json['accepted_at'] != null ? DateTime.parse(json['accepted_at']) : DateTime.parse('2022-03-07 17:00:08'),
+      cashValue: json['cash_v'].toString(),
+      deliveryDistance: json['delivery_distance'].toString(),
+      collectingCost: json['collecting_cost'].toString(),
+      walletValue: json['wallet_v'].toString(),
+      couponValue: json['coupon_v'].toString());
 
   Map<String, dynamic> toJson() => {
         'id': id,
