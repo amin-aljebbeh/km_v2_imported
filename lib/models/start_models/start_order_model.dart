@@ -169,15 +169,14 @@ class OrdersOriginalData {
         'products': List<dynamic>.from(products.map((x) => x.toJson())),
       };
 
-  OrderAccountingRow row = OrderAccountingRow(
-      subWarehouseId: 0,
-      subWarehouseName: 'subWarehouse.name',
-      netPrice: 0,
-      payToSubWarehouse: 0,
-      increaseValuesSum: 0,
-      directDiscount: 0);
-
   orderArithmeticOperations() {
+    OrderAccountingRow row = OrderAccountingRow(
+        subWarehouseId: 0,
+        subWarehouseName: 'subWarehouse.name',
+        netPrice: 0,
+        payToSubWarehouse: 0,
+        increaseValuesSum: 0,
+        directDiscount: 0);
     kammunProfit = 0;
     shopperProfit = 0;
     orderAccountingRows = LoadingScreenServices.subWarehouses
@@ -228,10 +227,8 @@ class OrdersOriginalData {
         SubWarehouseLevelPivot pivot = orderLevel.subWarehouses
             .firstWhere((subWarehouse) => subWarehouse.id == orderAccountingRows[i].subWarehouseId)
             .levelPivot;
-
         shopperSubWarehouseProfit = pivot.shoppingProfitPercentage / 100;
         increaseProfit = pivot.valueAddedPercentage / 100;
-
         double discountPercentage = SubWarehouse.getDiscountPercentage(orderAccountingRows[i].subWarehouseId);
         shopperProfit += orderAccountingRows[i].increaseValuesSum * increaseProfit;
         kammunProfit +=
@@ -243,12 +240,12 @@ class OrdersOriginalData {
         } else if (addedProfit < pivot.minProfit) {
           addedProfit = pivot.minProfit.toDouble();
         }
-
         kammunProfit += (productKammunProfit - addedProfit);
         shopperProfit += addedProfit;
       }
       double deliverProfit = 0.0;
       double cityCost = double.parse(supportedCityCost);
+      cityCost += double.parse(collectingCost);
       deliverProfit = orderLevel.supportedCities
               .firstWhere((city) => city.id == supportedCityId)
               .levelPivot
