@@ -20,7 +20,7 @@ class ProductsServices {
             url: addProductToCategory + productId, method: HttpMethods.post, body: jsonEncode(body));
       } else if (!isForSubWarehouse) {
         response =
-            await ApiProvider.sendRequest(url: getProduct + productId, method: HttpMethods.put, body: jsonEncode(body));
+            await ApiProvider.sendRequest(url: product + productId, method: HttpMethods.put, body: jsonEncode(body));
       } else {
         response = await ApiProvider.sendRequest(
             url: updateSubWarehouseProducts + productId,
@@ -72,7 +72,7 @@ class ProductsServices {
 
     try {
       var response =
-          await ApiProvider.sendRequest(url: getProduct, method: HttpMethods.post, body: jsonEncode(productBody));
+          await ApiProvider.sendRequest(url: product, method: HttpMethods.post, body: jsonEncode(productBody));
 
       if (response.statusCode == successCode && response.data['success'] == true) {
         var subWarehouseBody = {
@@ -104,7 +104,7 @@ class ProductsServices {
   static Future<bool> setImageToProducts({File image, int productId}) async {
     try {
       var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ''};
-      var request = http.MultipartRequest('POST', Uri.parse(baseUrl + '/api/' + addImageToProduct));
+      var request = http.MultipartRequest('POST', Uri.parse(baseUrl + '/api/' + productImage));
       request.fields.addAll({'product_id': '$productId'});
       request.files.add(await http.MultipartFile.fromPath('image', image.path));
       request.headers.addAll(headers);

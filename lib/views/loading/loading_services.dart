@@ -81,7 +81,7 @@ class LoadingScreenServices {
 
   Future<bool> getSupportedCity() async {
     try {
-      var response = await ApiProvider.sendRequest(url: getSupportedCities, method: HttpMethods.get);
+      var response = await ApiProvider.sendRequest(url: supportedCity, method: HttpMethods.get);
       if (response.statusCode == successCode) {
         final supportedCitiesResponse = supportedCityOriginalFromJson(jsonEncode(response.data));
 
