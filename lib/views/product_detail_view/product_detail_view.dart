@@ -352,7 +352,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       children: [
                         const SizedBox(height: 30),
                         UpdateProductInfoWidget(
-                          title: edit + ' ' + price + ' :',
+                          title: edit + ' ' + priceString + ' :',
                           inputType: TextInputType.text,
                           bodyKey: 'price',
                           productId: widget.product.id,

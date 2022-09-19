@@ -1,4 +1,5 @@
 import 'package:kammun_app/views/inventory_feature/domain/entities/product_entity.dart';
+
 import '../../../../core/core_importer.dart';
 
 class ProductModel extends ProductEntity {
@@ -111,7 +112,7 @@ class ProductModel extends ProductEntity {
         'name': name,
         'description': description,
         'unit': unit,
-        'price': price,
+        'price': priceString,
         'is_active': isActive,
         'quantity': quantity,
         'productCount': productCount,

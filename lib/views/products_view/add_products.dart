@@ -29,7 +29,7 @@ class _AddProductsViewState extends State<AddProductsView> {
     priceFactor,
     description,
     supplierCode,
-    price,
+    priceString,
     'الصورة'
   ];
 
@@ -235,7 +235,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
                             controller: priceController,
-                            title: price,
+                            title: priceString,
                             hint: '5000',
                             width: MediaQuery.of(context).size.width / 3),
                       ],
@@ -348,9 +348,9 @@ class _AddProductsViewState extends State<AddProductsView> {
       if (!productData.contains(supplierCode)) productData.add(supplierCode);
     }
     if (priceController.text.isNotEmpty) {
-      if (productData.contains(price)) productData.remove(price);
+      if (productData.contains(priceString)) productData.remove(priceString);
     } else {
-      if (!productData.contains(price)) productData.add(price);
+      if (!productData.contains(priceString)) productData.add(priceString);
     }
     if (_image != null) {
       if (productData.contains('الصورة')) productData.remove('الصورة');

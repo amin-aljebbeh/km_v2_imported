@@ -136,7 +136,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
                             controller: priceController,
-                            title: price,
+                            title: priceString,
                             hint: '5000',
                             width: MediaQuery.of(context).size.width / 3),
                       ],

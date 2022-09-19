@@ -48,7 +48,7 @@ class AddedProductsServices {
   }
 
   static Future<List<ProductData>> getAllProducts() async {
-    var response = await ApiProvider.sendRequest(url: getProduct, method: HttpMethods.get);
+    var response = await ApiProvider.sendRequest(url: product, method: HttpMethods.get);
     if (response.statusCode == successCode && response.data['success']) {
       return syncCartFromJson(jsonEncode(response.data['data']));
     }
