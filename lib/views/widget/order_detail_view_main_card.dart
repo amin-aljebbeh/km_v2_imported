@@ -22,7 +22,8 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
   void initState() {
     subWarehouseList = LoadingScreenServices.subWarehouses
         .where((subWarehouse) =>
-            (subWarehouse.id == widget.productData.subWarehouseId || subWarehouse.name.contains('خارجي')) ||
+            subWarehouse.id == widget.productData.subWarehouseId ||
+            subWarehouse.allowShopperAssign == '1' ||
             Services.isOperationManager())
         .map((subWarehouse) => DropdownMenuItem<dynamic>(
             child: AutoSizeText(subWarehouse.name,

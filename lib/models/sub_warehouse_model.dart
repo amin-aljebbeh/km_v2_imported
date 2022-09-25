@@ -23,7 +23,7 @@ class SubWarehouse {
     this.adminPivot,
     this.levelPivot,
     this.discountPercentage,
-    this.directDiscount,
+    this.directDiscount,this.allowShopperAssign,
   });
 
   int id;
@@ -37,6 +37,7 @@ class SubWarehouse {
   SubWarehouseAdminPivot adminPivot;
   SubWarehouseLevelPivot levelPivot;
   double discountPercentage;
+  String allowShopperAssign;
 
   static double getDiscountPercentage(int subWarehouseId) => (LoadingScreenServices.subWarehouses
           .firstWhere((subWarehouse) => subWarehouse.id == subWarehouseId,
@@ -55,7 +56,7 @@ class SubWarehouse {
         adminPivot: json["pivot"]["admin_id"] == null ? null : SubWarehouseAdminPivot.fromJson(json["pivot"]),
         levelPivot: json["pivot"]["level_id"] == null ? null : SubWarehouseLevelPivot.fromJson(json["pivot"]),
         discountPercentage: json["discount_percentage"] == null ? null : double.parse(json["discount_percentage"]),
-        directDiscount: json['direct_discount'],
+        directDiscount: json['direct_discount'],allowShopperAssign:json['allow_shopper_assign'].toString(),
       );
 
   Map<String, dynamic> toJson() => {

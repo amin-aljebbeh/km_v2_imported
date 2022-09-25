@@ -25,7 +25,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    List<SubWarehouse> response = await InventoryServices.getSubWarehoused(adminId: prefs.getString("adminId"));
+    List<SubWarehouse> response = await InventoryServices.getAdmin(adminId: prefs.getString("adminId"));
     if (response != null) {
       setState(() {
         listOfWubWarehouse.addAll(response);

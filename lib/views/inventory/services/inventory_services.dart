@@ -5,7 +5,7 @@ import 'package:kammun_app/views/loading/loading_services.dart';
 import 'package:kammun_app/views/login/models/login_admin_model.dart';
 
 class InventoryServices {
-  static Future<List<SubWarehouse>> getSubWarehoused({String adminId}) async {
+  static Future<List<SubWarehouse>> getAdmin({String adminId}) async {
     var response = await ApiProvider.sendRequest(url: admin + adminId, method: HttpMethods.get);
 
     if (response.statusCode == successCode && response.data['success']) {
