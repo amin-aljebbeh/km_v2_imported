@@ -463,12 +463,8 @@ class _CartViewFinalState extends State<CartViewFinal> {
       builder: (context) => OrderProblemBottomSheet(
         notActiveProducts: notActiveId,
         pricesChangesProducts: priceId,
-        applyChanges: (submitOrder) {
-          if (submitOrder) {
-            _showConfirmOrderBtnTapped(checkOrderPrice: false);
-          } else {
-            _reloadPrices();
-          }
+        applyChanges: (submitOrder) => {
+          if (submitOrder) {_showConfirmOrderBtnTapped(checkOrderPrice: false)} else {_reloadPrices()}
         },
       ),
     );

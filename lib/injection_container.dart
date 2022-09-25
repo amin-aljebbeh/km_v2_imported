@@ -1,5 +1,5 @@
 import 'package:kammun_app/views/supplier/data/data_sources/supplier_remote_data_source.dart';
-import 'package:kammun_app/views/supplier/data/repositories/supplier_repository_implenet.dart';
+import 'package:kammun_app/views/supplier/data/repositories/supplier_repository_implement.dart';
 import 'package:kammun_app/views/supplier/domain/repositories/supplier_repository.dart';
 
 import 'core/core_importer.dart';

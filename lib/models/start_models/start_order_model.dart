@@ -225,7 +225,15 @@ class OrdersOriginalData {
         double shopperSubWarehouseProfit = 0.0;
         double increaseProfit = 0.0;
         SubWarehouseLevelPivot pivot = orderLevel.subWarehouses
-            .firstWhere((subWarehouse) => subWarehouse.id == orderAccountingRows[i].subWarehouseId)
+            .firstWhere((subWarehouse) => subWarehouse.id == orderAccountingRows[i].subWarehouseId,
+                orElse: () => SubWarehouse(
+                    levelPivot: SubWarehouseLevelPivot(
+                        subWarehouseId: 0,
+                        levelId: 0,
+                        valueAddedPercentage: 0,
+                        shoppingProfitPercentage: 0,
+                        minProfit: 1,
+                        maxProfit: 10000000000)))
             .levelPivot;
         shopperSubWarehouseProfit = pivot.shoppingProfitPercentage / 100;
         increaseProfit = pivot.valueAddedPercentage / 100;
@@ -235,11 +243,8 @@ class OrdersOriginalData {
             orderAccountingRows[i].increaseValuesSum - (orderAccountingRows[i].increaseValuesSum * increaseProfit);
         double productKammunProfit = orderAccountingRows[i].netPrice * discountPercentage;
         double addedProfit = productKammunProfit * shopperSubWarehouseProfit;
-        if (addedProfit > pivot.maxProfit) {
-          addedProfit = pivot.maxProfit.toDouble();
-        } else if (addedProfit < pivot.minProfit) {
-          addedProfit = pivot.minProfit.toDouble();
-        }
+        if (addedProfit > pivot.maxProfit) addedProfit = pivot.maxProfit.toDouble();
+        if (addedProfit < pivot.minProfit) addedProfit = pivot.minProfit.toDouble();
         kammunProfit += (productKammunProfit - addedProfit);
         shopperProfit += addedProfit;
       }

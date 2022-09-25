@@ -331,8 +331,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         if (LoadingScreen.userToken.length > 5) {
                           Navigator.of(context).pop(true);
                           widget.product.productCount = numberOfOrders;
-                          widget.product.pivot = OrderProductPivot(increaseValue: widget.product.increasePercentage);
-                          CartServices.addProductToCart(widget.product);
+                          ProductData productData = widget.product;
+                          productData.pivot = OrderProductPivot(increaseValue: widget.product.increasePercentage);
+                          productData.price =
+                              (int.parse(productData.price.split('.')[0]) - productData.pivot.increaseValue).toString();
+                          CartServices.addProductToCart(productData);
                           snackBar(
                               success: true,
                               message: 'تم إضافة ${widget.product.name} لسلة المشتريات',

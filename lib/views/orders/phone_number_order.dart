@@ -502,7 +502,11 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
         product.id = orderProducts[i].id;
         product.images = orderProducts[i].images;
         product.name = orderProducts[i].name;
-
+        product.pivot = OrderProductPivot(
+            subWarehouseId: orderProducts[i].pivot.subWarehouseId,
+            quantity: orderProducts[i].pivot.quantity,
+            increaseValue: orderProducts[i].pivot.increaseValue,
+            purchasePrice: orderProducts[i].pivot.purchasePrice);
         product.price =
             (int.parse(orderProducts[i].pivot.purchasePrice.split('.')[0]) - orderProducts[i].pivot.increaseValue)
                 .toString();

@@ -84,15 +84,11 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: primaryColor,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(30.0),
-                            topRight: Radius.circular(30.0),
-                          )),
+                          borderRadius:
+                              const BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
                       child: Center(
-                          child: Text(
-                        'منتجات نفذت أثناء التسوق',
-                        style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: fontFamily),
-                      )),
+                          child: Text('منتجات نفذت أثناء التسوق',
+                              style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: fontFamily))),
                     )
                   : Container(),
               widget.notActiveProducts.isNotEmpty
@@ -127,10 +123,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                           borderRadius:
                               const BorderRadius.only(topLeft: Radius.circular(30.0), topRight: Radius.circular(30.0))),
                       child: Center(
-                          child: Text(
-                        'منتجات تغير سعرها أثناء التسوق',
-                        style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: fontFamily),
-                      )),
+                          child: Text('منتجات تغير سعرها أثناء التسوق',
+                              style: TextStyle(fontSize: 20, color: Colors.white, fontFamily: fontFamily))),
                     )
                   : Container(),
               widget.pricesChangesProducts.isNotEmpty
@@ -147,9 +141,8 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                               behavior: HitTestBehavior.translucent,
                               onTap: () => {},
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
-                                child: cardBodyPriceProblem(priceCards[index], context),
-                              ),
+                                  padding: const EdgeInsets.only(left: 0, right: 0, top: 0),
+                                  child: cardBodyPriceProblem(priceCards[index], context)),
                             );
                           },
                         ),
@@ -252,8 +245,7 @@ class _OrderProblemBottomSheetState extends State<OrderProblemBottomSheet> {
                         ? AdvImageCache(
                             LoadingScreenServices.imagePrefixUrl + orderArray[index].images[0].imageFileName.toString(),
                             useMemCache: true,
-                            diskCacheExpire: const Duration(days: 400),
-                          )
+                            diskCacheExpire: const Duration(days: 400))
                         : const AssetImage('assets/kmIcon.png'),
                     width: MediaQuery.of(context).size.width,
                     height: 120,
