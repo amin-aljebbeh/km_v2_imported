@@ -115,10 +115,7 @@ class _OrderByIDState extends State<OrderByID> {
                                           : Colors.cyan[700],
                                   onTap: () async {
                                     int changeStatus = 0;
-                                    setState(() {
-                                      isLoading = true;
-                                      errorMessage = false;
-                                    });
+                                    setState(() => {isLoading = true, errorMessage = false});
                                     if (order.orderStatusId == '1') {
                                       changeStatus = 2;
                                     } else if (order.orderStatusId == '2') {
@@ -154,10 +151,7 @@ class _OrderByIDState extends State<OrderByID> {
                                           int changeStatus = 0;
                                           Navigator.of(context).pop();
 
-                                          setState(() {
-                                            isLoading = true;
-                                            errorMessage = false;
-                                          });
+                                          setState(() => {isLoading = true, errorMessage = false});
                                           changeStatus = 7;
 
                                           bool x = await OrderServices.changeOrderStatusService(
@@ -169,10 +163,7 @@ class _OrderByIDState extends State<OrderByID> {
                                               isLoading = false;
                                             });
                                           } else {
-                                            setState(() {
-                                              isLoading = false;
-                                              errorMessage = true;
-                                            });
+                                            setState(() => {isLoading = false, errorMessage = true});
                                           }
                                         },
                                       ),
@@ -195,10 +186,7 @@ class _OrderByIDState extends State<OrderByID> {
                                           int changeStatus = 0;
                                           Navigator.of(context).pop();
 
-                                          setState(() {
-                                            isLoading = true;
-                                            errorMessage = false;
-                                          });
+                                          setState(() => {isLoading = true, errorMessage = false});
                                           changeStatus = 6;
 
                                           bool x = await OrderServices.changeOrderStatusService(
@@ -210,10 +198,7 @@ class _OrderByIDState extends State<OrderByID> {
                                               isLoading = false;
                                             });
                                           } else {
-                                            setState(() {
-                                              isLoading = false;
-                                              errorMessage = true;
-                                            });
+                                            setState(() => {isLoading = false, errorMessage = true});
                                           }
                                         },
                                       ),
@@ -255,7 +240,7 @@ class _OrderByIDState extends State<OrderByID> {
                                     } else {
                                       snackBar(
                                           success: result,
-                                          message: 'فشلت عملية تغيير حالة الطلب يرحى المحاولة مجدداً',
+                                          message: 'فشلت عملية تغيير حالة الطلب يرجى المحاولة مجدداً',
                                           context: context);
                                     }
 
@@ -265,10 +250,7 @@ class _OrderByIDState extends State<OrderByID> {
                                         isLoading = false;
                                       });
                                     } else {
-                                      setState(() {
-                                        isLoading = false;
-                                        errorMessage = true;
-                                      });
+                                      setState(() => {isLoading = false, errorMessage = true});
                                     }
                                   },
                                 ),
@@ -284,10 +266,7 @@ class _OrderByIDState extends State<OrderByID> {
                         KammunButton(
                           text: editOrder,
                           onTap: () async {
-                            setState(() {
-                              orderLoaded = false;
-                              errorMessage = false;
-                            });
+                            setState(() => {orderLoaded = false, errorMessage = false});
                             LockOrder response = await OrderServices.lockOrderService(
                                 orderId: order.id.toString(),
                                 userNote: order.userNotes,
@@ -349,7 +328,7 @@ class _OrderByIDState extends State<OrderByID> {
                                         } else {
                                           snackBar(
                                               success: result,
-                                              message: 'فشلت عملية تعليق الطلب يرحى المحاولة مجدداً',
+                                              message: 'فشلت عملية تعليق الطلب يرجى المحاولة مجدداً',
                                               context: context);
                                         }
                                         if (result) setState(() => order.underUpdate = '0');

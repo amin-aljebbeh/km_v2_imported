@@ -89,7 +89,7 @@ class ShopperWidgetState extends State<ShopperWidget> {
                                 } else {
                                   snackBar(
                                       success: result,
-                                      message: 'فشلت تغيير حالة الاتصال يرحى المحاولة مجدداً',
+                                      message: 'فشلت عملية تغيير حالة الاتصال يرجى المحاولة مجدداً',
                                       context: context);
                                 }
                               }

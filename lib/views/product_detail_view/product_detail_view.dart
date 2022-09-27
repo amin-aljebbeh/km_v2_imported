@@ -179,7 +179,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         ),
                         Column(
                           children: <Widget>[
-                            Text(price + ' :', style: paragraphStyle),
+                            Text(priceString + ' :', style: paragraphStyle),
                             const SizedBox(width: 5),
                             Text(
                                 '${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
@@ -231,7 +231,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                         } else {
                                           snackBar(
                                               success: result,
-                                              message: 'فشلت عملية إزالة المنتج من الصنف يرحى المحاولة مجدداً',
+                                              message: 'فشلت عملية إزالة المنتج من الصنف يرجى المحاولة مجدداً',
                                               context: context);
                                         }
                                         if (result) setState(() => widget.product.categories.removeAt(index));
@@ -321,8 +321,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   style:
                                       TextStyle(fontSize: 25, fontWeight: FontWeight.bold, fontFamily: fontFamily)))),
                     KammunButton(
-                      text:
-                          '$addToCart  (${StringUtils().oCcy.format(numberOfOrders * int.parse(widget.product.price.toString().split('.')[0]))})',
+                      text: '$addToCart  (${StringUtils().oCcy.format(numberOfOrders * int.parse(price.split('.')[0]))})',
                       height: 50,
                       color: Theme.of(context).primaryColor,
                       onTap: () async {
@@ -365,12 +364,9 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           priceFactor:
                               widget.product.priceFactor != null ? double.parse(widget.product.priceFactor) : 1,
                           initialText: price,
-                          onSavePressed: (newValue, result) => setState(() {
-                            if (result) {
-                              widget.product.price = newValue;
-                              widget.onChangePrice(newValue);
-                            }
-                          }),
+                          onSavePressed: (newValue, result) => setState(() => {
+                                if (result) {widget.product.price = newValue, widget.onChangePrice(newValue)}
+                              }),
                         ),
                         UpdateProductInfoWidget(
                           title: edit + ' ' + supplierCode + ':',
@@ -427,10 +423,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     productData: widget.product,
                                     textHint: widget.product.unit,
                                     initialText: widget.product.unit,
-                                    onSavePressed: (newValue, result) => setState(() {
-                                      widget.product.unit = newValue;
-                                      widget.onChangeUnit(newValue);
-                                    }),
+                                    onSavePressed: (newValue, result) =>
+                                        setState(() => {widget.product.unit = newValue, widget.onChangeUnit(newValue)}),
                                   ),
                                   UpdateProductInfoWidget(
                                     title: edit + ' ' + quantity + ' :',
@@ -441,10 +435,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                     bodyKey: 'quantity',
                                     productId: widget.product.id,
                                     initialText: widget.product.quantity,
-                                    onSavePressed: (newValue, result) => setState(() {
-                                      widget.product.quantity = newValue;
-                                      widget.onChangeQuantity(newValue);
-                                    }),
+                                    onSavePressed: (newValue, result) => setState(
+                                        () => {widget.product.quantity = newValue, widget.onChangeQuantity(newValue)}),
                                   ),
                                   UpdateProductInfoWidget(
                                     title: edit + ' ' + description + ' :',
@@ -500,7 +492,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           } else {
                                             snackBar(
                                                 success: result,
-                                                message: 'فشلت عملية تغيير مستودع المنتج يرحى المحاولة مجدداً',
+                                                message: 'فشلت عملية تغيير مستودع المنتج يرجى المحاولة مجدداً',
                                                 context: context);
                                           }
                                           setState(() {
@@ -584,7 +576,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                       } else {
                                                         snackBar(
                                                             success: result,
-                                                            message: 'فشلت عملية حذف صورة المنتج يرحى المحاولة مجدداً',
+                                                            message: 'فشلت عملية حذف صورة المنتج يرجى المحاولة مجدداً',
                                                             context: context);
                                                       }
                                                     },
@@ -684,7 +676,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                                         snackBar(
                                                                             success: result,
                                                                             message:
-                                                                                'فشلت عملية حذف الرمز يرحى المحاولة مجدداً',
+                                                                                'فشلت عملية حذف الرمز يرجى المحاولة مجدداً',
                                                                             context: context);
                                                                       }
                                                                     },
@@ -717,7 +709,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           } else {
                                             snackBar(
                                                 success: result,
-                                                message: 'فشلت عملية حفظ صورة المنتج يرحى المحاولة مجدداً',
+                                                message: 'فشلت عملية حفظ صورة المنتج يرجى المحاولة مجدداً',
                                                 context: context);
                                           }
                                         },
@@ -755,7 +747,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                           snackBar(
                                                               success: result,
                                                               message:
-                                                                  'فشلت عملية إزالة المنتج من المستودع يرحى المحاولة مجدداً',
+                                                                  'فشلت عملية إزالة المنتج من المستودع يرجى المحاولة مجدداً',
                                                               context: context);
                                                         }
                                                       },
@@ -790,7 +782,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                       } else {
                                                         snackBar(
                                                             success: result,
-                                                            message: 'فشلت عملية حذف المنتج يرحى المحاولة مجدداً',
+                                                            message: 'فشلت عملية حذف المنتج يرجى المحاولة مجدداً',
                                                             context: context);
                                                       }
                                                     },
@@ -836,7 +828,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             } else {
                                               snackBar(
                                                   success: result,
-                                                  message: 'فشلت عملية إزالة المنتج من المستودع يرحى المحاولة مجدداً',
+                                                  message: 'فشلت عملية إزالة المنتج من المستودع يرجى المحاولة مجدداً',
                                                   context: context);
                                             }
                                           },
@@ -871,7 +863,7 @@ Future<bool> _saveCategory({BuildContext context, int productId, String category
   if (result) {
     snackBar(success: result, message: 'تم إضاقة المنتج للصنف بنجاح', context: context);
   } else {
-    snackBar(success: result, message: 'فشلت عملية إضاقة المنتج للصنف يرحى المحاولة مجدداً', context: context);
+    snackBar(success: result, message: 'فشلت عملية إضاقة المنتج للصنف يرجى المحاولة مجدداً', context: context);
   }
   return result;
 }

@@ -181,7 +181,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                           } else {
                             snackBar(
                                 success: result,
-                                message: 'فشلت عملية ربط المنتج بالمستودع يرحى المحاولة مجدداً',
+                                message: 'فشلت عملية ربط المنتج بالمستودع يرجى المحاولة مجدداً',
                                 context: context);
                           }
                         } else {

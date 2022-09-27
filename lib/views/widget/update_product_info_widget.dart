@@ -75,7 +75,7 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                     if (result) {
                       snackBar(success: result, message: 'تم التعديل بنجاح', context: context);
                     } else {
-                      snackBar(success: result, message: 'فشلت عملية التعديل يرحى المحاولة مجدداً', context: context);
+                      snackBar(success: result, message: 'فشلت عملية التعديل يرجى المحاولة مجدداً', context: context);
                     }
                   } else {
                     if (widget.bodyKey == 'supplier_code' &&
@@ -100,13 +100,16 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                           productId: widget.productId.toString());
 
                       if (result) {
+                        if (Services.isSupplierManager()) {
+                          newValue = (int.parse(newValue.split('.')[0]) - widget.increasePercentage).toString();
+                        }
                         widget.onSavePressed(newValue, result);
                         setState(() => textController.text = newValue);
                       }
                       if (result) {
                         snackBar(success: result, message: 'تم التعديل بنجاح', context: context);
                       } else {
-                        snackBar(success: result, message: 'فشلت عملية التعديل يرحى المحاولة مجدداً', context: context);
+                        snackBar(success: result, message: 'فشلت عملية التعديل يرجى المحاولة مجدداً', context: context);
                       }
                     }
                   }

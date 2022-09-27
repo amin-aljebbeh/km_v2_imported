@@ -140,7 +140,7 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                             } else {
                               snackBar(
                                   success: result,
-                                  message: 'فشلت عملية إضافة المناقلة يرحى المحاولة مجدداً',
+                                  message: 'فشلت عملية إضافة المناقلة يرجى المحاولة مجدداً',
                                   context: context);
                             }
                           },

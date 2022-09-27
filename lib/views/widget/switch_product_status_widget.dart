@@ -65,7 +65,7 @@ class _SwitchProductStatusWidgetState extends State<SwitchProductStatusWidget> {
                       snackBar(success: result, message: 'تم تحديث المنتج بنجاح', context: context);
                     } else {
                       snackBar(
-                          success: result, message: 'فشلت عملية تحديث المنتج يرحى المحاولة مجدداً', context: context);
+                          success: result, message: 'فشلت عملية تحديث المنتج يرجى المحاولة مجدداً', context: context);
                     }
                     if (result) {
                       setState(() {

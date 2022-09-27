@@ -43,18 +43,12 @@ class ProductsViewCardState extends State<ProductsViewCard> {
             builder: (context) => ProductDetailView(
               product: widget.productData,
               onAddBarcode: (result) => widget.onAddBarcode(result),
-              onChangePrice: (newValue) => setState(() {
-                widget.productData.price = newValue;
-                widget.onChangePrice(newValue);
-              }),
-              onChangeUnit: (newValue) => setState(() {
-                widget.productData.unit = newValue;
-                widget.onChangeUnit(newValue);
-              }),
-              onChangeQuantity: (newValue) => setState(() {
-                widget.productData.quantity = newValue;
-                widget.onChangeQuantity(newValue);
-              }),
+              onChangePrice: (newValue) =>
+                  setState(() => {widget.productData.price = newValue, widget.onChangePrice(newValue)}),
+              onChangeUnit: (newValue) =>
+                  setState(() => {widget.productData.unit = newValue, widget.onChangeUnit(newValue)}),
+              onChangeQuantity: (newValue) =>
+                  setState(() => {widget.productData.quantity = newValue, widget.onChangeQuantity(newValue)}),
             ),
           ),
         );

@@ -80,18 +80,12 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                 MaterialPageRoute(
                   builder: (context) => ProductDetailView(
                     product: widget.productData,
-                    onChangePrice: (newValue) => setState(() {
-                      widget.productData.price = newValue;
-                      widget.onChangePrice(newValue);
-                    }),
-                    onChangeUnit: (newValue) => setState(() {
-                      widget.productData.unit = newValue;
-                      widget.onChangeUnit(newValue);
-                    }),
-                    onChangeQuantity: (newValue) => setState(() {
-                      widget.productData.price = newValue;
-                      widget.onChangeQuantity(newValue);
-                    }),
+                    onChangePrice: (newValue) =>
+                        setState(() => {widget.productData.price = newValue, widget.onChangePrice(newValue)}),
+                    onChangeUnit: (newValue) =>
+                        setState(() => {widget.productData.unit = newValue, widget.onChangeUnit(newValue)}),
+                    onChangeQuantity: (newValue) =>
+                        setState(() => {widget.productData.price = newValue, widget.onChangeQuantity(newValue)}),
                   ),
                 ),
               );
@@ -267,7 +261,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                     snackBar(
                                                         success: result,
                                                         message:
-                                                            'فشلت عملية إزالة المنتج من المستودع يرحى المحاولة مجدداً',
+                                                            'فشلت عملية إزالة المنتج من المستودع يرجى المحاولة مجدداً',
                                                         context: context);
                                                   }
                                                 }),
@@ -342,7 +336,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                             } else {
                                               snackBar(
                                                   success: result,
-                                                  message: 'فشلت عملية إزالة المنتج من القائمة يرحى المحاولة مجدداً',
+                                                  message: 'فشلت عملية إزالة المنتج من القائمة يرجى المحاولة مجدداً',
                                                   context: context);
                                             }
                                             if (result) setState(() => widget.onDelete(true));

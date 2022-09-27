@@ -71,7 +71,7 @@ class _OrderDetailsTabViewState extends State<OrderDetailsTabView> with SingleTi
                   child: TabBar(
                       controller: controller, indicatorColor: Colors.white, labelColor: Colors.white, tabs: tabList))),
         ),
-        body: TabBarView(controller: controller, children: screenList),
+        body: TabBarView(controller: controller, children: screenList,physics:const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics())),
       ),
     );
   }

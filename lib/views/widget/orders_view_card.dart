@@ -316,7 +316,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         snackBar(success: result, message: 'تم إسناد الطلب بنجاح', context: context);
                       } else {
                         snackBar(
-                            success: result, message: 'فشلت عملية إسناد الطلب يرحى المحاولة مجدداً', context: context);
+                            success: result, message: 'فشلت عملية إسناد الطلب يرجى المحاولة مجدداً', context: context);
                       }
                     }
                   },

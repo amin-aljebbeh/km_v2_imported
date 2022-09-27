@@ -301,7 +301,7 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                               } else {
                                                 snackBar(
                                                     success: result,
-                                                    message: 'فشلت عملية تعليق الطلب يرحى المحاولة مجدداً',
+                                                    message: 'فشلت عملية تعليق الطلب يرجى المحاولة مجدداً',
                                                     context: context);
                                               }
                                               if (result) setState(() => orderDataList[index].underUpdate = '0');

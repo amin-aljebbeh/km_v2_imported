@@ -453,7 +453,7 @@ class OrdersViewState extends State<OrdersView> {
                                           } else {
                                             snackBar(
                                                 success: result,
-                                                message: 'فشلت عملية تغيير حالة الطلب يرحى المحاولة مجدداً',
+                                                message: 'فشلت عملية تغيير حالة الطلب يرجى المحاولة مجدداً',
                                                 context: context);
                                           }
                                           if (result) {
@@ -548,7 +548,7 @@ class OrdersViewState extends State<OrdersView> {
                                               } else {
                                                 snackBar(
                                                     success: result,
-                                                    message: 'فشلت عملية تعليق الطلب يرحى المحاولة مجدداً',
+                                                    message: 'فشلت عملية تعليق الطلب يرجى المحاولة مجدداً',
                                                     context: context);
                                               }
                                               setState(() {

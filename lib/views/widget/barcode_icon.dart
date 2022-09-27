@@ -43,9 +43,9 @@ class BarcodeIcon extends StatelessWidget {
                     await ProductsServices.setBarcodeToProduct(bareCode: int.parse(barcode), productId: productId);
                 result = (resultBarcode != 'error');
                 if (result) {
-                  snackBar(success: result, message: 'تم إرسال البرمز بنجاح', context: context);
+                  snackBar(success: result, message: 'تم إرسال الرمز بنجاح', context: context);
                 } else {
-                  snackBar(success: result, message: 'فشلت عملية إرسال البرمز يرحى المحاولة مجدداً', context: context);
+                  snackBar(success: result, message: 'فشلت عملية إرسال الرمز يرجى المحاولة مجدداً', context: context);
                 }
                 onAddBarcode(resultBarcode);
               },

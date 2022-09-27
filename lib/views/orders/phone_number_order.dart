@@ -350,7 +350,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                           } else {
                                             snackBar(
                                                 success: false,
-                                                message: 'فشلت عملية تغيير حالة الطلب يرحى المحاولة مجدداً',
+                                                message: 'فشلت عملية تغيير حالة الطلب يرجى المحاولة مجدداً',
                                                 context: context);
                                           }
 
@@ -450,7 +450,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                               } else {
                                                 snackBar(
                                                     success: false,
-                                                    message: 'فشلت عملية إلغاء تعليق الطلب يرحى المحاولة مجدداً',
+                                                    message: 'فشلت عملية إلغاء تعليق الطلب يرجى المحاولة مجدداً',
                                                     context: context);
                                               }
                                               if (result) setState(() => orderDataList[index].underUpdate = '0');
