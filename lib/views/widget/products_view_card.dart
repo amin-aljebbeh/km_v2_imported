@@ -63,7 +63,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                 tag: widget.index + 100,
                 image: widget.productData.images.isNotEmpty
                     ? LoadingScreenServices.imagePrefixUrl + widget.productData.images[0].imageFileName
-                    : "",
+                    : '',
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -83,8 +83,8 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                           children: [
                             const SizedBox(height: 6),
                             Text(
-                              widget.productData.unit != "null"
-                                  ? widget.productData.quantity + " " + widget.productData.unit
+                              widget.productData.unit != 'null'
+                                  ? widget.productData.quantity + ' ' + widget.productData.unit
                                   : widget.productData.quantity,
                               style: TextStyle(
                                   fontWeight: FontWeight.w400, color: greyColor, fontFamily: fontFamily, fontSize: 17),
@@ -92,7 +92,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                             const SizedBox(height: 8),
                             Text(
                                 StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() +
-                                    " ${LoadingScreenServices.companyInformation.currency}",
+                                    ' ${LoadingScreenServices.companyInformation.currency}',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     color: primaryColor,

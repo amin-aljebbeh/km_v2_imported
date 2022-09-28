@@ -182,7 +182,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             Text(priceString + ' :', style: paragraphStyle),
                             const SizedBox(width: 5),
                             Text(
-                                '${StringUtils().oCcy.format(int.parse(widget.product.price.toString().split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
+                                '${StringUtils().oCcy.format(int.parse(price.toString().split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
                                 style: informationStyle),
                           ],
                         ),
@@ -321,7 +321,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                   style:
                                       TextStyle(fontSize: 25, fontWeight: FontWeight.bold, fontFamily: fontFamily)))),
                     KammunButton(
-                      text: '$addToCart  (${StringUtils().oCcy.format(numberOfOrders * int.parse(price.split('.')[0]))})',
+                      text:
+                          '$addToCart  (${StringUtils().oCcy.format(numberOfOrders * int.parse(price.split('.')[0]))})',
                       height: 50,
                       color: Theme.of(context).primaryColor,
                       onTap: () async {
@@ -332,8 +333,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                           widget.product.productCount = numberOfOrders;
                           ProductData productData = widget.product;
                           productData.pivot = OrderProductPivot(increaseValue: widget.product.increasePercentage);
-                          productData.price =
-                              (int.parse(productData.price.split('.')[0]) - productData.pivot.increaseValue).toString();
+                          productData.price = price;
                           CartServices.addProductToCart(productData);
                           snackBar(
                               success: true,
@@ -350,404 +350,452 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         }
                       },
                     ),
-                    Column(
-                      children: [
-                        const SizedBox(height: 30),
-                        UpdateProductInfoWidget(
-                          title: edit + ' ' + priceString + ' :',
-                          inputType: TextInputType.text,
-                          bodyKey: 'price',
-                          productId: widget.product.id,
-                          productData: widget.product,
-                          textHint: price,
-                          increasePercentage: widget.product.increasePercentage,
-                          priceFactor:
-                              widget.product.priceFactor != null ? double.parse(widget.product.priceFactor) : 1,
-                          initialText: price,
-                          onSavePressed: (newValue, result) => setState(() => {
-                                if (result) {widget.product.price = newValue, widget.onChangePrice(newValue)}
-                              }),
-                        ),
-                        UpdateProductInfoWidget(
-                          title: edit + ' ' + supplierCode + ':',
-                          inputType: TextInputType.text,
-                          textHint: widget.product.supplierCode,
-                          initialText: widget.product.supplierCode,
-                          bodyKey: 'supplier_code',
-                          productId: widget.product.id,
-                          productData: widget.product,
-                          onSavePressed: (newValue, result) => setState(() => widget.product.supplierCode = newValue),
-                        ),
-                        UpdateProductInfoWidget(
-                          title: priceFactor + ' :',
-                          inputType: TextInputType.text,
-                          bodyKey: 'price_factor',
-                          productId: widget.product.id,
-                          productData: widget.product,
-                          textHint: widget.product.priceFactor,
-                          initialText: widget.product.priceFactor,
-                          onSavePressed: (newValue, result) => setState(() => widget.product.priceFactor = newValue),
-                        ),
-                        Services.isProductsController() || Services.isAdmin() || Services.isSuperAdmin()
-                            ? Column(
-                                children: [
-                                  UpdateProductInfoWidget(
-                                    title: edit + ' ' + priority + ' :',
-                                    textHint: widget.product.priority.toString(),
-                                    inputType: TextInputType.text,
-                                    bodyKey: 'priority',
-                                    productId: widget.product.id,
-                                    isForSubWarehouse: true,
-                                    productData: widget.product,
-                                    initialText: widget.product.priority.toString(),
-                                    onSavePressed: (newValue, result) =>
-                                        setState(() => widget.product.priority = int.parse(newValue)),
-                                  ),
-                                  UpdateProductInfoWidget(
-                                    title: edit + ' ' + name,
-                                    textHint: widget.product.name,
-                                    inputType: TextInputType.multiline,
-                                    bodyKey: 'name',
-                                    productId: widget.product.id,
-                                    initialText: widget.product.name,
-                                    isForSubWarehouse: false,
-                                    productData: widget.product,
-                                    onSavePressed: (newValue, result) => setState(() => widget.product.name = newValue),
-                                  ),
-                                  UpdateProductInfoWidget(
-                                    title: edit + ' ' + unit + ' :',
-                                    inputType: TextInputType.multiline,
-                                    bodyKey: 'unit',
-                                    productId: widget.product.id,
-                                    isForSubWarehouse: false,
-                                    productData: widget.product,
-                                    textHint: widget.product.unit,
-                                    initialText: widget.product.unit,
-                                    onSavePressed: (newValue, result) =>
-                                        setState(() => {widget.product.unit = newValue, widget.onChangeUnit(newValue)}),
-                                  ),
-                                  UpdateProductInfoWidget(
-                                    title: edit + ' ' + quantity + ' :',
-                                    isForSubWarehouse: false,
-                                    inputType: TextInputType.text,
-                                    productData: widget.product,
-                                    textHint: widget.product.quantity,
-                                    bodyKey: 'quantity',
-                                    productId: widget.product.id,
-                                    initialText: widget.product.quantity,
-                                    onSavePressed: (newValue, result) => setState(
-                                        () => {widget.product.quantity = newValue, widget.onChangeQuantity(newValue)}),
-                                  ),
-                                  UpdateProductInfoWidget(
-                                    title: edit + ' ' + description + ' :',
-                                    textHint: 'الوصف الجديد',
-                                    inputType: TextInputType.multiline,
-                                    bodyKey: 'description',
-                                    productId: widget.product.id,
-                                    isForSubWarehouse: false,
-                                    productData: widget.product,
-                                    initialText: widget.product.description,
-                                    onSavePressed: (newValue, result) =>
-                                        setState(() => widget.product.description = newValue),
-                                  ),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    padding: const EdgeInsets.only(left: 5, right: 5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(width: 5, color: greyColor)),
-                                    child: Center(
-                                      child: DropdownButton(
-                                        style: decisionButtonStyle,
-                                        underline: Container(),
-                                        isExpanded: false,
-                                        items: Services.productSubWarehouseNames(context),
-                                        iconEnabledColor: greyColor,
-                                        value: productSubWarehouseId,
-                                        hint: Text(
-                                          LoadingScreenServices.subWarehouses
-                                              .firstWhere(
-                                                  (subWarehouse) => subWarehouse.id == widget.product.subWarehouseId,
-                                                  orElse: () => SubWarehouse(name: 'غير مضاف'))
-                                              .name,
-                                          style: decisionButtonStyle.copyWith(color: greyColor),
-                                        ),
-                                        onChanged: (value) async {
-                                          setState(() {
-                                            isLoading = true;
-                                            widget.product.warehouses.removeWhere((warehouse) => warehouse.id == 0);
-                                          });
-                                          bool remove = LoadingScreenServices.subWarehouses
-                                              .where((subWarehouse) => subWarehouse.id == widget.product.subWarehouseId)
-                                              .toList()
-                                              .isNotEmpty;
-                                          bool result = await AddedProductsServices.changeProductSubWarehouse(
-                                              widget.product, value, remove);
+                    if (Services.isProductsController() ||
+                        Services.isAdmin() ||
+                        Services.isSuperAdmin() ||
+                        (LoadingScreenServices.subWarehouses
+                            .any((element) => element.id == widget.product.subWarehouseId)))
+                      Column(
+                        children: [
+                          const SizedBox(height: 30),
+                          UpdateProductInfoWidget(
+                            title: edit + ' ' + priceString + ' :',
+                            inputType: TextInputType.text,
+                            bodyKey: 'price',
+                            productId: widget.product.id,
+                            productData: widget.product,
+                            textHint: price,
+                            increasePercentage: widget.product.increasePercentage,
+                            priceFactor:
+                                widget.product.priceFactor != null ? double.parse(widget.product.priceFactor) : 1,
+                            initialText: price,
+                            onSavePressed: (newValue, result) => setState(() => {
+                                  if (result)
+                                    {widget.product.price = newValue, price = newValue, widget.onChangePrice(newValue)}
+                                }),
+                          ),
+                          UpdateProductInfoWidget(
+                            title: edit + ' ' + supplierCode + ':',
+                            inputType: TextInputType.text,
+                            textHint: widget.product.supplierCode,
+                            initialText: widget.product.supplierCode,
+                            bodyKey: 'supplier_code',
+                            productId: widget.product.id,
+                            productData: widget.product,
+                            onSavePressed: (newValue, result) => setState(() => widget.product.supplierCode = newValue),
+                          ),
+                          UpdateProductInfoWidget(
+                            title: priceFactor + ' :',
+                            inputType: TextInputType.text,
+                            bodyKey: 'price_factor',
+                            productId: widget.product.id,
+                            productData: widget.product,
+                            textHint: widget.product.priceFactor,
+                            initialText: widget.product.priceFactor,
+                            onSavePressed: (newValue, result) => setState(() => widget.product.priceFactor = newValue),
+                          ),
+                          Services.isProductsController() || Services.isAdmin() || Services.isSuperAdmin()
+                              ? Column(
+                                  children: [
+                                    UpdateProductInfoWidget(
+                                      title: edit + ' ' + priority + ' :',
+                                      textHint: widget.product.priority.toString(),
+                                      inputType: TextInputType.text,
+                                      bodyKey: 'priority',
+                                      productId: widget.product.id,
+                                      isForSubWarehouse: true,
+                                      productData: widget.product,
+                                      initialText: widget.product.priority.toString(),
+                                      onSavePressed: (newValue, result) =>
+                                          setState(() => widget.product.priority = int.parse(newValue)),
+                                    ),
+                                    UpdateProductInfoWidget(
+                                      title: edit + ' ' + name,
+                                      textHint: widget.product.name,
+                                      inputType: TextInputType.multiline,
+                                      bodyKey: 'name',
+                                      productId: widget.product.id,
+                                      initialText: widget.product.name,
+                                      isForSubWarehouse: false,
+                                      productData: widget.product,
+                                      onSavePressed: (newValue, result) =>
+                                          setState(() => widget.product.name = newValue),
+                                    ),
+                                    UpdateProductInfoWidget(
+                                      title: edit + ' ' + unit + ' :',
+                                      inputType: TextInputType.multiline,
+                                      bodyKey: 'unit',
+                                      productId: widget.product.id,
+                                      isForSubWarehouse: false,
+                                      productData: widget.product,
+                                      textHint: widget.product.unit,
+                                      initialText: widget.product.unit,
+                                      onSavePressed: (newValue, result) => setState(
+                                          () => {widget.product.unit = newValue, widget.onChangeUnit(newValue)}),
+                                    ),
+                                    UpdateProductInfoWidget(
+                                      title: edit + ' ' + quantity + ' :',
+                                      isForSubWarehouse: false,
+                                      inputType: TextInputType.text,
+                                      productData: widget.product,
+                                      textHint: widget.product.quantity,
+                                      bodyKey: 'quantity',
+                                      productId: widget.product.id,
+                                      initialText: widget.product.quantity,
+                                      onSavePressed: (newValue, result) => setState(() =>
+                                          {widget.product.quantity = newValue, widget.onChangeQuantity(newValue)}),
+                                    ),
+                                    UpdateProductInfoWidget(
+                                      title: edit + ' ' + description + ' :',
+                                      textHint: 'الوصف الجديد',
+                                      inputType: TextInputType.multiline,
+                                      bodyKey: 'description',
+                                      productId: widget.product.id,
+                                      isForSubWarehouse: false,
+                                      productData: widget.product,
+                                      initialText: widget.product.description,
+                                      onSavePressed: (newValue, result) =>
+                                          setState(() => widget.product.description = newValue),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: const EdgeInsets.only(left: 5, right: 5),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(6),
+                                          border: Border.all(width: 5, color: greyColor)),
+                                      child: Center(
+                                        child: DropdownButton(
+                                          style: decisionButtonStyle,
+                                          underline: Container(),
+                                          isExpanded: false,
+                                          items: Services.productSubWarehouseNames(context),
+                                          iconEnabledColor: greyColor,
+                                          value: productSubWarehouseId,
+                                          hint: Text(
+                                            LoadingScreenServices.subWarehouses
+                                                .firstWhere(
+                                                    (subWarehouse) => subWarehouse.id == widget.product.subWarehouseId,
+                                                    orElse: () => SubWarehouse(name: 'غير مضاف'))
+                                                .name,
+                                            style: decisionButtonStyle.copyWith(color: greyColor),
+                                          ),
+                                          onChanged: (value) async {
+                                            setState(() {
+                                              isLoading = true;
+                                              widget.product.warehouses.removeWhere((warehouse) => warehouse.id == 0);
+                                            });
+                                            bool remove = LoadingScreenServices.subWarehouses
+                                                .where(
+                                                    (subWarehouse) => subWarehouse.id == widget.product.subWarehouseId)
+                                                .toList()
+                                                .isNotEmpty;
+                                            bool result = await AddedProductsServices.changeProductSubWarehouse(
+                                                widget.product, value, remove);
 
-                                          if (result) {
-                                            snackBar(
-                                                success: result,
-                                                message: 'تم تغيير مستودع المنتج بنجاح',
-                                                context: context);
-                                          } else {
-                                            snackBar(
-                                                success: result,
-                                                message: 'فشلت عملية تغيير مستودع المنتج يرجى المحاولة مجدداً',
-                                                context: context);
-                                          }
-                                          setState(() {
-                                            if (value != null) {
-                                              if (result) productSubWarehouseId = value;
-                                              widget.product.subWarehouseId = int.parse(value);
+                                            if (result) {
+                                              snackBar(
+                                                  success: result,
+                                                  message: 'تم تغيير مستودع المنتج بنجاح',
+                                                  context: context);
+                                            } else {
+                                              snackBar(
+                                                  success: result,
+                                                  message: 'فشلت عملية تغيير مستودع المنتج يرجى المحاولة مجدداً',
+                                                  context: context);
                                             }
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 15),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    padding: const EdgeInsets.only(left: 5, right: 5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(width: 5, color: greyColor)),
-                                    child: Center(
-                                      child: SearchChoices.single(
-                                        rightToLeft: true,
-                                        searchInputDecoration: InputDecoration(
-                                            suffixIcon: Icon(Icons.search, size: 24, color: primaryColor),
-                                            contentPadding: const EdgeInsets.symmetric(vertical: 12)),
-                                        iconDisabledColor: Colors.black,
-                                        displayClearIcon: false,
-                                        style: dropdownItemStyle,
-                                        closeButton: TextButton(
-                                          child: Text(close, style: decisionButtonStyle.copyWith(color: primaryColor)),
-                                          onPressed: () => Navigator.of(context).pop(),
+                                            setState(() {
+                                              if (value != null) {
+                                                if (result) productSubWarehouseId = value;
+                                                widget.product.subWarehouseId = int.parse(value);
+                                              }
+                                            });
+                                          },
                                         ),
-                                        isCaseSensitiveSearch: false,
-                                        underline: Container(),
-                                        isExpanded: false,
-                                        items: LoadingScreenServices.fullCategoryList,
-                                        iconEnabledColor: greyColor,
-                                        value: selectedValueCategoryValue,
-                                        hint: Text('اختيار الصنف التابع له المنتج',
-                                            style: decisionButtonStyle.copyWith(color: greyColor)),
-                                        searchHint:
-                                            Text('إختيار الصنف', style: decisionButtonStyle.copyWith(color: greyColor)),
-                                        onChanged: (value) => setState(() {
-                                          if (value != null) {
-                                            selectedValueCategoryValue = value.toString().split(';')[1];
-                                          }
-                                        }),
                                       ),
                                     ),
-                                  ),
-                                  widget.product.images.isNotEmpty
-                                      ? KammunButton(
-                                          height: 50,
-                                          color: Theme.of(context).primaryColor,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    const SizedBox(height: 15),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      padding: const EdgeInsets.only(left: 5, right: 5),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(6),
+                                          border: Border.all(width: 5, color: greyColor)),
+                                      child: Center(
+                                        child: SearchChoices.single(
+                                          rightToLeft: true,
+                                          searchInputDecoration: InputDecoration(
+                                              suffixIcon: Icon(Icons.search, size: 24, color: primaryColor),
+                                              contentPadding: const EdgeInsets.symmetric(vertical: 12)),
+                                          iconDisabledColor: Colors.black,
+                                          displayClearIcon: false,
+                                          style: dropdownItemStyle,
+                                          closeButton: TextButton(
+                                            child:
+                                                Text(close, style: decisionButtonStyle.copyWith(color: primaryColor)),
+                                            onPressed: () => Navigator.of(context).pop(),
+                                          ),
+                                          isCaseSensitiveSearch: false,
+                                          underline: Container(),
+                                          isExpanded: false,
+                                          items: LoadingScreenServices.fullCategoryList,
+                                          iconEnabledColor: greyColor,
+                                          value: selectedValueCategoryValue,
+                                          hint: Text('اختيار الصنف التابع له المنتج',
+                                              style: decisionButtonStyle.copyWith(color: greyColor)),
+                                          searchHint: Text('إختيار الصنف',
+                                              style: decisionButtonStyle.copyWith(color: greyColor)),
+                                          onChanged: (value) => setState(() {
+                                            if (value != null) {
+                                              selectedValueCategoryValue = value.toString().split(';')[1];
+                                            }
+                                          }),
+                                        ),
+                                      ),
+                                    ),
+                                    widget.product.images.isNotEmpty
+                                        ? KammunButton(
+                                            height: 50,
+                                            color: Theme.of(context).primaryColor,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Text('حذف الصورة',
+                                                    overflow: TextOverflow.clip, style: decisionButtonStyle),
+                                                const Icon(Icons.delete, color: Colors.white, size: 30),
+                                              ],
+                                            ),
+                                            onTap: () async {
+                                              showMyDialog(
+                                                  context: context,
+                                                  title: 'حذف صورة',
+                                                  text: 'هل أنت متأكد من رغبتك في حذف صورة المنتج ؟',
+                                                  dialogButtons: [
+                                                    const CloseWidget(),
+                                                    DialogButton(
+                                                      text: yes,
+                                                      onTap: () async {
+                                                        Navigator.of(context).pop();
+                                                        bool result = await PricesChangesServices.deleteImage(
+                                                            imageId: widget.product.images[0].id);
+                                                        if (result) {
+                                                          snackBar(
+                                                              success: result,
+                                                              message: 'تم حذف صورة المنتج بنجاح',
+                                                              context: context);
+                                                        } else {
+                                                          snackBar(
+                                                              success: result,
+                                                              message:
+                                                                  'فشلت عملية حذف صورة المنتج يرجى المحاولة مجدداً',
+                                                              context: context);
+                                                        }
+                                                      },
+                                                    )
+                                                  ]);
+                                            },
+                                          )
+                                        : Container(),
+                                    KammunButton(
+                                      height: 50,
+                                      text: 'الإضافة لصنف جديد',
+                                      color: Theme.of(context).primaryColor,
+                                      onTap: () async {
+                                        bool result = await _saveCategory(
+                                            categoryId: selectedValueCategoryValue,
+                                            context: context,
+                                            productId: widget.product.id);
+                                        if (result) {
+                                          setState(() {
+                                            widget.product.categories.add(CategoryOriginalData(
+                                                id: int.parse(selectedValueCategoryValue),
+                                                name: LoadingScreenServices.categoryList
+                                                    .firstWhere((category) =>
+                                                        category.id.toString() == selectedValueCategoryValue)
+                                                    .name,
+                                                imageFileName: LoadingScreenServices.categoryList
+                                                    .firstWhere((category) =>
+                                                        category.id.toString() == selectedValueCategoryValue)
+                                                    .imageFileName));
+                                          });
+                                        }
+                                      },
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        if (Services.isProductsController())
+                                          Row(
                                             children: [
-                                              Text('حذف الصورة',
-                                                  overflow: TextOverflow.clip, style: decisionButtonStyle),
-                                              const Icon(Icons.delete, color: Colors.white, size: 30),
+                                              BarcodeIcon(
+                                                productData: widget.product,
+                                                color: kmColors,
+                                                requestType: BarcodeRequestType.addBarcode,
+                                                productId: widget.product.id,
+                                                scaffoldKey: scaffoldKey,
+                                                onAddBarcode: (result) => widget.onAddBarcode(result),
+                                              ),
+                                              IconButton(
+                                                icon: Icon(Icons.list, size: 30, color: kmColors2),
+                                                onPressed: () {
+                                                  showMyDialog(
+                                                    context: context,
+                                                    title: 'باركود',
+                                                    content: Column(
+                                                      children: widget.product.barcodes
+                                                          .map(
+                                                            (barcode) => GestureDetector(
+                                                              child: Column(
+                                                                children: [
+                                                                  const Divider(color: Colors.black, thickness: 1),
+                                                                  Text(barcode.barcode,
+                                                                      style: decisionButtonStyle.copyWith(
+                                                                          color: Colors.black)),
+                                                                  const Divider(color: Colors.black, thickness: 1),
+                                                                ],
+                                                              ),
+                                                              onTap: () {
+                                                                Navigator.of(context).pop();
+                                                                showMyDialog(
+                                                                  context: context,
+                                                                  title: 'إزالة باركود',
+                                                                  dialogButtons: [
+                                                                    DialogButton(
+                                                                      text: yes,
+                                                                      onTap: () async {
+                                                                        bool result =
+                                                                            await ProductsServices.deleteBarcode(
+                                                                                bareCodeId: widget.product.barcodes
+                                                                                    .firstWhere((barcodeToDelete) =>
+                                                                                        barcodeToDelete.barcode ==
+                                                                                        barcode.barcode)
+                                                                                    .id);
+                                                                        Navigator.of(context).pop();
+
+                                                                        if (result) {
+                                                                          setState(() {
+                                                                            widget.product.barcodes.removeWhere(
+                                                                                (barcodeToDelete) =>
+                                                                                    barcodeToDelete.barcode ==
+                                                                                    barcode.barcode);
+                                                                          });
+                                                                          snackBar(
+                                                                              success: result,
+                                                                              message: 'تم حذف الرمز بنجاح',
+                                                                              context: context);
+                                                                        } else {
+                                                                          snackBar(
+                                                                              success: result,
+                                                                              message:
+                                                                                  'فشلت عملية حذف الرمز يرجى المحاولة مجدداً',
+                                                                              context: context);
+                                                                        }
+                                                                      },
+                                                                    ),
+                                                                    DialogButton(
+                                                                        text: no,
+                                                                        onTap: () => Navigator.of(context).pop()),
+                                                                  ],
+                                                                  text:
+                                                                      'هل أنت متأكد أنك ترغب في إزالة الباركود للمنتج ؟',
+                                                                );
+                                                              },
+                                                            ),
+                                                          )
+                                                          .toList(),
+                                                    ),
+                                                    dialogButtons: [const CloseWidget()],
+                                                  );
+                                                },
+                                              ),
                                             ],
                                           ),
-                                          onTap: () async {
-                                            showMyDialog(
-                                                context: context,
-                                                title: 'حذف صورة',
-                                                text: 'هل أنت متأكد من رغبتك في حذف صورة المنتج ؟',
-                                                dialogButtons: [
-                                                  const CloseWidget(),
-                                                  DialogButton(
-                                                    text: yes,
-                                                    onTap: () async {
-                                                      Navigator.of(context).pop();
-                                                      bool result = await PricesChangesServices.deleteImage(
-                                                          imageId: widget.product.images[0].id);
-                                                      if (result) {
-                                                        snackBar(
-                                                            success: result,
-                                                            message: 'تم حذف صورة المنتج بنجاح',
-                                                            context: context);
-                                                      } else {
-                                                        snackBar(
-                                                            success: result,
-                                                            message: 'فشلت عملية حذف صورة المنتج يرجى المحاولة مجدداً',
-                                                            context: context);
-                                                      }
-                                                    },
-                                                  )
-                                                ]);
+                                        AddImageWidget(
+                                          onSubmit: (image) async {
+                                            bool result = await ProductsServices.setImageToProducts(
+                                                productId: widget.product.id, image: image);
+                                            if (result) {
+                                              snackBar(
+                                                  success: result,
+                                                  message: 'تم حفظ صورة المنتج بنجاح',
+                                                  context: context);
+                                            } else {
+                                              snackBar(
+                                                  success: result,
+                                                  message: 'فشلت عملية حفظ صورة المنتج يرجى المحاولة مجدداً',
+                                                  context: context);
+                                            }
                                           },
-                                        )
-                                      : Container(),
-                                  KammunButton(
-                                    height: 50,
-                                    text: 'الإضافة لصنف جديد',
-                                    color: Theme.of(context).primaryColor,
-                                    onTap: () async {
-                                      bool result = await _saveCategory(
-                                          categoryId: selectedValueCategoryValue,
-                                          context: context,
-                                          productId: widget.product.id);
-                                      if (result) {
-                                        setState(() {
-                                          widget.product.categories.add(CategoryOriginalData(
-                                              id: int.parse(selectedValueCategoryValue),
-                                              name: LoadingScreenServices.categoryList
-                                                  .firstWhere((category) =>
-                                                      category.id.toString() == selectedValueCategoryValue)
-                                                  .name,
-                                              imageFileName: LoadingScreenServices.categoryList
-                                                  .firstWhere((category) =>
-                                                      category.id.toString() == selectedValueCategoryValue)
-                                                  .imageFileName));
-                                        });
-                                      }
-                                    },
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      if (Services.isProductsController())
-                                        Row(
-                                          children: [
-                                            BarcodeIcon(
-                                              productData: widget.product,
-                                              color: kmColors,
-                                              requestType: BarcodeRequestType.addBarcode,
-                                              productId: widget.product.id,
-                                              scaffoldKey: scaffoldKey,
-                                              onAddBarcode: (result) => widget.onAddBarcode(result),
-                                            ),
-                                            IconButton(
-                                              icon: Icon(Icons.list, size: 30, color: kmColors2),
-                                              onPressed: () {
-                                                showMyDialog(
-                                                  context: context,
-                                                  title: 'باركود',
-                                                  content: Column(
-                                                    children: widget.product.barcodes
-                                                        .map(
-                                                          (barcode) => GestureDetector(
-                                                            child: Column(
-                                                              children: [
-                                                                const Divider(color: Colors.black, thickness: 1),
-                                                                Text(barcode.barcode,
-                                                                    style: decisionButtonStyle.copyWith(
-                                                                        color: Colors.black)),
-                                                                const Divider(color: Colors.black, thickness: 1),
-                                                              ],
-                                                            ),
-                                                            onTap: () {
-                                                              Navigator.of(context).pop();
-                                                              showMyDialog(
-                                                                context: context,
-                                                                title: 'إزالة باركود',
-                                                                dialogButtons: [
-                                                                  DialogButton(
-                                                                    text: yes,
-                                                                    onTap: () async {
-                                                                      bool result =
-                                                                          await ProductsServices.deleteBarcode(
-                                                                              bareCodeId: widget.product.barcodes
-                                                                                  .firstWhere((barcodeToDelete) =>
-                                                                                      barcodeToDelete.barcode ==
-                                                                                      barcode.barcode)
-                                                                                  .id);
-                                                                      Navigator.of(context).pop();
-
-                                                                      if (result) {
-                                                                        setState(() {
-                                                                          widget.product.barcodes.removeWhere(
-                                                                              (barcodeToDelete) =>
-                                                                                  barcodeToDelete.barcode ==
-                                                                                  barcode.barcode);
-                                                                        });
-                                                                        snackBar(
-                                                                            success: result,
-                                                                            message: 'تم حذف الرمز بنجاح',
-                                                                            context: context);
-                                                                      } else {
-                                                                        snackBar(
-                                                                            success: result,
-                                                                            message:
-                                                                                'فشلت عملية حذف الرمز يرجى المحاولة مجدداً',
-                                                                            context: context);
-                                                                      }
-                                                                    },
-                                                                  ),
-                                                                  DialogButton(
-                                                                      text: no,
-                                                                      onTap: () => Navigator.of(context).pop()),
-                                                                ],
-                                                                text:
-                                                                    'هل أنت متأكد أنك ترغب في إزالة الباركود للمنتج ؟',
-                                                              );
-                                                            },
-                                                          ),
-                                                        )
-                                                        .toList(),
-                                                  ),
-                                                  dialogButtons: [const CloseWidget()],
-                                                );
-                                              },
-                                            ),
-                                          ],
                                         ),
-                                      AddImageWidget(
-                                        onSubmit: (image) async {
-                                          bool result = await ProductsServices.setImageToProducts(
-                                              productId: widget.product.id, image: image);
-                                          if (result) {
-                                            snackBar(
-                                                success: result, message: 'تم حفظ صورة المنتج بنجاح', context: context);
-                                          } else {
-                                            snackBar(
-                                                success: result,
-                                                message: 'فشلت عملية حفظ صورة المنتج يرجى المحاولة مجدداً',
-                                                context: context);
-                                          }
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  (Services.isAdmin() || Services.isProductsController())
-                                      ? Column(
-                                          children: [
-                                            if (LoadingScreenServices.subWarehouses
-                                                .any((element) => element.id == widget.product.subWarehouseId))
+                                      ],
+                                    ),
+                                    (Services.isAdmin() || Services.isProductsController())
+                                        ? Column(
+                                            children: [
+                                              if (LoadingScreenServices.subWarehouses
+                                                  .any((element) => element.id == widget.product.subWarehouseId))
+                                                KammunButton(
+                                                  height: 50,
+                                                  text: 'إزالة من المستودع',
+                                                  color: Colors.red,
+                                                  onTap: () {
+                                                    List<DialogButton> dialogButtons = [
+                                                      DialogButton(
+                                                        text: yes,
+                                                        onTap: () async {
+                                                          bool result = await AddedProductsServices
+                                                              .unAttachProductsToSubWarehouseService(
+                                                                  productsId: widget.product.id.toString(),
+                                                                  subWarehouse:
+                                                                      widget.product.subWarehouseId.toString());
+                                                          if (result) {
+                                                            int count = 0;
+                                                            Navigator.of(context).popUntil((_) => count++ >= 1);
+                                                          }
+                                                          if (result) {
+                                                            snackBar(
+                                                                success: result,
+                                                                message: 'تم إزالة المنتج من المستودع بنجاح',
+                                                                context: context);
+                                                          } else {
+                                                            snackBar(
+                                                                success: result,
+                                                                message:
+                                                                    'فشلت عملية إزالة المنتج من المستودع يرجى المحاولة مجدداً',
+                                                                context: context);
+                                                          }
+                                                        },
+                                                      ),
+                                                      DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
+                                                    ];
+                                                    showMyDialog(
+                                                        context: context,
+                                                        title: '',
+                                                        text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
+                                                        dialogButtons: dialogButtons);
+                                                  },
+                                                ),
                                               KammunButton(
                                                 height: 50,
-                                                text: 'إزالة من المستودع',
+                                                text: 'حذف المنتج',
                                                 color: Colors.red,
                                                 onTap: () {
                                                   List<DialogButton> dialogButtons = [
                                                     DialogButton(
                                                       text: yes,
                                                       onTap: () async {
-                                                        bool result = await AddedProductsServices
-                                                            .unAttachProductsToSubWarehouseService(
-                                                                productsId: widget.product.id.toString(),
-                                                                subWarehouse: widget.product.subWarehouseId.toString());
+                                                        bool result = await ProductsServices.deleteProductService(
+                                                            widget.product.id.toString());
                                                         if (result) {
                                                           int count = 0;
-                                                          Navigator.of(context).popUntil((_) => count++ >= 1);
-                                                        }
-                                                        if (result) {
+                                                          Navigator.of(context).popUntil((_) => count++ >= 2);
                                                           snackBar(
                                                               success: result,
-                                                              message: 'تم إزالة المنتج من المستودع بنجاح',
+                                                              message: 'تم حذف المنتج بنجاح',
                                                               context: context);
                                                         } else {
                                                           snackBar(
                                                               success: result,
-                                                              message:
-                                                                  'فشلت عملية إزالة المنتج من المستودع يرجى المحاولة مجدداً',
+                                                              message: 'فشلت عملية حذف المنتج يرجى المحاولة مجدداً',
                                                               context: context);
                                                         }
                                                       },
@@ -757,94 +805,63 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                   showMyDialog(
                                                       context: context,
                                                       title: '',
-                                                      text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
+                                                      text: 'هل تريد حذف ${widget.product.name} نهائياً ؟',
                                                       dialogButtons: dialogButtons);
                                                 },
                                               ),
-                                            KammunButton(
-                                              height: 50,
-                                              text: 'حذف المنتج',
-                                              color: Colors.red,
-                                              onTap: () {
-                                                List<DialogButton> dialogButtons = [
-                                                  DialogButton(
-                                                    text: yes,
-                                                    onTap: () async {
-                                                      bool result = await ProductsServices.deleteProductService(
-                                                          widget.product.id.toString());
-                                                      if (result) {
-                                                        int count = 0;
-                                                        Navigator.of(context).popUntil((_) => count++ >= 2);
-                                                        snackBar(
-                                                            success: result,
-                                                            message: 'تم حذف المنتج بنجاح',
-                                                            context: context);
-                                                      } else {
-                                                        snackBar(
-                                                            success: result,
-                                                            message: 'فشلت عملية حذف المنتج يرجى المحاولة مجدداً',
-                                                            context: context);
-                                                      }
-                                                    },
-                                                  ),
-                                                  DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
-                                                ];
-                                                showMyDialog(
-                                                    context: context,
-                                                    title: '',
-                                                    text: 'هل تريد حذف ${widget.product.name} نهائياً ؟',
-                                                    dialogButtons: dialogButtons);
+                                            ],
+                                          )
+                                        : Container(),
+                                    const SizedBox(height: 30),
+                                  ],
+                                )
+                              : Services.isSupplierManager() &&
+                                      (LoadingScreenServices.subWarehouses
+                                          .any((element) => element.id == widget.product.subWarehouseId))
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(bottom: 20.0),
+                                      child: KammunButton(
+                                        height: 50,
+                                        text: 'إزالة من المستودع',
+                                        color: Colors.red,
+                                        onTap: () {
+                                          List<DialogButton> dialogButtons = [
+                                            DialogButton(
+                                              text: yes,
+                                              onTap: () async {
+                                                bool result =
+                                                    await AddedProductsServices.unAttachProductsToSubWarehouseService(
+                                                        productsId: widget.product.id.toString(),
+                                                        subWarehouse: widget.product.subWarehouseId.toString());
+                                                if (result) {
+                                                  int count = 0;
+                                                  Navigator.of(context).popUntil((_) => count++ >= 1);
+                                                  snackBar(
+                                                      success: result,
+                                                      message: 'تم إزالة المنتج من المستودع بنجاح',
+                                                      context: context);
+                                                } else {
+                                                  snackBar(
+                                                      success: result,
+                                                      message:
+                                                          'فشلت عملية إزالة المنتج من المستودع يرجى المحاولة مجدداً',
+                                                      context: context);
+                                                }
                                               },
                                             ),
-                                          ],
-                                        )
-                                      : Container(),
-                                  const SizedBox(height: 30),
-                                ],
-                              )
-                            : Services.isSupplierManager() &&
-                                    (LoadingScreenServices.subWarehouses
-                                        .any((element) => element.id == widget.product.subWarehouseId))
-                                ? KammunButton(
-                                    height: 50,
-                                    text: 'إزالة من المستودع',
-                                    color: Colors.red,
-                                    onTap: () {
-                                      List<DialogButton> dialogButtons = [
-                                        DialogButton(
-                                          text: yes,
-                                          onTap: () async {
-                                            bool result =
-                                                await AddedProductsServices.unAttachProductsToSubWarehouseService(
-                                                    productsId: widget.product.id.toString(),
-                                                    subWarehouse: widget.product.subWarehouseId.toString());
-                                            if (result) {
-                                              int count = 0;
-                                              Navigator.of(context).popUntil((_) => count++ >= 1);
-                                              snackBar(
-                                                  success: result,
-                                                  message: 'تم إزالة المنتج من المستودع بنجاح',
-                                                  context: context);
-                                            } else {
-                                              snackBar(
-                                                  success: result,
-                                                  message: 'فشلت عملية إزالة المنتج من المستودع يرجى المحاولة مجدداً',
-                                                  context: context);
-                                            }
-                                          },
-                                        ),
-                                        DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
-                                      ];
-                                      showMyDialog(
-                                          context: context,
-                                          title: '',
-                                          text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
-                                          dialogButtons: dialogButtons);
-                                    },
-                                  )
-                                : Container(),
-                      ],
-                    ),
+                                            DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
+                                          ];
+                                          showMyDialog(
+                                              context: context,
+                                              title: '',
+                                              text: 'هل تريد إزالة ${widget.product.name} من المستودع ؟',
+                                              dialogButtons: dialogButtons);
+                                        },
+                                      ),
+                                    )
+                                  : Container(),
+                        ],
+                      ),
                   ],
                 ),
               ),
