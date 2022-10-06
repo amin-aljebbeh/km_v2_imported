@@ -2,6 +2,7 @@ import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 
 import '../../core/core_importer.dart';
+import 'model/change_status_response_model.dart';
 import 'services/order_services.dart';
 
 class AssignedOrdersView extends StatefulWidget {
@@ -212,12 +213,13 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                       changeStatus = 5;
                                     }
 
-                                    bool x = await OrderServices.changeOrderStatusService(
+                                    ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
                                         orderDataList[index].id.toString(), changeStatus);
 
-                                    if (x) {
+                                    if (x.success) {
                                       setState(() {
-                                        orderDataList[index].orderStatusId = changeStatus.toString();
+                                        orderDataList[index] = x.order;
+                                        LoadingScreenServices.myOrdersList[index] = x.order;
                                         isLoading = false;
                                       });
                                     } else {
@@ -282,42 +284,6 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                             dialogButtons: [const CloseWidget()]);
                                       },
                                       color: Colors.indigoAccent,
-                                    )
-                                  : Container(),
-                              orderDataList[index].underUpdate.toString() != '0'
-                                  ? KammunButton(
-                                      text: unLock,
-                                      onTap: () {
-                                        int orderId = orderDataList[index].id;
-                                        List<Widget> decisionButtons = [
-                                          DialogButton(
-                                            text: 'نعم',
-                                            onTap: () async {
-                                              Navigator.of(context).pop();
-                                              bool result = await OrderServices.unlockOrderService(orderId.toString());
-                                              if (result) {
-                                                snackBar(
-                                                    success: result, message: 'تم تعليق الطلب بنجاح', context: context);
-                                              } else {
-                                                snackBar(
-                                                    success: result,
-                                                    message: 'فشلت عملية تعليق الطلب يرجى المحاولة مجدداً',
-                                                    context: context);
-                                              }
-                                              if (result) setState(() => orderDataList[index].underUpdate = '0');
-                                            },
-                                          ),
-                                          const CloseWidget()
-                                        ];
-
-                                        showMyDialog(
-                                            context: context,
-                                            title: 'إلغاء التعليق',
-                                            text:
-                                                'هل أنت متأكد انك تريد إلغاء تعليق الطلب قيامك بهذه العملية قد يلغي التعديلات التي يقوم بها الزبون او شريكك في العمل',
-                                            dialogButtons: decisionButtons);
-                                      },
-                                      color: Colors.blue[800],
                                     )
                                   : Container(),
                               Padding(

@@ -2,6 +2,7 @@ import 'package:kammun_app/views/cart/services/cart_services.dart';
 
 import '../../core/core_importer.dart';
 import '../loading/loading_services.dart';
+import 'model/change_status_response_model.dart';
 import 'services/order_services.dart';
 
 class OrderByID extends StatefulWidget {
@@ -126,12 +127,13 @@ class _OrderByIDState extends State<OrderByID> {
                                       changeStatus = 5;
                                     }
 
-                                    bool x =
+                                    ChangeOrderStatusModel x =
                                         await OrderServices.changeOrderStatusService(order.id.toString(), changeStatus);
 
-                                    if (x) {
+                                    if (x.success) {
                                       setState(() {
-                                        order.orderStatusId = changeStatus.toString();
+                                        order = x.order;
+                                        LoadingScreenServices.phoneOrderList = [x.order];
                                         isLoading = false;
                                       });
                                     } else {
@@ -154,12 +156,13 @@ class _OrderByIDState extends State<OrderByID> {
                                           setState(() => {isLoading = true, errorMessage = false});
                                           changeStatus = 7;
 
-                                          bool x = await OrderServices.changeOrderStatusService(
+                                          ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
                                               order.id.toString(), changeStatus);
 
-                                          if (x) {
+                                          if (x.success) {
                                             setState(() {
-                                              order.orderStatusId = changeStatus.toString();
+                                              order = x.order;
+                                              LoadingScreenServices.phoneOrderList = [x.order];
                                               isLoading = false;
                                             });
                                           } else {
@@ -189,12 +192,13 @@ class _OrderByIDState extends State<OrderByID> {
                                           setState(() => {isLoading = true, errorMessage = false});
                                           changeStatus = 6;
 
-                                          bool x = await OrderServices.changeOrderStatusService(
+                                          ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
                                               order.id.toString(), changeStatus);
 
-                                          if (x) {
+                                          if (x.success) {
                                             setState(() {
-                                              order.orderStatusId = changeStatus.toString();
+                                              order = x.order;
+                                              LoadingScreenServices.phoneOrderList = [x.order];
                                               isLoading = false;
                                             });
                                           } else {
@@ -233,18 +237,23 @@ class _OrderByIDState extends State<OrderByID> {
                                     });
                                     changeStatus = 1;
 
-                                    bool result =
+                                    ChangeOrderStatusModel result =
                                         await OrderServices.changeOrderStatusService(order.id.toString(), changeStatus);
-                                    if (result) {
-                                      snackBar(success: result, message: 'تم تغيير حالة الطلب بنجاح', context: context);
+                                    if (result.success) {
+                                      snackBar(
+                                          success: result.success,
+                                          message: 'تم تغيير حالة الطلب بنجاح',
+                                          context: context);
+                                      order = result.order;
+                                      LoadingScreenServices.phoneOrderList = [result.order];
                                     } else {
                                       snackBar(
-                                          success: result,
+                                          success: result.success,
                                           message: 'فشلت عملية تغيير حالة الطلب يرجى المحاولة مجدداً',
                                           context: context);
                                     }
 
-                                    if (result) {
+                                    if (result.success) {
                                       setState(() {
                                         order.orderStatusId = changeStatus.toString();
                                         isLoading = false;

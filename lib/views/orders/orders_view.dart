@@ -2,6 +2,7 @@ import 'package:kammun_app/views/cart/services/cart_services.dart';
 import 'package:kammun_app/views/loading/loading_services.dart';
 
 import '../../core/core_importer.dart';
+import 'model/change_status_response_model.dart';
 import 'services/order_services.dart';
 
 class OrdersView extends StatefulWidget {
@@ -16,7 +17,6 @@ class OrdersViewState extends State<OrdersView> {
   TextEditingController pageController;
   TextEditingController idController;
   TextEditingController phoneController;
-  static GlobalKey<FormState> formKey;
   Future getOrders;
   int rateValue;
 
@@ -26,7 +26,6 @@ class OrdersViewState extends State<OrdersView> {
     phoneController = TextEditingController();
     idController = TextEditingController();
     orderDataList = [];
-    formKey = GlobalKey<FormState>();
     warehouses = ['جميع المستودعات'];
     warehouses.addAll(LoadingScreenServices.warehouses.map((warehouse) => warehouse.name).toList());
     rateValue = 0;
@@ -161,11 +160,7 @@ class OrdersViewState extends State<OrdersView> {
                               value: ordersTypeFilter,
                               items: Services.dropdownStringList(orderTypes),
                               onChanged: (value) {
-                                setState(() {
-                                  ordersTypeFilter = value;
-                                  page = 1;
-                                  indexPage = 1;
-                                });
+                                setState(() => {ordersTypeFilter = value, page = 1, indexPage = 1});
                                 _getOrder();
                               },
                             ),
@@ -184,10 +179,7 @@ class OrdersViewState extends State<OrdersView> {
                                       onChoose: () {}),
                                   IconButton(
                                     onPressed: () {
-                                      setState(() {
-                                        indexPage++;
-                                        if (page < 15) page++;
-                                      });
+                                      setState(() => {indexPage++, if (page < 15) page++});
                                       _getOrder();
                                     },
                                     icon: Icon(Icons.arrow_back, size: 40, color: kmColors),
@@ -196,10 +188,7 @@ class OrdersViewState extends State<OrdersView> {
                                     value: page,
                                     items: Services.dropdownIntList(dropdownValues),
                                     onChanged: (value) {
-                                      setState(() {
-                                        page = value;
-                                        indexPage = value;
-                                      });
+                                      setState(() => {page = value, indexPage = value});
                                       _getOrder();
                                     },
                                   ),
@@ -221,11 +210,7 @@ class OrdersViewState extends State<OrdersView> {
                                       value: warehouseFilter,
                                       items: Services.dropdownStringList(warehouses),
                                       onChanged: (value) {
-                                        setState(() {
-                                          warehouseFilter = value;
-                                          page = 1;
-                                          indexPage = 1;
-                                        });
+                                        setState(() => {warehouseFilter = value, page = 1, indexPage = 1});
                                         _getOrder();
                                       },
                                     ),
@@ -310,10 +295,7 @@ class OrdersViewState extends State<OrdersView> {
                                                 : Colors.cyan[700],
                                         onTap: () async {
                                           int changeStatus = 0;
-                                          setState(() {
-                                            isLoading = true;
-                                            errorMessage = false;
-                                          });
+                                          setState(() => {isLoading = true, errorMessage = false});
                                           if (orderDataList[index].orderStatusId == '1') {
                                             changeStatus = 2;
                                           } else if (orderDataList[index].orderStatusId == '2') {
@@ -324,19 +306,16 @@ class OrdersViewState extends State<OrdersView> {
                                             changeStatus = 5;
                                           }
 
-                                          bool x = await OrderServices.changeOrderStatusService(
+                                          ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
                                               orderDataList[index].id.toString(), changeStatus);
-
-                                          if (x) {
+                                          if (x.success) {
                                             setState(() {
-                                              orderDataList[index].orderStatusId = changeStatus.toString();
+                                              orderDataList[index] = x.order;
+                                              LoadingScreenServices.allOrdersList[index] = x.order;
                                               isLoading = false;
                                             });
                                           } else {
-                                            setState(() {
-                                              isLoading = false;
-                                              errorMessage = true;
-                                            });
+                                            setState(() => {isLoading = false, errorMessage = true});
                                           }
                                         },
                                       ),
@@ -349,25 +328,20 @@ class OrdersViewState extends State<OrdersView> {
                                                 int changeStatus = 0;
                                                 Navigator.of(context).pop();
 
-                                                setState(() {
-                                                  isLoading = true;
-                                                  errorMessage = false;
-                                                });
+                                                setState(() => {isLoading = true, errorMessage = false});
                                                 changeStatus = 7;
 
-                                                bool x = await OrderServices.changeOrderStatusService(
+                                                ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
                                                     orderDataList[index].id.toString(), changeStatus);
 
-                                                if (x) {
+                                                if (x.success) {
                                                   setState(() {
-                                                    orderDataList[index].orderStatusId = changeStatus.toString();
+                                                    orderDataList[index] = x.order;
+                                                    LoadingScreenServices.allOrdersList[index] = x.order;
                                                     isLoading = false;
                                                   });
                                                 } else {
-                                                  setState(() {
-                                                    isLoading = false;
-                                                    errorMessage = true;
-                                                  });
+                                                  setState(() => {isLoading = false, errorMessage = true});
                                                 }
                                               },
                                             ),
@@ -390,25 +364,20 @@ class OrdersViewState extends State<OrdersView> {
                                                 int changeStatus = 0;
                                                 Navigator.of(context).pop();
 
-                                                setState(() {
-                                                  isLoading = true;
-                                                  errorMessage = false;
-                                                });
+                                                setState(() => {isLoading = true, errorMessage = false});
                                                 changeStatus = 6;
 
-                                                bool x = await OrderServices.changeOrderStatusService(
+                                                ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
                                                     orderDataList[index].id.toString(), changeStatus);
 
-                                                if (x) {
+                                                if (x.success) {
                                                   setState(() {
-                                                    orderDataList[index].orderStatusId = changeStatus.toString();
+                                                    orderDataList[index] = x.order;
+                                                    LoadingScreenServices.allOrdersList[index] = x.order;
                                                     isLoading = false;
                                                   });
                                                 } else {
-                                                  setState(() {
-                                                    isLoading = false;
-                                                    errorMessage = true;
-                                                  });
+                                                  setState(() => {isLoading = false, errorMessage = true});
                                                 }
                                               },
                                             ),
@@ -437,35 +406,31 @@ class OrdersViewState extends State<OrdersView> {
                                           int changeStatus = 0;
                                           Navigator.of(context).pop();
 
-                                          setState(() {
-                                            isLoading = true;
-                                            errorMessage = false;
-                                          });
+                                          setState(() => {isLoading = true, errorMessage = false});
                                           changeStatus = 1;
 
-                                          bool result = await OrderServices.changeOrderStatusService(
+                                          ChangeOrderStatusModel result = await OrderServices.changeOrderStatusService(
                                               orderDataList[index].id.toString(), changeStatus);
-                                          if (result) {
+                                          if (result.success) {
                                             snackBar(
-                                                success: result,
+                                                success: result.success,
                                                 message: 'تم تغيير حالة الطلب بنجاح',
                                                 context: context);
+                                            orderDataList[index] = result.order;
+                                            LoadingScreenServices.allOrdersList[index] = result.order;
                                           } else {
                                             snackBar(
-                                                success: result,
+                                                success: result.success,
                                                 message: 'فشلت عملية تغيير حالة الطلب يرجى المحاولة مجدداً',
                                                 context: context);
                                           }
-                                          if (result) {
+                                          if (result.success) {
                                             setState(() {
                                               orderDataList[index].orderStatusId = changeStatus.toString();
                                               isLoading = false;
                                             });
                                           } else {
-                                            setState(() {
-                                              isLoading = false;
-                                              errorMessage = true;
-                                            });
+                                            setState(() => {isLoading = false, errorMessage = true});
                                           }
                                         },
                                       ),
@@ -481,10 +446,7 @@ class OrdersViewState extends State<OrdersView> {
                               KammunButton(
                                 text: editOrder,
                                 onTap: () async {
-                                  setState(() {
-                                    orderLoaded = false;
-                                    errorMessage = false;
-                                  });
+                                  setState(() => {orderLoaded = false, errorMessage = false});
                                   LockOrder response = await OrderServices.lockOrderService(
                                       orderId: orderDataList[index].id.toString(),
                                       userNote: orderDataList[index].userNotes,
