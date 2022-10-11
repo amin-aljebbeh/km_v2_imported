@@ -176,10 +176,9 @@ class _OrderAccountingState extends State<OrderAccounting> {
                           image: image, orderId: widget.orderData.id.toString());
                       if (result) {
                         snackBar(success: result, message: 'نجحت عملية إضافة الصورة', context: context);
-                      } else {}
-                      setState(() {
+                      } else {
                         snackBar(success: result, message: 'فشلت عملية إضافة الصورة', context: context);
-                      });
+                      }
                     },
                   ),
                   if (Services.isOperationManager())
