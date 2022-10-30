@@ -104,8 +104,8 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                         ? Center(
                             child: AlertMessages(
                               text: errorMessage,
-                              messageType: "internetError",
-                              headerText: "حدث خطأ أثناء رفع الملف",
+                              messageType: 'internetError',
+                              headerText: 'حدث خطأ أثناء رفع الملف',
                             ),
                           )
                         : loading
@@ -114,7 +114,7 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                 ? Center(
                                     child: AlertMessages(
                                       text: 'لا يوجد منتجات في هذا القسم',
-                                      messageType: "Successfully",
+                                      messageType: 'Successfully',
                                       headerText: 'لا يوجد منتجات في هذا القسم',
                                     ),
                                   )
@@ -179,10 +179,11 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
                                         supplierCode: supplierCode,
                                         scaffoldKey: scaffoldKey,
                                         productData: showList[index],
-                                        price: showList[index].price,
+                                        price: (int.parse(showList[index].price.split('.')[0]) +
+                                                int.parse(showList[index].priceChange.split('.')[0]))
+                                            .toString(),
                                         fromInventory: false,
-                                        oldPrice: int.parse(showList[index].price.split(".")[0]) -
-                                            int.parse(showList[index].priceChange.toString().split(".")[0]),
+                                        oldPrice: int.parse(showList[index].price.split('.')[0]),
                                         onChangeStatus: (result) {
                                           if (result) setState(() => showList[index] = showList.removeLast());
                                         },

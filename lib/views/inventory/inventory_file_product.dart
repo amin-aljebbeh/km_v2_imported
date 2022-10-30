@@ -9,6 +9,7 @@ class InventoryFileProduct extends StatefulWidget {
   final String subWarehouseId;
 
   const InventoryFileProduct({Key key, @required this.subWarehouseId, @required this.file}) : super(key: key);
+
   @override
   _InventoryFileProductState createState() => _InventoryFileProductState();
 }
@@ -96,10 +97,7 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                           padding: const EdgeInsets.all(10.0),
                           child: KammunButton(
                             onTap: () {
-                              setState(() {
-                                sent = true;
-                                loading = true;
-                              });
+                              setState(() => {sent = true, loading = true});
                               loadData();
                             },
                             color: primaryColor,
@@ -111,18 +109,17 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                     : error
                         ? Center(
                             child: AlertMessages(
-                              text: errorMessage,
-                              messageType: "internetError",
-                              headerText: "حدث خطأ أثناء رفع الملف",
-                            ),
-                          )
+                            text: errorMessage,
+                            messageType: 'internetError',
+                            headerText: 'حدث خطأ أثناء رفع الملف',
+                          ))
                         : loading
                             ? const Loader()
                             : showList.isEmpty
                                 ? Center(
                                     child: AlertMessages(
                                       text: 'لا يوجد منتجات في هذا القسم',
-                                      messageType: "Successfully",
+                                      messageType: 'Successfully',
                                       headerText: 'لا يوجد منتجات في هذا القسم',
                                     ),
                                   )
@@ -189,8 +186,6 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                                         productData: showList[index],
                                         price: showList[index].price,
                                         fromInventory: false,
-                                        oldPrice: int.parse(showList[index].price.split(".")[0]) -
-                                            int.parse(showList[index].priceChange.toString().split(".")[0]),
                                         onChangeStatus: (result) {
                                           if (result) setState(() => showList.removeAt(index));
                                         },

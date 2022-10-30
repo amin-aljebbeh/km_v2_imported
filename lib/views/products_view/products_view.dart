@@ -94,7 +94,9 @@ class ProductsViewState extends State<ProductsView> {
               firstLoading = false;
             });
           }
-        } catch (e) {/**/}
+        } catch (e) {
+          /**/
+        }
       } else {
         return false;
       }
@@ -190,10 +192,7 @@ class ProductsViewState extends State<ProductsView> {
                 StoreSearchTextField(
                   scaffoldKey: scaffoldKey,
                   searchController: searchController,
-                  onSubmit: () => setState(() {
-                    productsList.clear();
-                    Navigator.of(context).pop();
-                  }),
+                  onSubmit: () => setState(() => {productsList.clear(), Navigator.of(context).pop()}),
                 ),
               ],
             ),
@@ -220,10 +219,7 @@ class ProductsViewState extends State<ProductsView> {
                           child: NotificationListener<ScrollNotification>(
                             onNotification: (ScrollNotification scrollInfo) {
                               if (!isLoading && scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent) {
-                                setState(() {
-                                  page++;
-                                  isLoading = true;
-                                });
+                                setState(() => {page++, isLoading = true});
                                 searchController.text != ''
                                     ? _loadData(searchController.text, ProductsViewTypes.search)
                                     : _loadData(widget.categoryId, ProductsViewTypes.category);

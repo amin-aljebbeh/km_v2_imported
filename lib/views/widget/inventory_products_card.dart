@@ -147,39 +147,37 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                     fontSize: 18,
                                   ),
                                 ),
-                                widget.oldPrice != null
-                                    ? RichText(
+                                if (widget.oldPrice != null)
+                                  if (widget.oldPrice.toString() != price)
+                                    RichText(
                                         text: TextSpan(
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                              text: StringUtils()
-                                                  .oCcy
-                                                  .format(widget.oldPrice - widget.productData.increasePercentage)
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                  color: Colors.grey, decoration: TextDecoration.lineThrough)),
-                                        ],
-                                      ))
-                                    : widget.productData.alertProductsCount != 'null'
-                                        ? RichText(
-                                            text: TextSpan(
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: StringUtils()
-                                                      .oCcy
-                                                      .format(int.parse(widget.productData.alertProductsCount)),
-                                                  style:
-                                                      TextStyle(color: kmColors, fontFamily: fontFamily, fontSize: 14),
-                                                ),
-                                                TextSpan(
-                                                  text: 'ينتظرون تفعيل  المنتج',
-                                                  style:
-                                                      TextStyle(color: kmColors, fontFamily: fontFamily, fontSize: 14),
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        : Container(),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: StringUtils()
+                                                .oCcy
+                                                .format(widget.oldPrice - widget.productData.increasePercentage)
+                                                .toString(),
+                                            style: const TextStyle(
+                                                color: Colors.grey, decoration: TextDecoration.lineThrough)),
+                                      ],
+                                    )),
+                                if (widget.productData.alertProductsCount != 'null')
+                                  RichText(
+                                    text: TextSpan(
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: StringUtils()
+                                              .oCcy
+                                              .format(int.parse(widget.productData.alertProductsCount)),
+                                          style: TextStyle(color: kmColors, fontFamily: fontFamily, fontSize: 14),
+                                        ),
+                                        TextSpan(
+                                          text: 'ينتظرون تفعيل  المنتج',
+                                          style: TextStyle(color: kmColors, fontFamily: fontFamily, fontSize: 14),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                               ],
                             ),
                           ],

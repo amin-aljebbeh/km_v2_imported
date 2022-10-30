@@ -170,8 +170,7 @@ class _PricesState extends State<Prices> {
                                   fromInventory: true,
                                   productData: productsList.productsPriceChange[index],
                                   oldPrice: int.parse(productsList.productsPriceChange[index].price.split('.')[0]) -
-                                      int.parse(
-                                          productsList.productsPriceChange[index].priceChange.toString().split('.')[0]),
+                                      int.parse(productsList.productsPriceChange[index].priceChange.split('.')[0]),
                                   onChangePrice: (newValue) =>
                                       setState(() => productsList.productsPriceChange[index].price = newValue),
                                   onChangeUnit: (newValue) =>

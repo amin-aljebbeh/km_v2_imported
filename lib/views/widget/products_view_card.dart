@@ -12,16 +12,16 @@ class ProductsViewCard extends StatefulWidget {
   final Function(String) onChangePrice;
   final Function(String) onChangeUnit;
   final Function(String) onChangeQuantity;
-  const ProductsViewCard(
-      {Key key,
-      this.index,
-      this.productData,
-      this.scaffoldKey,
-      this.onAddBarcode,
-      this.onChangePrice,
-      this.onChangeUnit,
-      this.onChangeQuantity})
-      : super(key: key);
+  const ProductsViewCard({
+    Key key,
+    this.index,
+    this.productData,
+    this.scaffoldKey,
+    this.onAddBarcode,
+    this.onChangePrice,
+    this.onChangeUnit,
+    this.onChangeQuantity,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ProductsViewCardState();
