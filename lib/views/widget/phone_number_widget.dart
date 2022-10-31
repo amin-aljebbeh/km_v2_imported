@@ -13,16 +13,10 @@ class PhoneNumberWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Divider(
-          thickness: 1,
-          color: kmColors,
-        ),
-        LabelRow(rightSideText: phoneNumber, leftSideText: phoneNumber, leftSideStyle: informationStyle),
-        LabelRow(rightSideText: name + " ", leftSideText: userName, leftSideStyle: informationStyle),
-        Divider(
-          thickness: 1,
-          color: kmColors,
-        ),
+        Divider(thickness: 1, color: kmColors),
+        LabelRow(rightSideText: phoneNumberString, leftSideText: phoneNumber, leftSideStyle: informationStyle),
+        LabelRow(rightSideText: name + ' ', leftSideText: userName, leftSideStyle: informationStyle),
+        Divider(thickness: 1, color: kmColors),
       ],
     );
   }

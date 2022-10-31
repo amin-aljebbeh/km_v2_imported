@@ -18,7 +18,7 @@ String submitFeedback = 'تقييم الطلب';
 //Labels
 String signIn = 'تسجيل الدخول';
 String bill = 'الفاتورة : ';
-String phoneNumber = 'الهاتف :';
+String phoneNumberString = 'الهاتف :';
 String entrance = 'المدخل: ';
 
 // Tabs

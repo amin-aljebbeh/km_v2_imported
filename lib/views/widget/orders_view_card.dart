@@ -186,7 +186,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   crossAxisAlignment: WrapCrossAlignment.end,
                   children: [
                     LabelRow(
-                      rightSideText: phoneNumber,
+                      rightSideText: phoneNumberString,
                       leftSideText: widget.orderData.userData.phone,
                       leftSideStyle: paragraphStyle.copyWith(color: kmColors),
                       recognizer: TapGestureRecognizer()

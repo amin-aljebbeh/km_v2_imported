@@ -117,11 +117,9 @@ class _SupplierOrdersViewCardState extends State<SupplierOrdersViewCard> {
                   leftSideStyle: paragraphStyle,
                 ),
                 LabelRow(
-                  rightSideText: phoneNumber,
+                  rightSideText: phoneNumberString,
                   leftSideText: widget.order.shopper != null ? widget.order.shopper.admin.phone : ' ',
-                  leftSideStyle: paragraphStyle.copyWith(
-                    color: kmColors,
-                  ),
+                  leftSideStyle: paragraphStyle.copyWith(color: kmColors),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => Services.makePhoneCall(
                         widget.order.shopper != null ? widget.order.shopper.admin.phone : '0969999204'),
