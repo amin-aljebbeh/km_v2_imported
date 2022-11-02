@@ -64,6 +64,11 @@ class _PriceFileProductState extends State<PriceFileProduct> with AutomaticKeepA
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: primaryColor,
+        child: Text(showList.length.toString(), style: const TextStyle(fontSize: 20)),
+      ),
       key: scaffoldKey,
       body: SafeArea(
         child: SizedBox(

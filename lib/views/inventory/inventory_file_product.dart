@@ -74,6 +74,11 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
     super.build(context);
     return Scaffold(
       key: scaffoldKey,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: primaryColor,
+        child: Text(showList.length.toString(), style: const TextStyle(fontSize: 20)),
+      ),
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
