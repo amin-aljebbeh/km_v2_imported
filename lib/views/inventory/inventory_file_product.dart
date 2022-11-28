@@ -86,10 +86,7 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
             children: [
               Center(
                 child: DropdownButton(
-                    onChanged: (value) => setState(() {
-                          selectedList = value;
-                          assignArray();
-                        }),
+                    onChanged: (value) => setState(() => {selectedList = value, assignArray()}),
                     items: Services.dropdownStringList(
                         ['الغير المضافة', 'بحاجة تفعيل', 'بحاجة إيقاف تفعيل', 'تم تفعيلها']),
                     value: selectedList),

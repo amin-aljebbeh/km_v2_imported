@@ -19,6 +19,7 @@ class _OrderByIDState extends State<OrderByID> {
   OrdersOriginalData order;
   TextEditingController idController;
   TextEditingController phoneController;
+
   @override
   void initState() {
     phoneController = TextEditingController();
@@ -76,22 +77,22 @@ class _OrderByIDState extends State<OrderByID> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
-          child: !orderLoaded || isLoading
-              ? const Center(child: Loader())
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    errorMessage
-                        ? AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
-                        : Container(padding: EdgeInsets.zero),
-                    Center(
-                      child: SearchOrderByPhoneNumber(
-                          phoneController: phoneController,
-                          idController: idController,
-                          context: context,
-                          onChoose: () => Navigator.of(context).pop()),
-                    ),
-                    Column(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              errorMessage
+                  ? AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
+                  : Container(padding: EdgeInsets.zero),
+              Center(
+                child: SearchOrderByPhoneNumber(
+                    phoneController: phoneController,
+                    idController: idController,
+                    context: context,
+                    onChoose: () => Navigator.of(context).pop()),
+              ),
+              !orderLoaded || isLoading
+                  ? const Center(child: Loader())
+                  : Column(
                       children: <Widget>[
                         OrdersViewCard(pop: true, orderData: order, orderType: OrderTypes.search),
                         if (int.parse(order.orderStatusId) <= 4 && int.parse(order.underUpdate) != 1)
@@ -355,19 +356,17 @@ class _OrderByIDState extends State<OrderByID> {
                               )
                             : Container(),
                         Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Divider(thickness: 5, color: kmColors2),
-                        )
+                            padding: const EdgeInsets.only(top: 8.0), child: Divider(thickness: 5, color: kmColors2))
                       ],
                     ),
-                    theEndOfOrders
-                        ? Padding(
-                            padding: EdgeInsets.only(top: screenHeight * 0.4),
-                            child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
-                          )
-                        : Container(),
-                  ],
-                ),
+              theEndOfOrders
+                  ? Padding(
+                      padding: EdgeInsets.only(top: screenHeight * 0.4),
+                      child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
+                    )
+                  : Container(),
+            ],
+          ),
         ),
       ),
     );

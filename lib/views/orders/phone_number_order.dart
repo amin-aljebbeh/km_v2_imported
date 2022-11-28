@@ -97,132 +97,164 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 10, top: 0, right: 10, bottom: 10),
-          child: !orderLoaded || isLoading
-              ? const Center(child: Loader())
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    errorMessage
-                        ? AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
-                        : Container(padding: EdgeInsets.zero),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        DropdownButton(
-                          value: filterOrders,
-                          items: Services.dropdownStringList(phoneOrderStatus),
-                          onChanged: (value) {
-                            setState(() {
-                              filterOrders = value;
-                              page = 1;
-                            });
-                            _getOrder();
-                          },
-                        ),
-                        SearchOrderByPhoneNumber(
-                          phoneController: phoneController,
-                          idController: idController,
-                          context: context,
-                          onChoose: () => Navigator.of(context).pop(),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: IconButton(
-                            onPressed: () {
-                              if (page < 14) setState(() => page++);
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              errorMessage
+                  ? AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
+                  : Container(padding: EdgeInsets.zero),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  DropdownButton(
+                    value: filterOrders,
+                    items: Services.dropdownStringList(phoneOrderStatus),
+                    onChanged: (value) {
+                      setState(() {
+                        filterOrders = value;
+                        page = 1;
+                      });
+                      _getOrder();
+                    },
+                  ),
+                  SearchOrderByPhoneNumber(
+                    phoneController: phoneController,
+                    idController: idController,
+                    context: context,
+                    onChoose: () => Navigator.of(context).pop(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: IconButton(
+                      onPressed: () {
+                        if (page < 14) setState(() => page++);
 
-                              _getOrder();
-                            },
-                            icon: Icon(Icons.arrow_back, size: 40, color: kmColors),
-                          ),
-                        ),
-                        DropdownButton(
-                          value: page,
-                          items: Services.dropdownIntList(dropdownValues),
-                          onChanged: (value) {
-                            setState(() => page = value);
-                            _getOrder();
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: IconButton(
-                            onPressed: () => setState(() {
-                              if (page > 1) page--;
-                              _getOrder();
-                            }),
-                            icon: Icon(Icons.arrow_forward, size: 40, color: kmColors),
-                          ),
-                        ),
-                      ],
+                        _getOrder();
+                      },
+                      icon: Icon(Icons.arrow_back, size: 40, color: kmColors),
                     ),
-                    orderDataList.isEmpty
-                        ? Padding(
-                            padding: EdgeInsets.only(top: screenHeight * 0.4),
-                            child: Center(
-                              child: Text(
-                                'لا يوجد أي طلبات سابقة',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: greyColor,
-                                  fontFamily: fontFamily,
-                                  fontSize: 20.0,
-                                ),
+                  ),
+                  DropdownButton(
+                    value: page,
+                    items: Services.dropdownIntList(dropdownValues),
+                    onChanged: (value) {
+                      setState(() => page = value);
+                      _getOrder();
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: IconButton(
+                      onPressed: () => setState(() {
+                        if (page > 1) page--;
+                        _getOrder();
+                      }),
+                      icon: Icon(Icons.arrow_forward, size: 40, color: kmColors),
+                    ),
+                  ),
+                ],
+              ),
+              !orderLoaded || isLoading
+                  ? const Center(child: Loader())
+                  : orderDataList.isEmpty
+                      ? Padding(
+                          padding: EdgeInsets.only(top: screenHeight * 0.4),
+                          child: Center(
+                            child: Text(
+                              'لا يوجد أي طلبات سابقة',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: greyColor,
+                                fontFamily: fontFamily,
+                                fontSize: 20.0,
                               ),
                             ),
-                          )
-                        : Container(padding: EdgeInsets.zero),
-                    Expanded(
-                      child: ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                        primary: false,
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: orderDataList == null ? 0 : orderDataList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (Services.isShopper() || orderDataList[index].shopper != null) {
-                            orderDataList[index].orderArithmeticOperations();
-                            orderDataList[index].orderProfits();
-                          }
-                          return Column(
-                            children: <Widget>[
-                              OrdersViewCard(pop: true, orderData: orderDataList[index], orderType: OrderTypes.search),
-                              if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
-                                  int.parse(orderDataList[index].underUpdate) != 1)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      KammunButton(
-                                        text: orderDataList[index].orderStatusId == '1'
-                                            ? 'قبول الطلب'
-                                            : orderDataList[index].orderStatusId == '2'
-                                                ? 'الطلب جاهز'
-                                                : orderDataList[index].orderStatusId == '3'
-                                                    ? 'مع التوصيل'
-                                                    : 'تم التوصيل',
-                                        width: MediaQuery.of(context).size.width * 0.4,
-                                        color: orderDataList[index].orderStatusId == '1'
-                                            ? Colors.green[700]
-                                            : orderDataList[index].orderStatusId == '2'
-                                                ? Colors.yellow[700]
-                                                : Colors.cyan[700],
+                          ),
+                        )
+                      : Container(padding: EdgeInsets.zero),
+              Expanded(
+                child: ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                  primary: false,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: orderDataList == null ? 0 : orderDataList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (Services.isShopper() || orderDataList[index].shopper != null) {
+                      orderDataList[index].orderArithmeticOperations();
+                      orderDataList[index].orderProfits();
+                    }
+                    return Column(
+                      children: <Widget>[
+                        OrdersViewCard(pop: true, orderData: orderDataList[index], orderType: OrderTypes.search),
+                        if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
+                            int.parse(orderDataList[index].underUpdate) != 1)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                KammunButton(
+                                  text: orderDataList[index].orderStatusId == '1'
+                                      ? 'قبول الطلب'
+                                      : orderDataList[index].orderStatusId == '2'
+                                          ? 'الطلب جاهز'
+                                          : orderDataList[index].orderStatusId == '3'
+                                              ? 'مع التوصيل'
+                                              : 'تم التوصيل',
+                                  width: MediaQuery.of(context).size.width * 0.4,
+                                  color: orderDataList[index].orderStatusId == '1'
+                                      ? Colors.green[700]
+                                      : orderDataList[index].orderStatusId == '2'
+                                          ? Colors.yellow[700]
+                                          : Colors.cyan[700],
+                                  onTap: () async {
+                                    int changeStatus = 0;
+                                    setState(() {
+                                      isLoading = true;
+                                      errorMessage = false;
+                                    });
+                                    if (orderDataList[index].orderStatusId == '1') {
+                                      changeStatus = 2;
+                                    } else if (orderDataList[index].orderStatusId == '2') {
+                                      changeStatus = 3;
+                                    } else if (orderDataList[index].orderStatusId == '3') {
+                                      changeStatus = 4;
+                                    } else if (orderDataList[index].orderStatusId == '4') {
+                                      changeStatus = 5;
+                                    }
+
+                                    ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
+                                        orderDataList[index].id.toString(), changeStatus);
+
+                                    if (x.success) {
+                                      setState(() {
+                                        orderDataList[index] = x.order;
+                                        LoadingScreenServices.phoneOrderList[index] = x.order;
+                                        isLoading = false;
+                                      });
+                                    } else {
+                                      setState(() {
+                                        isLoading = false;
+                                        errorMessage = true;
+                                      });
+                                    }
+                                  },
+                                ),
+                                KammunButton(
+                                  onLongPress: () {
+                                    List<DialogButton> decisionButton = [
+                                      DialogButton(
+                                        text: 'نعم',
                                         onTap: () async {
                                           int changeStatus = 0;
+                                          Navigator.of(context).pop();
+
                                           setState(() {
                                             isLoading = true;
                                             errorMessage = false;
                                           });
-                                          if (orderDataList[index].orderStatusId == '1') {
-                                            changeStatus = 2;
-                                          } else if (orderDataList[index].orderStatusId == '2') {
-                                            changeStatus = 3;
-                                          } else if (orderDataList[index].orderStatusId == '3') {
-                                            changeStatus = 4;
-                                          } else if (orderDataList[index].orderStatusId == '4') {
-                                            changeStatus = 5;
-                                          }
+                                          changeStatus = 7;
 
                                           ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
                                               orderDataList[index].id.toString(), changeStatus);
@@ -241,97 +273,17 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                           }
                                         },
                                       ),
-                                      KammunButton(
-                                        onLongPress: () {
-                                          List<DialogButton> decisionButton = [
-                                            DialogButton(
-                                              text: 'نعم',
-                                              onTap: () async {
-                                                int changeStatus = 0;
-                                                Navigator.of(context).pop();
-
-                                                setState(() {
-                                                  isLoading = true;
-                                                  errorMessage = false;
-                                                });
-                                                changeStatus = 7;
-
-                                                ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
-                                                    orderDataList[index].id.toString(), changeStatus);
-
-                                                if (x.success) {
-                                                  setState(() {
-                                                    orderDataList[index] = x.order;
-                                                    LoadingScreenServices.phoneOrderList[index] = x.order;
-                                                    isLoading = false;
-                                                  });
-                                                } else {
-                                                  setState(() {
-                                                    isLoading = false;
-                                                    errorMessage = true;
-                                                  });
-                                                }
-                                              },
-                                            ),
-                                            DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
-                                          ];
-                                          showMyDialog(
-                                              context: context,
-                                              title: 'رفض الطلب',
-                                              text: 'هل أنت متأكد انك تريد رفض الطلب ؟',
-                                              dialogButtons: decisionButton);
-                                        },
-                                        text: cancelOrder,
-                                        width: MediaQuery.of(context).size.width * 0.4,
-                                        color: Colors.red,
-                                        onTap: () {
-                                          List<DialogButton> decisionButton = [
-                                            DialogButton(
-                                              text: 'نعم',
-                                              onTap: () async {
-                                                int changeStatus = 0;
-                                                Navigator.of(context).pop();
-
-                                                setState(() {
-                                                  isLoading = true;
-                                                  errorMessage = false;
-                                                });
-                                                changeStatus = 6;
-
-                                                ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
-                                                    orderDataList[index].id.toString(), changeStatus);
-
-                                                if (x.success) {
-                                                  setState(() {
-                                                    orderDataList[index] = x.order;
-                                                    LoadingScreenServices.phoneOrderList[index] = x.order;
-                                                    isLoading = false;
-                                                  });
-                                                } else {
-                                                  setState(() {
-                                                    isLoading = false;
-                                                    errorMessage = true;
-                                                  });
-                                                }
-                                              },
-                                            ),
-                                            DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
-                                          ];
-                                          showMyDialog(
-                                              context: context,
-                                              title: 'إلغاء الطلب',
-                                              text: 'هل أنت متأكد انك تريد إلغاء الطلب ؟',
-                                              dialogButtons: decisionButton);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              if (['6', '7'].contains(orderDataList[index].orderStatusId))
-                                KammunButton(
-                                  text: 'استعادة الطلب',
-                                  width: MediaQuery.of(context).size.width,
-                                  color: kmColors,
+                                      DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
+                                    ];
+                                    showMyDialog(
+                                        context: context,
+                                        title: 'رفض الطلب',
+                                        text: 'هل أنت متأكد انك تريد رفض الطلب ؟',
+                                        dialogButtons: decisionButton);
+                                  },
+                                  text: cancelOrder,
+                                  width: MediaQuery.of(context).size.width * 0.4,
+                                  color: Colors.red,
                                   onTap: () {
                                     List<DialogButton> decisionButton = [
                                       DialogButton(
@@ -344,25 +296,15 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                             isLoading = true;
                                             errorMessage = false;
                                           });
-                                          changeStatus = 1;
+                                          changeStatus = 6;
 
-                                          ChangeOrderStatusModel result = await OrderServices.changeOrderStatusService(
+                                          ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
                                               orderDataList[index].id.toString(), changeStatus);
-                                          if (result.success) {
-                                            snackBar(
-                                                success: true, message: 'تم تغيير حالة الطلب بنجاح', context: context);
-                                            orderDataList[index] = result.order;
-                                            LoadingScreenServices.phoneOrderList[index] = result.order;
-                                          } else {
-                                            snackBar(
-                                                success: false,
-                                                message: 'فشلت عملية تغيير حالة الطلب يرجى المحاولة مجدداً',
-                                                context: context);
-                                          }
 
-                                          if (result.success) {
+                                          if (x.success) {
                                             setState(() {
-                                              orderDataList[index].orderStatusId = changeStatus.toString();
+                                              orderDataList[index] = x.order;
+                                              LoadingScreenServices.phoneOrderList[index] = x.order;
                                               isLoading = false;
                                             });
                                           } else {
@@ -377,119 +319,173 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
                                     ];
                                     showMyDialog(
                                         context: context,
-                                        title: 'استعادة الطلب',
-                                        text: 'هل أنت متأكد انك تريد استعادة الطلب ؟',
+                                        title: 'إلغاء الطلب',
+                                        text: 'هل أنت متأكد انك تريد إلغاء الطلب ؟',
                                         dialogButtons: decisionButton);
                                   },
                                 ),
-                              KammunButton(
-                                text: editOrder,
-                                onTap: () async {
-                                  setState(() {
-                                    orderLoaded = false;
-                                    errorMessage = false;
-                                  });
-                                  LockOrder response = await OrderServices.lockOrderService(
-                                      orderId: orderDataList[index].id.toString(),
-                                      userNote: orderDataList[index].userNotes,
-                                      supportedCityCost: orderDataList[index].supportedCityCost,
-                                      deliveryMethodCost: orderDataList[index].deliveryCost,
-                                      deliveryMethodId: int.parse(orderDataList[index].deliveryMethodId.toString()));
-                                  if (response != null) {
-                                    if (response.success) {
+                              ],
+                            ),
+                          ),
+                        if (['6', '7'].contains(orderDataList[index].orderStatusId))
+                          KammunButton(
+                            text: 'استعادة الطلب',
+                            width: MediaQuery.of(context).size.width,
+                            color: kmColors,
+                            onTap: () {
+                              List<DialogButton> decisionButton = [
+                                DialogButton(
+                                  text: 'نعم',
+                                  onTap: () async {
+                                    int changeStatus = 0;
+                                    Navigator.of(context).pop();
+
+                                    setState(() {
+                                      isLoading = true;
+                                      errorMessage = false;
+                                    });
+                                    changeStatus = 1;
+
+                                    ChangeOrderStatusModel result = await OrderServices.changeOrderStatusService(
+                                        orderDataList[index].id.toString(), changeStatus);
+                                    if (result.success) {
+                                      snackBar(success: true, message: 'تم تغيير حالة الطلب بنجاح', context: context);
+                                      orderDataList[index] = result.order;
+                                      LoadingScreenServices.phoneOrderList[index] = result.order;
+                                    } else {
+                                      snackBar(
+                                          success: false,
+                                          message: 'فشلت عملية تغيير حالة الطلب يرجى المحاولة مجدداً',
+                                          context: context);
+                                    }
+
+                                    if (result.success) {
                                       setState(() {
-                                        OrderServices.orderUnderUpdateStatusId = orderDataList[index].orderStatusId;
-                                        orderLoaded = true;
-                                        errorMessage = false;
+                                        orderDataList[index].orderStatusId = changeStatus.toString();
+                                        isLoading = false;
                                       });
-                                      _moveOrderProductsToCart(orderIndex: index, orderProducts: response.products);
-                                      orderDataList[index].underUpdate = '1';
-                                    } else if (!response.success) {
+                                    } else {
                                       setState(() {
-                                        orderDataList[index].underUpdate = '2';
-                                        orderLoaded = true;
+                                        isLoading = false;
                                         errorMessage = true;
-                                        errorMessageValue =
-                                            'لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً';
                                       });
                                     }
-                                  } else {
-                                    setState(() {
-                                      orderLoaded = true;
-                                      errorMessage = true;
-                                      errorMessageValue =
-                                          'حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت';
-                                    });
-                                  }
+                                  },
+                                ),
+                                DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
+                              ];
+                              showMyDialog(
+                                  context: context,
+                                  title: 'استعادة الطلب',
+                                  text: 'هل أنت متأكد انك تريد استعادة الطلب ؟',
+                                  dialogButtons: decisionButton);
+                            },
+                          ),
+                        KammunButton(
+                          text: editOrder,
+                          onTap: () async {
+                            setState(() {
+                              orderLoaded = false;
+                              errorMessage = false;
+                            });
+                            LockOrder response = await OrderServices.lockOrderService(
+                                orderId: orderDataList[index].id.toString(),
+                                userNote: orderDataList[index].userNotes,
+                                supportedCityCost: orderDataList[index].supportedCityCost,
+                                deliveryMethodCost: orderDataList[index].deliveryCost,
+                                deliveryMethodId: int.parse(orderDataList[index].deliveryMethodId.toString()));
+                            if (response != null) {
+                              if (response.success) {
+                                setState(() {
+                                  OrderServices.orderUnderUpdateStatusId = orderDataList[index].orderStatusId;
+                                  orderLoaded = true;
+                                  errorMessage = false;
+                                });
+                                _moveOrderProductsToCart(orderIndex: index, orderProducts: response.products);
+                                orderDataList[index].underUpdate = '1';
+                              } else if (!response.success) {
+                                setState(() {
+                                  orderDataList[index].underUpdate = '2';
+                                  orderLoaded = true;
+                                  errorMessage = true;
+                                  errorMessageValue =
+                                      'لا يمكنك تعديل طلبك حالياً لأن مسؤول الطلب أو الزبون يقوم بتعديله حالياً';
+                                });
+                              }
+                            } else {
+                              setState(() {
+                                orderLoaded = true;
+                                errorMessage = true;
+                                errorMessageValue = 'حدث خطأ أثناء محاولة تعديل الطلب يرجى التأكد من إتصالك بالإنترنت';
+                              });
+                            }
+                          },
+                          color: Colors.green,
+                        ),
+                        orderDataList[index].userNotes.toString() != 'null'
+                            ? KammunButton(
+                                text: watchNote,
+                                onTap: () {
+                                  showMyDialog(
+                                      context: context,
+                                      title: costumerNote,
+                                      text: orderDataList[index].userNotes,
+                                      dialogButtons: [const CloseWidget()]);
                                 },
-                                color: Colors.green,
-                              ),
-                              orderDataList[index].userNotes.toString() != 'null'
-                                  ? KammunButton(
-                                      text: watchNote,
-                                      onTap: () {
-                                        showMyDialog(
-                                            context: context,
-                                            title: costumerNote,
-                                            text: orderDataList[index].userNotes,
-                                            dialogButtons: [const CloseWidget()]);
-                                      },
-                                      color: Colors.indigoAccent,
-                                    )
-                                  : Container(),
-                              orderDataList[index].underUpdate.toString() != '0'
-                                  ? KammunButton(
-                                      text: unLock,
-                                      onTap: () {
-                                        int orderId = orderDataList[index].id;
-                                        List<Widget> decisionButtons = [
-                                          DialogButton(
-                                            text: 'نعم',
-                                            onTap: () async {
-                                              Navigator.of(context).pop();
-                                              bool result = await OrderServices.unlockOrderService(orderId.toString());
-                                              if (result) {
-                                                snackBar(
-                                                    success: true,
-                                                    message: 'نجحت عملية إلغاء تعليق الطلب',
-                                                    context: context);
-                                              } else {
-                                                snackBar(
-                                                    success: false,
-                                                    message: 'فشلت عملية إلغاء تعليق الطلب يرجى المحاولة مجدداً',
-                                                    context: context);
-                                              }
-                                              if (result) setState(() => orderDataList[index].underUpdate = '0');
-                                            },
-                                          ),
-                                          const CloseWidget()
-                                        ];
-                                        showMyDialog(
-                                            context: context,
-                                            title: unLock,
-                                            text: unLockConfirm,
-                                            dialogButtons: decisionButtons);
-                                      },
-                                      color: Colors.blue[800],
-                                    )
-                                  : Container(),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: Divider(thickness: 5, color: kmColors2),
+                                color: Colors.indigoAccent,
                               )
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                    theEndOfOrders
-                        ? Padding(
-                            padding: EdgeInsets.only(top: screenHeight * 0.4),
-                            child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
-                          )
-                        : Container(),
-                  ],
+                            : Container(),
+                        orderDataList[index].underUpdate.toString() != '0'
+                            ? KammunButton(
+                                text: unLock,
+                                onTap: () {
+                                  int orderId = orderDataList[index].id;
+                                  List<Widget> decisionButtons = [
+                                    DialogButton(
+                                      text: 'نعم',
+                                      onTap: () async {
+                                        Navigator.of(context).pop();
+                                        bool result = await OrderServices.unlockOrderService(orderId.toString());
+                                        if (result) {
+                                          snackBar(
+                                              success: true, message: 'نجحت عملية إلغاء تعليق الطلب', context: context);
+                                        } else {
+                                          snackBar(
+                                              success: false,
+                                              message: 'فشلت عملية إلغاء تعليق الطلب يرجى المحاولة مجدداً',
+                                              context: context);
+                                        }
+                                        if (result) setState(() => orderDataList[index].underUpdate = '0');
+                                      },
+                                    ),
+                                    const CloseWidget()
+                                  ];
+                                  showMyDialog(
+                                      context: context,
+                                      title: unLock,
+                                      text: unLockConfirm,
+                                      dialogButtons: decisionButtons);
+                                },
+                                color: Colors.blue[800],
+                              )
+                            : Container(),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Divider(thickness: 5, color: kmColors2),
+                        )
+                      ],
+                    );
+                  },
                 ),
+              ),
+              theEndOfOrders
+                  ? Padding(
+                      padding: EdgeInsets.only(top: screenHeight * 0.4),
+                      child: const ScreenMessage(message: 'لا يوجد أي طلبات سابقة'),
+                    )
+                  : Container(),
+            ],
+          ),
         ),
       ),
     );

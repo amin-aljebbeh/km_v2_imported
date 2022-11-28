@@ -72,6 +72,7 @@ class InventoryServices {
 
   static Future<PriceFileProductModel> fromFileChangedPriceProducts({String subWarehouseId, File file}) async {
     try {
+      Tools.logToConsole(baseUrl + '/api/' + importProductPricesInWareHouse);
       var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
       var request = http.MultipartRequest('POST', Uri.parse(baseUrl + '/api/' + importProductPricesInWareHouse));
       request.fields.addAll({'sub_warehouse_id': subWarehouseId});
@@ -91,6 +92,7 @@ class InventoryServices {
   static Future<InventoryFileProductModel> fromFileChangedStatusProducts({String subWarehouseId, File file}) async {
     http.StreamedResponse response;
     try {
+      Tools.logToConsole(baseUrl + '/api/' + importProductActivationInWarehouse);
       var headers = {'Authorization': LoadingScreen.userToken.length > 10 ? LoadingScreen.userToken : ""};
       var request = http.MultipartRequest('POST', Uri.parse(baseUrl + '/api/' + importProductActivationInWarehouse));
       request.fields.addAll({'sub_warehouse_id': subWarehouseId});
