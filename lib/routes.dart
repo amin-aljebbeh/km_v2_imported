@@ -1,3 +1,5 @@
+import 'package:kammun_app/views/complaints/presentation/pages/add_complaint_page.dart';
+
 import 'core/core_importer.dart';
 import 'views/complaints/presentation/pages/complaints_page.dart';
 import 'views/supplier/presentation/pages/supplier_statement_accounts.dart';
@@ -32,4 +34,5 @@ final Map<String, WidgetBuilder> routes = {
   FinancialReportView.routeName: (_) => const FinancialReportView(),
   InventoryPage.routeName: (_) => const InventoryPage(),
   ComplaintsPage.routeName: (_) => const ComplaintsPage(),
+  AddComplaintPage.routeName: (_) => const AddComplaintPage(),
 };

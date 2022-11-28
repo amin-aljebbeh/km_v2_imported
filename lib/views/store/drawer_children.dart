@@ -1,3 +1,5 @@
+import 'package:kammun_app/views/complaints/presentation/pages/add_complaint_page.dart';
+
 import '../../core/core_importer.dart';
 import '../login/Services/login_services.dart';
 import '../management_view/management_view.dart';
@@ -114,6 +116,7 @@ List<Widget> getDrawerChildren(BuildContext context) {
                   )),
         ),
       ),
+    const SideBarRow(icon: Icons.report_problem_rounded, text: 'إضافة شكوى', pushedRoute: AddComplaintPage.routeName),
     SideBarRow(icon: Icons.logout, text: 'تسجيل الخروج', onTap: () async => await LoginServices.logOutAdmin(context)),
     Divider(color: kmColors, height: 20),
     Padding(
