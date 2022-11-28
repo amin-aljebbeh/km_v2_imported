@@ -14,11 +14,11 @@ export 'package:internet_connection_checker/internet_connection_checker.dart';
 export 'package:kammun_app/service.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 
-// used a lot
-export '../../../injection_container.dart';
 //
 
 export '../../views/loading/loading.dart';
+// used a lot
+export '../injection_container/injection_importer.dart';
 export '../models/models_importer.dart';
 export '../redux/redux_importer.dart';
 export '../utils/utils_importer.dart';

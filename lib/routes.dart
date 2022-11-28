@@ -1,4 +1,5 @@
 import 'core/core_importer.dart';
+import 'views/complaints/presentation/pages/complaints_page.dart';
 import 'views/supplier/presentation/pages/supplier_statement_accounts.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -30,4 +31,5 @@ final Map<String, WidgetBuilder> routes = {
   ShopperManagementView.routeName: (_) => const ShopperManagementView(),
   FinancialReportView.routeName: (_) => const FinancialReportView(),
   InventoryPage.routeName: (_) => const InventoryPage(),
+  ComplaintsPage.routeName: (_) => const ComplaintsPage(),
 };
