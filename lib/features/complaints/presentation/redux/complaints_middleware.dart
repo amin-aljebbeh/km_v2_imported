@@ -21,7 +21,7 @@ Future<void> complaintsMiddleware(Store<AppState> store, action, NextDispatcher 
       store.dispatch(StartLoading());
       Either either = await store.state.complaintsState.complaintsUseCases.createComplaintUseCase();
       either.fold((failure) => snackBar(message: 'حدث خطأ', context: action.context, success: false),
-          (complaints) => snackBar(message: 'تم إنشاء الاعتراض', context: action.context, success: true));
+          (complaints) => snackBar(message: 'تم تسجيل الشكوى', context: action.context, success: true));
       store.dispatch(StopLoading());
       break;
   }

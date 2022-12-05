@@ -1,4 +1,5 @@
 import 'package:kammun_app/core/core_importer.dart';
+import 'package:kammun_app/features/complaints/presentation/pages/add_complaint_page.dart';
 import 'package:kammun_app/features/loading/loading_services.dart';
 import 'package:kammun_app/features/order_details/invoice_view.dart';
 
@@ -197,6 +198,15 @@ class _OrderAccountingState extends State<OrderAccounting> {
                         }
                       },
                       text: addTransaction,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: 50,
+                    ),
+                  if (Services.isOperationManager())
+                    KammunButton(
+                      color: kmColors,
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => AddComplaintPage(orderData: widget.orderData))),
+                      text: 'إضافة شكوى',
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: 50,
                     ),

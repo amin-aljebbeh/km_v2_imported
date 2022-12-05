@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
+import 'package:kammun_app/features/complaints/presentation/pages/add_complaint_page.dart';
 import 'package:kammun_app/features/loading/loading_services.dart';
 import 'package:kammun_app/features/order_details/order_details_tab_view.dart';
 import 'package:kammun_app/features/orders/orders_view_importer.dart';
@@ -216,6 +217,14 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                   builder: (screenContext) =>
                                       PhoneNumberOrdersView(phoneNumber: widget.orderData.userData.phone)));
                         },
+                      ),
+                    if (Services.isOperationManager())
+                      InkWell(
+                        child: Icon(Icons.report_problem_rounded, color: kmColors, size: 30),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (screenContext) => AddComplaintPage(orderData: widget.orderData))),
                       ),
                     if (widget.orderData.address.lat != -1 && widget.orderData.address.lon != -1)
                       InkWell(
