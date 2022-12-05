@@ -5,7 +5,7 @@ import 'package:overlay_support/overlay_support.dart';
 
 import '../../core/core_importer.dart';
 import '../../firebase_options.dart';
-import '../views/loading/loading_services.dart';
+import '../features/loading/loading_services.dart';
 
 class FirebaseInitPage extends StatefulWidget {
   final Widget child;

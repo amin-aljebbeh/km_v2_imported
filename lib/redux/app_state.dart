@@ -1,10 +1,10 @@
-import 'package:kammun_app/views/loading_feature/presentation/redux/loading_state.dart';
+import 'package:kammun_app/features/loading_feature/presentation/redux/loading_state.dart';
 
 import '../core/core_importer.dart';
-import '../views/complaints/presentation/redux/complaints_state.dart';
-import '../views/error/presentation/redux/error_state.dart';
-import '../views/inventory_feature/presentation/redux/inventory_state.dart';
-import '../views/supplier/presentation/redux/supplier_state.dart';
+import '../features/complaints/presentation/redux/complaints_state.dart';
+import '../features/error/presentation/redux/error_state.dart';
+import '../features/inventory_feature/presentation/redux/inventory_state.dart';
+import '../features/supplier/presentation/redux/supplier_state.dart';
 
 @immutable
 class AppState extends Equatable {

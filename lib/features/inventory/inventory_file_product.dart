@@ -1,0 +1,211 @@
+import 'package:kammun_app/features/loading/loading_services.dart';
+
+import '../../core/core_importer.dart';
+import 'model/inventory_model_importer.dart';
+import 'services/inventory_services.dart';
+
+class InventoryFileProduct extends StatefulWidget {
+  final File file;
+  final String subWarehouseId;
+
+  const InventoryFileProduct({Key key, @required this.subWarehouseId, @required this.file}) : super(key: key);
+
+  @override
+  _InventoryFileProductState createState() => _InventoryFileProductState();
+}
+
+class _InventoryFileProductState extends State<InventoryFileProduct>
+    with AutomaticKeepAliveClientMixin<InventoryFileProduct> {
+  InventoryFileProductModel importedProducts = InventoryFileProductModel();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  List<ProductData> showList = [];
+  bool sent;
+  bool error;
+  bool loading;
+  int selectedList;
+
+  assignArray() {
+    setState(() {
+      showList = [];
+      switch (selectedList) {
+        case 0:
+          showList.addAll(importedProducts.nonIntroducedProducts);
+          break;
+        case 1:
+          showList.addAll(importedProducts.toActiveList);
+          break;
+        case 2:
+          showList.addAll(importedProducts.toDeActiveList);
+          break;
+        case 3:
+          showList.addAll(importedProducts.activatedList);
+          break;
+      }
+    });
+  }
+
+  loadData() async {
+    var response =
+        await InventoryServices.fromFileChangedStatusProducts(file: widget.file, subWarehouseId: widget.subWarehouseId);
+    setState(() {
+      loading = false;
+      if (response == null) {
+        error = true;
+      } else {
+        error = false;
+        importedProducts = response;
+        assignArray();
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    selectedList = 0;
+    loading = false;
+    error = false;
+    sent = false;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return Scaffold(
+      key: scaffoldKey,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: primaryColor,
+        child: Text(showList.length.toString(), style: const TextStyle(fontSize: 20)),
+      ),
+      body: SafeArea(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Center(
+                child: DropdownButton(
+                    onChanged: (value) => setState(() => {selectedList = value, assignArray()}),
+                    items: Services.dropdownStringList(
+                        ['الغير المضافة', 'بحاجة تفعيل', 'بحاجة إيقاف تفعيل', 'تم تفعيلها']),
+                    value: selectedList),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.75,
+                child: !sent
+                    ? Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: KammunButton(
+                            onTap: () {
+                              setState(() => {sent = true, loading = true});
+                              loadData();
+                            },
+                            color: primaryColor,
+                            height: 50,
+                            text: 'إرسال الملف',
+                          ),
+                        ),
+                      )
+                    : error
+                        ? Center(
+                            child: AlertMessages(
+                            text: errorMessage,
+                            messageType: 'internetError',
+                            headerText: 'حدث خطأ أثناء رفع الملف',
+                          ))
+                        : loading
+                            ? const Loader()
+                            : showList.isEmpty
+                                ? Center(
+                                    child: AlertMessages(
+                                      text: 'لا يوجد منتجات في هذا القسم',
+                                      messageType: 'Successfully',
+                                      headerText: 'لا يوجد منتجات في هذا القسم',
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: showList.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      String id, supplierCode;
+                                      int isActive;
+                                      bool attached;
+                                      if (showList[index].subWarehouseId != -1) {
+                                        id = showList[index].subWarehouseId.toString();
+                                      } else {
+                                        List<int> subWarehousesIds = LoadingScreenServices.subWarehouses
+                                            .map((warehouse) => warehouse.id)
+                                            .toList();
+                                        List<int> productIds = showList[index]
+                                            .warehouses
+                                            .map((warehouse) => int.parse(warehouse.pivot.subWarehouseId))
+                                            .toList();
+                                        subWarehousesIds.removeWhere((id) => !productIds.contains(id));
+                                        if (subWarehousesIds.isNotEmpty) {
+                                          id = subWarehousesIds[0].toString();
+                                        } else if (showList[index].warehouses.isNotEmpty) {
+                                          id = showList[index].warehouses[0].pivot.subWarehouseId;
+                                        }
+                                      }
+                                      if (showList[index].supplierCode != null) {
+                                        supplierCode = showList[index].supplierCode;
+                                      } else if (showList[index].warehouses.isNotEmpty) {
+                                        supplierCode = showList[index]
+                                            .warehouses
+                                            .firstWhere((warehouse) => warehouse.pivot.supplierCode != 'null')
+                                            .pivot
+                                            .supplierCode;
+                                      }
+                                      if (showList[index].isActive != 'null') {
+                                        isActive = int.parse(showList[index].isActive);
+                                      } else if (showList[index].warehouses.isNotEmpty) {
+                                        isActive = int.parse(showList[index].warehouses[0].pivot.isActive);
+                                      }
+                                      attached = false;
+                                      if (showList[index].supplierCode != 'null') {
+                                        attached = true;
+                                      } else if (showList[index].warehouses != null) {
+                                        if (showList[index].warehouses.isNotEmpty) {
+                                          attached = showList[index]
+                                              .warehouses
+                                              .map((warehouse) => warehouse.pivot.supplierCode)
+                                              .toList()
+                                              .where((code) => code != 'null')
+                                              .toList()
+                                              .isNotEmpty;
+                                        }
+                                      }
+                                      if (selectedList == 0) attached = false;
+                                      return InventoryProductsViewCard(
+                                        index: index,
+                                        id: id,
+                                        attached: attached,
+                                        isActive: isActive,
+                                        supplierCode: supplierCode,
+                                        scaffoldKey: scaffoldKey,
+                                        productData: showList[index],
+                                        price: showList[index].price,
+                                        fromInventory: false,
+                                        onChangeStatus: (result) {
+                                          if (result) setState(() => showList.removeAt(index));
+                                        },
+                                        onChangePrice: (newValue) => setState(() => showList[index].price = newValue),
+                                        onChangeUnit: (newValue) => setState(() => showList[index].unit = newValue),
+                                        onChangeQuantity: (newValue) =>
+                                            setState(() => showList[index].quantity = newValue),
+                                      );
+                                    },
+                                  ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}

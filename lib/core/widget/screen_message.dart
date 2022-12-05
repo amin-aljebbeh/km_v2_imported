@@ -1,0 +1,22 @@
+import '../core_importer.dart';
+
+class ScreenMessage extends StatelessWidget {
+  final String message;
+
+  const ScreenMessage({Key key, @required this.message}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        height: 50.0,
+        color: Colors.transparent,
+        child: Center(
+          child: Text(
+            message,
+            style: TextStyle(fontWeight: FontWeight.w700, color: greyColor, fontFamily: fontFamily, fontSize: 20.0),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -2,9 +2,10 @@ import '../core/core_importer.dart';
 
 final sl = GetIt.instance;
 Future<void> inject() async {
-  await orderInject();
-  await supplierInject();
-  await complaintsInject();
+  await injectInventory();
+  await injectSupplier();
+  await injectComplaints();
+  await injectAdmins();
 
 //! Core
 

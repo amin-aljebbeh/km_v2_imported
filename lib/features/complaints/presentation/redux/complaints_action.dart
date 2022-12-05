@@ -1,0 +1,35 @@
+import 'package:kammun_app/features/complaints/domain/entities/complaint_entity.dart';
+import 'package:kammun_app/features/complaints/domain/entities/complaint_type_entity.dart';
+
+import '../../../../core/core_importer.dart';
+
+class SetComplaints {
+  final List<ComplaintEntity> complaints;
+
+  SetComplaints({this.complaints});
+}
+
+class GetComplaintAction {
+  final BuildContext context;
+
+  GetComplaintAction({this.context});
+}
+
+class GetComplaintTypesAction {
+  final BuildContext context;
+
+  GetComplaintTypesAction({this.context});
+}
+
+class SetComplaintTypes {
+  final List<ComplaintTypeEntity> complaintTypes;
+
+  SetComplaintTypes({this.complaintTypes});
+}
+
+class CreateComplaintAction {
+  final BuildContext context;
+  final ComplaintEntity complaintEntity;
+
+  CreateComplaintAction({this.complaintEntity, this.context});
+}

@@ -2,7 +2,7 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'core/core_importer.dart';
-import 'views/loading/loading_services.dart';
+import 'features/loading/loading_services.dart';
 
 class Services {
   static List<Role> roles = [];

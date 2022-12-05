@@ -16,16 +16,16 @@ export 'package:shared_preferences/shared_preferences.dart';
 
 //
 
-export '../../views/loading/loading.dart';
+export '../features/loading/loading.dart';
+export '../features/loading_feature/presentation/redux/loading_action.dart';
+export '../features/view_importer.dart';
 // used a lot
 export '../injection_container/injection_importer.dart';
-export '../models/models_importer.dart';
 export '../redux/redux_importer.dart';
-export '../utils/utils_importer.dart';
-export '../views/loading_feature/presentation/redux/loading_action.dart';
-export '../views/view_importer.dart';
-export '../views/widget/widgets_importer.dart';
 export 'api/api_provider.dart';
 export 'api/api_url.dart';
 export 'error/error_importer.dart';
+export 'models/models_importer.dart';
 export 'network/network_info.dart';
+export 'utils/utils_importer.dart';
+export 'widget/widgets_importer.dart';
