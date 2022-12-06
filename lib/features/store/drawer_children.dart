@@ -116,7 +116,8 @@ List<Widget> getDrawerChildren(BuildContext context) {
                   )),
         ),
       ),
-    const SideBarRow(icon: Icons.report_problem_rounded, text: 'إضافة شكوى', pushedRoute: AddComplaintPage.routeName),
+    if (Services.isAgent())
+      const SideBarRow(icon: Icons.report_problem_rounded, text: 'إضافة شكوى', pushedRoute: AddComplaintPage.routeName),
     SideBarRow(icon: Icons.logout, text: 'تسجيل الخروج', onTap: () async => await LoginServices.logOutAdmin(context)),
     Divider(color: kmColors, height: 20),
     Padding(

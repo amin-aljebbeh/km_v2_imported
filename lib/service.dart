@@ -127,6 +127,8 @@ class Services {
 
   static bool isAdmin() => Services.roles.where((element) => element.slug.contains(adminRole)).isNotEmpty;
 
+  static bool isAgent() => Services.roles.where((element) => element.slug.contains(agentRole)).isNotEmpty;
+
   static bool isOperationManager() =>
       Services.roles.where((element) => element.slug.contains(operationManager)).isNotEmpty;
 

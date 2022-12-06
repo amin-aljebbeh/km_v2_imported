@@ -55,6 +55,7 @@ String city = 'المدينة: ';
 //Roles:
 String shopperRole = 'shopper';
 String adminRole = 'admin';
+String agentRole = 'agent';
 String superAdminRole = 'super-admin';
 String operationManager = 'operation-manager';
 String productsController = 'product-management';

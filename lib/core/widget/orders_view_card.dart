@@ -218,7 +218,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                       PhoneNumberOrdersView(phoneNumber: widget.orderData.userData.phone)));
                         },
                       ),
-                    if (Services.isOperationManager())
+                    if (Services.isAgent())
                       InkWell(
                         child: Icon(Icons.report_problem_rounded, color: kmColors, size: 30),
                         onTap: () => Navigator.push(
