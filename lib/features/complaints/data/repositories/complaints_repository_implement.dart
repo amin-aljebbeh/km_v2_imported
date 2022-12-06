@@ -58,4 +58,20 @@ class ComplaintsRepositoryImplement implements ComplaintsRepository {
       return Left(InternalFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> changeComplaintStatus({int complaintId, int statusId}) async {
+    try {
+      await complaintsRemoteDataSource.changeComplaintStatus(complaintId: complaintId, statusId: statusId);
+      return const Right(unit);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
 }

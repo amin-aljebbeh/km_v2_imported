@@ -9,8 +9,12 @@ Future<void> injectComplaints() async {
   sl.registerLazySingleton(() => GetComplaintsUseCase(complaintsRepository: sl()));
   sl.registerLazySingleton(() => GetComplaintTypeUSeCase(complaintsRepository: sl()));
   sl.registerLazySingleton(() => CreateComplaintUseCase(complaintsRepository: sl()));
-  sl.registerLazySingleton<ComplaintsUseCases>(
-      () => ComplaintsUseCases(getComplaintUseCase: sl(), getComplaintTypeUSeCase: sl(), createComplaintUseCase: sl()));
+  sl.registerLazySingleton(() => ChangeComplaintStatusUseCase(complaintsRepository: sl()));
+  sl.registerLazySingleton<ComplaintsUseCases>(() => ComplaintsUseCases(
+      getComplaintUseCase: sl(),
+      getComplaintTypeUSeCase: sl(),
+      createComplaintUseCase: sl(),
+      changeComplaintStatusUseCase: sl()));
   sl.registerLazySingleton<ComplaintsRepository>(() => ComplaintsRepositoryImplement(complaintsRemoteDataSource: sl()));
   sl.registerLazySingleton<ComplaintsRemoteDataSource>(() => ComplaintsRemoteDataSourceImplement());
 }

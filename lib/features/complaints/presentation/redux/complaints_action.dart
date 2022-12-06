@@ -33,3 +33,11 @@ class CreateComplaintAction {
 
   CreateComplaintAction({this.complaintEntity, this.context});
 }
+
+class ChangeComplaintStatusAction {
+  final int complaintId;
+  final int statusId;
+  final BuildContext context;
+
+  ChangeComplaintStatusAction({this.complaintId, this.statusId, this.context});
+}

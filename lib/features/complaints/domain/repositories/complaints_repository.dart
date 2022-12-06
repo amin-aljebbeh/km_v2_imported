@@ -8,4 +8,5 @@ abstract class ComplaintsRepository {
   Future<Either<Failure, List<ComplaintEntity>>> getComplaints();
   Future<Either<Failure, List<ComplaintTypeEntity>>> getComplaintTypes();
   Future<Either<Failure, Unit>> createComplaint({ComplaintEntity complaintEntity});
+  Future<Either<Failure, Unit>> changeComplaintStatus({int complaintId, int statusId});
 }

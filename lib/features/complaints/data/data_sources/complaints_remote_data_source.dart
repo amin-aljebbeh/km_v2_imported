@@ -7,6 +7,7 @@ abstract class ComplaintsRemoteDataSource {
   Future<List<ComplaintModel>> getComplaints();
   Future<List<ComplaintTypeModel>> getComplaintTypes();
   Future<Unit> createComplaint({ComplaintModel complaintModel});
+  Future<Unit> changeComplaintStatus({int complaintId, int statusId});
 }
 
 class ComplaintsRemoteDataSourceImplement implements ComplaintsRemoteDataSource {
@@ -25,6 +26,12 @@ class ComplaintsRemoteDataSourceImplement implements ComplaintsRemoteDataSource 
   @override
   Future<Unit> createComplaint({ComplaintModel complaintModel}) {
     // TODO: implement createComplaint
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Unit> changeComplaintStatus({int complaintId, int statusId}) {
+    // TODO: implement changeComplaintStatus
     throw UnimplementedError();
   }
 }
