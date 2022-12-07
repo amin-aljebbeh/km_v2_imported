@@ -16,7 +16,7 @@ class InvoiceInfoWidget extends StatelessWidget {
         if (title != ' ') Text(title, style: informationStyle),
         const SizedBox(height: 10),
         KCard(
-            radius: 6,
+            radius: const BorderRadius.all(Radius.circular(6)),
             child: Column(
                 children: children
                     .where((info) => info.value != '0')

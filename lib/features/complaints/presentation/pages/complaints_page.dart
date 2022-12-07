@@ -14,24 +14,25 @@ class ComplaintsPage extends StatelessWidget {
       distinct: true,
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: Text('الشكاوى', style: mainStyle)),
+          appBar: AppBar(title: Text('الشكاوى', style: mainStyle), backgroundColor: kmColors),
+          floatingActionButton:
+              FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add_rounded), backgroundColor: kmColors),
           body: TemporaryLoading(
             child: SafeArea(
-              child: state.loadingState.isLoading
-                  ? const Center(child: Loader())
-                  : state.complaintsState.complaints.isEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Center(child: Text('ليس لديك أكواد حسم', style: paragraphStyle)))
-                      : state.errorState.isError
+              child: Column(
+                children: [
+                  DropdownButton(items: const [], onChanged: (value) {}),
+                  state.loadingState.isLoading
+                      ? const Center(child: Loader())
+                      : state.complaintsState.complaints.isEmpty
                           ? Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Center(child: Text(state.errorState.errorMessage, style: paragraphStyle)))
-                          : Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Expanded(
+                              child: Center(child: Text('لا يوجد شكاوى', style: paragraphStyle)))
+                          : state.errorState.isError
+                              ? Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(child: Text(state.errorState.errorMessage, style: paragraphStyle)))
+                              : Expanded(
                                   child: ListView.builder(
                                     physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                                     primary: false,
@@ -43,8 +44,8 @@ class ComplaintsPage extends StatelessWidget {
                                     },
                                   ),
                                 ),
-                              ],
-                            ),
+                ],
+              ),
             ),
           ),
         );

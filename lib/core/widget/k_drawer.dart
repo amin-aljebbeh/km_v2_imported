@@ -1,11 +1,10 @@
 import 'package:kammun_app/features/loading/loading_services.dart';
 
+import '../../features/store/drawer_children.dart';
 import '../core_importer.dart';
 
 class KDrawer extends StatelessWidget {
-  final List<Widget> children;
-
-  const KDrawer({Key key, this.children}) : super(key: key);
+  const KDrawer({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,8 @@ class KDrawer extends StatelessWidget {
                 SizedBox(
                   height: 550,
                   child: ListView(
-                      primary: false, children: <Widget>[Column(children: children), const SizedBox(height: 100)]),
+                      primary: false,
+                      children: <Widget>[Column(children: getDrawerChildren(context)), const SizedBox(height: 100)]),
                 ),
               ],
             ),

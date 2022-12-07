@@ -1,4 +1,6 @@
 import 'package:kammun_app/features/complaints/presentation/pages/add_complaint_page.dart';
+import 'package:kammun_app/features/complaints/presentation/pages/complaints_page.dart';
+import 'package:kammun_app/features/complaints/presentation/redux/complaints_action.dart';
 
 import '../../core/core_importer.dart';
 import '../login/Services/login_services.dart';
@@ -118,6 +120,15 @@ List<Widget> getDrawerChildren(BuildContext context) {
       ),
     if (Services.isAgent())
       const SideBarRow(icon: Icons.report_problem_rounded, text: 'إضافة شكوى', pushedRoute: AddComplaintPage.routeName),
+    if (Services.isAgent())
+      SideBarRow(
+        icon: Icons.report_problem_rounded,
+        text: 'الشكاوى',
+        onTap: () {
+          StoreProvider.of<AppState>(context).dispatch(GetComplaintAction(context: context));
+          Navigator.of(context).pushNamed(ComplaintsPage.routeName);
+        },
+      ),
     SideBarRow(icon: Icons.logout, text: 'تسجيل الخروج', onTap: () async => await LoginServices.logOutAdmin(context)),
     Divider(color: kmColors, height: 20),
     Padding(

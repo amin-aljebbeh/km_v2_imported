@@ -1,4 +1,3 @@
-import 'package:kammun_app/features/store/drawer_children.dart';
 import 'package:kammun_app/features/store/store_view_category_grid.dart';
 
 import '../../core/core_importer.dart';
@@ -29,7 +28,7 @@ class StoreViewState extends State<StoreView> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
-      drawer: KDrawer(children: getDrawerChildren(context)),
+      drawer: const KDrawer(),
       appBar: StoreAppBar(scaffoldKey: scaffoldKey),
       body: SafeArea(
         child: SingleChildScrollView(

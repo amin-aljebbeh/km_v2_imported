@@ -37,6 +37,13 @@ class StoreSearchTextField extends StatelessWidget {
                 ],
               ),
             ),
+            border: UnderlineInputBorder(borderSide: BorderSide(color: kmColors)),
+            focusedBorder:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: kmColors)),
+            enabledBorder:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: kmColors)),
+            disabledBorder:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(6), borderSide: BorderSide(color: kmColors)),
             contentPadding: const EdgeInsets.only(bottom: 0.5),
             hintText: search,
             hintStyle: mainStyle,

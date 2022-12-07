@@ -8,6 +8,10 @@ class ComplaintWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: const EdgeInsets.all(8.0), child: Container());
+    return KCard(
+        padding: const EdgeInsets.all(8),
+        onTap: () {},
+        child: Column(),
+        radius: const BorderRadius.all(Radius.circular(6)));
   }
 }

@@ -21,7 +21,7 @@ class UpdateProductInfoWidget extends StatefulWidget {
   const UpdateProductInfoWidget({
     Key key,
     this.onSavePressed,
-    this.initialText = "",
+    this.initialText = '',
     this.title,
     this.inputType = TextInputType.number,
     @required this.bodyKey,

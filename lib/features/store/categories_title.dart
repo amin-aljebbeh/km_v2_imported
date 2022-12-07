@@ -11,10 +11,8 @@ class CategoriesTitle extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           const Expanded(child: KDivider()),
-          Text(
-            '  ' + shopByCategory + '  ',
-            style: TextStyle(color: primaryColor, fontWeight: FontWeight.w900, fontFamily: fontFamily, fontSize: 22),
-          ),
+          Text('  ' + shopByCategory + '  ',
+              style: mainStyle.copyWith(color: primaryColor, fontWeight: FontWeight.w900, fontSize: 22)),
           const Expanded(child: KDivider()),
         ],
       ),

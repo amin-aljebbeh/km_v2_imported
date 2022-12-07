@@ -56,7 +56,7 @@ class _InvoiceViewState extends State<InvoiceView> {
                         children: [
                           InvoiceInfoWidget(title: 'تفاصيل الفاتورة', children: invoiceInfo),
                           KCard(
-                            radius: 6,
+                            radius: const BorderRadius.all(Radius.circular(6)),
                             child: InvoiceRow(
                               style: informationStyle.copyWith(color: kmColors),
                               children: lastOne.info,

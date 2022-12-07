@@ -39,7 +39,7 @@ class _StoreAppBarState extends State<StoreAppBar> {
                     padding: const EdgeInsets.only(top: 12.0),
                     child: InkWell(
                         onTap: () => widget.scaffoldKey.currentState.openDrawer(),
-                        child: const Icon(Icons.menu, color: Colors.white, size: 40)),
+                        child: const Icon(Icons.menu_rounded, color: Colors.white, size: 40)),
                   ),
                   const AppBarKammunImage(),
                   Services.isShopper()
