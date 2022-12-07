@@ -57,7 +57,7 @@ class StoreSearchTextField extends StatelessWidget {
     if (searchController.text.isNotEmpty) {
       if (onSubmit != null) onSubmit();
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ProductsView(queryString: searchController.text, categoryId: "0")));
+          MaterialPageRoute(builder: (context) => ProductsView(queryString: searchController.text, categoryId: '0')));
     }
   }
 }
