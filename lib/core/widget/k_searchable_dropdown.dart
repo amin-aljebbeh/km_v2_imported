@@ -35,7 +35,7 @@ class _KSearchableDropdownState extends State<KSearchableDropdown> {
           contentPadding: const EdgeInsets.symmetric(vertical: 12)),
       iconEnabledColor: primaryColor,
       closeButton: TextButton(
-          child: Text(close, style: dropdownItemStyle.copyWith(color: primaryColor)),
+          child: Text(closeString, style: dropdownItemStyle.copyWith(color: primaryColor)),
           onPressed: () => Navigator.of(context).pop()),
       disabledHint: Center(child: Text('disabled', style: disableStyle)),
       isCaseSensitiveSearch: false,

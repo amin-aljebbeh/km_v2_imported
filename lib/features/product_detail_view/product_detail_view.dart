@@ -529,8 +529,8 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           displayClearIcon: false,
                                           style: dropdownItemStyle,
                                           closeButton: TextButton(
-                                            child:
-                                                Text(close, style: decisionButtonStyle.copyWith(color: primaryColor)),
+                                            child: Text(closeString,
+                                                style: decisionButtonStyle.copyWith(color: primaryColor)),
                                             onPressed: () => Navigator.of(context).pop(),
                                           ),
                                           isCaseSensitiveSearch: false,

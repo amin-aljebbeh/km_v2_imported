@@ -21,7 +21,7 @@ const String removeFromFavorite = user + 'remove_`product`_from_favorites/';
 const String otpVerification = 'verification_code/verify_account/';
 
 const couponApi = 'coupon/';
-const attachUserToCouponApi = 'attach_user_to_coupon/';
+const attachUserToCouponApi = couponApi + 'attach_user_to_coupon/';
 const userTransactionApi = 'user_transaction/';
 const depositApi = 'user_transaction/deposit/';
 //Orders:

@@ -107,7 +107,7 @@ class _CouponWidgetState extends State<CouponWidget> {
                             KammunButton(
                               color: kmColors,
                               onTap: () {
-                                Navigator.pop(context);
+                                Navigator.of(context).pop();
                                 StoreProvider.of<AppState>(context).dispatch(AttachUserToCouponAction(
                                     userId: widget.userId,
                                     context: context,

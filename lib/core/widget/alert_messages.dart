@@ -13,7 +13,7 @@ class AlertMessages extends StatelessWidget {
   double headerTextSize = 15;
   double messageTextSize = 13;
 
-  AlertMessages({Key key, @required this.text, @required this.messageType, this.headerText, this.headerTextColor})
+  AlertMessages({Key key, @required this.text, @required this.messageType, this.headerText = '', this.headerTextColor})
       : super(key: key);
 
   void selectListItem(BuildContext ctx) {

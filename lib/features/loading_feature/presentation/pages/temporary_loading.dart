@@ -18,14 +18,30 @@ class TemporaryLoading extends StatelessWidget {
               child,
               if (state.loadingState.isLoading && condition)
                 const Scaffold(body: Center(child: Loader()), backgroundColor: Colors.white60),
-              if (state.errorState.isError && state.errorState.viewError)
+              if ((state.errorState.isError && state.errorState.viewError) || state.loadingState.viewMessage)
                 Scaffold(
                   body: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(child: Container()),
-                      Center(child: AlertMessages(text: state.errorState.errorMessage, messageType: 'internetError')),
+                      Center(
+                          child: AlertMessages(
+                              text:
+                                  state.errorState.isError ? state.errorState.errorMessage : state.loadingState.message,
+                              messageType: state.errorState.isError ? 'internetError' : 'Successfully')),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: KammunButton(
+                            color: state.errorState.isError ? Colors.red : Colors.green[800],
+                            onTap: () {
+                              StoreProvider.of<AppState>(context).dispatch(NoError());
+                              StoreProvider.of<AppState>(context).dispatch(HideMessage());
+                            },
+                            width: MediaQuery.of(context).size.width,
+                            text: closeString,
+                            height: 50),
+                      ),
                       Expanded(child: Container()),
                     ],
                   ),

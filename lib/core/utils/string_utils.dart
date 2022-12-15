@@ -68,7 +68,7 @@ String myOrders = 'طلباتي';
 
 //Buttons text:
 String watchNote = 'مشاهدة ملاحظة العميل';
-String close = 'إغلاق';
+String closeString = 'إغلاق';
 String unLock = 'إلغاء التعليق';
 String yes = 'نعم';
 String no = 'لا';
