@@ -1,17 +1,18 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../domain/entities/coupon_entity.dart';
+import '../../domain/entities/get_coupons_response_entity.dart';
 import 'coupon_action.dart';
 
 Future<void> couponMiddleware(Store<AppState> store, action, NextDispatcher next) async {
   if (action is GetCouponsAction) {
     store.dispatch(StartLoading());
-    Either either = await store.state.couponState.couponsUseCase
-        .getCouponsUseCase(isGeneral: 0, code: action.code, isForDelivery: action.isForDelivery);
+    Either either = await store.state.couponState.couponsUseCase.getCouponsUseCase(
+        isGeneral: 0, code: action.code, isForDelivery: action.isForDelivery, page: store.state.couponState.pageNumber);
     either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (coupons) {
-      var theCoupons = coupons as List<CouponEntity>;
-      store.dispatch(SetCoupons(coupons: theCoupons));
+      var result = coupons as GetCouponsResponseEntity;
+      if (result.data.currentPage == result.data.lastPage) store.dispatch(EndOfCoupons());
+      store.dispatch(SetCoupons(coupons: result.data.coupons));
     });
     store.dispatch(StopLoading());
   }

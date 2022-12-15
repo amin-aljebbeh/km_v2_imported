@@ -40,7 +40,7 @@ class CouponsPageState extends State<CouponsPage> {
                                 cursorColor: kmColors,
                                 style: mainStyle,
                                 onFieldSubmitted: (_) {
-                                  StoreProvider.of<AppState>(context).dispatch(SetCoupons(coupons: []));
+                                  StoreProvider.of<AppState>(context).dispatch(FirstCouponsPage());
                                   StoreProvider.of<AppState>(context).dispatch(GetCouponsAction(
                                       code: controller.text, isForDelivery: [0, 1].contains(type) ? type : null));
                                 },
@@ -55,7 +55,7 @@ class CouponsPageState extends State<CouponsPage> {
                                     suffixIcon: InkWell(
                                         child: const Icon(Icons.search_rounded, color: Colors.grey),
                                         onTap: () {
-                                          StoreProvider.of<AppState>(context).dispatch(SetCoupons(coupons: []));
+                                          StoreProvider.of<AppState>(context).dispatch(FirstCouponsPage());
                                           StoreProvider.of<AppState>(context).dispatch(GetCouponsAction(
                                               code: controller.text,
                                               isForDelivery: [0, 1].contains(type) ? type : null));
@@ -75,7 +75,7 @@ class CouponsPageState extends State<CouponsPage> {
                             value: type,
                             onChanged: (value) {
                               setState(() => type = value);
-                              StoreProvider.of<AppState>(context).dispatch(SetCoupons(coupons: []));
+                              StoreProvider.of<AppState>(context).dispatch(FirstCouponsPage());
                               StoreProvider.of<AppState>(context).dispatch(GetCouponsAction(
                                   code: controller.text, isForDelivery: [0, 1].contains(type) ? type : null));
                             })
@@ -93,15 +93,31 @@ class CouponsPageState extends State<CouponsPage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Center(child: Text('ليس لديك أكواد حسم', style: paragraphStyle)))
                               : Expanded(
-                                  child: ListView.builder(
-                                      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                                      primary: false,
-                                      scrollDirection: Axis.vertical,
-                                      shrinkWrap: true,
-                                      itemCount: state.couponState.coupons.length,
-                                      itemBuilder: (BuildContext context, int index) => CouponWidget(
-                                          couponEntity: state.couponState.coupons[index], userId: widget.userId)),
+                                  child: NotificationListener<ScrollEndNotification>(
+                                    onNotification: (ScrollEndNotification scrollInfo) {
+                                      if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
+                                          state.couponState.hasNext) {
+                                        StoreProvider.of<AppState>(context).dispatch(NextCouponsPage());
+                                        StoreProvider.of<AppState>(context).dispatch(GetCouponsAction(
+                                            code: controller.text, isForDelivery: [0, 1].contains(type) ? type : null));
+                                      }
+                                      return;
+                                    },
+                                    child: ListView.builder(
+                                        physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                                        primary: false,
+                                        scrollDirection: Axis.vertical,
+                                        shrinkWrap: true,
+                                        itemCount: state.couponState.coupons.length,
+                                        itemBuilder: (BuildContext context, int index) => CouponWidget(
+                                            couponEntity: state.couponState.coupons[index], userId: widget.userId)),
+                                  ),
                                 ),
+                  if (!state.couponState.hasNext && !state.loadingState.isLoading)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(child: Text('تم جلب جميع الأكواد', style: paragraphStyle)),
+                    )
                 ],
               ),
             ),

@@ -202,7 +202,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           Toast.show('تم نسخ الرقم', context, duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
                         },
                       ),
-                    if (Services.isOperationManager())
+                    if (Services.isAgent())
                       InkWell(
                         child: Icon(Icons.manage_accounts_rounded, color: kmColors, size: 25),
                         onTap: () {
@@ -212,6 +212,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                                   builder: (context) => UserManagement(
                                       userId: widget.orderData.userData.id,
                                       balance: widget.orderData.userData.balance)));
+                          StoreProvider.of<AppState>(context).dispatch(FirstCouponsPage());
                           StoreProvider.of<AppState>(context).dispatch(GetCouponsAction());
                         },
                       ),

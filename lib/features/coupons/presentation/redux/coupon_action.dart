@@ -13,3 +13,9 @@ class SetCoupons {
 
   SetCoupons({this.coupons});
 }
+
+class FirstCouponsPage {}
+
+class NextCouponsPage {}
+
+class EndOfCoupons {}
