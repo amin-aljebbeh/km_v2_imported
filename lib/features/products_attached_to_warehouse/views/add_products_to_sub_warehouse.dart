@@ -1,4 +1,3 @@
-import 'package:kammun_app/features/loading/loading_services.dart';
 import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
 
 import '../../../core/core_importer.dart';
@@ -131,7 +130,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
                       children: [
                         ProductEntryField(
                             controller: supplierCodeController,
-                            title: supplierCode,
+                            title: supplierCodeString,
                             hint: '123456',
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(

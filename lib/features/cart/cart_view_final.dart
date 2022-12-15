@@ -1,5 +1,4 @@
 import 'package:kammun_app/features/cart/services/cart_services.dart';
-import 'package:kammun_app/features/loading/loading_services.dart';
 import 'package:kammun_app/features/orders/services/order_services.dart';
 import 'package:kammun_app/features/thank_you/thank_you_view.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';

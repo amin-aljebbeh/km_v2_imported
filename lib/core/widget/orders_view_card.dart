@@ -1,13 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:kammun_app/features/complaints/presentation/pages/add_complaint_page.dart';
-import 'package:kammun_app/features/loading/loading_services.dart';
+import 'package:kammun_app/features/coupons/presentation/redux/coupon_action.dart';
 import 'package:kammun_app/features/order_details/order_details_tab_view.dart';
 import 'package:kammun_app/features/orders/orders_view_importer.dart';
 import 'package:kammun_app/features/orders/services/order_services.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 import '../../core/core_importer.dart';
+import '../../features/users/presentation/pages/user_management_view.dart';
 
 class OrdersViewCard extends StatefulWidget {
   final OrdersOriginalData orderData;
@@ -199,6 +200,19 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                         onTap: () {
                           Clipboard.setData(ClipboardData(text: widget.orderData.userData.phone));
                           Toast.show('تم نسخ الرقم', context, duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
+                        },
+                      ),
+                    if (Services.isOperationManager())
+                      InkWell(
+                        child: Icon(Icons.manage_accounts_rounded, color: kmColors, size: 25),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UserManagement(
+                                      userId: widget.orderData.userData.id,
+                                      balance: widget.orderData.userData.balance)));
+                          StoreProvider.of<AppState>(context).dispatch(GetCouponsAction());
                         },
                       ),
                     if (Services.isOperationManager())

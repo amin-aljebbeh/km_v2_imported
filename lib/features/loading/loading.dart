@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 
 import '../../core/core_importer.dart';
 import '../../features/errors_screen/internet_error.dart';
-import '../../features/loading/loading_services.dart';
 import '../../features/update_screen/update_required_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -35,7 +34,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
       await Firebase.initializeApp();
       bool userLoggedIn = await LoadingScreenServices().checkIfUserLoggedIn();
       if (userLoggedIn) {
-        bool x = await LoadingScreenServices().fetchStartInformation();
+        bool x = await LoadingScreenServices().fetchStartInformation(context: context);
         return x;
       }
       return 'userNotLoggedIn';

@@ -1,3 +1,5 @@
+import 'package:kammun_app/features/complaints/presentation/redux/complaints_action.dart';
+
 import '../../core/core_importer.dart';
 import '../../features/inventory/services/inventory_services.dart';
 import '../../features/reports/models/transaction_type_model.dart';
@@ -232,7 +234,7 @@ class LoadingScreenServices {
     return true;
   }
 
-  Future<bool> fetchStartInformation() async {
+  Future<bool> fetchStartInformation({BuildContext context}) async {
     try {
       bool userLoggedIn = await checkIfUserLoggedIn();
       if (userLoggedIn) {
@@ -242,6 +244,7 @@ class LoadingScreenServices {
           getSubWarehouse(),
           getCategoryService(),
           Services.getWarehousesService(),
+          StoreProvider.of<AppState>(context).dispatch(GetComplaintTypesAction()),
           fetchAdminInformation()
         ]);
         if (Services.isOperationManager() || Services.isSuperAdmin() || Services.isAdmin() || Services.isAccounting()) {

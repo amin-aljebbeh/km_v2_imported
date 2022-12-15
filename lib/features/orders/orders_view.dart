@@ -1,5 +1,4 @@
 import 'package:kammun_app/features/cart/services/cart_services.dart';
-import 'package:kammun_app/features/loading/loading_services.dart';
 
 import '../../core/core_importer.dart';
 import 'model/change_status_response_model.dart';
@@ -184,7 +183,7 @@ class OrdersViewState extends State<OrdersView> {
                             ),
                             DropdownButton(
                               value: page,
-                              items: Services.dropdownIntList(dropdownValues),
+                              items: Services.dropdownIntList(inputList: dropdownValues),
                               onChanged: (value) {
                                 setState(() => {page = value, indexPage = value});
                                 _getOrder();

@@ -83,13 +83,13 @@ String addTransaction = 'إضافة مناقلة';
 //Labels:
 String shopperName = 'مسؤول الطلب : ';
 String orderDate = 'تاريخ الطلب : ';
-String quantity = 'الكمية';
+String quantityString = 'الكمية';
 String priceString = 'السعر ';
-String description = 'الوصف ';
+String descriptionString = 'الوصف ';
 String outOfStock = 'المنتج نفذ من المستودعات';
-String supplierCode = 'رمز المادة';
+String supplierCodeString = 'رمز المادة';
 String priceFactor = 'معدل الضرب';
-String name = 'الاسم :';
+String nameString = 'الاسم :';
 String unitString = 'الوحدة';
 String priority = 'الأولوية';
 String logout = 'تسجيل الخروج';

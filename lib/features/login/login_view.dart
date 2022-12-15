@@ -74,8 +74,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         decoration: InputDecoration(
           floatingLabelStyle: TextStyle(fontFamily: fontFamily, fontSize: 30, color: primaryColor),
           labelText: 'كلمة المرور',
-          labelStyle: TextStyle(fontFamily: fontFamily, fontSize: 30),
-          hintStyle: const TextStyle(color: Colors.black45),
+          labelStyle: mainStyle.copyWith(fontSize: 30),
+          hintStyle: mainStyle.copyWith(color: Colors.black45),
           border:
               OutlineInputBorder(borderSide: BorderSide(color: primaryColor), borderRadius: BorderRadius.circular(5.0)),
           focusedBorder:

@@ -1,5 +1,4 @@
 import 'package:image_picker/image_picker.dart';
-import 'package:kammun_app/features/loading/loading_services.dart';
 import 'package:kammun_app/features/products_view/select_file.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
 
@@ -24,11 +23,11 @@ class _AddProductsViewState extends State<AddProductsView> {
   List<String> productData = [
     'المستودع',
     'اسم المنتج',
-    quantity,
+    quantityString,
     unitString,
     priceFactor,
-    description,
-    supplierCode,
+    descriptionString,
+    supplierCodeString,
     priceString,
     'الصورة'
   ];
@@ -206,7 +205,7 @@ class _AddProductsViewState extends State<AddProductsView> {
                       children: [
                         ProductEntryField(
                             controller: quantityController,
-                            title: quantity,
+                            title: quantityString,
                             hint: '100',
                             width: MediaQuery.of(context).size.width / 4),
                         ProductEntryField(
@@ -223,14 +222,14 @@ class _AddProductsViewState extends State<AddProductsView> {
                     ),
                     ProductEntryField(
                         controller: descriptionController,
-                        title: description,
+                        title: descriptionString,
                         hint: 'زيت دوار الشمس الصافي @كلمات مفتاحية'),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ProductEntryField(
                             controller: supplierCodeController,
-                            title: supplierCode,
+                            title: supplierCodeString,
                             hint: '123456',
                             width: MediaQuery.of(context).size.width / 3),
                         ProductEntryField(
@@ -323,9 +322,9 @@ class _AddProductsViewState extends State<AddProductsView> {
       if (!productData.contains('اسم المنتج')) productData.add('اسم المنتج');
     }
     if (quantityController.text.isNotEmpty) {
-      if (productData.contains(quantity)) productData.remove(quantity);
+      if (productData.contains(quantityString)) productData.remove(quantityString);
     } else {
-      if (!productData.contains(quantity)) productData.add(quantity);
+      if (!productData.contains(quantityString)) productData.add(quantityString);
     }
     if (unitController.text.isNotEmpty) {
       if (productData.contains(unitString)) productData.remove(unitString);
@@ -338,14 +337,14 @@ class _AddProductsViewState extends State<AddProductsView> {
       if (!productData.contains(priceFactor)) productData.add(priceFactor);
     }
     if (descriptionController.text.isNotEmpty) {
-      if (productData.contains(description)) productData.remove(description);
+      if (productData.contains(descriptionString)) productData.remove(descriptionString);
     } else {
-      if (!productData.contains(description)) productData.add(description);
+      if (!productData.contains(descriptionString)) productData.add(descriptionString);
     }
     if (supplierCodeController.text.isNotEmpty) {
-      if (productData.contains(supplierCode)) productData.remove(supplierCode);
+      if (productData.contains(supplierCodeString)) productData.remove(supplierCodeString);
     } else {
-      if (!productData.contains(supplierCode)) productData.add(supplierCode);
+      if (!productData.contains(supplierCodeString)) productData.add(supplierCodeString);
     }
     if (priceController.text.isNotEmpty) {
       if (productData.contains(priceString)) productData.remove(priceString);

@@ -19,6 +19,11 @@ const String updateUserSupportedCity = user + 'update_supported_city';
 const String addToFavorite = user + 'add_product_to_favorites/';
 const String removeFromFavorite = user + 'remove_`product`_from_favorites/';
 const String otpVerification = 'verification_code/verify_account/';
+
+const couponApi = 'coupon/';
+const attachUserToCouponApi = 'attach_user_to_coupon/';
+const userTransactionApi = 'user_transaction/';
+const depositApi = 'user_transaction/deposit/';
 //Orders:
 const String order = 'order/';
 const String deliveryViewsHisOwnOrders = order + 'delivery_views_his_own_orders';

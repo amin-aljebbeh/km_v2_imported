@@ -6,6 +6,8 @@ Future<void> inject() async {
   await injectSupplier();
   await injectComplaints();
   await injectAdmins();
+  await injectCoupons();
+  await injectUsers();
 
 //! Core
 

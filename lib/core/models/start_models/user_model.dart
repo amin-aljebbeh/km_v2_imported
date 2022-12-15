@@ -43,6 +43,7 @@ class UserData {
     this.supportedCityId,
     this.coupon,
     this.orderCount,
+    this.balance,
   });
 
   int id;
@@ -54,7 +55,7 @@ class UserData {
   String isActivated;
   dynamic couponId;
   dynamic rememberToken;
-
+  String balance;
   String warehouseId;
   dynamic supportedCityId;
 
@@ -75,6 +76,7 @@ class UserData {
         supportedCityId: json["supported_city_id"].toString(),
         coupon: json["coupon"] == null ? null : json['coupon'],
         orderCount: json['order_count'] ?? -1,
+        balance: json['balance'],
       );
 
   Map<String, dynamic> toJson() => {

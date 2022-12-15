@@ -9,14 +9,14 @@ abstract class AdminsRemoteDataSource {
 class AdminsRemoteDataSourceImplement extends AdminsRemoteDataSource {
   @override
   Future<List<AdminModel>> getAdmins() async {
+    Response response = await ApiProvider.sendRequest(url: getProductsOfWaitingList, method: HttpMethods.get);
     try {
-      Response response = await ApiProvider.sendRequest(url: getProductsOfWaitingList, method: HttpMethods.get);
       if (response != null) {
         if (response.statusCode == successCode) return getAdminsResponseModelFromJson(jsonEncode(response.data)).admins;
       }
-      throw (ServerException());
     } catch (e) {
       throw (InternalException(message: e.toString()));
     }
+    throw (ServerException());
   }
 }

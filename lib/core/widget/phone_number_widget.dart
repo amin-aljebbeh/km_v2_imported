@@ -13,7 +13,7 @@ class PhoneNumberWidget extends StatelessWidget {
       children: [
         Divider(thickness: 1, color: kmColors),
         LabelRow(rightSideText: phoneNumberString, leftSideText: phoneNumber, leftSideStyle: informationStyle),
-        LabelRow(rightSideText: name + ' ', leftSideText: userName, leftSideStyle: informationStyle),
+        LabelRow(rightSideText: nameString + ' ', leftSideText: userName, leftSideStyle: informationStyle),
         Divider(thickness: 1, color: kmColors),
       ],
     );

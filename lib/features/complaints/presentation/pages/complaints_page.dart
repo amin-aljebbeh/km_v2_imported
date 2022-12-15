@@ -1,7 +1,6 @@
 import 'package:kammun_app/features/complaints/presentation/widgets/complaint_widget.dart';
 
 import '../../../../core/core_importer.dart';
-import '../../../loading_feature/presentation/pages/temporary_loading.dart';
 
 class ComplaintsPage extends StatelessWidget {
   static const String routeName = '/ComplaintsPage';

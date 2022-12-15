@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:kammun_app/features/complaints/data/data_sources/complaints_remote_data_source.dart';
-import 'package:kammun_app/features/complaints/domain/entities/complaint_entity.dart';
-import 'package:kammun_app/features/complaints/domain/entities/complaint_type_entity.dart';
-import 'package:kammun_app/features/complaints/domain/repositories/complaints_repository.dart';
 
 import '../../../../core/core_importer.dart';
+import '../../domain/entities/complaint_entity.dart';
+import '../../domain/entities/complaint_type_entity.dart';
+import '../../domain/repositories/complaints_repository.dart';
+import '../data_sources/complaints_remote_data_source.dart';
 
 class ComplaintsRepositoryImplement implements ComplaintsRepository {
   final ComplaintsRemoteDataSource complaintsRemoteDataSource;

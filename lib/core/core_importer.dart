@@ -14,9 +14,13 @@ export 'package:internet_connection_checker/internet_connection_checker.dart';
 export 'package:kammun_app/service.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 
+export '../features/error/presentation/redux/error_action.dart';
 //
 
 export '../features/loading/loading.dart';
+export '../features/loading/loading_services.dart';
+export '../features/loading_feature/presentation/pages/temporary_loading.dart';
+export '../features/loading_feature/presentation/redux/loading_action.dart';
 export '../features/loading_feature/presentation/redux/loading_action.dart';
 export '../features/view_importer.dart';
 // used a lot

@@ -9,15 +9,15 @@ abstract class RemoteInventoryDataSource {
 class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
   @override
   Future<FilteredProductsModel> getNotificationProducts({int pageNumber}) async {
+    Response response = await ApiProvider.sendRequest(
+        url: getProductsOfWaitingList, method: HttpMethods.get, queryParameters: {'page': pageNumber});
     try {
-      Response response = await ApiProvider.sendRequest(
-          url: getProductsOfWaitingList, method: HttpMethods.get, queryParameters: {'page': pageNumber});
       if (response != null) {
         if (response.statusCode == successCode) return filteredProductsModelFromJson(jsonEncode(response.data));
       }
-      throw (ServerException());
     } catch (e) {
       throw (InternalException(message: e.toString()));
     }
+    throw (ServerException());
   }
 }

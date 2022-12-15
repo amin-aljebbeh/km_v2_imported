@@ -1,5 +1,4 @@
 import '../../../../core/core_importer.dart';
-import 'error_action.dart';
 import 'error_state.dart';
 
 final errorReducer = combineReducers<ErrorState>([

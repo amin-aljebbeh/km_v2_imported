@@ -8,6 +8,8 @@ const int notFoundError = 404;
 
 const int forbiddenError = 403;
 
+const int timeOutError = 408;
+
 const int conflictError = 409;
 
 const int internalServerError = 500;

@@ -2,7 +2,6 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'core/core_importer.dart';
-import 'features/loading/loading_services.dart';
 
 class Services {
   static List<Role> roles = [];
@@ -95,12 +94,21 @@ class Services {
               value: subWarehouse.id.toString()))
           .toList();
 
-  static List<DropdownMenuItem<int>> dropdownIntList(List<String> inputList) => inputList
+  static List<DropdownMenuItem<int>> dropdownIntList({List<String> inputList}) => inputList
       .asMap()
       .map((value, string) =>
           MapEntry(value, DropdownMenuItem<int>(child: Text(string, style: dropdownItemStyle), value: value + 1)))
       .values
       .toList();
+
+  static List<DropdownMenuItem<int>> reverseDropdownIntList({List<String> inputList}) {
+    List<DropdownMenuItem<int>> result = [];
+    for (int i = 0; i < inputList.length; i++) {
+      result.add(DropdownMenuItem<int>(
+          child: Text(inputList[i], style: dropdownItemStyle), value: inputList.length - (i + 1)));
+    }
+    return result;
+  }
 
   static List<DropdownMenuItem<int>> dropdownStringList(List<String> inputList) => inputList
       .asMap()

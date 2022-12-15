@@ -1,6 +1,8 @@
 import 'package:kammun_app/features/admins/presentation/redux/admins_middleware.dart';
+import 'package:kammun_app/features/coupons/presentation/redux/coupon_middleware.dart';
 import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_middleware.dart';
 import 'package:kammun_app/features/loading_feature/presentation/redux/loading_middleware.dart';
+import 'package:kammun_app/features/users/presentation/redux/users_middleware.dart';
 
 import '../features/complaints/presentation/redux/complaints_middleware.dart';
 import '../features/error/presentation/redux/error_middleware.dart';
@@ -14,6 +16,8 @@ List<Middleware<AppState>> appMiddleware() {
     errorMiddleware,
     supplierMiddleware,
     complaintsMiddleware,
-    adminsMiddleware
+    adminsMiddleware,
+    couponMiddleware,
+    usersMiddleware,
   ];
 }

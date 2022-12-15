@@ -2,7 +2,6 @@ import 'package:carousel_pro/carousel_pro.dart';
 
 import '../../core/core_importer.dart';
 import '../../core/firebase_init.dart';
-import '../loading/loading_services.dart';
 
 class ImageCarousel extends StatelessWidget {
   const ImageCarousel({Key key}) : super(key: key);

@@ -16,9 +16,7 @@ class GetComplaintAction {
 }
 
 class GetComplaintTypesAction {
-  final BuildContext context;
-
-  GetComplaintTypesAction({this.context});
+  GetComplaintTypesAction();
 }
 
 class SetComplaintTypes {

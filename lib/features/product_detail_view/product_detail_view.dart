@@ -1,6 +1,5 @@
 import 'package:full_screen_image/full_screen_image.dart';
 import 'package:kammun_app/features/cart/services/cart_services.dart';
-import 'package:kammun_app/features/loading/loading_services.dart';
 import 'package:kammun_app/features/prices_changes/services/prices_changes_services.dart';
 import 'package:kammun_app/features/products_attached_to_warehouse/services/added_products_services.dart';
 import 'package:kammun_app/features/products_view/services/products_services.dart';
@@ -168,7 +167,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Text(quantity + ' :', style: paragraphStyle),
+                            Text(quantityString + ' :', style: paragraphStyle),
                             const SizedBox(width: 5),
                             Text(
                                 widget.product.unit.toString() != 'null'
@@ -198,7 +197,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LabelRow(
-                            rightSideText: description + ' :',
+                            rightSideText: descriptionString + ' :',
                             leftSideText:
                                 widget.product.description != null ? widget.product.description.split('@')[0] : '',
                             leftSideStyle: informationStyle),
@@ -375,7 +374,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                 }),
                           ),
                           UpdateProductInfoWidget(
-                            title: edit + ' ' + supplierCode + ':',
+                            title: edit + ' ' + supplierCodeString + ':',
                             inputType: TextInputType.text,
                             textHint: widget.product.supplierCode,
                             initialText: widget.product.supplierCode,
@@ -410,7 +409,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           setState(() => widget.product.priority = int.parse(newValue)),
                                     ),
                                     UpdateProductInfoWidget(
-                                      title: edit + ' ' + name,
+                                      title: edit + ' ' + nameString,
                                       textHint: widget.product.name,
                                       inputType: TextInputType.multiline,
                                       bodyKey: 'name',
@@ -434,7 +433,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           () => {widget.product.unit = newValue, widget.onChangeUnit(newValue)}),
                                     ),
                                     UpdateProductInfoWidget(
-                                      title: edit + ' ' + quantity + ' :',
+                                      title: edit + ' ' + quantityString + ' :',
                                       isForSubWarehouse: false,
                                       inputType: TextInputType.text,
                                       productData: widget.product,
@@ -446,7 +445,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           {widget.product.quantity = newValue, widget.onChangeQuantity(newValue)}),
                                     ),
                                     UpdateProductInfoWidget(
-                                      title: edit + ' ' + description + ' :',
+                                      title: edit + ' ' + descriptionString + ' :',
                                       textHint: 'الوصف الجديد',
                                       inputType: TextInputType.multiline,
                                       bodyKey: 'description',
