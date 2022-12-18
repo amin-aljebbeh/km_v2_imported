@@ -193,10 +193,12 @@ class OrderServices {
     }
   }
 
-  static Future<List<OrdersOriginalData>> getAllOrders({int pageNumber = 1}) async {
+  static Future<List<OrdersOriginalData>> getAllOrders({int pageNumber = 1, int filterEvaluatedOrders = 0}) async {
     try {
-      var response =
-          await ApiProvider.sendRequest(url: order, method: HttpMethods.get, queryParameters: {'page': pageNumber});
+      var response = await ApiProvider.sendRequest(
+          url: order,
+          method: HttpMethods.get,
+          queryParameters: {'page': pageNumber, 'filter_evaluated_orders': filterEvaluatedOrders});
 
       if (response.statusCode == successCode) {
         LoadingScreenServices.allOrdersList = ordersFromJson(jsonEncode(response.data)).data.data;

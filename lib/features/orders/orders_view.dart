@@ -17,7 +17,7 @@ class OrdersViewState extends State<OrdersView> {
   TextEditingController idController;
   TextEditingController phoneController;
   Future getOrders;
-  int rateValue;
+  int rated;
 
   @override
   void initState() {
@@ -27,13 +27,13 @@ class OrdersViewState extends State<OrdersView> {
     orderDataList = [];
     warehouses = ['جميع المستودعات'];
     warehouses.addAll(LoadingScreenServices.warehouses.map((warehouse) => warehouse.name).toList());
-    rateValue = 0;
+    rated = 0;
     ordersFilter = LoadingScreenServices.ordersViewFilter;
     ordersTypeFilter = 0;
     warehouseFilter = 0;
 
     if (LoadingScreenServices.allOrdersList.isEmpty) {
-      getOrders = _getOrder();
+      getOrders = _getOrders();
     } else {
       getOrders = _initialFunction();
       orderDataList = LoadingScreenServices.allOrdersList;
@@ -59,7 +59,7 @@ class OrdersViewState extends State<OrdersView> {
 
   List<OrdersOriginalData> orderDataList;
 
-  _getOrder() async {
+  _getOrders() async {
     setState(() {
       if (indexPage == 1) orderLoaded = false;
       if (!theEndOfOrders) isLoading = true;
@@ -68,7 +68,7 @@ class OrdersViewState extends State<OrdersView> {
     });
     List<OrdersOriginalData> orderList;
     if (LoadingScreenServices.allOrdersList.isEmpty) {
-      orderList = await OrderServices.getAllOrders(pageNumber: indexPage);
+      orderList = await OrderServices.getAllOrders(pageNumber: indexPage, filterEvaluatedOrders: rated);
     } else {
       orderList = LoadingScreenServices.allOrdersList;
     }
@@ -84,21 +84,24 @@ class OrdersViewState extends State<OrdersView> {
       } else {
         setState(() {
           orderDataList.addAll(orderList);
-          if (ordersFilter == 0) {
-            orderDataList.removeWhere((order) => int.parse(order.orderStatusId) > 4);
-          } else {
-            orderDataList.removeWhere((order) => int.parse(order.orderStatusId) != ordersFilter);
+          if (rated == 0) {
+            if (ordersFilter == 0) {
+              orderDataList.removeWhere((order) => int.parse(order.orderStatusId) > 4);
+            } else {
+              orderDataList.removeWhere((order) => int.parse(order.orderStatusId) != ordersFilter);
+            }
+            switch (ordersTypeFilter) {
+              case (0):
+                break;
+              case (1):
+                orderDataList.removeWhere((order) => order.shopper == null);
+                break;
+              case (2):
+                orderDataList.removeWhere((order) => order.shopper != null);
+                break;
+            }
           }
-          switch (ordersTypeFilter) {
-            case (0):
-              break;
-            case (1):
-              orderDataList.removeWhere((order) => order.shopper == null);
-              break;
-            case (2):
-              orderDataList.removeWhere((order) => order.shopper != null);
-              break;
-          }
+
           if (warehouseFilter != 0) {
             orderDataList.removeWhere((order) => int.parse(order.warehouseId) != warehouseFilter);
           }
@@ -150,7 +153,7 @@ class OrdersViewState extends State<OrdersView> {
                             indexPage = 1;
                             pageController.clear();
                           });
-                          _getOrder();
+                          _getOrders();
                         },
                       ),
                       DropdownButton(
@@ -158,7 +161,7 @@ class OrdersViewState extends State<OrdersView> {
                         items: Services.dropdownStringList(orderTypes),
                         onChanged: (value) {
                           setState(() => {ordersTypeFilter = value, page = 1, indexPage = 1});
-                          _getOrder();
+                          _getOrders();
                         },
                       ),
                     ],
@@ -169,6 +172,19 @@ class OrdersViewState extends State<OrdersView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            InkWell(
+                                child:
+                                    Icon(Icons.star_rounded, size: 40, color: rated == 1 ? kmColors : searchGreyColor),
+                                onTap: () {
+                                  setState(() {
+                                    if (rated == 0) {
+                                      rated = 1;
+                                    } else {
+                                      rated = 0;
+                                    }
+                                  });
+                                  _getOrders();
+                                }),
                             SearchOrderByPhoneNumber(
                                 phoneController: phoneController,
                                 idController: idController,
@@ -177,7 +193,7 @@ class OrdersViewState extends State<OrdersView> {
                             IconButton(
                               onPressed: () {
                                 setState(() => {indexPage++, if (page < 15) page++});
-                                _getOrder();
+                                _getOrders();
                               },
                               icon: Icon(Icons.arrow_back, size: 40, color: kmColors),
                             ),
@@ -186,14 +202,14 @@ class OrdersViewState extends State<OrdersView> {
                               items: Services.dropdownIntList(inputList: dropdownValues),
                               onChanged: (value) {
                                 setState(() => {page = value, indexPage = value});
-                                _getOrder();
+                                _getOrders();
                               },
                             ),
                             IconButton(
                               onPressed: () => setState(() {
                                 if (indexPage > 1 && indexPage <= 15) page--;
                                 if (indexPage > 1) indexPage--;
-                                _getOrder();
+                                _getOrders();
                               }),
                               icon: Icon(Icons.arrow_forward, size: 40, color: kmColors),
                             ),
@@ -208,7 +224,7 @@ class OrdersViewState extends State<OrdersView> {
                                 items: Services.dropdownStringList(warehouses),
                                 onChanged: (value) {
                                   setState(() => {warehouseFilter = value, page = 1, indexPage = 1});
-                                  _getOrder();
+                                  _getOrders();
                                 },
                               ),
                               SizedBox(
@@ -222,7 +238,7 @@ class OrdersViewState extends State<OrdersView> {
                                         setState(() {
                                           indexPage = int.parse(pageController.text);
                                           if (indexPage <= 15) page = indexPage;
-                                          _getOrder();
+                                          _getOrders();
                                         });
                                       }
                                     }
