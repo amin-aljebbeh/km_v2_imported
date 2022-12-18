@@ -172,19 +172,20 @@ class OrdersViewState extends State<OrdersView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            InkWell(
-                                child:
-                                    Icon(Icons.star_rounded, size: 40, color: rated == 1 ? kmColors : searchGreyColor),
-                                onTap: () {
-                                  setState(() {
-                                    if (rated == 0) {
-                                      rated = 1;
-                                    } else {
-                                      rated = 0;
-                                    }
-                                  });
-                                  _getOrders();
-                                }),
+                            if (Services.isAgent())
+                              InkWell(
+                                  child: Icon(Icons.star_rounded,
+                                      size: 40, color: rated == 1 ? kmColors : searchGreyColor),
+                                  onTap: () {
+                                    setState(() {
+                                      if (rated == 0) {
+                                        rated = 1;
+                                      } else {
+                                        rated = 0;
+                                      }
+                                    });
+                                    _getOrders();
+                                  }),
                             SearchOrderByPhoneNumber(
                                 phoneController: phoneController,
                                 idController: idController,
