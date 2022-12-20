@@ -45,68 +45,93 @@ class _AddTransactionViewState extends State<AddTransactionView> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 0),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: ListView(
-              children: [
-                const SizedBox(height: 20),
-                KSearchableDropdown(
-                  hint: chooseShopper,
-                  search: shopperFilter,
-                  items: Services.shoppersNameList(),
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() {
-                        shopperFilter = value;
-                        shopperName = value;
-                      });
-                    }
-                  },
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                  children: [
+                    Column(
+                      children: [
+                        const SizedBox(height: 20),
+                        KSearchableDropdown(
+                          hint: chooseShopper,
+                          search: shopperFilter,
+                          items: Services.shoppersNameList(),
+                          onChanged: (value) {
+                            if (value != null) {
+                              setState(() {
+                                shopperFilter = value;
+                                shopperName = value;
+                              });
+                              shopperId = Services.selectedShopperId(shopperName);
+                            }
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: DropdownButton(
+                            underline: Container(),
+                            isExpanded: true,
+                            hint: Center(child: Text('نوع المناقلة', style: dropdownItemStyle)),
+                            value: transactionTypeIndex,
+                            items: Services.transactionTypesNames(),
+                            onChanged: (value) => setState(() {
+                              transactionTypeIndex = value;
+                              transactionTypeString = LoadingScreenServices.transactionTypes
+                                  .where((type) => type.automatic == 0)
+                                  .toList()[transactionTypeIndex]
+                                  .arabicName;
+                            }),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        TextFieldRow(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          controller: moneyController,
+                          text: 'المبلغ :         ',
+                          inputType: TextInputType.text,
+                          width: 150,
+                        ),
+                        const SizedBox(height: 40),
+                        TextFieldRow(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          controller: orderIdController,
+                          text: 'رقم الطلب :',
+                          inputType: TextInputType.text,
+                          width: 150,
+                        ),
+                        const SizedBox(height: 40),
+                        TextFieldRow(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          controller: descriptionController,
+                          text: 'الوصف :',
+                          inputType: TextInputType.text,
+                          width: MediaQuery.of(context).size.width * 0.65,
+                        ),
+                        const SizedBox(height: 20),
+                        KammunButton(
+                          color: primaryColor,
+                          onTap: () {
+                            Tools.logToConsole('message');
+                            Tools.logToConsole(shopperId);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AccountantTransactionView(shopperId: shopperId)));
+                          },
+                          height: 50,
+                          text: 'كشف حساب',
+                        )
+                      ],
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: DropdownButton(
-                    underline: Container(),
-                    isExpanded: true,
-                    hint: Center(child: Text('نوع المناقلة', style: dropdownItemStyle)),
-                    value: transactionTypeIndex,
-                    items: Services.transactionTypesNames(),
-                    onChanged: (value) => setState(() {
-                      transactionTypeIndex = value;
-                      transactionTypeString = LoadingScreenServices.transactionTypes
-                          .where((type) => type.automatic == 0)
-                          .toList()[transactionTypeIndex]
-                          .arabicName;
-                    }),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                TextFieldRow(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  controller: moneyController,
-                  text: 'المبلغ :         ',
-                  inputType: TextInputType.text,
-                  width: 150,
-                ),
-                const SizedBox(height: 40),
-                TextFieldRow(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  controller: orderIdController,
-                  text: 'رقم الطلب :',
-                  inputType: TextInputType.text,
-                  width: 150,
-                ),
-                const SizedBox(height: 40),
-                TextFieldRow(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  controller: descriptionController,
-                  text: 'الوصف :',
-                  inputType: TextInputType.text,
-                  width: MediaQuery.of(context).size.width * 0.65,
-                ),
-                const SizedBox(height: 20),
-                KammunButton(
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: KammunButton(
                   height: 50,
                   text: addTransaction,
                   color: !completeData() ? searchGreyColor : primaryColor,
@@ -155,9 +180,8 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                     }
                   },
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.6),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

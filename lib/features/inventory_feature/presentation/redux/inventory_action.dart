@@ -1,6 +1,12 @@
 import '../../../../core/core_importer.dart';
 
-class GetNotificationProducts {}
+class GetInventory {}
+
+class GetNotificationProductsAction {}
+
+class GetPrimeProductsAction {
+  GetPrimeProductsAction();
+}
 
 class SetInventoryProducts {
   final List<ProductData> products;
@@ -19,3 +25,21 @@ class SetSearchFilter {
 class EndOfProducts {}
 
 class NextPage {}
+
+class SetInventoryType {
+  final InventoryTypes inventoryType;
+
+  SetInventoryType({this.inventoryType});
+}
+
+class SetSubWarehouseId {
+  final int subWarehouseId;
+
+  SetSubWarehouseId({this.subWarehouseId});
+}
+
+class SetIsActive {
+  final int isActive;
+
+  SetIsActive({this.isActive});
+}

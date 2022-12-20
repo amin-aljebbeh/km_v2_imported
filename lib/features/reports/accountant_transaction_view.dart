@@ -7,7 +7,8 @@ import 'models/transaction_model.dart';
 
 class AccountantTransactionView extends StatefulWidget {
   static const String routeName = '/AccountantTransactionView';
-  const AccountantTransactionView({Key key}) : super(key: key);
+  final String shopperId;
+  const AccountantTransactionView({Key key, this.shopperId}) : super(key: key);
 
   @override
   _AccountantTransactionViewState createState() => _AccountantTransactionViewState();
@@ -24,6 +25,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
   String shopperId;
   int page;
   MonthlyProfit profit;
+  String shopperFilter;
 
   @override
   void initState() {
@@ -33,6 +35,20 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
     selected = false;
     loading = false;
     profitLoading = false;
+    if (widget.shopperId != null) {
+      shopperId = widget.shopperId;
+      shopperFilter = LoadingScreenServices.allShoppers
+          .firstWhere((shopper) => shopper.id.toString() == widget.shopperId, orElse: () => ShopperModel(name: ''))
+          .name;
+      page = 1;
+      shopperName = shopperFilter;
+      selected = true;
+      loading = true;
+      shopperId = Services.selectedShopperId(shopperFilter);
+      profitLoading = true;
+      getTransaction(shopperId);
+      getDailyProfit(shopperId);
+    }
     super.initState();
   }
 
@@ -94,10 +110,7 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
 
   getDailyProfit(String shopperId) async {
     MonthlyProfit result = await ReportsServices.getShopperMonthProfitService(shopperId: shopperId);
-    setState(() {
-      profitLoading = false;
-      profit = result;
-    });
+    setState(() => {profitLoading = false, profit = result});
   }
 
   @override
@@ -107,8 +120,6 @@ class _AccountantTransactionViewState extends State<AccountantTransactionView> {
       return transactions[index].createdAt.toString().split(' ')[0] !=
           transactions[index - 1].createdAt.toString().split(' ')[0];
     }
-
-    String shopperFilter;
 
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,

@@ -31,10 +31,24 @@ class _UserManagementState extends State<UserManagement> with SingleTickerProvid
           child: Container(
               color: kmColors,
               child: SafeArea(
-                  child: TabBar(controller: controller, indicatorColor: Colors.white, labelColor: Colors.white, tabs: [
-                Tab(child: Center(child: Text('الأكواد', style: tabStyle))),
-                Tab(child: Center(child: Text('المحفظة', style: tabStyle))),
-              ]))),
+                  child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(Icons.arrow_back_ios_rounded, color: Colors.white)),
+                  Expanded(
+                    child: TabBar(
+                      controller: controller,
+                      indicatorColor: Colors.white,
+                      labelColor: Colors.white,
+                      tabs: [
+                        Tab(child: Center(child: Text('الأكواد', style: tabStyle))),
+                        Tab(child: Center(child: Text('المحفظة', style: tabStyle)))
+                      ],
+                    ),
+                  ),
+                ],
+              ))),
         ),
         body: TabBarView(
             controller: controller,

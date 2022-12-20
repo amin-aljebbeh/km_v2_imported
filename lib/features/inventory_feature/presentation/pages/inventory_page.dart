@@ -13,6 +13,7 @@ class InventoryPage extends StatefulWidget {
 class _InventoryPageState extends State<InventoryPage> {
   final TextEditingController controller = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  int filterProducts = LoadingScreenServices.subWarehouses.length;
 
   @override
   initState() {
@@ -20,8 +21,9 @@ class _InventoryPageState extends State<InventoryPage> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       StoreProvider.of<AppState>(context).dispatch(StartLoading());
+      StoreProvider.of<AppState>(context).dispatch(NoError());
       StoreProvider.of<AppState>(context).dispatch(ClearInventory());
-      StoreProvider.of<AppState>(context).dispatch(GetNotificationProducts());
+      StoreProvider.of<AppState>(context).dispatch(GetInventory());
     });
     controller.addListener(() =>
         setState(() => StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: controller.text))));
@@ -39,28 +41,73 @@ class _InventoryPageState extends State<InventoryPage> {
           appBar: InventorySearchTextField(
               onReload: () {
                 StoreProvider.of<AppState>(context).dispatch(StartLoading());
+                StoreProvider.of<AppState>(context).dispatch(NoError());
                 StoreProvider.of<AppState>(context).dispatch(ClearInventory());
-                StoreProvider.of<AppState>(context).dispatch(GetNotificationProducts());
+                StoreProvider.of<AppState>(context).dispatch(GetInventory());
               },
               controller: controller,
               context: context),
           body: Column(
             children: <Widget>[
+              if (state.inventoryState.inventoryType == InventoryTypes.prime)
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      DropdownButton(
+                        value: filterProducts,
+                        items: Services.inventorySubWarehouseNames(),
+                        onChanged: (value) {
+                          filterProducts = value;
+                          StoreProvider.of<AppState>(context).dispatch(SetSubWarehouseId(
+                              subWarehouseId: value != LoadingScreenServices.subWarehouses.length
+                                  ? LoadingScreenServices.subWarehouses[value].id
+                                  : null));
+                          StoreProvider.of<AppState>(context).dispatch(StartLoading());
+                          StoreProvider.of<AppState>(context).dispatch(NoError());
+                          StoreProvider.of<AppState>(context).dispatch(ClearInventory());
+                          StoreProvider.of<AppState>(context).dispatch(GetInventory());
+                        },
+                      ),
+                      Container(
+                        height: 50,
+                        width: 50,
+                        padding: const EdgeInsets.all(3.0),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                            border: Border.all(
+                                color: state.inventoryState.isActive == 1 ? kmColors : searchGreyColor, width: 2)),
+                        child: Center(
+                          child: Switch(
+                            value: state.inventoryState.isActive == 1,
+                            onChanged: (value) {
+                              StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: value ? 1 : 0));
+                              StoreProvider.of<AppState>(context).dispatch(StartLoading());
+                              StoreProvider.of<AppState>(context).dispatch(NoError());
+                              StoreProvider.of<AppState>(context).dispatch(ClearInventory());
+                              StoreProvider.of<AppState>(context).dispatch(GetInventory());
+                            },
+                            activeTrackColor: kmColors2,
+                            activeColor: kmColors,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               state.errorState.isError
                   ? Expanded(
                       child: Column(
                         children: [
                           AlertMessages(text: errorMessage, messageType: 'internetError', headerText: 'حدث خطأ'),
                           ElevatedButton(
-                            child: Text(
-                              'المحاولة من جديد',
-                              style:
-                                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontFamily: fontFamily),
-                            ),
+                            child: Text('المحاولة من جديد', style: informationStyle),
                             onPressed: () {
+                              StoreProvider.of<AppState>(context).dispatch(NoError());
                               StoreProvider.of<AppState>(context).dispatch(StartLoading());
                               StoreProvider.of<AppState>(context).dispatch(ClearInventory());
-                              StoreProvider.of<AppState>(context).dispatch(GetNotificationProducts());
+                              StoreProvider.of<AppState>(context).dispatch(GetInventory());
                             },
                           ),
                         ],
@@ -82,7 +129,7 @@ class _InventoryPageState extends State<InventoryPage> {
                                   state.inventoryState.hasNext) {
                                 StoreProvider.of<AppState>(context).dispatch(StartLoading());
                                 StoreProvider.of<AppState>(context).dispatch(NextPage());
-                                StoreProvider.of<AppState>(context).dispatch(GetNotificationProducts());
+                                StoreProvider.of<AppState>(context).dispatch(GetInventory());
                               }
                               return;
                             },
@@ -180,7 +227,7 @@ class _InventoryPageState extends State<InventoryPage> {
               Container(
                   width: MediaQuery.of(context).size.width,
                   height: ((state.inventoryState.hasNext && state.loadingState.isLoading) ||
-                          (!state.inventoryState.hasNext))
+                          (!state.inventoryState.hasNext && state.inventoryState.products.isNotEmpty))
                       ? 50
                       : 0,
                   color: Colors.transparent,

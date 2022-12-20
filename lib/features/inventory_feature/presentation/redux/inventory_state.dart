@@ -8,22 +8,55 @@ class InventoryState extends Equatable {
   final String searchFilter;
   final int pageNumber;
   final bool hasNext;
-  const InventoryState({this.products, this.inventoryUseCase, this.searchFilter, this.pageNumber, this.hasNext});
+  final int subWarehouseId;
+  final int isActive;
+  final InventoryTypes inventoryType;
+  const InventoryState({
+    this.subWarehouseId,
+    this.isActive,
+    this.products,
+    this.inventoryUseCase,
+    this.searchFilter,
+    this.pageNumber,
+    this.hasNext,
+    this.inventoryType,
+  });
 
   factory InventoryState.initial() {
     return InventoryState(
-        products: const [], inventoryUseCase: sl<InventoryUseCase>(), searchFilter: '', pageNumber: 1, hasNext: true);
+      products: const [],
+      inventoryUseCase: sl<InventoryUseCase>(),
+      searchFilter: '',
+      pageNumber: 1,
+      isActive: 0,
+      subWarehouseId: null,
+      hasNext: true,
+      inventoryType: null,
+    );
   }
 
-  InventoryState copyWith({List<ProductData> products, String searchFilter, int pageNumber, bool hasNext}) {
+  InventoryState copyWith({
+    List<ProductData> products,
+    String searchFilter,
+    int pageNumber,
+    bool hasNext,
+    InventoryTypes inventoryType,
+    int subWarehouseId,
+    int isActive,
+  }) {
     return InventoryState(
-        inventoryUseCase: inventoryUseCase,
-        products: products ?? this.products,
-        searchFilter: searchFilter ?? this.searchFilter,
-        hasNext: hasNext ?? this.hasNext,
-        pageNumber: pageNumber ?? this.pageNumber);
+      inventoryUseCase: inventoryUseCase,
+      products: products ?? this.products,
+      searchFilter: searchFilter ?? this.searchFilter,
+      hasNext: hasNext ?? this.hasNext,
+      inventoryType: inventoryType ?? this.inventoryType,
+      pageNumber: pageNumber ?? this.pageNumber,
+      subWarehouseId: subWarehouseId ?? this.subWarehouseId,
+      isActive: isActive ?? this.isActive,
+    );
   }
 
   @override
-  List<Object> get props => [inventoryUseCase, products, searchFilter, hasNext, pageNumber];
+  List<Object> get props =>
+      [inventoryUseCase, products, searchFilter, hasNext, pageNumber, inventoryType, subWarehouseId, isActive];
 }

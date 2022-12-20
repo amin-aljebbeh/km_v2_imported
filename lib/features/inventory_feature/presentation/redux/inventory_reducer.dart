@@ -8,6 +8,9 @@ Reducer<InventoryState> inventoryReducer = combineReducers<InventoryState>([
   TypedReducer<InventoryState, NextPage>(nextPage),
   TypedReducer<InventoryState, ClearInventory>(clearInventory),
   TypedReducer<InventoryState, SetInventoryProducts>(setInventoryProducts),
+  TypedReducer<InventoryState, SetInventoryType>(setInventoryType),
+  TypedReducer<InventoryState, SetSubWarehouseId>(setSubWarehouseId),
+  TypedReducer<InventoryState, SetIsActive>(setIsActive),
 ]);
 
 InventoryState setInventoryProducts(InventoryState state, SetInventoryProducts action) {
@@ -19,6 +22,17 @@ InventoryState setInventoryProducts(InventoryState state, SetInventoryProducts a
 
 InventoryState setSearchFilter(InventoryState state, SetSearchFilter action) =>
     state.copyWith(searchFilter: action.searchFilter);
+
+InventoryState setInventoryType(InventoryState state, SetInventoryType action) {
+  Tools.logToConsole('red');
+  Tools.logToConsole(action.inventoryType);
+  return state.copyWith(inventoryType: action.inventoryType);
+}
+
+InventoryState setSubWarehouseId(InventoryState state, SetSubWarehouseId action) =>
+    state.copyWith(subWarehouseId: action.subWarehouseId);
+
+InventoryState setIsActive(InventoryState state, SetIsActive action) => state.copyWith(isActive: action.isActive);
 
 InventoryState endOfProducts(InventoryState state, EndOfProducts action) => state.copyWith(hasNext: false);
 

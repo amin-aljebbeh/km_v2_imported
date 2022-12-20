@@ -24,4 +24,22 @@ class InventoryRepositoryImplement implements InventoryRepository {
       return Left(InternalFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, FilteredProductsModel>> getPrimeProducts(
+      {int pageNumber, int subWarehouseId, int isActive}) async {
+    try {
+      FilteredProductsModel products = await remoteInventoryDataSource.getPrimeProducts(
+          pageNumber: pageNumber, isActive: isActive, subWarehouseId: subWarehouseId);
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
 }

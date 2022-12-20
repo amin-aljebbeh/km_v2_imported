@@ -40,25 +40,23 @@ class ShopperWidgetState extends State<ShopperWidget> {
                 KCacheImage(tag: widget.shopper.id, image: ''),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: Wrap(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Wrap(
-                            children: <Widget>[
-                              Text(
-                                widget.shopper.name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: fontFamily,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ),
+                      Text(widget.shopper.name,
+                          style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18)),
+                      Wrap(
+                        children: [
+                          InkWell(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        AccountantTransactionView(shopperId: widget.shopper.id.toString()))),
+                            child: Icon(Icons.featured_play_list, color: primaryColor),
+                          )
                         ],
-                      ),
+                      )
                     ],
                   ),
                 ),

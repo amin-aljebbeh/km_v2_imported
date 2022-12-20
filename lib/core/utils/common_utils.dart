@@ -10,6 +10,8 @@ enum MyThemeKeys { light, dark, darker }
 
 enum OrderTypes { myOrder, allOrder, search, none }
 
+enum InventoryTypes { notification, prime }
+
 enum DateFilter { day, month, year }
 
 enum BarcodeRequestType { addBarcode, search, addProduct, attachProduct }
