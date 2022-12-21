@@ -78,8 +78,20 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       ? const SideBarRow(
                           pushedRoute: AllProducts.routeName, icon: Icons.category_rounded, text: 'جميع المنتجات')
                       : Container(),
-                  SideBarRow(pushedRoute: Inventory.routeName, icon: Icons.fact_check, text: inventory),
-                  const SideBarRow(icon: Icons.filter_list_sharp, text: 'فلترة المنتجات'),
+                  SideBarRow(
+                      onTap: () {
+                        StoreProvider.of<AppState>(context).dispatch(NoError());
+                        StoreProvider.of<AppState>(context)
+                            .dispatch(SetInventoryType(inventoryType: InventoryTypes.underCheckAvailability));
+                        Navigator.pushNamed(context, InventoryPage.routeName);
+                      },
+                      icon: Icons.fact_check,
+                      text: inventory),
+                  const SideBarRow(
+                    icon: Icons.filter_list_sharp,
+                    text: 'فلترة المنتجات',
+                    pushedRoute: ProductsFilterScreen.routeName,
+                  ),
                   if (Services.isOperationManager() || Services.isProductsController())
                     Column(
                       children: [

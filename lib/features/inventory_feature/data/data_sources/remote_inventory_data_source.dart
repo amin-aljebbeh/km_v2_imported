@@ -6,6 +6,7 @@ import '../models/prime_products_response_model.dart';
 abstract class RemoteInventoryDataSource {
   Future<FilteredProductsModel> getNotificationProducts({int pageNumber});
   Future<FilteredProductsModel> getPrimeProducts({int pageNumber, int subWarehouseId, int isActive});
+  Future<List<ProductData>> getUnderCheckAvailability({int subWarehouseId});
 }
 
 class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
@@ -34,6 +35,26 @@ class RemoteInventoryDataSourceImplement implements RemoteInventoryDataSource {
         if (response.statusCode == successCode) {
           return FilteredProductsModel(
               data: primeProductsResponseModelFromJson(jsonEncode(response.data)).data.primeProducts);
+        }
+      }
+    } catch (e) {
+      throw (InternalException(message: e.toString()));
+    }
+    throw (ServerException());
+  }
+
+  @override
+  Future<List<ProductData>> getUnderCheckAvailability({int subWarehouseId}) async {
+    Response response = await ApiProvider.sendRequest(
+        url: underCheckAvailabilityApi, method: HttpMethods.get, queryParameters: {'sub_warehouse_id': subWarehouseId});
+    try {
+      if (response != null) {
+        if (response.statusCode == successCode) {
+          ProductsToReview productsToReview = productsToReviewFromJson(jsonEncode(response.data));
+          List<ProductData> products = [];
+          products.addAll(productsToReview.productsToActivate);
+          products.addAll(productsToReview.productsToDeactivate);
+          return products;
         }
       }
     } catch (e) {

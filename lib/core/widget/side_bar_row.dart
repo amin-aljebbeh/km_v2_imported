@@ -6,7 +6,9 @@ class SideBarRow extends StatelessWidget {
   final Function onTap;
   final String pushedRoute;
 
-  const SideBarRow({Key key, @required this.icon, @required this.text, this.onTap, this.pushedRoute}) : super(key: key);
+  const SideBarRow({Key key, @required this.icon, @required this.text, this.onTap, this.pushedRoute})
+      : assert(onTap != null || pushedRoute != null, 'On-tap behaviour or pushed route should be determined'),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {

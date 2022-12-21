@@ -10,7 +10,7 @@ enum MyThemeKeys { light, dark, darker }
 
 enum OrderTypes { myOrder, allOrder, search, none }
 
-enum InventoryTypes { notification, prime }
+enum InventoryTypes { notification, prime, underCheckAvailability }
 
 enum DateFilter { day, month, year }
 

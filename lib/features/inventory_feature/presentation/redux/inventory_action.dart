@@ -4,9 +4,9 @@ class GetInventory {}
 
 class GetNotificationProductsAction {}
 
-class GetPrimeProductsAction {
-  GetPrimeProductsAction();
-}
+class GetPrimeProductsAction {}
+
+class GetUnderCheckAvailabilityAction {}
 
 class SetInventoryProducts {
   final List<ProductData> products;

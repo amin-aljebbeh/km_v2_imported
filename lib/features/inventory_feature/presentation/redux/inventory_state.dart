@@ -51,7 +51,7 @@ class InventoryState extends Equatable {
       hasNext: hasNext ?? this.hasNext,
       inventoryType: inventoryType ?? this.inventoryType,
       pageNumber: pageNumber ?? this.pageNumber,
-      subWarehouseId: subWarehouseId ?? this.subWarehouseId,
+      subWarehouseId: subWarehouseId == -1 ? null : subWarehouseId ?? this.subWarehouseId,
       isActive: isActive ?? this.isActive,
     );
   }

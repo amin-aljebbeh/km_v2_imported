@@ -9,14 +9,13 @@ Future<void> inventoryMiddleware(Store<AppState> store, action, NextDispatcher n
     store.dispatch(StartLoading());
     switch (store.state.inventoryState.inventoryType) {
       case InventoryTypes.notification:
-        Tools.logToConsole('message');
-        Tools.logToConsole('aa');
         store.dispatch(GetNotificationProductsAction());
         break;
       case InventoryTypes.prime:
-        Tools.logToConsole('message');
-        Tools.logToConsole('bb');
         store.dispatch(GetPrimeProductsAction());
+        break;
+      case InventoryTypes.underCheckAvailability:
+        store.dispatch(GetUnderCheckAvailabilityAction());
         break;
     }
   } else if (action is GetNotificationProductsAction) {
@@ -37,6 +36,18 @@ Future<void> inventoryMiddleware(Store<AppState> store, action, NextDispatcher n
       FilteredProductsModel filteredProductsModel = products;
       store.dispatch(SetInventoryProducts(products: filteredProductsModel.data.products));
       if (filteredProductsModel.data.nextPageUrl == null) store.dispatch(EndOfProducts());
+    });
+    store.dispatch(StopLoading());
+  } else if (action is GetUnderCheckAvailabilityAction) {
+    Either either = await store.state.inventoryState.inventoryUseCase
+        .getUnderCheckAvailabilityUseCase(subWarehouseId: store.state.inventoryState.subWarehouseId);
+    either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ')), (products) {
+      List<ProductData> theProducts = products;
+      if (store.state.inventoryState.isActive < 2) {
+        theProducts.removeWhere((product) => product.isActive != store.state.inventoryState.isActive.toString());
+      }
+      store.dispatch(SetInventoryProducts(products: theProducts));
+      store.dispatch(EndOfProducts());
     });
     store.dispatch(StopLoading());
   }

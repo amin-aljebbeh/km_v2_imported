@@ -42,4 +42,21 @@ class InventoryRepositoryImplement implements InventoryRepository {
       return Left(InternalFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<ProductData>>> getUnderCheckAvailability({int subWarehouseId}) async {
+    try {
+      List<ProductData> products =
+          await remoteInventoryDataSource.getUnderCheckAvailability(subWarehouseId: subWarehouseId);
+      return Right(products);
+    } on CacheException {
+      return Left(CacheFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } on OfflineException {
+      return Left(OfflineFailure());
+    } catch (e) {
+      return Left(InternalFailure());
+    }
+  }
 }

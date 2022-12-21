@@ -23,7 +23,6 @@ final Map<String, WidgetBuilder> routes = {
   NotAddedProductsToWarehouse.routeName: (_) => const NotAddedProductsToWarehouse(),
   AllProducts.routeName: (_) => const AllProducts(),
   Prices.routeName: (_) => const Prices(),
-  Inventory.routeName: (_) => const Inventory(),
   AccountantTransactionView.routeName: (_) => const AccountantTransactionView(),
   ShopperTransactionView.routeName: (_) => const ShopperTransactionView(),
   AddTransactionView.routeName: (_) => const AddTransactionView(),

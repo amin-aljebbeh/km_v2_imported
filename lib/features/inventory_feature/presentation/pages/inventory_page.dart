@@ -13,13 +13,18 @@ class InventoryPage extends StatefulWidget {
 class _InventoryPageState extends State<InventoryPage> {
   final TextEditingController controller = TextEditingController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  int filterProducts = LoadingScreenServices.subWarehouses.length;
+  int subWarehouseFilter = LoadingScreenServices.subWarehouses.length;
+  int isActiveFilter = 1;
+  List<String> activeList = ['بحاجة تفعيل', 'بحاجة إيقاف تفعيل'];
 
   @override
   initState() {
-    if (mounted) super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (StoreProvider.of<AppState>(context).state.inventoryState.inventoryType ==
+          InventoryTypes.underCheckAvailability) {
+        activeList.add('الجميع');
+        isActiveFilter = 0;
+      }
       StoreProvider.of<AppState>(context).dispatch(StartLoading());
       StoreProvider.of<AppState>(context).dispatch(NoError());
       StoreProvider.of<AppState>(context).dispatch(ClearInventory());
@@ -27,6 +32,7 @@ class _InventoryPageState extends State<InventoryPage> {
     });
     controller.addListener(() =>
         setState(() => StoreProvider.of<AppState>(context).dispatch(SetSearchFilter(searchFilter: controller.text))));
+    super.initState();
   }
 
   @override
@@ -49,50 +55,40 @@ class _InventoryPageState extends State<InventoryPage> {
               context: context),
           body: Column(
             children: <Widget>[
-              if (state.inventoryState.inventoryType == InventoryTypes.prime)
+              if (state.inventoryState.inventoryType == InventoryTypes.prime ||
+                  state.inventoryState.inventoryType == InventoryTypes.underCheckAvailability)
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       DropdownButton(
-                        value: filterProducts,
+                        value: subWarehouseFilter,
                         items: Services.inventorySubWarehouseNames(),
                         onChanged: (value) {
-                          filterProducts = value;
+                          subWarehouseFilter = value;
                           StoreProvider.of<AppState>(context).dispatch(SetSubWarehouseId(
                               subWarehouseId: value != LoadingScreenServices.subWarehouses.length
                                   ? LoadingScreenServices.subWarehouses[value].id
-                                  : null));
+                                  : -1));
                           StoreProvider.of<AppState>(context).dispatch(StartLoading());
                           StoreProvider.of<AppState>(context).dispatch(NoError());
                           StoreProvider.of<AppState>(context).dispatch(ClearInventory());
                           StoreProvider.of<AppState>(context).dispatch(GetInventory());
                         },
                       ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        padding: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                            border: Border.all(
-                                color: state.inventoryState.isActive == 1 ? kmColors : searchGreyColor, width: 2)),
-                        child: Center(
-                          child: Switch(
-                            value: state.inventoryState.isActive == 1,
-                            onChanged: (value) {
-                              StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: value ? 1 : 0));
-                              StoreProvider.of<AppState>(context).dispatch(StartLoading());
-                              StoreProvider.of<AppState>(context).dispatch(NoError());
-                              StoreProvider.of<AppState>(context).dispatch(ClearInventory());
-                              StoreProvider.of<AppState>(context).dispatch(GetInventory());
-                            },
-                            activeTrackColor: kmColors2,
-                            activeColor: kmColors,
-                          ),
-                        ),
-                      )
+                      DropdownButton(
+                        value: isActiveFilter,
+                        items: Services.dropdownStringList(activeList),
+                        onChanged: (value) {
+                          isActiveFilter = value;
+                          StoreProvider.of<AppState>(context).dispatch(SetIsActive(isActive: value));
+                          StoreProvider.of<AppState>(context).dispatch(StartLoading());
+                          StoreProvider.of<AppState>(context).dispatch(NoError());
+                          StoreProvider.of<AppState>(context).dispatch(ClearInventory());
+                          StoreProvider.of<AppState>(context).dispatch(GetInventory());
+                        },
+                      ),
                     ],
                   ),
                 ),
