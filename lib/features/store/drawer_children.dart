@@ -74,10 +74,9 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       pushedRoute: NotAddedProductsToWarehouse.routeName,
                       icon: Icons.category_outlined,
                       text: 'المنتجات الغير مضافة للمستودع'),
-                  Services.isAdmin()
-                      ? const SideBarRow(
-                          pushedRoute: AllProducts.routeName, icon: Icons.category_rounded, text: 'جميع المنتجات')
-                      : Container(),
+                  if (Services.isAdmin())
+                    const SideBarRow(
+                        pushedRoute: AllProducts.routeName, icon: Icons.category_rounded, text: 'جميع المنتجات'),
                   SideBarRow(
                       onTap: () {
                         StoreProvider.of<AppState>(context).dispatch(NoError());

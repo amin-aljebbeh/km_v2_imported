@@ -6,9 +6,8 @@ import '../../domain/entities/coupon_entity.dart';
 
 class CouponWidget extends StatefulWidget {
   final CouponEntity couponEntity;
-  final int userId;
 
-  const CouponWidget({Key key, this.couponEntity, this.userId}) : super(key: key);
+  const CouponWidget({Key key, this.couponEntity}) : super(key: key);
 
   @override
   _CouponWidgetState createState() => _CouponWidgetState();
@@ -109,10 +108,7 @@ class _CouponWidgetState extends State<CouponWidget> {
                               onTap: () {
                                 Navigator.of(context).pop();
                                 StoreProvider.of<AppState>(context).dispatch(AttachUserToCouponAction(
-                                    userId: widget.userId,
-                                    context: context,
-                                    couponId: widget.couponEntity.id,
-                                    availability: availability));
+                                    context: context, couponId: widget.couponEntity.id, availability: availability));
                               },
                               width: 100,
                               text: 'تأكيد',

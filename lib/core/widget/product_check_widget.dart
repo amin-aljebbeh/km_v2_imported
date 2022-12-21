@@ -7,7 +7,7 @@ class ProductCheckWidget extends StatefulWidget {
   final int index;
   final Function(int) onCheckbox;
 
-  final OrderProduct productData;
+  final OrderProduct product;
 
   const ProductCheckWidget({
     Key key,
@@ -16,7 +16,7 @@ class ProductCheckWidget extends StatefulWidget {
     @required this.productName,
     @required this.index,
     @required this.onCheckbox,
-    @required this.productData,
+    @required this.product,
   }) : super(key: key);
 
   @override
@@ -24,27 +24,33 @@ class ProductCheckWidget extends StatefulWidget {
 }
 
 class _ProductCheckWidgetState extends State<ProductCheckWidget> {
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return widget.preferLeftSide
         ? Row(
             children: [
-              if (Services.isOperationManager() || widget.productData.pivot.deletedAt != 'null')
-                RotatedBox(
-                  quarterTurns: 1,
-                  child: SwitchProductStatusWidget(
-                    isForSubWarehouse: true,
-                    height: 20,
-                    width: 65,
-                    preState: widget.productData.isActive,
-                    subWarehouseId: widget.productData.subWarehouseId,
-                    productId: widget.productData.pivot.productId,
-                    onChange: (int active, bool result) {
-                      setState(() {
-                        if (result) widget.productData.isActive = active;
-                      });
-                    },
-                  ),
+              if (Services.isOperationManager() || widget.product.pivot.deletedAt != 'null')
+                Column(
+                  children: [
+                    PrimeProductWidget(product: widget.product),
+                    RotatedBox(
+                      quarterTurns: 1,
+                      child: SwitchProductStatusWidget(
+                        isForSubWarehouse: true,
+                        height: 20,
+                        width: 65,
+                        preState: widget.product.isActive,
+                        subWarehouseId: widget.product.subWarehouseId,
+                        productId: widget.product.pivot.productId,
+                        onChange: (int active, bool result) {
+                          setState(() {
+                            if (result) widget.product.isActive = active;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               // if (Services.isSupplierManager())
               //   KOutlinedButton(

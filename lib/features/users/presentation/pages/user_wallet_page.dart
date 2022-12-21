@@ -3,9 +3,7 @@ import 'package:kammun_app/features/users/presentation/redux/users_action.dart';
 import '../../../../core/core_importer.dart';
 
 class UserWalletPage extends StatefulWidget {
-  final int userId;
-  final String balance;
-  const UserWalletPage({Key key, this.userId, this.balance}) : super(key: key);
+  const UserWalletPage({Key key}) : super(key: key);
 
   @override
   _UserWalletPageState createState() => _UserWalletPageState();
@@ -36,12 +34,11 @@ class _UserWalletPageState extends State<UserWalletPage> {
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: LabelRow(
                               rightSideText: 'رصيد الزبون: ',
-                              leftSideText: StringUtils()
-                                      .oCcy
-                                      .format(int.parse(widget.balance.replaceAll('-', '').split('.')[0])) +
+                              leftSideText: StringUtils().oCcy.format(int.parse(
+                                      state.usersState.userEntity.balance.replaceAll('-', '').split('.')[0])) +
                                   ' ' +
                                   LoadingScreenServices.companyInformation.currency,
-                              leftSideStyle: widget.balance.contains('-')
+                              leftSideStyle: state.usersState.userEntity.balance.contains('-')
                                   ? loseStyle
                                   : warehouseStyle.copyWith(color: Colors.black)),
                         ),
@@ -162,7 +159,6 @@ class _UserWalletPageState extends State<UserWalletPage> {
                                       StoreProvider.of<AppState>(context).dispatch(DepositUserWalletAction(
                                           description: descriptionController.text,
                                           context: context,
-                                          userId: widget.userId,
                                           value: signFactor * int.parse(valueController.text)));
                                     },
                                     width: 100,

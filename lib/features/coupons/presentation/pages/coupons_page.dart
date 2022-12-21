@@ -5,9 +5,8 @@ import '../widgets/coupon_widget.dart';
 
 class CouponsPage extends StatefulWidget {
   static String routeName = '/CouponsView';
-  final int userId;
 
-  const CouponsPage({Key key, this.userId}) : super(key: key);
+  const CouponsPage({Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => CouponsPageState();
@@ -109,8 +108,8 @@ class CouponsPageState extends State<CouponsPage> {
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
                                         itemCount: state.couponState.coupons.length,
-                                        itemBuilder: (BuildContext context, int index) => CouponWidget(
-                                            couponEntity: state.couponState.coupons[index], userId: widget.userId)),
+                                        itemBuilder: (BuildContext context, int index) =>
+                                            CouponWidget(couponEntity: state.couponState.coupons[index])),
                                   ),
                                 ),
                   if (!state.couponState.hasNext && !state.loadingState.isLoading)

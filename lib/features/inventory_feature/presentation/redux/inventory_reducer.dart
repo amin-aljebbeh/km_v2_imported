@@ -24,8 +24,6 @@ InventoryState setSearchFilter(InventoryState state, SetSearchFilter action) =>
     state.copyWith(searchFilter: action.searchFilter);
 
 InventoryState setInventoryType(InventoryState state, SetInventoryType action) {
-  Tools.logToConsole('red');
-  Tools.logToConsole(action.inventoryType);
   return state.copyWith(inventoryType: action.inventoryType);
 }
 

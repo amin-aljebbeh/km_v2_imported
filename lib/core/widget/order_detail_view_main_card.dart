@@ -44,7 +44,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
         Row(
           children: <Widget>[
             ProductCheckWidget(
-              productData: widget.productData,
+              product: widget.productData,
               preferLeftSide: !LoadingScreenServices.preferLeftSide,
               productCount: widget.productData.pivot.quantity,
               productName: widget.productData.name,
@@ -119,7 +119,7 @@ class OrderDetailViewMainCardState extends State<OrderDetailViewMainCard> {
               ),
             ),
             ProductCheckWidget(
-              productData: widget.productData,
+              product: widget.productData,
               preferLeftSide: LoadingScreenServices.preferLeftSide,
               productCount: widget.productData.pivot.quantity,
               productName: widget.productData.name,

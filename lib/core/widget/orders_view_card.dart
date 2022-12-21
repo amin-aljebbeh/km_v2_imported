@@ -5,9 +5,11 @@ import 'package:kammun_app/features/coupons/presentation/redux/coupon_action.dar
 import 'package:kammun_app/features/order_details/order_details_tab_view.dart';
 import 'package:kammun_app/features/orders/orders_view_importer.dart';
 import 'package:kammun_app/features/orders/services/order_services.dart';
+import 'package:kammun_app/features/users/presentation/redux/users_action.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 import '../../core/core_importer.dart';
+import '../../features/users/domain/entities/user_entity.dart';
 import '../../features/users/presentation/pages/user_management_view.dart';
 
 class OrdersViewCard extends StatefulWidget {
@@ -202,20 +204,17 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                           Toast.show('تم نسخ الرقم', context, duration: Toast.LENGTH_SHORT, gravity: Toast.CENTER);
                         },
                       ),
-                    if (Services.isAgent())
-                      InkWell(
-                        child: Icon(Icons.manage_accounts_rounded, color: kmColors, size: 25),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => UserManagement(
-                                      userId: widget.orderData.userData.id,
-                                      balance: widget.orderData.userData.balance)));
-                          StoreProvider.of<AppState>(context).dispatch(FirstCouponsPage());
-                          StoreProvider.of<AppState>(context).dispatch(GetCouponsAction());
-                        },
-                      ),
+                    InkWell(
+                      child: Icon(Icons.manage_accounts_rounded, color: kmColors, size: 25),
+                      onTap: () {
+                        StoreProvider.of<AppState>(context).dispatch(SetUser(
+                            userEntity: UserEntity(
+                                id: widget.orderData.userData.id, balance: widget.orderData.userData.balance)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const UserManagement()));
+                        StoreProvider.of<AppState>(context).dispatch(FirstCouponsPage());
+                        StoreProvider.of<AppState>(context).dispatch(GetCouponsAction());
+                      },
+                    ),
                     if (Services.isOperationManager())
                       MediaIcon(
                           icon: FontAwesomeIcons.whatsapp,

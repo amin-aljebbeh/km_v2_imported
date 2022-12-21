@@ -4,9 +4,7 @@ import 'package:kammun_app/features/users/presentation/pages/user_wallet_page.da
 import '../../../../core/core_importer.dart';
 
 class UserManagement extends StatefulWidget {
-  final int userId;
-  final String balance;
-  const UserManagement({Key key, this.userId, this.balance}) : super(key: key);
+  const UserManagement({Key key}) : super(key: key);
 
   @override
   _UserManagementState createState() => _UserManagementState();
@@ -52,10 +50,7 @@ class _UserManagementState extends State<UserManagement> with SingleTickerProvid
         ),
         body: TabBarView(
             controller: controller,
-            children: [
-              CouponsPage(userId: widget.userId),
-              UserWalletPage(userId: widget.userId, balance: widget.balance)
-            ],
+            children: const [CouponsPage(), UserWalletPage()],
             physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics())),
       ),
     );

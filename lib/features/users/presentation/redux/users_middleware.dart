@@ -9,7 +9,9 @@ Future<void> usersMiddleware(Store<AppState> store, action, NextDispatcher next)
       var actionType = action as AttachUserToCouponAction;
       store.dispatch(StartLoading());
       Either either = await store.state.usersState.usersUseCases.attachUserToCouponUseCase(
-          availability: actionType.availability, couponId: actionType.couponId, userId: actionType.userId);
+          availability: actionType.availability,
+          couponId: actionType.couponId,
+          userId: store.state.usersState.userEntity.id);
       either.fold((failure) => store.dispatch(CatchError(errorMessage: 'حدث خطأ، يرجى المحاولة مجدداً')),
           (_) => store.dispatch(ViewMessage(message: 'تمت العملية بنجاح')));
       store.dispatch(StopLoading());
@@ -18,10 +20,18 @@ Future<void> usersMiddleware(Store<AppState> store, action, NextDispatcher next)
       var actionType = action as DepositUserWalletAction;
       store.dispatch(StartLoading());
       Either either = await store.state.usersState.usersUseCases.depositUserWalletUseCase(
-          value: actionType.value, userId: actionType.userId, description: actionType.description);
+          value: actionType.value, userId: store.state.usersState.userEntity.id, description: actionType.description);
       either.fold(
           (failure) => snackBar(message: 'حدث خطأ، يرجى المحاولة مجدداً', context: actionType.context, success: false),
-          (_) => snackBar(message: 'تمت العملية بنجاح', context: actionType.context, success: true));
+          (_) {
+        store.dispatch(SetUser(
+            userEntity: store.state.usersState.userEntity.copyWith(
+                balance: ((int.parse(store.state.usersState.userEntity.balance.replaceAll('-', '').split('.')[0]) *
+                            (store.state.usersState.userEntity.balance.contains('-') ? -1 : 1)) +
+                        (actionType.value))
+                    .toString())));
+        snackBar(message: 'تمت العملية بنجاح', context: actionType.context, success: true);
+      });
       store.dispatch(StopLoading());
       break;
   }

@@ -7,9 +7,9 @@ import 'products_view.dart';
 class BarCodeScreen extends StatefulWidget {
   final BarcodeRequestType requestType;
   final Function(String) onIgnore;
-  final ProductData productData;
+  final ProductData product;
 
-  const BarCodeScreen({Key key, @required this.requestType, this.onIgnore, this.productData}) : super(key: key);
+  const BarCodeScreen({Key key, @required this.requestType, this.onIgnore, this.product}) : super(key: key);
 
   @override
   _BarCodeScreenState createState() => _BarCodeScreenState();
@@ -170,11 +170,11 @@ class _BarCodeScreenState extends State<BarCodeScreen> with SingleTickerProvider
                           ? Text(search, style: decisionButtonStyle)
                           : Column(
                               children: [
-                                Text(widget.productData.name, style: decisionButtonStyle),
+                                Text(widget.product.name, style: decisionButtonStyle),
                                 Text(
-                                  widget.productData.quantity +
+                                  widget.product.quantity +
                                       ' ' +
-                                      (widget.productData.unit != 'null' ? widget.productData.unit : ''),
+                                      (widget.product.unit != 'null' ? widget.product.unit : ''),
                                   style: decisionButtonStyle,
                                 ),
                               ],

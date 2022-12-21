@@ -3,10 +3,10 @@ import 'package:kammun_app/features/products_attached_to_warehouse/services/adde
 import '../../../core/core_importer.dart';
 
 class AddProductsToSubWarehouse extends StatefulWidget {
-  final ProductData productData;
+  final ProductData product;
   final int barcode;
 
-  const AddProductsToSubWarehouse({Key key, this.productData, this.barcode}) : super(key: key);
+  const AddProductsToSubWarehouse({Key key, this.product, this.barcode}) : super(key: key);
 
   @override
   _AddProductsToSubWarehouseState createState() => _AddProductsToSubWarehouseState();
@@ -24,7 +24,7 @@ class _AddProductsToSubWarehouseState extends State<AddProductsToSubWarehouse> {
       isError = false;
     });
     dynamic body = {
-      'product_id': widget.productData.id.toString(),
+      'product_id': widget.product.id.toString(),
       'sub_warehouse_id': _selectedValue.toString(),
       'price': priceController.text ?? '0',
       'is_featured': '0',

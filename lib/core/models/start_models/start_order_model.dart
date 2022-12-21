@@ -86,7 +86,7 @@ class OrdersOriginalData {
   DateTime acceptedAt;
   DateTime deliveredAt;
   OrderAddress address;
-  UserData userData;
+  UserModel userData;
   String deliveryDistance;
   String userNotes;
   String supportedCityId;
@@ -119,7 +119,7 @@ class OrdersOriginalData {
       userDeliveryRating: json['user_delivery_rating'].toString(),
       userPriceRating: json['user_price_rating'].toString(),
       total: json['total'].toString(),
-      userData: json['user'] == null ? null : UserData.fromJson(json['user']),
+      userData: json['user'] == null ? null : UserModel.fromJson(json['user']),
       address: json['address'] == null ? null : OrderAddress.fromJson(json['address']),
       userNotes: json['user_notes'],
       createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),

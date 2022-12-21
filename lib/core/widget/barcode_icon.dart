@@ -10,18 +10,18 @@ class BarcodeIcon extends StatelessWidget {
   final Color color;
   final GlobalKey<ScaffoldState> scaffoldKey;
   final Function(String) onAddBarcode;
-  final ProductData productData;
+  final ProductData product;
 
-  const BarcodeIcon(
-      {Key key,
-      @required this.requestType,
-      this.productId,
-      this.onPressed,
-      this.color,
-      this.scaffoldKey,
-      this.onAddBarcode,
-      this.productData})
-      : super(key: key);
+  const BarcodeIcon({
+    Key key,
+    @required this.requestType,
+    this.productId,
+    this.onPressed,
+    this.color,
+    this.scaffoldKey,
+    this.onAddBarcode,
+    this.product,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class BarcodeIcon extends StatelessWidget {
           scaffoldKey.currentContext,
           MaterialPageRoute(
             builder: (screenContext) => BarCodeScreen(
-              productData: productData,
+              product: product,
               requestType: requestType,
               onIgnore: (barcode) async {
                 resultBarcode =

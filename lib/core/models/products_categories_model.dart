@@ -114,6 +114,7 @@ class ProductData {
     this.availableQuantity,
     this.pivot,
     this.alertProductsCount,
+    this.isPrimeItem,
   });
 
   int id;
@@ -149,6 +150,7 @@ class ProductData {
   String availableQuantity;
   OrderProductPivot pivot;
   String alertProductsCount;
+  int isPrimeItem;
 
   factory ProductData.fromJson(Map<String, dynamic> json) {
     if (json == null) return null;
@@ -167,6 +169,7 @@ class ProductData {
       subWarehouseId: json['sub_warehouse_id'] ?? -1,
       isFeatured: json['is_featured'],
       priority: json['priority'],
+      isPrimeItem: json['is_prime_item'],
       numberOfVisits: json['number_of_visits'],
       minThreshold: json['min_threshold']?.toDouble(),
       increasePercentage: json['increase_percentage'] ?? 0,

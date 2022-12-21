@@ -289,7 +289,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (screenContext) => BarCodeScreen(
-                                                      productData: widget.productData,
+                                                      product: widget.productData,
                                                       requestType: BarcodeRequestType.attachProduct,
                                                       onIgnore: (barcode) async {
                                                         int param;
@@ -302,7 +302,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                             widget.scaffoldKey.currentContext,
                                                             MaterialPageRoute(
                                                                 builder: (context) => AddProductsToSubWarehouse(
-                                                                    barcode: param, productData: widget.productData)));
+                                                                    barcode: param, product: widget.productData)));
                                                       },
                                                     ),
                                                   ),
@@ -312,7 +312,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                   widget.scaffoldKey.currentContext,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          AddProductsToSubWarehouse(productData: widget.productData)),
+                                                          AddProductsToSubWarehouse(product: widget.productData)),
                                                 );
                                               }
                                             }

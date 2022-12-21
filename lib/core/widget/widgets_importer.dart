@@ -25,6 +25,7 @@ export 'my_dialog.dart';
 export 'order_detail_view_main_card.dart';
 export 'orders_view_card.dart';
 export 'phone_number_widget.dart';
+export 'prime_product_widget.dart';
 export 'product_check_widget.dart';
 export 'product_entry_field.dart';
 export 'products_view_card.dart';

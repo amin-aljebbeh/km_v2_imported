@@ -626,7 +626,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                           Row(
                                             children: [
                                               BarcodeIcon(
-                                                productData: widget.product,
+                                                product: widget.product,
                                                 color: kmColors,
                                                 requestType: BarcodeRequestType.addBarcode,
                                                 productId: widget.product.id,
@@ -708,6 +708,10 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                               ),
                                             ],
                                           ),
+                                        if (Services.isProductsController())
+                                          PrimeProductWidget(
+                                              product: OrderProduct(
+                                                  id: widget.product.id, isPrimeItem: widget.product.isPrimeItem)),
                                         AddImageWidget(
                                           onSubmit: (image) async {
                                             bool result = await ProductsServices.setImageToProducts(

@@ -14,6 +14,7 @@ class OrderProduct {
     this.subWarehouseId,
     this.isActive,
     this.availableQuantity,
+    this.isPrimeItem,
   });
 
   int id;
@@ -29,7 +30,7 @@ class OrderProduct {
   OrderProductPivot pivot;
   int isActive;
   String availableQuantity;
-
+  int isPrimeItem;
   List<ProductImage> images;
 
   factory OrderProduct.fromJson(Map<String, dynamic> json) => OrderProduct(
@@ -45,6 +46,7 @@ class OrderProduct {
         quantity: json['quantity'].toString(),
         productAvailable: false,
         availableQuantity: json['available_quantity'].toString(),
+        isPrimeItem: json['is_prime_item'],
         pivot: json['pivot'] == null ? null : OrderProductPivot.fromJson(json['pivot']),
         images: List<ProductImage>.from(json['images'].map((x) => ProductImage.fromJson(x))),
       );

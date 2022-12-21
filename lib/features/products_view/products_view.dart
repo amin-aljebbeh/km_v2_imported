@@ -235,7 +235,7 @@ class ProductsViewState extends State<ProductsView> {
                               itemBuilder: (BuildContext context, int index) {
                                 var eachProduct = productsList[index];
                                 return ProductsViewCard(
-                                  productData: eachProduct,
+                                  product: eachProduct,
                                   index: index,
                                   scaffoldKey: scaffoldKey,
                                   onAddBarcode: (result) {
