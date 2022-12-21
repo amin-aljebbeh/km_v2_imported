@@ -130,6 +130,14 @@ class _OrderAccountingState extends State<OrderAccounting> {
               text: StringUtils().oCcy.format(int.parse(widget.orderData.total.split('.')[0]) -
                   int.parse(widget.orderData.walletValue.split('.')[0])))
         ]));
+        subWarehouseTotal.add(KTableRow(children: [
+          KTableElement(text: 'القبض من الزبون', style: informationStyle),
+          KTableElement(
+              text: StringUtils().oCcy.format(int.parse(widget.orderData.cashValue.split('.')[0])),
+              style: int.parse(widget.orderData.cashValue.split('.')[0]).isNegative
+                  ? informationStyle.copyWith(color: Colors.red)
+                  : informationStyle)
+        ]));
       } else {
         subWarehouseTotal.add(KTableRow(children: [
           KTableElement(text: totalString),
