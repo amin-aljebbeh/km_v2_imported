@@ -199,7 +199,8 @@ class _InventoryPageState extends State<InventoryPage> {
                                             ? state.inventoryState.products[index].warehouses[0].pivot.price
                                             : '0',
                                     scaffoldKey: scaffoldKey,
-                                    fromInventory: true,
+                                    fromInventory:
+                                        state.inventoryState.inventoryType == InventoryTypes.underCheckAvailability,
                                     productData: state.inventoryState.products[index],
                                     onChangeStatus: (result) {
                                       if (result) setState(() => state.inventoryState.products.removeAt(index));
