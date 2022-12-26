@@ -24,7 +24,7 @@ export '../features/loading_feature/presentation/redux/loading_action.dart';
 export '../features/loading_feature/presentation/redux/loading_action.dart';
 export '../features/view_importer.dart';
 // used a lot
-export '../injection_container/injection_importer.dart';
+export '../injection_container/injection_container.dart';
 export '../redux/redux_importer.dart';
 export 'api/api_provider.dart';
 export 'api/api_url.dart';

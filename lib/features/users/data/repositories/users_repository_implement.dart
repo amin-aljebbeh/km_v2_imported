@@ -6,37 +6,20 @@ import '../../domain/repositories/users_repository.dart';
 
 class UsersRepositoryImplement extends UsersRepository {
   final UsersRemoteDataSource usersRemoteDataSource;
+  final RepositoryFactory repositoryFactory;
 
-  UsersRepositoryImplement({this.usersRemoteDataSource});
+  UsersRepositoryImplement({this.usersRemoteDataSource, this.repositoryFactory});
   @override
   Future<Either<Failure, Unit>> attachUserToCoupon({int couponId, int userId, int availability}) async {
-    try {
-      await usersRemoteDataSource.attachUserToCoupon(userId: userId, couponId: couponId, availability: availability);
-      return const Right(unit);
-    } on CacheException {
-      return Left(CacheFailure());
-    } on ServerException {
-      return Left(ServerFailure());
-    } on OfflineException {
-      return Left(OfflineFailure());
-    } catch (e) {
-      return Left(InternalFailure());
-    }
+    return await repositoryFactory.failureUnitRepo(
+        function: () =>
+            usersRemoteDataSource.attachUserToCoupon(userId: userId, couponId: couponId, availability: availability));
   }
 
   @override
   Future<Either<Failure, Unit>> depositUserWalletToCoupon({int userId, int value, String description}) async {
-    try {
-      await usersRemoteDataSource.depositUserWalletToCoupon(userId: userId, value: value, description: description);
-      return const Right(unit);
-    } on CacheException {
-      return Left(CacheFailure());
-    } on ServerException {
-      return Left(ServerFailure());
-    } on OfflineException {
-      return Left(OfflineFailure());
-    } catch (e) {
-      return Left(InternalFailure());
-    }
+    return await repositoryFactory.failureUnitRepo(
+        function: () =>
+            usersRemoteDataSource.depositUserWalletToCoupon(userId: userId, value: value, description: description));
   }
 }

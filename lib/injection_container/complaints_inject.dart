@@ -15,6 +15,7 @@ Future<void> injectComplaints() async {
       getComplaintTypeUSeCase: sl(),
       createComplaintUseCase: sl(),
       changeComplaintStatusUseCase: sl()));
-  sl.registerLazySingleton<ComplaintsRepository>(() => ComplaintsRepositoryImplement(complaintsRemoteDataSource: sl()));
+  sl.registerLazySingleton<ComplaintsRepository>(
+      () => ComplaintsRepositoryImplement(complaintsRemoteDataSource: sl(), repositoryFactory: sl()));
   sl.registerLazySingleton<ComplaintsRemoteDataSource>(() => ComplaintsRemoteDataSourceImplement());
 }

@@ -45,11 +45,7 @@ class _AddProductsViewState extends State<AddProductsView> {
   Future getImageGallery() async {
     final pickedFile =
         await picker.pickImage(source: ImageSource.gallery, imageQuality: 100, maxHeight: 600, maxWidth: 500);
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      }
-    });
+    setState(() => {if (pickedFile != null) _image = File(pickedFile.path)});
   }
 
   Widget imagesBody() {
@@ -64,10 +60,7 @@ class _AddProductsViewState extends State<AddProductsView> {
   bool isError = false;
 
   void _addNewProduct({int barcode, BuildContext context}) async {
-    setState(() {
-      isLoading = true;
-      isError = false;
-    });
+    setState(() => {isLoading = true, isError = false});
     int productIds = await ProductsServices.addNewProducts(
         subWarehouseId: _selectedSubWarehouseValue,
         name: nameController.text,
@@ -91,17 +84,11 @@ class _AddProductsViewState extends State<AddProductsView> {
     if (productIds != null && productIds != 0) {
       bool result = await ProductsServices.setImageToProducts(productId: productIds, image: _image);
       if (result) {
-        setState(() {
-          isLoading = false;
-          isError = false;
-        });
+        setState(() => {isLoading = false, isError = false});
 
         Navigator.of(context).pop();
       } else {
-        setState(() {
-          isLoading = false;
-          isError = true;
-        });
+        setState(() => {isLoading = false, isError = true});
         snackBar(success: false, message: 'فشلت عملية إضافة المنتج', context: context);
       }
     } else if (productIds == null) {
@@ -124,9 +111,7 @@ class _AddProductsViewState extends State<AddProductsView> {
   @override
   void initState() {
     if (widget.supplierCode != null) supplierCodeController.text = widget.supplierCode;
-    if (Services.productToAddName != 'null') {
-      nameController.text = Services.productToAddName;
-    }
+    if (Services.productToAddName != 'null') nameController.text = Services.productToAddName;
     super.initState();
   }
 
@@ -177,10 +162,8 @@ class _AddProductsViewState extends State<AddProductsView> {
               : ListView(
                   shrinkWrap: true,
                   children: [
-                    Text(
-                      'يرجى إختيار المستودع التابع لهذه المادة',
-                      style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold),
-                    ),
+                    Text('يرجى إختيار المستودع التابع لهذه المادة',
+                        style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold)),
                     ListTile(
                       contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
                       title: Column(
@@ -263,10 +246,8 @@ class _AddProductsViewState extends State<AddProductsView> {
                       ],
                     ),
                     Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                      Text(
-                        'السماح بتفعيل المنتاج تلقائيا',
-                        style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold),
-                      ),
+                      Text('السماح بتفعيل المنتاج تلقائيا',
+                          style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold)),
                       SizedBox(
                         width: 110,
                         child: Container(

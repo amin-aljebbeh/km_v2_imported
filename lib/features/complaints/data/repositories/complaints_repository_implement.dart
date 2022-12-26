@@ -8,8 +8,9 @@ import '../data_sources/complaints_remote_data_source.dart';
 
 class ComplaintsRepositoryImplement implements ComplaintsRepository {
   final ComplaintsRemoteDataSource complaintsRemoteDataSource;
+  final RepositoryFactory repositoryFactory;
 
-  ComplaintsRepositoryImplement({this.complaintsRemoteDataSource});
+  ComplaintsRepositoryImplement({this.complaintsRemoteDataSource, this.repositoryFactory});
 
   @override
   Future<Either<Failure, List<ComplaintEntity>>> getComplaints() async {
@@ -45,33 +46,13 @@ class ComplaintsRepositoryImplement implements ComplaintsRepository {
 
   @override
   Future<Either<Failure, Unit>> createComplaint({ComplaintEntity complaintEntity}) async {
-    try {
-      await complaintsRemoteDataSource.createComplaint(complaintModel: complaintEntity);
-      return const Right(unit);
-    } on CacheException {
-      return Left(CacheFailure());
-    } on ServerException {
-      return Left(ServerFailure());
-    } on OfflineException {
-      return Left(OfflineFailure());
-    } catch (e) {
-      return Left(InternalFailure());
-    }
+    return await repositoryFactory.failureUnitRepo(
+        function: () => complaintsRemoteDataSource.createComplaint(complaintModel: complaintEntity));
   }
 
   @override
   Future<Either<Failure, Unit>> changeComplaintStatus({int complaintId, int statusId}) async {
-    try {
-      await complaintsRemoteDataSource.changeComplaintStatus(complaintId: complaintId, statusId: statusId);
-      return const Right(unit);
-    } on CacheException {
-      return Left(CacheFailure());
-    } on ServerException {
-      return Left(ServerFailure());
-    } on OfflineException {
-      return Left(OfflineFailure());
-    } catch (e) {
-      return Left(InternalFailure());
-    }
+    return await repositoryFactory.failureUnitRepo(
+        function: () => complaintsRemoteDataSource.changeComplaintStatus(complaintId: complaintId, statusId: statusId));
   }
 }
