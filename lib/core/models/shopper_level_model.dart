@@ -19,6 +19,7 @@ class Level {
     this.updatedAt,
     this.subWarehouses,
     this.supportedCities,
+    this.pricePerKilo,
   });
 
   int id;
@@ -30,35 +31,37 @@ class Level {
   int points;
   DateTime createdAt;
   dynamic updatedAt;
+  String pricePerKilo;
   List<SubWarehouse> subWarehouses;
   List<SupportedCity> supportedCities;
 
   factory Level.fromJson(Map<String, dynamic> json) => Level(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        maxProductsToHandle: json["max_products_to_handle"],
-        maxOrdersToHandle: json["max_orders_to_handle"],
-        maxCompanyBalance: json["max_company_balance"],
-        points: json["points"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"],
-        subWarehouses: json["sub_warehouses"] == null
+        id: json['id'],
+        name: json['name'],
+        description: json['description'],
+        maxProductsToHandle: json['max_products_to_handle'],
+        maxOrdersToHandle: json['max_orders_to_handle'],
+        maxCompanyBalance: json['max_company_balance'],
+        points: json['points'],
+        pricePerKilo: json['price_per_kilo'],
+        createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
+        updatedAt: json['updated_at'],
+        subWarehouses: json['sub_warehouses'] == null
             ? []
-            : List<SubWarehouse>.from(json["sub_warehouses"].map((x) => SubWarehouse.fromJson(x))),
-        supportedCities: json["supported_cities"] == null
+            : List<SubWarehouse>.from(json['sub_warehouses'].map((x) => SubWarehouse.fromJson(x))),
+        supportedCities: json['supported_cities'] == null
             ? null
-            : List<SupportedCity>.from(json["supported_cities"].map((x) => SupportedCity.fromJson(x))),
+            : List<SupportedCity>.from(json['supported_cities'].map((x) => SupportedCity.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "description": description,
-        "max_products_to_handle": maxProductsToHandle,
-        "max_orders_to_handle": maxOrdersToHandle,
-        "points": points,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt,
+        'id': id,
+        'name': name,
+        'description': description,
+        'max_products_to_handle': maxProductsToHandle,
+        'max_orders_to_handle': maxOrdersToHandle,
+        'points': points,
+        'created_at': createdAt.toIso8601String(),
+        'updated_at': updatedAt,
       };
 }

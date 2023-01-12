@@ -126,9 +126,8 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 children: <Widget>[
                   LabelRow(
                     rightSideText: bill,
-                    leftSideText:
-                        '${StringUtils().oCcy.format(int.parse(widget.orderData.cashValue.split('.')[0]).abs())}'
-                        ' ${LoadingScreenServices.companyInformation.currency.toString()}',
+                    leftSideText: StringUtils().oCcy.format(int.parse(widget.orderData.cashValue.split('.')[0]).abs()) +
+                        LoadingScreenServices.companyInformation.currency,
                     leftSideStyle: int.parse(widget.orderData.cashValue.split('.')[0]).isNegative
                         ? informationStyle.copyWith(color: Colors.red)
                         : informationStyle,
@@ -316,8 +315,14 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                 ),
               LabelRow(
                   rightSideText: 'مسافة التوصيل : ',
-                  leftSideText: (int.parse(widget.orderData.deliveryDistance) / 1000).toString() + 'كم',
+                  leftSideText: (int.parse(widget.orderData.deliveryDistance) / 1000).toString() + ' كم ',
                   leftSideStyle: informationStyle),
+              if (widget.orderData.shopper != null)
+                LabelRow(
+                    rightSideText: 'تعويض البانزين : ',
+                    leftSideText: OrderServices.gasAllowance(
+                        deliveryDistance: widget.orderData.deliveryDistance, levelId: widget.orderData.shopper.levelId),
+                    leftSideStyle: informationStyle),
               if (Services.isOperationManager())
                 KSearchableDropdown(
                   hint: widget.orderData.shopper != null ? widget.orderData.shopper.name : chooseShopper,

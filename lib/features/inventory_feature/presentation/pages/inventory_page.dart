@@ -134,8 +134,7 @@ class _InventoryPageState extends State<InventoryPage> {
                               primary: false,
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              itemCount:
-                                  state.inventoryState.products == null ? 0 : state.inventoryState.products.length,
+                              itemCount: state.inventoryState.products.length,
                               itemBuilder: (BuildContext context, int index) {
                                 if (state.inventoryState.searchFilter == null ||
                                     state.inventoryState.searchFilter == '' ||
