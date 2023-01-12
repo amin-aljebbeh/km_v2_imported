@@ -1,4 +1,5 @@
 import 'package:kammun_app/features/loading_feature/presentation/redux/loading_state.dart';
+import 'package:kammun_app/features/orders_feature/presentation/redux/orders_state.dart';
 
 import '../core/core_importer.dart';
 import '../features/admins/presentation/redux/admins_state.dart';
@@ -17,9 +18,11 @@ class AppState extends Equatable {
   final ErrorState errorState;
   final InventoryState inventoryState;
   final LoadingState loadingState;
+  final OrdersState ordersState;
   final SupplierState supplierState;
   final UsersState usersState;
   const AppState({
+    this.ordersState,
     this.inventoryState,
     this.errorState,
     this.loadingState,
@@ -39,6 +42,7 @@ class AppState extends Equatable {
         adminsState: AdminsState.initial(),
         couponState: CouponState.initial(),
         usersState: UsersState.initial(),
+        ordersState: OrdersState.initial(),
       );
 
   AppState copyWith({
@@ -50,6 +54,7 @@ class AppState extends Equatable {
     AdminsState adminsState,
     CouponState couponState,
     UsersState usersState,
+    OrdersState ordersState,
   }) {
     return AppState(
       inventoryState: inventoryState ?? this.inventoryState,
@@ -60,10 +65,20 @@ class AppState extends Equatable {
       adminsState: adminsState ?? this.adminsState,
       couponState: couponState ?? this.couponState,
       usersState: usersState ?? this.usersState,
+      ordersState: ordersState ?? this.ordersState,
     );
   }
 
   @override
-  List<Object> get props =>
-      [inventoryState, errorState, loadingState, supplierState, complaintsState, adminsState, couponState, usersState];
+  List<Object> get props => [
+        inventoryState,
+        errorState,
+        loadingState,
+        supplierState,
+        complaintsState,
+        adminsState,
+        couponState,
+        usersState,
+        ordersState
+      ];
 }

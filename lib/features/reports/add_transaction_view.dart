@@ -113,14 +113,8 @@ class _AddTransactionViewState extends State<AddTransactionView> {
                         const SizedBox(height: 20),
                         KammunButton(
                           color: primaryColor,
-                          onTap: () {
-                            Tools.logToConsole('message');
-                            Tools.logToConsole(shopperId);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AccountantTransactionView(shopperId: shopperId)));
-                          },
+                          onTap: () => Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => AccountantTransactionView(shopperId: shopperId))),
                           height: 50,
                           text: 'كشف حساب',
                         )

@@ -2,6 +2,7 @@ import 'package:kammun_app/features/admins/presentation/redux/admins_reducer.dar
 import 'package:kammun_app/features/error/presentation/redux/error_reducer.dart';
 import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_reducer.dart';
 import 'package:kammun_app/features/loading_feature/presentation/redux/loading_reducer.dart';
+import 'package:kammun_app/features/orders_feature/presentation/redux/orders_reducer.dart';
 import 'package:kammun_app/features/supplier/presentation/redux/supplier_reducer.dart';
 import 'package:kammun_app/features/users/presentation/redux/users_reducer.dart';
 
@@ -20,5 +21,6 @@ AppState appReducer(AppState state, dynamic action) {
     adminsState: adminsReducer(state.adminsState, action),
     usersState: usersReducer(state.usersState, action),
     couponState: couponReducer(state.couponState, action),
+    ordersState: ordersReducer(state.ordersState, action),
   );
 }

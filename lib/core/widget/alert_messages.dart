@@ -66,6 +66,7 @@ class AlertMessages extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 20.0, bottom: 5, right: 10, left: 10),
       decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: const BorderRadius.all(Radius.circular(3.0)),
           border: Border.all(color: outsideBorderColor, width: 1)),
       child: Container(

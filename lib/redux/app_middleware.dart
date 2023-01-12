@@ -6,6 +6,7 @@ import 'package:kammun_app/features/users/presentation/redux/users_middleware.da
 
 import '../features/complaints/presentation/redux/complaints_middleware.dart';
 import '../features/error/presentation/redux/error_middleware.dart';
+import '../features/orders_feature/presentation/redux/orders_middleware.dart';
 import '../features/supplier/presentation/redux/supplier_middleware.dart';
 import 'redux_importer.dart';
 
@@ -19,5 +20,6 @@ List<Middleware<AppState>> appMiddleware() {
     adminsMiddleware,
     couponMiddleware,
     usersMiddleware,
+    ordersMiddleware,
   ];
 }

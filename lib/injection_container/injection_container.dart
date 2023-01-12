@@ -6,6 +6,7 @@ import 'admins_injection.dart';
 import 'complaints_inject.dart';
 import 'coupons_injection.dart';
 import 'inventory_injection.dart';
+import 'orders_injection.dart';
 
 final sl = GetIt.instance;
 Future<void> inject() async {
@@ -15,6 +16,7 @@ Future<void> inject() async {
   await injectAdmins();
   await injectCoupons();
   await injectUsers();
+  await injectOrders();
 
 //! Core
 

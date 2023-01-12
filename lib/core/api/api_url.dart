@@ -6,8 +6,6 @@ const String supportedCity = 'supported_city/';
 String baseUrl = appUrl;
 const String appleBaseUrl = 'http://apptest.kammun.com';
 const String productionBaseUrl = appUrl;
-const String getCompany = 'company';
-const String getMobileVersion = 'mob_v_config';
 const String getCategory = 'category/';
 const String getBanner = 'banner/';
 const String getUser = user + 'self/';
@@ -23,7 +21,7 @@ const String otpVerification = 'verification_code/verify_account/';
 const couponApi = 'coupon/';
 const attachUserToCouponApi = couponApi + 'attach_user_to_coupon/';
 const userTransactionApi = 'user_transaction/';
-const depositApi = 'user_transaction/deposit/';
+const depositApi = userTransactionApi + 'deposit/';
 //Orders:
 const String order = 'order/';
 const String deliveryViewsHisOwnOrders = order + 'delivery_views_his_own_orders';
@@ -34,6 +32,7 @@ const String lockOrder = order + 'lock_order/';
 const String assignOrderToShopper = order + 'assign_order_to_shopper';
 const String changeOrderStatus = order + 'change_order_status/';
 const String getOrdersByUserPhoneNumber = order + 'get_order_by_phone/';
+const String reAssignOrderToShopper = order + 're_assign_order_to_shopper/';
 // BareCode
 const String productBarcode = 'product_barcode/';
 const String searchProductByBarcode = productBarcode + searchApi;

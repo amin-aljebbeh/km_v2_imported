@@ -90,7 +90,8 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return TemporaryLoading(
+        child: Scaffold(
       backgroundColor: Theme.of(context).primaryColorLight,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -487,7 +488,7 @@ class _PhoneNumberOrdersViewState extends State<PhoneNumberOrdersView> {
           ),
         ),
       ),
-    );
+    ));
   }
 
   _moveOrderProductsToCart({int orderIndex, List<OrderProduct> orderProducts}) async {

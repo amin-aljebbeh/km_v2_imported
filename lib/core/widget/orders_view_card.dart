@@ -5,6 +5,7 @@ import 'package:kammun_app/features/coupons/presentation/redux/coupon_action.dar
 import 'package:kammun_app/features/order_details/order_details_tab_view.dart';
 import 'package:kammun_app/features/orders/orders_view_importer.dart';
 import 'package:kammun_app/features/orders/services/order_services.dart';
+import 'package:kammun_app/features/orders_feature/presentation/redux/orders_action.dart';
 import 'package:kammun_app/features/users/presentation/redux/users_action.dart';
 import 'package:map_launcher/map_launcher.dart';
 
@@ -327,31 +328,70 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   leftSideText: (int.parse(widget.orderData.deliveryDistance) / 1000).toString() + ' كم ',
                   leftSideStyle: informationStyle),
               if (Services.isOperationManager())
-                KSearchableDropdown(
-                  hint: widget.orderData.shopper != null ? widget.orderData.shopper.name : chooseShopper,
-                  search: shopper,
-                  items: Services.shoppersNameList(),
-                  onChanged: (value) async {
-                    if (value != null) {
-                      String shopperId = Services.selectedShopperId(value);
-                      int shopperLevelId = Services.selectedShopperLevelId(value);
-                      setState(() {
-                        shopper = value;
-                        widget.orderData.shopper = Assigned(
-                            name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''),
-                            id: int.parse(shopperId),
-                            levelId: shopperLevelId);
-                      });
-                      bool result =
-                          await OrderServices.assignOrderToShopperService(shopperId, widget.orderData.id.toString());
-                      if (result) {
-                        snackBar(success: result, message: 'تم إسناد الطلب بنجاح', context: context);
-                      } else {
-                        snackBar(
-                            success: result, message: 'فشلت عملية إسناد الطلب يرجى المحاولة مجدداً', context: context);
-                      }
-                    }
-                  },
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (widget.orderData.shopper != null)
+                      Expanded(
+                        flex: 1,
+                        child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: KammunButton(
+                                color: kmColors,
+                                width: 100,
+                                text: 'تحويل',
+                                onTap: () {
+                                  showMyDialog(
+                                      context: context,
+                                      title: 'تحويل',
+                                      text: 'هل أنت متأكد من رغبتك في تحويل الطلب لكابتن جديد ؟',
+                                      dialogButtons: [
+                                        KammunButton(
+                                            color: kmColors,
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                              StoreProvider.of<AppState>(context)
+                                                  .dispatch(ReAssignOrderAction(orderId: widget.orderData.id));
+                                            },
+                                            width: 100,
+                                            text: yes),
+                                        KammunButton(
+                                            color: kmColors, onTap: () => Navigator.pop(context), width: 100, text: no),
+                                      ]);
+                                })),
+                      ),
+                    Expanded(
+                      flex: 2,
+                      child: KSearchableDropdown(
+                        hint: widget.orderData.shopper != null ? widget.orderData.shopper.name : chooseShopper,
+                        search: shopper,
+                        items: Services.shoppersNameList(),
+                        onChanged: (value) async {
+                          if (value != null) {
+                            String shopperId = Services.selectedShopperId(value);
+                            int shopperLevelId = Services.selectedShopperLevelId(value);
+                            setState(() {
+                              shopper = value;
+                              widget.orderData.shopper = Assigned(
+                                  name: value.replaceAll(' ✅', '').replaceAll(' ❌', ''),
+                                  id: int.parse(shopperId),
+                                  levelId: shopperLevelId);
+                            });
+                            bool result = await OrderServices.assignOrderToShopperService(
+                                shopperId, widget.orderData.id.toString());
+                            if (result) {
+                              snackBar(success: result, message: 'تم إسناد الطلب بنجاح', context: context);
+                            } else {
+                              snackBar(
+                                  success: result,
+                                  message: 'فشلت عملية إسناد الطلب يرجى المحاولة مجدداً',
+                                  context: context);
+                            }
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
             ],
           ),
