@@ -209,17 +209,13 @@ class OrderServices {
     }
   }
 
-  static String gasAllowance({String deliveryDistance, int levelId}) {
+  static double gasAllowance({String deliveryDistance, int levelId}) {
     Level orderLevel;
     if (Services.isShopper()) {
       orderLevel = Services.shopper.level;
     } else {
       orderLevel = LoadingScreenServices.levels.firstWhere((level) => level.id == levelId);
     }
-    return StringUtils()
-            .oCcy
-            .format((int.parse(orderLevel.pricePerKilo.split('.')[0]) * (int.parse(deliveryDistance) / 1000))) +
-        ' ' +
-        LoadingScreenServices.companyInformation.currency;
+    return (int.parse(orderLevel.pricePerKilo.split('.')[0]) * (int.parse(deliveryDistance) / 1000));
   }
 }

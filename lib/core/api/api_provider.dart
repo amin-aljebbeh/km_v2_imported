@@ -42,6 +42,11 @@ class ApiProvider {
           break;
       }
     } on DioError catch (e) {
+      Tools.logToConsole(token);
+      Tools.logToConsole(body);
+      Tools.logToConsole(queryParameters);
+      Tools.logToConsole(method.toString());
+      Tools.logToConsole(baseUrl + '/api/' + url);
       Tools.logToConsole(e.message);
       Tools.logToConsole(ErrorHandler.handleDioError(e, RequestOptions(path: url)).data);
       return ErrorHandler.handleDioError(e, RequestOptions(path: url));

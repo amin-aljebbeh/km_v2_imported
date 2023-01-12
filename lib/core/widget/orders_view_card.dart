@@ -127,6 +127,7 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   LabelRow(
                     rightSideText: bill,
                     leftSideText: StringUtils().oCcy.format(int.parse(widget.orderData.cashValue.split('.')[0]).abs()) +
+                        ' ' +
                         LoadingScreenServices.companyInformation.currency,
                     leftSideStyle: int.parse(widget.orderData.cashValue.split('.')[0]).isNegative
                         ? informationStyle.copyWith(color: Colors.red)
@@ -176,7 +177,15 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                       ),
                       RichText(
                           text: TextSpan(
-                              text: StringUtils().oCcy.format(widget.orderData.shopperProfit).toString(),
+                              text: StringUtils()
+                                  .oCcy
+                                  .format(widget.orderData.shopperProfit +
+                                      (widget.orderData.shopper != null
+                                          ? OrderServices.gasAllowance(
+                                              deliveryDistance: widget.orderData.deliveryDistance,
+                                              levelId: widget.orderData.shopper.levelId)
+                                          : 0))
+                                  .toString(),
                               style: profitStyle))
                     ],
                   )
@@ -317,12 +326,6 @@ class OrdersViewCardState extends State<OrdersViewCard> {
                   rightSideText: 'مسافة التوصيل : ',
                   leftSideText: (int.parse(widget.orderData.deliveryDistance) / 1000).toString() + ' كم ',
                   leftSideStyle: informationStyle),
-              if (widget.orderData.shopper != null)
-                LabelRow(
-                    rightSideText: 'تعويض البانزين : ',
-                    leftSideText: OrderServices.gasAllowance(
-                        deliveryDistance: widget.orderData.deliveryDistance, levelId: widget.orderData.shopper.levelId),
-                    leftSideStyle: informationStyle),
               if (Services.isOperationManager())
                 KSearchableDropdown(
                   hint: widget.orderData.shopper != null ? widget.orderData.shopper.name : chooseShopper,
