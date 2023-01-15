@@ -284,6 +284,36 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                                 color: Colors.indigoAccent,
                               )
                             : Container(),
+                        if (orderDataList[index].underUpdate.toString() != '0')
+                          KammunButton(
+                            text: unLock,
+                            onTap: () {
+                              int orderId = orderDataList[index].id;
+                              List<Widget> decisionButtons = [
+                                DialogButton(
+                                  text: 'نعم',
+                                  onTap: () async {
+                                    Navigator.of(context).pop();
+                                    bool result = await OrderServices.unlockOrderService(orderId.toString());
+                                    if (result) {
+                                      snackBar(success: result, message: 'تم تعليق الطلب بنجاح', context: context);
+                                    } else {
+                                      snackBar(
+                                          success: result,
+                                          message: 'فشلت عملية تعليق الطلب يرجى المحاولة مجدداً',
+                                          context: context);
+                                    }
+                                    if (result) setState(() => orderDataList[index].underUpdate = '0');
+                                  },
+                                ),
+                                const CloseWidget()
+                              ];
+
+                              showMyDialog(
+                                  context: context, title: unLock, text: unLockConfirm, dialogButtons: decisionButtons);
+                            },
+                            color: Colors.blue[800],
+                          ),
                         Padding(
                             padding: const EdgeInsets.only(top: 8.0), child: Divider(thickness: 5, color: kmColors2))
                       ],
