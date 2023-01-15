@@ -368,10 +368,15 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                             priceFactor:
                                 widget.product.priceFactor != null ? double.parse(widget.product.priceFactor) : 1,
                             initialText: price,
-                            onSavePressed: (newValue, result) => setState(() => {
-                                  if (result)
-                                    {widget.product.price = newValue, price = newValue, widget.onChangePrice(newValue)}
-                                }),
+                            onSavePressed: (newValue, result) {
+                              if (result) {
+                                setState(() {
+                                  widget.product.price = newValue;
+                                  price = newValue;
+                                  widget.onChangePrice(newValue);
+                                });
+                              }
+                            },
                           ),
                           UpdateProductInfoWidget(
                             title: edit + ' ' + supplierCodeString + ':',
@@ -745,6 +750,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                                       DialogButton(
                                                         text: yes,
                                                         onTap: () async {
+                                                          Navigator.of(context).pop();
                                                           bool result = await AddedProductsServices
                                                               .unAttachProductsToSubWarehouseService(
                                                                   productsId: widget.product.id.toString(),
@@ -832,6 +838,7 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             DialogButton(
                                               text: yes,
                                               onTap: () async {
+                                                Navigator.of(context).pop();
                                                 bool result =
                                                     await AddedProductsServices.unAttachProductsToSubWarehouseService(
                                                         productsId: widget.product.id.toString(),

@@ -99,10 +99,13 @@ class _UpdateProductInfoWidgetState extends State<UpdateProductInfoWidget> {
                           productId: widget.productId.toString());
 
                       if (result) {
-                        if (Services.isSupplierManager()) {
-                          newValue = (int.parse(newValue.split('.')[0]) - widget.increasePercentage).toString();
-                        }
                         widget.onSavePressed(newValue, result);
+                        if (Services.isSupplierManager()) {
+                          if (widget.bodyKey == 'price') {
+                            newValue = (int.parse(newValue.split('.')[0]) - widget.increasePercentage ?? 0).toString();
+                          }
+                        }
+
                         setState(() => textController.text = newValue);
                       }
                       if (result) {
