@@ -174,6 +174,10 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                   shrinkWrap: true,
                   itemCount: orderDataList == null ? 0 : orderDataList.length,
                   itemBuilder: (BuildContext context, int index) {
+                    OrdersOriginalData otherOrder = orderDataList.firstWhere(
+                        (order) => order.id != orderDataList[index].id && order.userId == orderDataList[index].userId,
+                        orElse: () => OrdersOriginalData(orderStatusId: '5'));
+                    bool cancelOrderCondition = int.parse(otherOrder.orderStatusId) <= 4;
                     orderDataList[index].orderArithmeticOperations();
                     if (!Services.isSupplierManager()) orderDataList[index].orderProfits();
                     if (Services.isSupplierManager()) return SupplierOrdersViewCard(order: orderDataList[index]);
@@ -182,51 +186,103 @@ class _AssignedOrdersViewState extends State<AssignedOrdersView> {
                         OrdersViewCard(pop: false, orderData: orderDataList[index], orderType: OrderTypes.myOrder),
                         if (int.parse(orderDataList[index].orderStatusId) <= 4 &&
                             int.parse(orderDataList[index].underUpdate) != 1)
-                          KammunButton(
-                            text: orderDataList[index].orderStatusId == '1'
-                                ? 'قبول الطلب'
-                                : orderDataList[index].orderStatusId == '2'
-                                    ? 'الطلب جاهز'
-                                    : orderDataList[index].orderStatusId == '3'
-                                        ? 'مع التوصيل'
-                                        : 'تم التوصيل',
-                            color: orderDataList[index].orderStatusId == '1'
-                                ? Colors.green[700]
-                                : orderDataList[index].orderStatusId == '2'
-                                    ? Colors.yellow[700]
-                                    : Colors.cyan[700],
-                            onTap: () async {
-                              int changeStatus = 0;
-                              setState(() {
-                                isLoading = true;
-                                errorMessage = false;
-                              });
-                              if (orderDataList[index].orderStatusId == '1') {
-                                changeStatus = 2;
-                              } else if (orderDataList[index].orderStatusId == '2') {
-                                changeStatus = 3;
-                              } else if (orderDataList[index].orderStatusId == '3') {
-                                changeStatus = 4;
-                              } else if (orderDataList[index].orderStatusId == '4') {
-                                changeStatus = 5;
-                              }
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                                  child: KammunButton(
+                                    text: orderDataList[index].orderStatusId == '1'
+                                        ? 'قبول الطلب'
+                                        : orderDataList[index].orderStatusId == '2'
+                                            ? 'الطلب جاهز'
+                                            : orderDataList[index].orderStatusId == '3'
+                                                ? 'مع التوصيل'
+                                                : 'تم التوصيل',
+                                    color: orderDataList[index].orderStatusId == '1'
+                                        ? Colors.green[700]
+                                        : orderDataList[index].orderStatusId == '2'
+                                            ? Colors.yellow[700]
+                                            : Colors.cyan[700],
+                                    onTap: () async {
+                                      int changeStatus = 0;
+                                      setState(() {
+                                        isLoading = true;
+                                        errorMessage = false;
+                                      });
+                                      if (orderDataList[index].orderStatusId == '1') {
+                                        changeStatus = 2;
+                                      } else if (orderDataList[index].orderStatusId == '2') {
+                                        changeStatus = 3;
+                                      } else if (orderDataList[index].orderStatusId == '3') {
+                                        changeStatus = 4;
+                                      } else if (orderDataList[index].orderStatusId == '4') {
+                                        changeStatus = 5;
+                                      }
 
-                              ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
-                                  orderDataList[index].id.toString(), changeStatus);
+                                      ChangeOrderStatusModel x = await OrderServices.changeOrderStatusService(
+                                          orderDataList[index].id.toString(), changeStatus);
 
-                              if (x.success) {
-                                setState(() {
-                                  orderDataList[index] = x.order;
-                                  LoadingScreenServices.myOrdersList[index] = x.order;
-                                  isLoading = false;
-                                });
-                              } else {
-                                setState(() {
-                                  isLoading = false;
-                                  errorMessage = true;
-                                });
-                              }
-                            },
+                                      if (x.success) {
+                                        setState(() {
+                                          orderDataList[index] = x.order;
+                                          LoadingScreenServices.myOrdersList[index] = x.order;
+                                          isLoading = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          isLoading = false;
+                                          errorMessage = true;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                              if (cancelOrderCondition)
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                                    child: KammunButton(
+                                      text: cancelOrder,
+                                      color: Colors.red,
+                                      onTap: () {
+                                        showMyDialog(
+                                            context: context,
+                                            title: 'إلغاء الطلب',
+                                            text: 'هل أنت متأكد انك تريد إلغاء الطلب ؟',
+                                            dialogButtons: [
+                                              DialogButton(
+                                                text: 'نعم',
+                                                onTap: () async {
+                                                  int changeStatus = 0;
+                                                  Navigator.of(context).pop();
+
+                                                  setState(() => {isLoading = true, errorMessage = false});
+                                                  changeStatus = 6;
+
+                                                  ChangeOrderStatusModel x =
+                                                      await OrderServices.changeOrderStatusService(
+                                                          orderDataList[index].id.toString(), changeStatus);
+
+                                                  if (x.success) {
+                                                    setState(() {
+                                                      orderDataList[index] = x.order;
+                                                      LoadingScreenServices.myOrdersList[index] = x.order;
+                                                      isLoading = false;
+                                                    });
+                                                  } else {
+                                                    setState(() => {isLoading = false, errorMessage = true});
+                                                  }
+                                                },
+                                              ),
+                                              DialogButton(text: no, onTap: () => Navigator.of(context).pop()),
+                                            ]);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
                         if (!['5', '6', '7'].contains(orderDataList[index].orderStatusId))
                           KammunButton(
