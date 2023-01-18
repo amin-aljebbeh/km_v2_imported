@@ -1,12 +1,9 @@
-import 'package:kammun_app/features/complaints/presentation/pages/add_complaint_page.dart';
-import 'package:kammun_app/features/complaints/presentation/pages/complaints_page.dart';
 import 'package:kammun_app/features/complaints/presentation/redux/complaints_action.dart';
 import 'package:kammun_app/features/inventory_feature/presentation/redux/inventory_action.dart';
 
 import '../../core/core_importer.dart';
 import '../login/Services/login_services.dart';
 import '../management_view/management_view.dart';
-import '../supplier/presentation/pages/supplier_statement_accounts.dart';
 
 List<Widget> getDrawerChildren(BuildContext context) {
   return [
@@ -52,10 +49,9 @@ List<Widget> getDrawerChildren(BuildContext context) {
       const SideBarRow(pushedRoute: SupplierRemainingAccounts.routeName, icon: KIcons.coins, text: 'كشف حساب الزوائد'),
     if (Services.isSupplierManager())
       const SideBarRow(pushedRoute: SupplierAccounts.routeName, icon: Icons.account_balance, text: 'كشف حساب المورد'),
-    Services.isSupplierManager() || Services.isProductsController() || Services.isAdmin()
-        ? const SideBarRow(pushedRoute: GetSubWarehouse.routeName, icon: Icons.inventory, text: 'إدارة المستودعات')
-        : Container(),
-    if (Services.isProductsController())
+    if (Services.isSupplierManager() || Services.isProductsController() || Services.isAdmin())
+      const SideBarRow(pushedRoute: GetSubWarehouse.routeName, icon: Icons.inventory, text: 'إدارة المستودعات'),
+    if (Services.isProductsController() || Services.isSupplierManager())
       SideBarRow(
         text: productManagement,
         icon: Icons.category,
@@ -66,17 +62,28 @@ List<Widget> getDrawerChildren(BuildContext context) {
               builder: (context) => ManagementView(
                 title: productManagement,
                 children: [
-                  const SideBarRow(
-                      pushedRoute: AddedProductsToWarehouse.routeName,
-                      icon: Icons.category,
-                      text: 'المنتجات المضافة للمستودع'),
-                  const SideBarRow(
-                      pushedRoute: NotAddedProductsToWarehouse.routeName,
-                      icon: Icons.category_outlined,
-                      text: 'المنتجات الغير مضافة للمستودع'),
-                  if (Services.isAdmin())
-                    const SideBarRow(
-                        pushedRoute: AllProducts.routeName, icon: Icons.category_rounded, text: 'جميع المنتجات'),
+                  if (!Services.isSupplierManager())
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SideBarRow(
+                            pushedRoute: AddedProductsToWarehouse.routeName,
+                            icon: Icons.category,
+                            text: 'المنتجات المضافة للمستودع'),
+                        const SideBarRow(
+                            pushedRoute: NotAddedProductsToWarehouse.routeName,
+                            icon: Icons.category_outlined,
+                            text: 'المنتجات الغير مضافة للمستودع'),
+                        if (Services.isAdmin())
+                          const SideBarRow(
+                              pushedRoute: AllProducts.routeName, icon: Icons.category_rounded, text: 'جميع المنتجات'),
+                        const SideBarRow(
+                          icon: Icons.filter_list_sharp,
+                          text: 'فلترة المنتجات',
+                          pushedRoute: ProductsFilterScreen.routeName,
+                        ),
+                      ],
+                    ),
                   SideBarRow(
                       onTap: () {
                         StoreProvider.of<AppState>(context).dispatch(NoError());
@@ -86,34 +93,24 @@ List<Widget> getDrawerChildren(BuildContext context) {
                       },
                       icon: Icons.fact_check,
                       text: inventory),
-                  const SideBarRow(
-                    icon: Icons.filter_list_sharp,
-                    text: 'فلترة المنتجات',
-                    pushedRoute: ProductsFilterScreen.routeName,
-                  ),
-                  if (Services.isOperationManager() || Services.isProductsController())
-                    Column(
-                      children: [
-                        SideBarRow(
-                            onTap: () {
-                              StoreProvider.of<AppState>(context).dispatch(NoError());
-                              StoreProvider.of<AppState>(context)
-                                  .dispatch(SetInventoryType(inventoryType: InventoryTypes.notification));
-                              Navigator.pushNamed(context, InventoryPage.routeName);
-                            },
-                            icon: Icons.notifications_active_rounded,
-                            text: 'المنتجات على قائمة الانتظار'),
-                        SideBarRow(
-                            onTap: () {
-                              StoreProvider.of<AppState>(context).dispatch(NoError());
-                              StoreProvider.of<AppState>(context)
-                                  .dispatch(SetInventoryType(inventoryType: InventoryTypes.prime));
-                              Navigator.pushNamed(context, InventoryPage.routeName);
-                            },
-                            icon: Icons.label_important_rounded,
-                            text: 'المنتجات الأساسية'),
-                      ],
-                    ),
+                  SideBarRow(
+                      onTap: () {
+                        StoreProvider.of<AppState>(context).dispatch(NoError());
+                        StoreProvider.of<AppState>(context)
+                            .dispatch(SetInventoryType(inventoryType: InventoryTypes.notification));
+                        Navigator.pushNamed(context, InventoryPage.routeName);
+                      },
+                      icon: Icons.notifications_active_rounded,
+                      text: 'المنتجات على قائمة الانتظار'),
+                  SideBarRow(
+                      onTap: () {
+                        StoreProvider.of<AppState>(context).dispatch(NoError());
+                        StoreProvider.of<AppState>(context)
+                            .dispatch(SetInventoryType(inventoryType: InventoryTypes.prime));
+                        Navigator.pushNamed(context, InventoryPage.routeName);
+                      },
+                      icon: Icons.label_important_rounded,
+                      text: 'المنتجات الأساسية'),
                 ],
               ),
             ),

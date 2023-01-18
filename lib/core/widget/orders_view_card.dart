@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
-import 'package:kammun_app/features/complaints/presentation/pages/add_complaint_page.dart';
 import 'package:kammun_app/features/coupons/presentation/redux/coupon_action.dart';
 import 'package:kammun_app/features/order_details/order_details_tab_view.dart';
 import 'package:kammun_app/features/orders/orders_view_importer.dart';
@@ -84,6 +83,12 @@ class OrdersViewCardState extends State<OrdersViewCard> {
         break;
       case '7':
         orderStatus = '😔 لم نستطع تأمين الطلب 😔';
+        break;
+      case '8':
+        orderStatus = 'معلق للدفع الإلكتروني';
+        break;
+      case '9':
+        orderStatus = 'فشل في الدفع الإلكتروني';
         break;
     }
     switch (widget.orderData.underUpdate) {
