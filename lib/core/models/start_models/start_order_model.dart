@@ -179,6 +179,7 @@ class OrdersOriginalData {
     kammunProfit = 0;
     shopperProfit = 0;
     orderAccountingRows = LoadingScreenServices.subWarehouses
+        .where((subWarehouse) => products.map((product) => product.subWarehouseId).contains(subWarehouse.id))
         .map((subWarehouse) => OrderAccountingRow(
             subWarehouseId: subWarehouse.id,
             subWarehouseName: subWarehouse.name,
@@ -206,7 +207,6 @@ class OrdersOriginalData {
               orElse: () => row)
           .payToSubWarehouse -= (netPrice * discountPercentage);
     });
-    return orderAccountingRows;
   }
 
   orderProfits() {
@@ -231,7 +231,7 @@ class OrdersOriginalData {
                         levelId: 0,
                         valueAddedPercentage: 0,
                         shoppingProfitPercentage: 0,
-                        minProfit: 1,
+                        minProfit: -1,
                         maxProfit: 10000000000)))
             .levelPivot;
         shopperSubWarehouseProfit = pivot.shoppingProfitPercentage / 100;
