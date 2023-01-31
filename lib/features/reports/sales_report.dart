@@ -6,6 +6,7 @@ import 'services/reports_services.dart';
 
 class SalesReport extends StatefulWidget {
   static const String routeName = '/SalesReport';
+
   const SalesReport({Key key}) : super(key: key);
 
   @override
@@ -47,6 +48,18 @@ class _SalesReportState extends State<SalesReport> {
         ),
       ],
     ));
+    totalSubWarehouses.add(Table(
+      border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
+      children: [
+        const TableRow(children: [KTableElement(text: 'القيم المضافة'), KTableElement(text: 'الإكراميات')]),
+        TableRow(
+          children: [
+            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalIncreaseValueProfits)),
+            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.sumTips)),
+          ],
+        ),
+      ],
+    ));
     for (int i = 0; i < response.warehouses.length; i++) {
       if (response.warehouses[i].statisticsWarehouses != null) {
         List<Widget> expanded = [];
@@ -73,11 +86,9 @@ class _SalesReportState extends State<SalesReport> {
                           response.warehouses[i].statisticsSubWarehouses[j].totalShoppingProfits.split('.')[0])),
                     ),
                     KTableElement(
-                      text: StringUtils()
-                          .oCcy
-                          .format(int.parse(response.warehouses[i].statisticsSubWarehouses[j].totalIncreaseValue))
-                          .toString(),
-                    ),
+                        text: StringUtils()
+                            .oCcy
+                            .format(int.parse(response.warehouses[i].statisticsSubWarehouses[j].totalIncreaseValue))),
                   ],
                 ),
               ],
@@ -119,36 +130,56 @@ class _SalesReportState extends State<SalesReport> {
           }
         }
         totalSubWarehouses.add(ExpandablePanel(
-          collapsed: Table(
-            border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
+          collapsed: Column(
             children: [
-              TableRow(children: [
-                KTableElement(text: totalSales),
-                const KTableElement(text: 'إجمالي التوصيل'),
-                const KTableElement(text: 'المجموع الكلي'),
-              ]),
-              TableRow(
+              Table(
+                border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
                 children: [
-                  KTableElement(
-                      text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.totalSales)),
-                  KTableElement(
-                      text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.deliveryIncome)),
-                  KTableElement(text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.total)),
+                  TableRow(children: [
+                    KTableElement(text: totalSales),
+                    const KTableElement(text: 'إجمالي التوصيل'),
+                    const KTableElement(text: 'المجموع الكلي'),
+                  ]),
+                  TableRow(
+                    children: [
+                      KTableElement(
+                          text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.totalSales)),
+                      KTableElement(
+                          text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.deliveryIncome)),
+                      KTableElement(text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.total)),
+                    ],
+                  ),
+                  TableRow(children: [
+                    KTableElement(text: ordersCount),
+                    KTableElement(text: shoppingProfits),
+                    KTableElement(text: deliveryProfits)
+                  ]),
+                  TableRow(
+                    children: [
+                      KTableElement(
+                          text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.orderCount)),
+                      KTableElement(
+                          text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.shoppingProfits)),
+                      KTableElement(
+                          text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.deliveryProfits)),
+                    ],
+                  ),
                 ],
               ),
-              TableRow(children: [
-                KTableElement(text: ordersCount),
-                KTableElement(text: shoppingProfits),
-                KTableElement(text: deliveryProfits)
-              ]),
-              TableRow(
+              Table(
+                border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
                 children: [
-                  KTableElement(
-                      text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.orderCount)),
-                  KTableElement(
-                      text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.shoppingProfits)),
-                  KTableElement(
-                      text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.deliveryProfits)),
+                  const TableRow(children: [KTableElement(text: 'القيم المضافة'), KTableElement(text: 'الإكراميات')]),
+                  TableRow(
+                    children: [
+                      KTableElement(
+                          text: StringUtils()
+                              .oCcy
+                              .format(response.warehouses[i].statisticsWarehouses.increaseValueProfits)),
+                      KTableElement(
+                          text: StringUtils().oCcy.format(response.warehouses[i].statisticsWarehouses.sumTips)),
+                    ],
+                  ),
                 ],
               ),
             ],

@@ -30,20 +30,25 @@ class GetDailyStatistics {
 }
 
 class GeneralStatistics {
-  GeneralStatistics({
-    this.totalShoppingProfits,
-    this.totalDeliveryProfits,
-    this.totalSales,
-  });
+  GeneralStatistics(
+      {this.totalShoppingProfits,
+      this.totalDeliveryProfits,
+      this.totalSales,
+      this.sumTips,
+      this.totalIncreaseValueProfits});
 
   int totalShoppingProfits;
   int totalDeliveryProfits;
   int totalSales;
+  int sumTips;
+  int totalIncreaseValueProfits;
 
   factory GeneralStatistics.fromJson(Map<String, dynamic> json) => GeneralStatistics(
         totalShoppingProfits: json['total_shopping_profits'],
         totalDeliveryProfits: json['total_delivery_profits'],
         totalSales: json['total_sales'],
+        sumTips: json['sum_tips'],
+        totalIncreaseValueProfits: json['total_increase_value_profits'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,9 +85,8 @@ class WarehouseStatistics {
         description: json['description'],
         numberOfWorkers: json['number_of_workers'],
         isActive: json['is_active'],
-        statisticsWarehouses: json['statistics_warehouses'] == null
-            ? null
-            : StatisticsWarehouses.fromJson(json['statistics_warehouses']),
+        statisticsWarehouses:
+            json['statistics_warehouses'] == null ? null : StatisticsWarehouses.fromJson(json['statistics_warehouses']),
         statisticsSubWarehouses: json['statistics_sub_warehouses'] == null
             ? null
             : List<StatisticsSubWarehouse>.from(
@@ -100,9 +104,8 @@ class WarehouseStatistics {
         'number_of_workers': numberOfWorkers,
         'is_active': isActive,
         'statistics_warehouses': statisticsWarehouses.toJson(),
-        'statistics_sub_warehouses': statisticsSubWarehouses == null
-            ? null
-            : List<dynamic>.from(statisticsSubWarehouses.map((x) => x.toJson())),
+        'statistics_sub_warehouses':
+            statisticsSubWarehouses == null ? null : List<dynamic>.from(statisticsSubWarehouses.map((x) => x.toJson())),
         'statistics_supported_cities': statisticsSupportedCities == null
             ? null
             : List<dynamic>.from(statisticsSupportedCities.map((x) => x.toJson())),
@@ -134,7 +137,7 @@ class StatisticsSubWarehouse {
         name: json['name'],
         businessDomain: json['business_domain'],
         sumPurchasePrice: json['sum_purchase_price'],
-        totalIncreaseValue: json['total_increase_value'],
+        totalIncreaseValue: json['sum_increase_value'],
         totalShoppingProfits: json['total_shopping_profits'],
       );
 
@@ -148,13 +151,7 @@ class StatisticsSubWarehouse {
 }
 
 class StatisticsSupportedCity {
-  StatisticsSupportedCity({
-    this.supportedCityId,
-    this.name,
-    this.deliveryIncome,
-    this.ordersCount,
-    this.deliveryPrice,
-  });
+  StatisticsSupportedCity({this.supportedCityId, this.name, this.deliveryIncome, this.ordersCount, this.deliveryPrice});
 
   int supportedCityId;
   String name;
@@ -187,6 +184,8 @@ class StatisticsWarehouses {
     this.orderCount,
     this.deliveryProfits,
     this.shoppingProfits,
+    this.sumTips,
+    this.increaseValueProfits,
   });
 
   int totalSales;
@@ -195,6 +194,8 @@ class StatisticsWarehouses {
   int orderCount;
   int shoppingProfits;
   int deliveryProfits;
+  int sumTips;
+  int increaseValueProfits;
 
   factory StatisticsWarehouses.fromJson(Map<String, dynamic> json) => StatisticsWarehouses(
         totalSales: json['total_sales'],
@@ -203,6 +204,8 @@ class StatisticsWarehouses {
         deliveryProfits: json['delivery_profits'],
         orderCount: json['count_orders'],
         shoppingProfits: json['shopping_profits'],
+        sumTips: json['sum_tips'],
+        increaseValueProfits: json['increase_value_profits'],
       );
 
   Map<String, dynamic> toJson() => {

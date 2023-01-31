@@ -30,8 +30,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
   _reportCard(FinancialReport response) {
     totalSubWarehouses.clear();
     totalSubWarehouses.add(Center(
-      child: Padding(padding: const EdgeInsets.all(8.0), child: Text('إحصائيات عامة', style: informationStyle)),
-    ));
+        child: Padding(padding: const EdgeInsets.all(8.0), child: Text('إحصائيات عامة', style: informationStyle))));
     totalSubWarehouses.add(Column(
       children: [
         LabelRow(
@@ -46,16 +45,12 @@ class _FinancialReportViewState extends State<FinancialReportView> {
         ),
       ],
     ));
-    totalSubWarehouses.add(Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Divider(thickness: 5, color: primaryColor, height: 5),
-    ));
+    totalSubWarehouses
+        .add(Padding(padding: const EdgeInsets.all(8.0), child: Divider(thickness: 5, color: primaryColor, height: 5)));
     for (var warehouse in response.data.warehouses) {
       totalSubWarehouses.add(ExpandablePanel(
         header: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(child: Text(warehouse.name, style: informationStyle)),
-        ),
+            padding: const EdgeInsets.all(8.0), child: Center(child: Text(warehouse.name, style: informationStyle))),
         collapsed: Center(
           child: Column(
             children: [
@@ -124,10 +119,8 @@ class _FinancialReportViewState extends State<FinancialReportView> {
         ),
       ));
     }
-    totalSubWarehouses.add(Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Divider(thickness: 5, color: primaryColor, height: 5),
-    ));
+    totalSubWarehouses
+        .add(Padding(padding: const EdgeInsets.all(8.0), child: Divider(thickness: 5, color: primaryColor, height: 5)));
     totalSubWarehouses.add(Center(
       child: SfCircularChart(
         title: ChartTitle(text: 'توزع مستحقات الشركة', textStyle: informationStyle),
@@ -139,8 +132,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
               explode: true,
               explodeIndex: 0,
               dataSource: response.data.warehouses,
-              xValueMapper: (FinancialWarehouse warehouse, _) =>
-                  StringUtils().oCcy.format(warehouse.totalCompanyDues).toString(),
+              xValueMapper: (FinancialWarehouse warehouse, _) => StringUtils().oCcy.format(warehouse.totalCompanyDues),
               yValueMapper: (FinancialWarehouse warehouse, _) => warehouse.totalCompanyDues,
               dataLabelMapper: (FinancialWarehouse warehouse, _) => warehouse.name,
               dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),
@@ -160,7 +152,7 @@ class _FinancialReportViewState extends State<FinancialReportView> {
               explodeIndex: 0,
               dataSource: response.data.warehouses,
               xValueMapper: (FinancialWarehouse warehouse, _) =>
-                  StringUtils().oCcy.format(warehouse.totalProfitsShoppers).toString(),
+                  StringUtils().oCcy.format(warehouse.totalProfitsShoppers),
               yValueMapper: (FinancialWarehouse warehouse, _) => warehouse.totalProfitsShoppers,
               dataLabelMapper: (FinancialWarehouse warehouse, _) => warehouse.name,
               dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),

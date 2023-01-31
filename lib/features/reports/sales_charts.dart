@@ -137,7 +137,7 @@ class _SalesChartsState extends State<SalesCharts> {
               explodeIndex: 0,
               dataSource: response.warehouses,
               xValueMapper: (WarehouseStatistics warehouse, _) =>
-                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.total).toString(),
+                  StringUtils().oCcy.format(warehouse.statisticsWarehouses.total),
               yValueMapper: (WarehouseStatistics warehouse, _) => warehouse.statisticsWarehouses.total,
               dataLabelMapper: (WarehouseStatistics warehouse, _) => warehouse.name,
               dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: blackBold)),
