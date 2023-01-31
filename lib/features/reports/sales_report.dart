@@ -46,16 +46,16 @@ class _SalesReportState extends State<SalesReport> {
             KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalDeliveryProfits)),
           ],
         ),
-      ],
-    ));
-    totalSubWarehouses.add(Table(
-      border: TableBorder.all(color: Colors.black, style: BorderStyle.solid, width: 2),
-      children: [
-        const TableRow(children: [KTableElement(text: 'القيم المضافة'), KTableElement(text: 'الإكراميات')]),
+        const TableRow(children: [
+          KTableElement(text: 'القيم المضافة'),
+          KTableElement(text: 'الإكراميات'),
+          KTableElement(text: 'عدد الطلبات')
+        ]),
         TableRow(
           children: [
             KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalIncreaseValueProfits)),
             KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.sumTips)),
+            KTableElement(text: StringUtils().oCcy.format(response.generalStatistics.totalOrders)),
           ],
         ),
       ],
@@ -109,22 +109,13 @@ class _SalesReportState extends State<SalesReport> {
             expanded.add(KTableRow(
               children: [
                 KTableElement(
-                  text: StringUtils().oCcy.format(
-                      int.parse(response.warehouses[i].statisticsSupportedCities[j].deliveryIncome.split('.')[0])),
-                ),
+                    text: StringUtils().oCcy.format(
+                        int.parse(response.warehouses[i].statisticsSupportedCities[j].deliveryIncome.split('.')[0]))),
                 KTableElement(
-                  text: StringUtils()
-                      .oCcy
-                      .format(response.warehouses[i].statisticsSupportedCities[j].ordersCount)
-                      .toString(),
-                ),
+                    text: StringUtils().oCcy.format(response.warehouses[i].statisticsSupportedCities[j].ordersCount)),
                 KTableElement(
-                  text: StringUtils().oCcy.format(
-                        int.parse(
-                          response.warehouses[i].statisticsSupportedCities[j].deliveryPrice.split('.')[0].toString(),
-                        ),
-                      ),
-                ),
+                    text: StringUtils().oCcy.format(
+                        int.parse(response.warehouses[i].statisticsSupportedCities[j].deliveryPrice.split('.')[0]))),
               ],
             ));
           }

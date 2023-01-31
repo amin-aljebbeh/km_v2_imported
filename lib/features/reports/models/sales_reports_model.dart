@@ -35,20 +35,21 @@ class GeneralStatistics {
       this.totalDeliveryProfits,
       this.totalSales,
       this.sumTips,
-      this.totalIncreaseValueProfits});
+      this.totalIncreaseValueProfits,this.totalOrders,});
 
   int totalShoppingProfits;
   int totalDeliveryProfits;
   int totalSales;
   int sumTips;
   int totalIncreaseValueProfits;
+  int totalOrders;
 
   factory GeneralStatistics.fromJson(Map<String, dynamic> json) => GeneralStatistics(
         totalShoppingProfits: json['total_shopping_profits'],
         totalDeliveryProfits: json['total_delivery_profits'],
         totalSales: json['total_sales'],
         sumTips: json['sum_tips'],
-        totalIncreaseValueProfits: json['total_increase_value_profits'],
+        totalIncreaseValueProfits: json['total_increase_value_profits'],totalOrders:json['total_orders'],
       );
 
   Map<String, dynamic> toJson() => {
