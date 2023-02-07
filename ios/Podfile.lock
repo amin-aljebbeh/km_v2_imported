@@ -1,6 +1,8 @@
 PODS:
   - adv_image_cache (0.0.1):
     - Flutter
+  - audio_session (0.0.1):
+    - Flutter
   - DKImagePickerController/Core (4.3.3):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -119,6 +121,8 @@ PODS:
     - Flutter
   - image_viewer (0.0.1):
     - Flutter
+  - just_audio (0.0.1):
+    - Flutter
   - location (0.0.1):
     - Flutter
   - map_launcher (0.0.1):
@@ -175,6 +179,7 @@ PODS:
 
 DEPENDENCIES:
   - adv_image_cache (from `.symlinks/plugins/adv_image_cache/ios`)
+  - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
@@ -182,6 +187,7 @@ DEPENDENCIES:
   - flutter_libphonenumber (from `.symlinks/plugins/flutter_libphonenumber/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - image_viewer (from `.symlinks/plugins/image_viewer/ios`)
+  - just_audio (from `.symlinks/plugins/just_audio/ios`)
   - location (from `.symlinks/plugins/location/ios`)
   - map_launcher (from `.symlinks/plugins/map_launcher/ios`)
   - native_device_orientation (from `.symlinks/plugins/native_device_orientation/ios`)
@@ -222,6 +228,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   adv_image_cache:
     :path: ".symlinks/plugins/adv_image_cache/ios"
+  audio_session:
+    :path: ".symlinks/plugins/audio_session/ios"
   file_picker:
     :path: ".symlinks/plugins/file_picker/ios"
   firebase_core:
@@ -236,6 +244,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   image_viewer:
     :path: ".symlinks/plugins/image_viewer/ios"
+  just_audio:
+    :path: ".symlinks/plugins/just_audio/ios"
   location:
     :path: ".symlinks/plugins/location/ios"
   map_launcher:
@@ -259,6 +269,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   adv_image_cache: e75dabd0f21f5fa0d2e508fc1280bff76d115364
+  audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   DKImagePickerController: 72fd378f244cef3d27288e0aebf217a4467e4012
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
@@ -269,7 +280,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
   FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
   FirebaseMessaging: 5ebc42d281567658a2cb72b9ef3506e4a1a1a6e4
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_libphonenumber: 6a23afdf063b34d1e53e6dbd6c6bc905d18e8e46
   GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleMLKit: 69ae034947ca5220c842a3096d574765c9b6b8b8
@@ -279,6 +290,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
   image_picker_ios: b786a5dcf033a8336a657191401bfdf12017dabb
   image_viewer: 3ff6248139d02dd4e15d4329bb36c69f00e615e2
+  just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   map_launcher: e325db1261d029ff33e08e03baccffe09593ffea
   MLImage: a454f9f8ecfd537783a12f9488f5be1a68820829
