@@ -178,6 +178,8 @@ class _InventoryFileProductState extends State<InventoryFileProduct>
                                       if (selectedList == 0) attached = false;
                                       return InventoryProductsViewCard(
                                         index: index,
+                                        onChangeSubWarehouse: (id) =>
+                                            setState(() => showList[index].subWarehouseId = int.parse(id)),
                                         id: id,
                                         attached: attached,
                                         isActive: isActive,

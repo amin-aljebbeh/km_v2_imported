@@ -11,6 +11,7 @@ class ProductsViewCard extends StatefulWidget {
   final Function(String) onChangePrice;
   final Function(String) onChangeUnit;
   final Function(String) onChangeQuantity;
+  final Function(String) onChangeSubWarehouse;
   const ProductsViewCard({
     Key key,
     this.index,
@@ -20,6 +21,7 @@ class ProductsViewCard extends StatefulWidget {
     this.onChangePrice,
     this.onChangeUnit,
     this.onChangeQuantity,
+    this.onChangeSubWarehouse,
   }) : super(key: key);
 
   @override
@@ -41,6 +43,12 @@ class ProductsViewCardState extends State<ProductsViewCard> {
           MaterialPageRoute(
             builder: (context) => ProductDetailView(
               product: widget.product,
+              onChangeSubWarehouse: (id) {
+                setState(() {
+                  widget.product.subWarehouseId = int.parse(id);
+                  widget.onChangeSubWarehouse(id);
+                });
+              },
               onAddBarcode: (result) => widget.onAddBarcode(result),
               onChangePrice: (newValue) =>
                   setState(() => {widget.product.price = newValue, widget.onChangePrice(newValue)}),
@@ -157,7 +165,7 @@ class ProductsViewCardState extends State<ProductsViewCard> {
                                                 .oCcy
                                                 .format(int.parse(widget.product.availableQuantity.split('.')[0]))
                                                 .toString()
-                                            : '0'),
+                                            : ' '),
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       color: primaryColor,

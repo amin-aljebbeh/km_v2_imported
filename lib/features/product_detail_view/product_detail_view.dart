@@ -13,10 +13,17 @@ class ProductDetailView extends StatefulWidget {
   final Function(String) onChangePrice;
   final Function(String) onChangeUnit;
   final Function(String) onChangeQuantity;
+  final Function(String) onChangeSubWarehouse;
 
-  const ProductDetailView(
-      {Key key, this.product, this.onAddBarcode, this.onChangePrice, this.onChangeUnit, this.onChangeQuantity})
-      : super(key: key);
+  const ProductDetailView({
+    Key key,
+    this.product,
+    this.onAddBarcode,
+    this.onChangePrice,
+    this.onChangeUnit,
+    this.onChangeQuantity,
+    this.onChangeSubWarehouse,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ProductDetailViewState();
@@ -509,8 +516,11 @@ class ProductDetailViewState extends State<ProductDetailView> with SingleTickerP
                                             }
                                             setState(() {
                                               if (value != null) {
-                                                if (result) productSubWarehouseId = value;
-                                                widget.product.subWarehouseId = int.parse(value);
+                                                if (result) {
+                                                  productSubWarehouseId = value;
+                                                  widget.product.subWarehouseId = int.parse(value);
+                                                  widget.onChangeSubWarehouse(value);
+                                                }
                                               }
                                             });
                                           },
