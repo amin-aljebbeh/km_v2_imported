@@ -109,18 +109,28 @@ class _OrderAccountingState extends State<OrderAccounting> {
           const KTableElement(text: 'أجور التوصيل'),
           KTableElement(text: StringUtils().oCcy.format(delivery))
         ]));
-        subWarehouseTotal.add(KTableRow(children: [
-          const KTableElement(text: 'قيمة كود الحسم'),
-          KTableElement(
-              text: StringUtils().oCcy.format(int.parse(widget.orderData.couponValue.split('.')[0])),
-              style: lightLoseStyle)
-        ]));
-        subWarehouseTotal.add(KTableRow(children: [
-          const KTableElement(text: 'قيمة المحفظة'),
-          KTableElement(
-              text: StringUtils().oCcy.format(int.parse(widget.orderData.walletValue.split('.')[0])),
-              style: lightLoseStyle)
-        ]));
+        if (widget.orderData.tips != 0) {
+          subWarehouseTotal.add(KTableRow(children: [
+            const KTableElement(text: 'الإكرامية'),
+            KTableElement(text: StringUtils().oCcy.format(widget.orderData.tips))
+          ]));
+        }
+        if (int.parse(widget.orderData.couponValue.split('.')[0]) != 0) {
+          subWarehouseTotal.add(KTableRow(children: [
+            const KTableElement(text: 'قيمة كود الحسم'),
+            KTableElement(
+                text: StringUtils().oCcy.format(int.parse(widget.orderData.couponValue.split('.')[0])),
+                style: lightLoseStyle)
+          ]));
+        }
+        if (int.parse(widget.orderData.walletValue.split('.')[0]) != 0) {
+          subWarehouseTotal.add(KTableRow(children: [
+            const KTableElement(text: 'قيمة المحفظة'),
+            KTableElement(
+                text: StringUtils().oCcy.format(int.parse(widget.orderData.walletValue.split('.')[0])),
+                style: lightLoseStyle)
+          ]));
+        }
         subWarehouseTotal.add(KTableRow(children: [
           KTableElement(text: totalString),
           KTableElement(

@@ -84,15 +84,7 @@ class CartViewState extends State<CartView> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      shoppingCart,
-                      style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 30),
-                    ),
-                  ],
-                ),
+                child: Text(shoppingCart, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 30)),
               ),
               CartServices.cartProducts.isEmpty
                   ? Padding(
@@ -118,20 +110,10 @@ class CartViewState extends State<CartView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(subtotalString,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).primaryColorDark,
-                        fontFamily: fontFamily,
-                        fontSize: 19.0,
-                      )),
+                  Text(subtotalString, style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 19.0)),
                   Text(
                     '${StringUtils().oCcy.format(subtotal)} ${LoadingScreenServices.companyInformation.currency}',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Theme.of(context).primaryColorDark,
-                        fontFamily: fontFamily,
-                        fontSize: 19),
+                    style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 19),
                   ),
                 ],
               ),
@@ -178,18 +160,11 @@ class CartViewState extends State<CartView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Wrap(
-                          children: [
-                            Text(orderArray[index].name,
-                                style: TextStyle(fontWeight: FontWeight.w700, fontFamily: fontFamily, fontSize: 18)),
-                          ],
-                        ),
+                        Text(orderArray[index].name,
+                            style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                         const SizedBox(height: 6),
-                        Text(
-                          orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400, color: greyColor, fontFamily: fontFamily, fontSize: 17),
-                        ),
+                        Text(orderArray[index].quantity.toString() + ' ' + orderArray[index].unit.toString(),
+                            style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17)),
                         const SizedBox(height: 8),
                         Row(
                           children: [
@@ -214,11 +189,8 @@ class CartViewState extends State<CartView> {
                                   )
                                 : Text(
                                     '${StringUtils().oCcy.format(int.parse(orderArray[index].price.split('.')[0]))} ${LoadingScreenServices.companyInformation.currency}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        color: primaryColor,
-                                        fontFamily: fontFamily,
-                                        fontSize: 18)),
+                                    style: mainStyle.copyWith(
+                                        fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                             indexToEdit == index
                                 ? IconButton(
                                     icon: const Icon(Icons.save_rounded),
@@ -283,11 +255,7 @@ class CartViewState extends State<CartView> {
                 ),
                 const SizedBox(height: 5),
                 Text(orderArray[index].productCount.toString(),
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).primaryColorDark,
-                        fontFamily: fontFamily,
-                        fontSize: 18)),
+                    style: mainStyle.copyWith(fontWeight: FontWeight.w500, fontSize: 18)),
                 const SizedBox(height: 5),
                 Container(
                   width: 30,

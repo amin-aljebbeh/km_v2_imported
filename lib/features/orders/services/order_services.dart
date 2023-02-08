@@ -88,9 +88,9 @@ class OrderServices {
       var response = await ApiProvider.sendRequest(
           url: changeOrderStatus + orderId, method: HttpMethods.post, body: jsonEncode(body));
       if (response != null) {
-        return changeOrderStatusModelFromJson(jsonEncode(response.data));
+        if (response.statusCode == successCode) return changeOrderStatusModelFromJson(jsonEncode(response.data));
       }
-      return null;
+      return ChangeOrderStatusModel(success: false);
     } catch (e) {
       return null;
     }
@@ -99,7 +99,8 @@ class OrderServices {
   static Future<bool> unlockOrderService(String orderId) async {
     try {
       var response = await ApiProvider.sendRequest(url: unlockOrder + orderId, method: HttpMethods.put);
-      return response.statusCode == successCode && response.data['success'];
+      if (response != null) return response.statusCode == successCode && response.data['success'];
+      return false;
     } catch (e) {
       return false;
     }
