@@ -4,6 +4,7 @@ import '../../core/core_importer.dart';
 
 class ProductsFilterScreen extends StatefulWidget {
   static const String routeName = '/ProductsFilterScreen';
+
   const ProductsFilterScreen({Key key}) : super(key: key);
 
   @override
@@ -260,6 +261,10 @@ class _ProductsFilterScreenState extends State<ProductsFilterScreen> {
                                       }
                                       return InventoryProductsViewCard(
                                         index: 0,
+                                        onChangeSubWarehouse: (id) => setState(() {
+                                          eachProduct.subWarehouseId = int.parse(id);
+                                          productsList[index].subWarehouseId = int.parse(id);
+                                        }),
                                         id: id,
                                         attached: attached,
                                         isActive: isActive,

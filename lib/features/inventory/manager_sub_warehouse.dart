@@ -149,6 +149,7 @@ class _GetSubWarehouseState extends State<GetSubWarehouse> {
       allowedExtensions: ['xlsx', 'xlsm', 'xlsb', 'xltx', 'xltm', 'xls', 'xlt', 'xls', 'xlw', 'xlr'],
       type: FileType.custom,
     );
+    if (result == null) return null;
     return File(result.files[0].path);
   }
 }

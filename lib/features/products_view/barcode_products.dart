@@ -154,6 +154,8 @@ class _BarcodeProductsState extends State<BarcodeProducts> {
                                 return InventoryProductsViewCard(
                                   index: index + 100,
                                   id: id,
+                                  onChangeSubWarehouse: (id) =>
+                                      setState(() => productsList[index].subWarehouseId = int.parse(id)),
                                   attached: attached,
                                   isActive: isActive,
                                   supplierCode: supplierCode,

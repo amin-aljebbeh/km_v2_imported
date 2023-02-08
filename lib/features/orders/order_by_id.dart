@@ -80,15 +80,27 @@ class _OrderByIDState extends State<OrderByID> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                errorMessage
-                    ? AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ')
-                    : Container(padding: EdgeInsets.zero),
-                Center(
-                  child: SearchOrderByPhoneNumber(
-                      phoneController: phoneController,
-                      idController: idController,
-                      context: context,
-                      onChoose: () => Navigator.of(context).pop()),
+                if (errorMessage)
+                  AlertMessages(text: errorMessageValue, messageType: 'internetError', headerText: 'حدث خطأ'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back_ios_rounded, color: kmColors, size: 45),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                    Center(
+                      child: SearchOrderByPhoneNumber(
+                          phoneController: phoneController,
+                          idController: idController,
+                          context: context,
+                          onChoose: () => Navigator.of(context).pop()),
+                    ),
+                    Container(),
+                  ],
                 ),
                 !orderLoaded || isLoading
                     ? const Center(child: Loader())

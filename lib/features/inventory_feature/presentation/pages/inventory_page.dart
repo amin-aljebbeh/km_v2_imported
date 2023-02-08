@@ -189,6 +189,8 @@ class _InventoryPageState extends State<InventoryPage> {
                                   return InventoryProductsViewCard(
                                     index: 0,
                                     id: id,
+                                    onChangeSubWarehouse: (id) => setState(
+                                        () => state.inventoryState.products[index].subWarehouseId = int.parse(id)),
                                     attached: attached,
                                     isActive: isActive,
                                     supplierCode: supplierCode,

@@ -156,6 +156,8 @@ class _NotAddedProductsToWarehouseState extends State<NotAddedProductsToWarehous
                             return InventoryProductsViewCard(
                               index: 0,
                               id: id,
+                              onChangeSubWarehouse: (id) =>
+                                  setState(() => productsList[index].subWarehouseId = int.parse(id)),
                               attached: attached,
                               isActive: isActive,
                               supplierCode: supplierCode,

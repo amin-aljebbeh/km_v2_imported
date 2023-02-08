@@ -57,14 +57,14 @@ class AddedProductsServices {
 
   static Future<bool> changeProductSubWarehouse(ProductData product, String productSubWarehouseId, bool remove) async {
     var subWarehouseBody = {
-      'product_id': product.id.toString(),
+      'product_id': product.id,
       'sub_warehouse_id': productSubWarehouseId,
       'price': product.price,
       'is_featured': product.isFeatured,
       'is_active': product.isActive,
-      'priority': product.priority.toString(),
+      'priority': product.priority,
       'supplier_code': product.supplierCode,
-      'min_threshold': product.minThreshold.toString(),
+      'min_threshold': product.minThreshold,
       'increase_percentage': product.increasePercentage,
       'price_factor': product.priceFactor,
       'automatic_activation': product.automaticActivation,
@@ -83,17 +83,17 @@ class AddedProductsServices {
       }
       if (!add && removed) {
         var subWarehouseBody = {
-          'product_id': product.id.toString(),
-          'sub_warehouse_id': product.subWarehouseId.toString(),
+          'product_id': product.id,
+          'sub_warehouse_id': product.subWarehouseId,
           'price': product.price,
           'is_featured': product.isFeatured,
           'is_active': product.isActive,
-          'priority': product.priority.toString(),
+          'priority': product.priority,
           'supplier_code': product.supplierCode,
-          'min_threshold': product.minThreshold.toString(),
+          'min_threshold': product.minThreshold,
           'increase_percentage': product.increasePercentage,
           'price_factor': product.priceFactor,
-          'automatic_activation': product.automaticActivation.toString(),
+          'automatic_activation': product.automaticActivation,
         };
         await AddedProductsServices.attachProductsToSubWarehouseService(fullRequestBody: subWarehouseBody);
       }

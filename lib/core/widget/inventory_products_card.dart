@@ -25,6 +25,8 @@ class InventoryProductsViewCard extends StatefulWidget {
   final Function(String) onChangePrice;
   final Function(String) onChangeUnit;
   final Function(String) onChangeQuantity;
+  final Function(String) onChangeSubWarehouse;
+
   InventoryProductsViewCard({
     Key key,
     this.onChangeStatus,
@@ -44,6 +46,7 @@ class InventoryProductsViewCard extends StatefulWidget {
     this.onChangePrice,
     this.onChangeUnit,
     this.onChangeQuantity,
+    this.onChangeSubWarehouse,
   }) : super(key: key);
 
   @override
@@ -79,6 +82,10 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                 MaterialPageRoute(
                   builder: (context) => ProductDetailView(
                     product: widget.productData,
+                    onChangeSubWarehouse: (id) => setState(() {
+                      widget.productData.subWarehouseId = int.parse(id);
+                      widget.onChangeSubWarehouse(id);
+                    }),
                     onChangePrice: (newValue) =>
                         setState(() => {widget.productData.price = newValue, widget.onChangePrice(newValue)}),
                     onChangeUnit: (newValue) =>
@@ -110,42 +117,21 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Wrap(
-                              children: <Widget>[
-                                Text(
-                                  widget.productData.name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: fontFamily,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            Text(widget.productData.name,
+                                style: mainStyle.copyWith(fontWeight: FontWeight.w700, fontSize: 18)),
                             const SizedBox(height: 6),
                             Text(
                               widget.productData.quantity +
                                   ' ' +
                                   (widget.productData.unit != 'null' ? widget.productData.unit : ''),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: greyColor,
-                                fontFamily: fontFamily,
-                                fontSize: 17,
-                              ),
+                              style: mainStyle.copyWith(fontWeight: FontWeight.w400, color: greyColor, fontSize: 17),
                             ),
                             const SizedBox(height: 8),
                             Wrap(
                               children: [
-                                Text(
-                                  StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() + '  ',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    color: primaryColor,
-                                    fontFamily: fontFamily,
-                                    fontSize: 18,
-                                  ),
-                                ),
+                                Text(StringUtils().oCcy.format(int.parse(price.split('.')[0])).toString() + '  ',
+                                    style: mainStyle.copyWith(
+                                        fontWeight: FontWeight.w700, color: primaryColor, fontSize: 18)),
                                 if (widget.oldPrice != null)
                                   if (widget.oldPrice.toString() != price)
                                     RichText(
@@ -156,10 +142,21 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                                 .oCcy
                                                 .format(widget.oldPrice - widget.productData.increasePercentage)
                                                 .toString(),
-                                            style: const TextStyle(
+                                            style: mainStyle.copyWith(
                                                 color: Colors.grey, decoration: TextDecoration.lineThrough)),
                                       ],
                                     )),
+                                Text(
+                                  'الكمية: ' +
+                                      (widget.productData.availableQuantity != 'null'
+                                          ? StringUtils()
+                                              .oCcy
+                                              .format(int.parse(widget.productData.availableQuantity.split('.')[0]))
+                                              .toString()
+                                          : ' '),
+                                  style: mainStyle.copyWith(
+                                      fontWeight: FontWeight.w700, color: primaryColor, fontSize: 13),
+                                ),
                                 if (widget.productData.alertProductsCount != 'null')
                                   RichText(
                                     text: TextSpan(
@@ -168,11 +165,11 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                           text: StringUtils()
                                               .oCcy
                                               .format(int.parse(widget.productData.alertProductsCount)),
-                                          style: TextStyle(color: kmColors, fontFamily: fontFamily, fontSize: 14),
+                                          style: mainStyle.copyWith(color: kmColors, fontSize: 14),
                                         ),
                                         TextSpan(
                                           text: 'ينتظرون تفعيل  المنتج',
-                                          style: TextStyle(color: kmColors, fontFamily: fontFamily, fontSize: 14),
+                                          style: mainStyle.copyWith(color: kmColors, fontSize: 14),
                                         ),
                                       ],
                                     ),
@@ -200,9 +197,7 @@ class InventoryProductsViewCardState extends State<InventoryProductsViewCard> {
                                   subWarehouseId: int.parse(widget.id),
                                   productId: widget.productData.id.toString(),
                                   onChange: (int active, bool result) {
-                                    setState(() {
-                                      if (result) widget.isActive = active;
-                                    });
+                                    setState(() => {if (result) widget.isActive = active});
                                     widget.onChangeStatus(result);
                                     setState(() {});
                                   },

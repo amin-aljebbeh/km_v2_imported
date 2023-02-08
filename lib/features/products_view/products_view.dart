@@ -236,6 +236,10 @@ class ProductsViewState extends State<ProductsView> {
                                 var eachProduct = productsList[index];
                                 return ProductsViewCard(
                                   product: eachProduct,
+                                  onChangeSubWarehouse: (id) {
+                                    eachProduct.subWarehouseId = int.parse(id);
+                                    productsList[index].subWarehouseId = int.parse(id);
+                                  },
                                   index: index,
                                   scaffoldKey: scaffoldKey,
                                   onAddBarcode: (result) {

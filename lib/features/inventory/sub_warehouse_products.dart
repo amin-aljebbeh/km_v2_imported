@@ -188,6 +188,8 @@ class _SubWarehouseProductsState extends State<SubWarehouseProducts> {
                             }
                             return InventoryProductsViewCard(
                               index: 0,
+                              onChangeSubWarehouse: (id) =>
+                                  setState(() => productsList[index].subWarehouseId = int.parse(id)),
                               id: id,
                               attached: attached,
                               isActive: isActive,

@@ -5,6 +5,7 @@ import 'model/prices_changes_model.dart';
 
 class Prices extends StatefulWidget {
   static const String routeName = '/Prices';
+
   const Prices({Key key}) : super(key: key);
 
   @override
@@ -19,6 +20,7 @@ class _PricesState extends State<Prices> {
   PricesChanges productsList;
   int numberOfProducts;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   _loadData() async {
     setState(() {
       isLoading = true;
@@ -146,6 +148,8 @@ class _PricesState extends State<Prices> {
                                   index: 0,
                                   id: id,
                                   attached: attached,
+                                  onChangeSubWarehouse: (id) => setState(
+                                      () => productsList.productsPriceChange[index].subWarehouseId = int.parse(id)),
                                   isActive: isActive,
                                   supplierCode: supplierCode,
                                   price: productsList.productsPriceChange[index].price != '0'

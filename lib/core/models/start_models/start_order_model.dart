@@ -65,6 +65,7 @@ class OrdersOriginalData {
     this.collectingCost,
     this.walletValue,
     this.couponValue,
+    this.tips,
   });
 
   int id;
@@ -103,6 +104,7 @@ class OrdersOriginalData {
   String collectingCost;
   String walletValue;
   String couponValue;
+  int tips;
 
   factory OrdersOriginalData.fromJson(Map<String, dynamic> json) => OrdersOriginalData(
       id: json['id'],
@@ -132,6 +134,7 @@ class OrdersOriginalData {
       orderAccountingRows: [],
       shopperProfit: 0,
       kammunProfit: 0,
+      tips: json['tips'],
       userFeedback: json['user_feedback'] ?? 'null',
       deliveredAt:
           json['delivered_at'] != null ? DateTime.parse(json['delivered_at']) : DateTime.parse('2022-03-07 17:00:08'),
