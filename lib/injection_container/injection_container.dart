@@ -1,4 +1,5 @@
 import 'package:kammun_app/injection_container/supplier_injection.dart';
+import 'package:kammun_app/injection_container/transactions_injection.dart';
 import 'package:kammun_app/injection_container/users_injection.dart';
 
 import '../core/core_importer.dart';
@@ -17,6 +18,7 @@ Future<void> inject() async {
   await injectCoupons();
   await injectUsers();
   await injectOrders();
+  await injectTransactions();
 
 //! Core
 

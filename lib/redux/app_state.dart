@@ -8,6 +8,7 @@ import '../features/coupons/presentation/redux/coupon_state.dart';
 import '../features/error/presentation/redux/error_state.dart';
 import '../features/inventory_feature/presentation/redux/inventory_state.dart';
 import '../features/supplier/presentation/redux/supplier_state.dart';
+import '../features/transactions/presentation/redux/transactions_state.dart';
 import '../features/users/presentation/redux/users_state.dart';
 
 @immutable
@@ -20,9 +21,12 @@ class AppState extends Equatable {
   final LoadingState loadingState;
   final OrdersState ordersState;
   final SupplierState supplierState;
+  final TransactionsState transactionsState;
   final UsersState usersState;
+
   const AppState({
     this.ordersState,
+    this.transactionsState,
     this.inventoryState,
     this.errorState,
     this.loadingState,
@@ -43,6 +47,7 @@ class AppState extends Equatable {
         couponState: CouponState.initial(),
         usersState: UsersState.initial(),
         ordersState: OrdersState.initial(),
+        transactionsState: TransactionsState.initial(),
       );
 
   AppState copyWith({
@@ -55,6 +60,7 @@ class AppState extends Equatable {
     CouponState couponState,
     UsersState usersState,
     OrdersState ordersState,
+    TransactionsState transactionsState,
   }) {
     return AppState(
       inventoryState: inventoryState ?? this.inventoryState,
@@ -66,6 +72,7 @@ class AppState extends Equatable {
       couponState: couponState ?? this.couponState,
       usersState: usersState ?? this.usersState,
       ordersState: ordersState ?? this.ordersState,
+      transactionsState: transactionsState ?? this.transactionsState,
     );
   }
 
@@ -75,6 +82,7 @@ class AppState extends Equatable {
         errorState,
         loadingState,
         supplierState,
+        transactionsState,
         complaintsState,
         adminsState,
         couponState,
